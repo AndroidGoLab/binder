@@ -20,6 +20,14 @@ const (
 	TransactionIComponentListenerOnWorkDone             = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIComponentListenerOnError                = "onError"
+	MethodIComponentListenerOnFramesRendered       = "onFramesRendered"
+	MethodIComponentListenerOnInputBuffersReleased = "onInputBuffersReleased"
+	MethodIComponentListenerOnTripped              = "onTripped"
+	MethodIComponentListenerOnWorkDone             = "onWorkDone"
+)
+
 type IComponentListener interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, status Status, errorCode int32) error
@@ -30,17 +38,17 @@ type IComponentListener interface {
 }
 
 type ComponentListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewComponentListenerProxy(
 	remote binder.IBinder,
 ) *ComponentListenerProxy {
-	return &ComponentListenerProxy{remote: remote}
+	return &ComponentListenerProxy{Remote: remote}
 }
 
 func (p *ComponentListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IComponentListener = (*ComponentListenerProxy)(nil)
@@ -58,12 +66,12 @@ func (p *ComponentListenerProxy) OnError(
 	}
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentListener, MethodIComponentListenerOnError)
 	if _err != nil {
-		_code = TransactionIComponentListenerOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponentListener, MethodIComponentListenerOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,18 +86,19 @@ func (p *ComponentListenerProxy) OnFramesRendered(
 	} else {
 		_data.WriteInt32(int32(len(renderedFrames)))
 		for _, _item := range renderedFrames {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onFramesRendered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentListener, MethodIComponentListenerOnFramesRendered)
 	if _err != nil {
-		_code = TransactionIComponentListenerOnFramesRendered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponentListener, MethodIComponentListenerOnFramesRendered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,18 +113,19 @@ func (p *ComponentListenerProxy) OnInputBuffersReleased(
 	} else {
 		_data.WriteInt32(int32(len(inputBuffers)))
 		for _, _item := range inputBuffers {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onInputBuffersReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentListener, MethodIComponentListenerOnInputBuffersReleased)
 	if _err != nil {
-		_code = TransactionIComponentListenerOnInputBuffersReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponentListener, MethodIComponentListenerOnInputBuffersReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,18 +140,19 @@ func (p *ComponentListenerProxy) OnTripped(
 	} else {
 		_data.WriteInt32(int32(len(settingResults)))
 		for _, _item := range settingResults {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onTripped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentListener, MethodIComponentListenerOnTripped)
 	if _err != nil {
-		_code = TransactionIComponentListenerOnTripped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponentListener, MethodIComponentListenerOnTripped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,12 +167,12 @@ func (p *ComponentListenerProxy) OnWorkDone(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onWorkDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentListener, MethodIComponentListenerOnWorkDone)
 	if _err != nil {
-		_code = TransactionIComponentListenerOnWorkDone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponentListener, MethodIComponentListenerOnWorkDone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,6 +183,10 @@ type ComponentListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ComponentListenerStub)(nil)
+
+func (s *ComponentListenerStub) Descriptor() string {
+	return DescriptorIComponentListener
+}
 
 func (s *ComponentListenerStub) OnTransaction(
 	ctx context.Context,

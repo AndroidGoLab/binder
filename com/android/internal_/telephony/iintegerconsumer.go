@@ -15,23 +15,27 @@ const (
 	TransactionIIntegerConsumerAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIntegerConsumerAccept = "accept"
+)
+
 type IIntegerConsumer interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, result int32) error
 }
 
 type IntegerConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntegerConsumerProxy(
 	remote binder.IBinder,
 ) *IntegerConsumerProxy {
-	return &IntegerConsumerProxy{remote: remote}
+	return &IntegerConsumerProxy{Remote: remote}
 }
 
 func (p *IntegerConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntegerConsumer = (*IntegerConsumerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *IntegerConsumerProxy) Accept(
 	_data.WriteInterfaceToken(DescriptorIIntegerConsumer)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntegerConsumer, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntegerConsumer, MethodIIntegerConsumerAccept)
 	if _err != nil {
-		_code = TransactionIIntegerConsumerAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntegerConsumer, MethodIIntegerConsumerAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type IntegerConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntegerConsumerStub)(nil)
+
+func (s *IntegerConsumerStub) Descriptor() string {
+	return DescriptorIIntegerConsumer
+}
 
 func (s *IntegerConsumerStub) OnTransaction(
 	ctx context.Context,

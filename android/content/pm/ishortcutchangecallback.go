@@ -16,6 +16,11 @@ const (
 	TransactionIShortcutChangeCallbackOnShortcutsRemoved        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIShortcutChangeCallbackOnShortcutsAddedOrUpdated = "onShortcutsAddedOrUpdated"
+	MethodIShortcutChangeCallbackOnShortcutsRemoved        = "onShortcutsRemoved"
+)
+
 type IShortcutChangeCallback interface {
 	AsBinder() binder.IBinder
 	OnShortcutsAddedOrUpdated(ctx context.Context, packageName string, shortcuts []ShortcutInfo, user interface{}) error
@@ -23,17 +28,17 @@ type IShortcutChangeCallback interface {
 }
 
 type ShortcutChangeCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewShortcutChangeCallbackProxy(
 	remote binder.IBinder,
 ) *ShortcutChangeCallbackProxy {
-	return &ShortcutChangeCallbackProxy{remote: remote}
+	return &ShortcutChangeCallbackProxy{Remote: remote}
 }
 
 func (p *ShortcutChangeCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IShortcutChangeCallback = (*ShortcutChangeCallbackProxy)(nil)
@@ -52,18 +57,19 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsAddedOrUpdated(
 	} else {
 		_data.WriteInt32(int32(len(shortcuts)))
 		for _, _item := range shortcuts {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShortcutChangeCallback, "onShortcutsAddedOrUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutChangeCallback, MethodIShortcutChangeCallbackOnShortcutsAddedOrUpdated)
 	if _err != nil {
-		_code = TransactionIShortcutChangeCallbackOnShortcutsAddedOrUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShortcutChangeCallback, MethodIShortcutChangeCallbackOnShortcutsAddedOrUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,18 +87,19 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsRemoved(
 	} else {
 		_data.WriteInt32(int32(len(shortcuts)))
 		for _, _item := range shortcuts {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShortcutChangeCallback, "onShortcutsRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutChangeCallback, MethodIShortcutChangeCallbackOnShortcutsRemoved)
 	if _err != nil {
-		_code = TransactionIShortcutChangeCallbackOnShortcutsRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShortcutChangeCallback, MethodIShortcutChangeCallbackOnShortcutsRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +110,10 @@ type ShortcutChangeCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ShortcutChangeCallbackStub)(nil)
+
+func (s *ShortcutChangeCallbackStub) Descriptor() string {
+	return DescriptorIShortcutChangeCallback
+}
 
 func (s *ShortcutChangeCallbackStub) OnTransaction(
 	ctx context.Context,

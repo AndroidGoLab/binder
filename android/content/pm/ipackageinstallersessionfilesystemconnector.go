@@ -15,23 +15,27 @@ const (
 	TransactionIPackageInstallerSessionFileSystemConnectorWriteData = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPackageInstallerSessionFileSystemConnectorWriteData = "writeData"
+)
+
 type IPackageInstallerSessionFileSystemConnector interface {
 	AsBinder() binder.IBinder
 	WriteData(ctx context.Context, name string, offsetBytes int64, lengthBytes int64, fd int32) error
 }
 
 type PackageInstallerSessionFileSystemConnectorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageInstallerSessionFileSystemConnectorProxy(
 	remote binder.IBinder,
 ) *PackageInstallerSessionFileSystemConnectorProxy {
-	return &PackageInstallerSessionFileSystemConnectorProxy{remote: remote}
+	return &PackageInstallerSessionFileSystemConnectorProxy{Remote: remote}
 }
 
 func (p *PackageInstallerSessionFileSystemConnectorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageInstallerSessionFileSystemConnector = (*PackageInstallerSessionFileSystemConnectorProxy)(nil)
@@ -50,12 +54,12 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 	_data.WriteInt64(lengthBytes)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSessionFileSystemConnector, "writeData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSessionFileSystemConnector, MethodIPackageInstallerSessionFileSystemConnectorWriteData)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionFileSystemConnectorWriteData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSessionFileSystemConnector, MethodIPackageInstallerSessionFileSystemConnectorWriteData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,6 +79,10 @@ type PackageInstallerSessionFileSystemConnectorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerSessionFileSystemConnectorStub)(nil)
+
+func (s *PackageInstallerSessionFileSystemConnectorStub) Descriptor() string {
+	return DescriptorIPackageInstallerSessionFileSystemConnector
+}
 
 func (s *PackageInstallerSessionFileSystemConnectorStub) OnTransaction(
 	ctx context.Context,

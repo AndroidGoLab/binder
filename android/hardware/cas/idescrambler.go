@@ -18,6 +18,13 @@ const (
 	TransactionIDescramblerSetMediaCasSession             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDescramblerDescramble                     = "descramble"
+	MethodIDescramblerRelease                        = "release"
+	MethodIDescramblerRequiresSecureDecoderComponent = "requiresSecureDecoderComponent"
+	MethodIDescramblerSetMediaCasSession             = "setMediaCasSession"
+)
+
 type IDescrambler interface {
 	AsBinder() binder.IBinder
 	Descramble(ctx context.Context, scramblingControl ScramblingControl, subSamples []SubSample, srcBuffer SharedBuffer, srcOffset int64, dstBuffer DestinationBuffer, dstOffset int64) (int32, error)
@@ -27,17 +34,17 @@ type IDescrambler interface {
 }
 
 type DescramblerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDescramblerProxy(
 	remote binder.IBinder,
 ) *DescramblerProxy {
-	return &DescramblerProxy{remote: remote}
+	return &DescramblerProxy{Remote: remote}
 }
 
 func (p *DescramblerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDescrambler = (*DescramblerProxy)(nil)
@@ -60,6 +67,7 @@ func (p *DescramblerProxy) Descramble(
 	} else {
 		_data.WriteInt32(int32(len(subSamples)))
 		for _, _item := range subSamples {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -76,12 +84,12 @@ func (p *DescramblerProxy) Descramble(
 	}
 	_data.WriteInt64(dstOffset)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "descramble")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerDescramble)
 	if _err != nil {
-		_code = TransactionIDescramblerDescramble
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerDescramble, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -104,12 +112,12 @@ func (p *DescramblerProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerRelease)
 	if _err != nil {
-		_code = TransactionIDescramblerRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,12 +139,12 @@ func (p *DescramblerProxy) RequiresSecureDecoderComponent(
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteString16(mime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "requiresSecureDecoderComponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerRequiresSecureDecoderComponent)
 	if _err != nil {
-		_code = TransactionIDescramblerRequiresSecureDecoderComponent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerRequiresSecureDecoderComponent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,12 +176,12 @@ func (p *DescramblerProxy) SetMediaCasSession(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "setMediaCasSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetMediaCasSession)
 	if _err != nil {
-		_code = TransactionIDescramblerSetMediaCasSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerSetMediaCasSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,6 +201,10 @@ type DescramblerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
+
+func (s *DescramblerStub) Descriptor() string {
+	return DescriptorIDescrambler
+}
 
 func (s *DescramblerStub) OnTransaction(
 	ctx context.Context,

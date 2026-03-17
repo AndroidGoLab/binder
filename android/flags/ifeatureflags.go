@@ -20,6 +20,15 @@ const (
 	TransactionIFeatureFlagsResetFlag          = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIFeatureFlagsSyncFlags          = "syncFlags"
+	MethodIFeatureFlagsRegisterCallback   = "registerCallback"
+	MethodIFeatureFlagsUnregisterCallback = "unregisterCallback"
+	MethodIFeatureFlagsQueryFlags         = "queryFlags"
+	MethodIFeatureFlagsOverrideFlag       = "overrideFlag"
+	MethodIFeatureFlagsResetFlag          = "resetFlag"
+)
+
 type IFeatureFlags interface {
 	AsBinder() binder.IBinder
 	SyncFlags(ctx context.Context, flagList []SyncableFlag) ([]SyncableFlag, error)
@@ -31,17 +40,17 @@ type IFeatureFlags interface {
 }
 
 type FeatureFlagsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFeatureFlagsProxy(
 	remote binder.IBinder,
 ) *FeatureFlagsProxy {
-	return &FeatureFlagsProxy{remote: remote}
+	return &FeatureFlagsProxy{Remote: remote}
 }
 
 func (p *FeatureFlagsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFeatureFlags = (*FeatureFlagsProxy)(nil)
@@ -58,18 +67,19 @@ func (p *FeatureFlagsProxy) SyncFlags(
 	} else {
 		_data.WriteInt32(int32(len(flagList)))
 		for _, _item := range flagList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "syncFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlags, MethodIFeatureFlagsSyncFlags)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsSyncFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlags, MethodIFeatureFlagsSyncFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,6 +97,9 @@ func (p *FeatureFlagsProxy) SyncFlags(
 	if _count >= 0 {
 		_result = make([]SyncableFlag, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -101,14 +114,14 @@ func (p *FeatureFlagsProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlags, MethodIFeatureFlagsRegisterCallback)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlags, MethodIFeatureFlagsRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,14 +140,14 @@ func (p *FeatureFlagsProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlags, MethodIFeatureFlagsUnregisterCallback)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlags, MethodIFeatureFlagsUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -159,18 +172,19 @@ func (p *FeatureFlagsProxy) QueryFlags(
 	} else {
 		_data.WriteInt32(int32(len(flagList)))
 		for _, _item := range flagList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "queryFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlags, MethodIFeatureFlagsQueryFlags)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsQueryFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlags, MethodIFeatureFlagsQueryFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,6 +202,9 @@ func (p *FeatureFlagsProxy) QueryFlags(
 	if _count >= 0 {
 		_result = make([]SyncableFlag, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -207,12 +224,12 @@ func (p *FeatureFlagsProxy) OverrideFlag(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "overrideFlag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlags, MethodIFeatureFlagsOverrideFlag)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsOverrideFlag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlags, MethodIFeatureFlagsOverrideFlag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -236,12 +253,12 @@ func (p *FeatureFlagsProxy) ResetFlag(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "resetFlag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlags, MethodIFeatureFlagsResetFlag)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsResetFlag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlags, MethodIFeatureFlagsResetFlag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -261,6 +278,10 @@ type FeatureFlagsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FeatureFlagsStub)(nil)
+
+func (s *FeatureFlagsStub) Descriptor() string {
+	return DescriptorIFeatureFlags
+}
 
 func (s *FeatureFlagsStub) OnTransaction(
 	ctx context.Context,

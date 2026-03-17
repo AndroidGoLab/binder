@@ -15,23 +15,27 @@ const (
 	TransactionIKeyguardDrawnCallbackOnDrawn = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyguardDrawnCallbackOnDrawn = "onDrawn"
+)
+
 type IKeyguardDrawnCallback interface {
 	AsBinder() binder.IBinder
 	OnDrawn(ctx context.Context) error
 }
 
 type KeyguardDrawnCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyguardDrawnCallbackProxy(
 	remote binder.IBinder,
 ) *KeyguardDrawnCallbackProxy {
-	return &KeyguardDrawnCallbackProxy{remote: remote}
+	return &KeyguardDrawnCallbackProxy{Remote: remote}
 }
 
 func (p *KeyguardDrawnCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyguardDrawnCallback = (*KeyguardDrawnCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *KeyguardDrawnCallbackProxy) OnDrawn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardDrawnCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardDrawnCallback, "onDrawn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardDrawnCallback, MethodIKeyguardDrawnCallbackOnDrawn)
 	if _err != nil {
-		_code = TransactionIKeyguardDrawnCallbackOnDrawn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardDrawnCallback, MethodIKeyguardDrawnCallbackOnDrawn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type KeyguardDrawnCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyguardDrawnCallbackStub)(nil)
+
+func (s *KeyguardDrawnCallbackStub) Descriptor() string {
+	return DescriptorIKeyguardDrawnCallback
+}
 
 func (s *KeyguardDrawnCallbackStub) OnTransaction(
 	ctx context.Context,

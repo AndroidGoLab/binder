@@ -15,23 +15,27 @@ const (
 	TransactionIAudioRoutesObserverDispatchAudioRoutesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioRoutesObserverDispatchAudioRoutesChanged = "dispatchAudioRoutesChanged"
+)
+
 type IAudioRoutesObserver interface {
 	AsBinder() binder.IBinder
 	DispatchAudioRoutesChanged(ctx context.Context, newRoutes AudioRoutesInfo) error
 }
 
 type AudioRoutesObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioRoutesObserverProxy(
 	remote binder.IBinder,
 ) *AudioRoutesObserverProxy {
-	return &AudioRoutesObserverProxy{remote: remote}
+	return &AudioRoutesObserverProxy{Remote: remote}
 }
 
 func (p *AudioRoutesObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioRoutesObserver = (*AudioRoutesObserverProxy)(nil)
@@ -47,12 +51,12 @@ func (p *AudioRoutesObserverProxy) DispatchAudioRoutesChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRoutesObserver, "dispatchAudioRoutesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRoutesObserver, MethodIAudioRoutesObserverDispatchAudioRoutesChanged)
 	if _err != nil {
-		_code = TransactionIAudioRoutesObserverDispatchAudioRoutesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRoutesObserver, MethodIAudioRoutesObserverDispatchAudioRoutesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type AudioRoutesObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioRoutesObserverStub)(nil)
+
+func (s *AudioRoutesObserverStub) Descriptor() string {
+	return DescriptorIAudioRoutesObserver
+}
 
 func (s *AudioRoutesObserverStub) OnTransaction(
 	ctx context.Context,

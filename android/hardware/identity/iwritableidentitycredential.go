@@ -22,6 +22,17 @@ const (
 	TransactionIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIWritableIdentityCredentialGetAttestationCertificate            = "getAttestationCertificate"
+	MethodIWritableIdentityCredentialStartPersonalization                 = "startPersonalization"
+	MethodIWritableIdentityCredentialAddAccessControlProfile              = "addAccessControlProfile"
+	MethodIWritableIdentityCredentialBeginAddEntry                        = "beginAddEntry"
+	MethodIWritableIdentityCredentialAddEntryValue                        = "addEntryValue"
+	MethodIWritableIdentityCredentialFinishAddingEntries                  = "finishAddingEntries"
+	MethodIWritableIdentityCredentialSetExpectedProofOfProvisioningSize   = "setExpectedProofOfProvisioningSize"
+	MethodIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey = "setRemotelyProvisionedAttestationKey"
+)
+
 type IWritableIdentityCredential interface {
 	AsBinder() binder.IBinder
 	GetAttestationCertificate(ctx context.Context, attestationApplicationId []byte, attestationChallenge []byte) ([]Certificate, error)
@@ -35,17 +46,17 @@ type IWritableIdentityCredential interface {
 }
 
 type WritableIdentityCredentialProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWritableIdentityCredentialProxy(
 	remote binder.IBinder,
 ) *WritableIdentityCredentialProxy {
-	return &WritableIdentityCredentialProxy{remote: remote}
+	return &WritableIdentityCredentialProxy{Remote: remote}
 }
 
 func (p *WritableIdentityCredentialProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWritableIdentityCredential = (*WritableIdentityCredentialProxy)(nil)
@@ -75,12 +86,12 @@ func (p *WritableIdentityCredentialProxy) GetAttestationCertificate(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "getAttestationCertificate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialGetAttestationCertificate)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialGetAttestationCertificate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialGetAttestationCertificate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,6 +109,9 @@ func (p *WritableIdentityCredentialProxy) GetAttestationCertificate(
 	if _count >= 0 {
 		_result = make([]Certificate, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -123,12 +137,12 @@ func (p *WritableIdentityCredentialProxy) StartPersonalization(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "startPersonalization")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialStartPersonalization)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialStartPersonalization
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialStartPersonalization, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,12 +175,12 @@ func (p *WritableIdentityCredentialProxy) AddAccessControlProfile(
 	_data.WriteInt64(timeoutMillis)
 	_data.WriteInt64(secureUserId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "addAccessControlProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialAddAccessControlProfile)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialAddAccessControlProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialAddAccessControlProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -209,12 +223,12 @@ func (p *WritableIdentityCredentialProxy) BeginAddEntry(
 	_data.WriteString16(name)
 	_data.WriteInt32(entrySize)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "beginAddEntry")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialBeginAddEntry)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialBeginAddEntry
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialBeginAddEntry, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -243,12 +257,12 @@ func (p *WritableIdentityCredentialProxy) AddEntryValue(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "addEntryValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialAddEntryValue)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialAddEntryValue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialAddEntryValue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -283,12 +297,12 @@ func (p *WritableIdentityCredentialProxy) FinishAddingEntries(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "finishAddingEntries")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialFinishAddingEntries)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialFinishAddingEntries
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialFinishAddingEntries, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -335,12 +349,12 @@ func (p *WritableIdentityCredentialProxy) SetExpectedProofOfProvisioningSize(
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 	_data.WriteInt32(expectedProofOfProvisioningSize)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "setExpectedProofOfProvisioningSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialSetExpectedProofOfProvisioningSize)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialSetExpectedProofOfProvisioningSize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialSetExpectedProofOfProvisioningSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -377,12 +391,12 @@ func (p *WritableIdentityCredentialProxy) SetRemotelyProvisionedAttestationKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWritableIdentityCredential, "setRemotelyProvisionedAttestationKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey)
 	if _err != nil {
-		_code = TransactionIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWritableIdentityCredential, MethodIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -402,6 +416,10 @@ type WritableIdentityCredentialStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WritableIdentityCredentialStub)(nil)
+
+func (s *WritableIdentityCredentialStub) Descriptor() string {
+	return DescriptorIWritableIdentityCredential
+}
 
 func (s *WritableIdentityCredentialStub) OnTransaction(
 	ctx context.Context,

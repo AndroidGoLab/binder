@@ -46,19 +46,13 @@ func (s *PrepareModelConfig) MarshalParcel(
 			p.WriteFileDescriptor(_item)
 		}
 	}
-	if s.CacheToken == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CacheToken)))
-		for _, _item := range s.CacheToken {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.CacheToken, int(PrepareModelConfigByteSizeOfCacheToken))
 	if s.CompilationHints == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.CompilationHints)))
 		for _, _item := range s.CompilationHints {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -69,6 +63,7 @@ func (s *PrepareModelConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExtensionNameToPrefix)))
 		for _, _item := range s.ExtensionNameToPrefix {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -134,19 +129,9 @@ func (s *PrepareModelConfig) UnmarshalParcel(
 		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.CacheToken, _err = p.ReadFixedByteArray(int(PrepareModelConfigByteSizeOfCacheToken))
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.CacheToken = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.CacheToken[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count3 int32
@@ -157,6 +142,9 @@ func (s *PrepareModelConfig) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.CompilationHints = make([]TokenValuePair, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.CompilationHints[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -171,6 +159,9 @@ func (s *PrepareModelConfig) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.ExtensionNameToPrefix = make([]ExtensionNameAndPrefix, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExtensionNameToPrefix[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

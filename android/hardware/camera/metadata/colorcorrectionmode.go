@@ -8,5 +8,4 @@ const (
 	ColorCorrectionModeAndroidColorCorrectionModeTransformMatrix ColorCorrectionMode = 0
 	ColorCorrectionModeAndroidColorCorrectionModeFast            ColorCorrectionMode = 1
 	ColorCorrectionModeAndroidColorCorrectionModeHighQuality     ColorCorrectionMode = 2
-	ColorCorrectionModeAndroidColorCorrectionModeCct             ColorCorrectionMode = 3
 )

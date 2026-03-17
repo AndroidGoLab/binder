@@ -15,23 +15,27 @@ const (
 	TransactionIVmCapabilitiesServiceGrantAccessToVendorTeeServices = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVmCapabilitiesServiceGrantAccessToVendorTeeServices = "grantAccessToVendorTeeServices"
+)
+
 type IVmCapabilitiesService interface {
 	AsBinder() binder.IBinder
 	GrantAccessToVendorTeeServices(ctx context.Context, vmFd int32, vendorTeeServices []string) error
 }
 
 type VmCapabilitiesServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVmCapabilitiesServiceProxy(
 	remote binder.IBinder,
 ) *VmCapabilitiesServiceProxy {
-	return &VmCapabilitiesServiceProxy{remote: remote}
+	return &VmCapabilitiesServiceProxy{Remote: remote}
 }
 
 func (p *VmCapabilitiesServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVmCapabilitiesService = (*VmCapabilitiesServiceProxy)(nil)
@@ -53,12 +57,12 @@ func (p *VmCapabilitiesServiceProxy) GrantAccessToVendorTeeServices(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVmCapabilitiesService, "grantAccessToVendorTeeServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVmCapabilitiesService, MethodIVmCapabilitiesServiceGrantAccessToVendorTeeServices)
 	if _err != nil {
-		_code = TransactionIVmCapabilitiesServiceGrantAccessToVendorTeeServices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVmCapabilitiesService, MethodIVmCapabilitiesServiceGrantAccessToVendorTeeServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +82,10 @@ type VmCapabilitiesServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VmCapabilitiesServiceStub)(nil)
+
+func (s *VmCapabilitiesServiceStub) Descriptor() string {
+	return DescriptorIVmCapabilitiesService
+}
 
 func (s *VmCapabilitiesServiceStub) OnTransaction(
 	ctx context.Context,

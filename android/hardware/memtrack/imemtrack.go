@@ -16,6 +16,11 @@ const (
 	TransactionIMemtrackGetGpuDeviceInfo = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMemtrackGetMemory        = "getMemory"
+	MethodIMemtrackGetGpuDeviceInfo = "getGpuDeviceInfo"
+)
+
 type IMemtrack interface {
 	AsBinder() binder.IBinder
 	GetMemory(ctx context.Context, pid int32, type_ MemtrackType) ([]MemtrackRecord, error)
@@ -23,17 +28,17 @@ type IMemtrack interface {
 }
 
 type MemtrackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMemtrackProxy(
 	remote binder.IBinder,
 ) *MemtrackProxy {
-	return &MemtrackProxy{remote: remote}
+	return &MemtrackProxy{Remote: remote}
 }
 
 func (p *MemtrackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMemtrack = (*MemtrackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *MemtrackProxy) GetMemory(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMemtrack, "getMemory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMemtrack, MethodIMemtrackGetMemory)
 	if _err != nil {
-		_code = TransactionIMemtrackGetMemory
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMemtrack, MethodIMemtrackGetMemory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +77,9 @@ func (p *MemtrackProxy) GetMemory(
 	if _count >= 0 {
 		_result = make([]MemtrackRecord, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -87,12 +95,12 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMemtrack)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMemtrack, "getGpuDeviceInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMemtrack, MethodIMemtrackGetGpuDeviceInfo)
 	if _err != nil {
-		_code = TransactionIMemtrackGetGpuDeviceInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMemtrack, MethodIMemtrackGetGpuDeviceInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,6 +118,9 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 	if _count >= 0 {
 		_result = make([]DeviceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -125,6 +136,10 @@ type MemtrackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MemtrackStub)(nil)
+
+func (s *MemtrackStub) Descriptor() string {
+	return DescriptorIMemtrack
+}
 
 func (s *MemtrackStub) OnTransaction(
 	ctx context.Context,

@@ -20,6 +20,15 @@ const (
 	TransactionIQSTileServiceOnUnlockComplete = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIQSTileServiceOnTileAdded      = "onTileAdded"
+	MethodIQSTileServiceOnTileRemoved    = "onTileRemoved"
+	MethodIQSTileServiceOnStartListening = "onStartListening"
+	MethodIQSTileServiceOnStopListening  = "onStopListening"
+	MethodIQSTileServiceOnClick          = "onClick"
+	MethodIQSTileServiceOnUnlockComplete = "onUnlockComplete"
+)
+
 type IQSTileService interface {
 	AsBinder() binder.IBinder
 	OnTileAdded(ctx context.Context) error
@@ -31,17 +40,17 @@ type IQSTileService interface {
 }
 
 type QSTileServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewQSTileServiceProxy(
 	remote binder.IBinder,
 ) *QSTileServiceProxy {
-	return &QSTileServiceProxy{remote: remote}
+	return &QSTileServiceProxy{Remote: remote}
 }
 
 func (p *QSTileServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IQSTileService = (*QSTileServiceProxy)(nil)
@@ -52,12 +61,12 @@ func (p *QSTileServiceProxy) OnTileAdded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onTileAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnTileAdded)
 	if _err != nil {
-		_code = TransactionIQSTileServiceOnTileAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSTileService, MethodIQSTileServiceOnTileAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +76,12 @@ func (p *QSTileServiceProxy) OnTileRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onTileRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnTileRemoved)
 	if _err != nil {
-		_code = TransactionIQSTileServiceOnTileRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSTileService, MethodIQSTileServiceOnTileRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +91,12 @@ func (p *QSTileServiceProxy) OnStartListening(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onStartListening")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnStartListening)
 	if _err != nil {
-		_code = TransactionIQSTileServiceOnStartListening
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSTileService, MethodIQSTileServiceOnStartListening, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +106,12 @@ func (p *QSTileServiceProxy) OnStopListening(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onStopListening")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnStopListening)
 	if _err != nil {
-		_code = TransactionIQSTileServiceOnStopListening
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSTileService, MethodIQSTileServiceOnStopListening, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,14 +121,14 @@ func (p *QSTileServiceProxy) OnClick(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
-	binder.WriteBinderToParcel(ctx, _data, wtoken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, wtoken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onClick")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnClick)
 	if _err != nil {
-		_code = TransactionIQSTileServiceOnClick
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSTileService, MethodIQSTileServiceOnClick, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,12 +138,12 @@ func (p *QSTileServiceProxy) OnUnlockComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSTileService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onUnlockComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSTileService, MethodIQSTileServiceOnUnlockComplete)
 	if _err != nil {
-		_code = TransactionIQSTileServiceOnUnlockComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSTileService, MethodIQSTileServiceOnUnlockComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,6 +154,10 @@ type QSTileServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*QSTileServiceStub)(nil)
+
+func (s *QSTileServiceStub) Descriptor() string {
+	return DescriptorIQSTileService
+}
 
 func (s *QSTileServiceStub) OnTransaction(
 	ctx context.Context,

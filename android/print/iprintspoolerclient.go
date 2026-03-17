@@ -19,6 +19,13 @@ const (
 	TransactionIPrintSpoolerClientOnPrintJobStateChanged          = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIPrintSpoolerClientOnPrintJobQueued                = "onPrintJobQueued"
+	MethodIPrintSpoolerClientOnAllPrintJobsForServiceHandled = "onAllPrintJobsForServiceHandled"
+	MethodIPrintSpoolerClientOnAllPrintJobsHandled           = "onAllPrintJobsHandled"
+	MethodIPrintSpoolerClientOnPrintJobStateChanged          = "onPrintJobStateChanged"
+)
+
 type IPrintSpoolerClient interface {
 	AsBinder() binder.IBinder
 	OnPrintJobQueued(ctx context.Context, printJob PrintJobInfo) error
@@ -28,17 +35,17 @@ type IPrintSpoolerClient interface {
 }
 
 type PrintSpoolerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrintSpoolerClientProxy(
 	remote binder.IBinder,
 ) *PrintSpoolerClientProxy {
-	return &PrintSpoolerClientProxy{remote: remote}
+	return &PrintSpoolerClientProxy{Remote: remote}
 }
 
 func (p *PrintSpoolerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrintSpoolerClient = (*PrintSpoolerClientProxy)(nil)
@@ -54,12 +61,12 @@ func (p *PrintSpoolerClientProxy) OnPrintJobQueued(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onPrintJobQueued")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnPrintJobQueued)
 	if _err != nil {
-		_code = TransactionIPrintSpoolerClientOnPrintJobQueued
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnPrintJobQueued, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +81,12 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsForServiceHandled(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onAllPrintJobsForServiceHandled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnAllPrintJobsForServiceHandled)
 	if _err != nil {
-		_code = TransactionIPrintSpoolerClientOnAllPrintJobsForServiceHandled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnAllPrintJobsForServiceHandled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +96,12 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsHandled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onAllPrintJobsHandled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnAllPrintJobsHandled)
 	if _err != nil {
-		_code = TransactionIPrintSpoolerClientOnAllPrintJobsHandled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnAllPrintJobsHandled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +116,12 @@ func (p *PrintSpoolerClientProxy) OnPrintJobStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onPrintJobStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnPrintJobStateChanged)
 	if _err != nil {
-		_code = TransactionIPrintSpoolerClientOnPrintJobStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintSpoolerClient, MethodIPrintSpoolerClientOnPrintJobStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,6 +132,10 @@ type PrintSpoolerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrintSpoolerClientStub)(nil)
+
+func (s *PrintSpoolerClientStub) Descriptor() string {
+	return DescriptorIPrintSpoolerClient
+}
 
 func (s *PrintSpoolerClientStub) OnTransaction(
 	ctx context.Context,

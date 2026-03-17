@@ -16,17 +16,17 @@ type IEmpty interface {
 }
 
 type EmptyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEmptyProxy(
 	remote binder.IBinder,
 ) *EmptyProxy {
-	return &EmptyProxy{remote: remote}
+	return &EmptyProxy{Remote: remote}
 }
 
 func (p *EmptyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEmpty = (*EmptyProxy)(nil)
@@ -38,6 +38,10 @@ type EmptyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EmptyStub)(nil)
+
+func (s *EmptyStub) Descriptor() string {
+	return DescriptorIEmpty
+}
 
 func (s *EmptyStub) OnTransaction(
 	ctx context.Context,

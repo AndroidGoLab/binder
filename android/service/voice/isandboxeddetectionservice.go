@@ -3,7 +3,6 @@ package voice
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	media "github.com/xaionaro-go/binder/android/media"
@@ -30,32 +29,45 @@ const (
 	TransactionISandboxedDetectionServiceRegisterRemoteStorageService    = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodISandboxedDetectionServiceDetectFromDspSource             = "detectFromDspSource"
+	MethodISandboxedDetectionServiceDetectFromMicrophoneSource      = "detectFromMicrophoneSource"
+	MethodISandboxedDetectionServiceDetectWithVisualSignals         = "detectWithVisualSignals"
+	MethodISandboxedDetectionServiceUpdateState                     = "updateState"
+	MethodISandboxedDetectionServiceUpdateAudioFlinger              = "updateAudioFlinger"
+	MethodISandboxedDetectionServiceUpdateContentCaptureManager     = "updateContentCaptureManager"
+	MethodISandboxedDetectionServiceUpdateRecognitionServiceManager = "updateRecognitionServiceManager"
+	MethodISandboxedDetectionServicePing                            = "ping"
+	MethodISandboxedDetectionServiceStopDetection                   = "stopDetection"
+	MethodISandboxedDetectionServiceRegisterRemoteStorageService    = "registerRemoteStorageService"
+)
+
 type ISandboxedDetectionService interface {
 	AsBinder() binder.IBinder
 	DetectFromDspSource(ctx context.Context, event soundtrigger.SoundTriggerKeyphraseRecognitionEvent, audioFormat media.AudioFormat, timeoutMillis int64, callback IDspHotwordDetectionCallback) error
 	DetectFromMicrophoneSource(ctx context.Context, audioStream int32, audioSource int32, audioFormat media.AudioFormat, options interface{}, callback IDspHotwordDetectionCallback) error
 	DetectWithVisualSignals(ctx context.Context, callback IDetectorSessionVisualQueryDetectionCallback) error
-	UpdateState(ctx context.Context, options interface{}, sharedMemory interface{}, callback ondeviceintelligence.IRemoteCallback) error
+	UpdateState(ctx context.Context, options interface{}, sharedMemory interface{}, callback interface{}) error
 	UpdateAudioFlinger(ctx context.Context, audioFlinger binder.IBinder) error
 	UpdateContentCaptureManager(ctx context.Context, contentCaptureManager contentcapture.IContentCaptureManager, options content.ContentCaptureOptions) error
 	UpdateRecognitionServiceManager(ctx context.Context, recognitionServiceManager speech.IRecognitionServiceManager) error
-	Ping(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	Ping(ctx context.Context, callback interface{}) error
 	StopDetection(ctx context.Context) error
 	RegisterRemoteStorageService(ctx context.Context, detectorSessionStorageService IDetectorSessionStorageService) error
 }
 
 type SandboxedDetectionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSandboxedDetectionServiceProxy(
 	remote binder.IBinder,
 ) *SandboxedDetectionServiceProxy {
-	return &SandboxedDetectionServiceProxy{remote: remote}
+	return &SandboxedDetectionServiceProxy{Remote: remote}
 }
 
 func (p *SandboxedDetectionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISandboxedDetectionService = (*SandboxedDetectionServiceProxy)(nil)
@@ -78,14 +90,14 @@ func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 		return _err
 	}
 	_data.WriteInt64(timeoutMillis)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromDspSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromDspSource)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceDetectFromDspSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromDspSource, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,14 +117,14 @@ func (p *SandboxedDetectionServiceProxy) DetectFromMicrophoneSource(
 	if _err := audioFormat.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromMicrophoneSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromMicrophoneSource)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceDetectFromMicrophoneSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectFromMicrophoneSource, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,14 +134,14 @@ func (p *SandboxedDetectionServiceProxy) DetectWithVisualSignals(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectWithVisualSignals")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectWithVisualSignals)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceDetectWithVisualSignals
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceDetectWithVisualSignals, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,18 +149,17 @@ func (p *SandboxedDetectionServiceProxy) UpdateState(
 	ctx context.Context,
 	options interface{},
 	sharedMemory interface{},
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateState)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceUpdateState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,14 +169,14 @@ func (p *SandboxedDetectionServiceProxy) UpdateAudioFlinger(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, audioFlinger, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, audioFlinger, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateAudioFlinger")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateAudioFlinger)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceUpdateAudioFlinger
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateAudioFlinger, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,18 +187,18 @@ func (p *SandboxedDetectionServiceProxy) UpdateContentCaptureManager(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, contentCaptureManager.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, contentCaptureManager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateContentCaptureManager")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateContentCaptureManager)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceUpdateContentCaptureManager
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateContentCaptureManager, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -197,31 +208,30 @@ func (p *SandboxedDetectionServiceProxy) UpdateRecognitionServiceManager(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, recognitionServiceManager.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, recognitionServiceManager.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateRecognitionServiceManager")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateRecognitionServiceManager)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceUpdateRecognitionServiceManager
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceUpdateRecognitionServiceManager, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *SandboxedDetectionServiceProxy) Ping(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "ping")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServicePing)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServicePing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServicePing, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -231,12 +241,12 @@ func (p *SandboxedDetectionServiceProxy) StopDetection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "stopDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceStopDetection)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceStopDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceStopDetection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -246,14 +256,14 @@ func (p *SandboxedDetectionServiceProxy) RegisterRemoteStorageService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, detectorSessionStorageService.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, detectorSessionStorageService.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "registerRemoteStorageService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceRegisterRemoteStorageService)
 	if _err != nil {
-		_code = TransactionISandboxedDetectionServiceRegisterRemoteStorageService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISandboxedDetectionService, MethodISandboxedDetectionServiceRegisterRemoteStorageService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -264,6 +274,10 @@ type SandboxedDetectionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SandboxedDetectionServiceStub)(nil)
+
+func (s *SandboxedDetectionServiceStub) Descriptor() string {
+	return DescriptorISandboxedDetectionService
+}
 
 func (s *SandboxedDetectionServiceStub) OnTransaction(
 	ctx context.Context,
@@ -356,9 +370,7 @@ func (s *SandboxedDetectionServiceStub) OnTransaction(
 		}
 		var _arg_options interface{}
 		var _arg_sharedMemory interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_err := s.Impl.UpdateState(ctx, _arg_options, _arg_sharedMemory, _arg_callback)
 		_ = _err
 		return nil, nil
@@ -408,9 +420,7 @@ func (s *SandboxedDetectionServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_err := s.Impl.Ping(ctx, _arg_callback)
 		_ = _err
 		return nil, nil
@@ -443,11 +453,11 @@ type ISandboxedDetectionServiceServer interface {
 	DetectFromDspSource(ctx context.Context, event soundtrigger.SoundTriggerKeyphraseRecognitionEvent, audioFormat media.AudioFormat, timeoutMillis int64, callback IDspHotwordDetectionCallback) error
 	DetectFromMicrophoneSource(ctx context.Context, audioStream int32, audioSource int32, audioFormat media.AudioFormat, options interface{}, callback IDspHotwordDetectionCallback) error
 	DetectWithVisualSignals(ctx context.Context, callback IDetectorSessionVisualQueryDetectionCallback) error
-	UpdateState(ctx context.Context, options interface{}, sharedMemory interface{}, callback ondeviceintelligence.IRemoteCallback) error
+	UpdateState(ctx context.Context, options interface{}, sharedMemory interface{}, callback interface{}) error
 	UpdateAudioFlinger(ctx context.Context, audioFlinger binder.IBinder) error
 	UpdateContentCaptureManager(ctx context.Context, contentCaptureManager contentcapture.IContentCaptureManager, options content.ContentCaptureOptions) error
 	UpdateRecognitionServiceManager(ctx context.Context, recognitionServiceManager speech.IRecognitionServiceManager) error
-	Ping(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	Ping(ctx context.Context, callback interface{}) error
 	StopDetection(ctx context.Context) error
 	RegisterRemoteStorageService(ctx context.Context, detectorSessionStorageService IDetectorSessionStorageService) error
 }
@@ -493,7 +503,7 @@ func (w *sandboxedDetectionServiceStubWrapper) UpdateState(
 	ctx context.Context,
 	options interface{},
 	sharedMemory interface{},
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.UpdateState(ctx, options, sharedMemory, callback)
 }
@@ -522,7 +532,7 @@ func (w *sandboxedDetectionServiceStubWrapper) UpdateRecognitionServiceManager(
 
 func (w *sandboxedDetectionServiceStubWrapper) Ping(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.Ping(ctx, callback)
 }

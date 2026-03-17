@@ -15,23 +15,27 @@ const (
 	TransactionITaskFragmentOrganizerOnTransactionReady = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITaskFragmentOrganizerOnTransactionReady = "onTransactionReady"
+)
+
 type ITaskFragmentOrganizer interface {
 	AsBinder() binder.IBinder
 	OnTransactionReady(ctx context.Context, transaction TaskFragmentTransaction) error
 }
 
 type TaskFragmentOrganizerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTaskFragmentOrganizerProxy(
 	remote binder.IBinder,
 ) *TaskFragmentOrganizerProxy {
-	return &TaskFragmentOrganizerProxy{remote: remote}
+	return &TaskFragmentOrganizerProxy{Remote: remote}
 }
 
 func (p *TaskFragmentOrganizerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITaskFragmentOrganizer = (*TaskFragmentOrganizerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *TaskFragmentOrganizerProxy) OnTransactionReady(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizer, "onTransactionReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizer, MethodITaskFragmentOrganizerOnTransactionReady)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerOnTransactionReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizer, MethodITaskFragmentOrganizerOnTransactionReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type TaskFragmentOrganizerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TaskFragmentOrganizerStub)(nil)
+
+func (s *TaskFragmentOrganizerStub) Descriptor() string {
+	return DescriptorITaskFragmentOrganizer
+}
 
 func (s *TaskFragmentOrganizerStub) OnTransaction(
 	ctx context.Context,

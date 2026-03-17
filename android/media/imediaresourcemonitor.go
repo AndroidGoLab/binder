@@ -15,23 +15,27 @@ const (
 	TransactionIMediaResourceMonitorNotifyResourceGranted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMediaResourceMonitorNotifyResourceGranted = "notifyResourceGranted"
+)
+
 type IMediaResourceMonitor interface {
 	AsBinder() binder.IBinder
 	NotifyResourceGranted(ctx context.Context, pid int32, type_ int32) error
 }
 
 type MediaResourceMonitorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaResourceMonitorProxy(
 	remote binder.IBinder,
 ) *MediaResourceMonitorProxy {
-	return &MediaResourceMonitorProxy{remote: remote}
+	return &MediaResourceMonitorProxy{Remote: remote}
 }
 
 func (p *MediaResourceMonitorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaResourceMonitor = (*MediaResourceMonitorProxy)(nil)
@@ -46,12 +50,12 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(type_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaResourceMonitor, "notifyResourceGranted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaResourceMonitor, MethodIMediaResourceMonitorNotifyResourceGranted)
 	if _err != nil {
-		_code = TransactionIMediaResourceMonitorNotifyResourceGranted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaResourceMonitor, MethodIMediaResourceMonitorNotifyResourceGranted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type MediaResourceMonitorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaResourceMonitorStub)(nil)
+
+func (s *MediaResourceMonitorStub) Descriptor() string {
+	return DescriptorIMediaResourceMonitor
+}
 
 func (s *MediaResourceMonitorStub) OnTransaction(
 	ctx context.Context,

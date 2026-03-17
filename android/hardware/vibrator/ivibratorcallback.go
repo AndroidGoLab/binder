@@ -15,23 +15,27 @@ const (
 	TransactionIVibratorCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVibratorCallbackOnComplete = "onComplete"
+)
+
 type IVibratorCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context) error
 }
 
 type VibratorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorCallbackProxy(
 	remote binder.IBinder,
 ) *VibratorCallbackProxy {
-	return &VibratorCallbackProxy{remote: remote}
+	return &VibratorCallbackProxy{Remote: remote}
 }
 
 func (p *VibratorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibratorCallback = (*VibratorCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *VibratorCallbackProxy) OnComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorCallback, MethodIVibratorCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIVibratorCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorCallback, MethodIVibratorCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type VibratorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorCallbackStub)(nil)
+
+func (s *VibratorCallbackStub) Descriptor() string {
+	return DescriptorIVibratorCallback
+}
 
 func (s *VibratorCallbackStub) OnTransaction(
 	ctx context.Context,

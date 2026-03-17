@@ -16,23 +16,27 @@ const (
 	TransactionIGnssDebugGetDebugData = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssDebugGetDebugData = "getDebugData"
+)
+
 type IGnssDebug interface {
 	AsBinder() binder.IBinder
 	GetDebugData(ctx context.Context) (gnssIGnssDebug.DebugData, error)
 }
 
 type GnssDebugProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssDebugProxy(
 	remote binder.IBinder,
 ) *GnssDebugProxy {
-	return &GnssDebugProxy{remote: remote}
+	return &GnssDebugProxy{Remote: remote}
 }
 
 func (p *GnssDebugProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssDebug = (*GnssDebugProxy)(nil)
@@ -44,12 +48,12 @@ func (p *GnssDebugProxy) GetDebugData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssDebug)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssDebug, "getDebugData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssDebug, MethodIGnssDebugGetDebugData)
 	if _err != nil {
-		_code = TransactionIGnssDebugGetDebugData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssDebug, MethodIGnssDebugGetDebugData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,6 +82,10 @@ type GnssDebugStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssDebugStub)(nil)
+
+func (s *GnssDebugStub) Descriptor() string {
+	return DescriptorIGnssDebug
+}
 
 func (s *GnssDebugStub) OnTransaction(
 	ctx context.Context,

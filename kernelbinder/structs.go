@@ -38,3 +38,7 @@ const binderTypeHandle = uint32(0x73682a85)
 // Compile-time size assertions.
 var _ [48]byte = [unsafe.Sizeof(binderWriteRead{})]byte{}
 var _ [64]byte = [unsafe.Sizeof(binderTransactionData{})]byte{}
+
+// Verify pre-allocated buffer sizes match the struct sizes they contain.
+var _ [replyWriteBufSize]byte = [4 + unsafe.Sizeof(binderTransactionData{})]byte{}
+var _ [freeBufferBufSize]byte = [4 + 8]byte{}

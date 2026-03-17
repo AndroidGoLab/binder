@@ -11,6 +11,4 @@ const (
 	NfcEventPreDiscoverCplt NfcEvent = 3
 	NfcEventHciNetworkReset NfcEvent = 4
 	NfcEventERROR           NfcEvent = 5
-	NfcEventRequestControl  NfcEvent = 6
-	NfcEventReleaseControl  NfcEvent = 7
 )

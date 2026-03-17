@@ -23,6 +23,18 @@ const (
 	TransactionIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastStarted         = "onBroadcastStarted"
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastStartFailed     = "onBroadcastStartFailed"
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastStopped         = "onBroadcastStopped"
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastStopFailed      = "onBroadcastStopFailed"
+	MethodIBluetoothLeBroadcastCallbackOnPlaybackStarted          = "onPlaybackStarted"
+	MethodIBluetoothLeBroadcastCallbackOnPlaybackStopped          = "onPlaybackStopped"
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdated         = "onBroadcastUpdated"
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed    = "onBroadcastUpdateFailed"
+	MethodIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged = "onBroadcastMetadataChanged"
+)
+
 type IBluetoothLeBroadcastCallback interface {
 	AsBinder() binder.IBinder
 	OnBroadcastStarted(ctx context.Context, reason int32, broadcastId int32) error
@@ -37,17 +49,17 @@ type IBluetoothLeBroadcastCallback interface {
 }
 
 type BluetoothLeBroadcastCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothLeBroadcastCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothLeBroadcastCallbackProxy {
-	return &BluetoothLeBroadcastCallbackProxy{remote: remote}
+	return &BluetoothLeBroadcastCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothLeBroadcastCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothLeBroadcastCallback = (*BluetoothLeBroadcastCallbackProxy)(nil)
@@ -62,12 +74,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStarted(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(broadcastId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStarted)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +91,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStartFailed(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastStartFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStartFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastStartFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStartFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +110,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStopped(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(broadcastId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopped)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +127,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastStopFailed(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeBroadcastCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastStopFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastStopFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastStopFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,12 +146,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnPlaybackStarted(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(broadcastId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onPlaybackStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStarted)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnPlaybackStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,12 +165,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnPlaybackStopped(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(broadcastId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onPlaybackStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStopped)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnPlaybackStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnPlaybackStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,12 +184,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastUpdated(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(broadcastId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdated)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -191,12 +203,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastUpdateFailed(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(broadcastId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastUpdateFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,12 +225,12 @@ func (p *BluetoothLeBroadcastCallbackProxy) OnBroadcastMetadataChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastCallback, "onBroadcastMetadataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeBroadcastCallback, MethodIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -229,6 +241,10 @@ type BluetoothLeBroadcastCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeBroadcastCallbackStub)(nil)
+
+func (s *BluetoothLeBroadcastCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothLeBroadcastCallback
+}
 
 func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 	ctx context.Context,

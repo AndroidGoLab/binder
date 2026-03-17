@@ -19,6 +19,12 @@ const (
 	TransactionIAmbientContextDetectionServiceQueryServiceStatus = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIAmbientContextDetectionServiceStartDetection     = "startDetection"
+	MethodIAmbientContextDetectionServiceStopDetection      = "stopDetection"
+	MethodIAmbientContextDetectionServiceQueryServiceStatus = "queryServiceStatus"
+)
+
 type IAmbientContextDetectionService interface {
 	AsBinder() binder.IBinder
 	StartDetection(ctx context.Context, request appAmbientcontext.AmbientContextEventRequest, packageName string, detectionResultCallback os.RemoteCallback, statusCallback os.RemoteCallback) error
@@ -27,17 +33,17 @@ type IAmbientContextDetectionService interface {
 }
 
 type AmbientContextDetectionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAmbientContextDetectionServiceProxy(
 	remote binder.IBinder,
 ) *AmbientContextDetectionServiceProxy {
-	return &AmbientContextDetectionServiceProxy{remote: remote}
+	return &AmbientContextDetectionServiceProxy{Remote: remote}
 }
 
 func (p *AmbientContextDetectionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAmbientContextDetectionService = (*AmbientContextDetectionServiceProxy)(nil)
@@ -65,12 +71,12 @@ func (p *AmbientContextDetectionServiceProxy) StartDetection(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "startDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStartDetection)
 	if _err != nil {
-		_code = TransactionIAmbientContextDetectionServiceStartDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStartDetection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +88,12 @@ func (p *AmbientContextDetectionServiceProxy) StopDetection(
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "stopDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStopDetection)
 	if _err != nil {
-		_code = TransactionIAmbientContextDetectionServiceStopDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceStopDetection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,12 +119,12 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "queryServiceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceQueryServiceStatus)
 	if _err != nil {
-		_code = TransactionIAmbientContextDetectionServiceQueryServiceStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextDetectionService, MethodIAmbientContextDetectionServiceQueryServiceStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,6 +135,10 @@ type AmbientContextDetectionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AmbientContextDetectionServiceStub)(nil)
+
+func (s *AmbientContextDetectionServiceStub) Descriptor() string {
+	return DescriptorIAmbientContextDetectionService
+}
 
 func (s *AmbientContextDetectionServiceStub) OnTransaction(
 	ctx context.Context,

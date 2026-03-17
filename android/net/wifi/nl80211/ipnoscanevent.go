@@ -16,6 +16,11 @@ const (
 	TransactionIPnoScanEventOnPnoScanFailed   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPnoScanEventOnPnoNetworkFound = "OnPnoNetworkFound"
+	MethodIPnoScanEventOnPnoScanFailed   = "OnPnoScanFailed"
+)
+
 type IPnoScanEvent interface {
 	AsBinder() binder.IBinder
 	OnPnoNetworkFound(ctx context.Context) error
@@ -23,17 +28,17 @@ type IPnoScanEvent interface {
 }
 
 type PnoScanEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPnoScanEventProxy(
 	remote binder.IBinder,
 ) *PnoScanEventProxy {
-	return &PnoScanEventProxy{remote: remote}
+	return &PnoScanEventProxy{Remote: remote}
 }
 
 func (p *PnoScanEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPnoScanEvent = (*PnoScanEventProxy)(nil)
@@ -44,12 +49,12 @@ func (p *PnoScanEventProxy) OnPnoNetworkFound(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPnoScanEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPnoScanEvent, "OnPnoNetworkFound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPnoScanEvent, MethodIPnoScanEventOnPnoNetworkFound)
 	if _err != nil {
-		_code = TransactionIPnoScanEventOnPnoNetworkFound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPnoScanEvent, MethodIPnoScanEventOnPnoNetworkFound, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *PnoScanEventProxy) OnPnoScanFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPnoScanEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPnoScanEvent, "OnPnoScanFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPnoScanEvent, MethodIPnoScanEventOnPnoScanFailed)
 	if _err != nil {
-		_code = TransactionIPnoScanEventOnPnoScanFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPnoScanEvent, MethodIPnoScanEventOnPnoScanFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type PnoScanEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PnoScanEventStub)(nil)
+
+func (s *PnoScanEventStub) Descriptor() string {
+	return DescriptorIPnoScanEvent
+}
 
 func (s *PnoScanEventStub) OnTransaction(
 	ctx context.Context,

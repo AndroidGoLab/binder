@@ -20,6 +20,15 @@ const (
 	TransactionICarPowerPolicyServerSetPowerPolicyGroup                 = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodICarPowerPolicyServerGetCurrentPowerPolicy               = "getCurrentPowerPolicy"
+	MethodICarPowerPolicyServerGetPowerComponentState              = "getPowerComponentState"
+	MethodICarPowerPolicyServerRegisterPowerPolicyChangeCallback   = "registerPowerPolicyChangeCallback"
+	MethodICarPowerPolicyServerUnregisterPowerPolicyChangeCallback = "unregisterPowerPolicyChangeCallback"
+	MethodICarPowerPolicyServerApplyPowerPolicy                    = "applyPowerPolicy"
+	MethodICarPowerPolicyServerSetPowerPolicyGroup                 = "setPowerPolicyGroup"
+)
+
 type ICarPowerPolicyServer interface {
 	AsBinder() binder.IBinder
 	GetCurrentPowerPolicy(ctx context.Context) (CarPowerPolicy, error)
@@ -31,17 +40,17 @@ type ICarPowerPolicyServer interface {
 }
 
 type CarPowerPolicyServerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarPowerPolicyServerProxy(
 	remote binder.IBinder,
 ) *CarPowerPolicyServerProxy {
-	return &CarPowerPolicyServerProxy{remote: remote}
+	return &CarPowerPolicyServerProxy{Remote: remote}
 }
 
 func (p *CarPowerPolicyServerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarPowerPolicyServer = (*CarPowerPolicyServerProxy)(nil)
@@ -53,12 +62,12 @@ func (p *CarPowerPolicyServerProxy) GetCurrentPowerPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "getCurrentPowerPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetCurrentPowerPolicy)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyServerGetCurrentPowerPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetCurrentPowerPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,12 +98,12 @@ func (p *CarPowerPolicyServerProxy) GetPowerComponentState(
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	_data.WriteInt32(int32(componentId))
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "getPowerComponentState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetPowerComponentState)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyServerGetPowerComponentState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerGetPowerComponentState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,18 +127,18 @@ func (p *CarPowerPolicyServerProxy) RegisterPowerPolicyChangeCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "registerPowerPolicyChangeCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerRegisterPowerPolicyChangeCallback)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyServerRegisterPowerPolicyChangeCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerRegisterPowerPolicyChangeCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,14 +157,14 @@ func (p *CarPowerPolicyServerProxy) UnregisterPowerPolicyChangeCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "unregisterPowerPolicyChangeCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerUnregisterPowerPolicyChangeCallback)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyServerUnregisterPowerPolicyChangeCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerUnregisterPowerPolicyChangeCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,12 +185,12 @@ func (p *CarPowerPolicyServerProxy) ApplyPowerPolicy(
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	_data.WriteString16(policyId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "applyPowerPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerApplyPowerPolicy)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyServerApplyPowerPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerApplyPowerPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,12 +211,12 @@ func (p *CarPowerPolicyServerProxy) SetPowerPolicyGroup(
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicyServer)
 	_data.WriteString16(policyGroupId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "setPowerPolicyGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerSetPowerPolicyGroup)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyServerSetPowerPolicyGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyServer, MethodICarPowerPolicyServerSetPowerPolicyGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,6 +236,10 @@ type CarPowerPolicyServerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarPowerPolicyServerStub)(nil)
+
+func (s *CarPowerPolicyServerStub) Descriptor() string {
+	return DescriptorICarPowerPolicyServer
+}
 
 func (s *CarPowerPolicyServerStub) OnTransaction(
 	ctx context.Context,

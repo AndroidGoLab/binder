@@ -195,10 +195,12 @@ func (u *DynamicsProcessing) MarshalParcel(
 
 	switch u.Tag {
 	case DynamicsProcessingTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DynamicsProcessingTagEngineArchitecture:
+		p.WriteInt32(1)
 		if _err := u.EngineArchitecture.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -208,6 +210,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.PreEq)))
 			for _, _item := range u.PreEq {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -219,6 +222,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.PostEq)))
 			for _, _item := range u.PostEq {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -230,6 +234,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.PreEqBand)))
 			for _, _item := range u.PreEqBand {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -241,6 +246,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.PostEqBand)))
 			for _, _item := range u.PostEqBand {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -252,6 +258,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Mbc)))
 			for _, _item := range u.Mbc {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -263,6 +270,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.MbcBand)))
 			for _, _item := range u.MbcBand {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -274,6 +282,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Limiter)))
 			for _, _item := range u.Limiter {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -285,6 +294,7 @@ func (u *DynamicsProcessing) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.InputGain)))
 			for _, _item := range u.InputGain {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -313,10 +323,16 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 
 	switch u.Tag {
 	case DynamicsProcessingTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DynamicsProcessingTagEngineArchitecture:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.EngineArchitecture.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -330,6 +346,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.PreEq = make([]effectDynamicsProcessing.ChannelConfig, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.PreEq[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -345,6 +364,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count1 >= 0 {
 			u.PostEq = make([]effectDynamicsProcessing.ChannelConfig, _count1)
 			for _i := int32(0); _i < _count1; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.PostEq[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -360,6 +382,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count2 >= 0 {
 			u.PreEqBand = make([]effectDynamicsProcessing.EqBandConfig, _count2)
 			for _i := int32(0); _i < _count2; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.PreEqBand[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -375,6 +400,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count3 >= 0 {
 			u.PostEqBand = make([]effectDynamicsProcessing.EqBandConfig, _count3)
 			for _i := int32(0); _i < _count3; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.PostEqBand[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -390,6 +418,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count4 >= 0 {
 			u.Mbc = make([]effectDynamicsProcessing.ChannelConfig, _count4)
 			for _i := int32(0); _i < _count4; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Mbc[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -405,6 +436,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count5 >= 0 {
 			u.MbcBand = make([]effectDynamicsProcessing.MbcBandConfig, _count5)
 			for _i := int32(0); _i < _count5; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.MbcBand[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -420,6 +454,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count6 >= 0 {
 			u.Limiter = make([]effectDynamicsProcessing.LimiterConfig, _count6)
 			for _i := int32(0); _i < _count6; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Limiter[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -435,6 +472,9 @@ func (u *DynamicsProcessing) UnmarshalParcel(
 		if _count7 >= 0 {
 			u.InputGain = make([]effectDynamicsProcessing.InputGain, _count7)
 			for _i := int32(0); _i < _count7; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.InputGain[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}

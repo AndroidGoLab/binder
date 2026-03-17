@@ -16,23 +16,27 @@ const (
 	TransactionIVideoSignalInfoListenerOnVideoSignalInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVideoSignalInfoListenerOnVideoSignalInfoChanged = "onVideoSignalInfoChanged"
+)
+
 type IVideoSignalInfoListener interface {
 	AsBinder() binder.IBinder
 	OnVideoSignalInfoChanged(ctx context.Context, sessionToken string, changedSignalInfo os.Bundle) error
 }
 
 type VideoSignalInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVideoSignalInfoListenerProxy(
 	remote binder.IBinder,
 ) *VideoSignalInfoListenerProxy {
-	return &VideoSignalInfoListenerProxy{remote: remote}
+	return &VideoSignalInfoListenerProxy{Remote: remote}
 }
 
 func (p *VideoSignalInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVideoSignalInfoListener = (*VideoSignalInfoListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *VideoSignalInfoListenerProxy) OnVideoSignalInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfoListener, "onVideoSignalInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoSignalInfoListener, MethodIVideoSignalInfoListenerOnVideoSignalInfoChanged)
 	if _err != nil {
-		_code = TransactionIVideoSignalInfoListenerOnVideoSignalInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoSignalInfoListener, MethodIVideoSignalInfoListenerOnVideoSignalInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type VideoSignalInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VideoSignalInfoListenerStub)(nil)
+
+func (s *VideoSignalInfoListenerStub) Descriptor() string {
+	return DescriptorIVideoSignalInfoListener
+}
 
 func (s *VideoSignalInfoListenerStub) OnTransaction(
 	ctx context.Context,

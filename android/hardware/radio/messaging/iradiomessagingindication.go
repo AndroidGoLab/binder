@@ -22,6 +22,16 @@ const (
 	TransactionIRadioMessagingIndicationSimSmsStorageFull      = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIRadioMessagingIndicationCdmaNewSms             = "cdmaNewSms"
+	MethodIRadioMessagingIndicationCdmaRuimSmsStorageFull = "cdmaRuimSmsStorageFull"
+	MethodIRadioMessagingIndicationNewBroadcastSms        = "newBroadcastSms"
+	MethodIRadioMessagingIndicationNewSms                 = "newSms"
+	MethodIRadioMessagingIndicationNewSmsOnSim            = "newSmsOnSim"
+	MethodIRadioMessagingIndicationNewSmsStatusReport     = "newSmsStatusReport"
+	MethodIRadioMessagingIndicationSimSmsStorageFull      = "simSmsStorageFull"
+)
+
 type IRadioMessagingIndication interface {
 	AsBinder() binder.IBinder
 	CdmaNewSms(ctx context.Context, type_ radio.RadioIndicationType, msg CdmaSmsMessage) error
@@ -34,17 +44,17 @@ type IRadioMessagingIndication interface {
 }
 
 type RadioMessagingIndicationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioMessagingIndicationProxy(
 	remote binder.IBinder,
 ) *RadioMessagingIndicationProxy {
-	return &RadioMessagingIndicationProxy{remote: remote}
+	return &RadioMessagingIndicationProxy{Remote: remote}
 }
 
 func (p *RadioMessagingIndicationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioMessagingIndication = (*RadioMessagingIndicationProxy)(nil)
@@ -62,12 +72,12 @@ func (p *RadioMessagingIndicationProxy) CdmaNewSms(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "cdmaNewSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationCdmaNewSms)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationCdmaNewSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationCdmaNewSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +89,12 @@ func (p *RadioMessagingIndicationProxy) CdmaRuimSmsStorageFull(
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "cdmaRuimSmsStorageFull")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationCdmaRuimSmsStorageFull)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationCdmaRuimSmsStorageFull
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationCdmaRuimSmsStorageFull, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +115,12 @@ func (p *RadioMessagingIndicationProxy) NewBroadcastSms(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newBroadcastSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewBroadcastSms)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationNewBroadcastSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewBroadcastSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,12 +141,12 @@ func (p *RadioMessagingIndicationProxy) NewSms(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSms)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationNewSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -150,12 +160,12 @@ func (p *RadioMessagingIndicationProxy) NewSmsOnSim(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(recordNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSmsOnSim")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSmsOnSim)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationNewSmsOnSim
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSmsOnSim, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,12 +186,12 @@ func (p *RadioMessagingIndicationProxy) NewSmsStatusReport(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSmsStatusReport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSmsStatusReport)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationNewSmsStatusReport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationNewSmsStatusReport, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -193,12 +203,12 @@ func (p *RadioMessagingIndicationProxy) SimSmsStorageFull(
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "simSmsStorageFull")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationSimSmsStorageFull)
 	if _err != nil {
-		_code = TransactionIRadioMessagingIndicationSimSmsStorageFull
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingIndication, MethodIRadioMessagingIndicationSimSmsStorageFull, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -209,6 +219,10 @@ type RadioMessagingIndicationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioMessagingIndicationStub)(nil)
+
+func (s *RadioMessagingIndicationStub) Descriptor() string {
+	return DescriptorIRadioMessagingIndication
+}
 
 func (s *RadioMessagingIndicationStub) OnTransaction(
 	ctx context.Context,

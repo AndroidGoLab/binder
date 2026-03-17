@@ -15,23 +15,27 @@ const (
 	TransactionIScrollCaptureResponseListenerOnScrollCaptureResponse = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIScrollCaptureResponseListenerOnScrollCaptureResponse = "onScrollCaptureResponse"
+)
+
 type IScrollCaptureResponseListener interface {
 	AsBinder() binder.IBinder
 	OnScrollCaptureResponse(ctx context.Context, response ScrollCaptureResponse) error
 }
 
 type ScrollCaptureResponseListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScrollCaptureResponseListenerProxy(
 	remote binder.IBinder,
 ) *ScrollCaptureResponseListenerProxy {
-	return &ScrollCaptureResponseListenerProxy{remote: remote}
+	return &ScrollCaptureResponseListenerProxy{Remote: remote}
 }
 
 func (p *ScrollCaptureResponseListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScrollCaptureResponseListener = (*ScrollCaptureResponseListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *ScrollCaptureResponseListenerProxy) OnScrollCaptureResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureResponseListener, "onScrollCaptureResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureResponseListener, MethodIScrollCaptureResponseListenerOnScrollCaptureResponse)
 	if _err != nil {
-		_code = TransactionIScrollCaptureResponseListenerOnScrollCaptureResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureResponseListener, MethodIScrollCaptureResponseListenerOnScrollCaptureResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type ScrollCaptureResponseListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScrollCaptureResponseListenerStub)(nil)
+
+func (s *ScrollCaptureResponseListenerStub) Descriptor() string {
+	return DescriptorIScrollCaptureResponseListener
+}
 
 func (s *ScrollCaptureResponseListenerStub) OnTransaction(
 	ctx context.Context,

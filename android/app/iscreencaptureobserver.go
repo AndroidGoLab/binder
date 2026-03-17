@@ -15,23 +15,27 @@ const (
 	TransactionIScreenCaptureObserverOnScreenCaptured = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIScreenCaptureObserverOnScreenCaptured = "onScreenCaptured"
+)
+
 type IScreenCaptureObserver interface {
 	AsBinder() binder.IBinder
 	OnScreenCaptured(ctx context.Context) error
 }
 
 type ScreenCaptureObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScreenCaptureObserverProxy(
 	remote binder.IBinder,
 ) *ScreenCaptureObserverProxy {
-	return &ScreenCaptureObserverProxy{remote: remote}
+	return &ScreenCaptureObserverProxy{Remote: remote}
 }
 
 func (p *ScreenCaptureObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScreenCaptureObserver = (*ScreenCaptureObserverProxy)(nil)
@@ -42,12 +46,12 @@ func (p *ScreenCaptureObserverProxy) OnScreenCaptured(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScreenCaptureObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenCaptureObserver, "onScreenCaptured")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenCaptureObserver, MethodIScreenCaptureObserverOnScreenCaptured)
 	if _err != nil {
-		_code = TransactionIScreenCaptureObserverOnScreenCaptured
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenCaptureObserver, MethodIScreenCaptureObserverOnScreenCaptured, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type ScreenCaptureObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScreenCaptureObserverStub)(nil)
+
+func (s *ScreenCaptureObserverStub) Descriptor() string {
+	return DescriptorIScreenCaptureObserver
+}
 
 func (s *ScreenCaptureObserverStub) OnTransaction(
 	ctx context.Context,

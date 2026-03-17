@@ -22,14 +22,7 @@ func (s *PcoDataInfo) MarshalParcel(
 	p.WriteInt32(s.Cid)
 	p.WriteString16(s.BearerProto)
 	p.WriteInt32(s.PcoId)
-	if s.Contents == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Contents)))
-		for _, _item := range s.Contents {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Contents)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -58,19 +51,9 @@ func (s *PcoDataInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Contents, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Contents = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Contents[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -30,7 +30,26 @@ const (
 	TransactionIKeyMintDeviceGetRootOfTrustChallenge      = binder.FirstCallTransaction + 14
 	TransactionIKeyMintDeviceGetRootOfTrust               = binder.FirstCallTransaction + 15
 	TransactionIKeyMintDeviceSendRootOfTrust              = binder.FirstCallTransaction + 16
-	TransactionIKeyMintDeviceSetAdditionalAttestationInfo = binder.FirstCallTransaction + 17
+)
+
+const (
+	MethodIKeyMintDeviceGetHardwareInfo              = "getHardwareInfo"
+	MethodIKeyMintDeviceAddRngEntropy                = "addRngEntropy"
+	MethodIKeyMintDeviceGenerateKey                  = "generateKey"
+	MethodIKeyMintDeviceImportKey                    = "importKey"
+	MethodIKeyMintDeviceImportWrappedKey             = "importWrappedKey"
+	MethodIKeyMintDeviceUpgradeKey                   = "upgradeKey"
+	MethodIKeyMintDeviceDeleteKey                    = "deleteKey"
+	MethodIKeyMintDeviceDeleteAllKeys                = "deleteAllKeys"
+	MethodIKeyMintDeviceDestroyAttestationIds        = "destroyAttestationIds"
+	MethodIKeyMintDeviceBegin                        = "begin"
+	MethodIKeyMintDeviceDeviceLocked                 = "deviceLocked"
+	MethodIKeyMintDeviceEarlyBootEnded               = "earlyBootEnded"
+	MethodIKeyMintDeviceConvertStorageKeyToEphemeral = "convertStorageKeyToEphemeral"
+	MethodIKeyMintDeviceGetKeyCharacteristics        = "getKeyCharacteristics"
+	MethodIKeyMintDeviceGetRootOfTrustChallenge      = "getRootOfTrustChallenge"
+	MethodIKeyMintDeviceGetRootOfTrust               = "getRootOfTrust"
+	MethodIKeyMintDeviceSendRootOfTrust              = "sendRootOfTrust"
 )
 
 type IKeyMintDevice interface {
@@ -52,7 +71,6 @@ type IKeyMintDevice interface {
 	GetRootOfTrustChallenge(ctx context.Context) ([]byte, error)
 	GetRootOfTrust(ctx context.Context, challenge []byte) ([]byte, error)
 	SendRootOfTrust(ctx context.Context, rootOfTrust []byte) error
-	SetAdditionalAttestationInfo(ctx context.Context, info []KeyParameter) error
 }
 
 const (
@@ -60,17 +78,17 @@ const (
 )
 
 type KeyMintDeviceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyMintDeviceProxy(
 	remote binder.IBinder,
 ) *KeyMintDeviceProxy {
-	return &KeyMintDeviceProxy{remote: remote}
+	return &KeyMintDeviceProxy{Remote: remote}
 }
 
 func (p *KeyMintDeviceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyMintDevice = (*KeyMintDeviceProxy)(nil)
@@ -82,12 +100,12 @@ func (p *KeyMintDeviceProxy) GetHardwareInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getHardwareInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetHardwareInfo)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceGetHardwareInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetHardwareInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,12 +142,12 @@ func (p *KeyMintDeviceProxy) AddRngEntropy(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "addRngEntropy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceAddRngEntropy)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceAddRngEntropy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceAddRngEntropy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,6 +173,7 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 	} else {
 		_data.WriteInt32(int32(len(keyParams)))
 		for _, _item := range keyParams {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -168,12 +187,12 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "generateKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGenerateKey)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceGenerateKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceGenerateKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -210,6 +229,7 @@ func (p *KeyMintDeviceProxy) ImportKey(
 	} else {
 		_data.WriteInt32(int32(len(keyParams)))
 		for _, _item := range keyParams {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -232,12 +252,12 @@ func (p *KeyMintDeviceProxy) ImportKey(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "importKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportKey)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceImportKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -300,6 +320,7 @@ func (p *KeyMintDeviceProxy) ImportWrappedKey(
 	} else {
 		_data.WriteInt32(int32(len(unwrappingParams)))
 		for _, _item := range unwrappingParams {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -308,12 +329,12 @@ func (p *KeyMintDeviceProxy) ImportWrappedKey(
 	_data.WriteInt64(passwordSid)
 	_data.WriteInt64(biometricSid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "importWrappedKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportWrappedKey)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceImportWrappedKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceImportWrappedKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -356,18 +377,19 @@ func (p *KeyMintDeviceProxy) UpgradeKey(
 	} else {
 		_data.WriteInt32(int32(len(upgradeParams)))
 		for _, _item := range upgradeParams {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "upgradeKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceUpgradeKey)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceUpgradeKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceUpgradeKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -409,12 +431,12 @@ func (p *KeyMintDeviceProxy) DeleteKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "deleteKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteKey)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceDeleteKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -433,12 +455,12 @@ func (p *KeyMintDeviceProxy) DeleteAllKeys(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "deleteAllKeys")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteAllKeys)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceDeleteAllKeys
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeleteAllKeys, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -457,12 +479,12 @@ func (p *KeyMintDeviceProxy) DestroyAttestationIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "destroyAttestationIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDestroyAttestationIds)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceDestroyAttestationIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceDestroyAttestationIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -499,6 +521,7 @@ func (p *KeyMintDeviceProxy) Begin(
 	} else {
 		_data.WriteInt32(int32(len(params)))
 		for _, _item := range params {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -512,12 +535,12 @@ func (p *KeyMintDeviceProxy) Begin(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "begin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceBegin)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceBegin
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceBegin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -555,12 +578,12 @@ func (p *KeyMintDeviceProxy) DeviceLocked(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "deviceLocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeviceLocked)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceDeviceLocked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceDeviceLocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -579,12 +602,12 @@ func (p *KeyMintDeviceProxy) EarlyBootEnded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "earlyBootEnded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceEarlyBootEnded)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceEarlyBootEnded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceEarlyBootEnded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -613,12 +636,12 @@ func (p *KeyMintDeviceProxy) ConvertStorageKeyToEphemeral(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "convertStorageKeyToEphemeral")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceConvertStorageKeyToEphemeral)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceConvertStorageKeyToEphemeral
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceConvertStorageKeyToEphemeral, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -679,12 +702,12 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getKeyCharacteristics")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetKeyCharacteristics)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceGetKeyCharacteristics
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetKeyCharacteristics, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -702,6 +725,9 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 	if _count >= 0 {
 		_result = make([]KeyCharacteristics, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -717,12 +743,12 @@ func (p *KeyMintDeviceProxy) GetRootOfTrustChallenge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getRootOfTrustChallenge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrustChallenge)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceGetRootOfTrustChallenge
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrustChallenge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -765,12 +791,12 @@ func (p *KeyMintDeviceProxy) GetRootOfTrust(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getRootOfTrust")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrust)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceGetRootOfTrust
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceGetRootOfTrust, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -812,47 +838,12 @@ func (p *KeyMintDeviceProxy) SendRootOfTrust(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "sendRootOfTrust")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintDevice, MethodIKeyMintDeviceSendRootOfTrust)
 	if _err != nil {
-		_code = TransactionIKeyMintDeviceSendRootOfTrust
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintDevice, MethodIKeyMintDeviceSendRootOfTrust, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *KeyMintDeviceProxy) SetAdditionalAttestationInfo(
-	ctx context.Context,
-	info []KeyParameter,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
-	if info == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(info)))
-		for _, _item := range info {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "setAdditionalAttestationInfo")
-	if _err != nil {
-		_code = TransactionIKeyMintDeviceSetAdditionalAttestationInfo
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -872,6 +863,10 @@ type KeyMintDeviceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyMintDeviceStub)(nil)
+
+func (s *KeyMintDeviceStub) Descriptor() string {
+	return DescriptorIKeyMintDevice
+}
 
 func (s *KeyMintDeviceStub) OnTransaction(
 	ctx context.Context,
@@ -1240,21 +1235,6 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIKeyMintDeviceSetAdditionalAttestationInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_info []KeyParameter
-		_ = _arg_info
-		_err := s.Impl.SetAdditionalAttestationInfo(ctx, _arg_info)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1281,7 +1261,6 @@ type IKeyMintDeviceServer interface {
 	GetRootOfTrustChallenge(ctx context.Context) ([]byte, error)
 	GetRootOfTrust(ctx context.Context, challenge []byte) ([]byte, error)
 	SendRootOfTrust(ctx context.Context, rootOfTrust []byte) error
-	SetAdditionalAttestationInfo(ctx context.Context, info []KeyParameter) error
 }
 
 type keyMintDeviceStubWrapper struct {
@@ -1421,13 +1400,6 @@ func (w *keyMintDeviceStubWrapper) SendRootOfTrust(
 	rootOfTrust []byte,
 ) error {
 	return w.impl.SendRootOfTrust(ctx, rootOfTrust)
-}
-
-func (w *keyMintDeviceStubWrapper) SetAdditionalAttestationInfo(
-	ctx context.Context,
-	info []KeyParameter,
-) error {
-	return w.impl.SetAdditionalAttestationInfo(ctx, info)
 }
 
 var _ IKeyMintDevice = (*keyMintDeviceStubWrapper)(nil)

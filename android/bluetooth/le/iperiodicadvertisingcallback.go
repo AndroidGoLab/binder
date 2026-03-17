@@ -19,6 +19,14 @@ const (
 	TransactionIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport  = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPeriodicAdvertisingCallbackOnSyncEstablished           = "onSyncEstablished"
+	MethodIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport = "onPeriodicAdvertisingReport"
+	MethodIPeriodicAdvertisingCallbackOnSyncLost                  = "onSyncLost"
+	MethodIPeriodicAdvertisingCallbackOnSyncTransferred           = "onSyncTransferred"
+	MethodIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport  = "onBigInfoAdvertisingReport"
+)
+
 type IPeriodicAdvertisingCallback interface {
 	AsBinder() binder.IBinder
 	OnSyncEstablished(ctx context.Context, syncHandle int32, device interface{}, advertisingSid int32, skip int32, timeout int32, status int32) error
@@ -29,17 +37,17 @@ type IPeriodicAdvertisingCallback interface {
 }
 
 type PeriodicAdvertisingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPeriodicAdvertisingCallbackProxy(
 	remote binder.IBinder,
 ) *PeriodicAdvertisingCallbackProxy {
-	return &PeriodicAdvertisingCallbackProxy{remote: remote}
+	return &PeriodicAdvertisingCallbackProxy{Remote: remote}
 }
 
 func (p *PeriodicAdvertisingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPeriodicAdvertisingCallback = (*PeriodicAdvertisingCallbackProxy)(nil)
@@ -61,12 +69,12 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncEstablished(
 	_data.WriteInt32(timeout)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeriodicAdvertisingCallback, "onSyncEstablished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncEstablished)
 	if _err != nil {
-		_code = TransactionIPeriodicAdvertisingCallbackOnSyncEstablished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncEstablished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +89,12 @@ func (p *PeriodicAdvertisingCallbackProxy) OnPeriodicAdvertisingReport(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeriodicAdvertisingCallback, "onPeriodicAdvertisingReport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport)
 	if _err != nil {
-		_code = TransactionIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +106,12 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncLost(
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(syncHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeriodicAdvertisingCallback, "onSyncLost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncLost)
 	if _err != nil {
-		_code = TransactionIPeriodicAdvertisingCallbackOnSyncLost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncLost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,12 +124,12 @@ func (p *PeriodicAdvertisingCallbackProxy) OnSyncTransferred(
 	_data.WriteInterfaceToken(DescriptorIPeriodicAdvertisingCallback)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeriodicAdvertisingCallback, "onSyncTransferred")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncTransferred)
 	if _err != nil {
-		_code = TransactionIPeriodicAdvertisingCallbackOnSyncTransferred
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnSyncTransferred, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,12 +143,12 @@ func (p *PeriodicAdvertisingCallbackProxy) OnBigInfoAdvertisingReport(
 	_data.WriteInt32(syncHandle)
 	_data.WriteBool(encrypted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeriodicAdvertisingCallback, "onBigInfoAdvertisingReport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport)
 	if _err != nil {
-		_code = TransactionIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeriodicAdvertisingCallback, MethodIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,6 +159,10 @@ type PeriodicAdvertisingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PeriodicAdvertisingCallbackStub)(nil)
+
+func (s *PeriodicAdvertisingCallbackStub) Descriptor() string {
+	return DescriptorIPeriodicAdvertisingCallback
+}
 
 func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 	ctx context.Context,

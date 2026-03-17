@@ -23,6 +23,7 @@ func (s *ProviderIdAndVendorTagSections) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorTagSections)))
 		for _, _item := range s.VendorTagSections {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -54,6 +55,9 @@ func (s *ProviderIdAndVendorTagSections) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.VendorTagSections = make([]VendorTagSection, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorTagSections[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

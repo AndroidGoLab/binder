@@ -19,6 +19,14 @@ const (
 	TransactionIFileRename  = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIFileRead    = "read"
+	MethodIFileWrite   = "write"
+	MethodIFileGetSize = "getSize"
+	MethodIFileSetSize = "setSize"
+	MethodIFileRename  = "rename"
+)
+
 type IFile interface {
 	AsBinder() binder.IBinder
 	Read(ctx context.Context, size int64, offset int64) ([]byte, error)
@@ -29,17 +37,17 @@ type IFile interface {
 }
 
 type FileProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFileProxy(
 	remote binder.IBinder,
 ) *FileProxy {
-	return &FileProxy{remote: remote}
+	return &FileProxy{Remote: remote}
 }
 
 func (p *FileProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFile = (*FileProxy)(nil)
@@ -55,12 +63,12 @@ func (p *FileProxy) Read(
 	_data.WriteInt64(size)
 	_data.WriteInt64(offset)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFile, "read")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileRead)
 	if _err != nil {
-		_code = TransactionIFileRead
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFile, MethodIFileRead, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,12 +113,12 @@ func (p *FileProxy) Write(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFile, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileWrite)
 	if _err != nil {
-		_code = TransactionIFileWrite
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFile, MethodIFileWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -134,12 +142,12 @@ func (p *FileProxy) GetSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFile)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFile, "getSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileGetSize)
 	if _err != nil {
-		_code = TransactionIFileGetSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFile, MethodIFileGetSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,12 +172,12 @@ func (p *FileProxy) SetSize(
 	_data.WriteInterfaceToken(DescriptorIFile)
 	_data.WriteInt64(newSize)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFile, "setSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileSetSize)
 	if _err != nil {
-		_code = TransactionIFileSetSize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFile, MethodIFileSetSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,12 +200,12 @@ func (p *FileProxy) Rename(
 	_data.WriteString16(destPath)
 	_data.WriteInt32(int32(destCreateMode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFile, "rename")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFile, MethodIFileRename)
 	if _err != nil {
-		_code = TransactionIFileRename
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFile, MethodIFileRename, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -217,6 +225,10 @@ type FileStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FileStub)(nil)
+
+func (s *FileStub) Descriptor() string {
+	return DescriptorIFile
+}
 
 func (s *FileStub) OnTransaction(
 	ctx context.Context,

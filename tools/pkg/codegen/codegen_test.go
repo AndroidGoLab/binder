@@ -228,6 +228,14 @@ func TestGenerateParcelable_Simple(t *testing.T) {
 	assert.Contains(t, srcStr, "func (s *ServiceInfo) UnmarshalParcel(")
 	assert.Contains(t, srcStr, "ReadParcelableHeader")
 	assert.Contains(t, srcStr, "SkipToParcelableEnd")
+
+	// Check that position guards are emitted before each field read,
+	// so parcels from older API levels with fewer fields don't cause
+	// "read beyond end" errors.
+	posGuard := "if p.Position() >= _endPos {"
+	assert.Contains(t, srcStr, posGuard)
+	// One guard per field (3 fields: name, pid, isRunning).
+	assert.Equal(t, 3, strings.Count(srcStr, posGuard))
 }
 
 func TestGenerateParcelable_ForwardDeclared(t *testing.T) {
@@ -818,6 +826,102 @@ func TestGenerateParcelable_WithArrayField(t *testing.T) {
 	assert.Contains(t, srcStr, "[]string")
 	// Marshal should write array count.
 	assert.Contains(t, srcStr, "WriteInt32(int32(len(s.Ids)))")
+}
+
+func TestGenerateParcelable_WithParcelableArrayField(t *testing.T) {
+	doc := parseAIDL(t, `
+		package test;
+		parcelable Inner {
+			int value;
+		}
+		parcelable Outer {
+			Inner[] items;
+			int count;
+		}
+	`)
+
+	require.Len(t, doc.Definitions, 2)
+	decl := doc.Definitions[1].(*aidlparser.ParcelableDecl)
+
+	src, err := GenerateParcelable(decl, "test", "test.Outer")
+	require.NoError(t, err)
+
+	assertValidGo(t, src)
+	assertFormattedGo(t, src)
+
+	srcStr := string(src)
+
+	// NDK wire format: each parcelable element in an array must be
+	// preceded by an int32(1) non-null indicator.
+	assert.Contains(t, srcStr, "p.WriteInt32(1)")
+	assert.Contains(t, srcStr, "_item.MarshalParcel(p)")
+
+	// Unmarshal must read the non-null indicator before each element.
+	assert.Contains(t, srcStr, "if _, _err = p.ReadInt32(); _err != nil")
+	assert.Contains(t, srcStr, "s.Items[_i].UnmarshalParcel(p)")
+
+	// Primitive arrays must NOT have non-null indicators.
+	// (Covered by TestGenerateParcelable_WithArrayField, but verify
+	// that the presence of a parcelable array didn't break primitives.)
+	assert.Contains(t, srcStr, "WriteInt32(int32(len(s.Items)))")
+}
+
+func TestGenerateInterface_ParcelableArrayParam(t *testing.T) {
+	// Without a registry, unknown types default to parcelable
+	// (MarshalParcel/UnmarshalParcel), which is what we want to test.
+	doc := parseAIDL(t, `
+		package test;
+		interface IBatch {
+			void processItems(Item[] items);
+			Item[] getItems();
+		}
+	`)
+
+	require.Len(t, doc.Definitions, 1)
+	decl := doc.Definitions[0].(*aidlparser.InterfaceDecl)
+
+	src, err := GenerateInterface(decl, "test", "test.IBatch")
+	require.NoError(t, err)
+
+	assertValidGo(t, src)
+	assertFormattedGo(t, src)
+
+	srcStr := string(src)
+
+	// Proxy marshal: non-null indicator before each parcelable array element.
+	assert.Contains(t, srcStr, "_data.WriteInt32(1)")
+	assert.Contains(t, srcStr, "_item.MarshalParcel(_data)")
+
+	// Proxy unmarshal (return value): read non-null indicator before each element.
+	assert.Contains(t, srcStr, "if _, _err = _reply.ReadInt32(); _err != nil")
+	assert.Contains(t, srcStr, "_result[_i].UnmarshalParcel(_reply)")
+}
+
+func TestGenerateParcelable_WithFixedSizeByteArray(t *testing.T) {
+	doc := parseAIDL(t, `
+		package test;
+		parcelable DescriptorInfo {
+			byte[128] name;
+			int width;
+		}
+	`)
+
+	require.Len(t, doc.Definitions, 1)
+	decl := doc.Definitions[0].(*aidlparser.ParcelableDecl)
+
+	src, err := GenerateParcelable(decl, "test", "test.DescriptorInfo")
+	require.NoError(t, err)
+
+	assertValidGo(t, src)
+	assertFormattedGo(t, src)
+
+	srcStr := string(src)
+	// Fixed-size byte arrays use WriteFixedByteArray/ReadFixedByteArray,
+	// not WriteByteArray/ReadByteArray.
+	assert.Contains(t, srcStr, "WriteFixedByteArray(s.Name, 128)")
+	assert.Contains(t, srcStr, "ReadFixedByteArray(128)")
+	assert.NotContains(t, srcStr, "WriteByteArray")
+	assert.NotContains(t, srcStr, "ReadByteArray()")
 }
 
 func TestGenerateInterface_ListGenericReturn(t *testing.T) {

@@ -15,23 +15,27 @@ const (
 	TransactionIAutofillFieldClassificationServiceCalculateScores = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAutofillFieldClassificationServiceCalculateScores = "calculateScores"
+)
+
 type IAutofillFieldClassificationService interface {
 	AsBinder() binder.IBinder
 	CalculateScores(ctx context.Context, callback interface{}, actualValues []interface{}, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs interface{}, algorithms map[interface{}]interface{}, args map[interface{}]interface{}) error
 }
 
 type AutofillFieldClassificationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAutofillFieldClassificationServiceProxy(
 	remote binder.IBinder,
 ) *AutofillFieldClassificationServiceProxy {
-	return &AutofillFieldClassificationServiceProxy{remote: remote}
+	return &AutofillFieldClassificationServiceProxy{Remote: remote}
 }
 
 func (p *AutofillFieldClassificationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAutofillFieldClassificationService = (*AutofillFieldClassificationServiceProxy)(nil)
@@ -90,12 +94,12 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutofillFieldClassificationService, "calculateScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutofillFieldClassificationService, MethodIAutofillFieldClassificationServiceCalculateScores)
 	if _err != nil {
-		_code = TransactionIAutofillFieldClassificationServiceCalculateScores
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutofillFieldClassificationService, MethodIAutofillFieldClassificationServiceCalculateScores, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +110,10 @@ type AutofillFieldClassificationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AutofillFieldClassificationServiceStub)(nil)
+
+func (s *AutofillFieldClassificationServiceStub) Descriptor() string {
+	return DescriptorIAutofillFieldClassificationService
+}
 
 func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 	ctx context.Context,

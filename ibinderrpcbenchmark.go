@@ -19,6 +19,14 @@ const (
 	TransactionIBinderRpcBenchmarkWaitGimmesDestroyed = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBinderRpcBenchmarkRepeatString        = "repeatString"
+	MethodIBinderRpcBenchmarkRepeatBinder        = "repeatBinder"
+	MethodIBinderRpcBenchmarkRepeatBytes         = "repeatBytes"
+	MethodIBinderRpcBenchmarkGimmeBinder         = "gimmeBinder"
+	MethodIBinderRpcBenchmarkWaitGimmesDestroyed = "waitGimmesDestroyed"
+)
+
 type IBinderRpcBenchmark interface {
 	AsBinder() binder.IBinder
 	RepeatString(ctx context.Context, str string) (string, error)
@@ -29,17 +37,17 @@ type IBinderRpcBenchmark interface {
 }
 
 type BinderRpcBenchmarkProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderRpcBenchmarkProxy(
 	remote binder.IBinder,
 ) *BinderRpcBenchmarkProxy {
-	return &BinderRpcBenchmarkProxy{remote: remote}
+	return &BinderRpcBenchmarkProxy{Remote: remote}
 }
 
 func (p *BinderRpcBenchmarkProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderRpcBenchmark = (*BinderRpcBenchmarkProxy)(nil)
@@ -53,12 +61,12 @@ func (p *BinderRpcBenchmarkProxy) RepeatString(
 	_data.WriteInterfaceToken(DescriptorIBinderRpcBenchmark)
 	_data.WriteString16(str)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "repeatString")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkRepeatString)
 	if _err != nil {
-		_code = TransactionIBinderRpcBenchmarkRepeatString
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkRepeatString, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,14 +90,14 @@ func (p *BinderRpcBenchmarkProxy) RepeatBinder(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderRpcBenchmark)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "repeatBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkRepeatBinder)
 	if _err != nil {
-		_code = TransactionIBinderRpcBenchmarkRepeatBinder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkRepeatBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,7 +111,7 @@ func (p *BinderRpcBenchmarkProxy) RepeatBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -123,12 +131,12 @@ func (p *BinderRpcBenchmarkProxy) RepeatBytes(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "repeatBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkRepeatBytes)
 	if _err != nil {
-		_code = TransactionIBinderRpcBenchmarkRepeatBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkRepeatBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,12 +170,12 @@ func (p *BinderRpcBenchmarkProxy) GimmeBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderRpcBenchmark)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "gimmeBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkGimmeBinder)
 	if _err != nil {
-		_code = TransactionIBinderRpcBenchmarkGimmeBinder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkGimmeBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,7 +189,7 @@ func (p *BinderRpcBenchmarkProxy) GimmeBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -191,12 +199,12 @@ func (p *BinderRpcBenchmarkProxy) WaitGimmesDestroyed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderRpcBenchmark)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "waitGimmesDestroyed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkWaitGimmesDestroyed)
 	if _err != nil {
-		_code = TransactionIBinderRpcBenchmarkWaitGimmesDestroyed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcBenchmark, MethodIBinderRpcBenchmarkWaitGimmesDestroyed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -216,6 +224,10 @@ type BinderRpcBenchmarkStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderRpcBenchmarkStub)(nil)
+
+func (s *BinderRpcBenchmarkStub) Descriptor() string {
+	return DescriptorIBinderRpcBenchmark
+}
 
 func (s *BinderRpcBenchmarkStub) OnTransaction(
 	ctx context.Context,

@@ -20,6 +20,14 @@ const (
 	TransactionIAGnssRilInjectNiSuplMessageData = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIAGnssRilSetCallback             = "setCallback"
+	MethodIAGnssRilSetRefLocation          = "setRefLocation"
+	MethodIAGnssRilSetSetId                = "setSetId"
+	MethodIAGnssRilUpdateNetworkState      = "updateNetworkState"
+	MethodIAGnssRilInjectNiSuplMessageData = "injectNiSuplMessageData"
+)
+
 type IAGnssRil interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IAGnssRilCallback) error
@@ -35,17 +43,17 @@ const (
 )
 
 type AGnssRilProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAGnssRilProxy(
 	remote binder.IBinder,
 ) *AGnssRilProxy {
-	return &AGnssRilProxy{remote: remote}
+	return &AGnssRilProxy{Remote: remote}
 }
 
 func (p *AGnssRilProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAGnssRil = (*AGnssRilProxy)(nil)
@@ -56,14 +64,14 @@ func (p *AGnssRilProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilSetCallback)
 	if _err != nil {
-		_code = TransactionIAGnssRilSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRil, MethodIAGnssRilSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -87,12 +95,12 @@ func (p *AGnssRilProxy) SetRefLocation(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "setRefLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilSetRefLocation)
 	if _err != nil {
-		_code = TransactionIAGnssRilSetRefLocation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRil, MethodIAGnssRilSetRefLocation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -115,12 +123,12 @@ func (p *AGnssRilProxy) SetSetId(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(setid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "setSetId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilSetSetId)
 	if _err != nil {
-		_code = TransactionIAGnssRilSetSetId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRil, MethodIAGnssRilSetSetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -144,12 +152,12 @@ func (p *AGnssRilProxy) UpdateNetworkState(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "updateNetworkState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilUpdateNetworkState)
 	if _err != nil {
-		_code = TransactionIAGnssRilUpdateNetworkState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRil, MethodIAGnssRilUpdateNetworkState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,12 +187,12 @@ func (p *AGnssRilProxy) InjectNiSuplMessageData(
 	}
 	_data.WriteInt32(slotIndex)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "injectNiSuplMessageData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRil, MethodIAGnssRilInjectNiSuplMessageData)
 	if _err != nil {
-		_code = TransactionIAGnssRilInjectNiSuplMessageData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRil, MethodIAGnssRilInjectNiSuplMessageData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -204,6 +212,10 @@ type AGnssRilStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AGnssRilStub)(nil)
+
+func (s *AGnssRilStub) Descriptor() string {
+	return DescriptorIAGnssRil
+}
 
 func (s *AGnssRilStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIWakeLockCallbackOnStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWakeLockCallbackOnStateChanged = "onStateChanged"
+)
+
 type IWakeLockCallback interface {
 	AsBinder() binder.IBinder
 	OnStateChanged(ctx context.Context, enabled bool) error
 }
 
 type WakeLockCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWakeLockCallbackProxy(
 	remote binder.IBinder,
 ) *WakeLockCallbackProxy {
-	return &WakeLockCallbackProxy{remote: remote}
+	return &WakeLockCallbackProxy{Remote: remote}
 }
 
 func (p *WakeLockCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWakeLockCallback = (*WakeLockCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *WakeLockCallbackProxy) OnStateChanged(
 	_data.WriteInterfaceToken(DescriptorIWakeLockCallback)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWakeLockCallback, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWakeLockCallback, MethodIWakeLockCallbackOnStateChanged)
 	if _err != nil {
-		_code = TransactionIWakeLockCallbackOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWakeLockCallback, MethodIWakeLockCallbackOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type WakeLockCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WakeLockCallbackStub)(nil)
+
+func (s *WakeLockCallbackStub) Descriptor() string {
+	return DescriptorIWakeLockCallback
+}
 
 func (s *WakeLockCallbackStub) OnTransaction(
 	ctx context.Context,

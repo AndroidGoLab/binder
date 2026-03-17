@@ -16,23 +16,27 @@ const (
 	TransactionIIntrusionDetectionServiceStateCallbackOnStateChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIntrusionDetectionServiceStateCallbackOnStateChange = "onStateChange"
+)
+
 type IIntrusionDetectionServiceStateCallback interface {
 	AsBinder() binder.IBinder
 	OnStateChange(ctx context.Context, state StreamDescriptor.State) error
 }
 
 type IntrusionDetectionServiceStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntrusionDetectionServiceStateCallbackProxy(
 	remote binder.IBinder,
 ) *IntrusionDetectionServiceStateCallbackProxy {
-	return &IntrusionDetectionServiceStateCallbackProxy{remote: remote}
+	return &IntrusionDetectionServiceStateCallbackProxy{Remote: remote}
 }
 
 func (p *IntrusionDetectionServiceStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntrusionDetectionServiceStateCallback = (*IntrusionDetectionServiceStateCallbackProxy)(nil)
@@ -45,12 +49,12 @@ func (p *IntrusionDetectionServiceStateCallbackProxy) OnStateChange(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionServiceStateCallback)
 	_data.WriteInt32(int32(state))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceStateCallback, "onStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionServiceStateCallback, MethodIIntrusionDetectionServiceStateCallbackOnStateChange)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceStateCallbackOnStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionServiceStateCallback, MethodIIntrusionDetectionServiceStateCallbackOnStateChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +65,10 @@ type IntrusionDetectionServiceStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntrusionDetectionServiceStateCallbackStub)(nil)
+
+func (s *IntrusionDetectionServiceStateCallbackStub) Descriptor() string {
+	return DescriptorIIntrusionDetectionServiceStateCallback
+}
 
 func (s *IntrusionDetectionServiceStateCallbackStub) OnTransaction(
 	ctx context.Context,

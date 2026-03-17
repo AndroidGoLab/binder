@@ -19,6 +19,14 @@ const (
 	TransactionIEvsUltrasonicsArrayStopStream             = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIEvsUltrasonicsArrayDoneWithDataFrame      = "doneWithDataFrame"
+	MethodIEvsUltrasonicsArrayGetUltrasonicArrayInfo = "getUltrasonicArrayInfo"
+	MethodIEvsUltrasonicsArraySetMaxFramesInFlight   = "setMaxFramesInFlight"
+	MethodIEvsUltrasonicsArrayStartStream            = "startStream"
+	MethodIEvsUltrasonicsArrayStopStream             = "stopStream"
+)
+
 type IEvsUltrasonicsArray interface {
 	AsBinder() binder.IBinder
 	DoneWithDataFrame(ctx context.Context, dataFrameDesc UltrasonicsDataFrameDesc) error
@@ -29,17 +37,17 @@ type IEvsUltrasonicsArray interface {
 }
 
 type EvsUltrasonicsArrayProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEvsUltrasonicsArrayProxy(
 	remote binder.IBinder,
 ) *EvsUltrasonicsArrayProxy {
-	return &EvsUltrasonicsArrayProxy{remote: remote}
+	return &EvsUltrasonicsArrayProxy{Remote: remote}
 }
 
 func (p *EvsUltrasonicsArrayProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEvsUltrasonicsArray = (*EvsUltrasonicsArrayProxy)(nil)
@@ -55,12 +63,12 @@ func (p *EvsUltrasonicsArrayProxy) DoneWithDataFrame(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "doneWithDataFrame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayDoneWithDataFrame)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArrayDoneWithDataFrame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayDoneWithDataFrame, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +88,12 @@ func (p *EvsUltrasonicsArrayProxy) GetUltrasonicArrayInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "getUltrasonicArrayInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayGetUltrasonicArrayInfo)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArrayGetUltrasonicArrayInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayGetUltrasonicArrayInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,12 +123,12 @@ func (p *EvsUltrasonicsArrayProxy) SetMaxFramesInFlight(
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 	_data.WriteInt32(bufferCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "setMaxFramesInFlight")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArraySetMaxFramesInFlight)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArraySetMaxFramesInFlight
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArraySetMaxFramesInFlight, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,14 +147,14 @@ func (p *EvsUltrasonicsArrayProxy) StartStream(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
-	binder.WriteBinderToParcel(ctx, _data, stream.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, stream.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "startStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStartStream)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArrayStartStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStartStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -165,12 +173,12 @@ func (p *EvsUltrasonicsArrayProxy) StopStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "stopStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStopStream)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArrayStopStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArray, MethodIEvsUltrasonicsArrayStopStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -190,6 +198,10 @@ type EvsUltrasonicsArrayStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStub)(nil)
+
+func (s *EvsUltrasonicsArrayStub) Descriptor() string {
+	return DescriptorIEvsUltrasonicsArray
+}
 
 func (s *EvsUltrasonicsArrayStub) OnTransaction(
 	ctx context.Context,

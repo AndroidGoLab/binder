@@ -17,24 +17,29 @@ const (
 	TransactionIBackAnimationRunnerOnAnimationStart     = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBackAnimationRunnerOnAnimationCancelled = "onAnimationCancelled"
+	MethodIBackAnimationRunnerOnAnimationStart     = "onAnimationStart"
+)
+
 type IBackAnimationRunner interface {
 	AsBinder() binder.IBinder
 	OnAnimationCancelled(ctx context.Context) error
-	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, prepareOpenTransition binder.IBinder, finishedCallback IBackAnimationFinishedCallback) error
+	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, wallpapers []view.RemoteAnimationTarget, nonApps []view.RemoteAnimationTarget, finishedCallback IBackAnimationFinishedCallback) error
 }
 
 type BackAnimationRunnerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackAnimationRunnerProxy(
 	remote binder.IBinder,
 ) *BackAnimationRunnerProxy {
-	return &BackAnimationRunnerProxy{remote: remote}
+	return &BackAnimationRunnerProxy{Remote: remote}
 }
 
 func (p *BackAnimationRunnerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackAnimationRunner = (*BackAnimationRunnerProxy)(nil)
@@ -45,19 +50,20 @@ func (p *BackAnimationRunnerProxy) OnAnimationCancelled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationRunner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimationRunner, "onAnimationCancelled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationCancelled)
 	if _err != nil {
-		_code = TransactionIBackAnimationRunnerOnAnimationCancelled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationCancelled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *BackAnimationRunnerProxy) OnAnimationStart(
 	ctx context.Context,
 	apps []view.RemoteAnimationTarget,
-	prepareOpenTransition binder.IBinder,
+	wallpapers []view.RemoteAnimationTarget,
+	nonApps []view.RemoteAnimationTarget,
 	finishedCallback IBackAnimationFinishedCallback,
 ) error {
 	_data := parcel.New()
@@ -67,20 +73,42 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 	} else {
 		_data.WriteInt32(int32(len(apps)))
 		for _, _item := range apps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, prepareOpenTransition, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.remote.Transport())
+	if wallpapers == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(wallpapers)))
+		for _, _item := range wallpapers {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
+	}
+	if nonApps == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(nonApps)))
+		for _, _item := range nonApps {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
+	}
+	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimationRunner, "onAnimationStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationStart)
 	if _err != nil {
-		_code = TransactionIBackAnimationRunnerOnAnimationStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimationRunner, MethodIBackAnimationRunnerOnAnimationStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +119,10 @@ type BackAnimationRunnerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationRunnerStub)(nil)
+
+func (s *BackAnimationRunnerStub) Descriptor() string {
+	return DescriptorIBackAnimationRunner
+}
 
 func (s *BackAnimationRunnerStub) OnTransaction(
 	ctx context.Context,
@@ -112,13 +144,16 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_apps []view.RemoteAnimationTarget
 		_ = _arg_apps
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_prepareOpenTransition binder.IBinder
-		_ = _arg_prepareOpenTransition
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wallpapers []view.RemoteAnimationTarget
+		_ = _arg_wallpapers
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_nonApps []view.RemoteAnimationTarget
+		_ = _arg_nonApps
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_finishedCallback IBackAnimationFinishedCallback
 		_ = _arg_finishedCallback
-		_err := s.Impl.OnAnimationStart(ctx, _arg_apps, _arg_prepareOpenTransition, _arg_finishedCallback)
+		_err := s.Impl.OnAnimationStart(ctx, _arg_apps, _arg_wallpapers, _arg_nonApps, _arg_finishedCallback)
 		_ = _err
 		return nil, nil
 	default:
@@ -131,7 +166,7 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBackAnimationRunnerServer interface {
 	OnAnimationCancelled(ctx context.Context) error
-	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, prepareOpenTransition binder.IBinder, finishedCallback IBackAnimationFinishedCallback) error
+	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, wallpapers []view.RemoteAnimationTarget, nonApps []view.RemoteAnimationTarget, finishedCallback IBackAnimationFinishedCallback) error
 }
 
 type backAnimationRunnerStubWrapper struct {
@@ -152,10 +187,11 @@ func (w *backAnimationRunnerStubWrapper) OnAnimationCancelled(
 func (w *backAnimationRunnerStubWrapper) OnAnimationStart(
 	ctx context.Context,
 	apps []view.RemoteAnimationTarget,
-	prepareOpenTransition binder.IBinder,
+	wallpapers []view.RemoteAnimationTarget,
+	nonApps []view.RemoteAnimationTarget,
 	finishedCallback IBackAnimationFinishedCallback,
 ) error {
-	return w.impl.OnAnimationStart(ctx, apps, prepareOpenTransition, finishedCallback)
+	return w.impl.OnAnimationStart(ctx, apps, wallpapers, nonApps, finishedCallback)
 }
 
 var _ IBackAnimationRunner = (*backAnimationRunnerStubWrapper)(nil)

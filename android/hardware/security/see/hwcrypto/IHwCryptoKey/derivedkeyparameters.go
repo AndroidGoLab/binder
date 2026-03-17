@@ -28,14 +28,7 @@ func (s *DerivedKeyParameters) MarshalParcel(
 	if _err := s.KeyPolicy.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.Context == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Context)))
-		for _, _item := range s.Context {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Context)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -59,19 +52,9 @@ func (s *DerivedKeyParameters) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Context, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Context = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Context[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

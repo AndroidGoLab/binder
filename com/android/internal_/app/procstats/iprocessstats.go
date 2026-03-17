@@ -20,6 +20,15 @@ const (
 	TransactionIProcessStatsGetMinAssociationDumpDuration = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIProcessStatsGetCurrentStats               = "getCurrentStats"
+	MethodIProcessStatsGetStatsOverTime              = "getStatsOverTime"
+	MethodIProcessStatsGetCurrentMemoryState         = "getCurrentMemoryState"
+	MethodIProcessStatsGetCommittedStats             = "getCommittedStats"
+	MethodIProcessStatsGetCommittedStatsMerged       = "getCommittedStatsMerged"
+	MethodIProcessStatsGetMinAssociationDumpDuration = "getMinAssociationDumpDuration"
+)
+
 type IProcessStats interface {
 	AsBinder() binder.IBinder
 	GetCurrentStats(ctx context.Context, historic []int32) ([]byte, error)
@@ -31,17 +40,17 @@ type IProcessStats interface {
 }
 
 type ProcessStatsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProcessStatsProxy(
 	remote binder.IBinder,
 ) *ProcessStatsProxy {
-	return &ProcessStatsProxy{remote: remote}
+	return &ProcessStatsProxy{Remote: remote}
 }
 
 func (p *ProcessStatsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProcessStats = (*ProcessStatsProxy)(nil)
@@ -54,12 +63,12 @@ func (p *ProcessStatsProxy) GetCurrentStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCurrentStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCurrentStats)
 	if _err != nil {
-		_code = TransactionIProcessStatsGetCurrentStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessStats, MethodIProcessStatsGetCurrentStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,12 +117,12 @@ func (p *ProcessStatsProxy) GetStatsOverTime(
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 	_data.WriteInt64(minTime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getStatsOverTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetStatsOverTime)
 	if _err != nil {
-		_code = TransactionIProcessStatsGetStatsOverTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessStats, MethodIProcessStatsGetStatsOverTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,12 +146,12 @@ func (p *ProcessStatsProxy) GetCurrentMemoryState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCurrentMemoryState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCurrentMemoryState)
 	if _err != nil {
-		_code = TransactionIProcessStatsGetCurrentMemoryState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessStats, MethodIProcessStatsGetCurrentMemoryState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -173,12 +182,12 @@ func (p *ProcessStatsProxy) GetCommittedStats(
 	_data.WriteInt32(section)
 	_data.WriteBool(doAggregate)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCommittedStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCommittedStats)
 	if _err != nil {
-		_code = TransactionIProcessStatsGetCommittedStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessStats, MethodIProcessStatsGetCommittedStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -223,12 +232,12 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 	_data.WriteInt32(section)
 	_data.WriteBool(doAggregate)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCommittedStatsMerged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetCommittedStatsMerged)
 	if _err != nil {
-		_code = TransactionIProcessStatsGetCommittedStatsMerged
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessStats, MethodIProcessStatsGetCommittedStatsMerged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -268,12 +277,12 @@ func (p *ProcessStatsProxy) GetMinAssociationDumpDuration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getMinAssociationDumpDuration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessStats, MethodIProcessStatsGetMinAssociationDumpDuration)
 	if _err != nil {
-		_code = TransactionIProcessStatsGetMinAssociationDumpDuration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessStats, MethodIProcessStatsGetMinAssociationDumpDuration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -297,6 +306,10 @@ type ProcessStatsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProcessStatsStub)(nil)
+
+func (s *ProcessStatsStub) Descriptor() string {
+	return DescriptorIProcessStats
+}
 
 func (s *ProcessStatsStub) OnTransaction(
 	ctx context.Context,

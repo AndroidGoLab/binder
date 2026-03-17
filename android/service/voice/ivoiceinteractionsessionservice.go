@@ -15,23 +15,27 @@ const (
 	TransactionIVoiceInteractionSessionServiceNewSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVoiceInteractionSessionServiceNewSession = "newSession"
+)
+
 type IVoiceInteractionSessionService interface {
 	AsBinder() binder.IBinder
 	NewSession(ctx context.Context, token binder.IBinder, args interface{}, startFlags int32) error
 }
 
 type VoiceInteractionSessionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractionSessionServiceProxy(
 	remote binder.IBinder,
 ) *VoiceInteractionSessionServiceProxy {
-	return &VoiceInteractionSessionServiceProxy{remote: remote}
+	return &VoiceInteractionSessionServiceProxy{Remote: remote}
 }
 
 func (p *VoiceInteractionSessionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractionSessionService = (*VoiceInteractionSessionServiceProxy)(nil)
@@ -44,15 +48,15 @@ func (p *VoiceInteractionSessionServiceProxy) NewSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(startFlags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionService, "newSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionService, MethodIVoiceInteractionSessionServiceNewSession)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionServiceNewSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSessionService, MethodIVoiceInteractionSessionServiceNewSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type VoiceInteractionSessionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionSessionServiceStub)(nil)
+
+func (s *VoiceInteractionSessionServiceStub) Descriptor() string {
+	return DescriptorIVoiceInteractionSessionService
+}
 
 func (s *VoiceInteractionSessionServiceStub) OnTransaction(
 	ctx context.Context,

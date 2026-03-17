@@ -15,23 +15,27 @@ const (
 	TransactionIDragAndDropIsReadyToHandleDrag = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDragAndDropIsReadyToHandleDrag = "isReadyToHandleDrag"
+)
+
 type IDragAndDrop interface {
 	AsBinder() binder.IBinder
 	IsReadyToHandleDrag(ctx context.Context) (bool, error)
 }
 
 type DragAndDropProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDragAndDropProxy(
 	remote binder.IBinder,
 ) *DragAndDropProxy {
-	return &DragAndDropProxy{remote: remote}
+	return &DragAndDropProxy{Remote: remote}
 }
 
 func (p *DragAndDropProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDragAndDrop = (*DragAndDropProxy)(nil)
@@ -43,12 +47,12 @@ func (p *DragAndDropProxy) IsReadyToHandleDrag(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDragAndDrop)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDrop, "isReadyToHandleDrag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDrop, MethodIDragAndDropIsReadyToHandleDrag)
 	if _err != nil {
-		_code = TransactionIDragAndDropIsReadyToHandleDrag
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDragAndDrop, MethodIDragAndDropIsReadyToHandleDrag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type DragAndDropStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DragAndDropStub)(nil)
+
+func (s *DragAndDropStub) Descriptor() string {
+	return DescriptorIDragAndDrop
+}
 
 func (s *DragAndDropStub) OnTransaction(
 	ctx context.Context,

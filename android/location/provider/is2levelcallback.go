@@ -16,6 +16,11 @@ const (
 	TransactionIS2LevelCallbackOnError  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIS2LevelCallbackOnResult = "onResult"
+	MethodIS2LevelCallbackOnError  = "onError"
+)
+
 type IS2LevelCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, s2Level int32) error
@@ -23,17 +28,17 @@ type IS2LevelCallback interface {
 }
 
 type S2LevelCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewS2LevelCallbackProxy(
 	remote binder.IBinder,
 ) *S2LevelCallbackProxy {
-	return &S2LevelCallbackProxy{remote: remote}
+	return &S2LevelCallbackProxy{Remote: remote}
 }
 
 func (p *S2LevelCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IS2LevelCallback = (*S2LevelCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *S2LevelCallbackProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIS2LevelCallback)
 	_data.WriteInt32(s2Level)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIS2LevelCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIS2LevelCallback, MethodIS2LevelCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIS2LevelCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIS2LevelCallback, MethodIS2LevelCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *S2LevelCallbackProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIS2LevelCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIS2LevelCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIS2LevelCallback, MethodIS2LevelCallbackOnError)
 	if _err != nil {
-		_code = TransactionIS2LevelCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIS2LevelCallback, MethodIS2LevelCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type S2LevelCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*S2LevelCallbackStub)(nil)
+
+func (s *S2LevelCallbackStub) Descriptor() string {
+	return DescriptorIS2LevelCallback
+}
 
 func (s *S2LevelCallbackStub) OnTransaction(
 	ctx context.Context,

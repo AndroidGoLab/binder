@@ -16,23 +16,27 @@ const (
 	TransactionIRemoteTransitionFinishedCallbackOnTransitionFinished = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteTransitionFinishedCallbackOnTransitionFinished = "onTransitionFinished"
+)
+
 type IRemoteTransitionFinishedCallback interface {
 	AsBinder() binder.IBinder
 	OnTransitionFinished(ctx context.Context, wct WindowContainerTransaction, sct view.SurfaceControlTransaction) error
 }
 
 type RemoteTransitionFinishedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteTransitionFinishedCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteTransitionFinishedCallbackProxy {
-	return &RemoteTransitionFinishedCallbackProxy{remote: remote}
+	return &RemoteTransitionFinishedCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteTransitionFinishedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteTransitionFinishedCallback = (*RemoteTransitionFinishedCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTransitionFinishedCallback, "onTransitionFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTransitionFinishedCallback, MethodIRemoteTransitionFinishedCallbackOnTransitionFinished)
 	if _err != nil {
-		_code = TransactionIRemoteTransitionFinishedCallbackOnTransitionFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteTransitionFinishedCallback, MethodIRemoteTransitionFinishedCallbackOnTransitionFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +82,10 @@ type RemoteTransitionFinishedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteTransitionFinishedCallbackStub)(nil)
+
+func (s *RemoteTransitionFinishedCallbackStub) Descriptor() string {
+	return DescriptorIRemoteTransitionFinishedCallback
+}
 
 func (s *RemoteTransitionFinishedCallbackStub) OnTransaction(
 	ctx context.Context,

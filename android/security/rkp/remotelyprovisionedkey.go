@@ -17,22 +17,8 @@ func (s *RemotelyProvisionedKey) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.KeyBlob == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.KeyBlob)))
-		for _, _item := range s.KeyBlob {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.EncodedCertChain == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.EncodedCertChain)))
-		for _, _item := range s.EncodedCertChain {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.KeyBlob)
+	p.WriteByteArray(s.EncodedCertChain)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *RemotelyProvisionedKey) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.KeyBlob, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.KeyBlob = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.KeyBlob[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.EncodedCertChain, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.EncodedCertChain = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.EncodedCertChain[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

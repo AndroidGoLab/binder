@@ -24,6 +24,18 @@ const (
 	TransactionIImsConfigSetVideoQuality           = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIImsConfigGetProvisionedValue       = "getProvisionedValue"
+	MethodIImsConfigGetProvisionedStringValue = "getProvisionedStringValue"
+	MethodIImsConfigSetProvisionedValue       = "setProvisionedValue"
+	MethodIImsConfigSetProvisionedStringValue = "setProvisionedStringValue"
+	MethodIImsConfigGetFeatureValue           = "getFeatureValue"
+	MethodIImsConfigSetFeatureValue           = "setFeatureValue"
+	MethodIImsConfigGetVolteProvisioned       = "getVolteProvisioned"
+	MethodIImsConfigGetVideoQuality           = "getVideoQuality"
+	MethodIImsConfigSetVideoQuality           = "setVideoQuality"
+)
+
 type IImsConfig interface {
 	AsBinder() binder.IBinder
 	GetProvisionedValue(ctx context.Context, item int32) (int32, error)
@@ -38,17 +50,17 @@ type IImsConfig interface {
 }
 
 type ImsConfigProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsConfigProxy(
 	remote binder.IBinder,
 ) *ImsConfigProxy {
-	return &ImsConfigProxy{remote: remote}
+	return &ImsConfigProxy{Remote: remote}
 }
 
 func (p *ImsConfigProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsConfig = (*ImsConfigProxy)(nil)
@@ -62,12 +74,12 @@ func (p *ImsConfigProxy) GetProvisionedValue(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getProvisionedValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetProvisionedValue)
 	if _err != nil {
-		_code = TransactionIImsConfigGetProvisionedValue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetProvisionedValue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +105,12 @@ func (p *ImsConfigProxy) GetProvisionedStringValue(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getProvisionedStringValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetProvisionedStringValue)
 	if _err != nil {
-		_code = TransactionIImsConfigGetProvisionedStringValue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetProvisionedStringValue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,12 +138,12 @@ func (p *ImsConfigProxy) SetProvisionedValue(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setProvisionedValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetProvisionedValue)
 	if _err != nil {
-		_code = TransactionIImsConfigSetProvisionedValue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetProvisionedValue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,12 +171,12 @@ func (p *ImsConfigProxy) SetProvisionedStringValue(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setProvisionedStringValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetProvisionedStringValue)
 	if _err != nil {
-		_code = TransactionIImsConfigSetProvisionedStringValue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetProvisionedStringValue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -191,14 +203,14 @@ func (p *ImsConfigProxy) GetFeatureValue(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(feature)
 	_data.WriteInt32(network)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getFeatureValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetFeatureValue)
 	if _err != nil {
-		_code = TransactionIImsConfigGetFeatureValue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetFeatureValue, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -214,14 +226,14 @@ func (p *ImsConfigProxy) SetFeatureValue(
 	_data.WriteInt32(feature)
 	_data.WriteInt32(network)
 	_data.WriteInt32(value)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setFeatureValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetFeatureValue)
 	if _err != nil {
-		_code = TransactionIImsConfigSetFeatureValue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetFeatureValue, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,12 +244,12 @@ func (p *ImsConfigProxy) GetVolteProvisioned(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getVolteProvisioned")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetVolteProvisioned)
 	if _err != nil {
-		_code = TransactionIImsConfigGetVolteProvisioned
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetVolteProvisioned, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -260,14 +272,14 @@ func (p *ImsConfigProxy) GetVideoQuality(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getVideoQuality")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetVideoQuality)
 	if _err != nil {
-		_code = TransactionIImsConfigGetVideoQuality
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetVideoQuality, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -279,14 +291,14 @@ func (p *ImsConfigProxy) SetVideoQuality(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(quality)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setVideoQuality")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetVideoQuality)
 	if _err != nil {
-		_code = TransactionIImsConfigSetVideoQuality
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetVideoQuality, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -297,6 +309,10 @@ type ImsConfigStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
+
+func (s *ImsConfigStub) Descriptor() string {
+	return DescriptorIImsConfig
+}
 
 func (s *ImsConfigStub) OnTransaction(
 	ctx context.Context,

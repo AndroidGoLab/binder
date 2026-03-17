@@ -28,6 +28,21 @@ const (
 	TransactionIVideoProviderSetPauseImage             = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodIVideoProviderAddVideoCallback          = "addVideoCallback"
+	MethodIVideoProviderRemoveVideoCallback       = "removeVideoCallback"
+	MethodIVideoProviderSetCamera                 = "setCamera"
+	MethodIVideoProviderSetPreviewSurface         = "setPreviewSurface"
+	MethodIVideoProviderSetDisplaySurface         = "setDisplaySurface"
+	MethodIVideoProviderSetDeviceOrientation      = "setDeviceOrientation"
+	MethodIVideoProviderSetZoom                   = "setZoom"
+	MethodIVideoProviderSendSessionModifyRequest  = "sendSessionModifyRequest"
+	MethodIVideoProviderSendSessionModifyResponse = "sendSessionModifyResponse"
+	MethodIVideoProviderRequestCameraCapabilities = "requestCameraCapabilities"
+	MethodIVideoProviderRequestCallDataUsage      = "requestCallDataUsage"
+	MethodIVideoProviderSetPauseImage             = "setPauseImage"
+)
+
 type IVideoProvider interface {
 	AsBinder() binder.IBinder
 	AddVideoCallback(ctx context.Context, videoCallbackBinder binder.IBinder) error
@@ -45,17 +60,17 @@ type IVideoProvider interface {
 }
 
 type VideoProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVideoProviderProxy(
 	remote binder.IBinder,
 ) *VideoProviderProxy {
-	return &VideoProviderProxy{remote: remote}
+	return &VideoProviderProxy{Remote: remote}
 }
 
 func (p *VideoProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVideoProvider = (*VideoProviderProxy)(nil)
@@ -66,14 +81,14 @@ func (p *VideoProviderProxy) AddVideoCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
-	binder.WriteBinderToParcel(ctx, _data, videoCallbackBinder, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, videoCallbackBinder, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "addVideoCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderAddVideoCallback)
 	if _err != nil {
-		_code = TransactionIVideoProviderAddVideoCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderAddVideoCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,14 +98,14 @@ func (p *VideoProviderProxy) RemoveVideoCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
-	binder.WriteBinderToParcel(ctx, _data, videoCallbackBinder, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, videoCallbackBinder, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "removeVideoCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderRemoveVideoCallback)
 	if _err != nil {
-		_code = TransactionIVideoProviderRemoveVideoCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderRemoveVideoCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,12 +121,12 @@ func (p *VideoProviderProxy) SetCamera(
 	_data.WriteString16(mCallingPackageName)
 	_data.WriteInt32(targetSdkVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setCamera")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSetCamera)
 	if _err != nil {
-		_code = TransactionIVideoProviderSetCamera
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSetCamera, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +137,12 @@ func (p *VideoProviderProxy) SetPreviewSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setPreviewSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSetPreviewSurface)
 	if _err != nil {
-		_code = TransactionIVideoProviderSetPreviewSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSetPreviewSurface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,12 +153,12 @@ func (p *VideoProviderProxy) SetDisplaySurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setDisplaySurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSetDisplaySurface)
 	if _err != nil {
-		_code = TransactionIVideoProviderSetDisplaySurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSetDisplaySurface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,12 +170,12 @@ func (p *VideoProviderProxy) SetDeviceOrientation(
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
 	_data.WriteInt32(rotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setDeviceOrientation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSetDeviceOrientation)
 	if _err != nil {
-		_code = TransactionIVideoProviderSetDeviceOrientation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSetDeviceOrientation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,12 +187,12 @@ func (p *VideoProviderProxy) SetZoom(
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
 	_data.WriteFloat32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setZoom")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSetZoom)
 	if _err != nil {
-		_code = TransactionIVideoProviderSetZoom
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSetZoom, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -197,12 +212,12 @@ func (p *VideoProviderProxy) SendSessionModifyRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "sendSessionModifyRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSendSessionModifyRequest)
 	if _err != nil {
-		_code = TransactionIVideoProviderSendSessionModifyRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSendSessionModifyRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -217,12 +232,12 @@ func (p *VideoProviderProxy) SendSessionModifyResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "sendSessionModifyResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSendSessionModifyResponse)
 	if _err != nil {
-		_code = TransactionIVideoProviderSendSessionModifyResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSendSessionModifyResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,12 +247,12 @@ func (p *VideoProviderProxy) RequestCameraCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "requestCameraCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderRequestCameraCapabilities)
 	if _err != nil {
-		_code = TransactionIVideoProviderRequestCameraCapabilities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderRequestCameraCapabilities, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -247,12 +262,12 @@ func (p *VideoProviderProxy) RequestCallDataUsage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "requestCallDataUsage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderRequestCallDataUsage)
 	if _err != nil {
-		_code = TransactionIVideoProviderRequestCallDataUsage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderRequestCallDataUsage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -267,12 +282,12 @@ func (p *VideoProviderProxy) SetPauseImage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setPauseImage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoProvider, MethodIVideoProviderSetPauseImage)
 	if _err != nil {
-		_code = TransactionIVideoProviderSetPauseImage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoProvider, MethodIVideoProviderSetPauseImage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -283,6 +298,10 @@ type VideoProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VideoProviderStub)(nil)
+
+func (s *VideoProviderStub) Descriptor() string {
+	return DescriptorIVideoProvider
+}
 
 func (s *VideoProviderStub) OnTransaction(
 	ctx context.Context,

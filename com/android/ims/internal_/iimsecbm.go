@@ -16,6 +16,11 @@ const (
 	TransactionIImsEcbmExitEmergencyCallbackMode = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIImsEcbmSetListener               = "setListener"
+	MethodIImsEcbmExitEmergencyCallbackMode = "exitEmergencyCallbackMode"
+)
+
 type IImsEcbm interface {
 	AsBinder() binder.IBinder
 	SetListener(ctx context.Context, listener IImsEcbmListener) error
@@ -23,17 +28,17 @@ type IImsEcbm interface {
 }
 
 type ImsEcbmProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsEcbmProxy(
 	remote binder.IBinder,
 ) *ImsEcbmProxy {
-	return &ImsEcbmProxy{remote: remote}
+	return &ImsEcbmProxy{Remote: remote}
 }
 
 func (p *ImsEcbmProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsEcbm = (*ImsEcbmProxy)(nil)
@@ -44,14 +49,14 @@ func (p *ImsEcbmProxy) SetListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsEcbm)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbm, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbm, MethodIImsEcbmSetListener)
 	if _err != nil {
-		_code = TransactionIImsEcbmSetListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsEcbm, MethodIImsEcbmSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *ImsEcbmProxy) ExitEmergencyCallbackMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsEcbm)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbm, "exitEmergencyCallbackMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbm, MethodIImsEcbmExitEmergencyCallbackMode)
 	if _err != nil {
-		_code = TransactionIImsEcbmExitEmergencyCallbackMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsEcbm, MethodIImsEcbmExitEmergencyCallbackMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +100,10 @@ type ImsEcbmStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsEcbmStub)(nil)
+
+func (s *ImsEcbmStub) Descriptor() string {
+	return DescriptorIImsEcbm
+}
 
 func (s *ImsEcbmStub) OnTransaction(
 	ctx context.Context,

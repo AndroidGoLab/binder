@@ -13,7 +13,6 @@ type P2pPeerClientJoinedEventParams struct {
 	ClientDeviceAddress    []byte
 	ClientIpAddress        int32
 	VendorData             []common.OuiKeyedData
-	KeyMgmtMask            int32
 }
 
 var _ parcel.Parcelable = (*P2pPeerClientJoinedEventParams)(nil)
@@ -23,34 +22,20 @@ func (s *P2pPeerClientJoinedEventParams) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.GroupInterfaceName)
-	if s.ClientInterfaceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ClientInterfaceAddress)))
-		for _, _item := range s.ClientInterfaceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ClientDeviceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ClientDeviceAddress)))
-		for _, _item := range s.ClientDeviceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.ClientInterfaceAddress, 6)
+	p.WriteFixedByteArray(s.ClientDeviceAddress, 6)
 	p.WriteInt32(s.ClientIpAddress)
 	if s.VendorData == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	p.WriteInt32(s.KeyMgmtMask)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -69,34 +54,14 @@ func (s *P2pPeerClientJoinedEventParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ClientInterfaceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ClientInterfaceAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ClientInterfaceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ClientDeviceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ClientDeviceAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ClientDeviceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.ClientIpAddress, _err = p.ReadInt32()
@@ -112,15 +77,13 @@ func (s *P2pPeerClientJoinedEventParams) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	s.KeyMgmtMask, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

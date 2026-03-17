@@ -15,23 +15,27 @@ const (
 	TransactionIAAudioClientOnStreamChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAAudioClientOnStreamChange = "onStreamChange"
+)
+
 type IAAudioClient interface {
 	AsBinder() binder.IBinder
 	OnStreamChange(ctx context.Context, handle int32, opcode int32, value int32) error
 }
 
 type AAudioClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAAudioClientProxy(
 	remote binder.IBinder,
 ) *AAudioClientProxy {
-	return &AAudioClientProxy{remote: remote}
+	return &AAudioClientProxy{Remote: remote}
 }
 
 func (p *AAudioClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAAudioClient = (*AAudioClientProxy)(nil)
@@ -48,12 +52,12 @@ func (p *AAudioClientProxy) OnStreamChange(
 	_data.WriteInt32(opcode)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAAudioClient, "onStreamChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAAudioClient, MethodIAAudioClientOnStreamChange)
 	if _err != nil {
-		_code = TransactionIAAudioClientOnStreamChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAAudioClient, MethodIAAudioClientOnStreamChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type AAudioClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AAudioClientStub)(nil)
+
+func (s *AAudioClientStub) Descriptor() string {
+	return DescriptorIAAudioClient
+}
 
 func (s *AAudioClientStub) OnTransaction(
 	ctx context.Context,

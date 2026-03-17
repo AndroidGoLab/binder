@@ -18,6 +18,13 @@ const (
 	TransactionIHdmiRecordListenerOnClearTimerRecordingResult = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIHdmiRecordListenerGetOneTouchRecordSource     = "getOneTouchRecordSource"
+	MethodIHdmiRecordListenerOnOneTouchRecordResult      = "onOneTouchRecordResult"
+	MethodIHdmiRecordListenerOnTimerRecordingResult      = "onTimerRecordingResult"
+	MethodIHdmiRecordListenerOnClearTimerRecordingResult = "onClearTimerRecordingResult"
+)
+
 type IHdmiRecordListener interface {
 	AsBinder() binder.IBinder
 	GetOneTouchRecordSource(ctx context.Context, recorderAddress int32) ([]byte, error)
@@ -27,17 +34,17 @@ type IHdmiRecordListener interface {
 }
 
 type HdmiRecordListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiRecordListenerProxy(
 	remote binder.IBinder,
 ) *HdmiRecordListenerProxy {
-	return &HdmiRecordListenerProxy{remote: remote}
+	return &HdmiRecordListenerProxy{Remote: remote}
 }
 
 func (p *HdmiRecordListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiRecordListener = (*HdmiRecordListenerProxy)(nil)
@@ -51,12 +58,12 @@ func (p *HdmiRecordListenerProxy) GetOneTouchRecordSource(
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
 	_data.WriteInt32(recorderAddress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiRecordListener, "getOneTouchRecordSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerGetOneTouchRecordSource)
 	if _err != nil {
-		_code = TransactionIHdmiRecordListenerGetOneTouchRecordSource
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerGetOneTouchRecordSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +100,12 @@ func (p *HdmiRecordListenerProxy) OnOneTouchRecordResult(
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiRecordListener, "onOneTouchRecordResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnOneTouchRecordResult)
 	if _err != nil {
-		_code = TransactionIHdmiRecordListenerOnOneTouchRecordResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnOneTouchRecordResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,12 +128,12 @@ func (p *HdmiRecordListenerProxy) OnTimerRecordingResult(
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiRecordListener, "onTimerRecordingResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnTimerRecordingResult)
 	if _err != nil {
-		_code = TransactionIHdmiRecordListenerOnTimerRecordingResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnTimerRecordingResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,12 +156,12 @@ func (p *HdmiRecordListenerProxy) OnClearTimerRecordingResult(
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiRecordListener, "onClearTimerRecordingResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnClearTimerRecordingResult)
 	if _err != nil {
-		_code = TransactionIHdmiRecordListenerOnClearTimerRecordingResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiRecordListener, MethodIHdmiRecordListenerOnClearTimerRecordingResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -174,6 +181,10 @@ type HdmiRecordListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiRecordListenerStub)(nil)
+
+func (s *HdmiRecordListenerStub) Descriptor() string {
+	return DescriptorIHdmiRecordListener
+}
 
 func (s *HdmiRecordListenerStub) OnTransaction(
 	ctx context.Context,

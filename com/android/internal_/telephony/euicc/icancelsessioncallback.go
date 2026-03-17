@@ -15,23 +15,27 @@ const (
 	TransactionICancelSessionCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICancelSessionCallbackOnComplete = "onComplete"
+)
+
 type ICancelSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, response []byte) error
 }
 
 type CancelSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCancelSessionCallbackProxy(
 	remote binder.IBinder,
 ) *CancelSessionCallbackProxy {
-	return &CancelSessionCallbackProxy{remote: remote}
+	return &CancelSessionCallbackProxy{Remote: remote}
 }
 
 func (p *CancelSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICancelSessionCallback = (*CancelSessionCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *CancelSessionCallbackProxy) OnComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICancelSessionCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICancelSessionCallback, MethodICancelSessionCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionICancelSessionCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICancelSessionCallback, MethodICancelSessionCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type CancelSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CancelSessionCallbackStub)(nil)
+
+func (s *CancelSessionCallbackStub) Descriptor() string {
+	return DescriptorICancelSessionCallback
+}
 
 func (s *CancelSessionCallbackStub) OnTransaction(
 	ctx context.Context,

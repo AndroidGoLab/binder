@@ -18,6 +18,12 @@ const (
 	TransactionIPermissionCheckerCheckOp            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIPermissionCheckerCheckPermission    = "checkPermission"
+	MethodIPermissionCheckerFinishDataDelivery = "finishDataDelivery"
+	MethodIPermissionCheckerCheckOp            = "checkOp"
+)
+
 type IPermissionChecker interface {
 	AsBinder() binder.IBinder
 	CheckPermission(ctx context.Context, permission string, attributionSource content.AttributionSourceState, message string, forDataDelivery bool, startDataDelivery bool, fromDatasource bool, attributedOp int32) (int32, error)
@@ -32,17 +38,17 @@ const (
 )
 
 type PermissionCheckerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPermissionCheckerProxy(
 	remote binder.IBinder,
 ) *PermissionCheckerProxy {
-	return &PermissionCheckerProxy{remote: remote}
+	return &PermissionCheckerProxy{Remote: remote}
 }
 
 func (p *PermissionCheckerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPermissionChecker = (*PermissionCheckerProxy)(nil)
@@ -71,12 +77,12 @@ func (p *PermissionCheckerProxy) CheckPermission(
 	_data.WriteBool(fromDatasource)
 	_data.WriteInt32(attributedOp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionChecker, "checkPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerCheckPermission)
 	if _err != nil {
-		_code = TransactionIPermissionCheckerCheckPermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionChecker, MethodIPermissionCheckerCheckPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,12 +114,12 @@ func (p *PermissionCheckerProxy) FinishDataDelivery(
 	}
 	_data.WriteBool(fromDatasource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionChecker, "finishDataDelivery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerFinishDataDelivery)
 	if _err != nil {
-		_code = TransactionIPermissionCheckerFinishDataDelivery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionChecker, MethodIPermissionCheckerFinishDataDelivery, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,12 +152,12 @@ func (p *PermissionCheckerProxy) CheckOp(
 	_data.WriteBool(forDataDelivery)
 	_data.WriteBool(startDataDelivery)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionChecker, "checkOp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionChecker, MethodIPermissionCheckerCheckOp)
 	if _err != nil {
-		_code = TransactionIPermissionCheckerCheckOp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionChecker, MethodIPermissionCheckerCheckOp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,6 +181,10 @@ type PermissionCheckerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PermissionCheckerStub)(nil)
+
+func (s *PermissionCheckerStub) Descriptor() string {
+	return DescriptorIPermissionChecker
+}
 
 func (s *PermissionCheckerStub) OnTransaction(
 	ctx context.Context,

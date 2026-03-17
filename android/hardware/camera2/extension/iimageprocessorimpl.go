@@ -15,23 +15,27 @@ const (
 	TransactionIImageProcessorImplOnNextImageAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIImageProcessorImplOnNextImageAvailable = "onNextImageAvailable"
+)
+
 type IImageProcessorImpl interface {
 	AsBinder() binder.IBinder
 	OnNextImageAvailable(ctx context.Context, outputConfigId OutputConfigId, image ParcelImage, physicalCameraId string) error
 }
 
 type ImageProcessorImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImageProcessorImplProxy(
 	remote binder.IBinder,
 ) *ImageProcessorImplProxy {
-	return &ImageProcessorImplProxy{remote: remote}
+	return &ImageProcessorImplProxy{Remote: remote}
 }
 
 func (p *ImageProcessorImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImageProcessorImpl = (*ImageProcessorImplProxy)(nil)
@@ -54,12 +58,12 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 	}
 	_data.WriteString16(physicalCameraId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImageProcessorImpl, "onNextImageAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImageProcessorImpl, MethodIImageProcessorImplOnNextImageAvailable)
 	if _err != nil {
-		_code = TransactionIImageProcessorImplOnNextImageAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImageProcessorImpl, MethodIImageProcessorImplOnNextImageAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +83,10 @@ type ImageProcessorImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImageProcessorImplStub)(nil)
+
+func (s *ImageProcessorImplStub) Descriptor() string {
+	return DescriptorIImageProcessorImpl
+}
 
 func (s *ImageProcessorImplStub) OnTransaction(
 	ctx context.Context,

@@ -47,6 +47,5 @@ const (
 	SensorTypeAccelerometerLimitedAxesUncalibrated SensorType = 40
 	SensorTypeGyroscopeLimitedAxesUncalibrated     SensorType = 41
 	SensorTypeHEADING                              SensorType = 42
-	SensorTypeMoistureIntrusion                    SensorType = 43
 	SensorTypeDevicePrivateBase                    SensorType = 65536
 )

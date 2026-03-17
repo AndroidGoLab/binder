@@ -18,6 +18,13 @@ const (
 	TransactionIInterceptorUnsubscribeGroup = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIInterceptorCreateSocket     = "createSocket"
+	MethodIInterceptorCloseSocket      = "closeSocket"
+	MethodIInterceptorSubscribeGroup   = "subscribeGroup"
+	MethodIInterceptorUnsubscribeGroup = "unsubscribeGroup"
+)
+
 type IInterceptor interface {
 	AsBinder() binder.IBinder
 	CreateSocket(ctx context.Context, nlFamily int32, clientNlPid int32, clientName string) (InterceptedSocket, error)
@@ -27,17 +34,17 @@ type IInterceptor interface {
 }
 
 type InterceptorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInterceptorProxy(
 	remote binder.IBinder,
 ) *InterceptorProxy {
-	return &InterceptorProxy{remote: remote}
+	return &InterceptorProxy{Remote: remote}
 }
 
 func (p *InterceptorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInterceptor = (*InterceptorProxy)(nil)
@@ -55,12 +62,12 @@ func (p *InterceptorProxy) CreateSocket(
 	_data.WriteInt32(clientNlPid)
 	_data.WriteString16(clientName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "createSocket")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorCreateSocket)
 	if _err != nil {
-		_code = TransactionIInterceptorCreateSocket
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInterceptor, MethodIInterceptorCreateSocket, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +100,12 @@ func (p *InterceptorProxy) CloseSocket(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "closeSocket")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorCloseSocket)
 	if _err != nil {
-		_code = TransactionIInterceptorCloseSocket
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterceptor, MethodIInterceptorCloseSocket, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,12 +131,12 @@ func (p *InterceptorProxy) SubscribeGroup(
 	}
 	_data.WriteInt32(nlGroup)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "subscribeGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorSubscribeGroup)
 	if _err != nil {
-		_code = TransactionIInterceptorSubscribeGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterceptor, MethodIInterceptorSubscribeGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,12 +162,12 @@ func (p *InterceptorProxy) UnsubscribeGroup(
 	}
 	_data.WriteInt32(nlGroup)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "unsubscribeGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterceptor, MethodIInterceptorUnsubscribeGroup)
 	if _err != nil {
-		_code = TransactionIInterceptorUnsubscribeGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterceptor, MethodIInterceptorUnsubscribeGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,6 +187,10 @@ type InterceptorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InterceptorStub)(nil)
+
+func (s *InterceptorStub) Descriptor() string {
+	return DescriptorIInterceptor
+}
 
 func (s *InterceptorStub) OnTransaction(
 	ctx context.Context,

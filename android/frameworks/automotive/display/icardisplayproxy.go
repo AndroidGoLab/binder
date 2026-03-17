@@ -21,6 +21,15 @@ const (
 	TransactionICarDisplayProxyGetSurface                = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodICarDisplayProxyGetDisplayIdList          = "getDisplayIdList"
+	MethodICarDisplayProxyGetDisplayInfo            = "getDisplayInfo"
+	MethodICarDisplayProxyGetHGraphicBufferProducer = "getHGraphicBufferProducer"
+	MethodICarDisplayProxyHideWindow                = "hideWindow"
+	MethodICarDisplayProxyShowWindow                = "showWindow"
+	MethodICarDisplayProxyGetSurface                = "getSurface"
+)
+
 type ICarDisplayProxy interface {
 	AsBinder() binder.IBinder
 	GetDisplayIdList(ctx context.Context) ([]int64, error)
@@ -32,17 +41,17 @@ type ICarDisplayProxy interface {
 }
 
 type CarDisplayProxyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarDisplayProxyProxy(
 	remote binder.IBinder,
 ) *CarDisplayProxyProxy {
-	return &CarDisplayProxyProxy{remote: remote}
+	return &CarDisplayProxyProxy{Remote: remote}
 }
 
 func (p *CarDisplayProxyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarDisplayProxy = (*CarDisplayProxyProxy)(nil)
@@ -54,12 +63,12 @@ func (p *CarDisplayProxyProxy) GetDisplayIdList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getDisplayIdList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayIdList)
 	if _err != nil {
-		_code = TransactionICarDisplayProxyGetDisplayIdList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayIdList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -95,12 +104,12 @@ func (p *CarDisplayProxyProxy) GetDisplayInfo(
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getDisplayInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayInfo)
 	if _err != nil {
-		_code = TransactionICarDisplayProxyGetDisplayInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarDisplayProxy, MethodICarDisplayProxyGetDisplayInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -131,12 +140,12 @@ func (p *CarDisplayProxyProxy) GetHGraphicBufferProducer(
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getHGraphicBufferProducer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetHGraphicBufferProducer)
 	if _err != nil {
-		_code = TransactionICarDisplayProxyGetHGraphicBufferProducer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarDisplayProxy, MethodICarDisplayProxyGetHGraphicBufferProducer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,12 +175,12 @@ func (p *CarDisplayProxyProxy) HideWindow(
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "hideWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyHideWindow)
 	if _err != nil {
-		_code = TransactionICarDisplayProxyHideWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarDisplayProxy, MethodICarDisplayProxyHideWindow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,12 +201,12 @@ func (p *CarDisplayProxyProxy) ShowWindow(
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "showWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyShowWindow)
 	if _err != nil {
-		_code = TransactionICarDisplayProxyShowWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarDisplayProxy, MethodICarDisplayProxyShowWindow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -219,12 +228,12 @@ func (p *CarDisplayProxyProxy) GetSurface(
 	_data.WriteInterfaceToken(DescriptorICarDisplayProxy)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarDisplayProxy, MethodICarDisplayProxyGetSurface)
 	if _err != nil {
-		_code = TransactionICarDisplayProxyGetSurface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarDisplayProxy, MethodICarDisplayProxyGetSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -244,6 +253,10 @@ type CarDisplayProxyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarDisplayProxyStub)(nil)
+
+func (s *CarDisplayProxyStub) Descriptor() string {
+	return DescriptorICarDisplayProxy
+}
 
 func (s *CarDisplayProxyStub) OnTransaction(
 	ctx context.Context,

@@ -15,6 +15,10 @@ const (
 	TransactionIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId = "getKeyAttestationApplicationId"
+)
+
 type IKeyAttestationApplicationIdProvider interface {
 	AsBinder() binder.IBinder
 	GetKeyAttestationApplicationId(ctx context.Context, uid int32) (KeyAttestationApplicationId, error)
@@ -25,17 +29,17 @@ const (
 )
 
 type KeyAttestationApplicationIdProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyAttestationApplicationIdProviderProxy(
 	remote binder.IBinder,
 ) *KeyAttestationApplicationIdProviderProxy {
-	return &KeyAttestationApplicationIdProviderProxy{remote: remote}
+	return &KeyAttestationApplicationIdProviderProxy{Remote: remote}
 }
 
 func (p *KeyAttestationApplicationIdProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyAttestationApplicationIdProvider = (*KeyAttestationApplicationIdProviderProxy)(nil)
@@ -49,12 +53,12 @@ func (p *KeyAttestationApplicationIdProviderProxy) GetKeyAttestationApplicationI
 	_data.WriteInterfaceToken(DescriptorIKeyAttestationApplicationIdProvider)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyAttestationApplicationIdProvider, "getKeyAttestationApplicationId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyAttestationApplicationIdProvider, MethodIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId)
 	if _err != nil {
-		_code = TransactionIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyAttestationApplicationIdProvider, MethodIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,6 +87,10 @@ type KeyAttestationApplicationIdProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyAttestationApplicationIdProviderStub)(nil)
+
+func (s *KeyAttestationApplicationIdProviderStub) Descriptor() string {
+	return DescriptorIKeyAttestationApplicationIdProvider
+}
 
 func (s *KeyAttestationApplicationIdProviderStub) OnTransaction(
 	ctx context.Context,

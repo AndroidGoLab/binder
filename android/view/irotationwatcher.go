@@ -15,23 +15,27 @@ const (
 	TransactionIRotationWatcherOnRotationChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRotationWatcherOnRotationChanged = "onRotationChanged"
+)
+
 type IRotationWatcher interface {
 	AsBinder() binder.IBinder
 	OnRotationChanged(ctx context.Context, rotation int32) error
 }
 
 type RotationWatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRotationWatcherProxy(
 	remote binder.IBinder,
 ) *RotationWatcherProxy {
-	return &RotationWatcherProxy{remote: remote}
+	return &RotationWatcherProxy{Remote: remote}
 }
 
 func (p *RotationWatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRotationWatcher = (*RotationWatcherProxy)(nil)
@@ -44,12 +48,12 @@ func (p *RotationWatcherProxy) OnRotationChanged(
 	_data.WriteInterfaceToken(DescriptorIRotationWatcher)
 	_data.WriteInt32(rotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRotationWatcher, "onRotationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationWatcher, MethodIRotationWatcherOnRotationChanged)
 	if _err != nil {
-		_code = TransactionIRotationWatcherOnRotationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRotationWatcher, MethodIRotationWatcherOnRotationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RotationWatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RotationWatcherStub)(nil)
+
+func (s *RotationWatcherStub) Descriptor() string {
+	return DescriptorIRotationWatcher
+}
 
 func (s *RotationWatcherStub) OnTransaction(
 	ctx context.Context,

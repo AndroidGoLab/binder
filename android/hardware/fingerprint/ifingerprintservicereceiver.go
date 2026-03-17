@@ -25,6 +25,20 @@ const (
 	TransactionIFingerprintServiceReceiverOnUdfpsOverlayShown       = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIFingerprintServiceReceiverOnEnrollResult            = "onEnrollResult"
+	MethodIFingerprintServiceReceiverOnAcquired                = "onAcquired"
+	MethodIFingerprintServiceReceiverOnAuthenticationSucceeded = "onAuthenticationSucceeded"
+	MethodIFingerprintServiceReceiverOnFingerprintDetected     = "onFingerprintDetected"
+	MethodIFingerprintServiceReceiverOnAuthenticationFailed    = "onAuthenticationFailed"
+	MethodIFingerprintServiceReceiverOnError                   = "onError"
+	MethodIFingerprintServiceReceiverOnRemoved                 = "onRemoved"
+	MethodIFingerprintServiceReceiverOnChallengeGenerated      = "onChallengeGenerated"
+	MethodIFingerprintServiceReceiverOnUdfpsPointerDown        = "onUdfpsPointerDown"
+	MethodIFingerprintServiceReceiverOnUdfpsPointerUp          = "onUdfpsPointerUp"
+	MethodIFingerprintServiceReceiverOnUdfpsOverlayShown       = "onUdfpsOverlayShown"
+)
+
 type IFingerprintServiceReceiver interface {
 	AsBinder() binder.IBinder
 	OnEnrollResult(ctx context.Context, fp Fingerprint, remaining int32) error
@@ -41,17 +55,17 @@ type IFingerprintServiceReceiver interface {
 }
 
 type FingerprintServiceReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFingerprintServiceReceiverProxy(
 	remote binder.IBinder,
 ) *FingerprintServiceReceiverProxy {
-	return &FingerprintServiceReceiverProxy{remote: remote}
+	return &FingerprintServiceReceiverProxy{Remote: remote}
 }
 
 func (p *FingerprintServiceReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFingerprintServiceReceiver = (*FingerprintServiceReceiverProxy)(nil)
@@ -69,12 +83,12 @@ func (p *FingerprintServiceReceiverProxy) OnEnrollResult(
 	}
 	_data.WriteInt32(remaining)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onEnrollResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnEnrollResult)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnEnrollResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnEnrollResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +102,12 @@ func (p *FingerprintServiceReceiverProxy) OnAcquired(
 	_data.WriteInt32(acquiredInfo)
 	_data.WriteInt32(vendorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onAcquired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAcquired)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnAcquired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAcquired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,7 +116,7 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationSucceeded(
 	fp Fingerprint,
 	isStrongBiometric bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(1)
@@ -112,12 +126,12 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationSucceeded(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isStrongBiometric)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onAuthenticationSucceeded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationSucceeded)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnAuthenticationSucceeded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationSucceeded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,19 +140,19 @@ func (p *FingerprintServiceReceiverProxy) OnFingerprintDetected(
 	sensorId int32,
 	isStrongBiometric bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isStrongBiometric)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onFingerprintDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnFingerprintDetected)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnFingerprintDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnFingerprintDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,12 +162,12 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onAuthenticationFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationFailed)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnAuthenticationFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnAuthenticationFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,12 +181,12 @@ func (p *FingerprintServiceReceiverProxy) OnError(
 	_data.WriteInt32(error_)
 	_data.WriteInt32(vendorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnError)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -189,12 +203,12 @@ func (p *FingerprintServiceReceiverProxy) OnRemoved(
 	}
 	_data.WriteInt32(remaining)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnRemoved)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -203,19 +217,19 @@ func (p *FingerprintServiceReceiverProxy) OnChallengeGenerated(
 	sensorId int32,
 	challenge int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt64(challenge)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onChallengeGenerated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnChallengeGenerated)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnChallengeGenerated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnChallengeGenerated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -227,12 +241,12 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerDown(
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onUdfpsPointerDown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerDown)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnUdfpsPointerDown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerDown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -244,12 +258,12 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerUp(
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 	_data.WriteInt32(sensorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onUdfpsPointerUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerUp)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnUdfpsPointerUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsPointerUp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -259,12 +273,12 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsOverlayShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onUdfpsOverlayShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsOverlayShown)
 	if _err != nil {
-		_code = TransactionIFingerprintServiceReceiverOnUdfpsOverlayShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintServiceReceiver, MethodIFingerprintServiceReceiverOnUdfpsOverlayShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -275,6 +289,10 @@ type FingerprintServiceReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FingerprintServiceReceiverStub)(nil)
+
+func (s *FingerprintServiceReceiverStub) Descriptor() string {
+	return DescriptorIFingerprintServiceReceiver
+}
 
 func (s *FingerprintServiceReceiverStub) OnTransaction(
 	ctx context.Context,

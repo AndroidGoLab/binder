@@ -23,6 +23,17 @@ const (
 	TransactionINetdSetIpForwardEnable             = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodINetdAddInterfaceToOemNetwork       = "addInterfaceToOemNetwork"
+	MethodINetdAddRouteToOemNetwork           = "addRouteToOemNetwork"
+	MethodINetdCreateOemNetwork               = "createOemNetwork"
+	MethodINetdDestroyOemNetwork              = "destroyOemNetwork"
+	MethodINetdRemoveInterfaceFromOemNetwork  = "removeInterfaceFromOemNetwork"
+	MethodINetdRemoveRouteFromOemNetwork      = "removeRouteFromOemNetwork"
+	MethodINetdSetForwardingBetweenInterfaces = "setForwardingBetweenInterfaces"
+	MethodINetdSetIpForwardEnable             = "setIpForwardEnable"
+)
+
 type INetd interface {
 	AsBinder() binder.IBinder
 	AddInterfaceToOemNetwork(ctx context.Context, networkHandle int64, ifname string) error
@@ -44,17 +55,17 @@ const (
 )
 
 type NetdProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetdProxy(
 	remote binder.IBinder,
 ) *NetdProxy {
-	return &NetdProxy{remote: remote}
+	return &NetdProxy{Remote: remote}
 }
 
 func (p *NetdProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetd = (*NetdProxy)(nil)
@@ -69,12 +80,12 @@ func (p *NetdProxy) AddInterfaceToOemNetwork(
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(ifname)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "addInterfaceToOemNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdAddInterfaceToOemNetwork)
 	if _err != nil {
-		_code = TransactionINetdAddInterfaceToOemNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdAddInterfaceToOemNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,12 +112,12 @@ func (p *NetdProxy) AddRouteToOemNetwork(
 	_data.WriteString16(destination)
 	_data.WriteString16(nexthop)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "addRouteToOemNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdAddRouteToOemNetwork)
 	if _err != nil {
-		_code = TransactionINetdAddRouteToOemNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdAddRouteToOemNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,12 +137,12 @@ func (p *NetdProxy) CreateOemNetwork(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "createOemNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdCreateOemNetwork)
 	if _err != nil {
-		_code = TransactionINetdCreateOemNetwork
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdCreateOemNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,12 +172,12 @@ func (p *NetdProxy) DestroyOemNetwork(
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteInt64(networkHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "destroyOemNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdDestroyOemNetwork)
 	if _err != nil {
-		_code = TransactionINetdDestroyOemNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdDestroyOemNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,12 +200,12 @@ func (p *NetdProxy) RemoveInterfaceFromOemNetwork(
 	_data.WriteInt64(networkHandle)
 	_data.WriteString16(ifname)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "removeInterfaceFromOemNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdRemoveInterfaceFromOemNetwork)
 	if _err != nil {
-		_code = TransactionINetdRemoveInterfaceFromOemNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdRemoveInterfaceFromOemNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,12 +232,12 @@ func (p *NetdProxy) RemoveRouteFromOemNetwork(
 	_data.WriteString16(destination)
 	_data.WriteString16(nexthop)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "removeRouteFromOemNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdRemoveRouteFromOemNetwork)
 	if _err != nil {
-		_code = TransactionINetdRemoveRouteFromOemNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdRemoveRouteFromOemNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -251,12 +262,12 @@ func (p *NetdProxy) SetForwardingBetweenInterfaces(
 	_data.WriteString16(outputIfName)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "setForwardingBetweenInterfaces")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdSetForwardingBetweenInterfaces)
 	if _err != nil {
-		_code = TransactionINetdSetForwardingBetweenInterfaces
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdSetForwardingBetweenInterfaces, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -277,12 +288,12 @@ func (p *NetdProxy) SetIpForwardEnable(
 	_data.WriteInterfaceToken(DescriptorINetd)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetd, "setIpForwardEnable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetd, MethodINetdSetIpForwardEnable)
 	if _err != nil {
-		_code = TransactionINetdSetIpForwardEnable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetd, MethodINetdSetIpForwardEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -302,6 +313,10 @@ type NetdStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetdStub)(nil)
+
+func (s *NetdStub) Descriptor() string {
+	return DescriptorINetd
+}
 
 func (s *NetdStub) OnTransaction(
 	ctx context.Context,

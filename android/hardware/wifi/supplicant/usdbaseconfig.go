@@ -25,30 +25,9 @@ func (s *UsdBaseConfig) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.ServiceName)
 	p.WriteInt32(int32(s.ServiceProtoType))
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.TxMatchFilter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.TxMatchFilter)))
-		for _, _item := range s.TxMatchFilter {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.RxMatchfilter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.RxMatchfilter)))
-		for _, _item := range s.RxMatchfilter {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceSpecificInfo)
+	p.WriteByteArray(s.TxMatchFilter)
+	p.WriteByteArray(s.RxMatchfilter)
 	p.WriteInt32(s.TtlSec)
 	p.WriteInt32(s.DefaultFreqMhz)
 	if s.FreqsMhz == nil {
@@ -83,49 +62,19 @@ func (s *UsdBaseConfig) UnmarshalParcel(
 	}
 	s.ServiceProtoType = UsdServiceProtoType(_serviceProtoTypeRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.TxMatchFilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.TxMatchFilter = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.TxMatchFilter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.RxMatchfilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.RxMatchfilter = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.RxMatchfilter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.TtlSec, _err = p.ReadInt32()

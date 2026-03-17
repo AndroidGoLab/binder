@@ -12,48 +12,64 @@ import (
 const DescriptorIResponseCallback = "android.app.ondeviceintelligence.IResponseCallback"
 
 const (
-	TransactionIResponseCallbackOnSuccess            = binder.FirstCallTransaction + 0
-	TransactionIResponseCallbackOnFailure            = binder.FirstCallTransaction + 1
-	TransactionIResponseCallbackOnDataAugmentRequest = binder.FirstCallTransaction + 2
+	TransactionIResponseCallbackOnSuccess = binder.FirstCallTransaction + 0
+	TransactionIResponseCallbackOnFailure = binder.FirstCallTransaction + 1
+)
+
+const (
+	MethodIResponseCallbackOnSuccess = "onSuccess"
+	MethodIResponseCallbackOnFailure = "onFailure"
 )
 
 type IResponseCallback interface {
 	AsBinder() binder.IBinder
-	OnSuccess(ctx context.Context, resultBundle interface{}) error
+	OnSuccess(ctx context.Context, result Content) error
 	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
-	OnDataAugmentRequest(ctx context.Context, processedContent interface{}, responseCallback interface{}) error
 }
 
 type ResponseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResponseCallbackProxy(
 	remote binder.IBinder,
 ) *ResponseCallbackProxy {
-	return &ResponseCallbackProxy{remote: remote}
+	return &ResponseCallbackProxy{Remote: remote}
 }
 
 func (p *ResponseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResponseCallback = (*ResponseCallbackProxy)(nil)
 
 func (p *ResponseCallbackProxy) OnSuccess(
 	ctx context.Context,
-	resultBundle interface{},
+	result Content,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResponseCallback)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIResponseCallback, "onSuccess")
-	if _err != nil {
-		_code = TransactionIResponseCallbackOnSuccess
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResponseCallback, MethodIResponseCallbackOnSuccess)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResponseCallback, MethodIResponseCallbackOnSuccess, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 func (p *ResponseCallbackProxy) OnFailure(
@@ -67,30 +83,22 @@ func (p *ResponseCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResponseCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResponseCallback, MethodIResponseCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIResponseCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResponseCallback, MethodIResponseCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *ResponseCallbackProxy) OnDataAugmentRequest(
-	ctx context.Context,
-	processedContent interface{},
-	responseCallback interface{},
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIResponseCallback)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIResponseCallback, "onDataAugmentRequest")
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		_code = TransactionIResponseCallbackOnDataAugmentRequest
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	return nil
 }
 
 // ResponseCallbackStub dispatches incoming binder transactions
@@ -100,6 +108,10 @@ type ResponseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResponseCallbackStub)(nil)
+
+func (s *ResponseCallbackStub) Descriptor() string {
+	return DescriptorIResponseCallback
+}
 
 func (s *ResponseCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -111,10 +123,26 @@ func (s *ResponseCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_resultBundle interface{}
-		_err := s.Impl.OnSuccess(ctx, _arg_resultBundle)
-		_ = _err
-		return nil, nil
+		var _arg_result Content
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIResponseCallbackOnFailure:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -129,17 +157,13 @@ func (s *ResponseCallbackStub) OnTransaction(
 		}
 		var _arg_errorParams interface{}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
-		_ = _err
-		return nil, nil
-	case TransactionIResponseCallbackOnDataAugmentRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
-		var _arg_processedContent interface{}
-		var _arg_responseCallback interface{}
-		_err := s.Impl.OnDataAugmentRequest(ctx, _arg_processedContent, _arg_responseCallback)
-		_ = _err
-		return nil, nil
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -149,9 +173,8 @@ func (s *ResponseCallbackStub) OnTransaction(
 // provide to NewResponseCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IResponseCallbackServer interface {
-	OnSuccess(ctx context.Context, resultBundle interface{}) error
+	OnSuccess(ctx context.Context, result Content) error
 	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
-	OnDataAugmentRequest(ctx context.Context, processedContent interface{}, responseCallback interface{}) error
 }
 
 type responseCallbackStubWrapper struct {
@@ -165,9 +188,9 @@ func (w *responseCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *responseCallbackStubWrapper) OnSuccess(
 	ctx context.Context,
-	resultBundle interface{},
+	result Content,
 ) error {
-	return w.impl.OnSuccess(ctx, resultBundle)
+	return w.impl.OnSuccess(ctx, result)
 }
 
 func (w *responseCallbackStubWrapper) OnFailure(
@@ -177,14 +200,6 @@ func (w *responseCallbackStubWrapper) OnFailure(
 	errorParams interface{},
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
-}
-
-func (w *responseCallbackStubWrapper) OnDataAugmentRequest(
-	ctx context.Context,
-	processedContent interface{},
-	responseCallback interface{},
-) error {
-	return w.impl.OnDataAugmentRequest(ctx, processedContent, responseCallback)
 }
 
 var _ IResponseCallback = (*responseCallbackStubWrapper)(nil)

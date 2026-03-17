@@ -19,6 +19,12 @@ const (
 	TransactionITelephonySetTelecomConfig       = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITelephonyGetSupportedAudioModes = "getSupportedAudioModes"
+	MethodITelephonySwitchAudioMode        = "switchAudioMode"
+	MethodITelephonySetTelecomConfig       = "setTelecomConfig"
+)
+
 type ITelephony interface {
 	AsBinder() binder.IBinder
 	GetSupportedAudioModes(ctx context.Context) ([]common.AudioMode, error)
@@ -27,17 +33,17 @@ type ITelephony interface {
 }
 
 type TelephonyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTelephonyProxy(
 	remote binder.IBinder,
 ) *TelephonyProxy {
-	return &TelephonyProxy{remote: remote}
+	return &TelephonyProxy{Remote: remote}
 }
 
 func (p *TelephonyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITelephony = (*TelephonyProxy)(nil)
@@ -49,12 +55,12 @@ func (p *TelephonyProxy) GetSupportedAudioModes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSupportedAudioModes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonyGetSupportedAudioModes)
 	if _err != nil {
-		_code = TransactionITelephonyGetSupportedAudioModes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITelephony, MethodITelephonyGetSupportedAudioModes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,12 +96,12 @@ func (p *TelephonyProxy) SwitchAudioMode(
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(int32(mode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "switchAudioMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySwitchAudioMode)
 	if _err != nil {
-		_code = TransactionITelephonySwitchAudioMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITelephony, MethodITelephonySwitchAudioMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,12 +126,12 @@ func (p *TelephonyProxy) SetTelecomConfig(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setTelecomConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITelephony, MethodITelephonySetTelecomConfig)
 	if _err != nil {
-		_code = TransactionITelephonySetTelecomConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITelephony, MethodITelephonySetTelecomConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -154,6 +160,10 @@ type TelephonyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TelephonyStub)(nil)
+
+func (s *TelephonyStub) Descriptor() string {
+	return DescriptorITelephony
+}
 
 func (s *TelephonyStub) OnTransaction(
 	ctx context.Context,

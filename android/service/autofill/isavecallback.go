@@ -17,6 +17,11 @@ const (
 	TransactionISaveCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISaveCallbackOnSuccess = "onSuccess"
+	MethodISaveCallbackOnFailure = "onFailure"
+)
+
 type ISaveCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, intentSender content.IntentSender) error
@@ -24,17 +29,17 @@ type ISaveCallback interface {
 }
 
 type SaveCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSaveCallbackProxy(
 	remote binder.IBinder,
 ) *SaveCallbackProxy {
-	return &SaveCallbackProxy{remote: remote}
+	return &SaveCallbackProxy{Remote: remote}
 }
 
 func (p *SaveCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISaveCallback = (*SaveCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *SaveCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISaveCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISaveCallback, MethodISaveCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionISaveCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISaveCallback, MethodISaveCallbackOnSuccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,12 +80,12 @@ func (p *SaveCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISaveCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISaveCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISaveCallback, MethodISaveCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionISaveCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISaveCallback, MethodISaveCallbackOnFailure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,6 +105,10 @@ type SaveCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SaveCallbackStub)(nil)
+
+func (s *SaveCallbackStub) Descriptor() string {
+	return DescriptorISaveCallback
+}
 
 func (s *SaveCallbackStub) OnTransaction(
 	ctx context.Context,

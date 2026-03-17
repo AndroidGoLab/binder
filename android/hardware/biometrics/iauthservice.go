@@ -32,6 +32,27 @@ const (
 	TransactionIAuthServiceGetSettingName                        = binder.FirstCallTransaction + 17
 )
 
+const (
+	MethodIAuthServiceCreateTestSession                     = "createTestSession"
+	MethodIAuthServiceGetSensorProperties                   = "getSensorProperties"
+	MethodIAuthServiceGetUiPackage                          = "getUiPackage"
+	MethodIAuthServiceAuthenticate                          = "authenticate"
+	MethodIAuthServiceCancelAuthentication                  = "cancelAuthentication"
+	MethodIAuthServiceCanAuthenticate                       = "canAuthenticate"
+	MethodIAuthServiceGetLastAuthenticationTime             = "getLastAuthenticationTime"
+	MethodIAuthServiceHasEnrolledBiometrics                 = "hasEnrolledBiometrics"
+	MethodIAuthServiceRegisterEnabledOnKeyguardCallback     = "registerEnabledOnKeyguardCallback"
+	MethodIAuthServiceRegisterAuthenticationStateListener   = "registerAuthenticationStateListener"
+	MethodIAuthServiceUnregisterAuthenticationStateListener = "unregisterAuthenticationStateListener"
+	MethodIAuthServiceInvalidateAuthenticatorIds            = "invalidateAuthenticatorIds"
+	MethodIAuthServiceGetAuthenticatorIds                   = "getAuthenticatorIds"
+	MethodIAuthServiceResetLockoutTimeBound                 = "resetLockoutTimeBound"
+	MethodIAuthServiceResetLockout                          = "resetLockout"
+	MethodIAuthServiceGetButtonLabel                        = "getButtonLabel"
+	MethodIAuthServiceGetPromptMessage                      = "getPromptMessage"
+	MethodIAuthServiceGetSettingName                        = "getSettingName"
+)
+
 type IAuthService interface {
 	AsBinder() binder.IBinder
 	CreateTestSession(ctx context.Context, sensorId int32, callback ITestSessionCallback) (ITestSession, error)
@@ -55,17 +76,17 @@ type IAuthService interface {
 }
 
 type AuthServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthServiceProxy(
 	remote binder.IBinder,
 ) *AuthServiceProxy {
-	return &AuthServiceProxy{remote: remote}
+	return &AuthServiceProxy{Remote: remote}
 }
 
 func (p *AuthServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuthService = (*AuthServiceProxy)(nil)
@@ -76,19 +97,19 @@ func (p *AuthServiceProxy) CreateTestSession(
 	callback ITestSessionCallback,
 ) (ITestSession, error) {
 	var _result ITestSession
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(sensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "createTestSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceCreateTestSession)
 	if _err != nil {
-		_code = TransactionIAuthServiceCreateTestSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceCreateTestSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,7 +123,7 @@ func (p *AuthServiceProxy) CreateTestSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTestSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTestSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -110,17 +131,17 @@ func (p *AuthServiceProxy) GetSensorProperties(
 	ctx context.Context,
 ) ([]SensorPropertiesInternal, error) {
 	var _result []SensorPropertiesInternal
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getSensorProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetSensorProperties)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetSensorProperties
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetSensorProperties, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,6 +159,9 @@ func (p *AuthServiceProxy) GetSensorProperties(
 	if _count >= 0 {
 		_result = make([]SensorPropertiesInternal, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -153,12 +177,12 @@ func (p *AuthServiceProxy) GetUiPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getUiPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetUiPackage)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetUiPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetUiPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -183,25 +207,25 @@ func (p *AuthServiceProxy) Authenticate(
 	promptInfo PromptInfo,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(sessionId)
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(1)
 	if _err := promptInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "authenticate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceAuthenticate)
 	if _err != nil {
-		_code = TransactionIAuthServiceAuthenticate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceAuthenticate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -223,19 +247,19 @@ func (p *AuthServiceProxy) CancelAuthentication(
 	token binder.IBinder,
 	requestId int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt64(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "cancelAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceCancelAuthentication)
 	if _err != nil {
-		_code = TransactionIAuthServiceCancelAuthentication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceCancelAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -253,19 +277,19 @@ func (p *AuthServiceProxy) CanAuthenticate(
 	authenticators int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "canAuthenticate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceCanAuthenticate)
 	if _err != nil {
-		_code = TransactionIAuthServiceCanAuthenticate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceCanAuthenticate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -287,18 +311,18 @@ func (p *AuthServiceProxy) GetLastAuthenticationTime(
 	authenticators int32,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getLastAuthenticationTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetLastAuthenticationTime)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetLastAuthenticationTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetLastAuthenticationTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -319,18 +343,18 @@ func (p *AuthServiceProxy) HasEnrolledBiometrics(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "hasEnrolledBiometrics")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceHasEnrolledBiometrics)
 	if _err != nil {
-		_code = TransactionIAuthServiceHasEnrolledBiometrics
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceHasEnrolledBiometrics, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -353,14 +377,14 @@ func (p *AuthServiceProxy) RegisterEnabledOnKeyguardCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "registerEnabledOnKeyguardCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceRegisterEnabledOnKeyguardCallback)
 	if _err != nil {
-		_code = TransactionIAuthServiceRegisterEnabledOnKeyguardCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceRegisterEnabledOnKeyguardCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -379,14 +403,14 @@ func (p *AuthServiceProxy) RegisterAuthenticationStateListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "registerAuthenticationStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceRegisterAuthenticationStateListener)
 	if _err != nil {
-		_code = TransactionIAuthServiceRegisterAuthenticationStateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceRegisterAuthenticationStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -405,14 +429,14 @@ func (p *AuthServiceProxy) UnregisterAuthenticationStateListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "unregisterAuthenticationStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceUnregisterAuthenticationStateListener)
 	if _err != nil {
-		_code = TransactionIAuthServiceUnregisterAuthenticationStateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceUnregisterAuthenticationStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -430,19 +454,19 @@ func (p *AuthServiceProxy) InvalidateAuthenticatorIds(
 	fromSensorId int32,
 	callback IInvalidationCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(fromSensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "invalidateAuthenticatorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceInvalidateAuthenticatorIds)
 	if _err != nil {
-		_code = TransactionIAuthServiceInvalidateAuthenticatorIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceInvalidateAuthenticatorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -459,17 +483,17 @@ func (p *AuthServiceProxy) GetAuthenticatorIds(
 	ctx context.Context,
 ) ([]int64, error) {
 	var _result []int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getAuthenticatorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetAuthenticatorIds)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetAuthenticatorIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetAuthenticatorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -502,10 +526,10 @@ func (p *AuthServiceProxy) ResetLockoutTimeBound(
 	fromSensorId int32,
 	hardwareAuthToken []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(fromSensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -518,12 +542,12 @@ func (p *AuthServiceProxy) ResetLockoutTimeBound(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "resetLockoutTimeBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceResetLockoutTimeBound)
 	if _err != nil {
-		_code = TransactionIAuthServiceResetLockoutTimeBound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceResetLockoutTimeBound, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -540,7 +564,7 @@ func (p *AuthServiceProxy) ResetLockout(
 	ctx context.Context,
 	hardwareAuthToken []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
@@ -553,12 +577,12 @@ func (p *AuthServiceProxy) ResetLockout(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "resetLockout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceResetLockout)
 	if _err != nil {
-		_code = TransactionIAuthServiceResetLockout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceResetLockout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -576,19 +600,19 @@ func (p *AuthServiceProxy) GetButtonLabel(
 	authenticators int32,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getButtonLabel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetButtonLabel)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetButtonLabel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetButtonLabel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -606,19 +630,19 @@ func (p *AuthServiceProxy) GetPromptMessage(
 	authenticators int32,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getPromptMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetPromptMessage)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetPromptMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetPromptMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -636,19 +660,19 @@ func (p *AuthServiceProxy) GetSettingName(
 	authenticators int32,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getSettingName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthService, MethodIAuthServiceGetSettingName)
 	if _err != nil {
-		_code = TransactionIAuthServiceGetSettingName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthService, MethodIAuthServiceGetSettingName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -668,6 +692,10 @@ type AuthServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuthServiceStub)(nil)
+
+func (s *AuthServiceStub) Descriptor() string {
+	return DescriptorIAuthService
+}
 
 func (s *AuthServiceStub) OnTransaction(
 	ctx context.Context,

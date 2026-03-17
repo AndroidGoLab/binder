@@ -21,6 +21,15 @@ const (
 	TransactionIRadioModemIndicationOnImeiMappingChanged      = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIRadioModemIndicationHardwareConfigChanged     = "hardwareConfigChanged"
+	MethodIRadioModemIndicationModemReset                = "modemReset"
+	MethodIRadioModemIndicationRadioCapabilityIndication = "radioCapabilityIndication"
+	MethodIRadioModemIndicationRadioStateChanged         = "radioStateChanged"
+	MethodIRadioModemIndicationRilConnected              = "rilConnected"
+	MethodIRadioModemIndicationOnImeiMappingChanged      = "onImeiMappingChanged"
+)
+
 type IRadioModemIndication interface {
 	AsBinder() binder.IBinder
 	HardwareConfigChanged(ctx context.Context, type_ radio.RadioIndicationType, configs []HardwareConfig) error
@@ -32,17 +41,17 @@ type IRadioModemIndication interface {
 }
 
 type RadioModemIndicationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioModemIndicationProxy(
 	remote binder.IBinder,
 ) *RadioModemIndicationProxy {
-	return &RadioModemIndicationProxy{remote: remote}
+	return &RadioModemIndicationProxy{Remote: remote}
 }
 
 func (p *RadioModemIndicationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioModemIndication = (*RadioModemIndicationProxy)(nil)
@@ -60,18 +69,19 @@ func (p *RadioModemIndicationProxy) HardwareConfigChanged(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "hardwareConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemIndication, MethodIRadioModemIndicationHardwareConfigChanged)
 	if _err != nil {
-		_code = TransactionIRadioModemIndicationHardwareConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioModemIndication, MethodIRadioModemIndicationHardwareConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,12 +95,12 @@ func (p *RadioModemIndicationProxy) ModemReset(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "modemReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemIndication, MethodIRadioModemIndicationModemReset)
 	if _err != nil {
-		_code = TransactionIRadioModemIndicationModemReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioModemIndication, MethodIRadioModemIndicationModemReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +117,12 @@ func (p *RadioModemIndicationProxy) RadioCapabilityIndication(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "radioCapabilityIndication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemIndication, MethodIRadioModemIndicationRadioCapabilityIndication)
 	if _err != nil {
-		_code = TransactionIRadioModemIndicationRadioCapabilityIndication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioModemIndication, MethodIRadioModemIndicationRadioCapabilityIndication, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +136,12 @@ func (p *RadioModemIndicationProxy) RadioStateChanged(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(radioState))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "radioStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemIndication, MethodIRadioModemIndicationRadioStateChanged)
 	if _err != nil {
-		_code = TransactionIRadioModemIndicationRadioStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioModemIndication, MethodIRadioModemIndicationRadioStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,12 +153,12 @@ func (p *RadioModemIndicationProxy) RilConnected(
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "rilConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemIndication, MethodIRadioModemIndicationRilConnected)
 	if _err != nil {
-		_code = TransactionIRadioModemIndicationRilConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioModemIndication, MethodIRadioModemIndicationRilConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,12 +175,12 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "onImeiMappingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioModemIndication, MethodIRadioModemIndicationOnImeiMappingChanged)
 	if _err != nil {
-		_code = TransactionIRadioModemIndicationOnImeiMappingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioModemIndication, MethodIRadioModemIndicationOnImeiMappingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -181,6 +191,10 @@ type RadioModemIndicationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioModemIndicationStub)(nil)
+
+func (s *RadioModemIndicationStub) Descriptor() string {
+	return DescriptorIRadioModemIndication
+}
 
 func (s *RadioModemIndicationStub) OnTransaction(
 	ctx context.Context,

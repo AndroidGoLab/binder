@@ -21,19 +21,35 @@ const (
 	TransactionIDreamManagerTestDream                       = binder.FirstCallTransaction + 5
 	TransactionIDreamManagerIsDreaming                      = binder.FirstCallTransaction + 6
 	TransactionIDreamManagerIsDreamingOrInPreview           = binder.FirstCallTransaction + 7
-	TransactionIDreamManagerCanStartDreaming                = binder.FirstCallTransaction + 8
-	TransactionIDreamManagerFinishSelf                      = binder.FirstCallTransaction + 9
-	TransactionIDreamManagerStartDozing                     = binder.FirstCallTransaction + 10
-	TransactionIDreamManagerStopDozing                      = binder.FirstCallTransaction + 11
-	TransactionIDreamManagerForceAmbientDisplayEnabled      = binder.FirstCallTransaction + 12
-	TransactionIDreamManagerGetDreamComponentsForUser       = binder.FirstCallTransaction + 13
-	TransactionIDreamManagerSetDreamComponentsForUser       = binder.FirstCallTransaction + 14
-	TransactionIDreamManagerSetSystemDreamComponent         = binder.FirstCallTransaction + 15
-	TransactionIDreamManagerRegisterDreamOverlayService     = binder.FirstCallTransaction + 16
-	TransactionIDreamManagerStartDreamActivity              = binder.FirstCallTransaction + 17
-	TransactionIDreamManagerSetDreamIsObscured              = binder.FirstCallTransaction + 18
-	TransactionIDreamManagerStartDozingOneway               = binder.FirstCallTransaction + 19
-	TransactionIDreamManagerFinishSelfOneway                = binder.FirstCallTransaction + 20
+	TransactionIDreamManagerFinishSelf                      = binder.FirstCallTransaction + 8
+	TransactionIDreamManagerStartDozing                     = binder.FirstCallTransaction + 9
+	TransactionIDreamManagerStopDozing                      = binder.FirstCallTransaction + 10
+	TransactionIDreamManagerForceAmbientDisplayEnabled      = binder.FirstCallTransaction + 11
+	TransactionIDreamManagerGetDreamComponentsForUser       = binder.FirstCallTransaction + 12
+	TransactionIDreamManagerSetDreamComponentsForUser       = binder.FirstCallTransaction + 13
+	TransactionIDreamManagerSetSystemDreamComponent         = binder.FirstCallTransaction + 14
+	TransactionIDreamManagerRegisterDreamOverlayService     = binder.FirstCallTransaction + 15
+	TransactionIDreamManagerStartDreamActivity              = binder.FirstCallTransaction + 16
+)
+
+const (
+	MethodIDreamManagerDream                           = "dream"
+	MethodIDreamManagerAwaken                          = "awaken"
+	MethodIDreamManagerSetDreamComponents              = "setDreamComponents"
+	MethodIDreamManagerGetDreamComponents              = "getDreamComponents"
+	MethodIDreamManagerGetDefaultDreamComponentForUser = "getDefaultDreamComponentForUser"
+	MethodIDreamManagerTestDream                       = "testDream"
+	MethodIDreamManagerIsDreaming                      = "isDreaming"
+	MethodIDreamManagerIsDreamingOrInPreview           = "isDreamingOrInPreview"
+	MethodIDreamManagerFinishSelf                      = "finishSelf"
+	MethodIDreamManagerStartDozing                     = "startDozing"
+	MethodIDreamManagerStopDozing                      = "stopDozing"
+	MethodIDreamManagerForceAmbientDisplayEnabled      = "forceAmbientDisplayEnabled"
+	MethodIDreamManagerGetDreamComponentsForUser       = "getDreamComponentsForUser"
+	MethodIDreamManagerSetDreamComponentsForUser       = "setDreamComponentsForUser"
+	MethodIDreamManagerSetSystemDreamComponent         = "setSystemDreamComponent"
+	MethodIDreamManagerRegisterDreamOverlayService     = "registerDreamOverlayService"
+	MethodIDreamManagerStartDreamActivity              = "startDreamActivity"
 )
 
 type IDreamManager interface {
@@ -46,9 +62,8 @@ type IDreamManager interface {
 	TestDream(ctx context.Context, componentName content.ComponentName) error
 	IsDreaming(ctx context.Context) (bool, error)
 	IsDreamingOrInPreview(ctx context.Context) (bool, error)
-	CanStartDreaming(ctx context.Context, isScreenOn bool) (bool, error)
 	FinishSelf(ctx context.Context, token binder.IBinder, immediate bool) error
-	StartDozing(ctx context.Context, token binder.IBinder, screenState int32, reason int32, screenBrightnessFloat float32, screenBrightnessInt int32, useNormalBrightnessForDoze bool) error
+	StartDozing(ctx context.Context, token binder.IBinder, screenState int32, screenBrightness int32) error
 	StopDozing(ctx context.Context, token binder.IBinder) error
 	ForceAmbientDisplayEnabled(ctx context.Context, enabled bool) error
 	GetDreamComponentsForUser(ctx context.Context) ([]content.ComponentName, error)
@@ -56,23 +71,20 @@ type IDreamManager interface {
 	SetSystemDreamComponent(ctx context.Context, componentName content.ComponentName) error
 	RegisterDreamOverlayService(ctx context.Context, componentName content.ComponentName) error
 	StartDreamActivity(ctx context.Context, intent content.Intent) error
-	SetDreamIsObscured(ctx context.Context, isObscured bool) error
-	StartDozingOneway(ctx context.Context, token binder.IBinder, screenState int32, reason int32, screenBrightnessFloat float32, screenBrightnessInt int32, useNormalBrightnessForDoze bool) error
-	FinishSelfOneway(ctx context.Context, token binder.IBinder, immediate bool) error
 }
 
 type DreamManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDreamManagerProxy(
 	remote binder.IBinder,
 ) *DreamManagerProxy {
-	return &DreamManagerProxy{remote: remote}
+	return &DreamManagerProxy{Remote: remote}
 }
 
 func (p *DreamManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDreamManager = (*DreamManagerProxy)(nil)
@@ -83,12 +95,12 @@ func (p *DreamManagerProxy) Dream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "dream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerDream)
 	if _err != nil {
-		_code = TransactionIDreamManagerDream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerDream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,12 +119,12 @@ func (p *DreamManagerProxy) Awaken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "awaken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerAwaken)
 	if _err != nil {
-		_code = TransactionIDreamManagerAwaken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerAwaken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -136,18 +148,19 @@ func (p *DreamManagerProxy) SetDreamComponents(
 	} else {
 		_data.WriteInt32(int32(len(componentNames)))
 		for _, _item := range componentNames {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setDreamComponents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerSetDreamComponents)
 	if _err != nil {
-		_code = TransactionIDreamManagerSetDreamComponents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerSetDreamComponents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -167,12 +180,12 @@ func (p *DreamManagerProxy) GetDreamComponents(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "getDreamComponents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerGetDreamComponents)
 	if _err != nil {
-		_code = TransactionIDreamManagerGetDreamComponents
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerGetDreamComponents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -190,6 +203,9 @@ func (p *DreamManagerProxy) GetDreamComponents(
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -202,17 +218,17 @@ func (p *DreamManagerProxy) GetDefaultDreamComponentForUser(
 	ctx context.Context,
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "getDefaultDreamComponentForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerGetDefaultDreamComponentForUser)
 	if _err != nil {
-		_code = TransactionIDreamManagerGetDefaultDreamComponentForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerGetDefaultDreamComponentForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -238,7 +254,7 @@ func (p *DreamManagerProxy) TestDream(
 	ctx context.Context,
 	componentName content.ComponentName,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
@@ -247,12 +263,12 @@ func (p *DreamManagerProxy) TestDream(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "testDream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerTestDream)
 	if _err != nil {
-		_code = TransactionIDreamManagerTestDream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerTestDream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -272,12 +288,12 @@ func (p *DreamManagerProxy) IsDreaming(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "isDreaming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerIsDreaming)
 	if _err != nil {
-		_code = TransactionIDreamManagerIsDreaming
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerIsDreaming, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -301,43 +317,12 @@ func (p *DreamManagerProxy) IsDreamingOrInPreview(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "isDreamingOrInPreview")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerIsDreamingOrInPreview)
 	if _err != nil {
-		_code = TransactionIDreamManagerIsDreamingOrInPreview
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerIsDreamingOrInPreview, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *DreamManagerProxy) CanStartDreaming(
-	ctx context.Context,
-	isScreenOn bool,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	_data.WriteBool(isScreenOn)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "canStartDreaming")
-	if _err != nil {
-		_code = TransactionIDreamManagerCanStartDreaming
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -361,15 +346,15 @@ func (p *DreamManagerProxy) FinishSelf(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(immediate)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "finishSelf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerFinishSelf)
 	if _err != nil {
-		_code = TransactionIDreamManagerFinishSelf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerFinishSelf, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -386,26 +371,20 @@ func (p *DreamManagerProxy) StartDozing(
 	ctx context.Context,
 	token binder.IBinder,
 	screenState int32,
-	reason int32,
-	screenBrightnessFloat float32,
-	screenBrightnessInt int32,
-	useNormalBrightnessForDoze bool,
+	screenBrightness int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(screenState)
-	_data.WriteInt32(reason)
-	_data.WriteFloat32(screenBrightnessFloat)
-	_data.WriteInt32(screenBrightnessInt)
-	_data.WriteBool(useNormalBrightnessForDoze)
+	_data.WriteInt32(screenBrightness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "startDozing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerStartDozing)
 	if _err != nil {
-		_code = TransactionIDreamManagerStartDozing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerStartDozing, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -424,14 +403,14 @@ func (p *DreamManagerProxy) StopDozing(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "stopDozing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerStopDozing)
 	if _err != nil {
-		_code = TransactionIDreamManagerStopDozing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerStopDozing, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -452,12 +431,12 @@ func (p *DreamManagerProxy) ForceAmbientDisplayEnabled(
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "forceAmbientDisplayEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerForceAmbientDisplayEnabled)
 	if _err != nil {
-		_code = TransactionIDreamManagerForceAmbientDisplayEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerForceAmbientDisplayEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -474,17 +453,17 @@ func (p *DreamManagerProxy) GetDreamComponentsForUser(
 	ctx context.Context,
 ) ([]content.ComponentName, error) {
 	var _result []content.ComponentName
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "getDreamComponentsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerGetDreamComponentsForUser)
 	if _err != nil {
-		_code = TransactionIDreamManagerGetDreamComponentsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerGetDreamComponentsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -502,6 +481,9 @@ func (p *DreamManagerProxy) GetDreamComponentsForUser(
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -514,7 +496,7 @@ func (p *DreamManagerProxy) SetDreamComponentsForUser(
 	ctx context.Context,
 	componentNames []content.ComponentName,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(_identity.UserID)
@@ -523,18 +505,19 @@ func (p *DreamManagerProxy) SetDreamComponentsForUser(
 	} else {
 		_data.WriteInt32(int32(len(componentNames)))
 		for _, _item := range componentNames {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setDreamComponentsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerSetDreamComponentsForUser)
 	if _err != nil {
-		_code = TransactionIDreamManagerSetDreamComponentsForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerSetDreamComponentsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -558,12 +541,12 @@ func (p *DreamManagerProxy) SetSystemDreamComponent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setSystemDreamComponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerSetSystemDreamComponent)
 	if _err != nil {
-		_code = TransactionIDreamManagerSetSystemDreamComponent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerSetSystemDreamComponent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -587,12 +570,12 @@ func (p *DreamManagerProxy) RegisterDreamOverlayService(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "registerDreamOverlayService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerRegisterDreamOverlayService)
 	if _err != nil {
-		_code = TransactionIDreamManagerRegisterDreamOverlayService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerRegisterDreamOverlayService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -616,12 +599,12 @@ func (p *DreamManagerProxy) StartDreamActivity(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "startDreamActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamManager, MethodIDreamManagerStartDreamActivity)
 	if _err != nil {
-		_code = TransactionIDreamManagerStartDreamActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamManager, MethodIDreamManagerStartDreamActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -634,69 +617,6 @@ func (p *DreamManagerProxy) StartDreamActivity(
 	return nil
 }
 
-func (p *DreamManagerProxy) SetDreamIsObscured(
-	ctx context.Context,
-	isObscured bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	_data.WriteBool(isObscured)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setDreamIsObscured")
-	if _err != nil {
-		_code = TransactionIDreamManagerSetDreamIsObscured
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DreamManagerProxy) StartDozingOneway(
-	ctx context.Context,
-	token binder.IBinder,
-	screenState int32,
-	reason int32,
-	screenBrightnessFloat float32,
-	screenBrightnessInt int32,
-	useNormalBrightnessForDoze bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	_data.WriteInt32(screenState)
-	_data.WriteInt32(reason)
-	_data.WriteFloat32(screenBrightnessFloat)
-	_data.WriteInt32(screenBrightnessInt)
-	_data.WriteBool(useNormalBrightnessForDoze)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "startDozingOneway")
-	if _err != nil {
-		_code = TransactionIDreamManagerStartDozingOneway
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DreamManagerProxy) FinishSelfOneway(
-	ctx context.Context,
-	token binder.IBinder,
-	immediate bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	_data.WriteBool(immediate)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "finishSelfOneway")
-	if _err != nil {
-		_code = TransactionIDreamManagerFinishSelfOneway
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
 // DreamManagerStub dispatches incoming binder transactions
 // to a typed IDreamManager implementation.
 type DreamManagerStub struct {
@@ -704,6 +624,10 @@ type DreamManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DreamManagerStub)(nil)
+
+func (s *DreamManagerStub) Descriptor() string {
+	return DescriptorIDreamManager
+}
 
 func (s *DreamManagerStub) OnTransaction(
 	ctx context.Context,
@@ -836,23 +760,6 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIDreamManagerCanStartDreaming:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_isScreenOn, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.CanStartDreaming(ctx, _arg_isScreenOn)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
 	case TransactionIDreamManagerFinishSelf:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -883,23 +790,11 @@ func (s *DreamManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := _data.ReadInt32()
+		_arg_screenBrightness, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_screenBrightnessFloat, _err := _data.ReadFloat32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_screenBrightnessInt, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_useNormalBrightnessForDoze, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.StartDozing(ctx, _arg_token, _arg_screenState, _arg_reason, _arg_screenBrightnessFloat, _arg_screenBrightnessInt, _arg_useNormalBrightnessForDoze)
+		_err = s.Impl.StartDozing(ctx, _arg_token, _arg_screenState, _arg_screenBrightness)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1045,61 +940,6 @@ func (s *DreamManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIDreamManagerSetDreamIsObscured:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_isObscured, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetDreamIsObscured(ctx, _arg_isObscured)
-		_ = _err
-		return nil, nil
-	case TransactionIDreamManagerStartDozingOneway:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token binder.IBinder
-		_ = _arg_token
-		_arg_screenState, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reason, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_screenBrightnessFloat, _err := _data.ReadFloat32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_screenBrightnessInt, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_useNormalBrightnessForDoze, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.StartDozingOneway(ctx, _arg_token, _arg_screenState, _arg_reason, _arg_screenBrightnessFloat, _arg_screenBrightnessInt, _arg_useNormalBrightnessForDoze)
-		_ = _err
-		return nil, nil
-	case TransactionIDreamManagerFinishSelfOneway:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token binder.IBinder
-		_ = _arg_token
-		_arg_immediate, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.FinishSelfOneway(ctx, _arg_token, _arg_immediate)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1117,9 +957,8 @@ type IDreamManagerServer interface {
 	TestDream(ctx context.Context, componentName content.ComponentName) error
 	IsDreaming(ctx context.Context) (bool, error)
 	IsDreamingOrInPreview(ctx context.Context) (bool, error)
-	CanStartDreaming(ctx context.Context, isScreenOn bool) (bool, error)
 	FinishSelf(ctx context.Context, token binder.IBinder, immediate bool) error
-	StartDozing(ctx context.Context, token binder.IBinder, screenState int32, reason int32, screenBrightnessFloat float32, screenBrightnessInt int32, useNormalBrightnessForDoze bool) error
+	StartDozing(ctx context.Context, token binder.IBinder, screenState int32, screenBrightness int32) error
 	StopDozing(ctx context.Context, token binder.IBinder) error
 	ForceAmbientDisplayEnabled(ctx context.Context, enabled bool) error
 	GetDreamComponentsForUser(ctx context.Context) ([]content.ComponentName, error)
@@ -1127,9 +966,6 @@ type IDreamManagerServer interface {
 	SetSystemDreamComponent(ctx context.Context, componentName content.ComponentName) error
 	RegisterDreamOverlayService(ctx context.Context, componentName content.ComponentName) error
 	StartDreamActivity(ctx context.Context, intent content.Intent) error
-	SetDreamIsObscured(ctx context.Context, isObscured bool) error
-	StartDozingOneway(ctx context.Context, token binder.IBinder, screenState int32, reason int32, screenBrightnessFloat float32, screenBrightnessInt int32, useNormalBrightnessForDoze bool) error
-	FinishSelfOneway(ctx context.Context, token binder.IBinder, immediate bool) error
 }
 
 type dreamManagerStubWrapper struct {
@@ -1191,13 +1027,6 @@ func (w *dreamManagerStubWrapper) IsDreamingOrInPreview(
 	return w.impl.IsDreamingOrInPreview(ctx)
 }
 
-func (w *dreamManagerStubWrapper) CanStartDreaming(
-	ctx context.Context,
-	isScreenOn bool,
-) (bool, error) {
-	return w.impl.CanStartDreaming(ctx, isScreenOn)
-}
-
 func (w *dreamManagerStubWrapper) FinishSelf(
 	ctx context.Context,
 	token binder.IBinder,
@@ -1210,12 +1039,9 @@ func (w *dreamManagerStubWrapper) StartDozing(
 	ctx context.Context,
 	token binder.IBinder,
 	screenState int32,
-	reason int32,
-	screenBrightnessFloat float32,
-	screenBrightnessInt int32,
-	useNormalBrightnessForDoze bool,
+	screenBrightness int32,
 ) error {
-	return w.impl.StartDozing(ctx, token, screenState, reason, screenBrightnessFloat, screenBrightnessInt, useNormalBrightnessForDoze)
+	return w.impl.StartDozing(ctx, token, screenState, screenBrightness)
 }
 
 func (w *dreamManagerStubWrapper) StopDozing(
@@ -1264,33 +1090,6 @@ func (w *dreamManagerStubWrapper) StartDreamActivity(
 	intent content.Intent,
 ) error {
 	return w.impl.StartDreamActivity(ctx, intent)
-}
-
-func (w *dreamManagerStubWrapper) SetDreamIsObscured(
-	ctx context.Context,
-	isObscured bool,
-) error {
-	return w.impl.SetDreamIsObscured(ctx, isObscured)
-}
-
-func (w *dreamManagerStubWrapper) StartDozingOneway(
-	ctx context.Context,
-	token binder.IBinder,
-	screenState int32,
-	reason int32,
-	screenBrightnessFloat float32,
-	screenBrightnessInt int32,
-	useNormalBrightnessForDoze bool,
-) error {
-	return w.impl.StartDozingOneway(ctx, token, screenState, reason, screenBrightnessFloat, screenBrightnessInt, useNormalBrightnessForDoze)
-}
-
-func (w *dreamManagerStubWrapper) FinishSelfOneway(
-	ctx context.Context,
-	token binder.IBinder,
-	immediate bool,
-) error {
-	return w.impl.FinishSelfOneway(ctx, token, immediate)
 }
 
 var _ IDreamManager = (*dreamManagerStubWrapper)(nil)

@@ -15,23 +15,27 @@ const (
 	TransactionIAudioTrackCallbackOnCodecFormatChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioTrackCallbackOnCodecFormatChanged = "onCodecFormatChanged"
+)
+
 type IAudioTrackCallback interface {
 	AsBinder() binder.IBinder
 	OnCodecFormatChanged(ctx context.Context, audioMetadata []byte) error
 }
 
 type AudioTrackCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioTrackCallbackProxy(
 	remote binder.IBinder,
 ) *AudioTrackCallbackProxy {
-	return &AudioTrackCallbackProxy{remote: remote}
+	return &AudioTrackCallbackProxy{Remote: remote}
 }
 
 func (p *AudioTrackCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioTrackCallback = (*AudioTrackCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *AudioTrackCallbackProxy) OnCodecFormatChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrackCallback, "onCodecFormatChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioTrackCallback, MethodIAudioTrackCallbackOnCodecFormatChanged)
 	if _err != nil {
-		_code = TransactionIAudioTrackCallbackOnCodecFormatChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioTrackCallback, MethodIAudioTrackCallbackOnCodecFormatChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type AudioTrackCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioTrackCallbackStub)(nil)
+
+func (s *AudioTrackCallbackStub) Descriptor() string {
+	return DescriptorIAudioTrackCallback
+}
 
 func (s *AudioTrackCallbackStub) OnTransaction(
 	ctx context.Context,

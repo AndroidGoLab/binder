@@ -23,6 +23,14 @@ const (
 	TransactionIPlayerServiceSetIcon            = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPlayerServiceGetSessionToken    = "getSessionToken"
+	MethodIPlayerServiceRegisterCallback   = "registerCallback"
+	MethodIPlayerServiceUnregisterCallback = "unregisterCallback"
+	MethodIPlayerServiceSendRequest        = "sendRequest"
+	MethodIPlayerServiceSetIcon            = "setIcon"
+)
+
 type IPlayerService interface {
 	AsBinder() binder.IBinder
 	GetSessionToken(ctx context.Context) (session.MediaSessionToken, error)
@@ -33,17 +41,17 @@ type IPlayerService interface {
 }
 
 type PlayerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPlayerServiceProxy(
 	remote binder.IBinder,
 ) *PlayerServiceProxy {
-	return &PlayerServiceProxy{remote: remote}
+	return &PlayerServiceProxy{Remote: remote}
 }
 
 func (p *PlayerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPlayerService = (*PlayerServiceProxy)(nil)
@@ -55,12 +63,12 @@ func (p *PlayerServiceProxy) GetSessionToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "getSessionToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerService, MethodIPlayerServiceGetSessionToken)
 	if _err != nil {
-		_code = TransactionIPlayerServiceGetSessionToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayerService, MethodIPlayerServiceGetSessionToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -88,14 +96,14 @@ func (p *PlayerServiceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerService, MethodIPlayerServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionIPlayerServiceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayerService, MethodIPlayerServiceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,14 +122,14 @@ func (p *PlayerServiceProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerService, MethodIPlayerServiceUnregisterCallback)
 	if _err != nil {
-		_code = TransactionIPlayerServiceUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayerService, MethodIPlayerServiceUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -147,14 +155,14 @@ func (p *PlayerServiceProxy) SendRequest(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "sendRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerService, MethodIPlayerServiceSendRequest)
 	if _err != nil {
-		_code = TransactionIPlayerServiceSendRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayerService, MethodIPlayerServiceSendRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,12 +186,12 @@ func (p *PlayerServiceProxy) SetIcon(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "setIcon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerService, MethodIPlayerServiceSetIcon)
 	if _err != nil {
-		_code = TransactionIPlayerServiceSetIcon
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayerService, MethodIPlayerServiceSetIcon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -203,6 +211,10 @@ type PlayerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PlayerServiceStub)(nil)
+
+func (s *PlayerServiceStub) Descriptor() string {
+	return DescriptorIPlayerService
+}
 
 func (s *PlayerServiceStub) OnTransaction(
 	ctx context.Context,

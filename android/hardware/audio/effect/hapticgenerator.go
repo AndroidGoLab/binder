@@ -76,6 +76,7 @@ func (u *HapticGenerator) MarshalParcel(
 
 	switch u.Tag {
 	case HapticGeneratorTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -85,12 +86,14 @@ func (u *HapticGenerator) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.HapticScales)))
 			for _, _item := range u.HapticScales {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
 			}
 		}
 	case HapticGeneratorTagVibratorInfo:
+		p.WriteInt32(1)
 		if _err := u.VibratorInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -117,6 +120,9 @@ func (u *HapticGenerator) UnmarshalParcel(
 
 	switch u.Tag {
 	case HapticGeneratorTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -130,12 +136,18 @@ func (u *HapticGenerator) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.HapticScales = make([]effectHapticGenerator.HapticScale, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.HapticScales[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
 			}
 		}
 	case HapticGeneratorTagVibratorInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VibratorInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -16,6 +16,11 @@ const (
 	TransactionISupplicantCallbackOnInterfaceRemoved = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISupplicantCallbackOnInterfaceCreated = "onInterfaceCreated"
+	MethodISupplicantCallbackOnInterfaceRemoved = "onInterfaceRemoved"
+)
+
 type ISupplicantCallback interface {
 	AsBinder() binder.IBinder
 	OnInterfaceCreated(ctx context.Context, ifaceName string) error
@@ -23,17 +28,17 @@ type ISupplicantCallback interface {
 }
 
 type SupplicantCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantCallbackProxy(
 	remote binder.IBinder,
 ) *SupplicantCallbackProxy {
-	return &SupplicantCallbackProxy{remote: remote}
+	return &SupplicantCallbackProxy{Remote: remote}
 }
 
 func (p *SupplicantCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicantCallback = (*SupplicantCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *SupplicantCallbackProxy) OnInterfaceCreated(
 	_data.WriteInterfaceToken(DescriptorISupplicantCallback)
 	_data.WriteString16(ifaceName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantCallback, "onInterfaceCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantCallback, MethodISupplicantCallbackOnInterfaceCreated)
 	if _err != nil {
-		_code = TransactionISupplicantCallbackOnInterfaceCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantCallback, MethodISupplicantCallbackOnInterfaceCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *SupplicantCallbackProxy) OnInterfaceRemoved(
 	_data.WriteInterfaceToken(DescriptorISupplicantCallback)
 	_data.WriteString16(ifaceName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantCallback, "onInterfaceRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantCallback, MethodISupplicantCallbackOnInterfaceRemoved)
 	if _err != nil {
-		_code = TransactionISupplicantCallbackOnInterfaceRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantCallback, MethodISupplicantCallbackOnInterfaceRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type SupplicantCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantCallbackStub)(nil)
+
+func (s *SupplicantCallbackStub) Descriptor() string {
+	return DescriptorISupplicantCallback
+}
 
 func (s *SupplicantCallbackStub) OnTransaction(
 	ctx context.Context,

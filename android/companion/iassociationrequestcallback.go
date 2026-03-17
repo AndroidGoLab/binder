@@ -18,25 +18,31 @@ const (
 	TransactionIAssociationRequestCallbackOnFailure            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIAssociationRequestCallbackOnAssociationPending = "onAssociationPending"
+	MethodIAssociationRequestCallbackOnAssociationCreated = "onAssociationCreated"
+	MethodIAssociationRequestCallbackOnFailure            = "onFailure"
+)
+
 type IAssociationRequestCallback interface {
 	AsBinder() binder.IBinder
 	OnAssociationPending(ctx context.Context, pendingIntent app.PendingIntent) error
 	OnAssociationCreated(ctx context.Context, associationInfo AssociationInfo) error
-	OnFailure(ctx context.Context, errorCode int32, error_ interface{}) error
+	OnFailure(ctx context.Context, error_ interface{}) error
 }
 
 type AssociationRequestCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAssociationRequestCallbackProxy(
 	remote binder.IBinder,
 ) *AssociationRequestCallbackProxy {
-	return &AssociationRequestCallbackProxy{remote: remote}
+	return &AssociationRequestCallbackProxy{Remote: remote}
 }
 
 func (p *AssociationRequestCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAssociationRequestCallback = (*AssociationRequestCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *AssociationRequestCallbackProxy) OnAssociationPending(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAssociationRequestCallback, "onAssociationPending")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationPending)
 	if _err != nil {
-		_code = TransactionIAssociationRequestCallbackOnAssociationPending
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationPending, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,30 +78,28 @@ func (p *AssociationRequestCallbackProxy) OnAssociationCreated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAssociationRequestCallback, "onAssociationCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationCreated)
 	if _err != nil {
-		_code = TransactionIAssociationRequestCallbackOnAssociationCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnAssociationCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *AssociationRequestCallbackProxy) OnFailure(
 	ctx context.Context,
-	errorCode int32,
 	error_ interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
-	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAssociationRequestCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIAssociationRequestCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAssociationRequestCallback, MethodIAssociationRequestCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +110,10 @@ type AssociationRequestCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AssociationRequestCallbackStub)(nil)
+
+func (s *AssociationRequestCallbackStub) Descriptor() string {
+	return DescriptorIAssociationRequestCallback
+}
 
 func (s *AssociationRequestCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -155,12 +163,8 @@ func (s *AssociationRequestCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		var _arg_error_ interface{}
-		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_error_)
+		_err := s.Impl.OnFailure(ctx, _arg_error_)
 		_ = _err
 		return nil, nil
 	default:
@@ -174,7 +178,7 @@ func (s *AssociationRequestCallbackStub) OnTransaction(
 type IAssociationRequestCallbackServer interface {
 	OnAssociationPending(ctx context.Context, pendingIntent app.PendingIntent) error
 	OnAssociationCreated(ctx context.Context, associationInfo AssociationInfo) error
-	OnFailure(ctx context.Context, errorCode int32, error_ interface{}) error
+	OnFailure(ctx context.Context, error_ interface{}) error
 }
 
 type associationRequestCallbackStubWrapper struct {
@@ -202,10 +206,9 @@ func (w *associationRequestCallbackStubWrapper) OnAssociationCreated(
 
 func (w *associationRequestCallbackStubWrapper) OnFailure(
 	ctx context.Context,
-	errorCode int32,
 	error_ interface{},
 ) error {
-	return w.impl.OnFailure(ctx, errorCode, error_)
+	return w.impl.OnFailure(ctx, error_)
 }
 
 var _ IAssociationRequestCallback = (*associationRequestCallbackStubWrapper)(nil)

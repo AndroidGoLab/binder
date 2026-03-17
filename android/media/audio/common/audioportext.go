@@ -94,10 +94,12 @@ func (u *AudioPortExt) MarshalParcel(
 	case AudioPortExtTagUnspecified:
 		p.WriteBool(u.Unspecified)
 	case AudioPortExtTagDevice:
+		p.WriteInt32(1)
 		if _err := u.Device.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioPortExtTagMix:
+		p.WriteInt32(1)
 		if _err := u.Mix.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -131,10 +133,16 @@ func (u *AudioPortExt) UnmarshalParcel(
 			return _err
 		}
 	case AudioPortExtTagDevice:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Device.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioPortExtTagMix:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Mix.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

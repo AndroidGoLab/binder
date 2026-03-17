@@ -16,6 +16,11 @@ const (
 	TransactionIHomeControlsRemoteProxyUnregisterListenerForCurrentUser = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIHomeControlsRemoteProxyRegisterListenerForCurrentUser   = "registerListenerForCurrentUser"
+	MethodIHomeControlsRemoteProxyUnregisterListenerForCurrentUser = "unregisterListenerForCurrentUser"
+)
+
 type IHomeControlsRemoteProxy interface {
 	AsBinder() binder.IBinder
 	RegisterListenerForCurrentUser(ctx context.Context, callback IOnControlsSettingsChangeListener) error
@@ -23,17 +28,17 @@ type IHomeControlsRemoteProxy interface {
 }
 
 type HomeControlsRemoteProxyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHomeControlsRemoteProxyProxy(
 	remote binder.IBinder,
 ) *HomeControlsRemoteProxyProxy {
-	return &HomeControlsRemoteProxyProxy{remote: remote}
+	return &HomeControlsRemoteProxyProxy{Remote: remote}
 }
 
 func (p *HomeControlsRemoteProxyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHomeControlsRemoteProxy = (*HomeControlsRemoteProxyProxy)(nil)
@@ -44,14 +49,14 @@ func (p *HomeControlsRemoteProxyProxy) RegisterListenerForCurrentUser(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHomeControlsRemoteProxy)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHomeControlsRemoteProxy, "registerListenerForCurrentUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHomeControlsRemoteProxy, MethodIHomeControlsRemoteProxyRegisterListenerForCurrentUser)
 	if _err != nil {
-		_code = TransactionIHomeControlsRemoteProxyRegisterListenerForCurrentUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHomeControlsRemoteProxy, MethodIHomeControlsRemoteProxyRegisterListenerForCurrentUser, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,14 +66,14 @@ func (p *HomeControlsRemoteProxyProxy) UnregisterListenerForCurrentUser(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHomeControlsRemoteProxy)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHomeControlsRemoteProxy, "unregisterListenerForCurrentUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHomeControlsRemoteProxy, MethodIHomeControlsRemoteProxyUnregisterListenerForCurrentUser)
 	if _err != nil {
-		_code = TransactionIHomeControlsRemoteProxyUnregisterListenerForCurrentUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHomeControlsRemoteProxy, MethodIHomeControlsRemoteProxyUnregisterListenerForCurrentUser, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type HomeControlsRemoteProxyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HomeControlsRemoteProxyStub)(nil)
+
+func (s *HomeControlsRemoteProxyStub) Descriptor() string {
+	return DescriptorIHomeControlsRemoteProxy
+}
 
 func (s *HomeControlsRemoteProxyStub) OnTransaction(
 	ctx context.Context,

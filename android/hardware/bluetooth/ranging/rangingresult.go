@@ -18,8 +18,6 @@ type RangingResult struct {
 	DetectedAttackLevel                Nadm
 	VelocityMetersPerSecond            float64
 	VendorSpecificCsRangingResultsData []byte
-	RangingResultStatus                RangingResultStatus
-	TimestampNanos                     int64
 }
 
 var _ parcel.Parcelable = (*RangingResult)(nil)
@@ -38,16 +36,7 @@ func (s *RangingResult) MarshalParcel(
 	p.WritePaddedByte(s.ConfidenceLevel)
 	p.WritePaddedByte(byte(s.DetectedAttackLevel))
 	p.WriteFloat64(s.VelocityMetersPerSecond)
-	if s.VendorSpecificCsRangingResultsData == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.VendorSpecificCsRangingResultsData)))
-		for _, _item := range s.VendorSpecificCsRangingResultsData {
-			p.WritePaddedByte(_item)
-		}
-	}
-	p.WritePaddedByte(byte(s.RangingResultStatus))
-	p.WriteInt64(s.TimestampNanos)
+	p.WriteByteArray(s.VendorSpecificCsRangingResultsData)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -112,28 +101,7 @@ func (s *RangingResult) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count0 >= 0 {
-		s.VendorSpecificCsRangingResultsData = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.VendorSpecificCsRangingResultsData[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_rangingResultStatusRaw, _err := p.ReadPaddedByte()
-	if _err != nil {
-		return _err
-	}
-	s.RangingResultStatus = RangingResultStatus(_rangingResultStatusRaw)
-
-	s.TimestampNanos, _err = p.ReadInt64()
+	s.VendorSpecificCsRangingResultsData, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
 	}

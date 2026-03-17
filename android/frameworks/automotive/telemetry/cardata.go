@@ -18,14 +18,7 @@ func (s *CarData) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Id)
-	if s.Content == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Content)))
-		for _, _item := range s.Content {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Content)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -44,19 +37,9 @@ func (s *CarData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Content, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Content = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Content[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -24,6 +24,19 @@ const (
 	TransactionIDataServiceCallbackOnDataProfileUnthrottled      = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodIDataServiceCallbackOnSetupDataCallComplete       = "onSetupDataCallComplete"
+	MethodIDataServiceCallbackOnDeactivateDataCallComplete  = "onDeactivateDataCallComplete"
+	MethodIDataServiceCallbackOnSetInitialAttachApnComplete = "onSetInitialAttachApnComplete"
+	MethodIDataServiceCallbackOnSetDataProfileComplete      = "onSetDataProfileComplete"
+	MethodIDataServiceCallbackOnRequestDataCallListComplete = "onRequestDataCallListComplete"
+	MethodIDataServiceCallbackOnDataCallListChanged         = "onDataCallListChanged"
+	MethodIDataServiceCallbackOnHandoverStarted             = "onHandoverStarted"
+	MethodIDataServiceCallbackOnHandoverCancelled           = "onHandoverCancelled"
+	MethodIDataServiceCallbackOnApnUnthrottled              = "onApnUnthrottled"
+	MethodIDataServiceCallbackOnDataProfileUnthrottled      = "onDataProfileUnthrottled"
+)
+
 type IDataServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnSetupDataCallComplete(ctx context.Context, result int32, dataCallResponse DataCallResponse) error
@@ -39,17 +52,17 @@ type IDataServiceCallback interface {
 }
 
 type DataServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataServiceCallbackProxy(
 	remote binder.IBinder,
 ) *DataServiceCallbackProxy {
-	return &DataServiceCallbackProxy{remote: remote}
+	return &DataServiceCallbackProxy{Remote: remote}
 }
 
 func (p *DataServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataServiceCallback = (*DataServiceCallbackProxy)(nil)
@@ -67,12 +80,12 @@ func (p *DataServiceCallbackProxy) OnSetupDataCallComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onSetupDataCallComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetupDataCallComplete)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnSetupDataCallComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetupDataCallComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +97,12 @@ func (p *DataServiceCallbackProxy) OnDeactivateDataCallComplete(
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onDeactivateDataCallComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDeactivateDataCallComplete)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnDeactivateDataCallComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDeactivateDataCallComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +114,12 @@ func (p *DataServiceCallbackProxy) OnSetInitialAttachApnComplete(
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onSetInitialAttachApnComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetInitialAttachApnComplete)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnSetInitialAttachApnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetInitialAttachApnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,12 +131,12 @@ func (p *DataServiceCallbackProxy) OnSetDataProfileComplete(
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onSetDataProfileComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetDataProfileComplete)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnSetDataProfileComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnSetDataProfileComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,18 +153,19 @@ func (p *DataServiceCallbackProxy) OnRequestDataCallListComplete(
 	} else {
 		_data.WriteInt32(int32(len(dataCallList)))
 		for _, _item := range dataCallList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onRequestDataCallListComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnRequestDataCallListComplete)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnRequestDataCallListComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnRequestDataCallListComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,18 +180,19 @@ func (p *DataServiceCallbackProxy) OnDataCallListChanged(
 	} else {
 		_data.WriteInt32(int32(len(dataCallList)))
 		for _, _item := range dataCallList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onDataCallListChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataCallListChanged)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnDataCallListChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataCallListChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -189,12 +204,12 @@ func (p *DataServiceCallbackProxy) OnHandoverStarted(
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onHandoverStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverStarted)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnHandoverStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -206,12 +221,12 @@ func (p *DataServiceCallbackProxy) OnHandoverCancelled(
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onHandoverCancelled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverCancelled)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnHandoverCancelled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnHandoverCancelled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -223,12 +238,12 @@ func (p *DataServiceCallbackProxy) OnApnUnthrottled(
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteString16(apn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onApnUnthrottled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnApnUnthrottled)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnApnUnthrottled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnApnUnthrottled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -243,12 +258,12 @@ func (p *DataServiceCallbackProxy) OnDataProfileUnthrottled(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onDataProfileUnthrottled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataProfileUnthrottled)
 	if _err != nil {
-		_code = TransactionIDataServiceCallbackOnDataProfileUnthrottled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceCallback, MethodIDataServiceCallbackOnDataProfileUnthrottled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -259,6 +274,10 @@ type DataServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataServiceCallbackStub)(nil)
+
+func (s *DataServiceCallbackStub) Descriptor() string {
+	return DescriptorIDataServiceCallback
+}
 
 func (s *DataServiceCallbackStub) OnTransaction(
 	ctx context.Context,

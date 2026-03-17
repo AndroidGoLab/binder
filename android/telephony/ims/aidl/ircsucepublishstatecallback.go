@@ -16,23 +16,27 @@ const (
 	TransactionIRcsUcePublishStateCallbackOnPublishUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRcsUcePublishStateCallbackOnPublishUpdated = "onPublishUpdated"
+)
+
 type IRcsUcePublishStateCallback interface {
 	AsBinder() binder.IBinder
 	OnPublishUpdated(ctx context.Context, attributes ims.PublishAttributes) error
 }
 
 type RcsUcePublishStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRcsUcePublishStateCallbackProxy(
 	remote binder.IBinder,
 ) *RcsUcePublishStateCallbackProxy {
-	return &RcsUcePublishStateCallbackProxy{remote: remote}
+	return &RcsUcePublishStateCallbackProxy{Remote: remote}
 }
 
 func (p *RcsUcePublishStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRcsUcePublishStateCallback = (*RcsUcePublishStateCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *RcsUcePublishStateCallbackProxy) OnPublishUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsUcePublishStateCallback, "onPublishUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsUcePublishStateCallback, MethodIRcsUcePublishStateCallbackOnPublishUpdated)
 	if _err != nil {
-		_code = TransactionIRcsUcePublishStateCallbackOnPublishUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsUcePublishStateCallback, MethodIRcsUcePublishStateCallbackOnPublishUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type RcsUcePublishStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RcsUcePublishStateCallbackStub)(nil)
+
+func (s *RcsUcePublishStateCallbackStub) Descriptor() string {
+	return DescriptorIRcsUcePublishStateCallback
+}
 
 func (s *RcsUcePublishStateCallbackStub) OnTransaction(
 	ctx context.Context,

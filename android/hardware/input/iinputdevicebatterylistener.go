@@ -15,23 +15,27 @@ const (
 	TransactionIInputDeviceBatteryListenerOnBatteryStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputDeviceBatteryListenerOnBatteryStateChanged = "onBatteryStateChanged"
+)
+
 type IInputDeviceBatteryListener interface {
 	AsBinder() binder.IBinder
 	OnBatteryStateChanged(ctx context.Context, batteryState IInputDeviceBatteryState) error
 }
 
 type InputDeviceBatteryListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputDeviceBatteryListenerProxy(
 	remote binder.IBinder,
 ) *InputDeviceBatteryListenerProxy {
-	return &InputDeviceBatteryListenerProxy{remote: remote}
+	return &InputDeviceBatteryListenerProxy{Remote: remote}
 }
 
 func (p *InputDeviceBatteryListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputDeviceBatteryListener = (*InputDeviceBatteryListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *InputDeviceBatteryListenerProxy) OnBatteryStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputDeviceBatteryListener, "onBatteryStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputDeviceBatteryListener, MethodIInputDeviceBatteryListenerOnBatteryStateChanged)
 	if _err != nil {
-		_code = TransactionIInputDeviceBatteryListenerOnBatteryStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputDeviceBatteryListener, MethodIInputDeviceBatteryListenerOnBatteryStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type InputDeviceBatteryListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputDeviceBatteryListenerStub)(nil)
+
+func (s *InputDeviceBatteryListenerStub) Descriptor() string {
+	return DescriptorIInputDeviceBatteryListener
+}
 
 func (s *InputDeviceBatteryListenerStub) OnTransaction(
 	ctx context.Context,

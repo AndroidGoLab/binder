@@ -17,6 +17,12 @@ const (
 	TransactionIVbiRatingInterfaceRemoveVbiRatingListener = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIVbiRatingInterfaceGetVbiRating            = "getVbiRating"
+	MethodIVbiRatingInterfaceAddVbiRatingListener    = "addVbiRatingListener"
+	MethodIVbiRatingInterfaceRemoveVbiRatingListener = "removeVbiRatingListener"
+)
+
 type IVbiRatingInterface interface {
 	AsBinder() binder.IBinder
 	GetVbiRating(ctx context.Context, sessionToken string) (string, error)
@@ -25,17 +31,17 @@ type IVbiRatingInterface interface {
 }
 
 type VbiRatingInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVbiRatingInterfaceProxy(
 	remote binder.IBinder,
 ) *VbiRatingInterfaceProxy {
-	return &VbiRatingInterfaceProxy{remote: remote}
+	return &VbiRatingInterfaceProxy{Remote: remote}
 }
 
 func (p *VbiRatingInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVbiRatingInterface = (*VbiRatingInterfaceProxy)(nil)
@@ -49,12 +55,12 @@ func (p *VbiRatingInterfaceProxy) GetVbiRating(
 	_data.WriteInterfaceToken(DescriptorIVbiRatingInterface)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVbiRatingInterface, "getVbiRating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVbiRatingInterface, MethodIVbiRatingInterfaceGetVbiRating)
 	if _err != nil {
-		_code = TransactionIVbiRatingInterfaceGetVbiRating
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVbiRatingInterface, MethodIVbiRatingInterfaceGetVbiRating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,14 +85,14 @@ func (p *VbiRatingInterfaceProxy) AddVbiRatingListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVbiRatingInterface)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVbiRatingInterface, "addVbiRatingListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVbiRatingInterface, MethodIVbiRatingInterfaceAddVbiRatingListener)
 	if _err != nil {
-		_code = TransactionIVbiRatingInterfaceAddVbiRatingListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVbiRatingInterface, MethodIVbiRatingInterfaceAddVbiRatingListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,14 +111,14 @@ func (p *VbiRatingInterfaceProxy) RemoveVbiRatingListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVbiRatingInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVbiRatingInterface, "removeVbiRatingListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVbiRatingInterface, MethodIVbiRatingInterfaceRemoveVbiRatingListener)
 	if _err != nil {
-		_code = TransactionIVbiRatingInterfaceRemoveVbiRatingListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVbiRatingInterface, MethodIVbiRatingInterfaceRemoveVbiRatingListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,6 +138,10 @@ type VbiRatingInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VbiRatingInterfaceStub)(nil)
+
+func (s *VbiRatingInterfaceStub) Descriptor() string {
+	return DescriptorIVbiRatingInterface
+}
 
 func (s *VbiRatingInterfaceStub) OnTransaction(
 	ctx context.Context,

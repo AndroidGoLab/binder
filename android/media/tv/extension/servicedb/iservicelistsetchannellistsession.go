@@ -17,6 +17,11 @@ const (
 	TransactionIServiceListSetChannelListSessionRelease        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIServiceListSetChannelListSessionSetChannelList = "setChannelList"
+	MethodIServiceListSetChannelListSessionRelease        = "release"
+)
+
 type IServiceListSetChannelListSession interface {
 	AsBinder() binder.IBinder
 	SetChannelList(ctx context.Context, channelsInfo []os.Bundle, ServiceListInfoBundle os.Bundle, optType int32) (int32, error)
@@ -24,17 +29,17 @@ type IServiceListSetChannelListSession interface {
 }
 
 type ServiceListSetChannelListSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListSetChannelListSessionProxy(
 	remote binder.IBinder,
 ) *ServiceListSetChannelListSessionProxy {
-	return &ServiceListSetChannelListSessionProxy{remote: remote}
+	return &ServiceListSetChannelListSessionProxy{Remote: remote}
 }
 
 func (p *ServiceListSetChannelListSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListSetChannelListSession = (*ServiceListSetChannelListSessionProxy)(nil)
@@ -53,6 +58,7 @@ func (p *ServiceListSetChannelListSessionProxy) SetChannelList(
 	} else {
 		_data.WriteInt32(int32(len(channelsInfo)))
 		for _, _item := range channelsInfo {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -64,12 +70,12 @@ func (p *ServiceListSetChannelListSessionProxy) SetChannelList(
 	}
 	_data.WriteInt32(optType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListSetChannelListSession, "setChannelList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListSetChannelListSession, MethodIServiceListSetChannelListSessionSetChannelList)
 	if _err != nil {
-		_code = TransactionIServiceListSetChannelListSessionSetChannelList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListSetChannelListSession, MethodIServiceListSetChannelListSessionSetChannelList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +99,12 @@ func (p *ServiceListSetChannelListSessionProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListSetChannelListSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListSetChannelListSession, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListSetChannelListSession, MethodIServiceListSetChannelListSessionRelease)
 	if _err != nil {
-		_code = TransactionIServiceListSetChannelListSessionRelease
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListSetChannelListSession, MethodIServiceListSetChannelListSessionRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -122,6 +128,10 @@ type ServiceListSetChannelListSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListSetChannelListSessionStub)(nil)
+
+func (s *ServiceListSetChannelListSessionStub) Descriptor() string {
+	return DescriptorIServiceListSetChannelListSession
+}
 
 func (s *ServiceListSetChannelListSessionStub) OnTransaction(
 	ctx context.Context,

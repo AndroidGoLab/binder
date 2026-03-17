@@ -17,22 +17,8 @@ func (s *ProvideProvisionResponseResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Certificate == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Certificate)))
-		for _, _item := range s.Certificate {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.WrappedKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.WrappedKey)))
-		for _, _item := range s.WrappedKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Certificate)
+	p.WriteByteArray(s.WrappedKey)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *ProvideProvisionResponseResult) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Certificate, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Certificate = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Certificate[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.WrappedKey, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.WrappedKey = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.WrappedKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

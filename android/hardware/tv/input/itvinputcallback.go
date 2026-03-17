@@ -16,6 +16,11 @@ const (
 	TransactionITvInputCallbackNotifyTvMessageEvent = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITvInputCallbackNotify               = "notify"
+	MethodITvInputCallbackNotifyTvMessageEvent = "notifyTvMessageEvent"
+)
+
 type ITvInputCallback interface {
 	AsBinder() binder.IBinder
 	Notify(ctx context.Context, event TvInputEvent) error
@@ -23,17 +28,17 @@ type ITvInputCallback interface {
 }
 
 type TvInputCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInputCallbackProxy(
 	remote binder.IBinder,
 ) *TvInputCallbackProxy {
-	return &TvInputCallbackProxy{remote: remote}
+	return &TvInputCallbackProxy{Remote: remote}
 }
 
 func (p *TvInputCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInputCallback = (*TvInputCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *TvInputCallbackProxy) Notify(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputCallback, "notify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputCallback, MethodITvInputCallbackNotify)
 	if _err != nil {
-		_code = TransactionITvInputCallbackNotify
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputCallback, MethodITvInputCallbackNotify, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +83,12 @@ func (p *TvInputCallbackProxy) NotifyTvMessageEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputCallback, "notifyTvMessageEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputCallback, MethodITvInputCallbackNotifyTvMessageEvent)
 	if _err != nil {
-		_code = TransactionITvInputCallbackNotifyTvMessageEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputCallback, MethodITvInputCallbackNotifyTvMessageEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,6 +108,10 @@ type TvInputCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInputCallbackStub)(nil)
+
+func (s *TvInputCallbackStub) Descriptor() string {
+	return DescriptorITvInputCallback
+}
 
 func (s *TvInputCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIPlaybackConfigDispatcherDispatchPlaybackConfigChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPlaybackConfigDispatcherDispatchPlaybackConfigChange = "dispatchPlaybackConfigChange"
+)
+
 type IPlaybackConfigDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchPlaybackConfigChange(ctx context.Context, configs []AudioPlaybackConfiguration, flush bool) error
 }
 
 type PlaybackConfigDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPlaybackConfigDispatcherProxy(
 	remote binder.IBinder,
 ) *PlaybackConfigDispatcherProxy {
-	return &PlaybackConfigDispatcherProxy{remote: remote}
+	return &PlaybackConfigDispatcherProxy{Remote: remote}
 }
 
 func (p *PlaybackConfigDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPlaybackConfigDispatcher = (*PlaybackConfigDispatcherProxy)(nil)
@@ -48,6 +52,7 @@ func (p *PlaybackConfigDispatcherProxy) DispatchPlaybackConfigChange(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -55,12 +60,12 @@ func (p *PlaybackConfigDispatcherProxy) DispatchPlaybackConfigChange(
 	}
 	_data.WriteBool(flush)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlaybackConfigDispatcher, "dispatchPlaybackConfigChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlaybackConfigDispatcher, MethodIPlaybackConfigDispatcherDispatchPlaybackConfigChange)
 	if _err != nil {
-		_code = TransactionIPlaybackConfigDispatcherDispatchPlaybackConfigChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlaybackConfigDispatcher, MethodIPlaybackConfigDispatcherDispatchPlaybackConfigChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +76,10 @@ type PlaybackConfigDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PlaybackConfigDispatcherStub)(nil)
+
+func (s *PlaybackConfigDispatcherStub) Descriptor() string {
+	return DescriptorIPlaybackConfigDispatcher
+}
 
 func (s *PlaybackConfigDispatcherStub) OnTransaction(
 	ctx context.Context,

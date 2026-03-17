@@ -2,6 +2,7 @@ package HubInfo
 
 import (
 	"fmt"
+	contexthub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,37 +15,37 @@ const (
 
 type HubDetails struct {
 	Tag            int32
-	ContextHubInfo interface{}
-	VendorHubInfo  interface{}
+	ContextHubInfo contexthub.ContextHubInfo
+	VendorHubInfo  contexthub.VendorHubInfo
 }
 
 var _ parcel.Parcelable = (*HubDetails)(nil)
 
-func (u *HubDetails) GetContextHubInfo() (interface{}, bool) {
+func (u *HubDetails) GetContextHubInfo() (contexthub.ContextHubInfo, bool) {
 	if u.Tag != HubDetailsTagContextHubInfo {
-		var _zero interface{}
+		var _zero contexthub.ContextHubInfo
 		return _zero, false
 	}
 	return u.ContextHubInfo, true
 }
 
 func (u *HubDetails) SetContextHubInfo(
-	v interface{},
+	v contexthub.ContextHubInfo,
 ) {
 	u.Tag = HubDetailsTagContextHubInfo
 	u.ContextHubInfo = v
 }
 
-func (u *HubDetails) GetVendorHubInfo() (interface{}, bool) {
+func (u *HubDetails) GetVendorHubInfo() (contexthub.VendorHubInfo, bool) {
 	if u.Tag != HubDetailsTagVendorHubInfo {
-		var _zero interface{}
+		var _zero contexthub.VendorHubInfo
 		return _zero, false
 	}
 	return u.VendorHubInfo, true
 }
 
 func (u *HubDetails) SetVendorHubInfo(
-	v interface{},
+	v contexthub.VendorHubInfo,
 ) {
 	u.Tag = HubDetailsTagVendorHubInfo
 	u.VendorHubInfo = v
@@ -58,7 +59,15 @@ func (u *HubDetails) MarshalParcel(
 
 	switch u.Tag {
 	case HubDetailsTagContextHubInfo:
+		p.WriteInt32(1)
+		if _err := u.ContextHubInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case HubDetailsTagVendorHubInfo:
+		p.WriteInt32(1)
+		if _err := u.VendorHubInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for HubDetails", u.Tag)
 	}
@@ -82,7 +91,19 @@ func (u *HubDetails) UnmarshalParcel(
 
 	switch u.Tag {
 	case HubDetailsTagContextHubInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
+		if _err = u.ContextHubInfo.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case HubDetailsTagVendorHubInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
+		if _err = u.VendorHubInfo.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for HubDetails", u.Tag)
 	}

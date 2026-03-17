@@ -22,6 +22,17 @@ const (
 	TransactionIRecognitionStatusCallbackOnPauseFailed                 = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIRecognitionStatusCallbackOnKeyphraseDetected           = "onKeyphraseDetected"
+	MethodIRecognitionStatusCallbackOnGenericSoundTriggerDetected = "onGenericSoundTriggerDetected"
+	MethodIRecognitionStatusCallbackOnRecognitionPaused           = "onRecognitionPaused"
+	MethodIRecognitionStatusCallbackOnRecognitionResumed          = "onRecognitionResumed"
+	MethodIRecognitionStatusCallbackOnPreempted                   = "onPreempted"
+	MethodIRecognitionStatusCallbackOnModuleDied                  = "onModuleDied"
+	MethodIRecognitionStatusCallbackOnResumeFailed                = "onResumeFailed"
+	MethodIRecognitionStatusCallbackOnPauseFailed                 = "onPauseFailed"
+)
+
 type IRecognitionStatusCallback interface {
 	AsBinder() binder.IBinder
 	OnKeyphraseDetected(ctx context.Context, recognitionEvent SoundTriggerKeyphraseRecognitionEvent) error
@@ -35,17 +46,17 @@ type IRecognitionStatusCallback interface {
 }
 
 type RecognitionStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecognitionStatusCallbackProxy(
 	remote binder.IBinder,
 ) *RecognitionStatusCallbackProxy {
-	return &RecognitionStatusCallbackProxy{remote: remote}
+	return &RecognitionStatusCallbackProxy{Remote: remote}
 }
 
 func (p *RecognitionStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecognitionStatusCallback = (*RecognitionStatusCallbackProxy)(nil)
@@ -61,12 +72,12 @@ func (p *RecognitionStatusCallbackProxy) OnKeyphraseDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onKeyphraseDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnKeyphraseDetected)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnKeyphraseDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnKeyphraseDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +92,12 @@ func (p *RecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onGenericSoundTriggerDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnGenericSoundTriggerDetected)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnGenericSoundTriggerDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnGenericSoundTriggerDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +107,12 @@ func (p *RecognitionStatusCallbackProxy) OnRecognitionPaused(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onRecognitionPaused")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnRecognitionPaused)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnRecognitionPaused
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnRecognitionPaused, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,12 +122,12 @@ func (p *RecognitionStatusCallbackProxy) OnRecognitionResumed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onRecognitionResumed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnRecognitionResumed)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnRecognitionResumed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnRecognitionResumed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +137,12 @@ func (p *RecognitionStatusCallbackProxy) OnPreempted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onPreempted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPreempted)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnPreempted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPreempted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,12 +152,12 @@ func (p *RecognitionStatusCallbackProxy) OnModuleDied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onModuleDied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnModuleDied)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnModuleDied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnModuleDied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,12 +169,12 @@ func (p *RecognitionStatusCallbackProxy) OnResumeFailed(
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onResumeFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnResumeFailed)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnResumeFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnResumeFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,12 +186,12 @@ func (p *RecognitionStatusCallbackProxy) OnPauseFailed(
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onPauseFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPauseFailed)
 	if _err != nil {
-		_code = TransactionIRecognitionStatusCallbackOnPauseFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionStatusCallback, MethodIRecognitionStatusCallbackOnPauseFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -191,6 +202,10 @@ type RecognitionStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecognitionStatusCallbackStub)(nil)
+
+func (s *RecognitionStatusCallbackStub) Descriptor() string {
+	return DescriptorIRecognitionStatusCallback
+}
 
 func (s *RecognitionStatusCallbackStub) OnTransaction(
 	ctx context.Context,

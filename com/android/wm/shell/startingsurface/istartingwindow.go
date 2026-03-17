@@ -15,23 +15,27 @@ const (
 	TransactionIStartingWindowSetStartingWindowListener = binder.FirstCallTransaction + 42
 )
 
+const (
+	MethodIStartingWindowSetStartingWindowListener = "setStartingWindowListener"
+)
+
 type IStartingWindow interface {
 	AsBinder() binder.IBinder
 	SetStartingWindowListener(ctx context.Context, listener IStartingWindowListener) error
 }
 
 type StartingWindowProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStartingWindowProxy(
 	remote binder.IBinder,
 ) *StartingWindowProxy {
-	return &StartingWindowProxy{remote: remote}
+	return &StartingWindowProxy{Remote: remote}
 }
 
 func (p *StartingWindowProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStartingWindow = (*StartingWindowProxy)(nil)
@@ -42,14 +46,14 @@ func (p *StartingWindowProxy) SetStartingWindowListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStartingWindow)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStartingWindow, "setStartingWindowListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStartingWindow, MethodIStartingWindowSetStartingWindowListener)
 	if _err != nil {
-		_code = TransactionIStartingWindowSetStartingWindowListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStartingWindow, MethodIStartingWindowSetStartingWindowListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type StartingWindowStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StartingWindowStub)(nil)
+
+func (s *StartingWindowStub) Descriptor() string {
+	return DescriptorIStartingWindow
+}
 
 func (s *StartingWindowStub) OnTransaction(
 	ctx context.Context,

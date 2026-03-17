@@ -20,8 +20,15 @@ const (
 	TransactionITvInputSetCallback             = binder.FirstCallTransaction + 3
 	TransactionITvInputSetTvMessageEnabled     = binder.FirstCallTransaction + 4
 	TransactionITvInputGetTvMessageQueueDesc   = binder.FirstCallTransaction + 5
-	TransactionITvInputSetPictureProfileId     = binder.FirstCallTransaction + 6
-	TransactionITvInputSetSoundProfileId       = binder.FirstCallTransaction + 7
+)
+
+const (
+	MethodITvInputCloseStream             = "closeStream"
+	MethodITvInputGetStreamConfigurations = "getStreamConfigurations"
+	MethodITvInputOpenStream              = "openStream"
+	MethodITvInputSetCallback             = "setCallback"
+	MethodITvInputSetTvMessageEnabled     = "setTvMessageEnabled"
+	MethodITvInputGetTvMessageQueueDesc   = "getTvMessageQueueDesc"
 )
 
 type ITvInput interface {
@@ -32,8 +39,6 @@ type ITvInput interface {
 	SetCallback(ctx context.Context, callback ITvInputCallback) error
 	SetTvMessageEnabled(ctx context.Context, deviceId int32, streamId int32, type_ TvMessageEventType, enabled bool) error
 	GetTvMessageQueueDesc(ctx context.Context, queue fmq.MQDescriptor, deviceId int32, streamId int32) error
-	SetPictureProfileId(ctx context.Context, deviceId int32, streamId int32, profileId int64) error
-	SetSoundProfileId(ctx context.Context, deviceId int32, streamId int32, profileId int64) error
 }
 
 const (
@@ -44,17 +49,17 @@ const (
 )
 
 type TvInputProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInputProxy(
 	remote binder.IBinder,
 ) *TvInputProxy {
-	return &TvInputProxy{remote: remote}
+	return &TvInputProxy{Remote: remote}
 }
 
 func (p *TvInputProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInput = (*TvInputProxy)(nil)
@@ -69,12 +74,12 @@ func (p *TvInputProxy) CloseStream(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "closeStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputCloseStream)
 	if _err != nil {
-		_code = TransactionITvInputCloseStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInput, MethodITvInputCloseStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,12 +101,12 @@ func (p *TvInputProxy) GetStreamConfigurations(
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "getStreamConfigurations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputGetStreamConfigurations)
 	if _err != nil {
-		_code = TransactionITvInputGetStreamConfigurations
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITvInput, MethodITvInputGetStreamConfigurations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,6 +124,9 @@ func (p *TvInputProxy) GetStreamConfigurations(
 	if _count >= 0 {
 		_result = make([]TvStreamConfig, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -138,12 +146,12 @@ func (p *TvInputProxy) OpenStream(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "openStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputOpenStream)
 	if _err != nil {
-		_code = TransactionITvInputOpenStream
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITvInput, MethodITvInputOpenStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -171,14 +179,14 @@ func (p *TvInputProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInput)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputSetCallback)
 	if _err != nil {
-		_code = TransactionITvInputSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInput, MethodITvInputSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -205,12 +213,12 @@ func (p *TvInputProxy) SetTvMessageEnabled(
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setTvMessageEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputSetTvMessageEnabled)
 	if _err != nil {
-		_code = TransactionITvInputSetTvMessageEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInput, MethodITvInputSetTvMessageEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -234,12 +242,12 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "getTvMessageQueueDesc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInput, MethodITvInputGetTvMessageQueueDesc)
 	if _err != nil {
-		_code = TransactionITvInputGetTvMessageQueueDesc
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInput, MethodITvInputGetTvMessageQueueDesc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -255,66 +263,6 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 	return nil
 }
 
-func (p *TvInputProxy) SetPictureProfileId(
-	ctx context.Context,
-	deviceId int32,
-	streamId int32,
-	profileId int64,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(streamId)
-	_data.WriteInt64(profileId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setPictureProfileId")
-	if _err != nil {
-		_code = TransactionITvInputSetPictureProfileId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *TvInputProxy) SetSoundProfileId(
-	ctx context.Context,
-	deviceId int32,
-	streamId int32,
-	profileId int64,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITvInput)
-	_data.WriteInt32(deviceId)
-	_data.WriteInt32(streamId)
-	_data.WriteInt64(profileId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setSoundProfileId")
-	if _err != nil {
-		_code = TransactionITvInputSetSoundProfileId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
 // TvInputStub dispatches incoming binder transactions
 // to a typed ITvInput implementation.
 type TvInputStub struct {
@@ -322,6 +270,10 @@ type TvInputStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInputStub)(nil)
+
+func (s *TvInputStub) Descriptor() string {
+	return DescriptorITvInput
+}
 
 func (s *TvInputStub) OnTransaction(
 	ctx context.Context,
@@ -456,54 +408,6 @@ func (s *TvInputStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionITvInputSetPictureProfileId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_streamId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_profileId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetPictureProfileId(ctx, _arg_deviceId, _arg_streamId, _arg_profileId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionITvInputSetSoundProfileId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_streamId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_profileId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetSoundProfileId(ctx, _arg_deviceId, _arg_streamId, _arg_profileId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -519,8 +423,6 @@ type ITvInputServer interface {
 	SetCallback(ctx context.Context, callback ITvInputCallback) error
 	SetTvMessageEnabled(ctx context.Context, deviceId int32, streamId int32, type_ TvMessageEventType, enabled bool) error
 	GetTvMessageQueueDesc(ctx context.Context, queue fmq.MQDescriptor, deviceId int32, streamId int32) error
-	SetPictureProfileId(ctx context.Context, deviceId int32, streamId int32, profileId int64) error
-	SetSoundProfileId(ctx context.Context, deviceId int32, streamId int32, profileId int64) error
 }
 
 type tvInputStubWrapper struct {
@@ -579,24 +481,6 @@ func (w *tvInputStubWrapper) GetTvMessageQueueDesc(
 	streamId int32,
 ) error {
 	return w.impl.GetTvMessageQueueDesc(ctx, queue, deviceId, streamId)
-}
-
-func (w *tvInputStubWrapper) SetPictureProfileId(
-	ctx context.Context,
-	deviceId int32,
-	streamId int32,
-	profileId int64,
-) error {
-	return w.impl.SetPictureProfileId(ctx, deviceId, streamId, profileId)
-}
-
-func (w *tvInputStubWrapper) SetSoundProfileId(
-	ctx context.Context,
-	deviceId int32,
-	streamId int32,
-	profileId int64,
-) error {
-	return w.impl.SetSoundProfileId(ctx, deviceId, streamId, profileId)
 }
 
 var _ ITvInput = (*tvInputStubWrapper)(nil)

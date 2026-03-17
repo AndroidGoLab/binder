@@ -18,6 +18,13 @@ const (
 	TransactionIBluetoothSocketClosed                = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBluetoothSocketRegisterCallback      = "registerCallback"
+	MethodIBluetoothSocketGetSocketCapabilities = "getSocketCapabilities"
+	MethodIBluetoothSocketOpened                = "opened"
+	MethodIBluetoothSocketClosed                = "closed"
+)
+
 type IBluetoothSocket interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback IBluetoothSocketCallback) error
@@ -27,17 +34,17 @@ type IBluetoothSocket interface {
 }
 
 type BluetoothSocketProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothSocketProxy(
 	remote binder.IBinder,
 ) *BluetoothSocketProxy {
-	return &BluetoothSocketProxy{remote: remote}
+	return &BluetoothSocketProxy{Remote: remote}
 }
 
 func (p *BluetoothSocketProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothSocket = (*BluetoothSocketProxy)(nil)
@@ -48,14 +55,14 @@ func (p *BluetoothSocketProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocket)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocket, MethodIBluetoothSocketRegisterCallback)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocket, MethodIBluetoothSocketRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,12 +82,12 @@ func (p *BluetoothSocketProxy) GetSocketCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocket)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "getSocketCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocket, MethodIBluetoothSocketGetSocketCapabilities)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketGetSocketCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocket, MethodIBluetoothSocketGetSocketCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,12 +120,12 @@ func (p *BluetoothSocketProxy) Opened(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "opened")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocket, MethodIBluetoothSocketOpened)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketOpened
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocket, MethodIBluetoothSocketOpened, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,12 +146,12 @@ func (p *BluetoothSocketProxy) Closed(
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocket)
 	_data.WriteInt64(socketId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "closed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocket, MethodIBluetoothSocketClosed)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketClosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocket, MethodIBluetoothSocketClosed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -164,6 +171,10 @@ type BluetoothSocketStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothSocketStub)(nil)
+
+func (s *BluetoothSocketStub) Descriptor() string {
+	return DescriptorIBluetoothSocket
+}
 
 func (s *BluetoothSocketStub) OnTransaction(
 	ctx context.Context,

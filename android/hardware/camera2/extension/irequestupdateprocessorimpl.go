@@ -18,6 +18,13 @@ const (
 	TransactionIRequestUpdateProcessorImplProcess             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIRequestUpdateProcessorImplOnOutputSurface     = "onOutputSurface"
+	MethodIRequestUpdateProcessorImplOnResolutionUpdate  = "onResolutionUpdate"
+	MethodIRequestUpdateProcessorImplOnImageFormatUpdate = "onImageFormatUpdate"
+	MethodIRequestUpdateProcessorImplProcess             = "process"
+)
+
 type IRequestUpdateProcessorImpl interface {
 	AsBinder() binder.IBinder
 	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
@@ -27,17 +34,17 @@ type IRequestUpdateProcessorImpl interface {
 }
 
 type RequestUpdateProcessorImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRequestUpdateProcessorImplProxy(
 	remote binder.IBinder,
 ) *RequestUpdateProcessorImplProxy {
-	return &RequestUpdateProcessorImplProxy{remote: remote}
+	return &RequestUpdateProcessorImplProxy{Remote: remote}
 }
 
 func (p *RequestUpdateProcessorImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRequestUpdateProcessorImpl = (*RequestUpdateProcessorImplProxy)(nil)
@@ -51,12 +58,12 @@ func (p *RequestUpdateProcessorImplProxy) OnOutputSurface(
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "onOutputSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnOutputSurface)
 	if _err != nil {
-		_code = TransactionIRequestUpdateProcessorImplOnOutputSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnOutputSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +87,12 @@ func (p *RequestUpdateProcessorImplProxy) OnResolutionUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "onResolutionUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnResolutionUpdate)
 	if _err != nil {
-		_code = TransactionIRequestUpdateProcessorImplOnResolutionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnResolutionUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +113,12 @@ func (p *RequestUpdateProcessorImplProxy) OnImageFormatUpdate(
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "onImageFormatUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnImageFormatUpdate)
 	if _err != nil {
-		_code = TransactionIRequestUpdateProcessorImplOnImageFormatUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplOnImageFormatUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,12 +141,12 @@ func (p *RequestUpdateProcessorImplProxy) Process(
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(sequenceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "process")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplProcess)
 	if _err != nil {
-		_code = TransactionIRequestUpdateProcessorImplProcess
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestUpdateProcessorImpl, MethodIRequestUpdateProcessorImplProcess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,6 +175,10 @@ type RequestUpdateProcessorImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RequestUpdateProcessorImplStub)(nil)
+
+func (s *RequestUpdateProcessorImplStub) Descriptor() string {
+	return DescriptorIRequestUpdateProcessorImpl
+}
 
 func (s *RequestUpdateProcessorImplStub) OnTransaction(
 	ctx context.Context,

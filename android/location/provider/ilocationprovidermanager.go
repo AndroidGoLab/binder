@@ -20,6 +20,15 @@ const (
 	TransactionILocationProviderManagerOnFlushComplete   = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodILocationProviderManagerOnInitialize      = "onInitialize"
+	MethodILocationProviderManagerOnSetAllowed      = "onSetAllowed"
+	MethodILocationProviderManagerOnSetProperties   = "onSetProperties"
+	MethodILocationProviderManagerOnReportLocation  = "onReportLocation"
+	MethodILocationProviderManagerOnReportLocations = "onReportLocations"
+	MethodILocationProviderManagerOnFlushComplete   = "onFlushComplete"
+)
+
 type ILocationProviderManager interface {
 	AsBinder() binder.IBinder
 	OnInitialize(ctx context.Context, allowed bool, properties ProviderProperties) error
@@ -31,17 +40,17 @@ type ILocationProviderManager interface {
 }
 
 type LocationProviderManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLocationProviderManagerProxy(
 	remote binder.IBinder,
 ) *LocationProviderManagerProxy {
-	return &LocationProviderManagerProxy{remote: remote}
+	return &LocationProviderManagerProxy{Remote: remote}
 }
 
 func (p *LocationProviderManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILocationProviderManager = (*LocationProviderManagerProxy)(nil)
@@ -51,7 +60,7 @@ func (p *LocationProviderManagerProxy) OnInitialize(
 	allowed bool,
 	properties ProviderProperties,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	_data.WriteBool(allowed)
@@ -61,12 +70,12 @@ func (p *LocationProviderManagerProxy) OnInitialize(
 	}
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onInitialize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnInitialize)
 	if _err != nil {
-		_code = TransactionILocationProviderManagerOnInitialize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProviderManager, MethodILocationProviderManagerOnInitialize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -87,12 +96,12 @@ func (p *LocationProviderManagerProxy) OnSetAllowed(
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	_data.WriteBool(allowed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onSetAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetAllowed)
 	if _err != nil {
-		_code = TransactionILocationProviderManagerOnSetAllowed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -116,12 +125,12 @@ func (p *LocationProviderManagerProxy) OnSetProperties(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onSetProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetProperties)
 	if _err != nil {
-		_code = TransactionILocationProviderManagerOnSetProperties
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProviderManager, MethodILocationProviderManagerOnSetProperties, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,12 +150,12 @@ func (p *LocationProviderManagerProxy) OnReportLocation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onReportLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocation)
 	if _err != nil {
-		_code = TransactionILocationProviderManagerOnReportLocation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,12 +180,12 @@ func (p *LocationProviderManagerProxy) OnReportLocations(
 		_data.WriteInt32(int32(len(locations)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onReportLocations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocations)
 	if _err != nil {
-		_code = TransactionILocationProviderManagerOnReportLocations
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProviderManager, MethodILocationProviderManagerOnReportLocations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -195,12 +204,12 @@ func (p *LocationProviderManagerProxy) OnFlushComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onFlushComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProviderManager, MethodILocationProviderManagerOnFlushComplete)
 	if _err != nil {
-		_code = TransactionILocationProviderManagerOnFlushComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProviderManager, MethodILocationProviderManagerOnFlushComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -220,6 +229,10 @@ type LocationProviderManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LocationProviderManagerStub)(nil)
+
+func (s *LocationProviderManagerStub) Descriptor() string {
+	return DescriptorILocationProviderManager
+}
 
 func (s *LocationProviderManagerStub) OnTransaction(
 	ctx context.Context,

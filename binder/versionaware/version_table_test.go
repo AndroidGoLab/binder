@@ -66,8 +66,8 @@ func TestAPIRevisions(t *testing.T) {
 		36: {"36.r4", "36.r3", "36.r1"},
 	}
 
-	assert.Equal(t, []string{"34.r1"}, revisions[34])
-	assert.Equal(t, []string{"36.r4", "36.r3", "36.r1"}, revisions[36])
+	assert.Equal(t, []Revision{"34.r1"}, revisions[34])
+	assert.Equal(t, []Revision{"36.r4", "36.r3", "36.r1"}, revisions[36])
 	assert.Nil(t, revisions[99], "unknown API level returns nil")
 }
 

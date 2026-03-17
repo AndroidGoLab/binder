@@ -16,6 +16,11 @@ const (
 	TransactionIAttentionCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAttentionCallbackOnSuccess = "onSuccess"
+	MethodIAttentionCallbackOnFailure = "onFailure"
+)
+
 type IAttentionCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result int32, timestamp int64) error
@@ -23,17 +28,17 @@ type IAttentionCallback interface {
 }
 
 type AttentionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAttentionCallbackProxy(
 	remote binder.IBinder,
 ) *AttentionCallbackProxy {
-	return &AttentionCallbackProxy{remote: remote}
+	return &AttentionCallbackProxy{Remote: remote}
 }
 
 func (p *AttentionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAttentionCallback = (*AttentionCallbackProxy)(nil)
@@ -48,12 +53,12 @@ func (p *AttentionCallbackProxy) OnSuccess(
 	_data.WriteInt32(result)
 	_data.WriteInt64(timestamp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttentionCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionCallback, MethodIAttentionCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIAttentionCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttentionCallback, MethodIAttentionCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *AttentionCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIAttentionCallback)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttentionCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionCallback, MethodIAttentionCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIAttentionCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttentionCallback, MethodIAttentionCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type AttentionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AttentionCallbackStub)(nil)
+
+func (s *AttentionCallbackStub) Descriptor() string {
+	return DescriptorIAttentionCallback
+}
 
 func (s *AttentionCallbackStub) OnTransaction(
 	ctx context.Context,

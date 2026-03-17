@@ -19,6 +19,14 @@ const (
 	TransactionICaptureProcessorImplProcess                 = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodICaptureProcessorImplOnOutputSurface         = "onOutputSurface"
+	MethodICaptureProcessorImplOnPostviewOutputSurface = "onPostviewOutputSurface"
+	MethodICaptureProcessorImplOnResolutionUpdate      = "onResolutionUpdate"
+	MethodICaptureProcessorImplOnImageFormatUpdate     = "onImageFormatUpdate"
+	MethodICaptureProcessorImplProcess                 = "process"
+)
+
 type ICaptureProcessorImpl interface {
 	AsBinder() binder.IBinder
 	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
@@ -29,17 +37,17 @@ type ICaptureProcessorImpl interface {
 }
 
 type CaptureProcessorImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCaptureProcessorImplProxy(
 	remote binder.IBinder,
 ) *CaptureProcessorImplProxy {
-	return &CaptureProcessorImplProxy{remote: remote}
+	return &CaptureProcessorImplProxy{Remote: remote}
 }
 
 func (p *CaptureProcessorImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICaptureProcessorImpl = (*CaptureProcessorImplProxy)(nil)
@@ -53,12 +61,12 @@ func (p *CaptureProcessorImplProxy) OnOutputSurface(
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onOutputSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnOutputSurface)
 	if _err != nil {
-		_code = TransactionICaptureProcessorImplOnOutputSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnOutputSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +86,12 @@ func (p *CaptureProcessorImplProxy) OnPostviewOutputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onPostviewOutputSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnPostviewOutputSurface)
 	if _err != nil {
-		_code = TransactionICaptureProcessorImplOnPostviewOutputSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnPostviewOutputSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,12 +120,12 @@ func (p *CaptureProcessorImplProxy) OnResolutionUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onResolutionUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnResolutionUpdate)
 	if _err != nil {
-		_code = TransactionICaptureProcessorImplOnResolutionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnResolutionUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,12 +146,12 @@ func (p *CaptureProcessorImplProxy) OnImageFormatUpdate(
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onImageFormatUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnImageFormatUpdate)
 	if _err != nil {
-		_code = TransactionICaptureProcessorImplOnImageFormatUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplOnImageFormatUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,20 +177,21 @@ func (p *CaptureProcessorImplProxy) Process(
 	} else {
 		_data.WriteInt32(int32(len(capturelist)))
 		for _, _item := range capturelist {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isPostviewRequested)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "process")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplProcess)
 	if _err != nil {
-		_code = TransactionICaptureProcessorImplProcess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICaptureProcessorImpl, MethodICaptureProcessorImplProcess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,6 +211,10 @@ type CaptureProcessorImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CaptureProcessorImplStub)(nil)
+
+func (s *CaptureProcessorImplStub) Descriptor() string {
+	return DescriptorICaptureProcessorImpl
+}
 
 func (s *CaptureProcessorImplStub) OnTransaction(
 	ctx context.Context,

@@ -25,6 +25,7 @@ func (s *OccupantDetection) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PresenceData)))
 		for _, _item := range s.PresenceData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -35,6 +36,7 @@ func (s *OccupantDetection) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.GazeData)))
 		for _, _item := range s.GazeData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -45,6 +47,7 @@ func (s *OccupantDetection) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.AttentionData)))
 		for _, _item := range s.AttentionData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -77,6 +80,9 @@ func (s *OccupantDetection) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.PresenceData = make([]PresenceDetection, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PresenceData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -91,6 +97,9 @@ func (s *OccupantDetection) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.GazeData = make([]GazeDetection, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.GazeData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -105,6 +114,9 @@ func (s *OccupantDetection) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.AttentionData = make([]DriverMonitoringDetection, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AttentionData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

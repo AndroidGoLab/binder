@@ -21,6 +21,16 @@ const (
 	TransactionITextToSpeechCallbackOnRangeStart     = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodITextToSpeechCallbackOnStart          = "onStart"
+	MethodITextToSpeechCallbackOnSuccess        = "onSuccess"
+	MethodITextToSpeechCallbackOnStop           = "onStop"
+	MethodITextToSpeechCallbackOnError          = "onError"
+	MethodITextToSpeechCallbackOnBeginSynthesis = "onBeginSynthesis"
+	MethodITextToSpeechCallbackOnAudioAvailable = "onAudioAvailable"
+	MethodITextToSpeechCallbackOnRangeStart     = "onRangeStart"
+)
+
 type ITextToSpeechCallback interface {
 	AsBinder() binder.IBinder
 	OnStart(ctx context.Context, utteranceId string) error
@@ -33,17 +43,17 @@ type ITextToSpeechCallback interface {
 }
 
 type TextToSpeechCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextToSpeechCallbackProxy(
 	remote binder.IBinder,
 ) *TextToSpeechCallbackProxy {
-	return &TextToSpeechCallbackProxy{remote: remote}
+	return &TextToSpeechCallbackProxy{Remote: remote}
 }
 
 func (p *TextToSpeechCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextToSpeechCallback = (*TextToSpeechCallbackProxy)(nil)
@@ -56,12 +66,12 @@ func (p *TextToSpeechCallbackProxy) OnStart(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStart)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +83,12 @@ func (p *TextToSpeechCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +102,12 @@ func (p *TextToSpeechCallbackProxy) OnStop(
 	_data.WriteString16(utteranceId)
 	_data.WriteBool(isStarted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onStop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStop)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,12 +121,12 @@ func (p *TextToSpeechCallbackProxy) OnError(
 	_data.WriteString16(utteranceId)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnError)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,12 +144,12 @@ func (p *TextToSpeechCallbackProxy) OnBeginSynthesis(
 	_data.WriteInt32(audioFormat)
 	_data.WriteInt32(channelCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onBeginSynthesis")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnBeginSynthesis)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnBeginSynthesis
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnBeginSynthesis, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,12 +170,12 @@ func (p *TextToSpeechCallbackProxy) OnAudioAvailable(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onAudioAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnAudioAvailable)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnAudioAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnAudioAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -183,12 +193,12 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 	_data.WriteInt32(end)
 	_data.WriteInt32(frame)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onRangeStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnRangeStart)
 	if _err != nil {
-		_code = TransactionITextToSpeechCallbackOnRangeStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechCallback, MethodITextToSpeechCallbackOnRangeStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -199,6 +209,10 @@ type TextToSpeechCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechCallbackStub)(nil)
+
+func (s *TextToSpeechCallbackStub) Descriptor() string {
+	return DescriptorITextToSpeechCallback
+}
 
 func (s *TextToSpeechCallbackStub) OnTransaction(
 	ctx context.Context,

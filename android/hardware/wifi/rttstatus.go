@@ -23,9 +23,4 @@ const (
 	RttStatusFailFtmParamOverride              RttStatus = 15
 	RttStatusNanRangingProtocolFailure         RttStatus = 16
 	RttStatusNanRangingConcurrencyNotSupported RttStatus = 17
-	RttStatusSecureRangingFailureInvalidAkm    RttStatus = 18
-	RttStatusSecureRangingFailureInvalidCipher RttStatus = 19
-	RttStatusSecureRangingFailureInvalidConfig RttStatus = 20
-	RttStatusSecureRangingFailureRejected      RttStatus = 21
-	RttStatusSecureRangingFailureUnknown       RttStatus = 22
 )

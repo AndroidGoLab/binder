@@ -17,6 +17,11 @@ const (
 	TransactionITunerDvrCallbackOnPlaybackStatus = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITunerDvrCallbackOnRecordStatus   = "onRecordStatus"
+	MethodITunerDvrCallbackOnPlaybackStatus = "onPlaybackStatus"
+)
+
 type ITunerDvrCallback interface {
 	AsBinder() binder.IBinder
 	OnRecordStatus(ctx context.Context, status tvTuner.RecordStatus) error
@@ -24,17 +29,17 @@ type ITunerDvrCallback interface {
 }
 
 type TunerDvrCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerDvrCallbackProxy(
 	remote binder.IBinder,
 ) *TunerDvrCallbackProxy {
-	return &TunerDvrCallbackProxy{remote: remote}
+	return &TunerDvrCallbackProxy{Remote: remote}
 }
 
 func (p *TunerDvrCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerDvrCallback = (*TunerDvrCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *TunerDvrCallbackProxy) OnRecordStatus(
 	_data.WriteInterfaceToken(DescriptorITunerDvrCallback)
 	_data.WritePaddedByte(byte(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvrCallback, "onRecordStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvrCallback, MethodITunerDvrCallbackOnRecordStatus)
 	if _err != nil {
-		_code = TransactionITunerDvrCallbackOnRecordStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvrCallback, MethodITunerDvrCallbackOnRecordStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,12 +78,12 @@ func (p *TunerDvrCallbackProxy) OnPlaybackStatus(
 	_data.WriteInterfaceToken(DescriptorITunerDvrCallback)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvrCallback, "onPlaybackStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvrCallback, MethodITunerDvrCallbackOnPlaybackStatus)
 	if _err != nil {
-		_code = TransactionITunerDvrCallbackOnPlaybackStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvrCallback, MethodITunerDvrCallbackOnPlaybackStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,6 +103,10 @@ type TunerDvrCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerDvrCallbackStub)(nil)
+
+func (s *TunerDvrCallbackStub) Descriptor() string {
+	return DescriptorITunerDvrCallback
+}
 
 func (s *TunerDvrCallbackStub) OnTransaction(
 	ctx context.Context,

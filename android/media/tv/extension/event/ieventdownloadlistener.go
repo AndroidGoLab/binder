@@ -16,23 +16,27 @@ const (
 	TransactionIEventDownloadListenerOnCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEventDownloadListenerOnCompleted = "onCompleted"
+)
+
 type IEventDownloadListener interface {
 	AsBinder() binder.IBinder
 	OnCompleted(ctx context.Context, status os.Bundle) error
 }
 
 type EventDownloadListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventDownloadListenerProxy(
 	remote binder.IBinder,
 ) *EventDownloadListenerProxy {
-	return &EventDownloadListenerProxy{remote: remote}
+	return &EventDownloadListenerProxy{Remote: remote}
 }
 
 func (p *EventDownloadListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventDownloadListener = (*EventDownloadListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *EventDownloadListenerProxy) OnCompleted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadListener, "onCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadListener, MethodIEventDownloadListenerOnCompleted)
 	if _err != nil {
-		_code = TransactionIEventDownloadListenerOnCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadListener, MethodIEventDownloadListenerOnCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type EventDownloadListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventDownloadListenerStub)(nil)
+
+func (s *EventDownloadListenerStub) Descriptor() string {
+	return DescriptorIEventDownloadListener
+}
 
 func (s *EventDownloadListenerStub) OnTransaction(
 	ctx context.Context,

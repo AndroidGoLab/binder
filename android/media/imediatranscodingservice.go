@@ -16,6 +16,11 @@ const (
 	TransactionIMediaTranscodingServiceGetNumOfClients = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMediaTranscodingServiceRegisterClient  = "registerClient"
+	MethodIMediaTranscodingServiceGetNumOfClients = "getNumOfClients"
+)
+
 type IMediaTranscodingService interface {
 	AsBinder() binder.IBinder
 	RegisterClient(ctx context.Context, callback ITranscodingClientCallback, clientName string) (ITranscodingClient, error)
@@ -35,17 +40,17 @@ const (
 )
 
 type MediaTranscodingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaTranscodingServiceProxy(
 	remote binder.IBinder,
 ) *MediaTranscodingServiceProxy {
-	return &MediaTranscodingServiceProxy{remote: remote}
+	return &MediaTranscodingServiceProxy{Remote: remote}
 }
 
 func (p *MediaTranscodingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaTranscodingService = (*MediaTranscodingServiceProxy)(nil)
@@ -56,19 +61,19 @@ func (p *MediaTranscodingServiceProxy) RegisterClient(
 	clientName string,
 ) (ITranscodingClient, error) {
 	var _result ITranscodingClient
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaTranscodingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(clientName)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaTranscodingService, "registerClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaTranscodingService, MethodIMediaTranscodingServiceRegisterClient)
 	if _err != nil {
-		_code = TransactionIMediaTranscodingServiceRegisterClient
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaTranscodingService, MethodIMediaTranscodingServiceRegisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,7 +87,7 @@ func (p *MediaTranscodingServiceProxy) RegisterClient(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTranscodingClientProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTranscodingClientProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -93,12 +98,12 @@ func (p *MediaTranscodingServiceProxy) GetNumOfClients(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaTranscodingService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaTranscodingService, "getNumOfClients")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaTranscodingService, MethodIMediaTranscodingServiceGetNumOfClients)
 	if _err != nil {
-		_code = TransactionIMediaTranscodingServiceGetNumOfClients
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaTranscodingService, MethodIMediaTranscodingServiceGetNumOfClients, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -122,6 +127,10 @@ type MediaTranscodingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaTranscodingServiceStub)(nil)
+
+func (s *MediaTranscodingServiceStub) Descriptor() string {
+	return DescriptorIMediaTranscodingService
+}
 
 func (s *MediaTranscodingServiceStub) OnTransaction(
 	ctx context.Context,

@@ -76,6 +76,7 @@ func (u *PresetReverb) MarshalParcel(
 
 	switch u.Tag {
 	case PresetReverbTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -113,6 +114,9 @@ func (u *PresetReverb) UnmarshalParcel(
 
 	switch u.Tag {
 	case PresetReverbTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

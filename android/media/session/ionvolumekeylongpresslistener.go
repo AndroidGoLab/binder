@@ -15,23 +15,27 @@ const (
 	TransactionIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress = "onVolumeKeyLongPress"
+)
+
 type IOnVolumeKeyLongPressListener interface {
 	AsBinder() binder.IBinder
 	OnVolumeKeyLongPress(ctx context.Context, event interface{}) error
 }
 
 type OnVolumeKeyLongPressListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnVolumeKeyLongPressListenerProxy(
 	remote binder.IBinder,
 ) *OnVolumeKeyLongPressListenerProxy {
-	return &OnVolumeKeyLongPressListenerProxy{remote: remote}
+	return &OnVolumeKeyLongPressListenerProxy{Remote: remote}
 }
 
 func (p *OnVolumeKeyLongPressListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnVolumeKeyLongPressListener = (*OnVolumeKeyLongPressListenerProxy)(nil)
@@ -43,12 +47,12 @@ func (p *OnVolumeKeyLongPressListenerProxy) OnVolumeKeyLongPress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnVolumeKeyLongPressListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnVolumeKeyLongPressListener, "onVolumeKeyLongPress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnVolumeKeyLongPressListener, MethodIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress)
 	if _err != nil {
-		_code = TransactionIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnVolumeKeyLongPressListener, MethodIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type OnVolumeKeyLongPressListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnVolumeKeyLongPressListenerStub)(nil)
+
+func (s *OnVolumeKeyLongPressListenerStub) Descriptor() string {
+	return DescriptorIOnVolumeKeyLongPressListener
+}
 
 func (s *OnVolumeKeyLongPressListenerStub) OnTransaction(
 	ctx context.Context,

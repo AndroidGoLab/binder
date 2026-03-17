@@ -15,23 +15,27 @@ const (
 	TransactionIVirtualDeviceSoundEffectListenerOnPlaySoundEffect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVirtualDeviceSoundEffectListenerOnPlaySoundEffect = "onPlaySoundEffect"
+)
+
 type IVirtualDeviceSoundEffectListener interface {
 	AsBinder() binder.IBinder
 	OnPlaySoundEffect(ctx context.Context, effectType int32) error
 }
 
 type VirtualDeviceSoundEffectListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDeviceSoundEffectListenerProxy(
 	remote binder.IBinder,
 ) *VirtualDeviceSoundEffectListenerProxy {
-	return &VirtualDeviceSoundEffectListenerProxy{remote: remote}
+	return &VirtualDeviceSoundEffectListenerProxy{Remote: remote}
 }
 
 func (p *VirtualDeviceSoundEffectListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDeviceSoundEffectListener = (*VirtualDeviceSoundEffectListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *VirtualDeviceSoundEffectListenerProxy) OnPlaySoundEffect(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceSoundEffectListener)
 	_data.WriteInt32(effectType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceSoundEffectListener, "onPlaySoundEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceSoundEffectListener, MethodIVirtualDeviceSoundEffectListenerOnPlaySoundEffect)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceSoundEffectListenerOnPlaySoundEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceSoundEffectListener, MethodIVirtualDeviceSoundEffectListenerOnPlaySoundEffect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type VirtualDeviceSoundEffectListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceSoundEffectListenerStub)(nil)
+
+func (s *VirtualDeviceSoundEffectListenerStub) Descriptor() string {
+	return DescriptorIVirtualDeviceSoundEffectListener
+}
 
 func (s *VirtualDeviceSoundEffectListenerStub) OnTransaction(
 	ctx context.Context,

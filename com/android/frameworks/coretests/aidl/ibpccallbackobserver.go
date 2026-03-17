@@ -12,33 +12,35 @@ import (
 const DescriptorIBpcCallbackObserver = "com.android.frameworks.coretests.aidl.IBpcCallbackObserver"
 
 const (
-	TransactionIBpcCallbackObserverOnLimitReached            = binder.FirstCallTransaction + 0
-	TransactionIBpcCallbackObserverOnWarningThresholdReached = binder.FirstCallTransaction + 1
+	TransactionIBpcCallbackObserverOnCallback = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIBpcCallbackObserverOnCallback = "onCallback"
 )
 
 type IBpcCallbackObserver interface {
 	AsBinder() binder.IBinder
-	OnLimitReached(ctx context.Context, uid int32) error
-	OnWarningThresholdReached(ctx context.Context, uid int32) error
+	OnCallback(ctx context.Context, uid int32) error
 }
 
 type BpcCallbackObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBpcCallbackObserverProxy(
 	remote binder.IBinder,
 ) *BpcCallbackObserverProxy {
-	return &BpcCallbackObserverProxy{remote: remote}
+	return &BpcCallbackObserverProxy{Remote: remote}
 }
 
 func (p *BpcCallbackObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBpcCallbackObserver = (*BpcCallbackObserverProxy)(nil)
 
-func (p *BpcCallbackObserverProxy) OnLimitReached(
+func (p *BpcCallbackObserverProxy) OnCallback(
 	ctx context.Context,
 	uid int32,
 ) error {
@@ -46,38 +48,12 @@ func (p *BpcCallbackObserverProxy) OnLimitReached(
 	_data.WriteInterfaceToken(DescriptorIBpcCallbackObserver)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcCallbackObserver, "onLimitReached")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcCallbackObserver, MethodIBpcCallbackObserverOnCallback)
 	if _err != nil {
-		_code = TransactionIBpcCallbackObserverOnLimitReached
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcCallbackObserver, MethodIBpcCallbackObserverOnCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *BpcCallbackObserverProxy) OnWarningThresholdReached(
-	ctx context.Context,
-	uid int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBpcCallbackObserver)
-	_data.WriteInt32(uid)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcCallbackObserver, "onWarningThresholdReached")
-	if _err != nil {
-		_code = TransactionIBpcCallbackObserverOnWarningThresholdReached
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,13 +74,17 @@ type BpcCallbackObserverStub struct {
 
 var _ binder.TransactionReceiver = (*BpcCallbackObserverStub)(nil)
 
+func (s *BpcCallbackObserverStub) Descriptor() string {
+	return DescriptorIBpcCallbackObserver
+}
+
 func (s *BpcCallbackObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
-	case TransactionIBpcCallbackObserverOnLimitReached:
+	case TransactionIBpcCallbackObserverOnCallback:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -112,23 +92,7 @@ func (s *BpcCallbackObserverStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnLimitReached(ctx, _arg_uid)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIBpcCallbackObserverOnWarningThresholdReached:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnWarningThresholdReached(ctx, _arg_uid)
+		_err = s.Impl.OnCallback(ctx, _arg_uid)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -145,8 +109,7 @@ func (s *BpcCallbackObserverStub) OnTransaction(
 // provide to NewBpcCallbackObserverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBpcCallbackObserverServer interface {
-	OnLimitReached(ctx context.Context, uid int32) error
-	OnWarningThresholdReached(ctx context.Context, uid int32) error
+	OnCallback(ctx context.Context, uid int32) error
 }
 
 type bpcCallbackObserverStubWrapper struct {
@@ -158,18 +121,11 @@ func (w *bpcCallbackObserverStubWrapper) AsBinder() binder.IBinder {
 	return w.stubBinder
 }
 
-func (w *bpcCallbackObserverStubWrapper) OnLimitReached(
+func (w *bpcCallbackObserverStubWrapper) OnCallback(
 	ctx context.Context,
 	uid int32,
 ) error {
-	return w.impl.OnLimitReached(ctx, uid)
-}
-
-func (w *bpcCallbackObserverStubWrapper) OnWarningThresholdReached(
-	ctx context.Context,
-	uid int32,
-) error {
-	return w.impl.OnWarningThresholdReached(ctx, uid)
+	return w.impl.OnCallback(ctx, uid)
 }
 
 var _ IBpcCallbackObserver = (*bpcCallbackObserverStubWrapper)(nil)

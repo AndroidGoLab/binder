@@ -16,6 +16,11 @@ const (
 	TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIStrongAuthTrackerOnStrongAuthRequiredChanged          = "onStrongAuthRequiredChanged"
+	MethodIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged = "onIsNonStrongBiometricAllowedChanged"
+)
+
 type IStrongAuthTracker interface {
 	AsBinder() binder.IBinder
 	OnStrongAuthRequiredChanged(ctx context.Context, strongAuthRequired int32) error
@@ -23,17 +28,17 @@ type IStrongAuthTracker interface {
 }
 
 type StrongAuthTrackerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStrongAuthTrackerProxy(
 	remote binder.IBinder,
 ) *StrongAuthTrackerProxy {
-	return &StrongAuthTrackerProxy{remote: remote}
+	return &StrongAuthTrackerProxy{Remote: remote}
 }
 
 func (p *StrongAuthTrackerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStrongAuthTracker = (*StrongAuthTrackerProxy)(nil)
@@ -42,18 +47,18 @@ func (p *StrongAuthTrackerProxy) OnStrongAuthRequiredChanged(
 	ctx context.Context,
 	strongAuthRequired int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStrongAuthTracker)
 	_data.WriteInt32(strongAuthRequired)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStrongAuthTracker, "onStrongAuthRequiredChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnStrongAuthRequiredChanged)
 	if _err != nil {
-		_code = TransactionIStrongAuthTrackerOnStrongAuthRequiredChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnStrongAuthRequiredChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,18 +66,18 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 	ctx context.Context,
 	allowed bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStrongAuthTracker)
 	_data.WriteBool(allowed)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStrongAuthTracker, "onIsNonStrongBiometricAllowedChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged)
 	if _err != nil {
-		_code = TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStrongAuthTracker, MethodIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type StrongAuthTrackerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StrongAuthTrackerStub)(nil)
+
+func (s *StrongAuthTrackerStub) Descriptor() string {
+	return DescriptorIStrongAuthTracker
+}
 
 func (s *StrongAuthTrackerStub) OnTransaction(
 	ctx context.Context,

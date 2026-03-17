@@ -15,23 +15,27 @@ const (
 	TransactionITimeDetectorListenerOnChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITimeDetectorListenerOnChange = "onChange"
+)
+
 type ITimeDetectorListener interface {
 	AsBinder() binder.IBinder
 	OnChange(ctx context.Context) error
 }
 
 type TimeDetectorListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTimeDetectorListenerProxy(
 	remote binder.IBinder,
 ) *TimeDetectorListenerProxy {
-	return &TimeDetectorListenerProxy{remote: remote}
+	return &TimeDetectorListenerProxy{Remote: remote}
 }
 
 func (p *TimeDetectorListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITimeDetectorListener = (*TimeDetectorListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *TimeDetectorListenerProxy) OnChange(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorListener, "onChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeDetectorListener, MethodITimeDetectorListenerOnChange)
 	if _err != nil {
-		_code = TransactionITimeDetectorListenerOnChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeDetectorListener, MethodITimeDetectorListenerOnChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type TimeDetectorListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TimeDetectorListenerStub)(nil)
+
+func (s *TimeDetectorListenerStub) Descriptor() string {
+	return DescriptorITimeDetectorListener
+}
 
 func (s *TimeDetectorListenerStub) OnTransaction(
 	ctx context.Context,

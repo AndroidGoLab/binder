@@ -15,23 +15,27 @@ const (
 	TransactionIAppTraceRetrieverGetTraceFileDescriptor = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppTraceRetrieverGetTraceFileDescriptor = "getTraceFileDescriptor"
+)
+
 type IAppTraceRetriever interface {
 	AsBinder() binder.IBinder
 	GetTraceFileDescriptor(ctx context.Context, packageName string, uid int32, pid int32) (int32, error)
 }
 
 type AppTraceRetrieverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppTraceRetrieverProxy(
 	remote binder.IBinder,
 ) *AppTraceRetrieverProxy {
-	return &AppTraceRetrieverProxy{remote: remote}
+	return &AppTraceRetrieverProxy{Remote: remote}
 }
 
 func (p *AppTraceRetrieverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppTraceRetriever = (*AppTraceRetrieverProxy)(nil)
@@ -49,12 +53,12 @@ func (p *AppTraceRetrieverProxy) GetTraceFileDescriptor(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTraceRetriever, "getTraceFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTraceRetriever, MethodIAppTraceRetrieverGetTraceFileDescriptor)
 	if _err != nil {
-		_code = TransactionIAppTraceRetrieverGetTraceFileDescriptor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTraceRetriever, MethodIAppTraceRetrieverGetTraceFileDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,6 +82,10 @@ type AppTraceRetrieverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppTraceRetrieverStub)(nil)
+
+func (s *AppTraceRetrieverStub) Descriptor() string {
+	return DescriptorIAppTraceRetriever
+}
 
 func (s *AppTraceRetrieverStub) OnTransaction(
 	ctx context.Context,

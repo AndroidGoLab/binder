@@ -16,6 +16,11 @@ const (
 	TransactionIFeatureDetailsCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFeatureDetailsCallbackOnSuccess = "onSuccess"
+	MethodIFeatureDetailsCallbackOnFailure = "onFailure"
+)
+
 type IFeatureDetailsCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result FeatureDetails) error
@@ -23,17 +28,17 @@ type IFeatureDetailsCallback interface {
 }
 
 type FeatureDetailsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFeatureDetailsCallbackProxy(
 	remote binder.IBinder,
 ) *FeatureDetailsCallbackProxy {
-	return &FeatureDetailsCallbackProxy{remote: remote}
+	return &FeatureDetailsCallbackProxy{Remote: remote}
 }
 
 func (p *FeatureDetailsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFeatureDetailsCallback = (*FeatureDetailsCallbackProxy)(nil)
@@ -49,13 +54,22 @@ func (p *FeatureDetailsCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureDetailsCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIFeatureDetailsCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 func (p *FeatureDetailsCallbackProxy) OnFailure(
@@ -69,13 +83,22 @@ func (p *FeatureDetailsCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureDetailsCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIFeatureDetailsCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureDetailsCallback, MethodIFeatureDetailsCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 // FeatureDetailsCallbackStub dispatches incoming binder transactions
@@ -85,6 +108,10 @@ type FeatureDetailsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FeatureDetailsCallbackStub)(nil)
+
+func (s *FeatureDetailsCallbackStub) Descriptor() string {
+	return DescriptorIFeatureDetailsCallback
+}
 
 func (s *FeatureDetailsCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -109,8 +136,13 @@ func (s *FeatureDetailsCallbackStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnSuccess(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIFeatureDetailsCallbackOnFailure:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -125,8 +157,13 @@ func (s *FeatureDetailsCallbackStub) OnTransaction(
 		}
 		var _arg_errorParams interface{}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
-		_ = _err
-		return nil, nil
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

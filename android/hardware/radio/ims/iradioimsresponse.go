@@ -22,6 +22,16 @@ const (
 	TransactionIRadioImsResponseUpdateImsCallStatusResponse       = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIRadioImsResponseSetSrvccCallInfoResponse          = "setSrvccCallInfoResponse"
+	MethodIRadioImsResponseUpdateImsRegistrationInfoResponse = "updateImsRegistrationInfoResponse"
+	MethodIRadioImsResponseStartImsTrafficResponse           = "startImsTrafficResponse"
+	MethodIRadioImsResponseStopImsTrafficResponse            = "stopImsTrafficResponse"
+	MethodIRadioImsResponseTriggerEpsFallbackResponse        = "triggerEpsFallbackResponse"
+	MethodIRadioImsResponseSendAnbrQueryResponse             = "sendAnbrQueryResponse"
+	MethodIRadioImsResponseUpdateImsCallStatusResponse       = "updateImsCallStatusResponse"
+)
+
 type IRadioImsResponse interface {
 	AsBinder() binder.IBinder
 	SetSrvccCallInfoResponse(ctx context.Context, info radio.RadioResponseInfo) error
@@ -34,17 +44,17 @@ type IRadioImsResponse interface {
 }
 
 type RadioImsResponseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioImsResponseProxy(
 	remote binder.IBinder,
 ) *RadioImsResponseProxy {
-	return &RadioImsResponseProxy{remote: remote}
+	return &RadioImsResponseProxy{Remote: remote}
 }
 
 func (p *RadioImsResponseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioImsResponse = (*RadioImsResponseProxy)(nil)
@@ -60,12 +70,12 @@ func (p *RadioImsResponseProxy) SetSrvccCallInfoResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "setSrvccCallInfoResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseSetSrvccCallInfoResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseSetSrvccCallInfoResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseSetSrvccCallInfoResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +90,12 @@ func (p *RadioImsResponseProxy) UpdateImsRegistrationInfoResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "updateImsRegistrationInfoResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseUpdateImsRegistrationInfoResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseUpdateImsRegistrationInfoResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseUpdateImsRegistrationInfoResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,12 +118,12 @@ func (p *RadioImsResponseProxy) StartImsTrafficResponse(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "startImsTrafficResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseStartImsTrafficResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseStartImsTrafficResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseStartImsTrafficResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,12 +138,12 @@ func (p *RadioImsResponseProxy) StopImsTrafficResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "stopImsTrafficResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseStopImsTrafficResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseStopImsTrafficResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseStopImsTrafficResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,12 +158,12 @@ func (p *RadioImsResponseProxy) TriggerEpsFallbackResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "triggerEpsFallbackResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseTriggerEpsFallbackResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseTriggerEpsFallbackResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseTriggerEpsFallbackResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,12 +178,12 @@ func (p *RadioImsResponseProxy) SendAnbrQueryResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "sendAnbrQueryResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseSendAnbrQueryResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseSendAnbrQueryResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseSendAnbrQueryResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -188,12 +198,12 @@ func (p *RadioImsResponseProxy) UpdateImsCallStatusResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsResponse, "updateImsCallStatusResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsResponse, MethodIRadioImsResponseUpdateImsCallStatusResponse)
 	if _err != nil {
-		_code = TransactionIRadioImsResponseUpdateImsCallStatusResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsResponse, MethodIRadioImsResponseUpdateImsCallStatusResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -204,6 +214,10 @@ type RadioImsResponseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioImsResponseStub)(nil)
+
+func (s *RadioImsResponseStub) Descriptor() string {
+	return DescriptorIRadioImsResponse
+}
 
 func (s *RadioImsResponseStub) OnTransaction(
 	ctx context.Context,

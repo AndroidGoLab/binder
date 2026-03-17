@@ -18,6 +18,12 @@ const (
 	TransactionIDisplayAreaOrganizerOnDisplayAreaInfoChanged = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDisplayAreaOrganizerOnDisplayAreaAppeared    = "onDisplayAreaAppeared"
+	MethodIDisplayAreaOrganizerOnDisplayAreaVanished    = "onDisplayAreaVanished"
+	MethodIDisplayAreaOrganizerOnDisplayAreaInfoChanged = "onDisplayAreaInfoChanged"
+)
+
 type IDisplayAreaOrganizer interface {
 	AsBinder() binder.IBinder
 	OnDisplayAreaAppeared(ctx context.Context, displayAreaInfo DisplayAreaInfo, leash view.SurfaceControl) error
@@ -26,17 +32,17 @@ type IDisplayAreaOrganizer interface {
 }
 
 type DisplayAreaOrganizerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayAreaOrganizerProxy(
 	remote binder.IBinder,
 ) *DisplayAreaOrganizerProxy {
-	return &DisplayAreaOrganizerProxy{remote: remote}
+	return &DisplayAreaOrganizerProxy{Remote: remote}
 }
 
 func (p *DisplayAreaOrganizerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayAreaOrganizer = (*DisplayAreaOrganizerProxy)(nil)
@@ -57,12 +63,12 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaAppeared(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizer, "onDisplayAreaAppeared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaAppeared)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerOnDisplayAreaAppeared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaAppeared, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +83,12 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaVanished(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizer, "onDisplayAreaVanished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaVanished)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerOnDisplayAreaVanished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaVanished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +103,12 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizer, "onDisplayAreaInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaInfoChanged)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerOnDisplayAreaInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizer, MethodIDisplayAreaOrganizerOnDisplayAreaInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +119,10 @@ type DisplayAreaOrganizerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayAreaOrganizerStub)(nil)
+
+func (s *DisplayAreaOrganizerStub) Descriptor() string {
+	return DescriptorIDisplayAreaOrganizer
+}
 
 func (s *DisplayAreaOrganizerStub) OnTransaction(
 	ctx context.Context,

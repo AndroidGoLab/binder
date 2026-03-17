@@ -15,23 +15,27 @@ const (
 	TransactionITestServiceRepeatData = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITestServiceRepeatData = "repeatData"
+)
+
 type ITestService interface {
 	AsBinder() binder.IBinder
 	RepeatData(ctx context.Context, token bool) (bool, error)
 }
 
 type TestServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestServiceProxy(
 	remote binder.IBinder,
 ) *TestServiceProxy {
-	return &TestServiceProxy{remote: remote}
+	return &TestServiceProxy{Remote: remote}
 }
 
 func (p *TestServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestService = (*TestServiceProxy)(nil)
@@ -45,12 +49,12 @@ func (p *TestServiceProxy) RepeatData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteBool(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestService, "repeatData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestService, MethodITestServiceRepeatData)
 	if _err != nil {
-		_code = TransactionITestServiceRepeatData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITestService, MethodITestServiceRepeatData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type TestServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestServiceStub)(nil)
+
+func (s *TestServiceStub) Descriptor() string {
+	return DescriptorITestService
+}
 
 func (s *TestServiceStub) OnTransaction(
 	ctx context.Context,

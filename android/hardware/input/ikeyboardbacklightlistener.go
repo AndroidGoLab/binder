@@ -15,23 +15,27 @@ const (
 	TransactionIKeyboardBacklightListenerOnBrightnessChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyboardBacklightListenerOnBrightnessChanged = "onBrightnessChanged"
+)
+
 type IKeyboardBacklightListener interface {
 	AsBinder() binder.IBinder
 	OnBrightnessChanged(ctx context.Context, deviceId int32, state IKeyboardBacklightState, isTriggeredByKeyPress bool) error
 }
 
 type KeyboardBacklightListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyboardBacklightListenerProxy(
 	remote binder.IBinder,
 ) *KeyboardBacklightListenerProxy {
-	return &KeyboardBacklightListenerProxy{remote: remote}
+	return &KeyboardBacklightListenerProxy{Remote: remote}
 }
 
 func (p *KeyboardBacklightListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyboardBacklightListener = (*KeyboardBacklightListenerProxy)(nil)
@@ -51,12 +55,12 @@ func (p *KeyboardBacklightListenerProxy) OnBrightnessChanged(
 	}
 	_data.WriteBool(isTriggeredByKeyPress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyboardBacklightListener, "onBrightnessChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyboardBacklightListener, MethodIKeyboardBacklightListenerOnBrightnessChanged)
 	if _err != nil {
-		_code = TransactionIKeyboardBacklightListenerOnBrightnessChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyboardBacklightListener, MethodIKeyboardBacklightListenerOnBrightnessChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type KeyboardBacklightListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyboardBacklightListenerStub)(nil)
+
+func (s *KeyboardBacklightListenerStub) Descriptor() string {
+	return DescriptorIKeyboardBacklightListener
+}
 
 func (s *KeyboardBacklightListenerStub) OnTransaction(
 	ctx context.Context,

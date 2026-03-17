@@ -17,6 +17,11 @@ const (
 	TransactionINativeSpatializerCallbackOnOutputChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINativeSpatializerCallbackOnLevelChanged  = "onLevelChanged"
+	MethodINativeSpatializerCallbackOnOutputChanged = "onOutputChanged"
+)
+
 type INativeSpatializerCallback interface {
 	AsBinder() binder.IBinder
 	OnLevelChanged(ctx context.Context, level Spatialization.Level) error
@@ -24,17 +29,17 @@ type INativeSpatializerCallback interface {
 }
 
 type NativeSpatializerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNativeSpatializerCallbackProxy(
 	remote binder.IBinder,
 ) *NativeSpatializerCallbackProxy {
-	return &NativeSpatializerCallbackProxy{remote: remote}
+	return &NativeSpatializerCallbackProxy{Remote: remote}
 }
 
 func (p *NativeSpatializerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INativeSpatializerCallback = (*NativeSpatializerCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *NativeSpatializerCallbackProxy) OnLevelChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINativeSpatializerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINativeSpatializerCallback, "onLevelChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnLevelChanged)
 	if _err != nil {
-		_code = TransactionINativeSpatializerCallbackOnLevelChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnLevelChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *NativeSpatializerCallbackProxy) OnOutputChanged(
 	_data.WriteInterfaceToken(DescriptorINativeSpatializerCallback)
 	_data.WriteInt32(output)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINativeSpatializerCallback, "onOutputChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnOutputChanged)
 	if _err != nil {
-		_code = TransactionINativeSpatializerCallbackOnOutputChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINativeSpatializerCallback, MethodINativeSpatializerCallbackOnOutputChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type NativeSpatializerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NativeSpatializerCallbackStub)(nil)
+
+func (s *NativeSpatializerCallbackStub) Descriptor() string {
+	return DescriptorINativeSpatializerCallback
+}
 
 func (s *NativeSpatializerCallbackStub) OnTransaction(
 	ctx context.Context,

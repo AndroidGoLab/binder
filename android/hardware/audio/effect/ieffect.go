@@ -24,6 +24,17 @@ const (
 	TransactionIEffectReopen        = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIEffectOpen          = "open"
+	MethodIEffectClose         = "close"
+	MethodIEffectGetDescriptor = "getDescriptor"
+	MethodIEffectCommand       = "command"
+	MethodIEffectGetState      = "getState"
+	MethodIEffectSetParameter  = "setParameter"
+	MethodIEffectGetParameter  = "getParameter"
+	MethodIEffectReopen        = "reopen"
+)
+
 type IEffect interface {
 	AsBinder() binder.IBinder
 	Open(ctx context.Context, common effectParameter.Common, specific *effectParameter.Specific) (effectIEffect.OpenEffectReturn, error)
@@ -37,17 +48,17 @@ type IEffect interface {
 }
 
 type EffectProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEffectProxy(
 	remote binder.IBinder,
 ) *EffectProxy {
-	return &EffectProxy{remote: remote}
+	return &EffectProxy{Remote: remote}
 }
 
 func (p *EffectProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEffect = (*EffectProxy)(nil)
@@ -72,12 +83,12 @@ func (p *EffectProxy) Open(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "open")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectOpen)
 	if _err != nil {
-		_code = TransactionIEffectOpen
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectOpen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,12 +116,12 @@ func (p *EffectProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectClose)
 	if _err != nil {
-		_code = TransactionIEffectClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -130,12 +141,12 @@ func (p *EffectProxy) GetDescriptor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetDescriptor)
 	if _err != nil {
-		_code = TransactionIEffectGetDescriptor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectGetDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -165,12 +176,12 @@ func (p *EffectProxy) Command(
 	_data.WriteInterfaceToken(DescriptorIEffect)
 	_data.WriteInt32(int32(commandId))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "command")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectCommand)
 	if _err != nil {
-		_code = TransactionIEffectCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectCommand, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -190,12 +201,12 @@ func (p *EffectProxy) GetState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetState)
 	if _err != nil {
-		_code = TransactionIEffectGetState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectGetState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -224,12 +235,12 @@ func (p *EffectProxy) SetParameter(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "setParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectSetParameter)
 	if _err != nil {
-		_code = TransactionIEffectSetParameter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectSetParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -254,12 +265,12 @@ func (p *EffectProxy) GetParameter(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectGetParameter)
 	if _err != nil {
-		_code = TransactionIEffectGetParameter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectGetParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -288,12 +299,12 @@ func (p *EffectProxy) Reopen(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "reopen")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffect, MethodIEffectReopen)
 	if _err != nil {
-		_code = TransactionIEffectReopen
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEffect, MethodIEffectReopen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -322,6 +333,10 @@ type EffectStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EffectStub)(nil)
+
+func (s *EffectStub) Descriptor() string {
+	return DescriptorIEffect
+}
 
 func (s *EffectStub) OnTransaction(
 	ctx context.Context,

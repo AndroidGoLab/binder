@@ -16,6 +16,11 @@ const (
 	TransactionIVirtualDeviceManagerNativeGetDevicePolicy    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVirtualDeviceManagerNativeGetDeviceIdsForUid = "getDeviceIdsForUid"
+	MethodIVirtualDeviceManagerNativeGetDevicePolicy    = "getDevicePolicy"
+)
+
 type IVirtualDeviceManagerNative interface {
 	AsBinder() binder.IBinder
 	GetDeviceIdsForUid(ctx context.Context, uid int32) ([]int32, error)
@@ -29,22 +34,20 @@ const (
 	IVirtualDeviceManagerNativePolicyTypeAudio     int32 = 1
 	IVirtualDeviceManagerNativePolicyTypeRecents   int32 = 2
 	IVirtualDeviceManagerNativePolicyTypeActivity  int32 = 3
-	IVirtualDeviceManagerNativePolicyTypeClipboard int32 = 4
-	IVirtualDeviceManagerNativePolicyTypeCamera    int32 = 5
 )
 
 type VirtualDeviceManagerNativeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDeviceManagerNativeProxy(
 	remote binder.IBinder,
 ) *VirtualDeviceManagerNativeProxy {
-	return &VirtualDeviceManagerNativeProxy{remote: remote}
+	return &VirtualDeviceManagerNativeProxy{Remote: remote}
 }
 
 func (p *VirtualDeviceManagerNativeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDeviceManagerNative = (*VirtualDeviceManagerNativeProxy)(nil)
@@ -58,12 +61,12 @@ func (p *VirtualDeviceManagerNativeProxy) GetDeviceIdsForUid(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManagerNative)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManagerNative, "getDeviceIdsForUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDeviceIdsForUid)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerNativeGetDeviceIdsForUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDeviceIdsForUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -101,12 +104,12 @@ func (p *VirtualDeviceManagerNativeProxy) GetDevicePolicy(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(policyType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManagerNative, "getDevicePolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDevicePolicy)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerNativeGetDevicePolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManagerNative, MethodIVirtualDeviceManagerNativeGetDevicePolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,6 +133,10 @@ type VirtualDeviceManagerNativeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceManagerNativeStub)(nil)
+
+func (s *VirtualDeviceManagerNativeStub) Descriptor() string {
+	return DescriptorIVirtualDeviceManagerNative
+}
 
 func (s *VirtualDeviceManagerNativeStub) OnTransaction(
 	ctx context.Context,

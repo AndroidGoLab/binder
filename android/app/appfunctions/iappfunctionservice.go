@@ -15,23 +15,27 @@ const (
 	TransactionIAppFunctionServiceExecuteAppFunction = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppFunctionServiceExecuteAppFunction = "executeAppFunction"
+)
+
 type IAppFunctionService interface {
 	AsBinder() binder.IBinder
 	ExecuteAppFunction(ctx context.Context, request ExecuteAppFunctionRequest, cancellationCallback ICancellationCallback, callback IExecuteAppFunctionCallback) error
 }
 
 type AppFunctionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppFunctionServiceProxy(
 	remote binder.IBinder,
 ) *AppFunctionServiceProxy {
-	return &AppFunctionServiceProxy{remote: remote}
+	return &AppFunctionServiceProxy{Remote: remote}
 }
 
 func (p *AppFunctionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppFunctionService = (*AppFunctionServiceProxy)(nil)
@@ -42,7 +46,7 @@ func (p *AppFunctionServiceProxy) ExecuteAppFunction(
 	cancellationCallback ICancellationCallback,
 	callback IExecuteAppFunctionCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppFunctionService)
 	_data.WriteInt32(1)
@@ -50,15 +54,15 @@ func (p *AppFunctionServiceProxy) ExecuteAppFunction(
 		return _err
 	}
 	_data.WriteString16(_identity.PackageName)
-	binder.WriteBinderToParcel(ctx, _data, cancellationCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellationCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppFunctionService, "executeAppFunction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppFunctionService, MethodIAppFunctionServiceExecuteAppFunction)
 	if _err != nil {
-		_code = TransactionIAppFunctionServiceExecuteAppFunction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppFunctionService, MethodIAppFunctionServiceExecuteAppFunction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type AppFunctionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppFunctionServiceStub)(nil)
+
+func (s *AppFunctionServiceStub) Descriptor() string {
+	return DescriptorIAppFunctionService
+}
 
 func (s *AppFunctionServiceStub) OnTransaction(
 	ctx context.Context,

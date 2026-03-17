@@ -33,7 +33,6 @@ type HealthInfo struct {
 	ChargingState                      BatteryChargingState
 	ChargingPolicy                     BatteryChargingPolicy
 	BatteryHealthData                  BatteryHealthData
-	HingeInfos                         []HingeInfo
 }
 
 const (
@@ -69,6 +68,7 @@ func (s *HealthInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.DiskStats)))
 		for _, _item := range s.DiskStats {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -79,6 +79,7 @@ func (s *HealthInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.StorageInfos)))
 		for _, _item := range s.StorageInfos {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -91,16 +92,6 @@ func (s *HealthInfo) MarshalParcel(
 	p.WriteInt32(int32(s.ChargingPolicy))
 	if _err := s.BatteryHealthData.MarshalParcel(p); _err != nil {
 		return _err
-	}
-	if s.HingeInfos == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.HingeInfos)))
-		for _, _item := range s.HingeInfos {
-			if _err := _item.MarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -215,6 +206,9 @@ func (s *HealthInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.DiskStats = make([]DiskStats, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.DiskStats[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -229,6 +223,9 @@ func (s *HealthInfo) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.StorageInfos = make([]StorageInfo, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.StorageInfos[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -265,20 +262,6 @@ func (s *HealthInfo) UnmarshalParcel(
 
 	if _err = s.BatteryHealthData.UnmarshalParcel(p); _err != nil {
 		return _err
-	}
-
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count2 >= 0 {
-		s.HingeInfos = make([]HingeInfo, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			if _err = s.HingeInfos[_i].UnmarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

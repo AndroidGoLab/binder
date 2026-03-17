@@ -1,7 +1,6 @@
 package media
 
 import (
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -10,7 +9,7 @@ import (
 
 type CreateTrackRequest struct {
 	Attr                   AudioAttributes
-	Config                 common.AudioConfig
+	Config                 interface{}
 	ClientInfo             AudioClient
 	SharedBuffer           SharedFileRegion
 	NotificationsPerBuffer int32
@@ -31,9 +30,6 @@ func (s *CreateTrackRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	if _err := s.Attr.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _err := s.Config.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	if _err := s.ClientInfo.MarshalParcel(p); _err != nil {
@@ -69,10 +65,6 @@ func (s *CreateTrackRequest) UnmarshalParcel(
 	}
 
 	if _err = s.Attr.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

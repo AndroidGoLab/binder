@@ -16,23 +16,27 @@ const (
 	TransactionIDataServiceSignalInfoListenerOnDataServiceSignalInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDataServiceSignalInfoListenerOnDataServiceSignalInfoChanged = "onDataServiceSignalInfoChanged"
+)
+
 type IDataServiceSignalInfoListener interface {
 	AsBinder() binder.IBinder
 	OnDataServiceSignalInfoChanged(ctx context.Context, sessionToken string, changedSignalInfo os.Bundle) error
 }
 
 type DataServiceSignalInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataServiceSignalInfoListenerProxy(
 	remote binder.IBinder,
 ) *DataServiceSignalInfoListenerProxy {
-	return &DataServiceSignalInfoListenerProxy{remote: remote}
+	return &DataServiceSignalInfoListenerProxy{Remote: remote}
 }
 
 func (p *DataServiceSignalInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataServiceSignalInfoListener = (*DataServiceSignalInfoListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *DataServiceSignalInfoListenerProxy) OnDataServiceSignalInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceSignalInfoListener, "onDataServiceSignalInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceSignalInfoListener, MethodIDataServiceSignalInfoListenerOnDataServiceSignalInfoChanged)
 	if _err != nil {
-		_code = TransactionIDataServiceSignalInfoListenerOnDataServiceSignalInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceSignalInfoListener, MethodIDataServiceSignalInfoListenerOnDataServiceSignalInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type DataServiceSignalInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataServiceSignalInfoListenerStub)(nil)
+
+func (s *DataServiceSignalInfoListenerStub) Descriptor() string {
+	return DescriptorIDataServiceSignalInfoListener
+}
 
 func (s *DataServiceSignalInfoListenerStub) OnTransaction(
 	ctx context.Context,

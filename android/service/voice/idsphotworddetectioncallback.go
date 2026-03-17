@@ -16,6 +16,11 @@ const (
 	TransactionIDspHotwordDetectionCallbackOnRejected = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDspHotwordDetectionCallbackOnDetected = "onDetected"
+	MethodIDspHotwordDetectionCallbackOnRejected = "onRejected"
+)
+
 type IDspHotwordDetectionCallback interface {
 	AsBinder() binder.IBinder
 	OnDetected(ctx context.Context, hotwordDetectedResult HotwordDetectedResult) error
@@ -23,17 +28,17 @@ type IDspHotwordDetectionCallback interface {
 }
 
 type DspHotwordDetectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDspHotwordDetectionCallbackProxy(
 	remote binder.IBinder,
 ) *DspHotwordDetectionCallbackProxy {
-	return &DspHotwordDetectionCallbackProxy{remote: remote}
+	return &DspHotwordDetectionCallbackProxy{Remote: remote}
 }
 
 func (p *DspHotwordDetectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDspHotwordDetectionCallback = (*DspHotwordDetectionCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *DspHotwordDetectionCallbackProxy) OnDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDspHotwordDetectionCallback, "onDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDspHotwordDetectionCallback, MethodIDspHotwordDetectionCallbackOnDetected)
 	if _err != nil {
-		_code = TransactionIDspHotwordDetectionCallbackOnDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDspHotwordDetectionCallback, MethodIDspHotwordDetectionCallbackOnDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *DspHotwordDetectionCallbackProxy) OnRejected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDspHotwordDetectionCallback, "onRejected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDspHotwordDetectionCallback, MethodIDspHotwordDetectionCallbackOnRejected)
 	if _err != nil {
-		_code = TransactionIDspHotwordDetectionCallbackOnRejected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDspHotwordDetectionCallback, MethodIDspHotwordDetectionCallbackOnRejected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type DspHotwordDetectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DspHotwordDetectionCallbackStub)(nil)
+
+func (s *DspHotwordDetectionCallbackStub) Descriptor() string {
+	return DescriptorIDspHotwordDetectionCallback
+}
 
 func (s *DspHotwordDetectionCallbackStub) OnTransaction(
 	ctx context.Context,

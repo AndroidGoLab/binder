@@ -15,23 +15,27 @@ const (
 	TransactionINetworkRecommendationProviderRequestScores = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodINetworkRecommendationProviderRequestScores = "requestScores"
+)
+
 type INetworkRecommendationProvider interface {
 	AsBinder() binder.IBinder
 	RequestScores(ctx context.Context, networks []NetworkKey) error
 }
 
 type NetworkRecommendationProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetworkRecommendationProviderProxy(
 	remote binder.IBinder,
 ) *NetworkRecommendationProviderProxy {
-	return &NetworkRecommendationProviderProxy{remote: remote}
+	return &NetworkRecommendationProviderProxy{Remote: remote}
 }
 
 func (p *NetworkRecommendationProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetworkRecommendationProvider = (*NetworkRecommendationProviderProxy)(nil)
@@ -47,18 +51,19 @@ func (p *NetworkRecommendationProviderProxy) RequestScores(
 	} else {
 		_data.WriteInt32(int32(len(networks)))
 		for _, _item := range networks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkRecommendationProvider, "requestScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkRecommendationProvider, MethodINetworkRecommendationProviderRequestScores)
 	if _err != nil {
-		_code = TransactionINetworkRecommendationProviderRequestScores
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkRecommendationProvider, MethodINetworkRecommendationProviderRequestScores, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type NetworkRecommendationProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetworkRecommendationProviderStub)(nil)
+
+func (s *NetworkRecommendationProviderStub) Descriptor() string {
+	return DescriptorINetworkRecommendationProvider
+}
 
 func (s *NetworkRecommendationProviderStub) OnTransaction(
 	ctx context.Context,

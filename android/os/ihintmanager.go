@@ -3,8 +3,6 @@ package os
 import (
 	"context"
 	"fmt"
-	DynamicsProcessing "github.com/xaionaro-go/binder/android/hardware/audio/effect/DynamicsProcessing"
-	power "github.com/xaionaro-go/binder/android/hardware/power"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,75 +12,69 @@ import (
 const DescriptorIHintManager = "android.os.IHintManager"
 
 const (
-	TransactionIHintManagerCreateHintSessionWithConfig        = binder.FirstCallTransaction + 0
-	TransactionIHintManagerGetHintSessionPreferredRate        = binder.FirstCallTransaction + 1
-	TransactionIHintManagerSetHintSessionThreads              = binder.FirstCallTransaction + 2
-	TransactionIHintManagerGetHintSessionThreadIds            = binder.FirstCallTransaction + 3
-	TransactionIHintManagerGetSessionChannel                  = binder.FirstCallTransaction + 4
-	TransactionIHintManagerCloseSessionChannel                = binder.FirstCallTransaction + 5
-	TransactionIHintManagerGetCpuHeadroom                     = binder.FirstCallTransaction + 6
-	TransactionIHintManagerGetCpuHeadroomMinIntervalMillis    = binder.FirstCallTransaction + 7
-	TransactionIHintManagerGetGpuHeadroom                     = binder.FirstCallTransaction + 8
-	TransactionIHintManagerGetGpuHeadroomMinIntervalMillis    = binder.FirstCallTransaction + 9
-	TransactionIHintManagerGetMaxGraphicsPipelineThreadsCount = binder.FirstCallTransaction + 10
-	TransactionIHintManagerPassSessionManagerBinder           = binder.FirstCallTransaction + 11
+	TransactionIHintManagerCreateHintSession           = binder.FirstCallTransaction + 0
+	TransactionIHintManagerGetHintSessionPreferredRate = binder.FirstCallTransaction + 1
+	TransactionIHintManagerSetHintSessionThreads       = binder.FirstCallTransaction + 2
+	TransactionIHintManagerGetHintSessionThreadIds     = binder.FirstCallTransaction + 3
+)
+
+const (
+	MethodIHintManagerCreateHintSession           = "createHintSession"
+	MethodIHintManagerGetHintSessionPreferredRate = "getHintSessionPreferredRate"
+	MethodIHintManagerSetHintSessionThreads       = "setHintSessionThreads"
+	MethodIHintManagerGetHintSessionThreadIds     = "getHintSessionThreadIds"
 )
 
 type IHintManager interface {
 	AsBinder() binder.IBinder
-	CreateHintSessionWithConfig(ctx context.Context, token binder.IBinder, tag power.SessionTag, creationConfig SessionCreationConfig, config power.SessionConfig) (IHintSession, error)
+	CreateHintSession(ctx context.Context, token binder.IBinder, tids []int32, durationNanos int64) (IHintSession, error)
 	GetHintSessionPreferredRate(ctx context.Context) (int64, error)
 	SetHintSessionThreads(ctx context.Context, hintSession IHintSession, tids []int32) error
 	GetHintSessionThreadIds(ctx context.Context, hintSession IHintSession) ([]int32, error)
-	GetSessionChannel(ctx context.Context, token binder.IBinder) (DynamicsProcessing.ChannelConfig, error)
-	CloseSessionChannel(ctx context.Context) error
-	GetCpuHeadroom(ctx context.Context, params CpuHeadroomParamsInternal) (power.CpuHeadroomResult, error)
-	GetCpuHeadroomMinIntervalMillis(ctx context.Context) (int64, error)
-	GetGpuHeadroom(ctx context.Context, params GpuHeadroomParamsInternal) (power.GpuHeadroomResult, error)
-	GetGpuHeadroomMinIntervalMillis(ctx context.Context) (int64, error)
-	GetMaxGraphicsPipelineThreadsCount(ctx context.Context) (int32, error)
-	PassSessionManagerBinder(ctx context.Context, sessionManager binder.IBinder) error
 }
 
 type HintManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHintManagerProxy(
 	remote binder.IBinder,
 ) *HintManagerProxy {
-	return &HintManagerProxy{remote: remote}
+	return &HintManagerProxy{Remote: remote}
 }
 
 func (p *HintManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHintManager = (*HintManagerProxy)(nil)
 
-func (p *HintManagerProxy) CreateHintSessionWithConfig(
+func (p *HintManagerProxy) CreateHintSession(
 	ctx context.Context,
 	token binder.IBinder,
-	tag power.SessionTag,
-	creationConfig SessionCreationConfig,
-	config power.SessionConfig,
+	tids []int32,
+	durationNanos int64,
 ) (IHintSession, error) {
 	var _result IHintSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	_data.WriteInt32(int32(tag))
-	_data.WriteInt32(1)
-	if _err := creationConfig.MarshalParcel(_data); _err != nil {
-		return _result, _err
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	if tids == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(tids)))
+		for _, _item := range tids {
+			_data.WriteInt32(_item)
+		}
 	}
+	_data.WriteInt64(durationNanos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "createHintSessionWithConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerCreateHintSession)
 	if _err != nil {
-		_code = TransactionIHintManagerCreateHintSessionWithConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHintManager, MethodIHintManagerCreateHintSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,15 +83,12 @@ func (p *HintManagerProxy) CreateHintSessionWithConfig(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = config.UnmarshalParcel(_reply); _err != nil {
-		return _result, _err
-	}
 
 	_handle, _err := _reply.ReadStrongBinder()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewHintSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -110,12 +99,12 @@ func (p *HintManagerProxy) GetHintSessionPreferredRate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getHintSessionPreferredRate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerGetHintSessionPreferredRate)
 	if _err != nil {
-		_code = TransactionIHintManagerGetHintSessionPreferredRate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHintManager, MethodIHintManagerGetHintSessionPreferredRate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,7 +128,7 @@ func (p *HintManagerProxy) SetHintSessionThreads(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
 	if tids == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -149,12 +138,12 @@ func (p *HintManagerProxy) SetHintSessionThreads(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "setHintSessionThreads")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerSetHintSessionThreads)
 	if _err != nil {
-		_code = TransactionIHintManagerSetHintSessionThreads
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintManager, MethodIHintManagerSetHintSessionThreads, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -174,14 +163,14 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 	var _result []int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, hintSession.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getHintSessionThreadIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintManager, MethodIHintManagerGetHintSessionThreadIds)
 	if _err != nil {
-		_code = TransactionIHintManagerGetHintSessionThreadIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHintManager, MethodIHintManagerGetHintSessionThreadIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,239 +197,6 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 	return _result, nil
 }
 
-func (p *HintManagerProxy) GetSessionChannel(
-	ctx context.Context,
-	token binder.IBinder,
-) (DynamicsProcessing.ChannelConfig, error) {
-	var _result DynamicsProcessing.ChannelConfig
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getSessionChannel")
-	if _err != nil {
-		_code = TransactionIHintManagerGetSessionChannel
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *HintManagerProxy) CloseSessionChannel(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "closeSessionChannel")
-	if _err != nil {
-		_code = TransactionIHintManagerCloseSessionChannel
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *HintManagerProxy) GetCpuHeadroom(
-	ctx context.Context,
-	params CpuHeadroomParamsInternal,
-) (power.CpuHeadroomResult, error) {
-	var _result power.CpuHeadroomResult
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getCpuHeadroom")
-	if _err != nil {
-		_code = TransactionIHintManagerGetCpuHeadroom
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *HintManagerProxy) GetCpuHeadroomMinIntervalMillis(
-	ctx context.Context,
-) (int64, error) {
-	var _result int64
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getCpuHeadroomMinIntervalMillis")
-	if _err != nil {
-		_code = TransactionIHintManagerGetCpuHeadroomMinIntervalMillis
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt64()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *HintManagerProxy) GetGpuHeadroom(
-	ctx context.Context,
-	params GpuHeadroomParamsInternal,
-) (power.GpuHeadroomResult, error) {
-	var _result power.GpuHeadroomResult
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getGpuHeadroom")
-	if _err != nil {
-		_code = TransactionIHintManagerGetGpuHeadroom
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *HintManagerProxy) GetGpuHeadroomMinIntervalMillis(
-	ctx context.Context,
-) (int64, error) {
-	var _result int64
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getGpuHeadroomMinIntervalMillis")
-	if _err != nil {
-		_code = TransactionIHintManagerGetGpuHeadroomMinIntervalMillis
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt64()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *HintManagerProxy) GetMaxGraphicsPipelineThreadsCount(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "getMaxGraphicsPipelineThreadsCount")
-	if _err != nil {
-		_code = TransactionIHintManagerGetMaxGraphicsPipelineThreadsCount
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *HintManagerProxy) PassSessionManagerBinder(
-	ctx context.Context,
-	sessionManager binder.IBinder,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionManager, p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintManager, "passSessionManagerBinder")
-	if _err != nil {
-		_code = TransactionIHintManagerPassSessionManagerBinder
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
 // HintManagerStub dispatches incoming binder transactions
 // to a typed IHintManager implementation.
 type HintManagerStub struct {
@@ -449,38 +205,31 @@ type HintManagerStub struct {
 
 var _ binder.TransactionReceiver = (*HintManagerStub)(nil)
 
+func (s *HintManagerStub) Descriptor() string {
+	return DescriptorIHintManager
+}
+
 func (s *HintManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
-	case TransactionIHintManagerCreateHintSessionWithConfig:
+	case TransactionIHintManagerCreateHintSession:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_raw_tag, _err := _data.ReadInt32()
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_tids []int32
+		_ = _arg_tids
+		_arg_durationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tag := power.SessionTag(_raw_tag)
-		var _arg_creationConfig SessionCreationConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_creationConfig.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_config power.SessionConfig
-		_result, _err := s.Impl.CreateHintSessionWithConfig(ctx, _arg_token, _arg_tag, _arg_creationConfig, _arg_config)
+		_result, _err := s.Impl.CreateHintSession(ctx, _arg_token, _arg_tids, _arg_durationNanos)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -538,137 +287,6 @@ func (s *HintManagerStub) OnTransaction(
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
-	case TransactionIHintManagerGetSessionChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token binder.IBinder
-		_ = _arg_token
-		_result, _err := s.Impl.GetSessionChannel(ctx, _arg_token)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIHintManagerCloseSessionChannel:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.CloseSessionChannel(ctx)
-		_ = _err
-		return nil, nil
-	case TransactionIHintManagerGetCpuHeadroom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_params CpuHeadroomParamsInternal
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.GetCpuHeadroom(ctx, _arg_params)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIHintManagerGetCpuHeadroomMinIntervalMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetCpuHeadroomMinIntervalMillis(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt64(_result)
-		return _reply, nil
-	case TransactionIHintManagerGetGpuHeadroom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_params GpuHeadroomParamsInternal
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.GetGpuHeadroom(ctx, _arg_params)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIHintManagerGetGpuHeadroomMinIntervalMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetGpuHeadroomMinIntervalMillis(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt64(_result)
-		return _reply, nil
-	case TransactionIHintManagerGetMaxGraphicsPipelineThreadsCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetMaxGraphicsPipelineThreadsCount(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIHintManagerPassSessionManagerBinder:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_sessionManager binder.IBinder
-		_ = _arg_sessionManager
-		_err := s.Impl.PassSessionManagerBinder(ctx, _arg_sessionManager)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -678,18 +296,10 @@ func (s *HintManagerStub) OnTransaction(
 // provide to NewHintManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IHintManagerServer interface {
-	CreateHintSessionWithConfig(ctx context.Context, token binder.IBinder, tag power.SessionTag, creationConfig SessionCreationConfig, config power.SessionConfig) (IHintSession, error)
+	CreateHintSession(ctx context.Context, token binder.IBinder, tids []int32, durationNanos int64) (IHintSession, error)
 	GetHintSessionPreferredRate(ctx context.Context) (int64, error)
 	SetHintSessionThreads(ctx context.Context, hintSession IHintSession, tids []int32) error
 	GetHintSessionThreadIds(ctx context.Context, hintSession IHintSession) ([]int32, error)
-	GetSessionChannel(ctx context.Context, token binder.IBinder) (DynamicsProcessing.ChannelConfig, error)
-	CloseSessionChannel(ctx context.Context) error
-	GetCpuHeadroom(ctx context.Context, params CpuHeadroomParamsInternal) (power.CpuHeadroomResult, error)
-	GetCpuHeadroomMinIntervalMillis(ctx context.Context) (int64, error)
-	GetGpuHeadroom(ctx context.Context, params GpuHeadroomParamsInternal) (power.GpuHeadroomResult, error)
-	GetGpuHeadroomMinIntervalMillis(ctx context.Context) (int64, error)
-	GetMaxGraphicsPipelineThreadsCount(ctx context.Context) (int32, error)
-	PassSessionManagerBinder(ctx context.Context, sessionManager binder.IBinder) error
 }
 
 type hintManagerStubWrapper struct {
@@ -701,14 +311,13 @@ func (w *hintManagerStubWrapper) AsBinder() binder.IBinder {
 	return w.stubBinder
 }
 
-func (w *hintManagerStubWrapper) CreateHintSessionWithConfig(
+func (w *hintManagerStubWrapper) CreateHintSession(
 	ctx context.Context,
 	token binder.IBinder,
-	tag power.SessionTag,
-	creationConfig SessionCreationConfig,
-	config power.SessionConfig,
+	tids []int32,
+	durationNanos int64,
 ) (IHintSession, error) {
-	return w.impl.CreateHintSessionWithConfig(ctx, token, tag, creationConfig, config)
+	return w.impl.CreateHintSession(ctx, token, tids, durationNanos)
 }
 
 func (w *hintManagerStubWrapper) GetHintSessionPreferredRate(
@@ -730,58 +339,6 @@ func (w *hintManagerStubWrapper) GetHintSessionThreadIds(
 	hintSession IHintSession,
 ) ([]int32, error) {
 	return w.impl.GetHintSessionThreadIds(ctx, hintSession)
-}
-
-func (w *hintManagerStubWrapper) GetSessionChannel(
-	ctx context.Context,
-	token binder.IBinder,
-) (DynamicsProcessing.ChannelConfig, error) {
-	return w.impl.GetSessionChannel(ctx, token)
-}
-
-func (w *hintManagerStubWrapper) CloseSessionChannel(
-	ctx context.Context,
-) error {
-	return w.impl.CloseSessionChannel(ctx)
-}
-
-func (w *hintManagerStubWrapper) GetCpuHeadroom(
-	ctx context.Context,
-	params CpuHeadroomParamsInternal,
-) (power.CpuHeadroomResult, error) {
-	return w.impl.GetCpuHeadroom(ctx, params)
-}
-
-func (w *hintManagerStubWrapper) GetCpuHeadroomMinIntervalMillis(
-	ctx context.Context,
-) (int64, error) {
-	return w.impl.GetCpuHeadroomMinIntervalMillis(ctx)
-}
-
-func (w *hintManagerStubWrapper) GetGpuHeadroom(
-	ctx context.Context,
-	params GpuHeadroomParamsInternal,
-) (power.GpuHeadroomResult, error) {
-	return w.impl.GetGpuHeadroom(ctx, params)
-}
-
-func (w *hintManagerStubWrapper) GetGpuHeadroomMinIntervalMillis(
-	ctx context.Context,
-) (int64, error) {
-	return w.impl.GetGpuHeadroomMinIntervalMillis(ctx)
-}
-
-func (w *hintManagerStubWrapper) GetMaxGraphicsPipelineThreadsCount(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetMaxGraphicsPipelineThreadsCount(ctx)
-}
-
-func (w *hintManagerStubWrapper) PassSessionManagerBinder(
-	ctx context.Context,
-	sessionManager binder.IBinder,
-) error {
-	return w.impl.PassSessionManagerBinder(ctx, sessionManager)
 }
 
 var _ IHintManager = (*hintManagerStubWrapper)(nil)

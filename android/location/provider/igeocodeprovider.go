@@ -16,6 +16,11 @@ const (
 	TransactionIGeocodeProviderReverseGeocode = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGeocodeProviderForwardGeocode = "forwardGeocode"
+	MethodIGeocodeProviderReverseGeocode = "reverseGeocode"
+)
+
 type IGeocodeProvider interface {
 	AsBinder() binder.IBinder
 	ForwardGeocode(ctx context.Context, request ForwardGeocodeRequest, callback IGeocodeCallback) error
@@ -23,17 +28,17 @@ type IGeocodeProvider interface {
 }
 
 type GeocodeProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGeocodeProviderProxy(
 	remote binder.IBinder,
 ) *GeocodeProviderProxy {
-	return &GeocodeProviderProxy{remote: remote}
+	return &GeocodeProviderProxy{Remote: remote}
 }
 
 func (p *GeocodeProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGeocodeProvider = (*GeocodeProviderProxy)(nil)
@@ -49,14 +54,14 @@ func (p *GeocodeProviderProxy) ForwardGeocode(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeProvider, "forwardGeocode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeocodeProvider, MethodIGeocodeProviderForwardGeocode)
 	if _err != nil {
-		_code = TransactionIGeocodeProviderForwardGeocode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGeocodeProvider, MethodIGeocodeProviderForwardGeocode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,14 +76,14 @@ func (p *GeocodeProviderProxy) ReverseGeocode(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeProvider, "reverseGeocode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeocodeProvider, MethodIGeocodeProviderReverseGeocode)
 	if _err != nil {
-		_code = TransactionIGeocodeProviderReverseGeocode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGeocodeProvider, MethodIGeocodeProviderReverseGeocode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,6 +94,10 @@ type GeocodeProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GeocodeProviderStub)(nil)
+
+func (s *GeocodeProviderStub) Descriptor() string {
+	return DescriptorIGeocodeProvider
+}
 
 func (s *GeocodeProviderStub) OnTransaction(
 	ctx context.Context,

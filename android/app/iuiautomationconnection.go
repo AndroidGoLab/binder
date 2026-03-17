@@ -14,31 +14,49 @@ import (
 const DescriptorIUiAutomationConnection = "android.app.IUiAutomationConnection"
 
 const (
-	TransactionIUiAutomationConnectionConnect                            = binder.FirstCallTransaction + 0
-	TransactionIUiAutomationConnectionDisconnect                         = binder.FirstCallTransaction + 1
-	TransactionIUiAutomationConnectionInjectInputEvent                   = binder.FirstCallTransaction + 2
-	TransactionIUiAutomationConnectionInjectInputEventToInputFilter      = binder.FirstCallTransaction + 3
-	TransactionIUiAutomationConnectionSyncInputTransactions              = binder.FirstCallTransaction + 4
-	TransactionIUiAutomationConnectionSetRotation                        = binder.FirstCallTransaction + 5
-	TransactionIUiAutomationConnectionTakeScreenshot                     = binder.FirstCallTransaction + 6
-	TransactionIUiAutomationConnectionTakeSurfaceControlScreenshot       = binder.FirstCallTransaction + 7
-	TransactionIUiAutomationConnectionClearWindowContentFrameStats       = binder.FirstCallTransaction + 8
-	TransactionIUiAutomationConnectionGetWindowContentFrameStats         = binder.FirstCallTransaction + 9
-	TransactionIUiAutomationConnectionClearWindowAnimationFrameStats     = binder.FirstCallTransaction + 10
-	TransactionIUiAutomationConnectionGetWindowAnimationFrameStats       = binder.FirstCallTransaction + 11
-	TransactionIUiAutomationConnectionExecuteShellCommand                = binder.FirstCallTransaction + 12
-	TransactionIUiAutomationConnectionGrantRuntimePermission             = binder.FirstCallTransaction + 13
-	TransactionIUiAutomationConnectionRevokeRuntimePermission            = binder.FirstCallTransaction + 14
-	TransactionIUiAutomationConnectionAdoptShellPermissionIdentity       = binder.FirstCallTransaction + 15
-	TransactionIUiAutomationConnectionDropShellPermissionIdentity        = binder.FirstCallTransaction + 16
-	TransactionIUiAutomationConnectionShutdown                           = binder.FirstCallTransaction + 17
-	TransactionIUiAutomationConnectionExecuteShellCommandWithStderr      = binder.FirstCallTransaction + 18
-	TransactionIUiAutomationConnectionExecuteShellCommandArrayWithStderr = binder.FirstCallTransaction + 19
-	TransactionIUiAutomationConnectionGetAdoptedShellPermissions         = binder.FirstCallTransaction + 20
-	TransactionIUiAutomationConnectionAddOverridePermissionState         = binder.FirstCallTransaction + 21
-	TransactionIUiAutomationConnectionRemoveOverridePermissionState      = binder.FirstCallTransaction + 22
-	TransactionIUiAutomationConnectionClearOverridePermissionStates      = binder.FirstCallTransaction + 23
-	TransactionIUiAutomationConnectionClearAllOverridePermissionStates   = binder.FirstCallTransaction + 24
+	TransactionIUiAutomationConnectionConnect                        = binder.FirstCallTransaction + 0
+	TransactionIUiAutomationConnectionDisconnect                     = binder.FirstCallTransaction + 1
+	TransactionIUiAutomationConnectionInjectInputEvent               = binder.FirstCallTransaction + 2
+	TransactionIUiAutomationConnectionInjectInputEventToInputFilter  = binder.FirstCallTransaction + 3
+	TransactionIUiAutomationConnectionSyncInputTransactions          = binder.FirstCallTransaction + 4
+	TransactionIUiAutomationConnectionSetRotation                    = binder.FirstCallTransaction + 5
+	TransactionIUiAutomationConnectionTakeScreenshot                 = binder.FirstCallTransaction + 6
+	TransactionIUiAutomationConnectionTakeSurfaceControlScreenshot   = binder.FirstCallTransaction + 7
+	TransactionIUiAutomationConnectionClearWindowContentFrameStats   = binder.FirstCallTransaction + 8
+	TransactionIUiAutomationConnectionGetWindowContentFrameStats     = binder.FirstCallTransaction + 9
+	TransactionIUiAutomationConnectionClearWindowAnimationFrameStats = binder.FirstCallTransaction + 10
+	TransactionIUiAutomationConnectionGetWindowAnimationFrameStats   = binder.FirstCallTransaction + 11
+	TransactionIUiAutomationConnectionExecuteShellCommand            = binder.FirstCallTransaction + 12
+	TransactionIUiAutomationConnectionGrantRuntimePermission         = binder.FirstCallTransaction + 13
+	TransactionIUiAutomationConnectionRevokeRuntimePermission        = binder.FirstCallTransaction + 14
+	TransactionIUiAutomationConnectionAdoptShellPermissionIdentity   = binder.FirstCallTransaction + 15
+	TransactionIUiAutomationConnectionDropShellPermissionIdentity    = binder.FirstCallTransaction + 16
+	TransactionIUiAutomationConnectionShutdown                       = binder.FirstCallTransaction + 17
+	TransactionIUiAutomationConnectionExecuteShellCommandWithStderr  = binder.FirstCallTransaction + 18
+	TransactionIUiAutomationConnectionGetAdoptedShellPermissions     = binder.FirstCallTransaction + 19
+)
+
+const (
+	MethodIUiAutomationConnectionConnect                        = "connect"
+	MethodIUiAutomationConnectionDisconnect                     = "disconnect"
+	MethodIUiAutomationConnectionInjectInputEvent               = "injectInputEvent"
+	MethodIUiAutomationConnectionInjectInputEventToInputFilter  = "injectInputEventToInputFilter"
+	MethodIUiAutomationConnectionSyncInputTransactions          = "syncInputTransactions"
+	MethodIUiAutomationConnectionSetRotation                    = "setRotation"
+	MethodIUiAutomationConnectionTakeScreenshot                 = "takeScreenshot"
+	MethodIUiAutomationConnectionTakeSurfaceControlScreenshot   = "takeSurfaceControlScreenshot"
+	MethodIUiAutomationConnectionClearWindowContentFrameStats   = "clearWindowContentFrameStats"
+	MethodIUiAutomationConnectionGetWindowContentFrameStats     = "getWindowContentFrameStats"
+	MethodIUiAutomationConnectionClearWindowAnimationFrameStats = "clearWindowAnimationFrameStats"
+	MethodIUiAutomationConnectionGetWindowAnimationFrameStats   = "getWindowAnimationFrameStats"
+	MethodIUiAutomationConnectionExecuteShellCommand            = "executeShellCommand"
+	MethodIUiAutomationConnectionGrantRuntimePermission         = "grantRuntimePermission"
+	MethodIUiAutomationConnectionRevokeRuntimePermission        = "revokeRuntimePermission"
+	MethodIUiAutomationConnectionAdoptShellPermissionIdentity   = "adoptShellPermissionIdentity"
+	MethodIUiAutomationConnectionDropShellPermissionIdentity    = "dropShellPermissionIdentity"
+	MethodIUiAutomationConnectionShutdown                       = "shutdown"
+	MethodIUiAutomationConnectionExecuteShellCommandWithStderr  = "executeShellCommandWithStderr"
+	MethodIUiAutomationConnectionGetAdoptedShellPermissions     = "getAdoptedShellPermissions"
 )
 
 type IUiAutomationConnection interface {
@@ -49,7 +67,7 @@ type IUiAutomationConnection interface {
 	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
 	SyncInputTransactions(ctx context.Context, waitForAnimations bool) error
 	SetRotation(ctx context.Context, rotation int32) (bool, error)
-	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener interface{}, displayId int32) (bool, error)
+	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener interface{}) (bool, error)
 	TakeSurfaceControlScreenshot(ctx context.Context, surfaceControl interface{}, listener interface{}) (bool, error)
 	ClearWindowContentFrameStats(ctx context.Context, windowId int32) (bool, error)
 	GetWindowContentFrameStats(ctx context.Context, windowId int32) (interface{}, error)
@@ -62,26 +80,21 @@ type IUiAutomationConnection interface {
 	DropShellPermissionIdentity(ctx context.Context) error
 	Shutdown(ctx context.Context) error
 	ExecuteShellCommandWithStderr(ctx context.Context, command string, sink int32, source int32, stderrSink int32) error
-	ExecuteShellCommandArrayWithStderr(ctx context.Context, command []string, sink int32, source int32, stderrSink int32) error
 	GetAdoptedShellPermissions(ctx context.Context) ([]string, error)
-	AddOverridePermissionState(ctx context.Context, uid int32, permission string, result int32) error
-	RemoveOverridePermissionState(ctx context.Context, uid int32, permission string) error
-	ClearOverridePermissionStates(ctx context.Context, uid int32) error
-	ClearAllOverridePermissionStates(ctx context.Context) error
 }
 
 type UiAutomationConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUiAutomationConnectionProxy(
 	remote binder.IBinder,
 ) *UiAutomationConnectionProxy {
-	return &UiAutomationConnectionProxy{remote: remote}
+	return &UiAutomationConnectionProxy{Remote: remote}
 }
 
 func (p *UiAutomationConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUiAutomationConnection = (*UiAutomationConnectionProxy)(nil)
@@ -93,15 +106,15 @@ func (p *UiAutomationConnectionProxy) Connect(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "connect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionConnect)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,12 +133,12 @@ func (p *UiAutomationConnectionProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionDisconnect)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -150,12 +163,12 @@ func (p *UiAutomationConnectionProxy) InjectInputEvent(
 	_data.WriteBool(sync)
 	_data.WriteBool(waitForAnimations)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "injectInputEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionInjectInputEvent)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionInjectInputEvent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionInjectInputEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,12 +192,12 @@ func (p *UiAutomationConnectionProxy) InjectInputEventToInputFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "injectInputEventToInputFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionInjectInputEventToInputFilter)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionInjectInputEventToInputFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionInjectInputEventToInputFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -205,12 +218,12 @@ func (p *UiAutomationConnectionProxy) SyncInputTransactions(
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteBool(waitForAnimations)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "syncInputTransactions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionSyncInputTransactions)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionSyncInputTransactions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionSyncInputTransactions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -232,12 +245,12 @@ func (p *UiAutomationConnectionProxy) SetRotation(
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(rotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "setRotation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionSetRotation)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionSetRotation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionSetRotation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -258,7 +271,6 @@ func (p *UiAutomationConnectionProxy) TakeScreenshot(
 	ctx context.Context,
 	crop graphics.Rect,
 	listener interface{},
-	displayId int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -267,14 +279,13 @@ func (p *UiAutomationConnectionProxy) TakeScreenshot(
 	if _err := crop.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "takeScreenshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionTakeScreenshot)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionTakeScreenshot
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionTakeScreenshot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -300,12 +311,12 @@ func (p *UiAutomationConnectionProxy) TakeSurfaceControlScreenshot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "takeSurfaceControlScreenshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionTakeSurfaceControlScreenshot)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionTakeSurfaceControlScreenshot
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionTakeSurfaceControlScreenshot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -331,12 +342,12 @@ func (p *UiAutomationConnectionProxy) ClearWindowContentFrameStats(
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(windowId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "clearWindowContentFrameStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionClearWindowContentFrameStats)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionClearWindowContentFrameStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionClearWindowContentFrameStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -362,12 +373,12 @@ func (p *UiAutomationConnectionProxy) GetWindowContentFrameStats(
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteInt32(windowId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "getWindowContentFrameStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetWindowContentFrameStats)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionGetWindowContentFrameStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetWindowContentFrameStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -386,12 +397,12 @@ func (p *UiAutomationConnectionProxy) ClearWindowAnimationFrameStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "clearWindowAnimationFrameStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionClearWindowAnimationFrameStats)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionClearWindowAnimationFrameStats
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionClearWindowAnimationFrameStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -411,12 +422,12 @@ func (p *UiAutomationConnectionProxy) GetWindowAnimationFrameStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "getWindowAnimationFrameStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetWindowAnimationFrameStats)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionGetWindowAnimationFrameStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetWindowAnimationFrameStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -441,12 +452,12 @@ func (p *UiAutomationConnectionProxy) ExecuteShellCommand(
 	_data.WriteFileDescriptor(sink)
 	_data.WriteFileDescriptor(source)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "executeShellCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionExecuteShellCommand)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionExecuteShellCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionExecuteShellCommand, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -464,19 +475,19 @@ func (p *UiAutomationConnectionProxy) GrantRuntimePermission(
 	packageName string,
 	permission string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permission)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "grantRuntimePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGrantRuntimePermission)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionGrantRuntimePermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGrantRuntimePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -494,19 +505,19 @@ func (p *UiAutomationConnectionProxy) RevokeRuntimePermission(
 	packageName string,
 	permission string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 	_data.WriteString16(packageName)
 	_data.WriteString16(permission)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "revokeRuntimePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionRevokeRuntimePermission)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionRevokeRuntimePermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionRevokeRuntimePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -536,12 +547,12 @@ func (p *UiAutomationConnectionProxy) AdoptShellPermissionIdentity(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "adoptShellPermissionIdentity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionAdoptShellPermissionIdentity)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionAdoptShellPermissionIdentity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionAdoptShellPermissionIdentity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -560,12 +571,12 @@ func (p *UiAutomationConnectionProxy) DropShellPermissionIdentity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "dropShellPermissionIdentity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionDropShellPermissionIdentity)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionDropShellPermissionIdentity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionDropShellPermissionIdentity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -584,12 +595,12 @@ func (p *UiAutomationConnectionProxy) Shutdown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "shutdown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionShutdown)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionShutdown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionShutdown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -607,51 +618,12 @@ func (p *UiAutomationConnectionProxy) ExecuteShellCommandWithStderr(
 	_data.WriteFileDescriptor(source)
 	_data.WriteFileDescriptor(stderrSink)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "executeShellCommandWithStderr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionExecuteShellCommandWithStderr)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionExecuteShellCommandWithStderr
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionExecuteShellCommandWithStderr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *UiAutomationConnectionProxy) ExecuteShellCommandArrayWithStderr(
-	ctx context.Context,
-	command []string,
-	sink int32,
-	source int32,
-	stderrSink int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-	if command == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(command)))
-		for _, _item := range command {
-			_data.WriteString16(_item)
-		}
-	}
-	_data.WriteFileDescriptor(sink)
-	_data.WriteFileDescriptor(source)
-	_data.WriteFileDescriptor(stderrSink)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "executeShellCommandArrayWithStderr")
-	if _err != nil {
-		_code = TransactionIUiAutomationConnectionExecuteShellCommandArrayWithStderr
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -671,12 +643,12 @@ func (p *UiAutomationConnectionProxy) GetAdoptedShellPermissions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "getAdoptedShellPermissions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetAdoptedShellPermissions)
 	if _err != nil {
-		_code = TransactionIUiAutomationConnectionGetAdoptedShellPermissions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUiAutomationConnection, MethodIUiAutomationConnectionGetAdoptedShellPermissions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -703,114 +675,6 @@ func (p *UiAutomationConnectionProxy) GetAdoptedShellPermissions(
 	return _result, nil
 }
 
-func (p *UiAutomationConnectionProxy) AddOverridePermissionState(
-	ctx context.Context,
-	uid int32,
-	permission string,
-	result int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-	_data.WriteInt32(uid)
-	_data.WriteString16(permission)
-	_data.WriteInt32(result)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "addOverridePermissionState")
-	if _err != nil {
-		_code = TransactionIUiAutomationConnectionAddOverridePermissionState
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *UiAutomationConnectionProxy) RemoveOverridePermissionState(
-	ctx context.Context,
-	uid int32,
-	permission string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-	_data.WriteInt32(uid)
-	_data.WriteString16(permission)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "removeOverridePermissionState")
-	if _err != nil {
-		_code = TransactionIUiAutomationConnectionRemoveOverridePermissionState
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *UiAutomationConnectionProxy) ClearOverridePermissionStates(
-	ctx context.Context,
-	uid int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-	_data.WriteInt32(uid)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "clearOverridePermissionStates")
-	if _err != nil {
-		_code = TransactionIUiAutomationConnectionClearOverridePermissionStates
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *UiAutomationConnectionProxy) ClearAllOverridePermissionStates(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUiAutomationConnection, "clearAllOverridePermissionStates")
-	if _err != nil {
-		_code = TransactionIUiAutomationConnectionClearAllOverridePermissionStates
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
 // UiAutomationConnectionStub dispatches incoming binder transactions
 // to a typed IUiAutomationConnection implementation.
 type UiAutomationConnectionStub struct {
@@ -818,6 +682,10 @@ type UiAutomationConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UiAutomationConnectionStub)(nil)
+
+func (s *UiAutomationConnectionStub) Descriptor() string {
+	return DescriptorIUiAutomationConnection
+}
 
 func (s *UiAutomationConnectionStub) OnTransaction(
 	ctx context.Context,
@@ -941,11 +809,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 			}
 		}
 		var _arg_listener interface{}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.TakeScreenshot(ctx, _arg_crop, _arg_listener, _arg_displayId)
+		_result, _err := s.Impl.TakeScreenshot(ctx, _arg_crop, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1164,33 +1028,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIUiAutomationConnectionExecuteShellCommandArrayWithStderr:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_command []string
-		_ = _arg_command
-		_arg_sink, _err := _data.ReadFileDescriptor()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_source, _err := _data.ReadFileDescriptor()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_stderrSink, _err := _data.ReadFileDescriptor()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.ExecuteShellCommandArrayWithStderr(ctx, _arg_command, _arg_sink, _arg_source, _arg_stderrSink)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	case TransactionIUiAutomationConnectionGetAdoptedShellPermissions:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1204,78 +1041,6 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
-		return _reply, nil
-	case TransactionIUiAutomationConnectionAddOverridePermissionState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_permission, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_result, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.AddOverridePermissionState(ctx, _arg_uid, _arg_permission, _arg_result)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIUiAutomationConnectionRemoveOverridePermissionState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_permission, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.RemoveOverridePermissionState(ctx, _arg_uid, _arg_permission)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIUiAutomationConnectionClearOverridePermissionStates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.ClearOverridePermissionStates(ctx, _arg_uid)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIUiAutomationConnectionClearAllOverridePermissionStates:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.ClearAllOverridePermissionStates(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -1292,7 +1057,7 @@ type IUiAutomationConnectionServer interface {
 	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
 	SyncInputTransactions(ctx context.Context, waitForAnimations bool) error
 	SetRotation(ctx context.Context, rotation int32) (bool, error)
-	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener interface{}, displayId int32) (bool, error)
+	TakeScreenshot(ctx context.Context, crop graphics.Rect, listener interface{}) (bool, error)
 	TakeSurfaceControlScreenshot(ctx context.Context, surfaceControl interface{}, listener interface{}) (bool, error)
 	ClearWindowContentFrameStats(ctx context.Context, windowId int32) (bool, error)
 	GetWindowContentFrameStats(ctx context.Context, windowId int32) (interface{}, error)
@@ -1305,12 +1070,7 @@ type IUiAutomationConnectionServer interface {
 	DropShellPermissionIdentity(ctx context.Context) error
 	Shutdown(ctx context.Context) error
 	ExecuteShellCommandWithStderr(ctx context.Context, command string, sink int32, source int32, stderrSink int32) error
-	ExecuteShellCommandArrayWithStderr(ctx context.Context, command []string, sink int32, source int32, stderrSink int32) error
 	GetAdoptedShellPermissions(ctx context.Context) ([]string, error)
-	AddOverridePermissionState(ctx context.Context, uid int32, permission string, result int32) error
-	RemoveOverridePermissionState(ctx context.Context, uid int32, permission string) error
-	ClearOverridePermissionStates(ctx context.Context, uid int32) error
-	ClearAllOverridePermissionStates(ctx context.Context) error
 }
 
 type uiAutomationConnectionStubWrapper struct {
@@ -1370,9 +1130,8 @@ func (w *uiAutomationConnectionStubWrapper) TakeScreenshot(
 	ctx context.Context,
 	crop graphics.Rect,
 	listener interface{},
-	displayId int32,
 ) (bool, error) {
-	return w.impl.TakeScreenshot(ctx, crop, listener, displayId)
+	return w.impl.TakeScreenshot(ctx, crop, listener)
 }
 
 func (w *uiAutomationConnectionStubWrapper) TakeSurfaceControlScreenshot(
@@ -1464,50 +1223,10 @@ func (w *uiAutomationConnectionStubWrapper) ExecuteShellCommandWithStderr(
 	return w.impl.ExecuteShellCommandWithStderr(ctx, command, sink, source, stderrSink)
 }
 
-func (w *uiAutomationConnectionStubWrapper) ExecuteShellCommandArrayWithStderr(
-	ctx context.Context,
-	command []string,
-	sink int32,
-	source int32,
-	stderrSink int32,
-) error {
-	return w.impl.ExecuteShellCommandArrayWithStderr(ctx, command, sink, source, stderrSink)
-}
-
 func (w *uiAutomationConnectionStubWrapper) GetAdoptedShellPermissions(
 	ctx context.Context,
 ) ([]string, error) {
 	return w.impl.GetAdoptedShellPermissions(ctx)
-}
-
-func (w *uiAutomationConnectionStubWrapper) AddOverridePermissionState(
-	ctx context.Context,
-	uid int32,
-	permission string,
-	result int32,
-) error {
-	return w.impl.AddOverridePermissionState(ctx, uid, permission, result)
-}
-
-func (w *uiAutomationConnectionStubWrapper) RemoveOverridePermissionState(
-	ctx context.Context,
-	uid int32,
-	permission string,
-) error {
-	return w.impl.RemoveOverridePermissionState(ctx, uid, permission)
-}
-
-func (w *uiAutomationConnectionStubWrapper) ClearOverridePermissionStates(
-	ctx context.Context,
-	uid int32,
-) error {
-	return w.impl.ClearOverridePermissionStates(ctx, uid)
-}
-
-func (w *uiAutomationConnectionStubWrapper) ClearAllOverridePermissionStates(
-	ctx context.Context,
-) error {
-	return w.impl.ClearAllOverridePermissionStates(ctx)
 }
 
 var _ IUiAutomationConnection = (*uiAutomationConnectionStubWrapper)(nil)

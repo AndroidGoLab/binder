@@ -18,6 +18,12 @@ const (
 	TransactionIPdfRendererCloseDocument = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIPdfRendererOpenDocument  = "openDocument"
+	MethodIPdfRendererRenderPage    = "renderPage"
+	MethodIPdfRendererCloseDocument = "closeDocument"
+)
+
 type IPdfRenderer interface {
 	AsBinder() binder.IBinder
 	OpenDocument(ctx context.Context, source int32) (int32, error)
@@ -26,17 +32,17 @@ type IPdfRenderer interface {
 }
 
 type PdfRendererProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPdfRendererProxy(
 	remote binder.IBinder,
 ) *PdfRendererProxy {
-	return &PdfRendererProxy{remote: remote}
+	return &PdfRendererProxy{Remote: remote}
 }
 
 func (p *PdfRendererProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPdfRenderer = (*PdfRendererProxy)(nil)
@@ -50,12 +56,12 @@ func (p *PdfRendererProxy) OpenDocument(
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
 	_data.WriteFileDescriptor(source)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfRenderer, "openDocument")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfRenderer, MethodIPdfRendererOpenDocument)
 	if _err != nil {
-		_code = TransactionIPdfRendererOpenDocument
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfRenderer, MethodIPdfRendererOpenDocument, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,12 +97,12 @@ func (p *PdfRendererProxy) RenderPage(
 	}
 	_data.WriteFileDescriptor(destination)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfRenderer, "renderPage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfRenderer, MethodIPdfRendererRenderPage)
 	if _err != nil {
-		_code = TransactionIPdfRendererRenderPage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfRenderer, MethodIPdfRendererRenderPage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,12 +112,12 @@ func (p *PdfRendererProxy) CloseDocument(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPdfRenderer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfRenderer, "closeDocument")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfRenderer, MethodIPdfRendererCloseDocument)
 	if _err != nil {
-		_code = TransactionIPdfRendererCloseDocument
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfRenderer, MethodIPdfRendererCloseDocument, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,6 +128,10 @@ type PdfRendererStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PdfRendererStub)(nil)
+
+func (s *PdfRendererStub) Descriptor() string {
+	return DescriptorIPdfRenderer
+}
 
 func (s *PdfRendererStub) OnTransaction(
 	ctx context.Context,

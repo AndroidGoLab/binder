@@ -15,23 +15,27 @@ const (
 	TransactionIMusicRecognitionAttributionTagCallbackOnAttributionTag = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMusicRecognitionAttributionTagCallbackOnAttributionTag = "onAttributionTag"
+)
+
 type IMusicRecognitionAttributionTagCallback interface {
 	AsBinder() binder.IBinder
 	OnAttributionTag(ctx context.Context) error
 }
 
 type MusicRecognitionAttributionTagCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMusicRecognitionAttributionTagCallbackProxy(
 	remote binder.IBinder,
 ) *MusicRecognitionAttributionTagCallbackProxy {
-	return &MusicRecognitionAttributionTagCallbackProxy{remote: remote}
+	return &MusicRecognitionAttributionTagCallbackProxy{Remote: remote}
 }
 
 func (p *MusicRecognitionAttributionTagCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMusicRecognitionAttributionTagCallback = (*MusicRecognitionAttributionTagCallbackProxy)(nil)
@@ -39,17 +43,17 @@ var _ IMusicRecognitionAttributionTagCallback = (*MusicRecognitionAttributionTag
 func (p *MusicRecognitionAttributionTagCallbackProxy) OnAttributionTag(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionAttributionTagCallback)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionAttributionTagCallback, "onAttributionTag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionAttributionTagCallback, MethodIMusicRecognitionAttributionTagCallbackOnAttributionTag)
 	if _err != nil {
-		_code = TransactionIMusicRecognitionAttributionTagCallbackOnAttributionTag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMusicRecognitionAttributionTagCallback, MethodIMusicRecognitionAttributionTagCallbackOnAttributionTag, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type MusicRecognitionAttributionTagCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionAttributionTagCallbackStub)(nil)
+
+func (s *MusicRecognitionAttributionTagCallbackStub) Descriptor() string {
+	return DescriptorIMusicRecognitionAttributionTagCallback
+}
 
 func (s *MusicRecognitionAttributionTagCallbackStub) OnTransaction(
 	ctx context.Context,

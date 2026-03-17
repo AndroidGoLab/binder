@@ -17,8 +17,9 @@ import (
 // Conn wraps the binder driver and service manager into a single
 // connection handle for CLI subcommands.
 type Conn struct {
-	Driver *kernelbinder.Driver
-	SM     *servicemanager.ServiceManager
+	Driver    *kernelbinder.Driver
+	Transport binder.Transport
+	SM        *servicemanager.ServiceManager
 }
 
 // OpenConn opens a binder driver connection and creates a service manager client.
@@ -62,8 +63,9 @@ func OpenConn(
 	sm := servicemanager.New(transport)
 
 	return &Conn{
-		Driver: driver,
-		SM:     sm,
+		Driver:    driver,
+		Transport: transport,
+		SM:        sm,
 	}, nil
 }
 

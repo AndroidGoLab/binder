@@ -14,49 +14,66 @@ const DescriptorINotificationListener = "android.service.notification.INotificat
 const (
 	TransactionINotificationListenerOnListenerConnected                    = binder.FirstCallTransaction + 0
 	TransactionINotificationListenerOnNotificationPosted                   = binder.FirstCallTransaction + 1
-	TransactionINotificationListenerOnNotificationPostedFull               = binder.FirstCallTransaction + 2
-	TransactionINotificationListenerOnStatusBarIconsBehaviorChanged        = binder.FirstCallTransaction + 3
-	TransactionINotificationListenerOnNotificationRemoved                  = binder.FirstCallTransaction + 4
-	TransactionINotificationListenerOnNotificationRemovedFull              = binder.FirstCallTransaction + 5
-	TransactionINotificationListenerOnNotificationRankingUpdate            = binder.FirstCallTransaction + 6
-	TransactionINotificationListenerOnListenerHintsChanged                 = binder.FirstCallTransaction + 7
-	TransactionINotificationListenerOnInterruptionFilterChanged            = binder.FirstCallTransaction + 8
-	TransactionINotificationListenerOnNotificationChannelModification      = binder.FirstCallTransaction + 9
-	TransactionINotificationListenerOnNotificationChannelGroupModification = binder.FirstCallTransaction + 10
-	TransactionINotificationListenerOnNotificationEnqueuedWithChannel      = binder.FirstCallTransaction + 11
-	TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull  = binder.FirstCallTransaction + 12
-	TransactionINotificationListenerOnNotificationSnoozedUntilContext      = binder.FirstCallTransaction + 13
-	TransactionINotificationListenerOnNotificationSnoozedUntilContextFull  = binder.FirstCallTransaction + 14
-	TransactionINotificationListenerOnNotificationsSeen                    = binder.FirstCallTransaction + 15
-	TransactionINotificationListenerOnPanelRevealed                        = binder.FirstCallTransaction + 16
-	TransactionINotificationListenerOnPanelHidden                          = binder.FirstCallTransaction + 17
-	TransactionINotificationListenerOnNotificationVisibilityChanged        = binder.FirstCallTransaction + 18
-	TransactionINotificationListenerOnNotificationExpansionChanged         = binder.FirstCallTransaction + 19
-	TransactionINotificationListenerOnNotificationDirectReply              = binder.FirstCallTransaction + 20
-	TransactionINotificationListenerOnSuggestedReplySent                   = binder.FirstCallTransaction + 21
-	TransactionINotificationListenerOnActionClicked                        = binder.FirstCallTransaction + 22
-	TransactionINotificationListenerOnNotificationClicked                  = binder.FirstCallTransaction + 23
-	TransactionINotificationListenerOnAllowedAdjustmentsChanged            = binder.FirstCallTransaction + 24
-	TransactionINotificationListenerOnNotificationFeedbackReceived         = binder.FirstCallTransaction + 25
+	TransactionINotificationListenerOnStatusBarIconsBehaviorChanged        = binder.FirstCallTransaction + 2
+	TransactionINotificationListenerOnNotificationRemoved                  = binder.FirstCallTransaction + 3
+	TransactionINotificationListenerOnNotificationRankingUpdate            = binder.FirstCallTransaction + 4
+	TransactionINotificationListenerOnListenerHintsChanged                 = binder.FirstCallTransaction + 5
+	TransactionINotificationListenerOnInterruptionFilterChanged            = binder.FirstCallTransaction + 6
+	TransactionINotificationListenerOnNotificationChannelModification      = binder.FirstCallTransaction + 7
+	TransactionINotificationListenerOnNotificationChannelGroupModification = binder.FirstCallTransaction + 8
+	TransactionINotificationListenerOnNotificationEnqueuedWithChannel      = binder.FirstCallTransaction + 9
+	TransactionINotificationListenerOnNotificationSnoozedUntilContext      = binder.FirstCallTransaction + 10
+	TransactionINotificationListenerOnNotificationsSeen                    = binder.FirstCallTransaction + 11
+	TransactionINotificationListenerOnPanelRevealed                        = binder.FirstCallTransaction + 12
+	TransactionINotificationListenerOnPanelHidden                          = binder.FirstCallTransaction + 13
+	TransactionINotificationListenerOnNotificationVisibilityChanged        = binder.FirstCallTransaction + 14
+	TransactionINotificationListenerOnNotificationExpansionChanged         = binder.FirstCallTransaction + 15
+	TransactionINotificationListenerOnNotificationDirectReply              = binder.FirstCallTransaction + 16
+	TransactionINotificationListenerOnSuggestedReplySent                   = binder.FirstCallTransaction + 17
+	TransactionINotificationListenerOnActionClicked                        = binder.FirstCallTransaction + 18
+	TransactionINotificationListenerOnNotificationClicked                  = binder.FirstCallTransaction + 19
+	TransactionINotificationListenerOnAllowedAdjustmentsChanged            = binder.FirstCallTransaction + 20
+	TransactionINotificationListenerOnNotificationFeedbackReceived         = binder.FirstCallTransaction + 21
+)
+
+const (
+	MethodINotificationListenerOnListenerConnected                    = "onListenerConnected"
+	MethodINotificationListenerOnNotificationPosted                   = "onNotificationPosted"
+	MethodINotificationListenerOnStatusBarIconsBehaviorChanged        = "onStatusBarIconsBehaviorChanged"
+	MethodINotificationListenerOnNotificationRemoved                  = "onNotificationRemoved"
+	MethodINotificationListenerOnNotificationRankingUpdate            = "onNotificationRankingUpdate"
+	MethodINotificationListenerOnListenerHintsChanged                 = "onListenerHintsChanged"
+	MethodINotificationListenerOnInterruptionFilterChanged            = "onInterruptionFilterChanged"
+	MethodINotificationListenerOnNotificationChannelModification      = "onNotificationChannelModification"
+	MethodINotificationListenerOnNotificationChannelGroupModification = "onNotificationChannelGroupModification"
+	MethodINotificationListenerOnNotificationEnqueuedWithChannel      = "onNotificationEnqueuedWithChannel"
+	MethodINotificationListenerOnNotificationSnoozedUntilContext      = "onNotificationSnoozedUntilContext"
+	MethodINotificationListenerOnNotificationsSeen                    = "onNotificationsSeen"
+	MethodINotificationListenerOnPanelRevealed                        = "onPanelRevealed"
+	MethodINotificationListenerOnPanelHidden                          = "onPanelHidden"
+	MethodINotificationListenerOnNotificationVisibilityChanged        = "onNotificationVisibilityChanged"
+	MethodINotificationListenerOnNotificationExpansionChanged         = "onNotificationExpansionChanged"
+	MethodINotificationListenerOnNotificationDirectReply              = "onNotificationDirectReply"
+	MethodINotificationListenerOnSuggestedReplySent                   = "onSuggestedReplySent"
+	MethodINotificationListenerOnActionClicked                        = "onActionClicked"
+	MethodINotificationListenerOnNotificationClicked                  = "onNotificationClicked"
+	MethodINotificationListenerOnAllowedAdjustmentsChanged            = "onAllowedAdjustmentsChanged"
+	MethodINotificationListenerOnNotificationFeedbackReceived         = "onNotificationFeedbackReceived"
 )
 
 type INotificationListener interface {
 	AsBinder() binder.IBinder
 	OnListenerConnected(ctx context.Context, update NotificationRankingUpdate) error
 	OnNotificationPosted(ctx context.Context, notificationHolder IStatusBarNotificationHolder, update NotificationRankingUpdate) error
-	OnNotificationPostedFull(ctx context.Context, sbn StatusBarNotification, update NotificationRankingUpdate) error
 	OnStatusBarIconsBehaviorChanged(ctx context.Context, hideSilentStatusIcons bool) error
 	OnNotificationRemoved(ctx context.Context, notificationHolder IStatusBarNotificationHolder, update NotificationRankingUpdate, stats NotificationStats, reason int32) error
-	OnNotificationRemovedFull(ctx context.Context, sbn StatusBarNotification, update NotificationRankingUpdate, stats NotificationStats, reason int32) error
 	OnNotificationRankingUpdate(ctx context.Context, update NotificationRankingUpdate) error
 	OnListenerHintsChanged(ctx context.Context, hints int32) error
 	OnInterruptionFilterChanged(ctx context.Context, interruptionFilter int32) error
 	OnNotificationChannelModification(ctx context.Context, pkgName string, user interface{}, channel interface{}, modificationType int32) error
 	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user interface{}, group interface{}, modificationType int32) error
 	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel interface{}, update NotificationRankingUpdate) error
-	OnNotificationEnqueuedWithChannelFull(ctx context.Context, sbn StatusBarNotification, channel interface{}, update NotificationRankingUpdate) error
 	OnNotificationSnoozedUntilContext(ctx context.Context, notificationHolder IStatusBarNotificationHolder, snoozeCriterionId string) error
-	OnNotificationSnoozedUntilContextFull(ctx context.Context, sbn StatusBarNotification, snoozeCriterionId string) error
 	OnNotificationsSeen(ctx context.Context, keys []string) error
 	OnPanelRevealed(ctx context.Context, items int32) error
 	OnPanelHidden(ctx context.Context) error
@@ -71,17 +88,17 @@ type INotificationListener interface {
 }
 
 type NotificationListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNotificationListenerProxy(
 	remote binder.IBinder,
 ) *NotificationListenerProxy {
-	return &NotificationListenerProxy{remote: remote}
+	return &NotificationListenerProxy{Remote: remote}
 }
 
 func (p *NotificationListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INotificationListener = (*NotificationListenerProxy)(nil)
@@ -97,12 +114,12 @@ func (p *NotificationListenerProxy) OnListenerConnected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onListenerConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnListenerConnected)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnListenerConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnListenerConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,43 +130,18 @@ func (p *NotificationListenerProxy) OnNotificationPosted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationPosted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationPosted)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationPosted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationPosted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *NotificationListenerProxy) OnNotificationPostedFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	update NotificationRankingUpdate,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	_data.WriteInt32(1)
-	if _err := sbn.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := update.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationPostedFull")
-	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationPostedFull
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,12 +153,12 @@ func (p *NotificationListenerProxy) OnStatusBarIconsBehaviorChanged(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteBool(hideSilentStatusIcons)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onStatusBarIconsBehaviorChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnStatusBarIconsBehaviorChanged)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnStatusBarIconsBehaviorChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnStatusBarIconsBehaviorChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,7 +171,7 @@ func (p *NotificationListenerProxy) OnNotificationRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
@@ -190,44 +182,12 @@ func (p *NotificationListenerProxy) OnNotificationRemoved(
 	}
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationRemoved)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *NotificationListenerProxy) OnNotificationRemovedFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	update NotificationRankingUpdate,
-	stats NotificationStats,
-	reason int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	_data.WriteInt32(1)
-	if _err := sbn.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := update.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := stats.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(reason)
-
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRemovedFull")
-	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationRemovedFull
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -242,12 +202,12 @@ func (p *NotificationListenerProxy) OnNotificationRankingUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRankingUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationRankingUpdate)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationRankingUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationRankingUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -259,12 +219,12 @@ func (p *NotificationListenerProxy) OnListenerHintsChanged(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(hints)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onListenerHintsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnListenerHintsChanged)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnListenerHintsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnListenerHintsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -276,12 +236,12 @@ func (p *NotificationListenerProxy) OnInterruptionFilterChanged(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(interruptionFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onInterruptionFilterChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnInterruptionFilterChanged)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnInterruptionFilterChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnInterruptionFilterChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -297,12 +257,12 @@ func (p *NotificationListenerProxy) OnNotificationChannelModification(
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(modificationType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelModification")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelModification)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationChannelModification
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelModification, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -318,12 +278,12 @@ func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(modificationType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelGroupModification")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelGroupModification)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationChannelGroupModification
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationChannelGroupModification, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -335,44 +295,18 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationEnqueuedWithChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationEnqueuedWithChannel)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationEnqueuedWithChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationEnqueuedWithChannel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannelFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	channel interface{},
-	update NotificationRankingUpdate,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	_data.WriteInt32(1)
-	if _err := sbn.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := update.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationEnqueuedWithChannelFull")
-	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -383,37 +317,15 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContext(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, notificationHolder.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(snoozeCriterionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationSnoozedUntilContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationSnoozedUntilContext)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationSnoozedUntilContext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationSnoozedUntilContext, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContextFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	snoozeCriterionId string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorINotificationListener)
-	_data.WriteInt32(1)
-	if _err := sbn.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(snoozeCriterionId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationSnoozedUntilContextFull")
-	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationSnoozedUntilContextFull
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -432,12 +344,12 @@ func (p *NotificationListenerProxy) OnNotificationsSeen(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationsSeen")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationsSeen)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationsSeen
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationsSeen, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -449,12 +361,12 @@ func (p *NotificationListenerProxy) OnPanelRevealed(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(items)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onPanelRevealed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnPanelRevealed)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnPanelRevealed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnPanelRevealed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -464,12 +376,12 @@ func (p *NotificationListenerProxy) OnPanelHidden(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onPanelHidden")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnPanelHidden)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnPanelHidden
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnPanelHidden, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -483,12 +395,12 @@ func (p *NotificationListenerProxy) OnNotificationVisibilityChanged(
 	_data.WriteString16(key)
 	_data.WriteBool(isVisible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationVisibilityChanged)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationVisibilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -504,12 +416,12 @@ func (p *NotificationListenerProxy) OnNotificationExpansionChanged(
 	_data.WriteBool(userAction)
 	_data.WriteBool(expanded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationExpansionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationExpansionChanged)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationExpansionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationExpansionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -521,12 +433,12 @@ func (p *NotificationListenerProxy) OnNotificationDirectReply(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationDirectReply")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationDirectReply)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationDirectReply
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationDirectReply, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -541,12 +453,12 @@ func (p *NotificationListenerProxy) OnSuggestedReplySent(
 	_data.WriteString16(key)
 	_data.WriteInt32(source)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onSuggestedReplySent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnSuggestedReplySent)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnSuggestedReplySent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnSuggestedReplySent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -561,12 +473,12 @@ func (p *NotificationListenerProxy) OnActionClicked(
 	_data.WriteString16(key)
 	_data.WriteInt32(source)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onActionClicked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnActionClicked)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnActionClicked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnActionClicked, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -578,12 +490,12 @@ func (p *NotificationListenerProxy) OnNotificationClicked(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationClicked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationClicked)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationClicked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationClicked, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -593,12 +505,12 @@ func (p *NotificationListenerProxy) OnAllowedAdjustmentsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onAllowedAdjustmentsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnAllowedAdjustmentsChanged)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnAllowedAdjustmentsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnAllowedAdjustmentsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -616,12 +528,12 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationFeedbackReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINotificationListener, MethodINotificationListenerOnNotificationFeedbackReceived)
 	if _err != nil {
-		_code = TransactionINotificationListenerOnNotificationFeedbackReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINotificationListener, MethodINotificationListenerOnNotificationFeedbackReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -632,6 +544,10 @@ type NotificationListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NotificationListenerStub)(nil)
+
+func (s *NotificationListenerStub) Descriptor() string {
+	return DescriptorINotificationListener
+}
 
 func (s *NotificationListenerStub) OnTransaction(
 	ctx context.Context,
@@ -678,37 +594,6 @@ func (s *NotificationListenerStub) OnTransaction(
 			}
 		}
 		_err := s.Impl.OnNotificationPosted(ctx, _arg_notificationHolder, _arg_update)
-		_ = _err
-		return nil, nil
-	case TransactionINotificationListenerOnNotificationPostedFull:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_sbn StatusBarNotification
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_update NotificationRankingUpdate
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnNotificationPostedFull(ctx, _arg_sbn, _arg_update)
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnStatusBarIconsBehaviorChanged:
@@ -758,53 +643,6 @@ func (s *NotificationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationRemoved(ctx, _arg_notificationHolder, _arg_update, _arg_stats, _arg_reason)
-		_ = _err
-		return nil, nil
-	case TransactionINotificationListenerOnNotificationRemovedFull:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_sbn StatusBarNotification
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_update NotificationRankingUpdate
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_stats NotificationStats
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_stats.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_reason, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnNotificationRemovedFull(ctx, _arg_sbn, _arg_update, _arg_stats, _arg_reason)
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationRankingUpdate:
@@ -905,38 +743,6 @@ func (s *NotificationListenerStub) OnTransaction(
 		_err := s.Impl.OnNotificationEnqueuedWithChannel(ctx, _arg_notificationHolder, _arg_channel, _arg_update)
 		_ = _err
 		return nil, nil
-	case TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_sbn StatusBarNotification
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_channel interface{}
-		var _arg_update NotificationRankingUpdate
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnNotificationEnqueuedWithChannelFull(ctx, _arg_sbn, _arg_channel, _arg_update)
-		_ = _err
-		return nil, nil
 	case TransactionINotificationListenerOnNotificationSnoozedUntilContext:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -949,29 +755,6 @@ func (s *NotificationListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnNotificationSnoozedUntilContext(ctx, _arg_notificationHolder, _arg_snoozeCriterionId)
-		_ = _err
-		return nil, nil
-	case TransactionINotificationListenerOnNotificationSnoozedUntilContextFull:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_sbn StatusBarNotification
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_snoozeCriterionId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnNotificationSnoozedUntilContextFull(ctx, _arg_sbn, _arg_snoozeCriterionId)
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationsSeen:
@@ -1132,19 +915,15 @@ func (s *NotificationListenerStub) OnTransaction(
 type INotificationListenerServer interface {
 	OnListenerConnected(ctx context.Context, update NotificationRankingUpdate) error
 	OnNotificationPosted(ctx context.Context, notificationHolder IStatusBarNotificationHolder, update NotificationRankingUpdate) error
-	OnNotificationPostedFull(ctx context.Context, sbn StatusBarNotification, update NotificationRankingUpdate) error
 	OnStatusBarIconsBehaviorChanged(ctx context.Context, hideSilentStatusIcons bool) error
 	OnNotificationRemoved(ctx context.Context, notificationHolder IStatusBarNotificationHolder, update NotificationRankingUpdate, stats NotificationStats, reason int32) error
-	OnNotificationRemovedFull(ctx context.Context, sbn StatusBarNotification, update NotificationRankingUpdate, stats NotificationStats, reason int32) error
 	OnNotificationRankingUpdate(ctx context.Context, update NotificationRankingUpdate) error
 	OnListenerHintsChanged(ctx context.Context, hints int32) error
 	OnInterruptionFilterChanged(ctx context.Context, interruptionFilter int32) error
 	OnNotificationChannelModification(ctx context.Context, pkgName string, user interface{}, channel interface{}, modificationType int32) error
 	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user interface{}, group interface{}, modificationType int32) error
 	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel interface{}, update NotificationRankingUpdate) error
-	OnNotificationEnqueuedWithChannelFull(ctx context.Context, sbn StatusBarNotification, channel interface{}, update NotificationRankingUpdate) error
 	OnNotificationSnoozedUntilContext(ctx context.Context, notificationHolder IStatusBarNotificationHolder, snoozeCriterionId string) error
-	OnNotificationSnoozedUntilContextFull(ctx context.Context, sbn StatusBarNotification, snoozeCriterionId string) error
 	OnNotificationsSeen(ctx context.Context, keys []string) error
 	OnPanelRevealed(ctx context.Context, items int32) error
 	OnPanelHidden(ctx context.Context) error
@@ -1182,14 +961,6 @@ func (w *notificationListenerStubWrapper) OnNotificationPosted(
 	return w.impl.OnNotificationPosted(ctx, notificationHolder, update)
 }
 
-func (w *notificationListenerStubWrapper) OnNotificationPostedFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	update NotificationRankingUpdate,
-) error {
-	return w.impl.OnNotificationPostedFull(ctx, sbn, update)
-}
-
 func (w *notificationListenerStubWrapper) OnStatusBarIconsBehaviorChanged(
 	ctx context.Context,
 	hideSilentStatusIcons bool,
@@ -1205,16 +976,6 @@ func (w *notificationListenerStubWrapper) OnNotificationRemoved(
 	reason int32,
 ) error {
 	return w.impl.OnNotificationRemoved(ctx, notificationHolder, update, stats, reason)
-}
-
-func (w *notificationListenerStubWrapper) OnNotificationRemovedFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	update NotificationRankingUpdate,
-	stats NotificationStats,
-	reason int32,
-) error {
-	return w.impl.OnNotificationRemovedFull(ctx, sbn, update, stats, reason)
 }
 
 func (w *notificationListenerStubWrapper) OnNotificationRankingUpdate(
@@ -1267,29 +1028,12 @@ func (w *notificationListenerStubWrapper) OnNotificationEnqueuedWithChannel(
 	return w.impl.OnNotificationEnqueuedWithChannel(ctx, notificationHolder, channel, update)
 }
 
-func (w *notificationListenerStubWrapper) OnNotificationEnqueuedWithChannelFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	channel interface{},
-	update NotificationRankingUpdate,
-) error {
-	return w.impl.OnNotificationEnqueuedWithChannelFull(ctx, sbn, channel, update)
-}
-
 func (w *notificationListenerStubWrapper) OnNotificationSnoozedUntilContext(
 	ctx context.Context,
 	notificationHolder IStatusBarNotificationHolder,
 	snoozeCriterionId string,
 ) error {
 	return w.impl.OnNotificationSnoozedUntilContext(ctx, notificationHolder, snoozeCriterionId)
-}
-
-func (w *notificationListenerStubWrapper) OnNotificationSnoozedUntilContextFull(
-	ctx context.Context,
-	sbn StatusBarNotification,
-	snoozeCriterionId string,
-) error {
-	return w.impl.OnNotificationSnoozedUntilContextFull(ctx, sbn, snoozeCriterionId)
 }
 
 func (w *notificationListenerStubWrapper) OnNotificationsSeen(

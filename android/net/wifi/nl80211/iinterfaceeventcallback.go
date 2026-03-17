@@ -18,6 +18,13 @@ const (
 	TransactionIInterfaceEventCallbackOnApTorndownEvent      = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIInterfaceEventCallbackOnClientInterfaceReady = "OnClientInterfaceReady"
+	MethodIInterfaceEventCallbackOnApInterfaceReady     = "OnApInterfaceReady"
+	MethodIInterfaceEventCallbackOnClientTorndownEvent  = "OnClientTorndownEvent"
+	MethodIInterfaceEventCallbackOnApTorndownEvent      = "OnApTorndownEvent"
+)
+
 type IInterfaceEventCallback interface {
 	AsBinder() binder.IBinder
 	OnClientInterfaceReady(ctx context.Context, network_interface IClientInterface) error
@@ -27,17 +34,17 @@ type IInterfaceEventCallback interface {
 }
 
 type InterfaceEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInterfaceEventCallbackProxy(
 	remote binder.IBinder,
 ) *InterfaceEventCallbackProxy {
-	return &InterfaceEventCallbackProxy{remote: remote}
+	return &InterfaceEventCallbackProxy{Remote: remote}
 }
 
 func (p *InterfaceEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInterfaceEventCallback = (*InterfaceEventCallbackProxy)(nil)
@@ -48,14 +55,14 @@ func (p *InterfaceEventCallbackProxy) OnClientInterfaceReady(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnClientInterfaceReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientInterfaceReady)
 	if _err != nil {
-		_code = TransactionIInterfaceEventCallbackOnClientInterfaceReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientInterfaceReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,14 +72,14 @@ func (p *InterfaceEventCallbackProxy) OnApInterfaceReady(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnApInterfaceReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApInterfaceReady)
 	if _err != nil {
-		_code = TransactionIInterfaceEventCallbackOnApInterfaceReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApInterfaceReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,14 +89,14 @@ func (p *InterfaceEventCallbackProxy) OnClientTorndownEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnClientTorndownEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientTorndownEvent)
 	if _err != nil {
-		_code = TransactionIInterfaceEventCallbackOnClientTorndownEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnClientTorndownEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,14 +106,14 @@ func (p *InterfaceEventCallbackProxy) OnApTorndownEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterfaceEventCallback)
-	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, network_interface.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnApTorndownEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApTorndownEvent)
 	if _err != nil {
-		_code = TransactionIInterfaceEventCallbackOnApTorndownEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInterfaceEventCallback, MethodIInterfaceEventCallbackOnApTorndownEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +124,10 @@ type InterfaceEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InterfaceEventCallbackStub)(nil)
+
+func (s *InterfaceEventCallbackStub) Descriptor() string {
+	return DescriptorIInterfaceEventCallback
+}
 
 func (s *InterfaceEventCallbackStub) OnTransaction(
 	ctx context.Context,

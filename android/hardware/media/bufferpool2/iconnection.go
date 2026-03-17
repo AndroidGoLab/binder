@@ -17,6 +17,11 @@ const (
 	TransactionIConnectionSync  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIConnectionFetch = "fetch"
+	MethodIConnectionSync  = "sync"
+)
+
 type IConnection interface {
 	AsBinder() binder.IBinder
 	Fetch(ctx context.Context, fetchInfos []bufferpool2IConnection.FetchInfo) ([]bufferpool2IConnection.FetchResult, error)
@@ -24,17 +29,17 @@ type IConnection interface {
 }
 
 type ConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConnectionProxy(
 	remote binder.IBinder,
 ) *ConnectionProxy {
-	return &ConnectionProxy{remote: remote}
+	return &ConnectionProxy{Remote: remote}
 }
 
 func (p *ConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConnection = (*ConnectionProxy)(nil)
@@ -51,18 +56,19 @@ func (p *ConnectionProxy) Fetch(
 	} else {
 		_data.WriteInt32(int32(len(fetchInfos)))
 		for _, _item := range fetchInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConnection, "fetch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnection, MethodIConnectionFetch)
 	if _err != nil {
-		_code = TransactionIConnectionFetch
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConnection, MethodIConnectionFetch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,6 +86,9 @@ func (p *ConnectionProxy) Fetch(
 	if _count >= 0 {
 		_result = make([]bufferpool2IConnection.FetchResult, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -94,12 +103,12 @@ func (p *ConnectionProxy) Sync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConnection, "sync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnection, MethodIConnectionSync)
 	if _err != nil {
-		_code = TransactionIConnectionSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConnection, MethodIConnectionSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -119,6 +128,10 @@ type ConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConnectionStub)(nil)
+
+func (s *ConnectionStub) Descriptor() string {
+	return DescriptorIConnection
+}
 
 func (s *ConnectionStub) OnTransaction(
 	ctx context.Context,

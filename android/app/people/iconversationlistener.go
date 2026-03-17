@@ -15,23 +15,27 @@ const (
 	TransactionIConversationListenerOnConversationUpdate = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIConversationListenerOnConversationUpdate = "onConversationUpdate"
+)
+
 type IConversationListener interface {
 	AsBinder() binder.IBinder
 	OnConversationUpdate(ctx context.Context, conversation ConversationChannel) error
 }
 
 type ConversationListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConversationListenerProxy(
 	remote binder.IBinder,
 ) *ConversationListenerProxy {
-	return &ConversationListenerProxy{remote: remote}
+	return &ConversationListenerProxy{Remote: remote}
 }
 
 func (p *ConversationListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConversationListener = (*ConversationListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *ConversationListenerProxy) OnConversationUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConversationListener, "onConversationUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConversationListener, MethodIConversationListenerOnConversationUpdate)
 	if _err != nil {
-		_code = TransactionIConversationListenerOnConversationUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConversationListener, MethodIConversationListenerOnConversationUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type ConversationListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConversationListenerStub)(nil)
+
+func (s *ConversationListenerStub) Descriptor() string {
+	return DescriptorIConversationListener
+}
 
 func (s *ConversationListenerStub) OnTransaction(
 	ctx context.Context,

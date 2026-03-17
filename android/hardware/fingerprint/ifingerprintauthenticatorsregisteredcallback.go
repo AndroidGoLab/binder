@@ -15,23 +15,27 @@ const (
 	TransactionIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered = "onAllAuthenticatorsRegistered"
+)
+
 type IFingerprintAuthenticatorsRegisteredCallback interface {
 	AsBinder() binder.IBinder
 	OnAllAuthenticatorsRegistered(ctx context.Context, sensors []FingerprintSensorPropertiesInternal) error
 }
 
 type FingerprintAuthenticatorsRegisteredCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFingerprintAuthenticatorsRegisteredCallbackProxy(
 	remote binder.IBinder,
 ) *FingerprintAuthenticatorsRegisteredCallbackProxy {
-	return &FingerprintAuthenticatorsRegisteredCallbackProxy{remote: remote}
+	return &FingerprintAuthenticatorsRegisteredCallbackProxy{Remote: remote}
 }
 
 func (p *FingerprintAuthenticatorsRegisteredCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFingerprintAuthenticatorsRegisteredCallback = (*FingerprintAuthenticatorsRegisteredCallbackProxy)(nil)
@@ -47,18 +51,19 @@ func (p *FingerprintAuthenticatorsRegisteredCallbackProxy) OnAllAuthenticatorsRe
 	} else {
 		_data.WriteInt32(int32(len(sensors)))
 		for _, _item := range sensors {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintAuthenticatorsRegisteredCallback, "onAllAuthenticatorsRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintAuthenticatorsRegisteredCallback, MethodIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered)
 	if _err != nil {
-		_code = TransactionIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintAuthenticatorsRegisteredCallback, MethodIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type FingerprintAuthenticatorsRegisteredCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FingerprintAuthenticatorsRegisteredCallbackStub)(nil)
+
+func (s *FingerprintAuthenticatorsRegisteredCallbackStub) Descriptor() string {
+	return DescriptorIFingerprintAuthenticatorsRegisteredCallback
+}
 
 func (s *FingerprintAuthenticatorsRegisteredCallbackStub) OnTransaction(
 	ctx context.Context,

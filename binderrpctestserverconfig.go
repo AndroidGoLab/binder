@@ -12,6 +12,7 @@ type BinderRpcTestServerConfig struct {
 	SocketType                                  int32
 	RpcSecurity                                 int32
 	ServerVersion                               int32
+	VsockPort                                   int32
 	SocketFd                                    int32
 	Addr                                        string
 }
@@ -34,6 +35,7 @@ func (s *BinderRpcTestServerConfig) MarshalParcel(
 	p.WriteInt32(s.SocketType)
 	p.WriteInt32(s.RpcSecurity)
 	p.WriteInt32(s.ServerVersion)
+	p.WriteInt32(s.VsockPort)
 	p.WriteInt32(s.SocketFd)
 	p.WriteString16(s.Addr)
 
@@ -80,6 +82,11 @@ func (s *BinderRpcTestServerConfig) UnmarshalParcel(
 	}
 
 	s.ServerVersion, _err = p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+
+	s.VsockPort, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}

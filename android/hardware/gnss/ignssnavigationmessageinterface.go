@@ -16,6 +16,11 @@ const (
 	TransactionIGnssNavigationMessageInterfaceClose       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssNavigationMessageInterfaceSetCallback = "setCallback"
+	MethodIGnssNavigationMessageInterfaceClose       = "close"
+)
+
 type IGnssNavigationMessageInterface interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssNavigationMessageCallback) error
@@ -23,17 +28,17 @@ type IGnssNavigationMessageInterface interface {
 }
 
 type GnssNavigationMessageInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssNavigationMessageInterfaceProxy(
 	remote binder.IBinder,
 ) *GnssNavigationMessageInterfaceProxy {
-	return &GnssNavigationMessageInterfaceProxy{remote: remote}
+	return &GnssNavigationMessageInterfaceProxy{Remote: remote}
 }
 
 func (p *GnssNavigationMessageInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssNavigationMessageInterface = (*GnssNavigationMessageInterfaceProxy)(nil)
@@ -44,14 +49,14 @@ func (p *GnssNavigationMessageInterfaceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageInterface, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNavigationMessageInterface, MethodIGnssNavigationMessageInterfaceSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssNavigationMessageInterfaceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssNavigationMessageInterface, MethodIGnssNavigationMessageInterfaceSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *GnssNavigationMessageInterfaceProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageInterface, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNavigationMessageInterface, MethodIGnssNavigationMessageInterfaceClose)
 	if _err != nil {
-		_code = TransactionIGnssNavigationMessageInterfaceClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssNavigationMessageInterface, MethodIGnssNavigationMessageInterfaceClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +100,10 @@ type GnssNavigationMessageInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssNavigationMessageInterfaceStub)(nil)
+
+func (s *GnssNavigationMessageInterfaceStub) Descriptor() string {
+	return DescriptorIGnssNavigationMessageInterface
+}
 
 func (s *GnssNavigationMessageInterfaceStub) OnTransaction(
 	ctx context.Context,

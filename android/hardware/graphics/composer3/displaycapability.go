@@ -14,5 +14,4 @@ const (
 	DisplayCapabilitySUSPEND                  DisplayCapability = 6
 	DisplayCapabilityDisplayIdleTimer         DisplayCapability = 7
 	DisplayCapabilityMultiThreadedPresent     DisplayCapability = 8
-	DisplayCapabilityPictureProcessing        DisplayCapability = 9
 )

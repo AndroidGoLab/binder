@@ -19,14 +19,7 @@ func (s *WeaverReadResponse) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.Timeout)
-	if s.Value == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Value)))
-		for _, _item := range s.Value {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Value)
 	p.WriteInt32(int32(s.Status))
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -46,19 +39,9 @@ func (s *WeaverReadResponse) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Value, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Value = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Value[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_statusRaw, _err := p.ReadInt32()

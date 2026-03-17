@@ -27,7 +27,24 @@ const (
 	TransactionIHealthSetChargingPolicy          = binder.FirstCallTransaction + 12
 	TransactionIHealthGetChargingPolicy          = binder.FirstCallTransaction + 13
 	TransactionIHealthGetBatteryHealthData       = binder.FirstCallTransaction + 14
-	TransactionIHealthGetHingeInfo               = binder.FirstCallTransaction + 15
+)
+
+const (
+	MethodIHealthRegisterCallback           = "registerCallback"
+	MethodIHealthUnregisterCallback         = "unregisterCallback"
+	MethodIHealthUpdate                     = "update"
+	MethodIHealthGetChargeCounterUah        = "getChargeCounterUah"
+	MethodIHealthGetCurrentNowMicroamps     = "getCurrentNowMicroamps"
+	MethodIHealthGetCurrentAverageMicroamps = "getCurrentAverageMicroamps"
+	MethodIHealthGetCapacity                = "getCapacity"
+	MethodIHealthGetEnergyCounterNwh        = "getEnergyCounterNwh"
+	MethodIHealthGetChargeStatus            = "getChargeStatus"
+	MethodIHealthGetStorageInfo             = "getStorageInfo"
+	MethodIHealthGetDiskStats               = "getDiskStats"
+	MethodIHealthGetHealthInfo              = "getHealthInfo"
+	MethodIHealthSetChargingPolicy          = "setChargingPolicy"
+	MethodIHealthGetChargingPolicy          = "getChargingPolicy"
+	MethodIHealthGetBatteryHealthData       = "getBatteryHealthData"
 )
 
 type IHealth interface {
@@ -47,7 +64,6 @@ type IHealth interface {
 	SetChargingPolicy(ctx context.Context, in_value BatteryChargingPolicy) error
 	GetChargingPolicy(ctx context.Context) (BatteryChargingPolicy, error)
 	GetBatteryHealthData(ctx context.Context) (BatteryHealthData, error)
-	GetHingeInfo(ctx context.Context) ([]HingeInfo, error)
 }
 
 const (
@@ -56,17 +72,17 @@ const (
 )
 
 type HealthProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHealthProxy(
 	remote binder.IBinder,
 ) *HealthProxy {
-	return &HealthProxy{remote: remote}
+	return &HealthProxy{Remote: remote}
 }
 
 func (p *HealthProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHealth = (*HealthProxy)(nil)
@@ -77,14 +93,14 @@ func (p *HealthProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthRegisterCallback)
 	if _err != nil {
-		_code = TransactionIHealthRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,14 +119,14 @@ func (p *HealthProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthUnregisterCallback)
 	if _err != nil {
-		_code = TransactionIHealthUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -129,12 +145,12 @@ func (p *HealthProxy) Update(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "update")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthUpdate)
 	if _err != nil {
-		_code = TransactionIHealthUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,12 +170,12 @@ func (p *HealthProxy) GetChargeCounterUah(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getChargeCounterUah")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetChargeCounterUah)
 	if _err != nil {
-		_code = TransactionIHealthGetChargeCounterUah
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetChargeCounterUah, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -183,12 +199,12 @@ func (p *HealthProxy) GetCurrentNowMicroamps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getCurrentNowMicroamps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetCurrentNowMicroamps)
 	if _err != nil {
-		_code = TransactionIHealthGetCurrentNowMicroamps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetCurrentNowMicroamps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -212,12 +228,12 @@ func (p *HealthProxy) GetCurrentAverageMicroamps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getCurrentAverageMicroamps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetCurrentAverageMicroamps)
 	if _err != nil {
-		_code = TransactionIHealthGetCurrentAverageMicroamps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetCurrentAverageMicroamps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -241,12 +257,12 @@ func (p *HealthProxy) GetCapacity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getCapacity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetCapacity)
 	if _err != nil {
-		_code = TransactionIHealthGetCapacity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetCapacity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,12 +286,12 @@ func (p *HealthProxy) GetEnergyCounterNwh(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getEnergyCounterNwh")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetEnergyCounterNwh)
 	if _err != nil {
-		_code = TransactionIHealthGetEnergyCounterNwh
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetEnergyCounterNwh, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -299,12 +315,12 @@ func (p *HealthProxy) GetChargeStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getChargeStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetChargeStatus)
 	if _err != nil {
-		_code = TransactionIHealthGetChargeStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetChargeStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -329,12 +345,12 @@ func (p *HealthProxy) GetStorageInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getStorageInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetStorageInfo)
 	if _err != nil {
-		_code = TransactionIHealthGetStorageInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetStorageInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -352,6 +368,9 @@ func (p *HealthProxy) GetStorageInfo(
 	if _count >= 0 {
 		_result = make([]StorageInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -367,12 +386,12 @@ func (p *HealthProxy) GetDiskStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getDiskStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetDiskStats)
 	if _err != nil {
-		_code = TransactionIHealthGetDiskStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetDiskStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -390,6 +409,9 @@ func (p *HealthProxy) GetDiskStats(
 	if _count >= 0 {
 		_result = make([]DiskStats, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -405,12 +427,12 @@ func (p *HealthProxy) GetHealthInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getHealthInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetHealthInfo)
 	if _err != nil {
-		_code = TransactionIHealthGetHealthInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetHealthInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -440,12 +462,12 @@ func (p *HealthProxy) SetChargingPolicy(
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	_data.WriteInt32(int32(in_value))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "setChargingPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthSetChargingPolicy)
 	if _err != nil {
-		_code = TransactionIHealthSetChargingPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthSetChargingPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -465,12 +487,12 @@ func (p *HealthProxy) GetChargingPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getChargingPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetChargingPolicy)
 	if _err != nil {
-		_code = TransactionIHealthGetChargingPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetChargingPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -495,12 +517,12 @@ func (p *HealthProxy) GetBatteryHealthData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getBatteryHealthData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealth, MethodIHealthGetBatteryHealthData)
 	if _err != nil {
-		_code = TransactionIHealthGetBatteryHealthData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHealth, MethodIHealthGetBatteryHealthData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -522,44 +544,6 @@ func (p *HealthProxy) GetBatteryHealthData(
 	return _result, nil
 }
 
-func (p *HealthProxy) GetHingeInfo(
-	ctx context.Context,
-) ([]HingeInfo, error) {
-	var _result []HingeInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHealth)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getHingeInfo")
-	if _err != nil {
-		_code = TransactionIHealthGetHingeInfo
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]HingeInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
 // HealthStub dispatches incoming binder transactions
 // to a typed IHealth implementation.
 type HealthStub struct {
@@ -567,6 +551,10 @@ type HealthStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HealthStub)(nil)
+
+func (s *HealthStub) Descriptor() string {
+	return DescriptorIHealth
+}
 
 func (s *HealthStub) OnTransaction(
 	ctx context.Context,
@@ -784,20 +772,6 @@ func (s *HealthStub) OnTransaction(
 			return nil, _err
 		}
 		return _reply, nil
-	case TransactionIHealthGetHingeInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetHingeInfo(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -822,7 +796,6 @@ type IHealthServer interface {
 	SetChargingPolicy(ctx context.Context, in_value BatteryChargingPolicy) error
 	GetChargingPolicy(ctx context.Context) (BatteryChargingPolicy, error)
 	GetBatteryHealthData(ctx context.Context) (BatteryHealthData, error)
-	GetHingeInfo(ctx context.Context) ([]HingeInfo, error)
 }
 
 type healthStubWrapper struct {
@@ -925,12 +898,6 @@ func (w *healthStubWrapper) GetBatteryHealthData(
 	ctx context.Context,
 ) (BatteryHealthData, error) {
 	return w.impl.GetBatteryHealthData(ctx)
-}
-
-func (w *healthStubWrapper) GetHingeInfo(
-	ctx context.Context,
-) ([]HingeInfo, error) {
-	return w.impl.GetHingeInfo(ctx)
 }
 
 var _ IHealth = (*healthStubWrapper)(nil)

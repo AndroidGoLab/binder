@@ -15,23 +15,27 @@ const (
 	TransactionIPrepareDownloadCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPrepareDownloadCallbackOnComplete = "onComplete"
+)
+
 type IPrepareDownloadCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, response []byte) error
 }
 
 type PrepareDownloadCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrepareDownloadCallbackProxy(
 	remote binder.IBinder,
 ) *PrepareDownloadCallbackProxy {
-	return &PrepareDownloadCallbackProxy{remote: remote}
+	return &PrepareDownloadCallbackProxy{Remote: remote}
 }
 
 func (p *PrepareDownloadCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrepareDownloadCallback = (*PrepareDownloadCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *PrepareDownloadCallbackProxy) OnComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrepareDownloadCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrepareDownloadCallback, MethodIPrepareDownloadCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIPrepareDownloadCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrepareDownloadCallback, MethodIPrepareDownloadCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type PrepareDownloadCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrepareDownloadCallbackStub)(nil)
+
+func (s *PrepareDownloadCallbackStub) Descriptor() string {
+	return DescriptorIPrepareDownloadCallback
+}
 
 func (s *PrepareDownloadCallbackStub) OnTransaction(
 	ctx context.Context,

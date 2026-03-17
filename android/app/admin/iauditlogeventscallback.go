@@ -15,23 +15,27 @@ const (
 	TransactionIAuditLogEventsCallbackOnNewAuditLogEvents = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAuditLogEventsCallbackOnNewAuditLogEvents = "onNewAuditLogEvents"
+)
+
 type IAuditLogEventsCallback interface {
 	AsBinder() binder.IBinder
 	OnNewAuditLogEvents(ctx context.Context, events []SecurityLogSecurityEvent) error
 }
 
 type AuditLogEventsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuditLogEventsCallbackProxy(
 	remote binder.IBinder,
 ) *AuditLogEventsCallbackProxy {
-	return &AuditLogEventsCallbackProxy{remote: remote}
+	return &AuditLogEventsCallbackProxy{Remote: remote}
 }
 
 func (p *AuditLogEventsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuditLogEventsCallback = (*AuditLogEventsCallbackProxy)(nil)
@@ -47,18 +51,19 @@ func (p *AuditLogEventsCallbackProxy) OnNewAuditLogEvents(
 	} else {
 		_data.WriteInt32(int32(len(events)))
 		for _, _item := range events {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuditLogEventsCallback, "onNewAuditLogEvents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuditLogEventsCallback, MethodIAuditLogEventsCallbackOnNewAuditLogEvents)
 	if _err != nil {
-		_code = TransactionIAuditLogEventsCallbackOnNewAuditLogEvents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuditLogEventsCallback, MethodIAuditLogEventsCallbackOnNewAuditLogEvents, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type AuditLogEventsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuditLogEventsCallbackStub)(nil)
+
+func (s *AuditLogEventsCallbackStub) Descriptor() string {
+	return DescriptorIAuditLogEventsCallback
+}
 
 func (s *AuditLogEventsCallbackStub) OnTransaction(
 	ctx context.Context,

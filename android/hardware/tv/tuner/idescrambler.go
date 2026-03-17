@@ -19,6 +19,14 @@ const (
 	TransactionIDescramblerClose          = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIDescramblerSetDemuxSource = "setDemuxSource"
+	MethodIDescramblerSetKeyToken    = "setKeyToken"
+	MethodIDescramblerAddPid         = "addPid"
+	MethodIDescramblerRemovePid      = "removePid"
+	MethodIDescramblerClose          = "close"
+)
+
 type IDescrambler interface {
 	AsBinder() binder.IBinder
 	SetDemuxSource(ctx context.Context, demuxId int32) error
@@ -29,17 +37,17 @@ type IDescrambler interface {
 }
 
 type DescramblerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDescramblerProxy(
 	remote binder.IBinder,
 ) *DescramblerProxy {
-	return &DescramblerProxy{remote: remote}
+	return &DescramblerProxy{Remote: remote}
 }
 
 func (p *DescramblerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDescrambler = (*DescramblerProxy)(nil)
@@ -52,12 +60,12 @@ func (p *DescramblerProxy) SetDemuxSource(
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteInt32(demuxId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "setDemuxSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetDemuxSource)
 	if _err != nil {
-		_code = TransactionIDescramblerSetDemuxSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerSetDemuxSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -85,12 +93,12 @@ func (p *DescramblerProxy) SetKeyToken(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "setKeyToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerSetKeyToken)
 	if _err != nil {
-		_code = TransactionIDescramblerSetKeyToken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerSetKeyToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,14 +122,14 @@ func (p *DescramblerProxy) AddPid(
 	if _err := pid.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "addPid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerAddPid)
 	if _err != nil {
-		_code = TransactionIDescramblerAddPid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerAddPid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -145,14 +153,14 @@ func (p *DescramblerProxy) RemovePid(
 	if _err := pid.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "removePid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerRemovePid)
 	if _err != nil {
-		_code = TransactionIDescramblerRemovePid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerRemovePid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,12 +179,12 @@ func (p *DescramblerProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDescrambler, MethodIDescramblerClose)
 	if _err != nil {
-		_code = TransactionIDescramblerClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDescrambler, MethodIDescramblerClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -196,6 +204,10 @@ type DescramblerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
+
+func (s *DescramblerStub) Descriptor() string {
+	return DescriptorIDescrambler
+}
 
 func (s *DescramblerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIRecordingConfigDispatcherDispatchRecordingConfigChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRecordingConfigDispatcherDispatchRecordingConfigChange = "dispatchRecordingConfigChange"
+)
+
 type IRecordingConfigDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchRecordingConfigChange(ctx context.Context, configs []AudioRecordingConfiguration) error
 }
 
 type RecordingConfigDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecordingConfigDispatcherProxy(
 	remote binder.IBinder,
 ) *RecordingConfigDispatcherProxy {
-	return &RecordingConfigDispatcherProxy{remote: remote}
+	return &RecordingConfigDispatcherProxy{Remote: remote}
 }
 
 func (p *RecordingConfigDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecordingConfigDispatcher = (*RecordingConfigDispatcherProxy)(nil)
@@ -47,18 +51,19 @@ func (p *RecordingConfigDispatcherProxy) DispatchRecordingConfigChange(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecordingConfigDispatcher, "dispatchRecordingConfigChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecordingConfigDispatcher, MethodIRecordingConfigDispatcherDispatchRecordingConfigChange)
 	if _err != nil {
-		_code = TransactionIRecordingConfigDispatcherDispatchRecordingConfigChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecordingConfigDispatcher, MethodIRecordingConfigDispatcherDispatchRecordingConfigChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type RecordingConfigDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecordingConfigDispatcherStub)(nil)
+
+func (s *RecordingConfigDispatcherStub) Descriptor() string {
+	return DescriptorIRecordingConfigDispatcher
+}
 
 func (s *RecordingConfigDispatcherStub) OnTransaction(
 	ctx context.Context,

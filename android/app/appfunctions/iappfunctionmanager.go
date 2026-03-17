@@ -18,6 +18,11 @@ const (
 	TransactionIAppFunctionManagerSetAppFunctionEnabled = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAppFunctionManagerExecuteAppFunction    = "executeAppFunction"
+	MethodIAppFunctionManagerSetAppFunctionEnabled = "setAppFunctionEnabled"
+)
+
 type IAppFunctionManager interface {
 	AsBinder() binder.IBinder
 	ExecuteAppFunction(ctx context.Context, request ExecuteAppFunctionAidlRequest, callback IExecuteAppFunctionCallback) (ondeviceintelligence.ICancellationSignal, error)
@@ -25,17 +30,17 @@ type IAppFunctionManager interface {
 }
 
 type AppFunctionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppFunctionManagerProxy(
 	remote binder.IBinder,
 ) *AppFunctionManagerProxy {
-	return &AppFunctionManagerProxy{remote: remote}
+	return &AppFunctionManagerProxy{Remote: remote}
 }
 
 func (p *AppFunctionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppFunctionManager = (*AppFunctionManagerProxy)(nil)
@@ -52,14 +57,14 @@ func (p *AppFunctionManagerProxy) ExecuteAppFunction(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppFunctionManager, "executeAppFunction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppFunctionManager, MethodIAppFunctionManagerExecuteAppFunction)
 	if _err != nil {
-		_code = TransactionIAppFunctionManagerExecuteAppFunction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppFunctionManager, MethodIAppFunctionManagerExecuteAppFunction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,7 +78,7 @@ func (p *AppFunctionManagerProxy) ExecuteAppFunction(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -84,7 +89,7 @@ func (p *AppFunctionManagerProxy) SetAppFunctionEnabled(
 	enabledState int32,
 	callback IAppFunctionEnabledCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppFunctionManager)
 	_data.WriteString16(_identity.PackageName)
@@ -94,14 +99,14 @@ func (p *AppFunctionManagerProxy) SetAppFunctionEnabled(
 		return _err
 	}
 	_data.WriteInt32(enabledState)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppFunctionManager, "setAppFunctionEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppFunctionManager, MethodIAppFunctionManagerSetAppFunctionEnabled)
 	if _err != nil {
-		_code = TransactionIAppFunctionManagerSetAppFunctionEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppFunctionManager, MethodIAppFunctionManagerSetAppFunctionEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,6 +126,10 @@ type AppFunctionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppFunctionManagerStub)(nil)
+
+func (s *AppFunctionManagerStub) Descriptor() string {
+	return DescriptorIAppFunctionManager
+}
 
 func (s *AppFunctionManagerStub) OnTransaction(
 	ctx context.Context,

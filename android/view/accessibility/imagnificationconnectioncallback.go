@@ -21,6 +21,15 @@ const (
 	TransactionIMagnificationConnectionCallbackOnMove                         = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged = "onWindowMagnifierBoundsChanged"
+	MethodIMagnificationConnectionCallbackOnChangeMagnificationMode      = "onChangeMagnificationMode"
+	MethodIMagnificationConnectionCallbackOnSourceBoundsChanged          = "onSourceBoundsChanged"
+	MethodIMagnificationConnectionCallbackOnPerformScaleAction           = "onPerformScaleAction"
+	MethodIMagnificationConnectionCallbackOnAccessibilityActionPerformed = "onAccessibilityActionPerformed"
+	MethodIMagnificationConnectionCallbackOnMove                         = "onMove"
+)
+
 type IMagnificationConnectionCallback interface {
 	AsBinder() binder.IBinder
 	OnWindowMagnifierBoundsChanged(ctx context.Context, displayId int32, bounds graphics.Rect) error
@@ -32,17 +41,17 @@ type IMagnificationConnectionCallback interface {
 }
 
 type MagnificationConnectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMagnificationConnectionCallbackProxy(
 	remote binder.IBinder,
 ) *MagnificationConnectionCallbackProxy {
-	return &MagnificationConnectionCallbackProxy{remote: remote}
+	return &MagnificationConnectionCallbackProxy{Remote: remote}
 }
 
 func (p *MagnificationConnectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMagnificationConnectionCallback = (*MagnificationConnectionCallbackProxy)(nil)
@@ -60,12 +69,12 @@ func (p *MagnificationConnectionCallbackProxy) OnWindowMagnifierBoundsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onWindowMagnifierBoundsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged)
 	if _err != nil {
-		_code = TransactionIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +88,12 @@ func (p *MagnificationConnectionCallbackProxy) OnChangeMagnificationMode(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(magnificationMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onChangeMagnificationMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnChangeMagnificationMode)
 	if _err != nil {
-		_code = TransactionIMagnificationConnectionCallbackOnChangeMagnificationMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnChangeMagnificationMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +110,12 @@ func (p *MagnificationConnectionCallbackProxy) OnSourceBoundsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onSourceBoundsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnSourceBoundsChanged)
 	if _err != nil {
-		_code = TransactionIMagnificationConnectionCallbackOnSourceBoundsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnSourceBoundsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +131,12 @@ func (p *MagnificationConnectionCallbackProxy) OnPerformScaleAction(
 	_data.WriteFloat32(scale)
 	_data.WriteBool(updatePersistence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onPerformScaleAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnPerformScaleAction)
 	if _err != nil {
-		_code = TransactionIMagnificationConnectionCallbackOnPerformScaleAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnPerformScaleAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,12 +148,12 @@ func (p *MagnificationConnectionCallbackProxy) OnAccessibilityActionPerformed(
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnectionCallback)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onAccessibilityActionPerformed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnAccessibilityActionPerformed)
 	if _err != nil {
-		_code = TransactionIMagnificationConnectionCallbackOnAccessibilityActionPerformed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnAccessibilityActionPerformed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,12 +165,12 @@ func (p *MagnificationConnectionCallbackProxy) OnMove(
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnectionCallback)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onMove")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnMove)
 	if _err != nil {
-		_code = TransactionIMagnificationConnectionCallbackOnMove
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMagnificationConnectionCallback, MethodIMagnificationConnectionCallbackOnMove, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,6 +181,10 @@ type MagnificationConnectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MagnificationConnectionCallbackStub)(nil)
+
+func (s *MagnificationConnectionCallbackStub) Descriptor() string {
+	return DescriptorIMagnificationConnectionCallback
+}
 
 func (s *MagnificationConnectionCallbackStub) OnTransaction(
 	ctx context.Context,

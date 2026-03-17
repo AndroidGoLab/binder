@@ -16,6 +16,11 @@ const (
 	TransactionICameraInjectionSessionGetCameraDeviceSession    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICameraInjectionSessionConfigureInjectionStreams = "configureInjectionStreams"
+	MethodICameraInjectionSessionGetCameraDeviceSession    = "getCameraDeviceSession"
+)
+
 type ICameraInjectionSession interface {
 	AsBinder() binder.IBinder
 	ConfigureInjectionStreams(ctx context.Context, requestedConfiguration StreamConfiguration, characteristics CameraMetadata) error
@@ -23,17 +28,17 @@ type ICameraInjectionSession interface {
 }
 
 type CameraInjectionSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraInjectionSessionProxy(
 	remote binder.IBinder,
 ) *CameraInjectionSessionProxy {
-	return &CameraInjectionSessionProxy{remote: remote}
+	return &CameraInjectionSessionProxy{Remote: remote}
 }
 
 func (p *CameraInjectionSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraInjectionSession = (*CameraInjectionSessionProxy)(nil)
@@ -54,12 +59,12 @@ func (p *CameraInjectionSessionProxy) ConfigureInjectionStreams(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionSession, "configureInjectionStreams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraInjectionSession, MethodICameraInjectionSessionConfigureInjectionStreams)
 	if _err != nil {
-		_code = TransactionICameraInjectionSessionConfigureInjectionStreams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraInjectionSession, MethodICameraInjectionSessionConfigureInjectionStreams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,12 +84,12 @@ func (p *CameraInjectionSessionProxy) GetCameraDeviceSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraInjectionSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionSession, "getCameraDeviceSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraInjectionSession, MethodICameraInjectionSessionGetCameraDeviceSession)
 	if _err != nil {
-		_code = TransactionICameraInjectionSessionGetCameraDeviceSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraInjectionSession, MethodICameraInjectionSessionGetCameraDeviceSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,7 +103,7 @@ func (p *CameraInjectionSessionProxy) GetCameraDeviceSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCameraDeviceSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewCameraDeviceSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -109,6 +114,10 @@ type CameraInjectionSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraInjectionSessionStub)(nil)
+
+func (s *CameraInjectionSessionStub) Descriptor() string {
+	return DescriptorICameraInjectionSession
+}
 
 func (s *CameraInjectionSessionStub) OnTransaction(
 	ctx context.Context,

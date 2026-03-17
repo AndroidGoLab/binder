@@ -17,6 +17,12 @@ const (
 	TransactionIAnalogAttributeInterfaceGetColorSystemCapability = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIAnalogAttributeInterfaceGetVersion               = "getVersion"
+	MethodIAnalogAttributeInterfaceSetColorSystemCapability = "setColorSystemCapability"
+	MethodIAnalogAttributeInterfaceGetColorSystemCapability = "getColorSystemCapability"
+)
+
 type IAnalogAttributeInterface interface {
 	AsBinder() binder.IBinder
 	GetVersion(ctx context.Context) (int32, error)
@@ -25,17 +31,17 @@ type IAnalogAttributeInterface interface {
 }
 
 type AnalogAttributeInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAnalogAttributeInterfaceProxy(
 	remote binder.IBinder,
 ) *AnalogAttributeInterfaceProxy {
-	return &AnalogAttributeInterfaceProxy{remote: remote}
+	return &AnalogAttributeInterfaceProxy{Remote: remote}
 }
 
 func (p *AnalogAttributeInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAnalogAttributeInterface = (*AnalogAttributeInterfaceProxy)(nil)
@@ -47,12 +53,12 @@ func (p *AnalogAttributeInterfaceProxy) GetVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAnalogAttributeInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAnalogAttributeInterface, "getVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAnalogAttributeInterface, MethodIAnalogAttributeInterfaceGetVersion)
 	if _err != nil {
-		_code = TransactionIAnalogAttributeInterfaceGetVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAnalogAttributeInterface, MethodIAnalogAttributeInterfaceGetVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,12 +90,12 @@ func (p *AnalogAttributeInterfaceProxy) SetColorSystemCapability(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAnalogAttributeInterface, "setColorSystemCapability")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAnalogAttributeInterface, MethodIAnalogAttributeInterfaceSetColorSystemCapability)
 	if _err != nil {
-		_code = TransactionIAnalogAttributeInterfaceSetColorSystemCapability
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAnalogAttributeInterface, MethodIAnalogAttributeInterfaceSetColorSystemCapability, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +115,12 @@ func (p *AnalogAttributeInterfaceProxy) GetColorSystemCapability(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAnalogAttributeInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAnalogAttributeInterface, "getColorSystemCapability")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAnalogAttributeInterface, MethodIAnalogAttributeInterfaceGetColorSystemCapability)
 	if _err != nil {
-		_code = TransactionIAnalogAttributeInterfaceGetColorSystemCapability
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAnalogAttributeInterface, MethodIAnalogAttributeInterfaceGetColorSystemCapability, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -148,6 +154,10 @@ type AnalogAttributeInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AnalogAttributeInterfaceStub)(nil)
+
+func (s *AnalogAttributeInterfaceStub) Descriptor() string {
+	return DescriptorIAnalogAttributeInterface
+}
 
 func (s *AnalogAttributeInterfaceStub) OnTransaction(
 	ctx context.Context,

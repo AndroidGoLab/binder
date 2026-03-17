@@ -15,23 +15,27 @@ const (
 	TransactionIKeyguardClientOnCreateKeyguardSurface = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyguardClientOnCreateKeyguardSurface = "onCreateKeyguardSurface"
+)
+
 type IKeyguardClient interface {
 	AsBinder() binder.IBinder
 	OnCreateKeyguardSurface(ctx context.Context, hostInputToken binder.IBinder, keyguardCallback IKeyguardCallback) error
 }
 
 type KeyguardClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyguardClientProxy(
 	remote binder.IBinder,
 ) *KeyguardClientProxy {
-	return &KeyguardClientProxy{remote: remote}
+	return &KeyguardClientProxy{Remote: remote}
 }
 
 func (p *KeyguardClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyguardClient = (*KeyguardClientProxy)(nil)
@@ -43,15 +47,15 @@ func (p *KeyguardClientProxy) OnCreateKeyguardSurface(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardClient)
-	binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, keyguardCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, keyguardCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardClient, "onCreateKeyguardSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardClient, MethodIKeyguardClientOnCreateKeyguardSurface)
 	if _err != nil {
-		_code = TransactionIKeyguardClientOnCreateKeyguardSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardClient, MethodIKeyguardClientOnCreateKeyguardSurface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type KeyguardClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyguardClientStub)(nil)
+
+func (s *KeyguardClientStub) Descriptor() string {
+	return DescriptorIKeyguardClient
+}
 
 func (s *KeyguardClientStub) OnTransaction(
 	ctx context.Context,

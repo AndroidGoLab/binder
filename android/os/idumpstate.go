@@ -18,12 +18,19 @@ const (
 	TransactionIDumpstateRetrieveBugreport = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDumpstatePreDumpUiData     = "preDumpUiData"
+	MethodIDumpstateStartBugreport    = "startBugreport"
+	MethodIDumpstateCancelBugreport   = "cancelBugreport"
+	MethodIDumpstateRetrieveBugreport = "retrieveBugreport"
+)
+
 type IDumpstate interface {
 	AsBinder() binder.IBinder
 	PreDumpUiData(ctx context.Context) error
-	StartBugreport(ctx context.Context, bugreportFd interface{}, screenshotFd interface{}, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool, skipUserConsent bool) error
+	StartBugreport(ctx context.Context, bugreportFd interface{}, screenshotFd interface{}, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool) error
 	CancelBugreport(ctx context.Context) error
-	RetrieveBugreport(ctx context.Context, bugreportFd interface{}, bugreportFile string, keepBugreportOnRetrieval bool, skipUserConsent bool, listener IDumpstateListener) error
+	RetrieveBugreport(ctx context.Context, bugreportFd interface{}, bugreportFile string, keepBugreportOnRetrieval bool, listener IDumpstateListener) error
 }
 
 const (
@@ -41,17 +48,17 @@ const (
 )
 
 type DumpstateProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDumpstateProxy(
 	remote binder.IBinder,
 ) *DumpstateProxy {
-	return &DumpstateProxy{remote: remote}
+	return &DumpstateProxy{Remote: remote}
 }
 
 func (p *DumpstateProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDumpstate = (*DumpstateProxy)(nil)
@@ -59,17 +66,17 @@ var _ IDumpstate = (*DumpstateProxy)(nil)
 func (p *DumpstateProxy) PreDumpUiData(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "preDumpUiData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstatePreDumpUiData)
 	if _err != nil {
-		_code = TransactionIDumpstatePreDumpUiData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstate, MethodIDumpstatePreDumpUiData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,25 +97,23 @@ func (p *DumpstateProxy) StartBugreport(
 	bugreportFlags int32,
 	listener IDumpstateListener,
 	isScreenshotRequested bool,
-	skipUserConsent bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteInt32(_identity.UID)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(bugreportMode)
 	_data.WriteInt32(bugreportFlags)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isScreenshotRequested)
-	_data.WriteBool(skipUserConsent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "startBugreport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstateStartBugreport)
 	if _err != nil {
-		_code = TransactionIDumpstateStartBugreport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstate, MethodIDumpstateStartBugreport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,18 +129,18 @@ func (p *DumpstateProxy) StartBugreport(
 func (p *DumpstateProxy) CancelBugreport(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteInt32(_identity.UID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "cancelBugreport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstateCancelBugreport)
 	if _err != nil {
-		_code = TransactionIDumpstateCancelBugreport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstate, MethodIDumpstateCancelBugreport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,10 +158,9 @@ func (p *DumpstateProxy) RetrieveBugreport(
 	bugreportFd interface{},
 	bugreportFile string,
 	keepBugreportOnRetrieval bool,
-	skipUserConsent bool,
 	listener IDumpstateListener,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstate)
 	_data.WriteInt32(_identity.UID)
@@ -164,15 +168,14 @@ func (p *DumpstateProxy) RetrieveBugreport(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(bugreportFile)
 	_data.WriteBool(keepBugreportOnRetrieval)
-	_data.WriteBool(skipUserConsent)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "retrieveBugreport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstate, MethodIDumpstateRetrieveBugreport)
 	if _err != nil {
-		_code = TransactionIDumpstateRetrieveBugreport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstate, MethodIDumpstateRetrieveBugreport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,6 +195,10 @@ type DumpstateStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DumpstateStub)(nil)
+
+func (s *DumpstateStub) Descriptor() string {
+	return DescriptorIDumpstate
+}
 
 func (s *DumpstateStub) OnTransaction(
 	ctx context.Context,
@@ -241,11 +248,7 @@ func (s *DumpstateStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipUserConsent, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.StartBugreport(ctx, _arg_bugreportFd, _arg_screenshotFd, _arg_bugreportMode, _arg_bugreportFlags, _arg_listener, _arg_isScreenshotRequested, _arg_skipUserConsent)
+		_err = s.Impl.StartBugreport(ctx, _arg_bugreportFd, _arg_screenshotFd, _arg_bugreportMode, _arg_bugreportFlags, _arg_listener, _arg_isScreenshotRequested)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -293,14 +296,10 @@ func (s *DumpstateStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipUserConsent, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDumpstateListener
 		_ = _arg_listener
-		_err = s.Impl.RetrieveBugreport(ctx, _arg_bugreportFd, _arg_bugreportFile, _arg_keepBugreportOnRetrieval, _arg_skipUserConsent, _arg_listener)
+		_err = s.Impl.RetrieveBugreport(ctx, _arg_bugreportFd, _arg_bugreportFile, _arg_keepBugreportOnRetrieval, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -318,9 +317,9 @@ func (s *DumpstateStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IDumpstateServer interface {
 	PreDumpUiData(ctx context.Context) error
-	StartBugreport(ctx context.Context, bugreportFd interface{}, screenshotFd interface{}, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool, skipUserConsent bool) error
+	StartBugreport(ctx context.Context, bugreportFd interface{}, screenshotFd interface{}, bugreportMode int32, bugreportFlags int32, listener IDumpstateListener, isScreenshotRequested bool) error
 	CancelBugreport(ctx context.Context) error
-	RetrieveBugreport(ctx context.Context, bugreportFd interface{}, bugreportFile string, keepBugreportOnRetrieval bool, skipUserConsent bool, listener IDumpstateListener) error
+	RetrieveBugreport(ctx context.Context, bugreportFd interface{}, bugreportFile string, keepBugreportOnRetrieval bool, listener IDumpstateListener) error
 }
 
 type dumpstateStubWrapper struct {
@@ -346,9 +345,8 @@ func (w *dumpstateStubWrapper) StartBugreport(
 	bugreportFlags int32,
 	listener IDumpstateListener,
 	isScreenshotRequested bool,
-	skipUserConsent bool,
 ) error {
-	return w.impl.StartBugreport(ctx, bugreportFd, screenshotFd, bugreportMode, bugreportFlags, listener, isScreenshotRequested, skipUserConsent)
+	return w.impl.StartBugreport(ctx, bugreportFd, screenshotFd, bugreportMode, bugreportFlags, listener, isScreenshotRequested)
 }
 
 func (w *dumpstateStubWrapper) CancelBugreport(
@@ -362,10 +360,9 @@ func (w *dumpstateStubWrapper) RetrieveBugreport(
 	bugreportFd interface{},
 	bugreportFile string,
 	keepBugreportOnRetrieval bool,
-	skipUserConsent bool,
 	listener IDumpstateListener,
 ) error {
-	return w.impl.RetrieveBugreport(ctx, bugreportFd, bugreportFile, keepBugreportOnRetrieval, skipUserConsent, listener)
+	return w.impl.RetrieveBugreport(ctx, bugreportFd, bugreportFile, keepBugreportOnRetrieval, listener)
 }
 
 var _ IDumpstate = (*dumpstateStubWrapper)(nil)

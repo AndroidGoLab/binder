@@ -16,6 +16,11 @@ const (
 	TransactionIRemoteAnimationRunnerOnAnimationCancelled = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRemoteAnimationRunnerOnAnimationStart     = "onAnimationStart"
+	MethodIRemoteAnimationRunnerOnAnimationCancelled = "onAnimationCancelled"
+)
+
 type IRemoteAnimationRunner interface {
 	AsBinder() binder.IBinder
 	OnAnimationStart(ctx context.Context, transit int32, apps []RemoteAnimationTarget, wallpapers []RemoteAnimationTarget, nonApps []RemoteAnimationTarget, finishedCallback IRemoteAnimationFinishedCallback) error
@@ -23,17 +28,17 @@ type IRemoteAnimationRunner interface {
 }
 
 type RemoteAnimationRunnerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteAnimationRunnerProxy(
 	remote binder.IBinder,
 ) *RemoteAnimationRunnerProxy {
-	return &RemoteAnimationRunnerProxy{remote: remote}
+	return &RemoteAnimationRunnerProxy{Remote: remote}
 }
 
 func (p *RemoteAnimationRunnerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteAnimationRunner = (*RemoteAnimationRunnerProxy)(nil)
@@ -54,6 +59,7 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationStart(
 	} else {
 		_data.WriteInt32(int32(len(apps)))
 		for _, _item := range apps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -64,6 +70,7 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationStart(
 	} else {
 		_data.WriteInt32(int32(len(wallpapers)))
 		for _, _item := range wallpapers {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -74,19 +81,20 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationStart(
 	} else {
 		_data.WriteInt32(int32(len(nonApps)))
 		for _, _item := range nonApps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAnimationRunner, "onAnimationStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAnimationRunner, MethodIRemoteAnimationRunnerOnAnimationStart)
 	if _err != nil {
-		_code = TransactionIRemoteAnimationRunnerOnAnimationStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteAnimationRunner, MethodIRemoteAnimationRunnerOnAnimationStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +104,12 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationCancelled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAnimationRunner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAnimationRunner, "onAnimationCancelled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAnimationRunner, MethodIRemoteAnimationRunnerOnAnimationCancelled)
 	if _err != nil {
-		_code = TransactionIRemoteAnimationRunnerOnAnimationCancelled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteAnimationRunner, MethodIRemoteAnimationRunnerOnAnimationCancelled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,6 +120,10 @@ type RemoteAnimationRunnerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteAnimationRunnerStub)(nil)
+
+func (s *RemoteAnimationRunnerStub) Descriptor() string {
+	return DescriptorIRemoteAnimationRunner
+}
 
 func (s *RemoteAnimationRunnerStub) OnTransaction(
 	ctx context.Context,

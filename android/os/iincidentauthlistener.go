@@ -16,6 +16,11 @@ const (
 	TransactionIIncidentAuthListenerOnReportDenied   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIIncidentAuthListenerOnReportApproved = "onReportApproved"
+	MethodIIncidentAuthListenerOnReportDenied   = "onReportDenied"
+)
+
 type IIncidentAuthListener interface {
 	AsBinder() binder.IBinder
 	OnReportApproved(ctx context.Context) error
@@ -23,17 +28,17 @@ type IIncidentAuthListener interface {
 }
 
 type IncidentAuthListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIncidentAuthListenerProxy(
 	remote binder.IBinder,
 ) *IncidentAuthListenerProxy {
-	return &IncidentAuthListenerProxy{remote: remote}
+	return &IncidentAuthListenerProxy{Remote: remote}
 }
 
 func (p *IncidentAuthListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIncidentAuthListener = (*IncidentAuthListenerProxy)(nil)
@@ -44,12 +49,12 @@ func (p *IncidentAuthListenerProxy) OnReportApproved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentAuthListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentAuthListener, "onReportApproved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentAuthListener, MethodIIncidentAuthListenerOnReportApproved)
 	if _err != nil {
-		_code = TransactionIIncidentAuthListenerOnReportApproved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentAuthListener, MethodIIncidentAuthListenerOnReportApproved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *IncidentAuthListenerProxy) OnReportDenied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentAuthListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentAuthListener, "onReportDenied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentAuthListener, MethodIIncidentAuthListenerOnReportDenied)
 	if _err != nil {
-		_code = TransactionIIncidentAuthListenerOnReportDenied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentAuthListener, MethodIIncidentAuthListenerOnReportDenied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type IncidentAuthListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IncidentAuthListenerStub)(nil)
+
+func (s *IncidentAuthListenerStub) Descriptor() string {
+	return DescriptorIIncidentAuthListener
+}
 
 func (s *IncidentAuthListenerStub) OnTransaction(
 	ctx context.Context,

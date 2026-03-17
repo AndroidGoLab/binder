@@ -15,23 +15,27 @@ const (
 	TransactionISoundProfileChangedListenerOnSoundProfileChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISoundProfileChangedListenerOnSoundProfileChanged = "onSoundProfileChanged"
+)
+
 type ISoundProfileChangedListener interface {
 	AsBinder() binder.IBinder
 	OnSoundProfileChanged(ctx context.Context, soundProfile SoundProfile) error
 }
 
 type SoundProfileChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundProfileChangedListenerProxy(
 	remote binder.IBinder,
 ) *SoundProfileChangedListenerProxy {
-	return &SoundProfileChangedListenerProxy{remote: remote}
+	return &SoundProfileChangedListenerProxy{Remote: remote}
 }
 
 func (p *SoundProfileChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundProfileChangedListener = (*SoundProfileChangedListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *SoundProfileChangedListenerProxy) OnSoundProfileChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileChangedListener, "onSoundProfileChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundProfileChangedListener, MethodISoundProfileChangedListenerOnSoundProfileChanged)
 	if _err != nil {
-		_code = TransactionISoundProfileChangedListenerOnSoundProfileChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundProfileChangedListener, MethodISoundProfileChangedListenerOnSoundProfileChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type SoundProfileChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundProfileChangedListenerStub)(nil)
+
+func (s *SoundProfileChangedListenerStub) Descriptor() string {
+	return DescriptorISoundProfileChangedListener
+}
 
 func (s *SoundProfileChangedListenerStub) OnTransaction(
 	ctx context.Context,

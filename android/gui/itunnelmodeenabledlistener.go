@@ -15,23 +15,27 @@ const (
 	TransactionITunnelModeEnabledListenerOnTunnelModeEnabledChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITunnelModeEnabledListenerOnTunnelModeEnabledChanged = "onTunnelModeEnabledChanged"
+)
+
 type ITunnelModeEnabledListener interface {
 	AsBinder() binder.IBinder
 	OnTunnelModeEnabledChanged(ctx context.Context, enabled bool) error
 }
 
 type TunnelModeEnabledListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunnelModeEnabledListenerProxy(
 	remote binder.IBinder,
 ) *TunnelModeEnabledListenerProxy {
-	return &TunnelModeEnabledListenerProxy{remote: remote}
+	return &TunnelModeEnabledListenerProxy{Remote: remote}
 }
 
 func (p *TunnelModeEnabledListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunnelModeEnabledListener = (*TunnelModeEnabledListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *TunnelModeEnabledListenerProxy) OnTunnelModeEnabledChanged(
 	_data.WriteInterfaceToken(DescriptorITunnelModeEnabledListener)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunnelModeEnabledListener, "onTunnelModeEnabledChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunnelModeEnabledListener, MethodITunnelModeEnabledListenerOnTunnelModeEnabledChanged)
 	if _err != nil {
-		_code = TransactionITunnelModeEnabledListenerOnTunnelModeEnabledChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunnelModeEnabledListener, MethodITunnelModeEnabledListenerOnTunnelModeEnabledChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type TunnelModeEnabledListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunnelModeEnabledListenerStub)(nil)
+
+func (s *TunnelModeEnabledListenerStub) Descriptor() string {
+	return DescriptorITunnelModeEnabledListener
+}
 
 func (s *TunnelModeEnabledListenerStub) OnTransaction(
 	ctx context.Context,

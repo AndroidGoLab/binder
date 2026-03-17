@@ -15,23 +15,27 @@ const (
 	TransactionIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged = "onAccessibilityDetectionChanged"
+)
+
 type IVoiceInteractionAccessibilitySettingsListener interface {
 	AsBinder() binder.IBinder
 	OnAccessibilityDetectionChanged(ctx context.Context, enable bool) error
 }
 
 type VoiceInteractionAccessibilitySettingsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractionAccessibilitySettingsListenerProxy(
 	remote binder.IBinder,
 ) *VoiceInteractionAccessibilitySettingsListenerProxy {
-	return &VoiceInteractionAccessibilitySettingsListenerProxy{remote: remote}
+	return &VoiceInteractionAccessibilitySettingsListenerProxy{Remote: remote}
 }
 
 func (p *VoiceInteractionAccessibilitySettingsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractionAccessibilitySettingsListener = (*VoiceInteractionAccessibilitySettingsListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *VoiceInteractionAccessibilitySettingsListenerProxy) OnAccessibilityDete
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionAccessibilitySettingsListener)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionAccessibilitySettingsListener, "onAccessibilityDetectionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionAccessibilitySettingsListener, MethodIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionAccessibilitySettingsListener, MethodIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type VoiceInteractionAccessibilitySettingsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionAccessibilitySettingsListenerStub)(nil)
+
+func (s *VoiceInteractionAccessibilitySettingsListenerStub) Descriptor() string {
+	return DescriptorIVoiceInteractionAccessibilitySettingsListener
+}
 
 func (s *VoiceInteractionAccessibilitySettingsListenerStub) OnTransaction(
 	ctx context.Context,

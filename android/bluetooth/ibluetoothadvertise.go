@@ -26,6 +26,19 @@ const (
 	TransactionIBluetoothAdvertiseSetPeriodicAdvertisingEnable     = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodIBluetoothAdvertiseStartAdvertisingSet              = "startAdvertisingSet"
+	MethodIBluetoothAdvertiseStopAdvertisingSet               = "stopAdvertisingSet"
+	MethodIBluetoothAdvertiseGetOwnAddress                    = "getOwnAddress"
+	MethodIBluetoothAdvertiseEnableAdvertisingSet             = "enableAdvertisingSet"
+	MethodIBluetoothAdvertiseSetAdvertisingData               = "setAdvertisingData"
+	MethodIBluetoothAdvertiseSetScanResponseData              = "setScanResponseData"
+	MethodIBluetoothAdvertiseSetAdvertisingParameters         = "setAdvertisingParameters"
+	MethodIBluetoothAdvertiseSetPeriodicAdvertisingParameters = "setPeriodicAdvertisingParameters"
+	MethodIBluetoothAdvertiseSetPeriodicAdvertisingData       = "setPeriodicAdvertisingData"
+	MethodIBluetoothAdvertiseSetPeriodicAdvertisingEnable     = "setPeriodicAdvertisingEnable"
+)
+
 type IBluetoothAdvertise interface {
 	AsBinder() binder.IBinder
 	StartAdvertisingSet(ctx context.Context, parameters le.AdvertisingSetParameters, advertiseData le.AdvertiseData, scanResponse le.AdvertiseData, periodicParameters le.PeriodicAdvertisingParameters, periodicData le.AdvertiseData, duration int32, maxExtAdvEvents int32, gattServerIf int32, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource) error
@@ -41,17 +54,17 @@ type IBluetoothAdvertise interface {
 }
 
 type BluetoothAdvertiseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothAdvertiseProxy(
 	remote binder.IBinder,
 ) *BluetoothAdvertiseProxy {
-	return &BluetoothAdvertiseProxy{remote: remote}
+	return &BluetoothAdvertiseProxy{Remote: remote}
 }
 
 func (p *BluetoothAdvertiseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothAdvertise = (*BluetoothAdvertiseProxy)(nil)
@@ -94,18 +107,18 @@ func (p *BluetoothAdvertiseProxy) StartAdvertisingSet(
 	_data.WriteInt32(duration)
 	_data.WriteInt32(maxExtAdvEvents)
 	_data.WriteInt32(gattServerIf)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "startAdvertisingSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStartAdvertisingSet)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseStartAdvertisingSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStartAdvertisingSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -125,18 +138,18 @@ func (p *BluetoothAdvertiseProxy) StopAdvertisingSet(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "stopAdvertisingSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStopAdvertisingSet)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseStopAdvertisingSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseStopAdvertisingSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,12 +175,12 @@ func (p *BluetoothAdvertiseProxy) GetOwnAddress(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "getOwnAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseGetOwnAddress)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseGetOwnAddress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseGetOwnAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -199,12 +212,12 @@ func (p *BluetoothAdvertiseProxy) EnableAdvertisingSet(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "enableAdvertisingSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseEnableAdvertisingSet)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseEnableAdvertisingSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseEnableAdvertisingSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -235,12 +248,12 @@ func (p *BluetoothAdvertiseProxy) SetAdvertisingData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setAdvertisingData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingData)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseSetAdvertisingData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -271,12 +284,12 @@ func (p *BluetoothAdvertiseProxy) SetScanResponseData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setScanResponseData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetScanResponseData)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseSetScanResponseData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetScanResponseData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -307,12 +320,12 @@ func (p *BluetoothAdvertiseProxy) SetAdvertisingParameters(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setAdvertisingParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingParameters)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseSetAdvertisingParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetAdvertisingParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -343,12 +356,12 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingParameters(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setPeriodicAdvertisingParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingParameters)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseSetPeriodicAdvertisingParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -379,12 +392,12 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setPeriodicAdvertisingData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingData)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseSetPeriodicAdvertisingData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -412,12 +425,12 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingEnable(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setPeriodicAdvertisingEnable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingEnable)
 	if _err != nil {
-		_code = TransactionIBluetoothAdvertiseSetPeriodicAdvertisingEnable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAdvertise, MethodIBluetoothAdvertiseSetPeriodicAdvertisingEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -437,6 +450,10 @@ type BluetoothAdvertiseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAdvertiseStub)(nil)
+
+func (s *BluetoothAdvertiseStub) Descriptor() string {
+	return DescriptorIBluetoothAdvertise
+}
 
 func (s *BluetoothAdvertiseStub) OnTransaction(
 	ctx context.Context,

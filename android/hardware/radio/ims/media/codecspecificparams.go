@@ -58,10 +58,12 @@ func (u *CodecSpecificParams) MarshalParcel(
 
 	switch u.Tag {
 	case CodecSpecificParamsTagAmr:
+		p.WriteInt32(1)
 		if _err := u.Amr.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificParamsTagEvs:
+		p.WriteInt32(1)
 		if _err := u.Evs.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *CodecSpecificParams) UnmarshalParcel(
 
 	switch u.Tag {
 	case CodecSpecificParamsTagAmr:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Amr.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificParamsTagEvs:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Evs.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

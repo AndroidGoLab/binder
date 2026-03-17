@@ -20,14 +20,7 @@ func (s *Work) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.ChainInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ChainInfo)))
-		for _, _item := range s.ChainInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ChainInfo)
 	if _err := s.Input.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -36,6 +29,7 @@ func (s *Work) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Worklets)))
 		for _, _item := range s.Worklets {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -58,19 +52,9 @@ func (s *Work) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ChainInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ChainInfo = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ChainInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	if _err = s.Input.UnmarshalParcel(p); _err != nil {
@@ -85,6 +69,9 @@ func (s *Work) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Worklets = make([]Worklet, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Worklets[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

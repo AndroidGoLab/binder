@@ -16,6 +16,11 @@ const (
 	TransactionIAmbientContextObserverOnRegistrationComplete = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAmbientContextObserverOnEvents               = "onEvents"
+	MethodIAmbientContextObserverOnRegistrationComplete = "onRegistrationComplete"
+)
+
 type IAmbientContextObserver interface {
 	AsBinder() binder.IBinder
 	OnEvents(ctx context.Context, events []AmbientContextEvent) error
@@ -23,17 +28,17 @@ type IAmbientContextObserver interface {
 }
 
 type AmbientContextObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAmbientContextObserverProxy(
 	remote binder.IBinder,
 ) *AmbientContextObserverProxy {
-	return &AmbientContextObserverProxy{remote: remote}
+	return &AmbientContextObserverProxy{Remote: remote}
 }
 
 func (p *AmbientContextObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAmbientContextObserver = (*AmbientContextObserverProxy)(nil)
@@ -49,18 +54,19 @@ func (p *AmbientContextObserverProxy) OnEvents(
 	} else {
 		_data.WriteInt32(int32(len(events)))
 		for _, _item := range events {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextObserver, "onEvents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextObserver, MethodIAmbientContextObserverOnEvents)
 	if _err != nil {
-		_code = TransactionIAmbientContextObserverOnEvents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextObserver, MethodIAmbientContextObserverOnEvents, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +78,12 @@ func (p *AmbientContextObserverProxy) OnRegistrationComplete(
 	_data.WriteInterfaceToken(DescriptorIAmbientContextObserver)
 	_data.WriteInt32(statusCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextObserver, "onRegistrationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextObserver, MethodIAmbientContextObserverOnRegistrationComplete)
 	if _err != nil {
-		_code = TransactionIAmbientContextObserverOnRegistrationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextObserver, MethodIAmbientContextObserverOnRegistrationComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +94,10 @@ type AmbientContextObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AmbientContextObserverStub)(nil)
+
+func (s *AmbientContextObserverStub) Descriptor() string {
+	return DescriptorIAmbientContextObserver
+}
 
 func (s *AmbientContextObserverStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIResolverRankerResultSendResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIResolverRankerResultSendResult = "sendResult"
+)
+
 type IResolverRankerResult interface {
 	AsBinder() binder.IBinder
 	SendResult(ctx context.Context, results []ResolverTarget) error
 }
 
 type ResolverRankerResultProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResolverRankerResultProxy(
 	remote binder.IBinder,
 ) *ResolverRankerResultProxy {
-	return &ResolverRankerResultProxy{remote: remote}
+	return &ResolverRankerResultProxy{Remote: remote}
 }
 
 func (p *ResolverRankerResultProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResolverRankerResult = (*ResolverRankerResultProxy)(nil)
@@ -47,18 +51,19 @@ func (p *ResolverRankerResultProxy) SendResult(
 	} else {
 		_data.WriteInt32(int32(len(results)))
 		for _, _item := range results {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResolverRankerResult, "sendResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResolverRankerResult, MethodIResolverRankerResultSendResult)
 	if _err != nil {
-		_code = TransactionIResolverRankerResultSendResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResolverRankerResult, MethodIResolverRankerResultSendResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type ResolverRankerResultStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResolverRankerResultStub)(nil)
+
+func (s *ResolverRankerResultStub) Descriptor() string {
+	return DescriptorIResolverRankerResult
+}
 
 func (s *ResolverRankerResultStub) OnTransaction(
 	ctx context.Context,

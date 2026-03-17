@@ -15,23 +15,27 @@ const (
 	TransactionIResourceObserverOnStatusChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIResourceObserverOnStatusChanged = "onStatusChanged"
+)
+
 type IResourceObserver interface {
 	AsBinder() binder.IBinder
 	OnStatusChanged(ctx context.Context, event MediaObservableEvent, uid int32, pid int32, observables []MediaObservableParcel) error
 }
 
 type ResourceObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResourceObserverProxy(
 	remote binder.IBinder,
 ) *ResourceObserverProxy {
-	return &ResourceObserverProxy{remote: remote}
+	return &ResourceObserverProxy{Remote: remote}
 }
 
 func (p *ResourceObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResourceObserver = (*ResourceObserverProxy)(nil)
@@ -53,18 +57,19 @@ func (p *ResourceObserverProxy) OnStatusChanged(
 	} else {
 		_data.WriteInt32(int32(len(observables)))
 		for _, _item := range observables {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceObserver, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceObserver, MethodIResourceObserverOnStatusChanged)
 	if _err != nil {
-		_code = TransactionIResourceObserverOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceObserver, MethodIResourceObserverOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type ResourceObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResourceObserverStub)(nil)
+
+func (s *ResourceObserverStub) Descriptor() string {
+	return DescriptorIResourceObserver
+}
 
 func (s *ResourceObserverStub) OnTransaction(
 	ctx context.Context,

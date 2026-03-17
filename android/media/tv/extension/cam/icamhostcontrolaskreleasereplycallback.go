@@ -15,23 +15,27 @@ const (
 	TransactionICamHostControlAskReleaseReplyCallbackOnAskReleaseReply = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICamHostControlAskReleaseReplyCallbackOnAskReleaseReply = "onAskReleaseReply"
+)
+
 type ICamHostControlAskReleaseReplyCallback interface {
 	AsBinder() binder.IBinder
 	OnAskReleaseReply(ctx context.Context, sessionToken string, replyStatus int32) error
 }
 
 type CamHostControlAskReleaseReplyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamHostControlAskReleaseReplyCallbackProxy(
 	remote binder.IBinder,
 ) *CamHostControlAskReleaseReplyCallbackProxy {
-	return &CamHostControlAskReleaseReplyCallbackProxy{remote: remote}
+	return &CamHostControlAskReleaseReplyCallbackProxy{Remote: remote}
 }
 
 func (p *CamHostControlAskReleaseReplyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamHostControlAskReleaseReplyCallback = (*CamHostControlAskReleaseReplyCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *CamHostControlAskReleaseReplyCallbackProxy) OnAskReleaseReply(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(replyStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlAskReleaseReplyCallback, "onAskReleaseReply")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlAskReleaseReplyCallback, MethodICamHostControlAskReleaseReplyCallbackOnAskReleaseReply)
 	if _err != nil {
-		_code = TransactionICamHostControlAskReleaseReplyCallbackOnAskReleaseReply
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlAskReleaseReplyCallback, MethodICamHostControlAskReleaseReplyCallbackOnAskReleaseReply, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type CamHostControlAskReleaseReplyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamHostControlAskReleaseReplyCallbackStub)(nil)
+
+func (s *CamHostControlAskReleaseReplyCallbackStub) Descriptor() string {
+	return DescriptorICamHostControlAskReleaseReplyCallback
+}
 
 func (s *CamHostControlAskReleaseReplyCallbackStub) OnTransaction(
 	ctx context.Context,

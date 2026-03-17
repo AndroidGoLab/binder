@@ -16,6 +16,11 @@ const (
 	TransactionIBinderWorkSourceNestedServiceNestedCall                    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet = "nestedCallWithWorkSourceToSet"
+	MethodIBinderWorkSourceNestedServiceNestedCall                    = "nestedCall"
+)
+
 type IBinderWorkSourceNestedService interface {
 	AsBinder() binder.IBinder
 	NestedCallWithWorkSourceToSet(ctx context.Context, uidToBlame int32) ([]int32, error)
@@ -23,17 +28,17 @@ type IBinderWorkSourceNestedService interface {
 }
 
 type BinderWorkSourceNestedServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderWorkSourceNestedServiceProxy(
 	remote binder.IBinder,
 ) *BinderWorkSourceNestedServiceProxy {
-	return &BinderWorkSourceNestedServiceProxy{remote: remote}
+	return &BinderWorkSourceNestedServiceProxy{Remote: remote}
 }
 
 func (p *BinderWorkSourceNestedServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderWorkSourceNestedService = (*BinderWorkSourceNestedServiceProxy)(nil)
@@ -47,12 +52,12 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCallWithWorkSourceToSet(
 	_data.WriteInterfaceToken(DescriptorIBinderWorkSourceNestedService)
 	_data.WriteInt32(uidToBlame)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceNestedService, "nestedCallWithWorkSourceToSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderWorkSourceNestedService, MethodIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet)
 	if _err != nil {
-		_code = TransactionIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderWorkSourceNestedService, MethodIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +91,12 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderWorkSourceNestedService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceNestedService, "nestedCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderWorkSourceNestedService, MethodIBinderWorkSourceNestedServiceNestedCall)
 	if _err != nil {
-		_code = TransactionIBinderWorkSourceNestedServiceNestedCall
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderWorkSourceNestedService, MethodIBinderWorkSourceNestedServiceNestedCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,6 +130,10 @@ type BinderWorkSourceNestedServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderWorkSourceNestedServiceStub)(nil)
+
+func (s *BinderWorkSourceNestedServiceStub) Descriptor() string {
+	return DescriptorIBinderWorkSourceNestedService
+}
 
 func (s *BinderWorkSourceNestedServiceStub) OnTransaction(
 	ctx context.Context,

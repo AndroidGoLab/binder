@@ -20,6 +20,14 @@ const (
 	TransactionIOnsUpdateAvailableNetworks        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIOnsSetEnable                      = "setEnable"
+	MethodIOnsIsEnabled                      = "isEnabled"
+	MethodIOnsSetPreferredDataSubscriptionId = "setPreferredDataSubscriptionId"
+	MethodIOnsGetPreferredDataSubscriptionId = "getPreferredDataSubscriptionId"
+	MethodIOnsUpdateAvailableNetworks        = "updateAvailableNetworks"
+)
+
 type IOns interface {
 	AsBinder() binder.IBinder
 	SetEnable(ctx context.Context, enable bool) (bool, error)
@@ -30,17 +38,17 @@ type IOns interface {
 }
 
 type OnsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnsProxy(
 	remote binder.IBinder,
 ) *OnsProxy {
-	return &OnsProxy{remote: remote}
+	return &OnsProxy{Remote: remote}
 }
 
 func (p *OnsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOns = (*OnsProxy)(nil)
@@ -50,18 +58,18 @@ func (p *OnsProxy) SetEnable(
 	enable bool,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteBool(enable)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOns, "setEnable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsSetEnable)
 	if _err != nil {
-		_code = TransactionIOnsSetEnable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOns, MethodIOnsSetEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,17 +90,17 @@ func (p *OnsProxy) IsEnabled(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOns, "isEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsIsEnabled)
 	if _err != nil {
-		_code = TransactionIOnsIsEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOns, MethodIOnsIsEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,20 +123,20 @@ func (p *OnsProxy) SetPreferredDataSubscriptionId(
 	needValidation bool,
 	callbackStub ISetOpportunisticDataCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteInt32(subId)
 	_data.WriteBool(needValidation)
-	binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOns, "setPreferredDataSubscriptionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsSetPreferredDataSubscriptionId)
 	if _err != nil {
-		_code = TransactionIOnsSetPreferredDataSubscriptionId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOns, MethodIOnsSetPreferredDataSubscriptionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -145,18 +153,18 @@ func (p *OnsProxy) GetPreferredDataSubscriptionId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOns, "getPreferredDataSubscriptionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsGetPreferredDataSubscriptionId)
 	if _err != nil {
-		_code = TransactionIOnsGetPreferredDataSubscriptionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOns, MethodIOnsGetPreferredDataSubscriptionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -178,7 +186,7 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 	availableNetworks []androidTelephony.AvailableNetworkInfo,
 	callbackStub IUpdateAvailableNetworksCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOns)
 	if availableNetworks == nil {
@@ -186,20 +194,21 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 	} else {
 		_data.WriteInt32(int32(len(availableNetworks)))
 		for _, _item := range availableNetworks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbackStub.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOns, "updateAvailableNetworks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOns, MethodIOnsUpdateAvailableNetworks)
 	if _err != nil {
-		_code = TransactionIOnsUpdateAvailableNetworks
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOns, MethodIOnsUpdateAvailableNetworks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -219,6 +228,10 @@ type OnsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnsStub)(nil)
+
+func (s *OnsStub) Descriptor() string {
+	return DescriptorIOns
+}
 
 func (s *OnsStub) OnTransaction(
 	ctx context.Context,

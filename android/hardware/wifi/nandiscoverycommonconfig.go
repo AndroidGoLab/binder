@@ -28,9 +28,6 @@ type NanDiscoveryCommonConfig struct {
 	DistanceIngressCm                     uint16
 	DistanceEgressCm                      uint16
 	EnableSessionSuspendability           bool
-	RttBurstSize                          int32
-	Preamble                              RttPreamble
-	ChannelInfo                           WifiChannelInfo
 }
 
 var _ parcel.Parcelable = (*NanDiscoveryCommonConfig)(nil)
@@ -43,47 +40,12 @@ func (s *NanDiscoveryCommonConfig) MarshalParcel(
 	p.WriteInt32(int32(s.TtlSec))
 	p.WriteInt32(int32(s.DiscoveryWindowPeriod))
 	p.WritePaddedByte(s.DiscoveryCount)
-	if s.ServiceName == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceName)))
-		for _, _item := range s.ServiceName {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceName)
 	p.WriteInt32(int32(s.DiscoveryMatchIndicator))
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ExtendedServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ExtendedServiceSpecificInfo)))
-		for _, _item := range s.ExtendedServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.RxMatchFilter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.RxMatchFilter)))
-		for _, _item := range s.RxMatchFilter {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.TxMatchFilter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.TxMatchFilter)))
-		for _, _item := range s.TxMatchFilter {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceSpecificInfo)
+	p.WriteByteArray(s.ExtendedServiceSpecificInfo)
+	p.WriteByteArray(s.RxMatchFilter)
+	p.WriteByteArray(s.TxMatchFilter)
 	p.WriteBool(s.UseRssiThreshold)
 	p.WriteBool(s.DisableDiscoveryTerminationIndication)
 	p.WriteBool(s.DisableMatchExpirationIndication)
@@ -97,11 +59,6 @@ func (s *NanDiscoveryCommonConfig) MarshalParcel(
 	p.WriteInt32(int32(s.DistanceIngressCm))
 	p.WriteInt32(int32(s.DistanceEgressCm))
 	p.WriteBool(s.EnableSessionSuspendability)
-	p.WriteInt32(s.RttBurstSize)
-	p.WriteInt32(int32(s.Preamble))
-	if _err := s.ChannelInfo.MarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -137,19 +94,9 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ServiceName, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ServiceName = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ServiceName[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_discoveryMatchIndicatorRaw, _err := p.ReadInt32()
@@ -158,64 +105,24 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 	}
 	s.DiscoveryMatchIndicator = NanMatchAlg(_discoveryMatchIndicatorRaw)
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.ExtendedServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.ExtendedServiceSpecificInfo = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.ExtendedServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.RxMatchFilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.RxMatchFilter = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.RxMatchFilter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count4 int32
-	_count4, _err = p.ReadInt32()
+	s.TxMatchFilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count4 >= 0 {
-		s.TxMatchFilter = make([]byte, _count4)
-		for _i := int32(0); _i < _count4; _i++ {
-			s.TxMatchFilter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.UseRssiThreshold, _err = p.ReadBool()
@@ -271,21 +178,6 @@ func (s *NanDiscoveryCommonConfig) UnmarshalParcel(
 
 	s.EnableSessionSuspendability, _err = p.ReadBool()
 	if _err != nil {
-		return _err
-	}
-
-	s.RttBurstSize, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-
-	_preambleRaw, _err := p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	s.Preamble = RttPreamble(_preambleRaw)
-
-	if _err = s.ChannelInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

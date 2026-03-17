@@ -20,6 +20,14 @@ const (
 	TransactionIRecognitionServiceTriggerModelDownload    = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIRecognitionServiceStartListening          = "startListening"
+	MethodIRecognitionServiceStopListening           = "stopListening"
+	MethodIRecognitionServiceCancel                  = "cancel"
+	MethodIRecognitionServiceCheckRecognitionSupport = "checkRecognitionSupport"
+	MethodIRecognitionServiceTriggerModelDownload    = "triggerModelDownload"
+)
+
 type IRecognitionService interface {
 	AsBinder() binder.IBinder
 	StartListening(ctx context.Context, recognizerIntent content.Intent, listener IRecognitionListener, attributionSource content.AttributionSource) error
@@ -30,17 +38,17 @@ type IRecognitionService interface {
 }
 
 type RecognitionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecognitionServiceProxy(
 	remote binder.IBinder,
 ) *RecognitionServiceProxy {
-	return &RecognitionServiceProxy{remote: remote}
+	return &RecognitionServiceProxy{Remote: remote}
 }
 
 func (p *RecognitionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecognitionService = (*RecognitionServiceProxy)(nil)
@@ -57,18 +65,18 @@ func (p *RecognitionServiceProxy) StartListening(
 	if _err := recognizerIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "startListening")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionService, MethodIRecognitionServiceStartListening)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceStartListening
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionService, MethodIRecognitionServiceStartListening, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,14 +86,14 @@ func (p *RecognitionServiceProxy) StopListening(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "stopListening")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionService, MethodIRecognitionServiceStopListening)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceStopListening
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionService, MethodIRecognitionServiceStopListening, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,15 +104,15 @@ func (p *RecognitionServiceProxy) Cancel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isShutdown)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionService, MethodIRecognitionServiceCancel)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionService, MethodIRecognitionServiceCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,14 +132,14 @@ func (p *RecognitionServiceProxy) CheckRecognitionSupport(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "checkRecognitionSupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionService, MethodIRecognitionServiceCheckRecognitionSupport)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceCheckRecognitionSupport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionService, MethodIRecognitionServiceCheckRecognitionSupport, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,14 +159,14 @@ func (p *RecognitionServiceProxy) TriggerModelDownload(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "triggerModelDownload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionService, MethodIRecognitionServiceTriggerModelDownload)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceTriggerModelDownload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionService, MethodIRecognitionServiceTriggerModelDownload, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -169,6 +177,10 @@ type RecognitionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecognitionServiceStub)(nil)
+
+func (s *RecognitionServiceStub) Descriptor() string {
+	return DescriptorIRecognitionService
+}
 
 func (s *RecognitionServiceStub) OnTransaction(
 	ctx context.Context,

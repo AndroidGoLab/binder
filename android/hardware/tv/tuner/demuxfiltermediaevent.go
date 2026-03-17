@@ -22,9 +22,6 @@ type DemuxFilterMediaEvent struct {
 	IsPesPrivateData  bool
 	ExtraMetaData     DemuxFilterMediaEventExtraMetaData
 	ScIndexMask       DemuxFilterScIndexMask
-	NumDataPieces     int32
-	IndexInDataGroup  int32
-	DataGroupId       int32
 }
 
 var _ parcel.Parcelable = (*DemuxFilterMediaEvent)(nil)
@@ -53,9 +50,6 @@ func (s *DemuxFilterMediaEvent) MarshalParcel(
 	if _err := s.ScIndexMask.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	p.WriteInt32(s.NumDataPieces)
-	p.WriteInt32(s.IndexInDataGroup)
-	p.WriteInt32(s.DataGroupId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -133,21 +127,6 @@ func (s *DemuxFilterMediaEvent) UnmarshalParcel(
 	}
 
 	if _err = s.ScIndexMask.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	s.NumDataPieces, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-
-	s.IndexInDataGroup, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-
-	s.DataGroupId, _err = p.ReadInt32()
-	if _err != nil {
 		return _err
 	}
 

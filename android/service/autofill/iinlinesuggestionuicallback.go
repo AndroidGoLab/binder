@@ -21,6 +21,15 @@ const (
 	TransactionIInlineSuggestionUiCallbackOnStartIntentSender             = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIInlineSuggestionUiCallbackOnClick                         = "onClick"
+	MethodIInlineSuggestionUiCallbackOnLongClick                     = "onLongClick"
+	MethodIInlineSuggestionUiCallbackOnContent                       = "onContent"
+	MethodIInlineSuggestionUiCallbackOnError                         = "onError"
+	MethodIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow = "onTransferTouchFocusToImeWindow"
+	MethodIInlineSuggestionUiCallbackOnStartIntentSender             = "onStartIntentSender"
+)
+
 type IInlineSuggestionUiCallback interface {
 	AsBinder() binder.IBinder
 	OnClick(ctx context.Context) error
@@ -32,17 +41,17 @@ type IInlineSuggestionUiCallback interface {
 }
 
 type InlineSuggestionUiCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInlineSuggestionUiCallbackProxy(
 	remote binder.IBinder,
 ) *InlineSuggestionUiCallbackProxy {
-	return &InlineSuggestionUiCallbackProxy{remote: remote}
+	return &InlineSuggestionUiCallbackProxy{Remote: remote}
 }
 
 func (p *InlineSuggestionUiCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInlineSuggestionUiCallback = (*InlineSuggestionUiCallbackProxy)(nil)
@@ -53,12 +62,12 @@ func (p *InlineSuggestionUiCallbackProxy) OnClick(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onClick")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnClick)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiCallbackOnClick
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnClick, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +77,12 @@ func (p *InlineSuggestionUiCallbackProxy) OnLongClick(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onLongClick")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnLongClick)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiCallbackOnLongClick
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnLongClick, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,16 +95,16 @@ func (p *InlineSuggestionUiCallbackProxy) OnContent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
-	binder.WriteBinderToParcel(ctx, _data, content.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, content.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onContent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnContent)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiCallbackOnContent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnContent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +114,12 @@ func (p *InlineSuggestionUiCallbackProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnError)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,15 +130,15 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
-	binder.WriteBinderToParcel(ctx, _data, sourceInputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sourceInputToken, p.Remote.Transport())
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onTransferTouchFocusToImeWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -144,12 +153,12 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onStartIntentSender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnStartIntentSender)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiCallbackOnStartIntentSender
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUiCallback, MethodIInlineSuggestionUiCallbackOnStartIntentSender, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,6 +169,10 @@ type InlineSuggestionUiCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionUiCallbackStub)(nil)
+
+func (s *InlineSuggestionUiCallbackStub) Descriptor() string {
+	return DescriptorIInlineSuggestionUiCallback
+}
 
 func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 	ctx context.Context,

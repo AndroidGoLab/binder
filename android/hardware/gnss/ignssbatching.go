@@ -21,6 +21,15 @@ const (
 	TransactionIGnssBatchingCleanup      = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIGnssBatchingInit         = "init"
+	MethodIGnssBatchingGetBatchSize = "getBatchSize"
+	MethodIGnssBatchingStart        = "start"
+	MethodIGnssBatchingFlush        = "flush"
+	MethodIGnssBatchingStop         = "stop"
+	MethodIGnssBatchingCleanup      = "cleanup"
+)
+
 type IGnssBatching interface {
 	AsBinder() binder.IBinder
 	Init(ctx context.Context, callback IGnssBatchingCallback) error
@@ -36,17 +45,17 @@ const (
 )
 
 type GnssBatchingProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssBatchingProxy(
 	remote binder.IBinder,
 ) *GnssBatchingProxy {
-	return &GnssBatchingProxy{remote: remote}
+	return &GnssBatchingProxy{Remote: remote}
 }
 
 func (p *GnssBatchingProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssBatching = (*GnssBatchingProxy)(nil)
@@ -57,14 +66,14 @@ func (p *GnssBatchingProxy) Init(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "init")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingInit)
 	if _err != nil {
-		_code = TransactionIGnssBatchingInit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatching, MethodIGnssBatchingInit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,12 +93,12 @@ func (p *GnssBatchingProxy) GetBatchSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "getBatchSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingGetBatchSize)
 	if _err != nil {
-		_code = TransactionIGnssBatchingGetBatchSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatching, MethodIGnssBatchingGetBatchSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,12 +126,12 @@ func (p *GnssBatchingProxy) Start(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingStart)
 	if _err != nil {
-		_code = TransactionIGnssBatchingStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatching, MethodIGnssBatchingStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,12 +150,12 @@ func (p *GnssBatchingProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingFlush)
 	if _err != nil {
-		_code = TransactionIGnssBatchingFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatching, MethodIGnssBatchingFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -165,12 +174,12 @@ func (p *GnssBatchingProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingStop)
 	if _err != nil {
-		_code = TransactionIGnssBatchingStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatching, MethodIGnssBatchingStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,12 +198,12 @@ func (p *GnssBatchingProxy) Cleanup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "cleanup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatching, MethodIGnssBatchingCleanup)
 	if _err != nil {
-		_code = TransactionIGnssBatchingCleanup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatching, MethodIGnssBatchingCleanup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,6 +223,10 @@ type GnssBatchingStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssBatchingStub)(nil)
+
+func (s *GnssBatchingStub) Descriptor() string {
+	return DescriptorIGnssBatching
+}
 
 func (s *GnssBatchingStub) OnTransaction(
 	ctx context.Context,

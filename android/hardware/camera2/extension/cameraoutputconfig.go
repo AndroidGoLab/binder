@@ -12,7 +12,6 @@ type CameraOutputConfig struct {
 	ImageFormat             int32
 	Capacity                int32
 	Usage                   int64
-	DynamicRangeProfile     int64
 	Type                    int32
 	OutputId                OutputConfigId
 	SurfaceGroupId          int32
@@ -39,7 +38,6 @@ func (s *CameraOutputConfig) MarshalParcel(
 	p.WriteInt32(s.ImageFormat)
 	p.WriteInt32(s.Capacity)
 	p.WriteInt64(s.Usage)
-	p.WriteInt64(s.DynamicRangeProfile)
 	p.WriteInt32(s.Type)
 	if _err := s.OutputId.MarshalParcel(p); _err != nil {
 		return _err
@@ -51,6 +49,7 @@ func (s *CameraOutputConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SharedSurfaceConfigs)))
 		for _, _item := range s.SharedSurfaceConfigs {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -89,11 +88,6 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 		return _err
 	}
 
-	s.DynamicRangeProfile, _err = p.ReadInt64()
-	if _err != nil {
-		return _err
-	}
-
 	s.Type, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -121,6 +115,9 @@ func (s *CameraOutputConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.SharedSurfaceConfigs = make([]CameraOutputConfig, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SharedSurfaceConfigs[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

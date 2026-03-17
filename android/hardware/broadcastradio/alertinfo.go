@@ -39,6 +39,7 @@ func (s *AlertInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Areas)))
 		for _, _item := range s.Areas {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -105,6 +106,9 @@ func (s *AlertInfo) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Areas = make([]AlertArea, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Areas[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

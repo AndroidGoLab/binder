@@ -15,23 +15,27 @@ const (
 	TransactionIBackupCallbackOperationComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBackupCallbackOperationComplete = "operationComplete"
+)
+
 type IBackupCallback interface {
 	AsBinder() binder.IBinder
 	OperationComplete(ctx context.Context, result int64) error
 }
 
 type BackupCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackupCallbackProxy(
 	remote binder.IBinder,
 ) *BackupCallbackProxy {
-	return &BackupCallbackProxy{remote: remote}
+	return &BackupCallbackProxy{Remote: remote}
 }
 
 func (p *BackupCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackupCallback = (*BackupCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *BackupCallbackProxy) OperationComplete(
 	_data.WriteInterfaceToken(DescriptorIBackupCallback)
 	_data.WriteInt64(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupCallback, "operationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupCallback, MethodIBackupCallbackOperationComplete)
 	if _err != nil {
-		_code = TransactionIBackupCallbackOperationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupCallback, MethodIBackupCallbackOperationComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type BackupCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackupCallbackStub)(nil)
+
+func (s *BackupCallbackStub) Descriptor() string {
+	return DescriptorIBackupCallback
+}
 
 func (s *BackupCallbackStub) OnTransaction(
 	ctx context.Context,

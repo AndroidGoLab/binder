@@ -17,6 +17,11 @@ const (
 	TransactionIServiceListExportSessionRelease           = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIServiceListExportSessionExportServiceList = "exportServiceList"
+	MethodIServiceListExportSessionRelease           = "release"
+)
+
 type IServiceListExportSession interface {
 	AsBinder() binder.IBinder
 	ExportServiceList(ctx context.Context, pfd int32, exportParams os.Bundle) (int32, error)
@@ -24,17 +29,17 @@ type IServiceListExportSession interface {
 }
 
 type ServiceListExportSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListExportSessionProxy(
 	remote binder.IBinder,
 ) *ServiceListExportSessionProxy {
-	return &ServiceListExportSessionProxy{remote: remote}
+	return &ServiceListExportSessionProxy{Remote: remote}
 }
 
 func (p *ServiceListExportSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListExportSession = (*ServiceListExportSessionProxy)(nil)
@@ -53,12 +58,12 @@ func (p *ServiceListExportSessionProxy) ExportServiceList(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListExportSession, "exportServiceList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListExportSession, MethodIServiceListExportSessionExportServiceList)
 	if _err != nil {
-		_code = TransactionIServiceListExportSessionExportServiceList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListExportSession, MethodIServiceListExportSessionExportServiceList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +87,12 @@ func (p *ServiceListExportSessionProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListExportSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListExportSession, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListExportSession, MethodIServiceListExportSessionRelease)
 	if _err != nil {
-		_code = TransactionIServiceListExportSessionRelease
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListExportSession, MethodIServiceListExportSessionRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,6 +116,10 @@ type ServiceListExportSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListExportSessionStub)(nil)
+
+func (s *ServiceListExportSessionStub) Descriptor() string {
+	return DescriptorIServiceListExportSession
+}
 
 func (s *ServiceListExportSessionStub) OnTransaction(
 	ctx context.Context,

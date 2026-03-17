@@ -25,6 +25,7 @@ func (s *AudioHalCapRule) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.CriterionRules)))
 		for _, _item := range s.CriterionRules {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -35,6 +36,7 @@ func (s *AudioHalCapRule) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.NestedRules)))
 		for _, _item := range s.NestedRules {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -67,6 +69,9 @@ func (s *AudioHalCapRule) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.CriterionRules = make([]commonAudioHalCapRule.CriterionRule, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.CriterionRules[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -81,6 +86,9 @@ func (s *AudioHalCapRule) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.NestedRules = make([]AudioHalCapRule, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.NestedRules[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

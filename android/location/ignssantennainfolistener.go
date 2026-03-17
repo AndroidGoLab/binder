@@ -15,23 +15,27 @@ const (
 	TransactionIGnssAntennaInfoListenerOnGnssAntennaInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssAntennaInfoListenerOnGnssAntennaInfoChanged = "onGnssAntennaInfoChanged"
+)
+
 type IGnssAntennaInfoListener interface {
 	AsBinder() binder.IBinder
 	OnGnssAntennaInfoChanged(ctx context.Context, antennaInfos []GnssAntennaInfo) error
 }
 
 type GnssAntennaInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssAntennaInfoListenerProxy(
 	remote binder.IBinder,
 ) *GnssAntennaInfoListenerProxy {
-	return &GnssAntennaInfoListenerProxy{remote: remote}
+	return &GnssAntennaInfoListenerProxy{Remote: remote}
 }
 
 func (p *GnssAntennaInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssAntennaInfoListener = (*GnssAntennaInfoListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *GnssAntennaInfoListenerProxy) OnGnssAntennaInfoChanged(
 	} else {
 		_data.WriteInt32(int32(len(antennaInfos)))
 		for _, _item := range antennaInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfoListener, "onGnssAntennaInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAntennaInfoListener, MethodIGnssAntennaInfoListenerOnGnssAntennaInfoChanged)
 	if _err != nil {
-		_code = TransactionIGnssAntennaInfoListenerOnGnssAntennaInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAntennaInfoListener, MethodIGnssAntennaInfoListenerOnGnssAntennaInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type GnssAntennaInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssAntennaInfoListenerStub)(nil)
+
+func (s *GnssAntennaInfoListenerStub) Descriptor() string {
+	return DescriptorIGnssAntennaInfoListener
+}
 
 func (s *GnssAntennaInfoListenerStub) OnTransaction(
 	ctx context.Context,

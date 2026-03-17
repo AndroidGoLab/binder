@@ -93,18 +93,22 @@ func (u *InterfaceId) MarshalParcel(
 
 	switch u.Tag {
 	case InterfaceIdTagVirtualif:
+		p.WriteInt32(1)
 		if _err := u.Virtualif.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case InterfaceIdTagNativeif:
+		p.WriteInt32(1)
 		if _err := u.Nativeif.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case InterfaceIdTagSlcan:
+		p.WriteInt32(1)
 		if _err := u.Slcan.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case InterfaceIdTagIndexed:
+		p.WriteInt32(1)
 		if _err := u.Indexed.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -131,18 +135,30 @@ func (u *InterfaceId) UnmarshalParcel(
 
 	switch u.Tag {
 	case InterfaceIdTagVirtualif:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Virtualif.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case InterfaceIdTagNativeif:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Nativeif.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case InterfaceIdTagSlcan:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Slcan.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case InterfaceIdTagIndexed:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Indexed.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

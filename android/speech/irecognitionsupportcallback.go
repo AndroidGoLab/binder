@@ -16,6 +16,11 @@ const (
 	TransactionIRecognitionSupportCallbackOnError         = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRecognitionSupportCallbackOnSupportResult = "onSupportResult"
+	MethodIRecognitionSupportCallbackOnError         = "onError"
+)
+
 type IRecognitionSupportCallback interface {
 	AsBinder() binder.IBinder
 	OnSupportResult(ctx context.Context, recognitionSupport RecognitionSupport) error
@@ -23,17 +28,17 @@ type IRecognitionSupportCallback interface {
 }
 
 type RecognitionSupportCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecognitionSupportCallbackProxy(
 	remote binder.IBinder,
 ) *RecognitionSupportCallbackProxy {
-	return &RecognitionSupportCallbackProxy{remote: remote}
+	return &RecognitionSupportCallbackProxy{Remote: remote}
 }
 
 func (p *RecognitionSupportCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecognitionSupportCallback = (*RecognitionSupportCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *RecognitionSupportCallbackProxy) OnSupportResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionSupportCallback, "onSupportResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionSupportCallback, MethodIRecognitionSupportCallbackOnSupportResult)
 	if _err != nil {
-		_code = TransactionIRecognitionSupportCallbackOnSupportResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionSupportCallback, MethodIRecognitionSupportCallbackOnSupportResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *RecognitionSupportCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIRecognitionSupportCallback)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionSupportCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionSupportCallback, MethodIRecognitionSupportCallbackOnError)
 	if _err != nil {
-		_code = TransactionIRecognitionSupportCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionSupportCallback, MethodIRecognitionSupportCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type RecognitionSupportCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecognitionSupportCallbackStub)(nil)
+
+func (s *RecognitionSupportCallbackStub) Descriptor() string {
+	return DescriptorIRecognitionSupportCallback
+}
 
 func (s *RecognitionSupportCallbackStub) OnTransaction(
 	ctx context.Context,

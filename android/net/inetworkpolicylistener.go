@@ -22,6 +22,16 @@ const (
 	TransactionINetworkPolicyListenerOnBlockedReasonChanged      = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodINetworkPolicyListenerOnUidRulesChanged           = "onUidRulesChanged"
+	MethodINetworkPolicyListenerOnMeteredIfacesChanged      = "onMeteredIfacesChanged"
+	MethodINetworkPolicyListenerOnRestrictBackgroundChanged = "onRestrictBackgroundChanged"
+	MethodINetworkPolicyListenerOnUidPoliciesChanged        = "onUidPoliciesChanged"
+	MethodINetworkPolicyListenerOnSubscriptionOverride      = "onSubscriptionOverride"
+	MethodINetworkPolicyListenerOnSubscriptionPlansChanged  = "onSubscriptionPlansChanged"
+	MethodINetworkPolicyListenerOnBlockedReasonChanged      = "onBlockedReasonChanged"
+)
+
 type INetworkPolicyListener interface {
 	AsBinder() binder.IBinder
 	OnUidRulesChanged(ctx context.Context, uid int32, uidRules int32) error
@@ -34,17 +44,17 @@ type INetworkPolicyListener interface {
 }
 
 type NetworkPolicyListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetworkPolicyListenerProxy(
 	remote binder.IBinder,
 ) *NetworkPolicyListenerProxy {
-	return &NetworkPolicyListenerProxy{remote: remote}
+	return &NetworkPolicyListenerProxy{Remote: remote}
 }
 
 func (p *NetworkPolicyListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetworkPolicyListener = (*NetworkPolicyListenerProxy)(nil)
@@ -59,12 +69,12 @@ func (p *NetworkPolicyListenerProxy) OnUidRulesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(uidRules)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onUidRulesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidRulesChanged)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnUidRulesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidRulesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +93,12 @@ func (p *NetworkPolicyListenerProxy) OnMeteredIfacesChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onMeteredIfacesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnMeteredIfacesChanged)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnMeteredIfacesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnMeteredIfacesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,12 +110,12 @@ func (p *NetworkPolicyListenerProxy) OnRestrictBackgroundChanged(
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteBool(restrictBackground)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onRestrictBackgroundChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnRestrictBackgroundChanged)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnRestrictBackgroundChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnRestrictBackgroundChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +129,12 @@ func (p *NetworkPolicyListenerProxy) OnUidPoliciesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(uidPolicies)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onUidPoliciesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidPoliciesChanged)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnUidPoliciesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnUidPoliciesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,12 +159,12 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionOverride(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnSubscriptionOverride)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnSubscriptionOverride
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnSubscriptionOverride, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,18 +181,19 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 	} else {
 		_data.WriteInt32(int32(len(plans)))
 		for _, _item := range plans {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionPlansChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnSubscriptionPlansChanged)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnSubscriptionPlansChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnSubscriptionPlansChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,12 +209,12 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 	_data.WriteInt32(oldBlockedReason)
 	_data.WriteInt32(newBlockedReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onBlockedReasonChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnBlockedReasonChanged)
 	if _err != nil {
-		_code = TransactionINetworkPolicyListenerOnBlockedReasonChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkPolicyListener, MethodINetworkPolicyListenerOnBlockedReasonChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -214,6 +225,10 @@ type NetworkPolicyListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetworkPolicyListenerStub)(nil)
+
+func (s *NetworkPolicyListenerStub) Descriptor() string {
+	return DescriptorINetworkPolicyListener
+}
 
 func (s *NetworkPolicyListenerStub) OnTransaction(
 	ctx context.Context,

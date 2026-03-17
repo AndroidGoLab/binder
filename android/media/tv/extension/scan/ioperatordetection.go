@@ -17,6 +17,11 @@ const (
 	TransactionIOperatorDetectionSetListener          = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIOperatorDetectionSetOperatorDetection = "setOperatorDetection"
+	MethodIOperatorDetectionSetListener          = "setListener"
+)
+
 type IOperatorDetection interface {
 	AsBinder() binder.IBinder
 	SetOperatorDetection(ctx context.Context, operatorSelected os.Bundle) (int32, error)
@@ -24,17 +29,17 @@ type IOperatorDetection interface {
 }
 
 type OperatorDetectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOperatorDetectionProxy(
 	remote binder.IBinder,
 ) *OperatorDetectionProxy {
-	return &OperatorDetectionProxy{remote: remote}
+	return &OperatorDetectionProxy{Remote: remote}
 }
 
 func (p *OperatorDetectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOperatorDetection = (*OperatorDetectionProxy)(nil)
@@ -51,12 +56,12 @@ func (p *OperatorDetectionProxy) SetOperatorDetection(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOperatorDetection, "setOperatorDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOperatorDetection, MethodIOperatorDetectionSetOperatorDetection)
 	if _err != nil {
-		_code = TransactionIOperatorDetectionSetOperatorDetection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOperatorDetection, MethodIOperatorDetectionSetOperatorDetection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,14 +85,14 @@ func (p *OperatorDetectionProxy) SetListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOperatorDetection)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOperatorDetection, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOperatorDetection, MethodIOperatorDetectionSetListener)
 	if _err != nil {
-		_code = TransactionIOperatorDetectionSetListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOperatorDetection, MethodIOperatorDetectionSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,6 +116,10 @@ type OperatorDetectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OperatorDetectionStub)(nil)
+
+func (s *OperatorDetectionStub) Descriptor() string {
+	return DescriptorIOperatorDetection
+}
 
 func (s *OperatorDetectionStub) OnTransaction(
 	ctx context.Context,

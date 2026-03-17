@@ -19,6 +19,13 @@ const (
 	TransactionIFileIntegrityServiceSetupFsverity                 = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIFileIntegrityServiceIsApkVeritySupported          = "isApkVeritySupported"
+	MethodIFileIntegrityServiceIsAppSourceCertificateTrusted = "isAppSourceCertificateTrusted"
+	MethodIFileIntegrityServiceCreateAuthToken               = "createAuthToken"
+	MethodIFileIntegrityServiceSetupFsverity                 = "setupFsverity"
+)
+
 type IFileIntegrityService interface {
 	AsBinder() binder.IBinder
 	IsApkVeritySupported(ctx context.Context) (bool, error)
@@ -28,17 +35,17 @@ type IFileIntegrityService interface {
 }
 
 type FileIntegrityServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFileIntegrityServiceProxy(
 	remote binder.IBinder,
 ) *FileIntegrityServiceProxy {
-	return &FileIntegrityServiceProxy{remote: remote}
+	return &FileIntegrityServiceProxy{Remote: remote}
 }
 
 func (p *FileIntegrityServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFileIntegrityService = (*FileIntegrityServiceProxy)(nil)
@@ -50,12 +57,12 @@ func (p *FileIntegrityServiceProxy) IsApkVeritySupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFileIntegrityService, "isApkVeritySupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsApkVeritySupported)
 	if _err != nil {
-		_code = TransactionIFileIntegrityServiceIsApkVeritySupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsApkVeritySupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,12 +97,12 @@ func (p *FileIntegrityServiceProxy) IsAppSourceCertificateTrusted(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFileIntegrityService, "isAppSourceCertificateTrusted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsAppSourceCertificateTrusted)
 	if _err != nil {
-		_code = TransactionIFileIntegrityServiceIsAppSourceCertificateTrusted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFileIntegrityService, MethodIFileIntegrityServiceIsAppSourceCertificateTrusted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,12 +128,12 @@ func (p *FileIntegrityServiceProxy) CreateAuthToken(
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
 	_data.WriteFileDescriptor(authFd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFileIntegrityService, "createAuthToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceCreateAuthToken)
 	if _err != nil {
-		_code = TransactionIFileIntegrityServiceCreateAuthToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFileIntegrityService, MethodIFileIntegrityServiceCreateAuthToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,12 +158,12 @@ func (p *FileIntegrityServiceProxy) SetupFsverity(
 	_data.WriteString16(filePath)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFileIntegrityService, "setupFsverity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFileIntegrityService, MethodIFileIntegrityServiceSetupFsverity)
 	if _err != nil {
-		_code = TransactionIFileIntegrityServiceSetupFsverity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFileIntegrityService, MethodIFileIntegrityServiceSetupFsverity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,6 +187,10 @@ type FileIntegrityServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FileIntegrityServiceStub)(nil)
+
+func (s *FileIntegrityServiceStub) Descriptor() string {
+	return DescriptorIFileIntegrityService
+}
 
 func (s *FileIntegrityServiceStub) OnTransaction(
 	ctx context.Context,

@@ -20,6 +20,15 @@ const (
 	TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected   = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained = "onAttentionGained"
+	MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost   = "onAttentionLost"
+	MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected   = "onQueryDetected"
+	MethodIDetectorSessionVisualQueryDetectionCallbackOnResultDetected  = "onResultDetected"
+	MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryFinished   = "onQueryFinished"
+	MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected   = "onQueryRejected"
+)
+
 type IDetectorSessionVisualQueryDetectionCallback interface {
 	AsBinder() binder.IBinder
 	OnAttentionGained(ctx context.Context, attentionResult VisualQueryAttentionResult) error
@@ -31,17 +40,17 @@ type IDetectorSessionVisualQueryDetectionCallback interface {
 }
 
 type DetectorSessionVisualQueryDetectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDetectorSessionVisualQueryDetectionCallbackProxy(
 	remote binder.IBinder,
 ) *DetectorSessionVisualQueryDetectionCallbackProxy {
-	return &DetectorSessionVisualQueryDetectionCallbackProxy{remote: remote}
+	return &DetectorSessionVisualQueryDetectionCallbackProxy{Remote: remote}
 }
 
 func (p *DetectorSessionVisualQueryDetectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDetectorSessionVisualQueryDetectionCallback = (*DetectorSessionVisualQueryDetectionCallbackProxy)(nil)
@@ -57,12 +66,12 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnAttentionGained(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionVisualQueryDetectionCallback, "onAttentionGained")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained)
 	if _err != nil {
-		_code = TransactionIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +83,12 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnAttentionLost(
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
 	_data.WriteInt32(interactionIntention)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionVisualQueryDetectionCallback, "onAttentionLost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost)
 	if _err != nil {
-		_code = TransactionIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,12 +100,12 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnQueryDetected(
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
 	_data.WriteString16(partialQuery)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionVisualQueryDetectionCallback, "onQueryDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected)
 	if _err != nil {
-		_code = TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,12 +120,12 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnResultDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionVisualQueryDetectionCallback, "onResultDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnResultDetected)
 	if _err != nil {
-		_code = TransactionIDetectorSessionVisualQueryDetectionCallbackOnResultDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnResultDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +135,12 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnQueryFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionVisualQueryDetectionCallback, "onQueryFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryFinished)
 	if _err != nil {
-		_code = TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,12 +150,12 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnQueryRejected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionVisualQueryDetectionCallback, "onQueryRejected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected)
 	if _err != nil {
-		_code = TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionVisualQueryDetectionCallback, MethodIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -157,6 +166,10 @@ type DetectorSessionVisualQueryDetectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DetectorSessionVisualQueryDetectionCallbackStub)(nil)
+
+func (s *DetectorSessionVisualQueryDetectionCallbackStub) Descriptor() string {
+	return DescriptorIDetectorSessionVisualQueryDetectionCallback
+}
 
 func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -138,25 +138,3 @@ func TestSmoke_GeofenceHardwareMonitorCallbackProxy(t *testing.T) {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)
 	}
 }
-
-func TestSmoke_SignificantPlaceProviderProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewSignificantPlaceProviderProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("SignificantPlaceProviderProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
-func TestSmoke_SignificantPlaceProviderManagerProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewSignificantPlaceProviderManagerProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("SignificantPlaceProviderManagerProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}

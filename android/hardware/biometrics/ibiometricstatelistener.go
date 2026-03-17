@@ -17,6 +17,12 @@ const (
 	TransactionIBiometricStateListenerOnEnrollmentsChanged = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBiometricStateListenerOnStateChanged       = "onStateChanged"
+	MethodIBiometricStateListenerOnBiometricAction    = "onBiometricAction"
+	MethodIBiometricStateListenerOnEnrollmentsChanged = "onEnrollmentsChanged"
+)
+
 type IBiometricStateListener interface {
 	AsBinder() binder.IBinder
 	OnStateChanged(ctx context.Context, newState int32) error
@@ -25,17 +31,17 @@ type IBiometricStateListener interface {
 }
 
 type BiometricStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricStateListenerProxy(
 	remote binder.IBinder,
 ) *BiometricStateListenerProxy {
-	return &BiometricStateListenerProxy{remote: remote}
+	return &BiometricStateListenerProxy{Remote: remote}
 }
 
 func (p *BiometricStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricStateListener = (*BiometricStateListenerProxy)(nil)
@@ -48,12 +54,12 @@ func (p *BiometricStateListenerProxy) OnStateChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(newState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricStateListener, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnStateChanged)
 	if _err != nil {
-		_code = TransactionIBiometricStateListenerOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *BiometricStateListenerProxy) OnBiometricAction(
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(action)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricStateListener, "onBiometricAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnBiometricAction)
 	if _err != nil {
-		_code = TransactionIBiometricStateListenerOnBiometricAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnBiometricAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,19 +85,19 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 	sensorId int32,
 	hasEnrollments bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(sensorId)
 	_data.WriteBool(hasEnrollments)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricStateListener, "onEnrollmentsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnEnrollmentsChanged)
 	if _err != nil {
-		_code = TransactionIBiometricStateListenerOnEnrollmentsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricStateListener, MethodIBiometricStateListenerOnEnrollmentsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +108,10 @@ type BiometricStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricStateListenerStub)(nil)
+
+func (s *BiometricStateListenerStub) Descriptor() string {
+	return DescriptorIBiometricStateListener
+}
 
 func (s *BiometricStateListenerStub) OnTransaction(
 	ctx context.Context,

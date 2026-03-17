@@ -77,6 +77,71 @@ const (
 	TransactionIBackupManagerReportDelayedRestoreResult            = binder.FirstCallTransaction + 61
 )
 
+const (
+	MethodIBackupManagerDataChangedForUser                    = "dataChangedForUser"
+	MethodIBackupManagerDataChanged                           = "dataChanged"
+	MethodIBackupManagerClearBackupDataForUser                = "clearBackupDataForUser"
+	MethodIBackupManagerClearBackupData                       = "clearBackupData"
+	MethodIBackupManagerInitializeTransportsForUser           = "initializeTransportsForUser"
+	MethodIBackupManagerAgentConnectedForUser                 = "agentConnectedForUser"
+	MethodIBackupManagerAgentConnected                        = "agentConnected"
+	MethodIBackupManagerAgentDisconnectedForUser              = "agentDisconnectedForUser"
+	MethodIBackupManagerAgentDisconnected                     = "agentDisconnected"
+	MethodIBackupManagerRestoreAtInstallForUser               = "restoreAtInstallForUser"
+	MethodIBackupManagerRestoreAtInstall                      = "restoreAtInstall"
+	MethodIBackupManagerSetBackupEnabledForUser               = "setBackupEnabledForUser"
+	MethodIBackupManagerSetFrameworkSchedulingEnabledForUser  = "setFrameworkSchedulingEnabledForUser"
+	MethodIBackupManagerSetBackupEnabled                      = "setBackupEnabled"
+	MethodIBackupManagerSetAutoRestoreForUser                 = "setAutoRestoreForUser"
+	MethodIBackupManagerSetAutoRestore                        = "setAutoRestore"
+	MethodIBackupManagerIsBackupEnabledForUser                = "isBackupEnabledForUser"
+	MethodIBackupManagerIsBackupEnabled                       = "isBackupEnabled"
+	MethodIBackupManagerSetBackupPassword                     = "setBackupPassword"
+	MethodIBackupManagerHasBackupPassword                     = "hasBackupPassword"
+	MethodIBackupManagerBackupNowForUser                      = "backupNowForUser"
+	MethodIBackupManagerBackupNow                             = "backupNow"
+	MethodIBackupManagerAdbBackup                             = "adbBackup"
+	MethodIBackupManagerFullTransportBackupForUser            = "fullTransportBackupForUser"
+	MethodIBackupManagerAdbRestore                            = "adbRestore"
+	MethodIBackupManagerAcknowledgeFullBackupOrRestoreForUser = "acknowledgeFullBackupOrRestoreForUser"
+	MethodIBackupManagerAcknowledgeFullBackupOrRestore        = "acknowledgeFullBackupOrRestore"
+	MethodIBackupManagerUpdateTransportAttributesForUser      = "updateTransportAttributesForUser"
+	MethodIBackupManagerGetCurrentTransportForUser            = "getCurrentTransportForUser"
+	MethodIBackupManagerGetCurrentTransport                   = "getCurrentTransport"
+	MethodIBackupManagerGetCurrentTransportComponentForUser   = "getCurrentTransportComponentForUser"
+	MethodIBackupManagerListAllTransportsForUser              = "listAllTransportsForUser"
+	MethodIBackupManagerListAllTransports                     = "listAllTransports"
+	MethodIBackupManagerListAllTransportComponentsForUser     = "listAllTransportComponentsForUser"
+	MethodIBackupManagerGetTransportWhitelist                 = "getTransportWhitelist"
+	MethodIBackupManagerSelectBackupTransportForUser          = "selectBackupTransportForUser"
+	MethodIBackupManagerSelectBackupTransport                 = "selectBackupTransport"
+	MethodIBackupManagerSelectBackupTransportAsyncForUser     = "selectBackupTransportAsyncForUser"
+	MethodIBackupManagerGetConfigurationIntentForUser         = "getConfigurationIntentForUser"
+	MethodIBackupManagerGetConfigurationIntent                = "getConfigurationIntent"
+	MethodIBackupManagerGetDestinationStringForUser           = "getDestinationStringForUser"
+	MethodIBackupManagerGetDestinationString                  = "getDestinationString"
+	MethodIBackupManagerGetDataManagementIntentForUser        = "getDataManagementIntentForUser"
+	MethodIBackupManagerGetDataManagementIntent               = "getDataManagementIntent"
+	MethodIBackupManagerGetDataManagementLabelForUser         = "getDataManagementLabelForUser"
+	MethodIBackupManagerBeginRestoreSessionForUser            = "beginRestoreSessionForUser"
+	MethodIBackupManagerOpCompleteForUser                     = "opCompleteForUser"
+	MethodIBackupManagerOpComplete                            = "opComplete"
+	MethodIBackupManagerSetBackupServiceActive                = "setBackupServiceActive"
+	MethodIBackupManagerIsBackupServiceActive                 = "isBackupServiceActive"
+	MethodIBackupManagerIsUserReadyForBackup                  = "isUserReadyForBackup"
+	MethodIBackupManagerGetAvailableRestoreTokenForUser       = "getAvailableRestoreTokenForUser"
+	MethodIBackupManagerIsAppEligibleForBackupForUser         = "isAppEligibleForBackupForUser"
+	MethodIBackupManagerFilterAppsEligibleForBackupForUser    = "filterAppsEligibleForBackupForUser"
+	MethodIBackupManagerRequestBackupForUser                  = "requestBackupForUser"
+	MethodIBackupManagerRequestBackup                         = "requestBackup"
+	MethodIBackupManagerCancelBackupsForUser                  = "cancelBackupsForUser"
+	MethodIBackupManagerCancelBackups                         = "cancelBackups"
+	MethodIBackupManagerGetUserForAncestralSerialNumber       = "getUserForAncestralSerialNumber"
+	MethodIBackupManagerSetAncestralSerialNumber              = "setAncestralSerialNumber"
+	MethodIBackupManagerExcludeKeysFromRestore                = "excludeKeysFromRestore"
+	MethodIBackupManagerReportDelayedRestoreResult            = "reportDelayedRestoreResult"
+)
+
 type IBackupManager interface {
 	AsBinder() binder.IBinder
 	DataChangedForUser(ctx context.Context, packageName string) error
@@ -144,17 +209,17 @@ type IBackupManager interface {
 }
 
 type BackupManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackupManagerProxy(
 	remote binder.IBinder,
 ) *BackupManagerProxy {
-	return &BackupManagerProxy{remote: remote}
+	return &BackupManagerProxy{Remote: remote}
 }
 
 func (p *BackupManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackupManager = (*BackupManagerProxy)(nil)
@@ -163,18 +228,18 @@ func (p *BackupManagerProxy) DataChangedForUser(
 	ctx context.Context,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "dataChangedForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerDataChangedForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerDataChangedForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerDataChangedForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -195,12 +260,12 @@ func (p *BackupManagerProxy) DataChanged(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "dataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerDataChanged)
 	if _err != nil {
-		_code = TransactionIBackupManagerDataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerDataChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -218,19 +283,19 @@ func (p *BackupManagerProxy) ClearBackupDataForUser(
 	transportName string,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transportName)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "clearBackupDataForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerClearBackupDataForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerClearBackupDataForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerClearBackupDataForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -253,12 +318,12 @@ func (p *BackupManagerProxy) ClearBackupData(
 	_data.WriteString16(transportName)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "clearBackupData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerClearBackupData)
 	if _err != nil {
-		_code = TransactionIBackupManagerClearBackupData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerClearBackupData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -276,7 +341,7 @@ func (p *BackupManagerProxy) InitializeTransportsForUser(
 	transportNames []string,
 	observer IBackupObserver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -288,14 +353,14 @@ func (p *BackupManagerProxy) InitializeTransportsForUser(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "initializeTransportsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerInitializeTransportsForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerInitializeTransportsForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerInitializeTransportsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,19 +378,19 @@ func (p *BackupManagerProxy) AgentConnectedForUser(
 	packageName string,
 	agent binder.IBinder,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, agent, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "agentConnectedForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentConnectedForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerAgentConnectedForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAgentConnectedForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -346,14 +411,14 @@ func (p *BackupManagerProxy) AgentConnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, agent, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, agent, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "agentConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentConnected)
 	if _err != nil {
-		_code = TransactionIBackupManagerAgentConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAgentConnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -370,18 +435,18 @@ func (p *BackupManagerProxy) AgentDisconnectedForUser(
 	ctx context.Context,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "agentDisconnectedForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentDisconnectedForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerAgentDisconnectedForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAgentDisconnectedForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -402,12 +467,12 @@ func (p *BackupManagerProxy) AgentDisconnected(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "agentDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAgentDisconnected)
 	if _err != nil {
-		_code = TransactionIBackupManagerAgentDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAgentDisconnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -425,19 +490,19 @@ func (p *BackupManagerProxy) RestoreAtInstallForUser(
 	packageName string,
 	token int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "restoreAtInstallForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstallForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerRestoreAtInstallForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstallForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -460,12 +525,12 @@ func (p *BackupManagerProxy) RestoreAtInstall(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "restoreAtInstall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstall)
 	if _err != nil {
-		_code = TransactionIBackupManagerRestoreAtInstall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerRestoreAtInstall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -482,18 +547,18 @@ func (p *BackupManagerProxy) SetBackupEnabledForUser(
 	ctx context.Context,
 	isEnabled bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isEnabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setBackupEnabledForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabledForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetBackupEnabledForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabledForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -510,18 +575,18 @@ func (p *BackupManagerProxy) SetFrameworkSchedulingEnabledForUser(
 	ctx context.Context,
 	isEnabled bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isEnabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setFrameworkSchedulingEnabledForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetFrameworkSchedulingEnabledForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetFrameworkSchedulingEnabledForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetFrameworkSchedulingEnabledForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -542,12 +607,12 @@ func (p *BackupManagerProxy) SetBackupEnabled(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteBool(isEnabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setBackupEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabled)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetBackupEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetBackupEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -564,18 +629,18 @@ func (p *BackupManagerProxy) SetAutoRestoreForUser(
 	ctx context.Context,
 	doAutoRestore bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(doAutoRestore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setAutoRestoreForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetAutoRestoreForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetAutoRestoreForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetAutoRestoreForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -596,12 +661,12 @@ func (p *BackupManagerProxy) SetAutoRestore(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteBool(doAutoRestore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setAutoRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetAutoRestore)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetAutoRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetAutoRestore, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -618,17 +683,17 @@ func (p *BackupManagerProxy) IsBackupEnabledForUser(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "isBackupEnabledForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabledForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerIsBackupEnabledForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabledForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -652,12 +717,12 @@ func (p *BackupManagerProxy) IsBackupEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "isBackupEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabled)
 	if _err != nil {
-		_code = TransactionIBackupManagerIsBackupEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerIsBackupEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -685,12 +750,12 @@ func (p *BackupManagerProxy) SetBackupPassword(
 	_data.WriteString16(currentPw)
 	_data.WriteString16(newPw)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setBackupPassword")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupPassword)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetBackupPassword
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetBackupPassword, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -714,12 +779,12 @@ func (p *BackupManagerProxy) HasBackupPassword(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "hasBackupPassword")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerHasBackupPassword)
 	if _err != nil {
-		_code = TransactionIBackupManagerHasBackupPassword
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerHasBackupPassword, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -739,17 +804,17 @@ func (p *BackupManagerProxy) HasBackupPassword(
 func (p *BackupManagerProxy) BackupNowForUser(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "backupNowForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerBackupNowForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerBackupNowForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerBackupNowForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -768,12 +833,12 @@ func (p *BackupManagerProxy) BackupNow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "backupNow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerBackupNow)
 	if _err != nil {
-		_code = TransactionIBackupManagerBackupNow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerBackupNow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -799,7 +864,7 @@ func (p *BackupManagerProxy) AdbBackup(
 	doKeyValue bool,
 	packageNames []string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -821,12 +886,12 @@ func (p *BackupManagerProxy) AdbBackup(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "adbBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAdbBackup)
 	if _err != nil {
-		_code = TransactionIBackupManagerAdbBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAdbBackup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -843,7 +908,7 @@ func (p *BackupManagerProxy) FullTransportBackupForUser(
 	ctx context.Context,
 	packageNames []string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -856,12 +921,12 @@ func (p *BackupManagerProxy) FullTransportBackupForUser(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "fullTransportBackupForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerFullTransportBackupForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerFullTransportBackupForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerFullTransportBackupForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -878,18 +943,18 @@ func (p *BackupManagerProxy) AdbRestore(
 	ctx context.Context,
 	fd int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "adbRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAdbRestore)
 	if _err != nil {
-		_code = TransactionIBackupManagerAdbRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAdbRestore, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -910,7 +975,7 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestoreForUser(
 	encryptionPassword string,
 	observer IFullBackupRestoreObserver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -918,14 +983,14 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestoreForUser(
 	_data.WriteBool(allow)
 	_data.WriteString16(curPassword)
 	_data.WriteString16(encryptionPassword)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "acknowledgeFullBackupOrRestoreForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestoreForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerAcknowledgeFullBackupOrRestoreForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestoreForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -952,14 +1017,14 @@ func (p *BackupManagerProxy) AcknowledgeFullBackupOrRestore(
 	_data.WriteBool(allow)
 	_data.WriteString16(curPassword)
 	_data.WriteString16(encryptionPassword)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "acknowledgeFullBackupOrRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestore)
 	if _err != nil {
-		_code = TransactionIBackupManagerAcknowledgeFullBackupOrRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerAcknowledgeFullBackupOrRestore, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -981,7 +1046,7 @@ func (p *BackupManagerProxy) UpdateTransportAttributesForUser(
 	dataManagementIntent content.Intent,
 	dataManagementLabel interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1000,12 +1065,12 @@ func (p *BackupManagerProxy) UpdateTransportAttributesForUser(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "updateTransportAttributesForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerUpdateTransportAttributesForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerUpdateTransportAttributesForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerUpdateTransportAttributesForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1022,17 +1087,17 @@ func (p *BackupManagerProxy) GetCurrentTransportForUser(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getCurrentTransportForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetCurrentTransportForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1056,12 +1121,12 @@ func (p *BackupManagerProxy) GetCurrentTransport(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getCurrentTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransport)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetCurrentTransport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1082,17 +1147,17 @@ func (p *BackupManagerProxy) GetCurrentTransportComponentForUser(
 	ctx context.Context,
 ) (content.ComponentName, error) {
 	var _result content.ComponentName
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getCurrentTransportComponentForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportComponentForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetCurrentTransportComponentForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetCurrentTransportComponentForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1118,17 +1183,17 @@ func (p *BackupManagerProxy) ListAllTransportsForUser(
 	ctx context.Context,
 ) ([]string, error) {
 	var _result []string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "listAllTransportsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransportsForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerListAllTransportsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerListAllTransportsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1162,12 +1227,12 @@ func (p *BackupManagerProxy) ListAllTransports(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "listAllTransports")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransports)
 	if _err != nil {
-		_code = TransactionIBackupManagerListAllTransports
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerListAllTransports, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1198,17 +1263,17 @@ func (p *BackupManagerProxy) ListAllTransportComponentsForUser(
 	ctx context.Context,
 ) ([]content.ComponentName, error) {
 	var _result []content.ComponentName
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "listAllTransportComponentsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerListAllTransportComponentsForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerListAllTransportComponentsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerListAllTransportComponentsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1226,6 +1291,9 @@ func (p *BackupManagerProxy) ListAllTransportComponentsForUser(
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1241,12 +1309,12 @@ func (p *BackupManagerProxy) GetTransportWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getTransportWhitelist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetTransportWhitelist)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetTransportWhitelist
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetTransportWhitelist, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1278,18 +1346,18 @@ func (p *BackupManagerProxy) SelectBackupTransportForUser(
 	transport string,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "selectBackupTransportForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerSelectBackupTransportForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1315,12 +1383,12 @@ func (p *BackupManagerProxy) SelectBackupTransport(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "selectBackupTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransport)
 	if _err != nil {
-		_code = TransactionIBackupManagerSelectBackupTransport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1342,7 +1410,7 @@ func (p *BackupManagerProxy) SelectBackupTransportAsyncForUser(
 	transport content.ComponentName,
 	listener ISelectBackupTransportCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1350,14 +1418,14 @@ func (p *BackupManagerProxy) SelectBackupTransportAsyncForUser(
 	if _err := transport.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "selectBackupTransportAsyncForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportAsyncForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerSelectBackupTransportAsyncForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSelectBackupTransportAsyncForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1375,18 +1443,18 @@ func (p *BackupManagerProxy) GetConfigurationIntentForUser(
 	transport string,
 ) (content.Intent, error) {
 	var _result content.Intent
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getConfigurationIntentForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntentForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetConfigurationIntentForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntentForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1417,12 +1485,12 @@ func (p *BackupManagerProxy) GetConfigurationIntent(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getConfigurationIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntent)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetConfigurationIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetConfigurationIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1449,18 +1517,18 @@ func (p *BackupManagerProxy) GetDestinationStringForUser(
 	transport string,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getDestinationStringForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDestinationStringForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetDestinationStringForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetDestinationStringForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1486,12 +1554,12 @@ func (p *BackupManagerProxy) GetDestinationString(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getDestinationString")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDestinationString)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetDestinationString
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetDestinationString, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1513,18 +1581,18 @@ func (p *BackupManagerProxy) GetDataManagementIntentForUser(
 	transport string,
 ) (content.Intent, error) {
 	var _result content.Intent
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getDataManagementIntentForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntentForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetDataManagementIntentForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntentForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1555,12 +1623,12 @@ func (p *BackupManagerProxy) GetDataManagementIntent(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getDataManagementIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntent)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetDataManagementIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetDataManagementIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1587,18 +1655,18 @@ func (p *BackupManagerProxy) GetDataManagementLabelForUser(
 	transport string,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getDataManagementLabelForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetDataManagementLabelForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetDataManagementLabelForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetDataManagementLabelForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1617,19 +1685,19 @@ func (p *BackupManagerProxy) BeginRestoreSessionForUser(
 	transportID string,
 ) (IRestoreSession, error) {
 	var _result IRestoreSession
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 	_data.WriteString16(transportID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "beginRestoreSessionForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerBeginRestoreSessionForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerBeginRestoreSessionForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerBeginRestoreSessionForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1643,7 +1711,7 @@ func (p *BackupManagerProxy) BeginRestoreSessionForUser(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewRestoreSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewRestoreSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1652,19 +1720,19 @@ func (p *BackupManagerProxy) OpCompleteForUser(
 	token int32,
 	result int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(token)
 	_data.WriteInt64(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "opCompleteForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerOpCompleteForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerOpCompleteForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerOpCompleteForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1687,12 +1755,12 @@ func (p *BackupManagerProxy) OpComplete(
 	_data.WriteInt32(token)
 	_data.WriteInt64(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "opComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerOpComplete)
 	if _err != nil {
-		_code = TransactionIBackupManagerOpComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerOpComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1715,12 +1783,12 @@ func (p *BackupManagerProxy) SetBackupServiceActive(
 	_data.WriteInt32(whichUser)
 	_data.WriteBool(makeActive)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setBackupServiceActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetBackupServiceActive)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetBackupServiceActive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetBackupServiceActive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1742,12 +1810,12 @@ func (p *BackupManagerProxy) IsBackupServiceActive(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(whichUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "isBackupServiceActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsBackupServiceActive)
 	if _err != nil {
-		_code = TransactionIBackupManagerIsBackupServiceActive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerIsBackupServiceActive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1768,17 +1836,17 @@ func (p *BackupManagerProxy) IsUserReadyForBackup(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "isUserReadyForBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsUserReadyForBackup)
 	if _err != nil {
-		_code = TransactionIBackupManagerIsUserReadyForBackup
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerIsUserReadyForBackup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1800,18 +1868,18 @@ func (p *BackupManagerProxy) GetAvailableRestoreTokenForUser(
 	packageName string,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getAvailableRestoreTokenForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetAvailableRestoreTokenForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetAvailableRestoreTokenForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetAvailableRestoreTokenForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1833,18 +1901,18 @@ func (p *BackupManagerProxy) IsAppEligibleForBackupForUser(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "isAppEligibleForBackupForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerIsAppEligibleForBackupForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerIsAppEligibleForBackupForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerIsAppEligibleForBackupForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1866,7 +1934,7 @@ func (p *BackupManagerProxy) FilterAppsEligibleForBackupForUser(
 	packages []string,
 ) ([]string, error) {
 	var _result []string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1879,12 +1947,12 @@ func (p *BackupManagerProxy) FilterAppsEligibleForBackupForUser(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "filterAppsEligibleForBackupForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerFilterAppsEligibleForBackupForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerFilterAppsEligibleForBackupForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerFilterAppsEligibleForBackupForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1919,7 +1987,7 @@ func (p *BackupManagerProxy) RequestBackupForUser(
 	flags int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1931,16 +1999,16 @@ func (p *BackupManagerProxy) RequestBackupForUser(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "requestBackupForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRequestBackupForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerRequestBackupForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerRequestBackupForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1975,16 +2043,16 @@ func (p *BackupManagerProxy) RequestBackup(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "requestBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerRequestBackup)
 	if _err != nil {
-		_code = TransactionIBackupManagerRequestBackup
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerRequestBackup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2004,17 +2072,17 @@ func (p *BackupManagerProxy) RequestBackup(
 func (p *BackupManagerProxy) CancelBackupsForUser(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "cancelBackupsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerCancelBackupsForUser)
 	if _err != nil {
-		_code = TransactionIBackupManagerCancelBackupsForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerCancelBackupsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2033,12 +2101,12 @@ func (p *BackupManagerProxy) CancelBackups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "cancelBackups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerCancelBackups)
 	if _err != nil {
-		_code = TransactionIBackupManagerCancelBackups
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerCancelBackups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2060,12 +2128,12 @@ func (p *BackupManagerProxy) GetUserForAncestralSerialNumber(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt64(ancestralSerialNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "getUserForAncestralSerialNumber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerGetUserForAncestralSerialNumber)
 	if _err != nil {
-		_code = TransactionIBackupManagerGetUserForAncestralSerialNumber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerGetUserForAncestralSerialNumber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2086,12 +2154,12 @@ func (p *BackupManagerProxy) SetAncestralSerialNumber(
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt64(ancestralSerialNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "setAncestralSerialNumber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerSetAncestralSerialNumber)
 	if _err != nil {
-		_code = TransactionIBackupManagerSetAncestralSerialNumber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerSetAncestralSerialNumber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2121,12 +2189,12 @@ func (p *BackupManagerProxy) ExcludeKeysFromRestore(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "excludeKeysFromRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerExcludeKeysFromRestore)
 	if _err != nil {
-		_code = TransactionIBackupManagerExcludeKeysFromRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerExcludeKeysFromRestore, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2152,18 +2220,19 @@ func (p *BackupManagerProxy) ReportDelayedRestoreResult(
 	} else {
 		_data.WriteInt32(int32(len(results)))
 		for _, _item := range results {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManager, "reportDelayedRestoreResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManager, MethodIBackupManagerReportDelayedRestoreResult)
 	if _err != nil {
-		_code = TransactionIBackupManagerReportDelayedRestoreResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManager, MethodIBackupManagerReportDelayedRestoreResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2183,6 +2252,10 @@ type BackupManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackupManagerStub)(nil)
+
+func (s *BackupManagerStub) Descriptor() string {
+	return DescriptorIBackupManager
+}
 
 func (s *BackupManagerStub) OnTransaction(
 	ctx context.Context,

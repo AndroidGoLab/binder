@@ -1,7 +1,6 @@
 package media
 
 import (
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -11,14 +10,13 @@ import (
 type AudioMix struct {
 	Criteria                            []AudioMixMatchCriterion
 	MixType                             AudioMixType
-	Format                              common.AudioConfig
+	Format                              interface{}
 	RouteFlags                          int32
-	Device                              common.AudioDevice
+	Device                              interface{}
 	CbFlags                             int32
 	AllowPrivilegedMediaPlaybackCapture bool
 	VoiceCommunicationCaptureAllowed    bool
 	MToken                              binder.IBinder
-	MVirtualDeviceId                    int32
 }
 
 var _ parcel.Parcelable = (*AudioMix)(nil)
@@ -32,19 +30,14 @@ func (s *AudioMix) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Criteria)))
 		for _, _item := range s.Criteria {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 	p.WriteInt32(int32(s.MixType))
-	if _err := s.Format.MarshalParcel(p); _err != nil {
-		return _err
-	}
 	p.WriteInt32(s.RouteFlags)
-	if _err := s.Device.MarshalParcel(p); _err != nil {
-		return _err
-	}
 	p.WriteInt32(s.CbFlags)
 	p.WriteBool(s.AllowPrivilegedMediaPlaybackCapture)
 	p.WriteBool(s.VoiceCommunicationCaptureAllowed)
@@ -53,7 +46,6 @@ func (s *AudioMix) MarshalParcel(
 	} else {
 		p.WriteStrongBinder(s.MToken.Handle())
 	}
-	p.WriteInt32(s.MVirtualDeviceId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -75,6 +67,9 @@ func (s *AudioMix) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Criteria = make([]AudioMixMatchCriterion, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Criteria[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -87,16 +82,8 @@ func (s *AudioMix) UnmarshalParcel(
 	}
 	s.MixType = AudioMixType(_mixTypeRaw)
 
-	if _err = s.Format.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
 	s.RouteFlags, _err = p.ReadInt32()
 	if _err != nil {
-		return _err
-	}
-
-	if _err = s.Device.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
@@ -120,11 +107,6 @@ func (s *AudioMix) UnmarshalParcel(
 		return _err
 	}
 	s.MToken = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _mTokenHandle)
-
-	s.MVirtualDeviceId, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

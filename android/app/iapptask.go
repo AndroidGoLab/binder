@@ -20,6 +20,14 @@ const (
 	TransactionIAppTaskSetExcludeFromRecents = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIAppTaskFinishAndRemoveTask   = "finishAndRemoveTask"
+	MethodIAppTaskGetTaskInfo           = "getTaskInfo"
+	MethodIAppTaskMoveToFront           = "moveToFront"
+	MethodIAppTaskStartActivity         = "startActivity"
+	MethodIAppTaskSetExcludeFromRecents = "setExcludeFromRecents"
+)
+
 type IAppTask interface {
 	AsBinder() binder.IBinder
 	FinishAndRemoveTask(ctx context.Context) error
@@ -30,17 +38,17 @@ type IAppTask interface {
 }
 
 type AppTaskProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppTaskProxy(
 	remote binder.IBinder,
 ) *AppTaskProxy {
-	return &AppTaskProxy{remote: remote}
+	return &AppTaskProxy{Remote: remote}
 }
 
 func (p *AppTaskProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppTask = (*AppTaskProxy)(nil)
@@ -51,12 +59,12 @@ func (p *AppTaskProxy) FinishAndRemoveTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "finishAndRemoveTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskFinishAndRemoveTask)
 	if _err != nil {
-		_code = TransactionIAppTaskFinishAndRemoveTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTask, MethodIAppTaskFinishAndRemoveTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,12 +84,12 @@ func (p *AppTaskProxy) GetTaskInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "getTaskInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskGetTaskInfo)
 	if _err != nil {
-		_code = TransactionIAppTaskGetTaskInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTask, MethodIAppTaskGetTaskInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,18 +115,18 @@ func (p *AppTaskProxy) MoveToFront(
 	ctx context.Context,
 	appThread IApplicationThread,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
-	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "moveToFront")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskMoveToFront)
 	if _err != nil {
-		_code = TransactionIAppTaskMoveToFront
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTask, MethodIAppTaskMoveToFront, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,10 +147,10 @@ func (p *AppTaskProxy) StartActivity(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
-	binder.WriteBinderToParcel(ctx, _data, whoThread, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, whoThread, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(1)
@@ -151,12 +159,12 @@ func (p *AppTaskProxy) StartActivity(
 	}
 	_data.WriteString16(resolvedType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "startActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskStartActivity)
 	if _err != nil {
-		_code = TransactionIAppTaskStartActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTask, MethodIAppTaskStartActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,12 +189,12 @@ func (p *AppTaskProxy) SetExcludeFromRecents(
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 	_data.WriteBool(exclude)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "setExcludeFromRecents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTask, MethodIAppTaskSetExcludeFromRecents)
 	if _err != nil {
-		_code = TransactionIAppTaskSetExcludeFromRecents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTask, MethodIAppTaskSetExcludeFromRecents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -206,6 +214,10 @@ type AppTaskStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppTaskStub)(nil)
+
+func (s *AppTaskStub) Descriptor() string {
+	return DescriptorIAppTask
+}
 
 func (s *AppTaskStub) OnTransaction(
 	ctx context.Context,

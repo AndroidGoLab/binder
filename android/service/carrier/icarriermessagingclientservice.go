@@ -16,17 +16,17 @@ type ICarrierMessagingClientService interface {
 }
 
 type CarrierMessagingClientServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierMessagingClientServiceProxy(
 	remote binder.IBinder,
 ) *CarrierMessagingClientServiceProxy {
-	return &CarrierMessagingClientServiceProxy{remote: remote}
+	return &CarrierMessagingClientServiceProxy{Remote: remote}
 }
 
 func (p *CarrierMessagingClientServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierMessagingClientService = (*CarrierMessagingClientServiceProxy)(nil)
@@ -38,6 +38,10 @@ type CarrierMessagingClientServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierMessagingClientServiceStub)(nil)
+
+func (s *CarrierMessagingClientServiceStub) Descriptor() string {
+	return DescriptorICarrierMessagingClientService
+}
 
 func (s *CarrierMessagingClientServiceStub) OnTransaction(
 	ctx context.Context,

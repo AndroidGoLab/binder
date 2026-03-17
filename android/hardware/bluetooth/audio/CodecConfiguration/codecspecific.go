@@ -166,6 +166,7 @@ func (u *CodecSpecific) MarshalParcel(
 	case CodecSpecificTagAptxAdaptiveConfig:
 	case CodecSpecificTagLc3Config:
 	case CodecSpecificTagVendorConfig:
+		p.WriteInt32(1)
 		if _err := u.VendorConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -199,6 +200,9 @@ func (u *CodecSpecific) UnmarshalParcel(
 	case CodecSpecificTagAptxAdaptiveConfig:
 	case CodecSpecificTagLc3Config:
 	case CodecSpecificTagVendorConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VendorConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

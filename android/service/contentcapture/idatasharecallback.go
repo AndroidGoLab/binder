@@ -16,6 +16,11 @@ const (
 	TransactionIDataShareCallbackReject = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDataShareCallbackAccept = "accept"
+	MethodIDataShareCallbackReject = "reject"
+)
+
 type IDataShareCallback interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, adapter IDataShareReadAdapter) error
@@ -23,17 +28,17 @@ type IDataShareCallback interface {
 }
 
 type DataShareCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataShareCallbackProxy(
 	remote binder.IBinder,
 ) *DataShareCallbackProxy {
-	return &DataShareCallbackProxy{remote: remote}
+	return &DataShareCallbackProxy{Remote: remote}
 }
 
 func (p *DataShareCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataShareCallback = (*DataShareCallbackProxy)(nil)
@@ -44,14 +49,14 @@ func (p *DataShareCallbackProxy) Accept(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareCallback)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareCallback, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareCallback, MethodIDataShareCallbackAccept)
 	if _err != nil {
-		_code = TransactionIDataShareCallbackAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareCallback, MethodIDataShareCallbackAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *DataShareCallbackProxy) Reject(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareCallback, "reject")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareCallback, MethodIDataShareCallbackReject)
 	if _err != nil {
-		_code = TransactionIDataShareCallbackReject
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareCallback, MethodIDataShareCallbackReject, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type DataShareCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataShareCallbackStub)(nil)
+
+func (s *DataShareCallbackStub) Descriptor() string {
+	return DescriptorIDataShareCallback
+}
 
 func (s *DataShareCallbackStub) OnTransaction(
 	ctx context.Context,

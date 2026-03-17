@@ -22,14 +22,7 @@ func (s *P2pUsdBasedServiceAdvertisementConfig) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.ServiceName)
 	p.WriteInt32(s.ServiceProtocolType)
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceSpecificInfo)
 	p.WriteInt32(s.FrequencyMHz)
 	p.WriteInt32(s.TimeoutInSeconds)
 
@@ -55,19 +48,9 @@ func (s *P2pUsdBasedServiceAdvertisementConfig) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.FrequencyMHz, _err = p.ReadInt32()

@@ -3,8 +3,9 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
-	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,71 +14,73 @@ import (
 const DescriptorIOnDeviceIntelligenceManager = "android.app.ondeviceintelligence.IOnDeviceIntelligenceManager"
 
 const (
-	TransactionIOnDeviceIntelligenceManagerGetVersion                  = binder.FirstCallTransaction + 0
-	TransactionIOnDeviceIntelligenceManagerGetFeature                  = binder.FirstCallTransaction + 1
-	TransactionIOnDeviceIntelligenceManagerListFeatures                = binder.FirstCallTransaction + 2
-	TransactionIOnDeviceIntelligenceManagerGetFeatureDetails           = binder.FirstCallTransaction + 3
-	TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload      = binder.FirstCallTransaction + 4
-	TransactionIOnDeviceIntelligenceManagerRequestTokenInfo            = binder.FirstCallTransaction + 5
-	TransactionIOnDeviceIntelligenceManagerProcessRequest              = binder.FirstCallTransaction + 6
-	TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming     = binder.FirstCallTransaction + 7
-	TransactionIOnDeviceIntelligenceManagerGetRemoteServicePackageName = binder.FirstCallTransaction + 8
-	TransactionIOnDeviceIntelligenceManagerGetLatestInferenceInfo      = binder.FirstCallTransaction + 9
+	TransactionIOnDeviceIntelligenceManagerGetVersion              = binder.FirstCallTransaction + 0
+	TransactionIOnDeviceIntelligenceManagerGetFeature              = binder.FirstCallTransaction + 1
+	TransactionIOnDeviceIntelligenceManagerListFeatures            = binder.FirstCallTransaction + 2
+	TransactionIOnDeviceIntelligenceManagerGetFeatureDetails       = binder.FirstCallTransaction + 3
+	TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload  = binder.FirstCallTransaction + 4
+	TransactionIOnDeviceIntelligenceManagerRequestTokenCount       = binder.FirstCallTransaction + 5
+	TransactionIOnDeviceIntelligenceManagerProcessRequest          = binder.FirstCallTransaction + 6
+	TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming = binder.FirstCallTransaction + 7
+)
+
+const (
+	MethodIOnDeviceIntelligenceManagerGetVersion              = "getVersion"
+	MethodIOnDeviceIntelligenceManagerGetFeature              = "getFeature"
+	MethodIOnDeviceIntelligenceManagerListFeatures            = "listFeatures"
+	MethodIOnDeviceIntelligenceManagerGetFeatureDetails       = "getFeatureDetails"
+	MethodIOnDeviceIntelligenceManagerRequestFeatureDownload  = "requestFeatureDownload"
+	MethodIOnDeviceIntelligenceManagerRequestTokenCount       = "requestTokenCount"
+	MethodIOnDeviceIntelligenceManagerProcessRequest          = "processRequest"
+	MethodIOnDeviceIntelligenceManagerProcessRequestStreaming = "processRequestStreaming"
 )
 
 type IOnDeviceIntelligenceManager interface {
 	AsBinder() binder.IBinder
-	GetVersion(ctx context.Context, remoteCallback interface{}) error
+	GetVersion(ctx context.Context, remoteCallback os.RemoteCallback) error
 	GetFeature(ctx context.Context, featureId int32, remoteCallback IFeatureCallback) error
 	ListFeatures(ctx context.Context, listFeaturesCallback IListFeaturesCallback) error
 	GetFeatureDetails(ctx context.Context, feature Feature, featureDetailsCallback IFeatureDetailsCallback) error
-	RequestFeatureDownload(ctx context.Context, feature Feature, cancellationSignalFuture infra.AndroidFuture, callback IDownloadCallback) error
-	RequestTokenInfo(ctx context.Context, feature Feature, requestBundle interface{}, cancellationSignalFuture infra.AndroidFuture, tokenInfocallback ITokenInfoCallback) error
-	ProcessRequest(ctx context.Context, feature Feature, requestBundle interface{}, requestType int32, cancellationSignalFuture infra.AndroidFuture, processingSignalFuture infra.AndroidFuture, responseCallback IResponseCallback) error
-	ProcessRequestStreaming(ctx context.Context, feature Feature, requestBundle interface{}, requestType int32, cancellationSignalFuture infra.AndroidFuture, processingSignalFuture infra.AndroidFuture, streamingCallback IStreamingResponseCallback) error
-	GetRemoteServicePackageName(ctx context.Context) (string, error)
-	GetLatestInferenceInfo(ctx context.Context, startTimeEpochMillis int64) ([]InferenceInfo, error)
+	RequestFeatureDownload(ctx context.Context, feature Feature, signal common.ICancellationSignal, callback IDownloadCallback) error
+	RequestTokenCount(ctx context.Context, feature Feature, request Content, signal common.ICancellationSignal, tokenCountcallback ITokenCountCallback) error
+	ProcessRequest(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, responseCallback IResponseCallback) error
+	ProcessRequestStreaming(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, streamingCallback IStreamingResponseCallback) error
 }
 
 type OnDeviceIntelligenceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnDeviceIntelligenceManagerProxy(
 	remote binder.IBinder,
 ) *OnDeviceIntelligenceManagerProxy {
-	return &OnDeviceIntelligenceManagerProxy{remote: remote}
+	return &OnDeviceIntelligenceManagerProxy{Remote: remote}
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnDeviceIntelligenceManager = (*OnDeviceIntelligenceManagerProxy)(nil)
 
 func (p *OnDeviceIntelligenceManagerProxy) GetVersion(
 	ctx context.Context,
-	remoteCallback interface{},
+	remoteCallback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getVersion")
-	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerGetVersion
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
+	_data.WriteInt32(1)
+	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	return nil
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerGetVersion)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerGetVersion, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) GetFeature(
@@ -88,24 +91,15 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeature(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt32(featureId)
-	binder.WriteBinderToParcel(ctx, _data, remoteCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, remoteCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerGetFeature)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerGetFeature
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerGetFeature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) ListFeatures(
@@ -114,24 +108,15 @@ func (p *OnDeviceIntelligenceManagerProxy) ListFeatures(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
-	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "listFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerListFeatures)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerListFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerListFeatures, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
@@ -145,30 +130,21 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getFeatureDetails")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerGetFeatureDetails)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerGetFeatureDetails
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerGetFeatureDetails, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 	ctx context.Context,
 	feature Feature,
-	cancellationSignalFuture infra.AndroidFuture,
+	signal common.ICancellationSignal,
 	callback IDownloadCallback,
 ) error {
 	_data := parcel.New()
@@ -177,36 +153,24 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, signal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "requestFeatureDownload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerRequestFeatureDownload)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerRequestFeatureDownload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
-func (p *OnDeviceIntelligenceManagerProxy) RequestTokenInfo(
+func (p *OnDeviceIntelligenceManagerProxy) RequestTokenCount(
 	ctx context.Context,
 	feature Feature,
-	requestBundle interface{},
-	cancellationSignalFuture infra.AndroidFuture,
-	tokenInfocallback ITokenInfoCallback,
+	request Content,
+	signal common.ICancellationSignal,
+	tokenCountcallback ITokenCountCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
@@ -215,36 +179,28 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestTokenInfo(
 		return _err
 	}
 	_data.WriteInt32(1)
-	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
+	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, tokenInfocallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, signal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tokenCountcallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "requestTokenInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerRequestTokenCount)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerRequestTokenInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerRequestTokenCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 	ctx context.Context,
 	feature Feature,
-	requestBundle interface{},
+	request Content,
 	requestType int32,
-	cancellationSignalFuture infra.AndroidFuture,
-	processingSignalFuture infra.AndroidFuture,
+	cancellationSignal common.ICancellationSignal,
+	signal IProcessingSignal,
 	responseCallback IResponseCallback,
 ) error {
 	_data := parcel.New()
@@ -253,42 +209,31 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(requestType)
-	_data.WriteInt32(1)
-	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := processingSignalFuture.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, responseCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, signal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, responseCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "processRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerProcessRequest)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerProcessRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerProcessRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 	ctx context.Context,
 	feature Feature,
-	requestBundle interface{},
+	request Content,
 	requestType int32,
-	cancellationSignalFuture infra.AndroidFuture,
-	processingSignalFuture infra.AndroidFuture,
+	cancellationSignal common.ICancellationSignal,
+	signal IProcessingSignal,
 	streamingCallback IStreamingResponseCallback,
 ) error {
 	_data := parcel.New()
@@ -297,102 +242,22 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(requestType)
-	_data.WriteInt32(1)
-	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := processingSignalFuture.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, streamingCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, signal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, streamingCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "processRequestStreaming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerProcessRequestStreaming)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceManager, MethodIOnDeviceIntelligenceManagerProcessRequestStreaming, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *OnDeviceIntelligenceManagerProxy) GetRemoteServicePackageName(
-	ctx context.Context,
-) (string, error) {
-	var _result string
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getRemoteServicePackageName")
-	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerGetRemoteServicePackageName
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadString16()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *OnDeviceIntelligenceManagerProxy) GetLatestInferenceInfo(
-	ctx context.Context,
-	startTimeEpochMillis int64,
-) ([]InferenceInfo, error) {
-	var _result []InferenceInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
-	_data.WriteInt64(startTimeEpochMillis)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getLatestInferenceInfo")
-	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceManagerGetLatestInferenceInfo
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]InferenceInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // OnDeviceIntelligenceManagerStub dispatches incoming binder transactions
@@ -402,6 +267,10 @@ type OnDeviceIntelligenceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnDeviceIntelligenceManagerStub)(nil)
+
+func (s *OnDeviceIntelligenceManagerStub) Descriptor() string {
+	return DescriptorIOnDeviceIntelligenceManager
+}
 
 func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 	ctx context.Context,
@@ -413,15 +282,21 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_remoteCallback interface{}
-		_err := s.Impl.GetVersion(ctx, _arg_remoteCallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
+		var _arg_remoteCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		_err := s.Impl.GetVersion(ctx, _arg_remoteCallback)
+		_ = _err
+		return nil, nil
 	case TransactionIOnDeviceIntelligenceManagerGetFeature:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -434,13 +309,8 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		var _arg_remoteCallback IFeatureCallback
 		_ = _arg_remoteCallback
 		_err = s.Impl.GetFeature(ctx, _arg_featureId, _arg_remoteCallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		_ = _err
+		return nil, nil
 	case TransactionIOnDeviceIntelligenceManagerListFeatures:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -449,13 +319,8 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		var _arg_listFeaturesCallback IListFeaturesCallback
 		_ = _arg_listFeaturesCallback
 		_err := s.Impl.ListFeatures(ctx, _arg_listFeaturesCallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		_ = _err
+		return nil, nil
 	case TransactionIOnDeviceIntelligenceManagerGetFeatureDetails:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -476,13 +341,8 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		var _arg_featureDetailsCallback IFeatureDetailsCallback
 		_ = _arg_featureDetailsCallback
 		_err := s.Impl.GetFeatureDetails(ctx, _arg_feature, _arg_featureDetailsCallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		_ = _err
+		return nil, nil
 	case TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -499,30 +359,16 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_cancellationSignalFuture infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_signal common.ICancellationSignal
+		_ = _arg_signal
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDownloadCallback
 		_ = _arg_callback
-		_err := s.Impl.RequestFeatureDownload(ctx, _arg_feature, _arg_cancellationSignalFuture, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIOnDeviceIntelligenceManagerRequestTokenInfo:
+		_err := s.Impl.RequestFeatureDownload(ctx, _arg_feature, _arg_signal, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceManagerRequestTokenCount:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -538,30 +384,27 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_requestBundle interface{}
-		var _arg_cancellationSignalFuture infra.AndroidFuture
+		var _arg_request Content
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_tokenInfocallback ITokenInfoCallback
-		_ = _arg_tokenInfocallback
-		_err := s.Impl.RequestTokenInfo(ctx, _arg_feature, _arg_requestBundle, _arg_cancellationSignalFuture, _arg_tokenInfocallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_signal common.ICancellationSignal
+		_ = _arg_signal
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_tokenCountcallback ITokenCountCallback
+		_ = _arg_tokenCountcallback
+		_err := s.Impl.RequestTokenCount(ctx, _arg_feature, _arg_request, _arg_signal, _arg_tokenCountcallback)
+		_ = _err
+		return nil, nil
 	case TransactionIOnDeviceIntelligenceManagerProcessRequest:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -578,46 +421,34 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_requestBundle interface{}
+		var _arg_request Content
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellationSignalFuture infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_processingSignalFuture infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_processingSignalFuture.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationSignal common.ICancellationSignal
+		_ = _arg_cancellationSignal
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_signal IProcessingSignal
+		_ = _arg_signal
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_responseCallback IResponseCallback
 		_ = _arg_responseCallback
-		_err = s.Impl.ProcessRequest(ctx, _arg_feature, _arg_requestBundle, _arg_requestType, _arg_cancellationSignalFuture, _arg_processingSignalFuture, _arg_responseCallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		_err = s.Impl.ProcessRequest(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_signal, _arg_responseCallback)
+		_ = _err
+		return nil, nil
 	case TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -634,77 +465,34 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_requestBundle interface{}
+		var _arg_request Content
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellationSignalFuture infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_processingSignalFuture infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_processingSignalFuture.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationSignal common.ICancellationSignal
+		_ = _arg_cancellationSignal
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_signal IProcessingSignal
+		_ = _arg_signal
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_streamingCallback IStreamingResponseCallback
 		_ = _arg_streamingCallback
-		_err = s.Impl.ProcessRequestStreaming(ctx, _arg_feature, _arg_requestBundle, _arg_requestType, _arg_cancellationSignalFuture, _arg_processingSignalFuture, _arg_streamingCallback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIOnDeviceIntelligenceManagerGetRemoteServicePackageName:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetRemoteServicePackageName(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteString16(_result)
-		return _reply, nil
-	case TransactionIOnDeviceIntelligenceManagerGetLatestInferenceInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_startTimeEpochMillis, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetLatestInferenceInfo(ctx, _arg_startTimeEpochMillis)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		_err = s.Impl.ProcessRequestStreaming(ctx, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_signal, _arg_streamingCallback)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -714,16 +502,14 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 // provide to NewOnDeviceIntelligenceManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IOnDeviceIntelligenceManagerServer interface {
-	GetVersion(ctx context.Context, remoteCallback interface{}) error
+	GetVersion(ctx context.Context, remoteCallback os.RemoteCallback) error
 	GetFeature(ctx context.Context, featureId int32, remoteCallback IFeatureCallback) error
 	ListFeatures(ctx context.Context, listFeaturesCallback IListFeaturesCallback) error
 	GetFeatureDetails(ctx context.Context, feature Feature, featureDetailsCallback IFeatureDetailsCallback) error
-	RequestFeatureDownload(ctx context.Context, feature Feature, cancellationSignalFuture infra.AndroidFuture, callback IDownloadCallback) error
-	RequestTokenInfo(ctx context.Context, feature Feature, requestBundle interface{}, cancellationSignalFuture infra.AndroidFuture, tokenInfocallback ITokenInfoCallback) error
-	ProcessRequest(ctx context.Context, feature Feature, requestBundle interface{}, requestType int32, cancellationSignalFuture infra.AndroidFuture, processingSignalFuture infra.AndroidFuture, responseCallback IResponseCallback) error
-	ProcessRequestStreaming(ctx context.Context, feature Feature, requestBundle interface{}, requestType int32, cancellationSignalFuture infra.AndroidFuture, processingSignalFuture infra.AndroidFuture, streamingCallback IStreamingResponseCallback) error
-	GetRemoteServicePackageName(ctx context.Context) (string, error)
-	GetLatestInferenceInfo(ctx context.Context, startTimeEpochMillis int64) ([]InferenceInfo, error)
+	RequestFeatureDownload(ctx context.Context, feature Feature, signal common.ICancellationSignal, callback IDownloadCallback) error
+	RequestTokenCount(ctx context.Context, feature Feature, request Content, signal common.ICancellationSignal, tokenCountcallback ITokenCountCallback) error
+	ProcessRequest(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, responseCallback IResponseCallback) error
+	ProcessRequestStreaming(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, streamingCallback IStreamingResponseCallback) error
 }
 
 type onDeviceIntelligenceManagerStubWrapper struct {
@@ -737,7 +523,7 @@ func (w *onDeviceIntelligenceManagerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *onDeviceIntelligenceManagerStubWrapper) GetVersion(
 	ctx context.Context,
-	remoteCallback interface{},
+	remoteCallback os.RemoteCallback,
 ) error {
 	return w.impl.GetVersion(ctx, remoteCallback)
 }
@@ -768,57 +554,44 @@ func (w *onDeviceIntelligenceManagerStubWrapper) GetFeatureDetails(
 func (w *onDeviceIntelligenceManagerStubWrapper) RequestFeatureDownload(
 	ctx context.Context,
 	feature Feature,
-	cancellationSignalFuture infra.AndroidFuture,
+	signal common.ICancellationSignal,
 	callback IDownloadCallback,
 ) error {
-	return w.impl.RequestFeatureDownload(ctx, feature, cancellationSignalFuture, callback)
+	return w.impl.RequestFeatureDownload(ctx, feature, signal, callback)
 }
 
-func (w *onDeviceIntelligenceManagerStubWrapper) RequestTokenInfo(
+func (w *onDeviceIntelligenceManagerStubWrapper) RequestTokenCount(
 	ctx context.Context,
 	feature Feature,
-	requestBundle interface{},
-	cancellationSignalFuture infra.AndroidFuture,
-	tokenInfocallback ITokenInfoCallback,
+	request Content,
+	signal common.ICancellationSignal,
+	tokenCountcallback ITokenCountCallback,
 ) error {
-	return w.impl.RequestTokenInfo(ctx, feature, requestBundle, cancellationSignalFuture, tokenInfocallback)
+	return w.impl.RequestTokenCount(ctx, feature, request, signal, tokenCountcallback)
 }
 
 func (w *onDeviceIntelligenceManagerStubWrapper) ProcessRequest(
 	ctx context.Context,
 	feature Feature,
-	requestBundle interface{},
+	request Content,
 	requestType int32,
-	cancellationSignalFuture infra.AndroidFuture,
-	processingSignalFuture infra.AndroidFuture,
+	cancellationSignal common.ICancellationSignal,
+	signal IProcessingSignal,
 	responseCallback IResponseCallback,
 ) error {
-	return w.impl.ProcessRequest(ctx, feature, requestBundle, requestType, cancellationSignalFuture, processingSignalFuture, responseCallback)
+	return w.impl.ProcessRequest(ctx, feature, request, requestType, cancellationSignal, signal, responseCallback)
 }
 
 func (w *onDeviceIntelligenceManagerStubWrapper) ProcessRequestStreaming(
 	ctx context.Context,
 	feature Feature,
-	requestBundle interface{},
+	request Content,
 	requestType int32,
-	cancellationSignalFuture infra.AndroidFuture,
-	processingSignalFuture infra.AndroidFuture,
+	cancellationSignal common.ICancellationSignal,
+	signal IProcessingSignal,
 	streamingCallback IStreamingResponseCallback,
 ) error {
-	return w.impl.ProcessRequestStreaming(ctx, feature, requestBundle, requestType, cancellationSignalFuture, processingSignalFuture, streamingCallback)
-}
-
-func (w *onDeviceIntelligenceManagerStubWrapper) GetRemoteServicePackageName(
-	ctx context.Context,
-) (string, error) {
-	return w.impl.GetRemoteServicePackageName(ctx)
-}
-
-func (w *onDeviceIntelligenceManagerStubWrapper) GetLatestInferenceInfo(
-	ctx context.Context,
-	startTimeEpochMillis int64,
-) ([]InferenceInfo, error) {
-	return w.impl.GetLatestInferenceInfo(ctx, startTimeEpochMillis)
+	return w.impl.ProcessRequestStreaming(ctx, feature, request, requestType, cancellationSignal, signal, streamingCallback)
 }
 
 var _ IOnDeviceIntelligenceManager = (*onDeviceIntelligenceManagerStubWrapper)(nil)

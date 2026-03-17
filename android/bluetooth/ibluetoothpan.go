@@ -23,30 +23,41 @@ const (
 	TransactionIBluetoothPanSetConnectionPolicy                = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIBluetoothPanIsTetheringOn                      = "isTetheringOn"
+	MethodIBluetoothPanSetBluetoothTethering              = "setBluetoothTethering"
+	MethodIBluetoothPanConnect                            = "connect"
+	MethodIBluetoothPanDisconnect                         = "disconnect"
+	MethodIBluetoothPanGetConnectedDevices                = "getConnectedDevices"
+	MethodIBluetoothPanGetDevicesMatchingConnectionStates = "getDevicesMatchingConnectionStates"
+	MethodIBluetoothPanGetConnectionState                 = "getConnectionState"
+	MethodIBluetoothPanSetConnectionPolicy                = "setConnectionPolicy"
+)
+
 type IBluetoothPan interface {
 	AsBinder() binder.IBinder
-	IsTetheringOn(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
-	SetBluetoothTethering(ctx context.Context, callback IBluetoothPanCallback, id int32, value bool, attributionSource content.AttributionSource) error
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	IsTetheringOn(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	SetBluetoothTethering(ctx context.Context, callback IBluetoothPanCallback, id int32, value bool, attributionSource content.AttributionSource, receiver interface{}) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type BluetoothPanProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothPanProxy(
 	remote binder.IBinder,
 ) *BluetoothPanProxy {
-	return &BluetoothPanProxy{remote: remote}
+	return &BluetoothPanProxy{Remote: remote}
 }
 
 func (p *BluetoothPanProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothPan = (*BluetoothPanProxy)(nil)
@@ -54,35 +65,22 @@ var _ IBluetoothPan = (*BluetoothPanProxy)(nil)
 func (p *BluetoothPanProxy) IsTetheringOn(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	var _result bool
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "isTetheringOn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanIsTetheringOn)
 	if _err != nil {
-		_code = TransactionIBluetoothPanIsTetheringOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanIsTetheringOn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) SetBluetoothTethering(
@@ -91,10 +89,11 @@ func (p *BluetoothPanProxy) SetBluetoothTethering(
 	id int32,
 	value bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	_data.WriteBool(value)
 	_data.WriteInt32(1)
@@ -102,151 +101,94 @@ func (p *BluetoothPanProxy) SetBluetoothTethering(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "setBluetoothTethering")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanSetBluetoothTethering)
 	if _err != nil {
-		_code = TransactionIBluetoothPanSetBluetoothTethering
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanSetBluetoothTethering, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	var _result bool
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "connect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanConnect)
 	if _err != nil {
-		_code = TransactionIBluetoothPanConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	var _result bool
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanDisconnect)
 	if _err != nil {
-		_code = TransactionIBluetoothPanDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "getConnectedDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanGetConnectedDevices)
 	if _err != nil {
-		_code = TransactionIBluetoothPanGetConnectedDevices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanGetConnectedDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	if states == nil {
@@ -259,77 +201,42 @@ func (p *BluetoothPanProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "getDevicesMatchingConnectionStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		_code = TransactionIBluetoothPanGetDevicesMatchingConnectionStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "getConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanGetConnectionState)
 	if _err != nil {
-		_code = TransactionIBluetoothPanGetConnectionState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanGetConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothPanProxy) SetConnectionPolicy(
@@ -337,40 +244,27 @@ func (p *BluetoothPanProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	var _result bool
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPan)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(connectionPolicy)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "setConnectionPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPan, MethodIBluetoothPanSetConnectionPolicy)
 	if _err != nil {
-		_code = TransactionIBluetoothPanSetConnectionPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPan, MethodIBluetoothPanSetConnectionPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // BluetoothPanStub dispatches incoming binder transactions
@@ -380,6 +274,10 @@ type BluetoothPanStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothPanStub)(nil)
+
+func (s *BluetoothPanStub) Descriptor() string {
+	return DescriptorIBluetoothPan
+}
 
 func (s *BluetoothPanStub) OnTransaction(
 	ctx context.Context,
@@ -403,15 +301,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.IsTetheringOn(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.IsTetheringOn(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanSetBluetoothTethering:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -439,14 +332,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.SetBluetoothTethering(ctx, _arg_callback, _arg_id, _arg_value, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SetBluetoothTethering(ctx, _arg_callback, _arg_id, _arg_value, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanConnect:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -475,15 +364,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanDisconnect:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -512,15 +396,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanGetConnectedDevices:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -537,16 +416,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanGetDevicesMatchingConnectionStates:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -566,16 +439,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanGetConnectionState:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -604,15 +471,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothPanSetConnectionPolicy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -645,15 +507,10 @@ func (s *BluetoothPanStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -663,14 +520,14 @@ func (s *BluetoothPanStub) OnTransaction(
 // provide to NewBluetoothPanStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothPanServer interface {
-	IsTetheringOn(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
-	SetBluetoothTethering(ctx context.Context, callback IBluetoothPanCallback, id int32, value bool, attributionSource content.AttributionSource) error
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (bool, error)
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	IsTetheringOn(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	SetBluetoothTethering(ctx context.Context, callback IBluetoothPanCallback, id int32, value bool, attributionSource content.AttributionSource, receiver interface{}) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type bluetoothPanStubWrapper struct {
@@ -685,8 +542,9 @@ func (w *bluetoothPanStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothPanStubWrapper) IsTetheringOn(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	return w.impl.IsTetheringOn(ctx, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.IsTetheringOn(ctx, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) SetBluetoothTethering(
@@ -695,47 +553,53 @@ func (w *bluetoothPanStubWrapper) SetBluetoothTethering(
 	id int32,
 	value bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.SetBluetoothTethering(ctx, callback, id, value, attributionSource)
+	return w.impl.SetBluetoothTethering(ctx, callback, id, value, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	return w.impl.Connect(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.Connect(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	return w.impl.Disconnect(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetConnectedDevices(ctx, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetConnectionState(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothPanStubWrapper) SetConnectionPolicy(
@@ -743,8 +607,9 @@ func (w *bluetoothPanStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
 }
 
 var _ IBluetoothPan = (*bluetoothPanStubWrapper)(nil)

@@ -21,6 +21,14 @@ const (
 	TransactionIAppIntegrityManagerGetWhitelistedRuleProviders = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIAppIntegrityManagerUpdateRuleSet               = "updateRuleSet"
+	MethodIAppIntegrityManagerGetCurrentRuleSetVersion    = "getCurrentRuleSetVersion"
+	MethodIAppIntegrityManagerGetCurrentRuleSetProvider   = "getCurrentRuleSetProvider"
+	MethodIAppIntegrityManagerGetCurrentRules             = "getCurrentRules"
+	MethodIAppIntegrityManagerGetWhitelistedRuleProviders = "getWhitelistedRuleProviders"
+)
+
 type IAppIntegrityManager interface {
 	AsBinder() binder.IBinder
 	UpdateRuleSet(ctx context.Context, version string, rules pm.ParceledListSlice, statusReceiver content.IntentSender) error
@@ -31,17 +39,17 @@ type IAppIntegrityManager interface {
 }
 
 type AppIntegrityManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppIntegrityManagerProxy(
 	remote binder.IBinder,
 ) *AppIntegrityManagerProxy {
-	return &AppIntegrityManagerProxy{remote: remote}
+	return &AppIntegrityManagerProxy{Remote: remote}
 }
 
 func (p *AppIntegrityManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppIntegrityManager = (*AppIntegrityManagerProxy)(nil)
@@ -64,12 +72,12 @@ func (p *AppIntegrityManagerProxy) UpdateRuleSet(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "updateRuleSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerUpdateRuleSet)
 	if _err != nil {
-		_code = TransactionIAppIntegrityManagerUpdateRuleSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerUpdateRuleSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -89,12 +97,12 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRuleSetVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRuleSetVersion)
 	if _err != nil {
-		_code = TransactionIAppIntegrityManagerGetCurrentRuleSetVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRuleSetVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,12 +126,12 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRuleSetProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRuleSetProvider)
 	if _err != nil {
-		_code = TransactionIAppIntegrityManagerGetCurrentRuleSetProvider
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRuleSetProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,12 +155,12 @@ func (p *AppIntegrityManagerProxy) GetCurrentRules(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRules")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRules)
 	if _err != nil {
-		_code = TransactionIAppIntegrityManagerGetCurrentRules
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetCurrentRules, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,12 +189,12 @@ func (p *AppIntegrityManagerProxy) GetWhitelistedRuleProviders(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getWhitelistedRuleProviders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetWhitelistedRuleProviders)
 	if _err != nil {
-		_code = TransactionIAppIntegrityManagerGetWhitelistedRuleProviders
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppIntegrityManager, MethodIAppIntegrityManagerGetWhitelistedRuleProviders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,6 +228,10 @@ type AppIntegrityManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppIntegrityManagerStub)(nil)
+
+func (s *AppIntegrityManagerStub) Descriptor() string {
+	return DescriptorIAppIntegrityManager
+}
 
 func (s *AppIntegrityManagerStub) OnTransaction(
 	ctx context.Context,

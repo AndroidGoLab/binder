@@ -16,6 +16,11 @@ const (
 	TransactionIResolverRankerServiceTrain   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIResolverRankerServicePredict = "predict"
+	MethodIResolverRankerServiceTrain   = "train"
+)
+
 type IResolverRankerService interface {
 	AsBinder() binder.IBinder
 	Predict(ctx context.Context, targets []ResolverTarget, result IResolverRankerResult) error
@@ -23,17 +28,17 @@ type IResolverRankerService interface {
 }
 
 type ResolverRankerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResolverRankerServiceProxy(
 	remote binder.IBinder,
 ) *ResolverRankerServiceProxy {
-	return &ResolverRankerServiceProxy{remote: remote}
+	return &ResolverRankerServiceProxy{Remote: remote}
 }
 
 func (p *ResolverRankerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResolverRankerService = (*ResolverRankerServiceProxy)(nil)
@@ -50,19 +55,20 @@ func (p *ResolverRankerServiceProxy) Predict(
 	} else {
 		_data.WriteInt32(int32(len(targets)))
 		for _, _item := range targets {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResolverRankerService, "predict")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResolverRankerService, MethodIResolverRankerServicePredict)
 	if _err != nil {
-		_code = TransactionIResolverRankerServicePredict
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResolverRankerService, MethodIResolverRankerServicePredict, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +84,7 @@ func (p *ResolverRankerServiceProxy) Train(
 	} else {
 		_data.WriteInt32(int32(len(targets)))
 		for _, _item := range targets {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -85,12 +92,12 @@ func (p *ResolverRankerServiceProxy) Train(
 	}
 	_data.WriteInt32(selectedPosition)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResolverRankerService, "train")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResolverRankerService, MethodIResolverRankerServiceTrain)
 	if _err != nil {
-		_code = TransactionIResolverRankerServiceTrain
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResolverRankerService, MethodIResolverRankerServiceTrain, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,6 +108,10 @@ type ResolverRankerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResolverRankerServiceStub)(nil)
+
+func (s *ResolverRankerServiceStub) Descriptor() string {
+	return DescriptorIResolverRankerService
+}
 
 func (s *ResolverRankerServiceStub) OnTransaction(
 	ctx context.Context,

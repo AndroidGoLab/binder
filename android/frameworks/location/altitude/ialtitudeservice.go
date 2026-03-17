@@ -16,6 +16,11 @@ const (
 	TransactionIAltitudeServiceGetGeoidHeight           = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAltitudeServiceAddMslAltitudeToLocation = "addMslAltitudeToLocation"
+	MethodIAltitudeServiceGetGeoidHeight           = "getGeoidHeight"
+)
+
 type IAltitudeService interface {
 	AsBinder() binder.IBinder
 	AddMslAltitudeToLocation(ctx context.Context, request AddMslAltitudeToLocationRequest) (AddMslAltitudeToLocationResponse, error)
@@ -23,17 +28,17 @@ type IAltitudeService interface {
 }
 
 type AltitudeServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAltitudeServiceProxy(
 	remote binder.IBinder,
 ) *AltitudeServiceProxy {
-	return &AltitudeServiceProxy{remote: remote}
+	return &AltitudeServiceProxy{Remote: remote}
 }
 
 func (p *AltitudeServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAltitudeService = (*AltitudeServiceProxy)(nil)
@@ -50,12 +55,12 @@ func (p *AltitudeServiceProxy) AddMslAltitudeToLocation(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAltitudeService, "addMslAltitudeToLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAltitudeService, MethodIAltitudeServiceAddMslAltitudeToLocation)
 	if _err != nil {
-		_code = TransactionIAltitudeServiceAddMslAltitudeToLocation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAltitudeService, MethodIAltitudeServiceAddMslAltitudeToLocation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,12 +94,12 @@ func (p *AltitudeServiceProxy) GetGeoidHeight(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAltitudeService, "getGeoidHeight")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAltitudeService, MethodIAltitudeServiceGetGeoidHeight)
 	if _err != nil {
-		_code = TransactionIAltitudeServiceGetGeoidHeight
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAltitudeService, MethodIAltitudeServiceGetGeoidHeight, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,6 +128,10 @@ type AltitudeServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AltitudeServiceStub)(nil)
+
+func (s *AltitudeServiceStub) Descriptor() string {
+	return DescriptorIAltitudeService
+}
 
 func (s *AltitudeServiceStub) OnTransaction(
 	ctx context.Context,

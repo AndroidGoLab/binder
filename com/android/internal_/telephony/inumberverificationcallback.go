@@ -16,6 +16,11 @@ const (
 	TransactionINumberVerificationCallbackOnVerificationFailed = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINumberVerificationCallbackOnCallReceived       = "onCallReceived"
+	MethodINumberVerificationCallbackOnVerificationFailed = "onVerificationFailed"
+)
+
 type INumberVerificationCallback interface {
 	AsBinder() binder.IBinder
 	OnCallReceived(ctx context.Context, phoneNumber string) error
@@ -23,17 +28,17 @@ type INumberVerificationCallback interface {
 }
 
 type NumberVerificationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNumberVerificationCallbackProxy(
 	remote binder.IBinder,
 ) *NumberVerificationCallbackProxy {
-	return &NumberVerificationCallbackProxy{remote: remote}
+	return &NumberVerificationCallbackProxy{Remote: remote}
 }
 
 func (p *NumberVerificationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INumberVerificationCallback = (*NumberVerificationCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *NumberVerificationCallbackProxy) OnCallReceived(
 	_data.WriteInterfaceToken(DescriptorINumberVerificationCallback)
 	_data.WriteString16(phoneNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINumberVerificationCallback, "onCallReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnCallReceived)
 	if _err != nil {
-		_code = TransactionINumberVerificationCallbackOnCallReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnCallReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *NumberVerificationCallbackProxy) OnVerificationFailed(
 	_data.WriteInterfaceToken(DescriptorINumberVerificationCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINumberVerificationCallback, "onVerificationFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnVerificationFailed)
 	if _err != nil {
-		_code = TransactionINumberVerificationCallbackOnVerificationFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINumberVerificationCallback, MethodINumberVerificationCallbackOnVerificationFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type NumberVerificationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NumberVerificationCallbackStub)(nil)
+
+func (s *NumberVerificationCallbackStub) Descriptor() string {
+	return DescriptorINumberVerificationCallback
+}
 
 func (s *NumberVerificationCallbackStub) OnTransaction(
 	ctx context.Context,

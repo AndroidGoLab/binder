@@ -79,6 +79,70 @@ const (
 	TransactionIStorageManagerGetInternalStorageRemainingLifetime = binder.FirstCallTransaction + 98
 )
 
+const (
+	MethodIStorageManagerRegisterListener                    = "registerListener"
+	MethodIStorageManagerUnregisterListener                  = "unregisterListener"
+	MethodIStorageManagerShutdown                            = "shutdown"
+	MethodIStorageManagerMountObb                            = "mountObb"
+	MethodIStorageManagerUnmountObb                          = "unmountObb"
+	MethodIStorageManagerIsObbMounted                        = "isObbMounted"
+	MethodIStorageManagerGetMountedObbPath                   = "getMountedObbPath"
+	MethodIStorageManagerGetVolumeList                       = "getVolumeList"
+	MethodIStorageManagerMkdirs                              = "mkdirs"
+	MethodIStorageManagerLastMaintenance                     = "lastMaintenance"
+	MethodIStorageManagerRunMaintenance                      = "runMaintenance"
+	MethodIStorageManagerGetDisks                            = "getDisks"
+	MethodIStorageManagerGetVolumes                          = "getVolumes"
+	MethodIStorageManagerGetVolumeRecords                    = "getVolumeRecords"
+	MethodIStorageManagerMount                               = "mount"
+	MethodIStorageManagerUnmount                             = "unmount"
+	MethodIStorageManagerFormat                              = "format"
+	MethodIStorageManagerPartitionPublic                     = "partitionPublic"
+	MethodIStorageManagerPartitionPrivate                    = "partitionPrivate"
+	MethodIStorageManagerPartitionMixed                      = "partitionMixed"
+	MethodIStorageManagerSetVolumeNickname                   = "setVolumeNickname"
+	MethodIStorageManagerSetVolumeUserFlags                  = "setVolumeUserFlags"
+	MethodIStorageManagerForgetVolume                        = "forgetVolume"
+	MethodIStorageManagerForgetAllVolumes                    = "forgetAllVolumes"
+	MethodIStorageManagerGetPrimaryStorageUuid               = "getPrimaryStorageUuid"
+	MethodIStorageManagerSetPrimaryStorageUuid               = "setPrimaryStorageUuid"
+	MethodIStorageManagerBenchmark                           = "benchmark"
+	MethodIStorageManagerSetDebugFlags                       = "setDebugFlags"
+	MethodIStorageManagerCreateUserStorageKeys               = "createUserStorageKeys"
+	MethodIStorageManagerDestroyUserStorageKeys              = "destroyUserStorageKeys"
+	MethodIStorageManagerUnlockCeStorage                     = "unlockCeStorage"
+	MethodIStorageManagerLockCeStorage                       = "lockCeStorage"
+	MethodIStorageManagerIsCeStorageUnlocked                 = "isCeStorageUnlocked"
+	MethodIStorageManagerPrepareUserStorage                  = "prepareUserStorage"
+	MethodIStorageManagerDestroyUserStorage                  = "destroyUserStorage"
+	MethodIStorageManagerSetCeStorageProtection              = "setCeStorageProtection"
+	MethodIStorageManagerFstrim                              = "fstrim"
+	MethodIStorageManagerMountProxyFileDescriptorBridge      = "mountProxyFileDescriptorBridge"
+	MethodIStorageManagerOpenProxyFileDescriptor             = "openProxyFileDescriptor"
+	MethodIStorageManagerGetCacheQuotaBytes                  = "getCacheQuotaBytes"
+	MethodIStorageManagerGetCacheSizeBytes                   = "getCacheSizeBytes"
+	MethodIStorageManagerGetAllocatableBytes                 = "getAllocatableBytes"
+	MethodIStorageManagerAllocateBytes                       = "allocateBytes"
+	MethodIStorageManagerRunIdleMaintenance                  = "runIdleMaintenance"
+	MethodIStorageManagerAbortIdleMaintenance                = "abortIdleMaintenance"
+	MethodIStorageManagerCommitChanges                       = "commitChanges"
+	MethodIStorageManagerSupportsCheckpoint                  = "supportsCheckpoint"
+	MethodIStorageManagerStartCheckpoint                     = "startCheckpoint"
+	MethodIStorageManagerNeedsCheckpoint                     = "needsCheckpoint"
+	MethodIStorageManagerAbortChanges                        = "abortChanges"
+	MethodIStorageManagerFixupAppDir                         = "fixupAppDir"
+	MethodIStorageManagerDisableAppDataIsolation             = "disableAppDataIsolation"
+	MethodIStorageManagerGetManageSpaceActivityIntent        = "getManageSpaceActivityIntent"
+	MethodIStorageManagerNotifyAppIoBlocked                  = "notifyAppIoBlocked"
+	MethodIStorageManagerNotifyAppIoResumed                  = "notifyAppIoResumed"
+	MethodIStorageManagerGetExternalStorageMountMode         = "getExternalStorageMountMode"
+	MethodIStorageManagerIsAppIoBlocked                      = "isAppIoBlocked"
+	MethodIStorageManagerSetCloudMediaProvider               = "setCloudMediaProvider"
+	MethodIStorageManagerGetCloudMediaProvider               = "getCloudMediaProvider"
+	MethodIStorageManagerGetInternalStorageBlockDeviceSize   = "getInternalStorageBlockDeviceSize"
+	MethodIStorageManagerGetInternalStorageRemainingLifetime = "getInternalStorageRemainingLifetime"
+)
+
 type IStorageManager interface {
 	AsBinder() binder.IBinder
 	RegisterListener(ctx context.Context, listener IStorageEventListener) error
@@ -145,17 +209,17 @@ type IStorageManager interface {
 }
 
 type StorageManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageManagerProxy(
 	remote binder.IBinder,
 ) *StorageManagerProxy {
-	return &StorageManagerProxy{remote: remote}
+	return &StorageManagerProxy{Remote: remote}
 }
 
 func (p *StorageManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorageManager = (*StorageManagerProxy)(nil)
@@ -166,14 +230,14 @@ func (p *StorageManagerProxy) RegisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "registerListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerRegisterListener)
 	if _err != nil {
-		_code = TransactionIStorageManagerRegisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerRegisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,14 +256,14 @@ func (p *StorageManagerProxy) UnregisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unregisterListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerUnregisterListener)
 	if _err != nil {
-		_code = TransactionIStorageManagerUnregisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerUnregisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -218,14 +282,14 @@ func (p *StorageManagerProxy) Shutdown(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "shutdown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerShutdown)
 	if _err != nil {
-		_code = TransactionIStorageManagerShutdown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerShutdown, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -250,19 +314,19 @@ func (p *StorageManagerProxy) MountObb(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 	_data.WriteString16(canonicalPath)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(nonce)
 	_data.WriteInt32(1)
 	if _err := obbInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mountObb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerMountObb)
 	if _err != nil {
-		_code = TransactionIStorageManagerMountObb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerMountObb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -286,15 +350,15 @@ func (p *StorageManagerProxy) UnmountObb(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 	_data.WriteBool(force)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(nonce)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unmountObb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerUnmountObb)
 	if _err != nil {
-		_code = TransactionIStorageManagerUnmountObb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerUnmountObb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -316,12 +380,12 @@ func (p *StorageManagerProxy) IsObbMounted(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "isObbMounted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerIsObbMounted)
 	if _err != nil {
-		_code = TransactionIStorageManagerIsObbMounted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerIsObbMounted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -347,12 +411,12 @@ func (p *StorageManagerProxy) GetMountedObbPath(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(rawPath)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getMountedObbPath")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetMountedObbPath)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetMountedObbPath
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetMountedObbPath, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -374,19 +438,19 @@ func (p *StorageManagerProxy) GetVolumeList(
 	flags int32,
 ) ([]StorageVolume, error) {
 	var _result []StorageVolume
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getVolumeList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetVolumeList)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetVolumeList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetVolumeList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -404,6 +468,9 @@ func (p *StorageManagerProxy) GetVolumeList(
 	if _count >= 0 {
 		_result = make([]StorageVolume, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -422,12 +489,12 @@ func (p *StorageManagerProxy) Mkdirs(
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(path)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mkdirs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerMkdirs)
 	if _err != nil {
-		_code = TransactionIStorageManagerMkdirs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerMkdirs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -447,12 +514,12 @@ func (p *StorageManagerProxy) LastMaintenance(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "lastMaintenance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerLastMaintenance)
 	if _err != nil {
-		_code = TransactionIStorageManagerLastMaintenance
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerLastMaintenance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -475,12 +542,12 @@ func (p *StorageManagerProxy) RunMaintenance(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "runMaintenance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerRunMaintenance)
 	if _err != nil {
-		_code = TransactionIStorageManagerRunMaintenance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerRunMaintenance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -500,12 +567,12 @@ func (p *StorageManagerProxy) GetDisks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getDisks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetDisks)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetDisks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetDisks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -523,6 +590,9 @@ func (p *StorageManagerProxy) GetDisks(
 	if _count >= 0 {
 		_result = make([]DiskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -540,12 +610,12 @@ func (p *StorageManagerProxy) GetVolumes(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getVolumes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetVolumes)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetVolumes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetVolumes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -563,6 +633,9 @@ func (p *StorageManagerProxy) GetVolumes(
 	if _count >= 0 {
 		_result = make([]VolumeInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -580,12 +653,12 @@ func (p *StorageManagerProxy) GetVolumeRecords(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getVolumeRecords")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetVolumeRecords)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetVolumeRecords
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetVolumeRecords, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -603,6 +676,9 @@ func (p *StorageManagerProxy) GetVolumeRecords(
 	if _count >= 0 {
 		_result = make([]VolumeRecord, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -619,12 +695,12 @@ func (p *StorageManagerProxy) Mount(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerMount)
 	if _err != nil {
-		_code = TransactionIStorageManagerMount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerMount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -645,12 +721,12 @@ func (p *StorageManagerProxy) Unmount(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unmount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerUnmount)
 	if _err != nil {
-		_code = TransactionIStorageManagerUnmount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerUnmount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -671,12 +747,12 @@ func (p *StorageManagerProxy) Format(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "format")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerFormat)
 	if _err != nil {
-		_code = TransactionIStorageManagerFormat
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerFormat, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -697,12 +773,12 @@ func (p *StorageManagerProxy) PartitionPublic(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(diskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "partitionPublic")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerPartitionPublic)
 	if _err != nil {
-		_code = TransactionIStorageManagerPartitionPublic
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerPartitionPublic, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -723,12 +799,12 @@ func (p *StorageManagerProxy) PartitionPrivate(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(diskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "partitionPrivate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerPartitionPrivate)
 	if _err != nil {
-		_code = TransactionIStorageManagerPartitionPrivate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerPartitionPrivate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -751,12 +827,12 @@ func (p *StorageManagerProxy) PartitionMixed(
 	_data.WriteString16(diskId)
 	_data.WriteInt32(ratio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "partitionMixed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerPartitionMixed)
 	if _err != nil {
-		_code = TransactionIStorageManagerPartitionMixed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerPartitionMixed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -779,12 +855,12 @@ func (p *StorageManagerProxy) SetVolumeNickname(
 	_data.WriteString16(fsUuid)
 	_data.WriteString16(nickname)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setVolumeNickname")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetVolumeNickname)
 	if _err != nil {
-		_code = TransactionIStorageManagerSetVolumeNickname
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSetVolumeNickname, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -809,12 +885,12 @@ func (p *StorageManagerProxy) SetVolumeUserFlags(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(mask)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setVolumeUserFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetVolumeUserFlags)
 	if _err != nil {
-		_code = TransactionIStorageManagerSetVolumeUserFlags
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSetVolumeUserFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -835,12 +911,12 @@ func (p *StorageManagerProxy) ForgetVolume(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(fsUuid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "forgetVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerForgetVolume)
 	if _err != nil {
-		_code = TransactionIStorageManagerForgetVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerForgetVolume, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -859,12 +935,12 @@ func (p *StorageManagerProxy) ForgetAllVolumes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "forgetAllVolumes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerForgetAllVolumes)
 	if _err != nil {
-		_code = TransactionIStorageManagerForgetAllVolumes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerForgetAllVolumes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -884,12 +960,12 @@ func (p *StorageManagerProxy) GetPrimaryStorageUuid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getPrimaryStorageUuid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetPrimaryStorageUuid)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetPrimaryStorageUuid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetPrimaryStorageUuid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -914,14 +990,14 @@ func (p *StorageManagerProxy) SetPrimaryStorageUuid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setPrimaryStorageUuid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetPrimaryStorageUuid)
 	if _err != nil {
-		_code = TransactionIStorageManagerSetPrimaryStorageUuid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSetPrimaryStorageUuid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -943,12 +1019,12 @@ func (p *StorageManagerProxy) Benchmark(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "benchmark")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerBenchmark)
 	if _err != nil {
-		_code = TransactionIStorageManagerBenchmark
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerBenchmark, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -971,12 +1047,12 @@ func (p *StorageManagerProxy) SetDebugFlags(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(mask)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setDebugFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetDebugFlags)
 	if _err != nil {
-		_code = TransactionIStorageManagerSetDebugFlags
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSetDebugFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -993,18 +1069,18 @@ func (p *StorageManagerProxy) CreateUserStorageKeys(
 	ctx context.Context,
 	ephemeral bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(ephemeral)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "createUserStorageKeys")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerCreateUserStorageKeys)
 	if _err != nil {
-		_code = TransactionIStorageManagerCreateUserStorageKeys
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerCreateUserStorageKeys, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1020,17 +1096,17 @@ func (p *StorageManagerProxy) CreateUserStorageKeys(
 func (p *StorageManagerProxy) DestroyUserStorageKeys(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "destroyUserStorageKeys")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerDestroyUserStorageKeys)
 	if _err != nil {
-		_code = TransactionIStorageManagerDestroyUserStorageKeys
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerDestroyUserStorageKeys, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1047,7 +1123,7 @@ func (p *StorageManagerProxy) UnlockCeStorage(
 	ctx context.Context,
 	secret []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1060,12 +1136,12 @@ func (p *StorageManagerProxy) UnlockCeStorage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unlockCeStorage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerUnlockCeStorage)
 	if _err != nil {
-		_code = TransactionIStorageManagerUnlockCeStorage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerUnlockCeStorage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1081,17 +1157,17 @@ func (p *StorageManagerProxy) UnlockCeStorage(
 func (p *StorageManagerProxy) LockCeStorage(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "lockCeStorage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerLockCeStorage)
 	if _err != nil {
-		_code = TransactionIStorageManagerLockCeStorage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerLockCeStorage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1108,17 +1184,17 @@ func (p *StorageManagerProxy) IsCeStorageUnlocked(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "isCeStorageUnlocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerIsCeStorageUnlocked)
 	if _err != nil {
-		_code = TransactionIStorageManagerIsCeStorageUnlocked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerIsCeStorageUnlocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1140,19 +1216,19 @@ func (p *StorageManagerProxy) PrepareUserStorage(
 	volumeUuid string,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "prepareUserStorage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerPrepareUserStorage)
 	if _err != nil {
-		_code = TransactionIStorageManagerPrepareUserStorage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerPrepareUserStorage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1170,19 +1246,19 @@ func (p *StorageManagerProxy) DestroyUserStorage(
 	volumeUuid string,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "destroyUserStorage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerDestroyUserStorage)
 	if _err != nil {
-		_code = TransactionIStorageManagerDestroyUserStorage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerDestroyUserStorage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1199,7 +1275,7 @@ func (p *StorageManagerProxy) SetCeStorageProtection(
 	ctx context.Context,
 	secret []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1212,12 +1288,12 @@ func (p *StorageManagerProxy) SetCeStorageProtection(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setCeStorageProtection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetCeStorageProtection)
 	if _err != nil {
-		_code = TransactionIStorageManagerSetCeStorageProtection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSetCeStorageProtection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1239,12 +1315,12 @@ func (p *StorageManagerProxy) Fstrim(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "fstrim")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerFstrim)
 	if _err != nil {
-		_code = TransactionIStorageManagerFstrim
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerFstrim, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1264,12 +1340,12 @@ func (p *StorageManagerProxy) MountProxyFileDescriptorBridge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mountProxyFileDescriptorBridge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerMountProxyFileDescriptorBridge)
 	if _err != nil {
-		_code = TransactionIStorageManagerMountProxyFileDescriptorBridge
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerMountProxyFileDescriptorBridge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1304,12 +1380,12 @@ func (p *StorageManagerProxy) OpenProxyFileDescriptor(
 	_data.WriteInt32(fileId)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "openProxyFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerOpenProxyFileDescriptor)
 	if _err != nil {
-		_code = TransactionIStorageManagerOpenProxyFileDescriptor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerOpenProxyFileDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1337,12 +1413,12 @@ func (p *StorageManagerProxy) GetCacheQuotaBytes(
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getCacheQuotaBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetCacheQuotaBytes)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetCacheQuotaBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetCacheQuotaBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1370,12 +1446,12 @@ func (p *StorageManagerProxy) GetCacheSizeBytes(
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getCacheSizeBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetCacheSizeBytes)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetCacheSizeBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetCacheSizeBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1398,19 +1474,19 @@ func (p *StorageManagerProxy) GetAllocatableBytes(
 	flags int32,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(flags)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getAllocatableBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetAllocatableBytes)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetAllocatableBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetAllocatableBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1433,7 +1509,7 @@ func (p *StorageManagerProxy) AllocateBytes(
 	bytes int64,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
@@ -1441,12 +1517,12 @@ func (p *StorageManagerProxy) AllocateBytes(
 	_data.WriteInt32(flags)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "allocateBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerAllocateBytes)
 	if _err != nil {
-		_code = TransactionIStorageManagerAllocateBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerAllocateBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1465,12 +1541,12 @@ func (p *StorageManagerProxy) RunIdleMaintenance(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "runIdleMaintenance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerRunIdleMaintenance)
 	if _err != nil {
-		_code = TransactionIStorageManagerRunIdleMaintenance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerRunIdleMaintenance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1489,12 +1565,12 @@ func (p *StorageManagerProxy) AbortIdleMaintenance(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "abortIdleMaintenance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerAbortIdleMaintenance)
 	if _err != nil {
-		_code = TransactionIStorageManagerAbortIdleMaintenance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerAbortIdleMaintenance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1513,12 +1589,12 @@ func (p *StorageManagerProxy) CommitChanges(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "commitChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerCommitChanges)
 	if _err != nil {
-		_code = TransactionIStorageManagerCommitChanges
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerCommitChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1538,12 +1614,12 @@ func (p *StorageManagerProxy) SupportsCheckpoint(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "supportsCheckpoint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSupportsCheckpoint)
 	if _err != nil {
-		_code = TransactionIStorageManagerSupportsCheckpoint
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSupportsCheckpoint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1568,12 +1644,12 @@ func (p *StorageManagerProxy) StartCheckpoint(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(numTries)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "startCheckpoint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerStartCheckpoint)
 	if _err != nil {
-		_code = TransactionIStorageManagerStartCheckpoint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerStartCheckpoint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1593,12 +1669,12 @@ func (p *StorageManagerProxy) NeedsCheckpoint(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "needsCheckpoint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerNeedsCheckpoint)
 	if _err != nil {
-		_code = TransactionIStorageManagerNeedsCheckpoint
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerNeedsCheckpoint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1625,12 +1701,12 @@ func (p *StorageManagerProxy) AbortChanges(
 	_data.WriteString16(message)
 	_data.WriteBool(retry)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "abortChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerAbortChanges)
 	if _err != nil {
-		_code = TransactionIStorageManagerAbortChanges
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerAbortChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1651,12 +1727,12 @@ func (p *StorageManagerProxy) FixupAppDir(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(path)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "fixupAppDir")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerFixupAppDir)
 	if _err != nil {
-		_code = TransactionIStorageManagerFixupAppDir
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerFixupAppDir, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1674,19 +1750,19 @@ func (p *StorageManagerProxy) DisableAppDataIsolation(
 	pkgName string,
 	pid int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(pid)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "disableAppDataIsolation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerDisableAppDataIsolation)
 	if _err != nil {
-		_code = TransactionIStorageManagerDisableAppDataIsolation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerDisableAppDataIsolation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1710,12 +1786,12 @@ func (p *StorageManagerProxy) GetManageSpaceActivityIntent(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(requestCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getManageSpaceActivityIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetManageSpaceActivityIntent)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetManageSpaceActivityIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetManageSpaceActivityIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1751,12 +1827,12 @@ func (p *StorageManagerProxy) NotifyAppIoBlocked(
 	_data.WriteInt32(tid)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "notifyAppIoBlocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerNotifyAppIoBlocked)
 	if _err != nil {
-		_code = TransactionIStorageManagerNotifyAppIoBlocked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerNotifyAppIoBlocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1783,12 +1859,12 @@ func (p *StorageManagerProxy) NotifyAppIoResumed(
 	_data.WriteInt32(tid)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "notifyAppIoResumed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerNotifyAppIoResumed)
 	if _err != nil {
-		_code = TransactionIStorageManagerNotifyAppIoResumed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerNotifyAppIoResumed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1812,12 +1888,12 @@ func (p *StorageManagerProxy) GetExternalStorageMountMode(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getExternalStorageMountMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetExternalStorageMountMode)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetExternalStorageMountMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetExternalStorageMountMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1849,12 +1925,12 @@ func (p *StorageManagerProxy) IsAppIoBlocked(
 	_data.WriteInt32(tid)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "isAppIoBlocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerIsAppIoBlocked)
 	if _err != nil {
-		_code = TransactionIStorageManagerIsAppIoBlocked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerIsAppIoBlocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1879,12 +1955,12 @@ func (p *StorageManagerProxy) SetCloudMediaProvider(
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(authority)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setCloudMediaProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerSetCloudMediaProvider)
 	if _err != nil {
-		_code = TransactionIStorageManagerSetCloudMediaProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerSetCloudMediaProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1904,12 +1980,12 @@ func (p *StorageManagerProxy) GetCloudMediaProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getCloudMediaProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetCloudMediaProvider)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetCloudMediaProvider
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetCloudMediaProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1933,12 +2009,12 @@ func (p *StorageManagerProxy) GetInternalStorageBlockDeviceSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getInternalStorageBlockDeviceSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetInternalStorageBlockDeviceSize)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetInternalStorageBlockDeviceSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetInternalStorageBlockDeviceSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1962,12 +2038,12 @@ func (p *StorageManagerProxy) GetInternalStorageRemainingLifetime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getInternalStorageRemainingLifetime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerGetInternalStorageRemainingLifetime)
 	if _err != nil {
-		_code = TransactionIStorageManagerGetInternalStorageRemainingLifetime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageManager, MethodIStorageManagerGetInternalStorageRemainingLifetime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1991,6 +2067,10 @@ type StorageManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageManagerStub)(nil)
+
+func (s *StorageManagerStub) Descriptor() string {
+	return DescriptorIStorageManager
+}
 
 func (s *StorageManagerStub) OnTransaction(
 	ctx context.Context,

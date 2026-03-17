@@ -16,6 +16,11 @@ const (
 	TransactionIPowerStatsServiceGetPowerMonitorReadings   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPowerStatsServiceGetSupportedPowerMonitors = "getSupportedPowerMonitors"
+	MethodIPowerStatsServiceGetPowerMonitorReadings   = "getPowerMonitorReadings"
+)
+
 type IPowerStatsService interface {
 	AsBinder() binder.IBinder
 	GetSupportedPowerMonitors(ctx context.Context, resultReceiver ResultReceiver) error
@@ -31,17 +36,17 @@ const (
 )
 
 type PowerStatsServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPowerStatsServiceProxy(
 	remote binder.IBinder,
 ) *PowerStatsServiceProxy {
-	return &PowerStatsServiceProxy{remote: remote}
+	return &PowerStatsServiceProxy{Remote: remote}
 }
 
 func (p *PowerStatsServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPowerStatsService = (*PowerStatsServiceProxy)(nil)
@@ -57,12 +62,12 @@ func (p *PowerStatsServiceProxy) GetSupportedPowerMonitors(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerStatsService, "getSupportedPowerMonitors")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStatsService, MethodIPowerStatsServiceGetSupportedPowerMonitors)
 	if _err != nil {
-		_code = TransactionIPowerStatsServiceGetSupportedPowerMonitors
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerStatsService, MethodIPowerStatsServiceGetSupportedPowerMonitors, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +91,12 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerStatsService, "getPowerMonitorReadings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerStatsService, MethodIPowerStatsServiceGetPowerMonitorReadings)
 	if _err != nil {
-		_code = TransactionIPowerStatsServiceGetPowerMonitorReadings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerStatsService, MethodIPowerStatsServiceGetPowerMonitorReadings, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +107,10 @@ type PowerStatsServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PowerStatsServiceStub)(nil)
+
+func (s *PowerStatsServiceStub) Descriptor() string {
+	return DescriptorIPowerStatsService
+}
 
 func (s *PowerStatsServiceStub) OnTransaction(
 	ctx context.Context,

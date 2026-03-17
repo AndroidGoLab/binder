@@ -15,23 +15,27 @@ const (
 	TransactionIScanSatSearchSetCustomizedLnb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIScanSatSearchSetCustomizedLnb = "setCustomizedLnb"
+)
+
 type IScanSatSearch interface {
 	AsBinder() binder.IBinder
 	SetCustomizedLnb(ctx context.Context, customizedLnb string) (int32, error)
 }
 
 type ScanSatSearchProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScanSatSearchProxy(
 	remote binder.IBinder,
 ) *ScanSatSearchProxy {
-	return &ScanSatSearchProxy{remote: remote}
+	return &ScanSatSearchProxy{Remote: remote}
 }
 
 func (p *ScanSatSearchProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScanSatSearch = (*ScanSatSearchProxy)(nil)
@@ -45,12 +49,12 @@ func (p *ScanSatSearchProxy) SetCustomizedLnb(
 	_data.WriteInterfaceToken(DescriptorIScanSatSearch)
 	_data.WriteString16(customizedLnb)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanSatSearch, "setCustomizedLnb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanSatSearch, MethodIScanSatSearchSetCustomizedLnb)
 	if _err != nil {
-		_code = TransactionIScanSatSearchSetCustomizedLnb
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScanSatSearch, MethodIScanSatSearchSetCustomizedLnb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type ScanSatSearchStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScanSatSearchStub)(nil)
+
+func (s *ScanSatSearchStub) Descriptor() string {
+	return DescriptorIScanSatSearch
+}
 
 func (s *ScanSatSearchStub) OnTransaction(
 	ctx context.Context,

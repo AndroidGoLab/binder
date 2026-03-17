@@ -15,23 +15,27 @@ const (
 	TransactionIAcknowledgeEventEventReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAcknowledgeEventEventReceived = "eventReceived"
+)
+
 type IAcknowledgeEvent interface {
 	AsBinder() binder.IBinder
 	EventReceived(ctx context.Context) error
 }
 
 type AcknowledgeEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAcknowledgeEventProxy(
 	remote binder.IBinder,
 ) *AcknowledgeEventProxy {
-	return &AcknowledgeEventProxy{remote: remote}
+	return &AcknowledgeEventProxy{Remote: remote}
 }
 
 func (p *AcknowledgeEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAcknowledgeEvent = (*AcknowledgeEventProxy)(nil)
@@ -42,12 +46,12 @@ func (p *AcknowledgeEventProxy) EventReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAcknowledgeEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAcknowledgeEvent, "eventReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAcknowledgeEvent, MethodIAcknowledgeEventEventReceived)
 	if _err != nil {
-		_code = TransactionIAcknowledgeEventEventReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAcknowledgeEvent, MethodIAcknowledgeEventEventReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type AcknowledgeEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AcknowledgeEventStub)(nil)
+
+func (s *AcknowledgeEventStub) Descriptor() string {
+	return DescriptorIAcknowledgeEvent
+}
 
 func (s *AcknowledgeEventStub) OnTransaction(
 	ctx context.Context,

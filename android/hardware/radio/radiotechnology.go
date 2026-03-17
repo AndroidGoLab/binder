@@ -5,26 +5,25 @@ package radio
 type RadioTechnology int32
 
 const (
-	RadioTechnologyUNKNOWN  RadioTechnology = 0
-	RadioTechnologyGPRS     RadioTechnology = 1
-	RadioTechnologyEDGE     RadioTechnology = 2
-	RadioTechnologyUMTS     RadioTechnology = 3
-	RadioTechnologyIS95A    RadioTechnology = 4
-	RadioTechnologyIS95B    RadioTechnology = 5
-	RadioTechnologyOneXRtt  RadioTechnology = 6
-	RadioTechnologyEvdo0    RadioTechnology = 7
-	RadioTechnologyEvdoA    RadioTechnology = 8
-	RadioTechnologyHSDPA    RadioTechnology = 9
-	RadioTechnologyHSUPA    RadioTechnology = 10
-	RadioTechnologyHSPA     RadioTechnology = 11
-	RadioTechnologyEvdoB    RadioTechnology = 12
-	RadioTechnologyEHRPD    RadioTechnology = 13
-	RadioTechnologyLTE      RadioTechnology = 14
-	RadioTechnologyHSPAP    RadioTechnology = 15
-	RadioTechnologyGSM      RadioTechnology = 16
-	RadioTechnologyTdScdma  RadioTechnology = 17
-	RadioTechnologyIWLAN    RadioTechnology = 18
-	RadioTechnologyLteCa    RadioTechnology = 19
-	RadioTechnologyNR       RadioTechnology = 20
-	RadioTechnologyNbIotNtn RadioTechnology = 21
+	RadioTechnologyUNKNOWN RadioTechnology = 0
+	RadioTechnologyGPRS    RadioTechnology = 1
+	RadioTechnologyEDGE    RadioTechnology = 2
+	RadioTechnologyUMTS    RadioTechnology = 3
+	RadioTechnologyIS95A   RadioTechnology = 4
+	RadioTechnologyIS95B   RadioTechnology = 5
+	RadioTechnologyOneXRtt RadioTechnology = 6
+	RadioTechnologyEvdo0   RadioTechnology = 7
+	RadioTechnologyEvdoA   RadioTechnology = 8
+	RadioTechnologyHSDPA   RadioTechnology = 9
+	RadioTechnologyHSUPA   RadioTechnology = 10
+	RadioTechnologyHSPA    RadioTechnology = 11
+	RadioTechnologyEvdoB   RadioTechnology = 12
+	RadioTechnologyEHRPD   RadioTechnology = 13
+	RadioTechnologyLTE     RadioTechnology = 14
+	RadioTechnologyHSPAP   RadioTechnology = 15
+	RadioTechnologyGSM     RadioTechnology = 16
+	RadioTechnologyTdScdma RadioTechnology = 17
+	RadioTechnologyIWLAN   RadioTechnology = 18
+	RadioTechnologyLteCa   RadioTechnology = 19
+	RadioTechnologyNR      RadioTechnology = 20
 )

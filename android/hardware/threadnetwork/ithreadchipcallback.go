@@ -15,23 +15,27 @@ const (
 	TransactionIThreadChipCallbackOnReceiveSpinelFrame = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIThreadChipCallbackOnReceiveSpinelFrame = "onReceiveSpinelFrame"
+)
+
 type IThreadChipCallback interface {
 	AsBinder() binder.IBinder
 	OnReceiveSpinelFrame(ctx context.Context, frame []byte) error
 }
 
 type ThreadChipCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewThreadChipCallbackProxy(
 	remote binder.IBinder,
 ) *ThreadChipCallbackProxy {
-	return &ThreadChipCallbackProxy{remote: remote}
+	return &ThreadChipCallbackProxy{Remote: remote}
 }
 
 func (p *ThreadChipCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IThreadChipCallback = (*ThreadChipCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *ThreadChipCallbackProxy) OnReceiveSpinelFrame(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThreadChipCallback, "onReceiveSpinelFrame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChipCallback, MethodIThreadChipCallbackOnReceiveSpinelFrame)
 	if _err != nil {
-		_code = TransactionIThreadChipCallbackOnReceiveSpinelFrame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThreadChipCallback, MethodIThreadChipCallbackOnReceiveSpinelFrame, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type ThreadChipCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ThreadChipCallbackStub)(nil)
+
+func (s *ThreadChipCallbackStub) Descriptor() string {
+	return DescriptorIThreadChipCallback
+}
 
 func (s *ThreadChipCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -12,32 +12,30 @@ import (
 const DescriptorISatelliteModemStateCallback = "android.telephony.satellite.ISatelliteModemStateCallback"
 
 const (
-	TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged         = binder.FirstCallTransaction + 0
-	TransactionISatelliteModemStateCallbackOnEmergencyModeChanged               = binder.FirstCallTransaction + 1
-	TransactionISatelliteModemStateCallbackOnRegistrationFailure                = binder.FirstCallTransaction + 2
-	TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged = binder.FirstCallTransaction + 3
+	TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodISatelliteModemStateCallbackOnSatelliteModemStateChanged = "onSatelliteModemStateChanged"
 )
 
 type ISatelliteModemStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteModemStateChanged(ctx context.Context, state int32) error
-	OnEmergencyModeChanged(ctx context.Context, isEmergency bool) error
-	OnRegistrationFailure(ctx context.Context, causeCode int32) error
-	OnTerrestrialNetworkAvailableChanged(ctx context.Context, isAvailable bool) error
 }
 
 type SatelliteModemStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteModemStateCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteModemStateCallbackProxy {
-	return &SatelliteModemStateCallbackProxy{remote: remote}
+	return &SatelliteModemStateCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteModemStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteModemStateCallback = (*SatelliteModemStateCallbackProxy)(nil)
@@ -50,63 +48,12 @@ func (p *SatelliteModemStateCallbackProxy) OnSatelliteModemStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onSatelliteModemStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteModemStateCallback, MethodISatelliteModemStateCallbackOnSatelliteModemStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteModemStateCallback, MethodISatelliteModemStateCallbackOnSatelliteModemStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteModemStateCallbackProxy) OnEmergencyModeChanged(
-	ctx context.Context,
-	isEmergency bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
-	_data.WriteBool(isEmergency)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onEmergencyModeChanged")
-	if _err != nil {
-		_code = TransactionISatelliteModemStateCallbackOnEmergencyModeChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteModemStateCallbackProxy) OnRegistrationFailure(
-	ctx context.Context,
-	causeCode int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
-	_data.WriteInt32(causeCode)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onRegistrationFailure")
-	if _err != nil {
-		_code = TransactionISatelliteModemStateCallbackOnRegistrationFailure
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteModemStateCallbackProxy) OnTerrestrialNetworkAvailableChanged(
-	ctx context.Context,
-	isAvailable bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
-	_data.WriteBool(isAvailable)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onTerrestrialNetworkAvailableChanged")
-	if _err != nil {
-		_code = TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +64,10 @@ type SatelliteModemStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteModemStateCallbackStub)(nil)
+
+func (s *SatelliteModemStateCallbackStub) Descriptor() string {
+	return DescriptorISatelliteModemStateCallback
+}
 
 func (s *SatelliteModemStateCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -135,39 +86,6 @@ func (s *SatelliteModemStateCallbackStub) OnTransaction(
 		_err = s.Impl.OnSatelliteModemStateChanged(ctx, _arg_state)
 		_ = _err
 		return nil, nil
-	case TransactionISatelliteModemStateCallbackOnEmergencyModeChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_isEmergency, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnEmergencyModeChanged(ctx, _arg_isEmergency)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteModemStateCallbackOnRegistrationFailure:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_causeCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnRegistrationFailure(ctx, _arg_causeCode)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_isAvailable, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnTerrestrialNetworkAvailableChanged(ctx, _arg_isAvailable)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -178,9 +96,6 @@ func (s *SatelliteModemStateCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISatelliteModemStateCallbackServer interface {
 	OnSatelliteModemStateChanged(ctx context.Context, state int32) error
-	OnEmergencyModeChanged(ctx context.Context, isEmergency bool) error
-	OnRegistrationFailure(ctx context.Context, causeCode int32) error
-	OnTerrestrialNetworkAvailableChanged(ctx context.Context, isAvailable bool) error
 }
 
 type satelliteModemStateCallbackStubWrapper struct {
@@ -197,27 +112,6 @@ func (w *satelliteModemStateCallbackStubWrapper) OnSatelliteModemStateChanged(
 	state int32,
 ) error {
 	return w.impl.OnSatelliteModemStateChanged(ctx, state)
-}
-
-func (w *satelliteModemStateCallbackStubWrapper) OnEmergencyModeChanged(
-	ctx context.Context,
-	isEmergency bool,
-) error {
-	return w.impl.OnEmergencyModeChanged(ctx, isEmergency)
-}
-
-func (w *satelliteModemStateCallbackStubWrapper) OnRegistrationFailure(
-	ctx context.Context,
-	causeCode int32,
-) error {
-	return w.impl.OnRegistrationFailure(ctx, causeCode)
-}
-
-func (w *satelliteModemStateCallbackStubWrapper) OnTerrestrialNetworkAvailableChanged(
-	ctx context.Context,
-	isAvailable bool,
-) error {
-	return w.impl.OnTerrestrialNetworkAvailableChanged(ctx, isAvailable)
 }
 
 var _ ISatelliteModemStateCallback = (*satelliteModemStateCallbackStubWrapper)(nil)

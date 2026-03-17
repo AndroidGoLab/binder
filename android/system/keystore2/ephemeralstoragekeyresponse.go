@@ -17,22 +17,8 @@ func (s *EphemeralStorageKeyResponse) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.EphemeralKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.EphemeralKey)))
-		for _, _item := range s.EphemeralKey {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.UpgradedBlob == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.UpgradedBlob)))
-		for _, _item := range s.UpgradedBlob {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.EphemeralKey)
+	p.WriteByteArray(s.UpgradedBlob)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *EphemeralStorageKeyResponse) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.EphemeralKey, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.EphemeralKey = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.EphemeralKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.UpgradedBlob, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.UpgradedBlob = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.UpgradedBlob[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

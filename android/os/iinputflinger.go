@@ -18,6 +18,12 @@ const (
 	TransactionIInputFlingerSetFocusedWindow   = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInputFlingerCreateInputChannel = "createInputChannel"
+	MethodIInputFlingerRemoveInputChannel = "removeInputChannel"
+	MethodIInputFlingerSetFocusedWindow   = "setFocusedWindow"
+)
+
 type IInputFlinger interface {
 	AsBinder() binder.IBinder
 	CreateInputChannel(ctx context.Context, name string) (InputChannelCore, error)
@@ -26,17 +32,17 @@ type IInputFlinger interface {
 }
 
 type InputFlingerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFlingerProxy(
 	remote binder.IBinder,
 ) *InputFlingerProxy {
-	return &InputFlingerProxy{remote: remote}
+	return &InputFlingerProxy{Remote: remote}
 }
 
 func (p *InputFlingerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFlinger = (*InputFlingerProxy)(nil)
@@ -50,12 +56,12 @@ func (p *InputFlingerProxy) CreateInputChannel(
 	_data.WriteInterfaceToken(DescriptorIInputFlinger)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFlinger, "createInputChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFlinger, MethodIInputFlingerCreateInputChannel)
 	if _err != nil {
-		_code = TransactionIInputFlingerCreateInputChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFlinger, MethodIInputFlingerCreateInputChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,14 +89,14 @@ func (p *InputFlingerProxy) RemoveInputChannel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFlinger)
-	binder.WriteBinderToParcel(ctx, _data, connectionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, connectionToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFlinger, "removeInputChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFlinger, MethodIInputFlingerRemoveInputChannel)
 	if _err != nil {
-		_code = TransactionIInputFlingerRemoveInputChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFlinger, MethodIInputFlingerRemoveInputChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,12 +120,12 @@ func (p *InputFlingerProxy) SetFocusedWindow(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFlinger, "setFocusedWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFlinger, MethodIInputFlingerSetFocusedWindow)
 	if _err != nil {
-		_code = TransactionIInputFlingerSetFocusedWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFlinger, MethodIInputFlingerSetFocusedWindow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,6 +136,10 @@ type InputFlingerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputFlingerStub)(nil)
+
+func (s *InputFlingerStub) Descriptor() string {
+	return DescriptorIInputFlinger
+}
 
 func (s *InputFlingerStub) OnTransaction(
 	ctx context.Context,

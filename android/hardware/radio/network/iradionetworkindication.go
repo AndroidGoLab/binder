@@ -32,6 +32,26 @@ const (
 	TransactionIRadioNetworkIndicationSecurityAlgorithmsUpdated     = binder.FirstCallTransaction + 16
 )
 
+const (
+	MethodIRadioNetworkIndicationBarringInfoChanged            = "barringInfoChanged"
+	MethodIRadioNetworkIndicationCdmaPrlChanged                = "cdmaPrlChanged"
+	MethodIRadioNetworkIndicationCellInfoList                  = "cellInfoList"
+	MethodIRadioNetworkIndicationCurrentLinkCapacityEstimate   = "currentLinkCapacityEstimate"
+	MethodIRadioNetworkIndicationCurrentPhysicalChannelConfigs = "currentPhysicalChannelConfigs"
+	MethodIRadioNetworkIndicationCurrentSignalStrength         = "currentSignalStrength"
+	MethodIRadioNetworkIndicationImsNetworkStateChanged        = "imsNetworkStateChanged"
+	MethodIRadioNetworkIndicationNetworkScanResult             = "networkScanResult"
+	MethodIRadioNetworkIndicationNetworkStateChanged           = "networkStateChanged"
+	MethodIRadioNetworkIndicationNitzTimeReceived              = "nitzTimeReceived"
+	MethodIRadioNetworkIndicationRegistrationFailed            = "registrationFailed"
+	MethodIRadioNetworkIndicationRestrictedStateChanged        = "restrictedStateChanged"
+	MethodIRadioNetworkIndicationSuppSvcNotify                 = "suppSvcNotify"
+	MethodIRadioNetworkIndicationVoiceRadioTechChanged         = "voiceRadioTechChanged"
+	MethodIRadioNetworkIndicationEmergencyNetworkScanResult    = "emergencyNetworkScanResult"
+	MethodIRadioNetworkIndicationCellularIdentifierDisclosed   = "cellularIdentifierDisclosed"
+	MethodIRadioNetworkIndicationSecurityAlgorithmsUpdated     = "securityAlgorithmsUpdated"
+)
+
 type IRadioNetworkIndication interface {
 	AsBinder() binder.IBinder
 	BarringInfoChanged(ctx context.Context, type_ radio.RadioIndicationType, cellIdentity CellIdentity, barringInfos []BarringInfo) error
@@ -54,17 +74,17 @@ type IRadioNetworkIndication interface {
 }
 
 type RadioNetworkIndicationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioNetworkIndicationProxy(
 	remote binder.IBinder,
 ) *RadioNetworkIndicationProxy {
-	return &RadioNetworkIndicationProxy{remote: remote}
+	return &RadioNetworkIndicationProxy{Remote: remote}
 }
 
 func (p *RadioNetworkIndicationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioNetworkIndication = (*RadioNetworkIndicationProxy)(nil)
@@ -87,18 +107,19 @@ func (p *RadioNetworkIndicationProxy) BarringInfoChanged(
 	} else {
 		_data.WriteInt32(int32(len(barringInfos)))
 		for _, _item := range barringInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "barringInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationBarringInfoChanged)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationBarringInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationBarringInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,12 +133,12 @@ func (p *RadioNetworkIndicationProxy) CdmaPrlChanged(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(version)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "cdmaPrlChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCdmaPrlChanged)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationCdmaPrlChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCdmaPrlChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,18 +155,19 @@ func (p *RadioNetworkIndicationProxy) CellInfoList(
 	} else {
 		_data.WriteInt32(int32(len(records)))
 		for _, _item := range records {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "cellInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellInfoList)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationCellInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellInfoList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,12 +184,12 @@ func (p *RadioNetworkIndicationProxy) CurrentLinkCapacityEstimate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "currentLinkCapacityEstimate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentLinkCapacityEstimate)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationCurrentLinkCapacityEstimate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentLinkCapacityEstimate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -184,18 +206,19 @@ func (p *RadioNetworkIndicationProxy) CurrentPhysicalChannelConfigs(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "currentPhysicalChannelConfigs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentPhysicalChannelConfigs)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationCurrentPhysicalChannelConfigs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentPhysicalChannelConfigs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,12 +235,12 @@ func (p *RadioNetworkIndicationProxy) CurrentSignalStrength(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "currentSignalStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentSignalStrength)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationCurrentSignalStrength
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCurrentSignalStrength, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -229,12 +252,12 @@ func (p *RadioNetworkIndicationProxy) ImsNetworkStateChanged(
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "imsNetworkStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationImsNetworkStateChanged)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationImsNetworkStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationImsNetworkStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -251,12 +274,12 @@ func (p *RadioNetworkIndicationProxy) NetworkScanResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "networkScanResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkScanResult)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationNetworkScanResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkScanResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -268,12 +291,12 @@ func (p *RadioNetworkIndicationProxy) NetworkStateChanged(
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "networkStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkStateChanged)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationNetworkStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNetworkStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -291,12 +314,12 @@ func (p *RadioNetworkIndicationProxy) NitzTimeReceived(
 	_data.WriteInt64(receivedTimeMs)
 	_data.WriteInt64(ageMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "nitzTimeReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNitzTimeReceived)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationNitzTimeReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationNitzTimeReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -321,12 +344,12 @@ func (p *RadioNetworkIndicationProxy) RegistrationFailed(
 	_data.WriteInt32(causeCode)
 	_data.WriteInt32(additionalCauseCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "registrationFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRegistrationFailed)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationRegistrationFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRegistrationFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -340,12 +363,12 @@ func (p *RadioNetworkIndicationProxy) RestrictedStateChanged(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(state))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "restrictedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRestrictedStateChanged)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationRestrictedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationRestrictedStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -362,12 +385,12 @@ func (p *RadioNetworkIndicationProxy) SuppSvcNotify(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "suppSvcNotify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSuppSvcNotify)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationSuppSvcNotify
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSuppSvcNotify, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -381,12 +404,12 @@ func (p *RadioNetworkIndicationProxy) VoiceRadioTechChanged(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(rat))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "voiceRadioTechChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationVoiceRadioTechChanged)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationVoiceRadioTechChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationVoiceRadioTechChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -403,12 +426,12 @@ func (p *RadioNetworkIndicationProxy) EmergencyNetworkScanResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "emergencyNetworkScanResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationEmergencyNetworkScanResult)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationEmergencyNetworkScanResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationEmergencyNetworkScanResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -425,12 +448,12 @@ func (p *RadioNetworkIndicationProxy) CellularIdentifierDisclosed(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "cellularIdentifierDisclosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellularIdentifierDisclosed)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationCellularIdentifierDisclosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationCellularIdentifierDisclosed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -447,12 +470,12 @@ func (p *RadioNetworkIndicationProxy) SecurityAlgorithmsUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "securityAlgorithmsUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSecurityAlgorithmsUpdated)
 	if _err != nil {
-		_code = TransactionIRadioNetworkIndicationSecurityAlgorithmsUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioNetworkIndication, MethodIRadioNetworkIndicationSecurityAlgorithmsUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -463,6 +486,10 @@ type RadioNetworkIndicationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioNetworkIndicationStub)(nil)
+
+func (s *RadioNetworkIndicationStub) Descriptor() string {
+	return DescriptorIRadioNetworkIndication
+}
 
 func (s *RadioNetworkIndicationStub) OnTransaction(
 	ctx context.Context,

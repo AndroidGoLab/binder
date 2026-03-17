@@ -28,7 +28,24 @@ const (
 	TransactionICameraDeviceUserSubmitRequestList               = binder.FirstCallTransaction + 12
 	TransactionICameraDeviceUserUpdateOutputConfiguration       = binder.FirstCallTransaction + 13
 	TransactionICameraDeviceUserWaitUntilIdle                   = binder.FirstCallTransaction + 14
-	TransactionICameraDeviceUserIsPrimaryClient                 = binder.FirstCallTransaction + 15
+)
+
+const (
+	MethodICameraDeviceUserBeginConfigure                  = "beginConfigure"
+	MethodICameraDeviceUserCancelRepeatingRequest          = "cancelRepeatingRequest"
+	MethodICameraDeviceUserCreateDefaultRequest            = "createDefaultRequest"
+	MethodICameraDeviceUserCreateStream                    = "createStream"
+	MethodICameraDeviceUserDeleteStream                    = "deleteStream"
+	MethodICameraDeviceUserDisconnect                      = "disconnect"
+	MethodICameraDeviceUserEndConfigure                    = "endConfigure"
+	MethodICameraDeviceUserFlush                           = "flush"
+	MethodICameraDeviceUserGetCaptureRequestMetadataQueue  = "getCaptureRequestMetadataQueue"
+	MethodICameraDeviceUserGetCaptureResultMetadataQueue   = "getCaptureResultMetadataQueue"
+	MethodICameraDeviceUserIsSessionConfigurationSupported = "isSessionConfigurationSupported"
+	MethodICameraDeviceUserPrepare                         = "prepare"
+	MethodICameraDeviceUserSubmitRequestList               = "submitRequestList"
+	MethodICameraDeviceUserUpdateOutputConfiguration       = "updateOutputConfiguration"
+	MethodICameraDeviceUserWaitUntilIdle                   = "waitUntilIdle"
 )
 
 type ICameraDeviceUser interface {
@@ -48,21 +65,20 @@ type ICameraDeviceUser interface {
 	SubmitRequestList(ctx context.Context, requestList []CaptureRequest, isRepeating bool) (SubmitInfo, error)
 	UpdateOutputConfiguration(ctx context.Context, streamId int32, outputConfiguration OutputConfiguration) error
 	WaitUntilIdle(ctx context.Context) error
-	IsPrimaryClient(ctx context.Context) (bool, error)
 }
 
 type CameraDeviceUserProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraDeviceUserProxy(
 	remote binder.IBinder,
 ) *CameraDeviceUserProxy {
-	return &CameraDeviceUserProxy{remote: remote}
+	return &CameraDeviceUserProxy{Remote: remote}
 }
 
 func (p *CameraDeviceUserProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraDeviceUser = (*CameraDeviceUserProxy)(nil)
@@ -73,12 +89,12 @@ func (p *CameraDeviceUserProxy) BeginConfigure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "beginConfigure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserBeginConfigure)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserBeginConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserBeginConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,12 +114,12 @@ func (p *CameraDeviceUserProxy) CancelRepeatingRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "cancelRepeatingRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserCancelRepeatingRequest)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserCancelRepeatingRequest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserCancelRepeatingRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,12 +145,12 @@ func (p *CameraDeviceUserProxy) CreateDefaultRequest(
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(int32(templateId))
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "createDefaultRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserCreateDefaultRequest)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserCreateDefaultRequest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserCreateDefaultRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,12 +184,12 @@ func (p *CameraDeviceUserProxy) CreateStream(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "createStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserCreateStream)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserCreateStream
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserCreateStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -198,12 +214,12 @@ func (p *CameraDeviceUserProxy) DeleteStream(
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "deleteStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserDeleteStream)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserDeleteStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserDeleteStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -222,12 +238,12 @@ func (p *CameraDeviceUserProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserDisconnect)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -255,12 +271,12 @@ func (p *CameraDeviceUserProxy) EndConfigure(
 	}
 	_data.WriteInt64(startTimeNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "endConfigure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserEndConfigure)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserEndConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserEndConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -280,12 +296,12 @@ func (p *CameraDeviceUserProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserFlush)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserFlush
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -309,12 +325,12 @@ func (p *CameraDeviceUserProxy) GetCaptureRequestMetadataQueue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "getCaptureRequestMetadataQueue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserGetCaptureRequestMetadataQueue)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserGetCaptureRequestMetadataQueue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserGetCaptureRequestMetadataQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -343,12 +359,12 @@ func (p *CameraDeviceUserProxy) GetCaptureResultMetadataQueue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "getCaptureResultMetadataQueue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserGetCaptureResultMetadataQueue)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserGetCaptureResultMetadataQueue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserGetCaptureResultMetadataQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -382,12 +398,12 @@ func (p *CameraDeviceUserProxy) IsSessionConfigurationSupported(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "isSessionConfigurationSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserIsSessionConfigurationSupported)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserIsSessionConfigurationSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserIsSessionConfigurationSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -412,12 +428,12 @@ func (p *CameraDeviceUserProxy) Prepare(
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "prepare")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserPrepare)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserPrepare
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserPrepare, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -443,6 +459,7 @@ func (p *CameraDeviceUserProxy) SubmitRequestList(
 	} else {
 		_data.WriteInt32(int32(len(requestList)))
 		for _, _item := range requestList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -450,12 +467,12 @@ func (p *CameraDeviceUserProxy) SubmitRequestList(
 	}
 	_data.WriteBool(isRepeating)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "submitRequestList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserSubmitRequestList)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserSubmitRequestList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserSubmitRequestList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -490,12 +507,12 @@ func (p *CameraDeviceUserProxy) UpdateOutputConfiguration(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "updateOutputConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserUpdateOutputConfiguration)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserUpdateOutputConfiguration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserUpdateOutputConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -514,12 +531,12 @@ func (p *CameraDeviceUserProxy) WaitUntilIdle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "waitUntilIdle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceUser, MethodICameraDeviceUserWaitUntilIdle)
 	if _err != nil {
-		_code = TransactionICameraDeviceUserWaitUntilIdle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceUser, MethodICameraDeviceUserWaitUntilIdle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -532,35 +549,6 @@ func (p *CameraDeviceUserProxy) WaitUntilIdle(
 	return nil
 }
 
-func (p *CameraDeviceUserProxy) IsPrimaryClient(
-	ctx context.Context,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
-
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "isPrimaryClient")
-	if _err != nil {
-		_code = TransactionICameraDeviceUserIsPrimaryClient
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 // CameraDeviceUserStub dispatches incoming binder transactions
 // to a typed ICameraDeviceUser implementation.
 type CameraDeviceUserStub struct {
@@ -568,6 +556,10 @@ type CameraDeviceUserStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraDeviceUserStub)(nil)
+
+func (s *CameraDeviceUserStub) Descriptor() string {
+	return DescriptorICameraDeviceUser
+}
 
 func (s *CameraDeviceUserStub) OnTransaction(
 	ctx context.Context,
@@ -856,19 +848,6 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICameraDeviceUserIsPrimaryClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.IsPrimaryClient(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -893,7 +872,6 @@ type ICameraDeviceUserServer interface {
 	SubmitRequestList(ctx context.Context, requestList []CaptureRequest, isRepeating bool) (SubmitInfo, error)
 	UpdateOutputConfiguration(ctx context.Context, streamId int32, outputConfiguration OutputConfiguration) error
 	WaitUntilIdle(ctx context.Context) error
-	IsPrimaryClient(ctx context.Context) (bool, error)
 }
 
 type cameraDeviceUserStubWrapper struct {
@@ -1005,12 +983,6 @@ func (w *cameraDeviceUserStubWrapper) WaitUntilIdle(
 	ctx context.Context,
 ) error {
 	return w.impl.WaitUntilIdle(ctx)
-}
-
-func (w *cameraDeviceUserStubWrapper) IsPrimaryClient(
-	ctx context.Context,
-) (bool, error) {
-	return w.impl.IsPrimaryClient(ctx)
 }
 
 var _ ICameraDeviceUser = (*cameraDeviceUserStubWrapper)(nil)

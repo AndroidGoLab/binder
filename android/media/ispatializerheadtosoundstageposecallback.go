@@ -15,23 +15,27 @@ const (
 	TransactionISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged = "dispatchPoseChanged"
+)
+
 type ISpatializerHeadToSoundStagePoseCallback interface {
 	AsBinder() binder.IBinder
 	DispatchPoseChanged(ctx context.Context, pose []float32) error
 }
 
 type SpatializerHeadToSoundStagePoseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpatializerHeadToSoundStagePoseCallbackProxy(
 	remote binder.IBinder,
 ) *SpatializerHeadToSoundStagePoseCallbackProxy {
-	return &SpatializerHeadToSoundStagePoseCallbackProxy{remote: remote}
+	return &SpatializerHeadToSoundStagePoseCallbackProxy{Remote: remote}
 }
 
 func (p *SpatializerHeadToSoundStagePoseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpatializerHeadToSoundStagePoseCallback = (*SpatializerHeadToSoundStagePoseCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *SpatializerHeadToSoundStagePoseCallbackProxy) DispatchPoseChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadToSoundStagePoseCallback, "dispatchPoseChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadToSoundStagePoseCallback, MethodISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged)
 	if _err != nil {
-		_code = TransactionISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerHeadToSoundStagePoseCallback, MethodISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type SpatializerHeadToSoundStagePoseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadToSoundStagePoseCallbackStub)(nil)
+
+func (s *SpatializerHeadToSoundStagePoseCallbackStub) Descriptor() string {
+	return DescriptorISpatializerHeadToSoundStagePoseCallback
+}
 
 func (s *SpatializerHeadToSoundStagePoseCallbackStub) OnTransaction(
 	ctx context.Context,

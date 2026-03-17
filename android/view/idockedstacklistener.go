@@ -19,6 +19,14 @@ const (
 	TransactionIDockedStackListenerOnDockSideChanged             = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIDockedStackListenerOnDividerVisibilityChanged    = "onDividerVisibilityChanged"
+	MethodIDockedStackListenerOnDockedStackExistsChanged    = "onDockedStackExistsChanged"
+	MethodIDockedStackListenerOnDockedStackMinimizedChanged = "onDockedStackMinimizedChanged"
+	MethodIDockedStackListenerOnAdjustedForImeChanged       = "onAdjustedForImeChanged"
+	MethodIDockedStackListenerOnDockSideChanged             = "onDockSideChanged"
+)
+
 type IDockedStackListener interface {
 	AsBinder() binder.IBinder
 	OnDividerVisibilityChanged(ctx context.Context, visible bool) error
@@ -29,17 +37,17 @@ type IDockedStackListener interface {
 }
 
 type DockedStackListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDockedStackListenerProxy(
 	remote binder.IBinder,
 ) *DockedStackListenerProxy {
-	return &DockedStackListenerProxy{remote: remote}
+	return &DockedStackListenerProxy{Remote: remote}
 }
 
 func (p *DockedStackListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDockedStackListener = (*DockedStackListenerProxy)(nil)
@@ -52,12 +60,12 @@ func (p *DockedStackListenerProxy) OnDividerVisibilityChanged(
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(visible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDividerVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDividerVisibilityChanged)
 	if _err != nil {
-		_code = TransactionIDockedStackListenerOnDividerVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDockedStackListener, MethodIDockedStackListenerOnDividerVisibilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +77,12 @@ func (p *DockedStackListenerProxy) OnDockedStackExistsChanged(
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(exists)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockedStackExistsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackExistsChanged)
 	if _err != nil {
-		_code = TransactionIDockedStackListenerOnDockedStackExistsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackExistsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +98,12 @@ func (p *DockedStackListenerProxy) OnDockedStackMinimizedChanged(
 	_data.WriteInt64(animDuration)
 	_data.WriteBool(isHomeStackResizable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockedStackMinimizedChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackMinimizedChanged)
 	if _err != nil {
-		_code = TransactionIDockedStackListenerOnDockedStackMinimizedChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockedStackMinimizedChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +117,12 @@ func (p *DockedStackListenerProxy) OnAdjustedForImeChanged(
 	_data.WriteBool(adjustedForIme)
 	_data.WriteInt64(animDuration)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onAdjustedForImeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnAdjustedForImeChanged)
 	if _err != nil {
-		_code = TransactionIDockedStackListenerOnAdjustedForImeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDockedStackListener, MethodIDockedStackListenerOnAdjustedForImeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +134,12 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteInt32(newDockSide)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockSideChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockSideChanged)
 	if _err != nil {
-		_code = TransactionIDockedStackListenerOnDockSideChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDockedStackListener, MethodIDockedStackListenerOnDockSideChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,6 +150,10 @@ type DockedStackListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DockedStackListenerStub)(nil)
+
+func (s *DockedStackListenerStub) Descriptor() string {
+	return DescriptorIDockedStackListener
+}
 
 func (s *DockedStackListenerStub) OnTransaction(
 	ctx context.Context,

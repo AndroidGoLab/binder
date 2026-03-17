@@ -60,6 +60,7 @@ func (u *CaptureMetadataInfo) MarshalParcel(
 	case CaptureMetadataInfoTagFmqMetadataSize:
 		p.WriteInt64(u.FmqMetadataSize)
 	case CaptureMetadataInfoTagMetadata:
+		p.WriteInt32(1)
 		if _err := u.Metadata.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -91,6 +92,9 @@ func (u *CaptureMetadataInfo) UnmarshalParcel(
 			return _err
 		}
 	case CaptureMetadataInfoTagMetadata:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Metadata.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

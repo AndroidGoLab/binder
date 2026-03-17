@@ -26,6 +26,20 @@ const (
 	TransactionISharedConnectivityServiceGetKnownNetworkConnectionStatus   = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodISharedConnectivityServiceRegisterCallback                  = "registerCallback"
+	MethodISharedConnectivityServiceUnregisterCallback                = "unregisterCallback"
+	MethodISharedConnectivityServiceConnectHotspotNetwork             = "connectHotspotNetwork"
+	MethodISharedConnectivityServiceDisconnectHotspotNetwork          = "disconnectHotspotNetwork"
+	MethodISharedConnectivityServiceConnectKnownNetwork               = "connectKnownNetwork"
+	MethodISharedConnectivityServiceForgetKnownNetwork                = "forgetKnownNetwork"
+	MethodISharedConnectivityServiceGetHotspotNetworks                = "getHotspotNetworks"
+	MethodISharedConnectivityServiceGetKnownNetworks                  = "getKnownNetworks"
+	MethodISharedConnectivityServiceGetSettingsState                  = "getSettingsState"
+	MethodISharedConnectivityServiceGetHotspotNetworkConnectionStatus = "getHotspotNetworkConnectionStatus"
+	MethodISharedConnectivityServiceGetKnownNetworkConnectionStatus   = "getKnownNetworkConnectionStatus"
+)
+
 type ISharedConnectivityService interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback ISharedConnectivityCallback) error
@@ -42,17 +56,17 @@ type ISharedConnectivityService interface {
 }
 
 type SharedConnectivityServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSharedConnectivityServiceProxy(
 	remote binder.IBinder,
 ) *SharedConnectivityServiceProxy {
-	return &SharedConnectivityServiceProxy{remote: remote}
+	return &SharedConnectivityServiceProxy{Remote: remote}
 }
 
 func (p *SharedConnectivityServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISharedConnectivityService = (*SharedConnectivityServiceProxy)(nil)
@@ -63,14 +77,14 @@ func (p *SharedConnectivityServiceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -89,14 +103,14 @@ func (p *SharedConnectivityServiceProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceUnregisterCallback)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,12 +134,12 @@ func (p *SharedConnectivityServiceProxy) ConnectHotspotNetwork(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "connectHotspotNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectHotspotNetwork)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceConnectHotspotNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectHotspotNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,12 +163,12 @@ func (p *SharedConnectivityServiceProxy) DisconnectHotspotNetwork(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "disconnectHotspotNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceDisconnectHotspotNetwork)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceDisconnectHotspotNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceDisconnectHotspotNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,12 +192,12 @@ func (p *SharedConnectivityServiceProxy) ConnectKnownNetwork(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "connectKnownNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectKnownNetwork)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceConnectKnownNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceConnectKnownNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -207,12 +221,12 @@ func (p *SharedConnectivityServiceProxy) ForgetKnownNetwork(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "forgetKnownNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceForgetKnownNetwork)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceForgetKnownNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceForgetKnownNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -232,12 +246,12 @@ func (p *SharedConnectivityServiceProxy) GetHotspotNetworks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getHotspotNetworks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetHotspotNetworks)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceGetHotspotNetworks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetHotspotNetworks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -255,6 +269,9 @@ func (p *SharedConnectivityServiceProxy) GetHotspotNetworks(
 	if _count >= 0 {
 		_result = make([]app.HotspotNetwork, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -270,12 +287,12 @@ func (p *SharedConnectivityServiceProxy) GetKnownNetworks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getKnownNetworks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetKnownNetworks)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceGetKnownNetworks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetKnownNetworks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -293,6 +310,9 @@ func (p *SharedConnectivityServiceProxy) GetKnownNetworks(
 	if _count >= 0 {
 		_result = make([]app.KnownNetwork, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -308,12 +328,12 @@ func (p *SharedConnectivityServiceProxy) GetSettingsState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getSettingsState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetSettingsState)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceGetSettingsState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetSettingsState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -342,12 +362,12 @@ func (p *SharedConnectivityServiceProxy) GetHotspotNetworkConnectionStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getHotspotNetworkConnectionStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetHotspotNetworkConnectionStatus)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceGetHotspotNetworkConnectionStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetHotspotNetworkConnectionStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -376,12 +396,12 @@ func (p *SharedConnectivityServiceProxy) GetKnownNetworkConnectionStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getKnownNetworkConnectionStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetKnownNetworkConnectionStatus)
 	if _err != nil {
-		_code = TransactionISharedConnectivityServiceGetKnownNetworkConnectionStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityService, MethodISharedConnectivityServiceGetKnownNetworkConnectionStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -410,6 +430,10 @@ type SharedConnectivityServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SharedConnectivityServiceStub)(nil)
+
+func (s *SharedConnectivityServiceStub) Descriptor() string {
+	return DescriptorISharedConnectivityService
+}
 
 func (s *SharedConnectivityServiceStub) OnTransaction(
 	ctx context.Context,

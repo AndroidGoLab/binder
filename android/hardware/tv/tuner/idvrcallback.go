@@ -16,6 +16,11 @@ const (
 	TransactionIDvrCallbackOnRecordStatus   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDvrCallbackOnPlaybackStatus = "onPlaybackStatus"
+	MethodIDvrCallbackOnRecordStatus   = "onRecordStatus"
+)
+
 type IDvrCallback interface {
 	AsBinder() binder.IBinder
 	OnPlaybackStatus(ctx context.Context, status PlaybackStatus) error
@@ -23,17 +28,17 @@ type IDvrCallback interface {
 }
 
 type DvrCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDvrCallbackProxy(
 	remote binder.IBinder,
 ) *DvrCallbackProxy {
-	return &DvrCallbackProxy{remote: remote}
+	return &DvrCallbackProxy{Remote: remote}
 }
 
 func (p *DvrCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDvrCallback = (*DvrCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *DvrCallbackProxy) OnPlaybackStatus(
 	_data.WriteInterfaceToken(DescriptorIDvrCallback)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvrCallback, "onPlaybackStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvrCallback, MethodIDvrCallbackOnPlaybackStatus)
 	if _err != nil {
-		_code = TransactionIDvrCallbackOnPlaybackStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvrCallback, MethodIDvrCallbackOnPlaybackStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *DvrCallbackProxy) OnRecordStatus(
 	_data.WriteInterfaceToken(DescriptorIDvrCallback)
 	_data.WritePaddedByte(byte(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvrCallback, "onRecordStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvrCallback, MethodIDvrCallbackOnRecordStatus)
 	if _err != nil {
-		_code = TransactionIDvrCallbackOnRecordStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvrCallback, MethodIDvrCallbackOnRecordStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type DvrCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DvrCallbackStub)(nil)
+
+func (s *DvrCallbackStub) Descriptor() string {
+	return DescriptorIDvrCallback
+}
 
 func (s *DvrCallbackStub) OnTransaction(
 	ctx context.Context,

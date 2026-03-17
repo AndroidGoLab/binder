@@ -16,6 +16,11 @@ const (
 	TransactionIResourceObserverServiceUnregisterObserver = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIResourceObserverServiceRegisterObserver   = "registerObserver"
+	MethodIResourceObserverServiceUnregisterObserver = "unregisterObserver"
+)
+
 type IResourceObserverService interface {
 	AsBinder() binder.IBinder
 	RegisterObserver(ctx context.Context, observer IResourceObserver, filters []MediaObservableFilter) error
@@ -23,17 +28,17 @@ type IResourceObserverService interface {
 }
 
 type ResourceObserverServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResourceObserverServiceProxy(
 	remote binder.IBinder,
 ) *ResourceObserverServiceProxy {
-	return &ResourceObserverServiceProxy{remote: remote}
+	return &ResourceObserverServiceProxy{Remote: remote}
 }
 
 func (p *ResourceObserverServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResourceObserverService = (*ResourceObserverServiceProxy)(nil)
@@ -45,24 +50,25 @@ func (p *ResourceObserverServiceProxy) RegisterObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourceObserverService)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	if filters == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(filters)))
 		for _, _item := range filters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceObserverService, "registerObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceObserverService, MethodIResourceObserverServiceRegisterObserver)
 	if _err != nil {
-		_code = TransactionIResourceObserverServiceRegisterObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceObserverService, MethodIResourceObserverServiceRegisterObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,14 +87,14 @@ func (p *ResourceObserverServiceProxy) UnregisterObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourceObserverService)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceObserverService, "unregisterObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceObserverService, MethodIResourceObserverServiceUnregisterObserver)
 	if _err != nil {
-		_code = TransactionIResourceObserverServiceUnregisterObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceObserverService, MethodIResourceObserverServiceUnregisterObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,6 +114,10 @@ type ResourceObserverServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResourceObserverServiceStub)(nil)
+
+func (s *ResourceObserverServiceStub) Descriptor() string {
+	return DescriptorIResourceObserverService
+}
 
 func (s *ResourceObserverServiceStub) OnTransaction(
 	ctx context.Context,

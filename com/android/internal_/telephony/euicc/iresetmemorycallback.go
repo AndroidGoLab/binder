@@ -15,23 +15,27 @@ const (
 	TransactionIResetMemoryCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIResetMemoryCallbackOnComplete = "onComplete"
+)
+
 type IResetMemoryCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32) error
 }
 
 type ResetMemoryCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResetMemoryCallbackProxy(
 	remote binder.IBinder,
 ) *ResetMemoryCallbackProxy {
-	return &ResetMemoryCallbackProxy{remote: remote}
+	return &ResetMemoryCallbackProxy{Remote: remote}
 }
 
 func (p *ResetMemoryCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResetMemoryCallback = (*ResetMemoryCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ResetMemoryCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIResetMemoryCallback)
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResetMemoryCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResetMemoryCallback, MethodIResetMemoryCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIResetMemoryCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResetMemoryCallback, MethodIResetMemoryCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ResetMemoryCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResetMemoryCallbackStub)(nil)
+
+func (s *ResetMemoryCallbackStub) Descriptor() string {
+	return DescriptorIResetMemoryCallback
+}
 
 func (s *ResetMemoryCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -31,14 +31,7 @@ func (s *CreateOperationResponse) MarshalParcel(
 	if _err := s.Parameters.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.UpgradedBlob == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.UpgradedBlob)))
-		for _, _item := range s.UpgradedBlob {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.UpgradedBlob)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -66,19 +59,9 @@ func (s *CreateOperationResponse) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.UpgradedBlob, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.UpgradedBlob = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.UpgradedBlob[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -19,6 +19,13 @@ const (
 	TransactionIControlsProviderAction        = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIControlsProviderLoad          = "load"
+	MethodIControlsProviderLoadSuggested = "loadSuggested"
+	MethodIControlsProviderSubscribe     = "subscribe"
+	MethodIControlsProviderAction        = "action"
+)
+
 type IControlsProvider interface {
 	AsBinder() binder.IBinder
 	Load(ctx context.Context, subscriber IControlsSubscriber) error
@@ -28,17 +35,17 @@ type IControlsProvider interface {
 }
 
 type ControlsProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewControlsProviderProxy(
 	remote binder.IBinder,
 ) *ControlsProviderProxy {
-	return &ControlsProviderProxy{remote: remote}
+	return &ControlsProviderProxy{Remote: remote}
 }
 
 func (p *ControlsProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IControlsProvider = (*ControlsProviderProxy)(nil)
@@ -49,14 +56,14 @@ func (p *ControlsProviderProxy) Load(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
-	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "load")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderLoad)
 	if _err != nil {
-		_code = TransactionIControlsProviderLoad
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsProvider, MethodIControlsProviderLoad, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,14 +73,14 @@ func (p *ControlsProviderProxy) LoadSuggested(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
-	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "loadSuggested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderLoadSuggested)
 	if _err != nil {
-		_code = TransactionIControlsProviderLoadSuggested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsProvider, MethodIControlsProviderLoadSuggested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,14 +99,14 @@ func (p *ControlsProviderProxy) Subscribe(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, subscriber.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "subscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderSubscribe)
 	if _err != nil {
-		_code = TransactionIControlsProviderSubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsProvider, MethodIControlsProviderSubscribe, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,14 +123,14 @@ func (p *ControlsProviderProxy) Action(
 	if _err := action.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "action")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsProvider, MethodIControlsProviderAction)
 	if _err != nil {
-		_code = TransactionIControlsProviderAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsProvider, MethodIControlsProviderAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,6 +141,10 @@ type ControlsProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ControlsProviderStub)(nil)
+
+func (s *ControlsProviderStub) Descriptor() string {
+	return DescriptorIControlsProvider
+}
 
 func (s *ControlsProviderStub) OnTransaction(
 	ctx context.Context,

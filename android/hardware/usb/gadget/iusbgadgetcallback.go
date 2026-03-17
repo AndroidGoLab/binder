@@ -18,6 +18,13 @@ const (
 	TransactionIUsbGadgetCallbackResetCb                  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIUsbGadgetCallbackSetCurrentUsbFunctionsCb = "setCurrentUsbFunctionsCb"
+	MethodIUsbGadgetCallbackGetCurrentUsbFunctionsCb = "getCurrentUsbFunctionsCb"
+	MethodIUsbGadgetCallbackGetUsbSpeedCb            = "getUsbSpeedCb"
+	MethodIUsbGadgetCallbackResetCb                  = "resetCb"
+)
+
 type IUsbGadgetCallback interface {
 	AsBinder() binder.IBinder
 	SetCurrentUsbFunctionsCb(ctx context.Context, functions int64, status Status, transactionId int64) error
@@ -27,17 +34,17 @@ type IUsbGadgetCallback interface {
 }
 
 type UsbGadgetCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUsbGadgetCallbackProxy(
 	remote binder.IBinder,
 ) *UsbGadgetCallbackProxy {
-	return &UsbGadgetCallbackProxy{remote: remote}
+	return &UsbGadgetCallbackProxy{Remote: remote}
 }
 
 func (p *UsbGadgetCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUsbGadgetCallback = (*UsbGadgetCallbackProxy)(nil)
@@ -54,12 +61,12 @@ func (p *UsbGadgetCallbackProxy) SetCurrentUsbFunctionsCb(
 	_data.WriteInt32(int32(status))
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "setCurrentUsbFunctionsCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackSetCurrentUsbFunctionsCb)
 	if _err != nil {
-		_code = TransactionIUsbGadgetCallbackSetCurrentUsbFunctionsCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackSetCurrentUsbFunctionsCb, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +82,12 @@ func (p *UsbGadgetCallbackProxy) GetCurrentUsbFunctionsCb(
 	_data.WriteInt32(int32(status))
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "getCurrentUsbFunctionsCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetCurrentUsbFunctionsCb)
 	if _err != nil {
-		_code = TransactionIUsbGadgetCallbackGetCurrentUsbFunctionsCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetCurrentUsbFunctionsCb, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,12 +101,12 @@ func (p *UsbGadgetCallbackProxy) GetUsbSpeedCb(
 	_data.WriteInt32(int32(speed))
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "getUsbSpeedCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetUsbSpeedCb)
 	if _err != nil {
-		_code = TransactionIUsbGadgetCallbackGetUsbSpeedCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackGetUsbSpeedCb, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,12 +120,12 @@ func (p *UsbGadgetCallbackProxy) ResetCb(
 	_data.WriteInt32(int32(status))
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "resetCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackResetCb)
 	if _err != nil {
-		_code = TransactionIUsbGadgetCallbackResetCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadgetCallback, MethodIUsbGadgetCallbackResetCb, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,6 +136,10 @@ type UsbGadgetCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UsbGadgetCallbackStub)(nil)
+
+func (s *UsbGadgetCallbackStub) Descriptor() string {
+	return DescriptorIUsbGadgetCallback
+}
 
 func (s *UsbGadgetCallbackStub) OnTransaction(
 	ctx context.Context,

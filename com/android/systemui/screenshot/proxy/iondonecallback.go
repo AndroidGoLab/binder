@@ -15,23 +15,27 @@ const (
 	TransactionIOnDoneCallbackOnDone = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnDoneCallbackOnDone = "onDone"
+)
+
 type IOnDoneCallback interface {
 	AsBinder() binder.IBinder
 	OnDone(ctx context.Context, success bool) error
 }
 
 type OnDoneCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnDoneCallbackProxy(
 	remote binder.IBinder,
 ) *OnDoneCallbackProxy {
-	return &OnDoneCallbackProxy{remote: remote}
+	return &OnDoneCallbackProxy{Remote: remote}
 }
 
 func (p *OnDoneCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnDoneCallback = (*OnDoneCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *OnDoneCallbackProxy) OnDone(
 	_data.WriteInterfaceToken(DescriptorIOnDoneCallback)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDoneCallback, "onDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDoneCallback, MethodIOnDoneCallbackOnDone)
 	if _err != nil {
-		_code = TransactionIOnDoneCallbackOnDone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDoneCallback, MethodIOnDoneCallbackOnDone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type OnDoneCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnDoneCallbackStub)(nil)
+
+func (s *OnDoneCallbackStub) Descriptor() string {
+	return DescriptorIOnDoneCallback
+}
 
 func (s *OnDoneCallbackStub) OnTransaction(
 	ctx context.Context,

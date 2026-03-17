@@ -22,6 +22,15 @@ const (
 	TransactionIAugmentedAutofillManagerClientRequestAutofill       = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIAugmentedAutofillManagerClientGetViewCoordinates    = "getViewCoordinates"
+	MethodIAugmentedAutofillManagerClientGetViewNodeParcelable = "getViewNodeParcelable"
+	MethodIAugmentedAutofillManagerClientAutofill              = "autofill"
+	MethodIAugmentedAutofillManagerClientRequestShowFillUi     = "requestShowFillUi"
+	MethodIAugmentedAutofillManagerClientRequestHideFillUi     = "requestHideFillUi"
+	MethodIAugmentedAutofillManagerClientRequestAutofill       = "requestAutofill"
+)
+
 type IAugmentedAutofillManagerClient interface {
 	AsBinder() binder.IBinder
 	GetViewCoordinates(ctx context.Context, id AutofillId) (graphics.Rect, error)
@@ -33,17 +42,17 @@ type IAugmentedAutofillManagerClient interface {
 }
 
 type AugmentedAutofillManagerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAugmentedAutofillManagerClientProxy(
 	remote binder.IBinder,
 ) *AugmentedAutofillManagerClientProxy {
-	return &AugmentedAutofillManagerClientProxy{remote: remote}
+	return &AugmentedAutofillManagerClientProxy{Remote: remote}
 }
 
 func (p *AugmentedAutofillManagerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAugmentedAutofillManagerClient = (*AugmentedAutofillManagerClientProxy)(nil)
@@ -60,12 +69,12 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewCoordinates(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "getViewCoordinates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientGetViewCoordinates)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillManagerClientGetViewCoordinates
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientGetViewCoordinates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,12 +108,12 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewNodeParcelable(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "getViewNodeParcelable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientGetViewNodeParcelable)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillManagerClientGetViewNodeParcelable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientGetViewNodeParcelable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,6 +150,7 @@ func (p *AugmentedAutofillManagerClientProxy) Autofill(
 	} else {
 		_data.WriteInt32(int32(len(ids)))
 		for _, _item := range ids {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -151,6 +161,7 @@ func (p *AugmentedAutofillManagerClientProxy) Autofill(
 	} else {
 		_data.WriteInt32(int32(len(values)))
 		for _, _item := range values {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -158,12 +169,12 @@ func (p *AugmentedAutofillManagerClientProxy) Autofill(
 	}
 	_data.WriteBool(hideHighlight)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "autofill")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientAutofill)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillManagerClientAutofill
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientAutofill, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -198,14 +209,14 @@ func (p *AugmentedAutofillManagerClientProxy) RequestShowFillUi(
 	if _err := anchorBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, presenter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, presenter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestShowFillUi")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientRequestShowFillUi)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillManagerClientRequestShowFillUi
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientRequestShowFillUi, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -231,12 +242,12 @@ func (p *AugmentedAutofillManagerClientProxy) RequestHideFillUi(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestHideFillUi")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientRequestHideFillUi)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillManagerClientRequestHideFillUi
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientRequestHideFillUi, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -263,12 +274,12 @@ func (p *AugmentedAutofillManagerClientProxy) RequestAutofill(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestAutofill")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientRequestAutofill)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillManagerClientRequestAutofill
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillManagerClient, MethodIAugmentedAutofillManagerClientRequestAutofill, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -292,6 +303,10 @@ type AugmentedAutofillManagerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AugmentedAutofillManagerClientStub)(nil)
+
+func (s *AugmentedAutofillManagerClientStub) Descriptor() string {
+	return DescriptorIAugmentedAutofillManagerClient
+}
 
 func (s *AugmentedAutofillManagerClientStub) OnTransaction(
 	ctx context.Context,

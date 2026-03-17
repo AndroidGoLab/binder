@@ -21,18 +21,30 @@ const (
 	TransactionIMediaProjectionRegisterCallback            = binder.FirstCallTransaction + 6
 	TransactionIMediaProjectionUnregisterCallback          = binder.FirstCallTransaction + 7
 	TransactionIMediaProjectionGetLaunchCookie             = binder.FirstCallTransaction + 8
-	TransactionIMediaProjectionGetTaskId                   = binder.FirstCallTransaction + 9
-	TransactionIMediaProjectionGetDisplayId                = binder.FirstCallTransaction + 10
-	TransactionIMediaProjectionSetLaunchCookie             = binder.FirstCallTransaction + 11
-	TransactionIMediaProjectionSetTaskId                   = binder.FirstCallTransaction + 12
-	TransactionIMediaProjectionIsValid                     = binder.FirstCallTransaction + 13
-	TransactionIMediaProjectionNotifyVirtualDisplayCreated = binder.FirstCallTransaction + 14
+	TransactionIMediaProjectionSetLaunchCookie             = binder.FirstCallTransaction + 9
+	TransactionIMediaProjectionIsValid                     = binder.FirstCallTransaction + 10
+	TransactionIMediaProjectionNotifyVirtualDisplayCreated = binder.FirstCallTransaction + 11
+)
+
+const (
+	MethodIMediaProjectionStart                       = "start"
+	MethodIMediaProjectionStop                        = "stop"
+	MethodIMediaProjectionCanProjectAudio             = "canProjectAudio"
+	MethodIMediaProjectionCanProjectVideo             = "canProjectVideo"
+	MethodIMediaProjectionCanProjectSecureVideo       = "canProjectSecureVideo"
+	MethodIMediaProjectionApplyVirtualDisplayFlags    = "applyVirtualDisplayFlags"
+	MethodIMediaProjectionRegisterCallback            = "registerCallback"
+	MethodIMediaProjectionUnregisterCallback          = "unregisterCallback"
+	MethodIMediaProjectionGetLaunchCookie             = "getLaunchCookie"
+	MethodIMediaProjectionSetLaunchCookie             = "setLaunchCookie"
+	MethodIMediaProjectionIsValid                     = "isValid"
+	MethodIMediaProjectionNotifyVirtualDisplayCreated = "notifyVirtualDisplayCreated"
 )
 
 type IMediaProjection interface {
 	AsBinder() binder.IBinder
 	Start(ctx context.Context, callback IMediaProjectionCallback) error
-	Stop(ctx context.Context, stopReason StopReason) error
+	Stop(ctx context.Context) error
 	CanProjectAudio(ctx context.Context) (bool, error)
 	CanProjectVideo(ctx context.Context) (bool, error)
 	CanProjectSecureVideo(ctx context.Context) (bool, error)
@@ -40,26 +52,23 @@ type IMediaProjection interface {
 	RegisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	UnregisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	GetLaunchCookie(ctx context.Context) (interface{}, error)
-	GetTaskId(ctx context.Context) (int32, error)
-	GetDisplayId(ctx context.Context) (int32, error)
 	SetLaunchCookie(ctx context.Context, launchCookie interface{}) error
-	SetTaskId(ctx context.Context, taskId int32) error
 	IsValid(ctx context.Context) (bool, error)
 	NotifyVirtualDisplayCreated(ctx context.Context, displayId int32) error
 }
 
 type MediaProjectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaProjectionProxy(
 	remote binder.IBinder,
 ) *MediaProjectionProxy {
-	return &MediaProjectionProxy{remote: remote}
+	return &MediaProjectionProxy{Remote: remote}
 }
 
 func (p *MediaProjectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaProjection = (*MediaProjectionProxy)(nil)
@@ -70,14 +79,14 @@ func (p *MediaProjectionProxy) Start(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionStart)
 	if _err != nil {
-		_code = TransactionIMediaProjectionStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,18 +101,16 @@ func (p *MediaProjectionProxy) Start(
 
 func (p *MediaProjectionProxy) Stop(
 	ctx context.Context,
-	stopReason StopReason,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	_data.WriteInt32(int32(stopReason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionStop)
 	if _err != nil {
-		_code = TransactionIMediaProjectionStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -123,12 +130,12 @@ func (p *MediaProjectionProxy) CanProjectAudio(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectAudio")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionCanProjectAudio)
 	if _err != nil {
-		_code = TransactionIMediaProjectionCanProjectAudio
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionCanProjectAudio, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,12 +159,12 @@ func (p *MediaProjectionProxy) CanProjectVideo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectVideo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionCanProjectVideo)
 	if _err != nil {
-		_code = TransactionIMediaProjectionCanProjectVideo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionCanProjectVideo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,12 +188,12 @@ func (p *MediaProjectionProxy) CanProjectSecureVideo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectSecureVideo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionCanProjectSecureVideo)
 	if _err != nil {
-		_code = TransactionIMediaProjectionCanProjectSecureVideo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionCanProjectSecureVideo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -212,12 +219,12 @@ func (p *MediaProjectionProxy) ApplyVirtualDisplayFlags(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "applyVirtualDisplayFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionApplyVirtualDisplayFlags)
 	if _err != nil {
-		_code = TransactionIMediaProjectionApplyVirtualDisplayFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionApplyVirtualDisplayFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -240,14 +247,14 @@ func (p *MediaProjectionProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionRegisterCallback)
 	if _err != nil {
-		_code = TransactionIMediaProjectionRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -266,14 +273,14 @@ func (p *MediaProjectionProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionUnregisterCallback)
 	if _err != nil {
-		_code = TransactionIMediaProjectionUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -293,37 +300,12 @@ func (p *MediaProjectionProxy) GetLaunchCookie(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "getLaunchCookie")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionGetLaunchCookie)
 	if _err != nil {
-		_code = TransactionIMediaProjectionGetLaunchCookie
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionGetLaunchCookie, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	return _result, nil
-}
-
-func (p *MediaProjectionProxy) GetTaskId(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "getTaskId")
-	if _err != nil {
-		_code = TransactionIMediaProjectionGetTaskId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -333,39 +315,6 @@ func (p *MediaProjectionProxy) GetTaskId(
 		return _result, _err
 	}
 
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *MediaProjectionProxy) GetDisplayId(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "getDisplayId")
-	if _err != nil {
-		_code = TransactionIMediaProjectionGetDisplayId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
 	return _result, nil
 }
 
@@ -376,38 +325,12 @@ func (p *MediaProjectionProxy) SetLaunchCookie(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "setLaunchCookie")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionSetLaunchCookie)
 	if _err != nil {
-		_code = TransactionIMediaProjectionSetLaunchCookie
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionSetLaunchCookie, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *MediaProjectionProxy) SetTaskId(
-	ctx context.Context,
-	taskId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	_data.WriteInt32(taskId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "setTaskId")
-	if _err != nil {
-		_code = TransactionIMediaProjectionSetTaskId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -427,12 +350,12 @@ func (p *MediaProjectionProxy) IsValid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "isValid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionIsValid)
 	if _err != nil {
-		_code = TransactionIMediaProjectionIsValid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionIsValid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -457,12 +380,12 @@ func (p *MediaProjectionProxy) NotifyVirtualDisplayCreated(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "notifyVirtualDisplayCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjection, MethodIMediaProjectionNotifyVirtualDisplayCreated)
 	if _err != nil {
-		_code = TransactionIMediaProjectionNotifyVirtualDisplayCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjection, MethodIMediaProjectionNotifyVirtualDisplayCreated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -482,6 +405,10 @@ type MediaProjectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionStub)(nil)
+
+func (s *MediaProjectionStub) Descriptor() string {
+	return DescriptorIMediaProjection
+}
 
 func (s *MediaProjectionStub) OnTransaction(
 	ctx context.Context,
@@ -508,12 +435,7 @@ func (s *MediaProjectionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stopReason, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_stopReason := StopReason(_raw_stopReason)
-		_err = s.Impl.Stop(ctx, _arg_stopReason)
+		_err := s.Impl.Stop(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -620,54 +542,12 @@ func (s *MediaProjectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_ = _result
 		return _reply, nil
-	case TransactionIMediaProjectionGetTaskId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetTaskId(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIMediaProjectionGetDisplayId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetDisplayId(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
 	case TransactionIMediaProjectionSetLaunchCookie:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_launchCookie interface{}
 		_err := s.Impl.SetLaunchCookie(ctx, _arg_launchCookie)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIMediaProjectionSetTaskId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_taskId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetTaskId(ctx, _arg_taskId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -714,7 +594,7 @@ func (s *MediaProjectionStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IMediaProjectionServer interface {
 	Start(ctx context.Context, callback IMediaProjectionCallback) error
-	Stop(ctx context.Context, stopReason StopReason) error
+	Stop(ctx context.Context) error
 	CanProjectAudio(ctx context.Context) (bool, error)
 	CanProjectVideo(ctx context.Context) (bool, error)
 	CanProjectSecureVideo(ctx context.Context) (bool, error)
@@ -722,10 +602,7 @@ type IMediaProjectionServer interface {
 	RegisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	UnregisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	GetLaunchCookie(ctx context.Context) (interface{}, error)
-	GetTaskId(ctx context.Context) (int32, error)
-	GetDisplayId(ctx context.Context) (int32, error)
 	SetLaunchCookie(ctx context.Context, launchCookie interface{}) error
-	SetTaskId(ctx context.Context, taskId int32) error
 	IsValid(ctx context.Context) (bool, error)
 	NotifyVirtualDisplayCreated(ctx context.Context, displayId int32) error
 }
@@ -748,9 +625,8 @@ func (w *mediaProjectionStubWrapper) Start(
 
 func (w *mediaProjectionStubWrapper) Stop(
 	ctx context.Context,
-	stopReason StopReason,
 ) error {
-	return w.impl.Stop(ctx, stopReason)
+	return w.impl.Stop(ctx)
 }
 
 func (w *mediaProjectionStubWrapper) CanProjectAudio(
@@ -798,30 +674,11 @@ func (w *mediaProjectionStubWrapper) GetLaunchCookie(
 	return w.impl.GetLaunchCookie(ctx)
 }
 
-func (w *mediaProjectionStubWrapper) GetTaskId(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetTaskId(ctx)
-}
-
-func (w *mediaProjectionStubWrapper) GetDisplayId(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetDisplayId(ctx)
-}
-
 func (w *mediaProjectionStubWrapper) SetLaunchCookie(
 	ctx context.Context,
 	launchCookie interface{},
 ) error {
 	return w.impl.SetLaunchCookie(ctx, launchCookie)
-}
-
-func (w *mediaProjectionStubWrapper) SetTaskId(
-	ctx context.Context,
-	taskId int32,
-) error {
-	return w.impl.SetTaskId(ctx, taskId)
 }
 
 func (w *mediaProjectionStubWrapper) IsValid(

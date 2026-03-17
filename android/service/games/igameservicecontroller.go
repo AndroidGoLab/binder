@@ -15,23 +15,27 @@ const (
 	TransactionIGameServiceControllerCreateGameSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGameServiceControllerCreateGameSession = "createGameSession"
+)
+
 type IGameServiceController interface {
 	AsBinder() binder.IBinder
 	CreateGameSession(ctx context.Context, taskId int32) error
 }
 
 type GameServiceControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameServiceControllerProxy(
 	remote binder.IBinder,
 ) *GameServiceControllerProxy {
-	return &GameServiceControllerProxy{remote: remote}
+	return &GameServiceControllerProxy{Remote: remote}
 }
 
 func (p *GameServiceControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameServiceController = (*GameServiceControllerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *GameServiceControllerProxy) CreateGameSession(
 	_data.WriteInterfaceToken(DescriptorIGameServiceController)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameServiceController, "createGameSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameServiceController, MethodIGameServiceControllerCreateGameSession)
 	if _err != nil {
-		_code = TransactionIGameServiceControllerCreateGameSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameServiceController, MethodIGameServiceControllerCreateGameSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type GameServiceControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameServiceControllerStub)(nil)
+
+func (s *GameServiceControllerStub) Descriptor() string {
+	return DescriptorIGameServiceController
+}
 
 func (s *GameServiceControllerStub) OnTransaction(
 	ctx context.Context,

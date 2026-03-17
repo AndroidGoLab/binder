@@ -19,6 +19,14 @@ const (
 	TransactionIIpConnectivityMetricsRemoveNetdEventCallback   = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIIpConnectivityMetricsLogEvent                  = "logEvent"
+	MethodIIpConnectivityMetricsLogDefaultNetworkValidity = "logDefaultNetworkValidity"
+	MethodIIpConnectivityMetricsLogDefaultNetworkEvent    = "logDefaultNetworkEvent"
+	MethodIIpConnectivityMetricsAddNetdEventCallback      = "addNetdEventCallback"
+	MethodIIpConnectivityMetricsRemoveNetdEventCallback   = "removeNetdEventCallback"
+)
+
 type IIpConnectivityMetrics interface {
 	AsBinder() binder.IBinder
 	LogEvent(ctx context.Context, event ConnectivityMetricsEvent) (int32, error)
@@ -29,17 +37,17 @@ type IIpConnectivityMetrics interface {
 }
 
 type IpConnectivityMetricsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIpConnectivityMetricsProxy(
 	remote binder.IBinder,
 ) *IpConnectivityMetricsProxy {
-	return &IpConnectivityMetricsProxy{remote: remote}
+	return &IpConnectivityMetricsProxy{Remote: remote}
 }
 
 func (p *IpConnectivityMetricsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIpConnectivityMetrics = (*IpConnectivityMetricsProxy)(nil)
@@ -56,12 +64,12 @@ func (p *IpConnectivityMetricsProxy) LogEvent(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogEvent)
 	if _err != nil {
-		_code = TransactionIIpConnectivityMetricsLogEvent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +94,12 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkValidity(
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteBool(valid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logDefaultNetworkValidity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkValidity)
 	if _err != nil {
-		_code = TransactionIIpConnectivityMetricsLogDefaultNetworkValidity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkValidity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,12 +130,12 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkEvent(
 	_data.WriteBool(validated)
 	_data.WriteInt32(previousScore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logDefaultNetworkEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkEvent)
 	if _err != nil {
-		_code = TransactionIIpConnectivityMetricsLogDefaultNetworkEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsLogDefaultNetworkEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,14 +157,14 @@ func (p *IpConnectivityMetricsProxy) AddNetdEventCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteInt32(callerType)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "addNetdEventCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsAddNetdEventCallback)
 	if _err != nil {
-		_code = TransactionIIpConnectivityMetricsAddNetdEventCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsAddNetdEventCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,12 +190,12 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteInt32(callerType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "removeNetdEventCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsRemoveNetdEventCallback)
 	if _err != nil {
-		_code = TransactionIIpConnectivityMetricsRemoveNetdEventCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIpConnectivityMetrics, MethodIIpConnectivityMetricsRemoveNetdEventCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,6 +219,10 @@ type IpConnectivityMetricsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IpConnectivityMetricsStub)(nil)
+
+func (s *IpConnectivityMetricsStub) Descriptor() string {
+	return DescriptorIIpConnectivityMetrics
+}
 
 func (s *IpConnectivityMetricsStub) OnTransaction(
 	ctx context.Context,

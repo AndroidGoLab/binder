@@ -13,7 +13,6 @@ type MloLink struct {
 	TidsDownlinkMap   byte
 	ApLinkMacAddress  []byte
 	FrequencyMHz      int32
-	ChannelBandwidth  WifiChannelWidthInMhz
 }
 
 var _ parcel.Parcelable = (*MloLink)(nil)
@@ -23,26 +22,11 @@ func (s *MloLink) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(s.LinkId)
-	if s.StaLinkMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.StaLinkMacAddress)))
-		for _, _item := range s.StaLinkMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.StaLinkMacAddress)
 	p.WritePaddedByte(s.TidsUplinkMap)
 	p.WritePaddedByte(s.TidsDownlinkMap)
-	if s.ApLinkMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ApLinkMacAddress)))
-		for _, _item := range s.ApLinkMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.ApLinkMacAddress, 6)
 	p.WriteInt32(s.FrequencyMHz)
-	p.WriteInt32(int32(s.ChannelBandwidth))
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -61,19 +45,9 @@ func (s *MloLink) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.StaLinkMacAddress, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.StaLinkMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.StaLinkMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.TidsUplinkMap, _err = p.ReadPaddedByte()
@@ -86,31 +60,15 @@ func (s *MloLink) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ApLinkMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ApLinkMacAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ApLinkMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.FrequencyMHz, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-
-	_channelBandwidthRaw, _err := p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	s.ChannelBandwidth = WifiChannelWidthInMhz(_channelBandwidthRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

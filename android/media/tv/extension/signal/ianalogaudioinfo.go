@@ -16,23 +16,27 @@ const (
 	TransactionIAnalogAudioInfoGetAnalogAudioInfo = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAnalogAudioInfoGetAnalogAudioInfo = "getAnalogAudioInfo"
+)
+
 type IAnalogAudioInfo interface {
 	AsBinder() binder.IBinder
 	GetAnalogAudioInfo(ctx context.Context, sessionToken string) (os.Bundle, error)
 }
 
 type AnalogAudioInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAnalogAudioInfoProxy(
 	remote binder.IBinder,
 ) *AnalogAudioInfoProxy {
-	return &AnalogAudioInfoProxy{remote: remote}
+	return &AnalogAudioInfoProxy{Remote: remote}
 }
 
 func (p *AnalogAudioInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAnalogAudioInfo = (*AnalogAudioInfoProxy)(nil)
@@ -46,12 +50,12 @@ func (p *AnalogAudioInfoProxy) GetAnalogAudioInfo(
 	_data.WriteInterfaceToken(DescriptorIAnalogAudioInfo)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAnalogAudioInfo, "getAnalogAudioInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAnalogAudioInfo, MethodIAnalogAudioInfoGetAnalogAudioInfo)
 	if _err != nil {
-		_code = TransactionIAnalogAudioInfoGetAnalogAudioInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAnalogAudioInfo, MethodIAnalogAudioInfoGetAnalogAudioInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,6 +84,10 @@ type AnalogAudioInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AnalogAudioInfoStub)(nil)
+
+func (s *AnalogAudioInfoStub) Descriptor() string {
+	return DescriptorIAnalogAudioInfo
+}
 
 func (s *AnalogAudioInfoStub) OnTransaction(
 	ctx context.Context,

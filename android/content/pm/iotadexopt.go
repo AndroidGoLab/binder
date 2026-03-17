@@ -20,6 +20,15 @@ const (
 	TransactionIOtaDexoptNextDexoptCommand = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIOtaDexoptPrepare           = "prepare"
+	MethodIOtaDexoptCleanup           = "cleanup"
+	MethodIOtaDexoptIsDone            = "isDone"
+	MethodIOtaDexoptGetProgress       = "getProgress"
+	MethodIOtaDexoptDexoptNextPackage = "dexoptNextPackage"
+	MethodIOtaDexoptNextDexoptCommand = "nextDexoptCommand"
+)
+
 type IOtaDexopt interface {
 	AsBinder() binder.IBinder
 	Prepare(ctx context.Context) error
@@ -31,17 +40,17 @@ type IOtaDexopt interface {
 }
 
 type OtaDexoptProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOtaDexoptProxy(
 	remote binder.IBinder,
 ) *OtaDexoptProxy {
-	return &OtaDexoptProxy{remote: remote}
+	return &OtaDexoptProxy{Remote: remote}
 }
 
 func (p *OtaDexoptProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOtaDexopt = (*OtaDexoptProxy)(nil)
@@ -52,12 +61,12 @@ func (p *OtaDexoptProxy) Prepare(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "prepare")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptPrepare)
 	if _err != nil {
-		_code = TransactionIOtaDexoptPrepare
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaDexopt, MethodIOtaDexoptPrepare, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,12 +85,12 @@ func (p *OtaDexoptProxy) Cleanup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "cleanup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptCleanup)
 	if _err != nil {
-		_code = TransactionIOtaDexoptCleanup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaDexopt, MethodIOtaDexoptCleanup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,12 +110,12 @@ func (p *OtaDexoptProxy) IsDone(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "isDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptIsDone)
 	if _err != nil {
-		_code = TransactionIOtaDexoptIsDone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaDexopt, MethodIOtaDexoptIsDone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,12 +139,12 @@ func (p *OtaDexoptProxy) GetProgress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "getProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptGetProgress)
 	if _err != nil {
-		_code = TransactionIOtaDexoptGetProgress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaDexopt, MethodIOtaDexoptGetProgress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -158,12 +167,12 @@ func (p *OtaDexoptProxy) DexoptNextPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "dexoptNextPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptDexoptNextPackage)
 	if _err != nil {
-		_code = TransactionIOtaDexoptDexoptNextPackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaDexopt, MethodIOtaDexoptDexoptNextPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,12 +192,12 @@ func (p *OtaDexoptProxy) NextDexoptCommand(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "nextDexoptCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaDexopt, MethodIOtaDexoptNextDexoptCommand)
 	if _err != nil {
-		_code = TransactionIOtaDexoptNextDexoptCommand
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaDexopt, MethodIOtaDexoptNextDexoptCommand, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -212,6 +221,10 @@ type OtaDexoptStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OtaDexoptStub)(nil)
+
+func (s *OtaDexoptStub) Descriptor() string {
+	return DescriptorIOtaDexopt
+}
 
 func (s *OtaDexoptStub) OnTransaction(
 	ctx context.Context,

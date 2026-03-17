@@ -15,23 +15,27 @@ const (
 	TransactionIStatsBootstrapAtomServiceReportBootstrapAtom = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStatsBootstrapAtomServiceReportBootstrapAtom = "reportBootstrapAtom"
+)
+
 type IStatsBootstrapAtomService interface {
 	AsBinder() binder.IBinder
 	ReportBootstrapAtom(ctx context.Context, atom StatsBootstrapAtom) error
 }
 
 type StatsBootstrapAtomServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStatsBootstrapAtomServiceProxy(
 	remote binder.IBinder,
 ) *StatsBootstrapAtomServiceProxy {
-	return &StatsBootstrapAtomServiceProxy{remote: remote}
+	return &StatsBootstrapAtomServiceProxy{Remote: remote}
 }
 
 func (p *StatsBootstrapAtomServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStatsBootstrapAtomService = (*StatsBootstrapAtomServiceProxy)(nil)
@@ -47,12 +51,12 @@ func (p *StatsBootstrapAtomServiceProxy) ReportBootstrapAtom(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStatsBootstrapAtomService, "reportBootstrapAtom")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatsBootstrapAtomService, MethodIStatsBootstrapAtomServiceReportBootstrapAtom)
 	if _err != nil {
-		_code = TransactionIStatsBootstrapAtomServiceReportBootstrapAtom
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStatsBootstrapAtomService, MethodIStatsBootstrapAtomServiceReportBootstrapAtom, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type StatsBootstrapAtomServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StatsBootstrapAtomServiceStub)(nil)
+
+func (s *StatsBootstrapAtomServiceStub) Descriptor() string {
+	return DescriptorIStatsBootstrapAtomService
+}
 
 func (s *StatsBootstrapAtomServiceStub) OnTransaction(
 	ctx context.Context,

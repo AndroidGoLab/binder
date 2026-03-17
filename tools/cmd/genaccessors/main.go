@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/xaionaro-go/binder/tools/pkg/codegen"
 	"github.com/xaionaro-go/binder/tools/pkg/servicemap"
 )
 
@@ -107,7 +108,7 @@ func generateAccessor(
 	proxyType := baseName + "Proxy"
 	constructorName := "New" + proxyType
 	accessorName := "Get" + baseName
-	constantName := screamingSnakeToPascal(entry.ConstantName)
+	constantName := codegen.ScreamingSnakeToPascal(entry.ConstantName)
 
 	// Skip if we already generated an accessor with this name in this package.
 	dedupKey := pkgPath + ":" + accessorName
@@ -192,20 +193,5 @@ func generateAccessorSource(
 	buf.WriteString("\t}\n")
 	fmt.Fprintf(&buf, "\treturn %s(svc), nil\n", constructorName)
 	buf.WriteString("}\n")
-	return buf.String()
-}
-
-// screamingSnakeToPascal converts a SCREAMING_SNAKE_CASE identifier to PascalCase.
-// For example, "ACTIVITY_SERVICE" becomes "ActivityService".
-func screamingSnakeToPascal(s string) string {
-	parts := strings.Split(s, "_")
-	var buf strings.Builder
-	for _, part := range parts {
-		if part == "" {
-			continue
-		}
-		buf.WriteString(strings.ToUpper(part[:1]))
-		buf.WriteString(strings.ToLower(part[1:]))
-	}
 	return buf.String()
 }

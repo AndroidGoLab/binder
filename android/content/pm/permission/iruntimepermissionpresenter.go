@@ -16,23 +16,27 @@ const (
 	TransactionIRuntimePermissionPresenterGetAppPermissions = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRuntimePermissionPresenterGetAppPermissions = "getAppPermissions"
+)
+
 type IRuntimePermissionPresenter interface {
 	AsBinder() binder.IBinder
 	GetAppPermissions(ctx context.Context, packageName string, callback os.RemoteCallback) error
 }
 
 type RuntimePermissionPresenterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRuntimePermissionPresenterProxy(
 	remote binder.IBinder,
 ) *RuntimePermissionPresenterProxy {
-	return &RuntimePermissionPresenterProxy{remote: remote}
+	return &RuntimePermissionPresenterProxy{Remote: remote}
 }
 
 func (p *RuntimePermissionPresenterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRuntimePermissionPresenter = (*RuntimePermissionPresenterProxy)(nil)
@@ -50,12 +54,12 @@ func (p *RuntimePermissionPresenterProxy) GetAppPermissions(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRuntimePermissionPresenter, "getAppPermissions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRuntimePermissionPresenter, MethodIRuntimePermissionPresenterGetAppPermissions)
 	if _err != nil {
-		_code = TransactionIRuntimePermissionPresenterGetAppPermissions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRuntimePermissionPresenter, MethodIRuntimePermissionPresenterGetAppPermissions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type RuntimePermissionPresenterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RuntimePermissionPresenterStub)(nil)
+
+func (s *RuntimePermissionPresenterStub) Descriptor() string {
+	return DescriptorIRuntimePermissionPresenter
+}
 
 func (s *RuntimePermissionPresenterStub) OnTransaction(
 	ctx context.Context,

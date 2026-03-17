@@ -19,6 +19,14 @@ const (
 	TransactionICarrierMessagingCallbackOnDownloadMmsComplete      = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodICarrierMessagingCallbackOnFilterComplete           = "onFilterComplete"
+	MethodICarrierMessagingCallbackOnSendSmsComplete          = "onSendSmsComplete"
+	MethodICarrierMessagingCallbackOnSendMultipartSmsComplete = "onSendMultipartSmsComplete"
+	MethodICarrierMessagingCallbackOnSendMmsComplete          = "onSendMmsComplete"
+	MethodICarrierMessagingCallbackOnDownloadMmsComplete      = "onDownloadMmsComplete"
+)
+
 type ICarrierMessagingCallback interface {
 	AsBinder() binder.IBinder
 	OnFilterComplete(ctx context.Context, result int32) error
@@ -29,17 +37,17 @@ type ICarrierMessagingCallback interface {
 }
 
 type CarrierMessagingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierMessagingCallbackProxy(
 	remote binder.IBinder,
 ) *CarrierMessagingCallbackProxy {
-	return &CarrierMessagingCallbackProxy{remote: remote}
+	return &CarrierMessagingCallbackProxy{Remote: remote}
 }
 
 func (p *CarrierMessagingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierMessagingCallback = (*CarrierMessagingCallbackProxy)(nil)
@@ -52,12 +60,12 @@ func (p *CarrierMessagingCallbackProxy) OnFilterComplete(
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onFilterComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnFilterComplete)
 	if _err != nil {
-		_code = TransactionICarrierMessagingCallbackOnFilterComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnFilterComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +79,12 @@ func (p *CarrierMessagingCallbackProxy) OnSendSmsComplete(
 	_data.WriteInt32(result)
 	_data.WriteInt32(messageRef)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendSmsComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendSmsComplete)
 	if _err != nil {
-		_code = TransactionICarrierMessagingCallbackOnSendSmsComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendSmsComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +105,12 @@ func (p *CarrierMessagingCallbackProxy) OnSendMultipartSmsComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendMultipartSmsComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMultipartSmsComplete)
 	if _err != nil {
-		_code = TransactionICarrierMessagingCallbackOnSendMultipartSmsComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMultipartSmsComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,12 +131,12 @@ func (p *CarrierMessagingCallbackProxy) OnSendMmsComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendMmsComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMmsComplete)
 	if _err != nil {
-		_code = TransactionICarrierMessagingCallbackOnSendMmsComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnSendMmsComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,12 +148,12 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onDownloadMmsComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnDownloadMmsComplete)
 	if _err != nil {
-		_code = TransactionICarrierMessagingCallbackOnDownloadMmsComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingCallback, MethodICarrierMessagingCallbackOnDownloadMmsComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,6 +164,10 @@ type CarrierMessagingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierMessagingCallbackStub)(nil)
+
+func (s *CarrierMessagingCallbackStub) Descriptor() string {
+	return DescriptorICarrierMessagingCallback
+}
 
 func (s *CarrierMessagingCallbackStub) OnTransaction(
 	ctx context.Context,

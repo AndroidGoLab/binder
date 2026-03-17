@@ -17,6 +17,12 @@ const (
 	TransactionIInputFilterFilterInputEvent = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInputFilterInstall          = "install"
+	MethodIInputFilterUninstall        = "uninstall"
+	MethodIInputFilterFilterInputEvent = "filterInputEvent"
+)
+
 type IInputFilter interface {
 	AsBinder() binder.IBinder
 	Install(ctx context.Context, host IInputFilterHost) error
@@ -25,17 +31,17 @@ type IInputFilter interface {
 }
 
 type InputFilterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFilterProxy(
 	remote binder.IBinder,
 ) *InputFilterProxy {
-	return &InputFilterProxy{remote: remote}
+	return &InputFilterProxy{Remote: remote}
 }
 
 func (p *InputFilterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFilter = (*InputFilterProxy)(nil)
@@ -46,14 +52,14 @@ func (p *InputFilterProxy) Install(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
-	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "install")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterInstall)
 	if _err != nil {
-		_code = TransactionIInputFilterInstall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterInstall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *InputFilterProxy) Uninstall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "uninstall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterUninstall)
 	if _err != nil {
-		_code = TransactionIInputFilterUninstall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterUninstall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,12 +91,12 @@ func (p *InputFilterProxy) FilterInputEvent(
 	}
 	_data.WriteInt32(policyFlags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "filterInputEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterFilterInputEvent)
 	if _err != nil {
-		_code = TransactionIInputFilterFilterInputEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterFilterInputEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,6 +107,10 @@ type InputFilterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputFilterStub)(nil)
+
+func (s *InputFilterStub) Descriptor() string {
+	return DescriptorIInputFilter
+}
 
 func (s *InputFilterStub) OnTransaction(
 	ctx context.Context,

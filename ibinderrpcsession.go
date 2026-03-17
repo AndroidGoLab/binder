@@ -15,23 +15,27 @@ const (
 	TransactionIBinderRpcSessionGetName = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBinderRpcSessionGetName = "getName"
+)
+
 type IBinderRpcSession interface {
 	AsBinder() binder.IBinder
 	GetName(ctx context.Context) (string, error)
 }
 
 type BinderRpcSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderRpcSessionProxy(
 	remote binder.IBinder,
 ) *BinderRpcSessionProxy {
-	return &BinderRpcSessionProxy{remote: remote}
+	return &BinderRpcSessionProxy{Remote: remote}
 }
 
 func (p *BinderRpcSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderRpcSession = (*BinderRpcSessionProxy)(nil)
@@ -43,12 +47,12 @@ func (p *BinderRpcSessionProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderRpcSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcSession, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcSession, MethodIBinderRpcSessionGetName)
 	if _err != nil {
-		_code = TransactionIBinderRpcSessionGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcSession, MethodIBinderRpcSessionGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type BinderRpcSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderRpcSessionStub)(nil)
+
+func (s *BinderRpcSessionStub) Descriptor() string {
+	return DescriptorIBinderRpcSession
+}
 
 func (s *BinderRpcSessionStub) OnTransaction(
 	ctx context.Context,

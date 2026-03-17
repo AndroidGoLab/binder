@@ -20,7 +20,6 @@ type P2pGroupStartedEventParams struct {
 	IsP2pClientEapolIpAddressInfoPresent bool
 	P2pClientIpInfo                      P2pClientEapolIpAddressInfo
 	VendorData                           []common.OuiKeyedData
-	KeyMgmtMask                          int32
 }
 
 var _ parcel.Parcelable = (*P2pGroupStartedEventParams)(nil)
@@ -31,41 +30,13 @@ func (s *P2pGroupStartedEventParams) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.GroupInterfaceName)
 	p.WriteBool(s.IsGroupOwner)
-	if s.Ssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Ssid)))
-		for _, _item := range s.Ssid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Ssid)
 	p.WriteInt32(s.FrequencyMHz)
-	if s.Psk == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Psk)))
-		for _, _item := range s.Psk {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Psk)
 	p.WriteString16(s.Passphrase)
 	p.WriteBool(s.IsPersistent)
-	if s.GoDeviceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.GoDeviceAddress)))
-		for _, _item := range s.GoDeviceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.GoInterfaceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.GoInterfaceAddress)))
-		for _, _item := range s.GoInterfaceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.GoDeviceAddress, 6)
+	p.WriteFixedByteArray(s.GoInterfaceAddress, 6)
 	p.WriteBool(s.IsP2pClientEapolIpAddressInfoPresent)
 	if _err := s.P2pClientIpInfo.MarshalParcel(p); _err != nil {
 		return _err
@@ -75,12 +46,12 @@ func (s *P2pGroupStartedEventParams) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	p.WriteInt32(s.KeyMgmtMask)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -104,19 +75,9 @@ func (s *P2pGroupStartedEventParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Ssid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Ssid = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Ssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.FrequencyMHz, _err = p.ReadInt32()
@@ -124,19 +85,9 @@ func (s *P2pGroupStartedEventParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Psk, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Psk = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Psk[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Passphrase, _err = p.ReadString16()
@@ -149,34 +100,14 @@ func (s *P2pGroupStartedEventParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.GoDeviceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.GoDeviceAddress = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.GoDeviceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.GoInterfaceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.GoInterfaceAddress = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.GoInterfaceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.IsP2pClientEapolIpAddressInfoPresent, _err = p.ReadBool()
@@ -196,15 +127,13 @@ func (s *P2pGroupStartedEventParams) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	s.KeyMgmtMask, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

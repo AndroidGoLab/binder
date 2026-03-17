@@ -15,6 +15,10 @@ const (
 	TransactionIMeasurementCorrectionsCallbackSetCapabilitiesCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMeasurementCorrectionsCallbackSetCapabilitiesCb = "setCapabilitiesCb"
+)
+
 type IMeasurementCorrectionsCallback interface {
 	AsBinder() binder.IBinder
 	SetCapabilitiesCb(ctx context.Context, capabilities int32) error
@@ -27,17 +31,17 @@ const (
 )
 
 type MeasurementCorrectionsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMeasurementCorrectionsCallbackProxy(
 	remote binder.IBinder,
 ) *MeasurementCorrectionsCallbackProxy {
-	return &MeasurementCorrectionsCallbackProxy{remote: remote}
+	return &MeasurementCorrectionsCallbackProxy{Remote: remote}
 }
 
 func (p *MeasurementCorrectionsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMeasurementCorrectionsCallback = (*MeasurementCorrectionsCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *MeasurementCorrectionsCallbackProxy) SetCapabilitiesCb(
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsCallback)
 	_data.WriteInt32(capabilities)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMeasurementCorrectionsCallback, "setCapabilitiesCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMeasurementCorrectionsCallback, MethodIMeasurementCorrectionsCallbackSetCapabilitiesCb)
 	if _err != nil {
-		_code = TransactionIMeasurementCorrectionsCallbackSetCapabilitiesCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMeasurementCorrectionsCallback, MethodIMeasurementCorrectionsCallbackSetCapabilitiesCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,6 +79,10 @@ type MeasurementCorrectionsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MeasurementCorrectionsCallbackStub)(nil)
+
+func (s *MeasurementCorrectionsCallbackStub) Descriptor() string {
+	return DescriptorIMeasurementCorrectionsCallback
+}
 
 func (s *MeasurementCorrectionsCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIShellCallbackOpenFile = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIShellCallbackOpenFile = "openFile"
+)
+
 type IShellCallback interface {
 	AsBinder() binder.IBinder
 	OpenFile(ctx context.Context, path string, seLinuxContext string, mode string) (int32, error)
 }
 
 type ShellCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewShellCallbackProxy(
 	remote binder.IBinder,
 ) *ShellCallbackProxy {
-	return &ShellCallbackProxy{remote: remote}
+	return &ShellCallbackProxy{Remote: remote}
 }
 
 func (p *ShellCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IShellCallback = (*ShellCallbackProxy)(nil)
@@ -49,12 +53,12 @@ func (p *ShellCallbackProxy) OpenFile(
 	_data.WriteString16(seLinuxContext)
 	_data.WriteString16(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellCallback, "openFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellCallback, MethodIShellCallbackOpenFile)
 	if _err != nil {
-		_code = TransactionIShellCallbackOpenFile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIShellCallback, MethodIShellCallbackOpenFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,6 +82,10 @@ type ShellCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ShellCallbackStub)(nil)
+
+func (s *ShellCallbackStub) Descriptor() string {
+	return DescriptorIShellCallback
+}
 
 func (s *ShellCallbackStub) OnTransaction(
 	ctx context.Context,

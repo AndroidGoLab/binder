@@ -16,17 +16,17 @@ type IDataSource interface {
 }
 
 type DataSourceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataSourceProxy(
 	remote binder.IBinder,
 ) *DataSourceProxy {
-	return &DataSourceProxy{remote: remote}
+	return &DataSourceProxy{Remote: remote}
 }
 
 func (p *DataSourceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataSource = (*DataSourceProxy)(nil)
@@ -38,6 +38,10 @@ type DataSourceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataSourceStub)(nil)
+
+func (s *DataSourceStub) Descriptor() string {
+	return DescriptorIDataSource
+}
 
 func (s *DataSourceStub) OnTransaction(
 	ctx context.Context,

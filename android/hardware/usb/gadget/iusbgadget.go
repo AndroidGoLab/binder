@@ -18,6 +18,13 @@ const (
 	TransactionIUsbGadgetReset                  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIUsbGadgetSetCurrentUsbFunctions = "setCurrentUsbFunctions"
+	MethodIUsbGadgetGetCurrentUsbFunctions = "getCurrentUsbFunctions"
+	MethodIUsbGadgetGetUsbSpeed            = "getUsbSpeed"
+	MethodIUsbGadgetReset                  = "reset"
+)
+
 type IUsbGadget interface {
 	AsBinder() binder.IBinder
 	SetCurrentUsbFunctions(ctx context.Context, functions int64, callback IUsbGadgetCallback, timeoutMs int64, transactionId int64) error
@@ -27,17 +34,17 @@ type IUsbGadget interface {
 }
 
 type UsbGadgetProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUsbGadgetProxy(
 	remote binder.IBinder,
 ) *UsbGadgetProxy {
-	return &UsbGadgetProxy{remote: remote}
+	return &UsbGadgetProxy{Remote: remote}
 }
 
 func (p *UsbGadgetProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUsbGadget = (*UsbGadgetProxy)(nil)
@@ -52,16 +59,16 @@ func (p *UsbGadgetProxy) SetCurrentUsbFunctions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
 	_data.WriteInt64(functions)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(timeoutMs)
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadget, "setCurrentUsbFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetSetCurrentUsbFunctions)
 	if _err != nil {
-		_code = TransactionIUsbGadgetSetCurrentUsbFunctions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadget, MethodIUsbGadgetSetCurrentUsbFunctions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,15 +79,15 @@ func (p *UsbGadgetProxy) GetCurrentUsbFunctions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadget, "getCurrentUsbFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetGetCurrentUsbFunctions)
 	if _err != nil {
-		_code = TransactionIUsbGadgetGetCurrentUsbFunctions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadget, MethodIUsbGadgetGetCurrentUsbFunctions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,15 +98,15 @@ func (p *UsbGadgetProxy) GetUsbSpeed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadget, "getUsbSpeed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetGetUsbSpeed)
 	if _err != nil {
-		_code = TransactionIUsbGadgetGetUsbSpeed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadget, MethodIUsbGadgetGetUsbSpeed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,15 +117,15 @@ func (p *UsbGadgetProxy) Reset(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbGadget)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadget, "reset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbGadget, MethodIUsbGadgetReset)
 	if _err != nil {
-		_code = TransactionIUsbGadgetReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbGadget, MethodIUsbGadgetReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,6 +136,10 @@ type UsbGadgetStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UsbGadgetStub)(nil)
+
+func (s *UsbGadgetStub) Descriptor() string {
+	return DescriptorIUsbGadget
+}
 
 func (s *UsbGadgetStub) OnTransaction(
 	ctx context.Context,

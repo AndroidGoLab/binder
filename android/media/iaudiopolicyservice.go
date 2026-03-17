@@ -5,9 +5,7 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
-	permission "github.com/xaionaro-go/binder/com/android/media/permission"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -32,126 +30,226 @@ const (
 	TransactionIAudioPolicyServiceStartInput                                    = binder.FirstCallTransaction + 13
 	TransactionIAudioPolicyServiceStopInput                                     = binder.FirstCallTransaction + 14
 	TransactionIAudioPolicyServiceReleaseInput                                  = binder.FirstCallTransaction + 15
-	TransactionIAudioPolicyServiceSetDeviceAbsoluteVolumeEnabled                = binder.FirstCallTransaction + 16
-	TransactionIAudioPolicyServiceInitStreamVolume                              = binder.FirstCallTransaction + 17
-	TransactionIAudioPolicyServiceSetStreamVolumeIndex                          = binder.FirstCallTransaction + 18
-	TransactionIAudioPolicyServiceGetStreamVolumeIndex                          = binder.FirstCallTransaction + 19
-	TransactionIAudioPolicyServiceSetVolumeIndexForAttributes                   = binder.FirstCallTransaction + 20
-	TransactionIAudioPolicyServiceGetVolumeIndexForAttributes                   = binder.FirstCallTransaction + 21
-	TransactionIAudioPolicyServiceGetMaxVolumeIndexForAttributes                = binder.FirstCallTransaction + 22
-	TransactionIAudioPolicyServiceGetMinVolumeIndexForAttributes                = binder.FirstCallTransaction + 23
-	TransactionIAudioPolicyServiceGetStrategyForStream                          = binder.FirstCallTransaction + 24
-	TransactionIAudioPolicyServiceGetDevicesForAttributes                       = binder.FirstCallTransaction + 25
-	TransactionIAudioPolicyServiceGetOutputForEffect                            = binder.FirstCallTransaction + 26
-	TransactionIAudioPolicyServiceRegisterEffect                                = binder.FirstCallTransaction + 27
-	TransactionIAudioPolicyServiceUnregisterEffect                              = binder.FirstCallTransaction + 28
-	TransactionIAudioPolicyServiceSetEffectEnabled                              = binder.FirstCallTransaction + 29
-	TransactionIAudioPolicyServiceMoveEffectsToIo                               = binder.FirstCallTransaction + 30
-	TransactionIAudioPolicyServiceIsStreamActive                                = binder.FirstCallTransaction + 31
-	TransactionIAudioPolicyServiceIsStreamActiveRemotely                        = binder.FirstCallTransaction + 32
-	TransactionIAudioPolicyServiceIsSourceActive                                = binder.FirstCallTransaction + 33
-	TransactionIAudioPolicyServiceQueryDefaultPreProcessing                     = binder.FirstCallTransaction + 34
-	TransactionIAudioPolicyServiceAddSourceDefaultEffect                        = binder.FirstCallTransaction + 35
-	TransactionIAudioPolicyServiceAddStreamDefaultEffect                        = binder.FirstCallTransaction + 36
-	TransactionIAudioPolicyServiceRemoveSourceDefaultEffect                     = binder.FirstCallTransaction + 37
-	TransactionIAudioPolicyServiceRemoveStreamDefaultEffect                     = binder.FirstCallTransaction + 38
-	TransactionIAudioPolicyServiceSetSupportedSystemUsages                      = binder.FirstCallTransaction + 39
-	TransactionIAudioPolicyServiceSetAllowedCapturePolicy                       = binder.FirstCallTransaction + 40
-	TransactionIAudioPolicyServiceGetOffloadSupport                             = binder.FirstCallTransaction + 41
-	TransactionIAudioPolicyServiceIsDirectOutputSupported                       = binder.FirstCallTransaction + 42
-	TransactionIAudioPolicyServiceListAudioPorts                                = binder.FirstCallTransaction + 43
-	TransactionIAudioPolicyServiceListDeclaredDevicePorts                       = binder.FirstCallTransaction + 44
-	TransactionIAudioPolicyServiceGetAudioPort                                  = binder.FirstCallTransaction + 45
-	TransactionIAudioPolicyServiceCreateAudioPatch                              = binder.FirstCallTransaction + 46
-	TransactionIAudioPolicyServiceReleaseAudioPatch                             = binder.FirstCallTransaction + 47
-	TransactionIAudioPolicyServiceListAudioPatches                              = binder.FirstCallTransaction + 48
-	TransactionIAudioPolicyServiceSetAudioPortConfig                            = binder.FirstCallTransaction + 49
-	TransactionIAudioPolicyServiceRegisterClient                                = binder.FirstCallTransaction + 50
-	TransactionIAudioPolicyServiceSetAudioPortCallbacksEnabled                  = binder.FirstCallTransaction + 51
-	TransactionIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled           = binder.FirstCallTransaction + 52
-	TransactionIAudioPolicyServiceAcquireSoundTriggerSession                    = binder.FirstCallTransaction + 53
-	TransactionIAudioPolicyServiceReleaseSoundTriggerSession                    = binder.FirstCallTransaction + 54
-	TransactionIAudioPolicyServiceGetPhoneState                                 = binder.FirstCallTransaction + 55
-	TransactionIAudioPolicyServiceRegisterPolicyMixes                           = binder.FirstCallTransaction + 56
-	TransactionIAudioPolicyServiceGetRegisteredPolicyMixes                      = binder.FirstCallTransaction + 57
-	TransactionIAudioPolicyServiceUpdatePolicyMixes                             = binder.FirstCallTransaction + 58
-	TransactionIAudioPolicyServiceSetUidDeviceAffinities                        = binder.FirstCallTransaction + 59
-	TransactionIAudioPolicyServiceRemoveUidDeviceAffinities                     = binder.FirstCallTransaction + 60
-	TransactionIAudioPolicyServiceSetUserIdDeviceAffinities                     = binder.FirstCallTransaction + 61
-	TransactionIAudioPolicyServiceRemoveUserIdDeviceAffinities                  = binder.FirstCallTransaction + 62
-	TransactionIAudioPolicyServiceStartAudioSource                              = binder.FirstCallTransaction + 63
-	TransactionIAudioPolicyServiceStopAudioSource                               = binder.FirstCallTransaction + 64
-	TransactionIAudioPolicyServiceSetMasterMono                                 = binder.FirstCallTransaction + 65
-	TransactionIAudioPolicyServiceGetMasterMono                                 = binder.FirstCallTransaction + 66
-	TransactionIAudioPolicyServiceGetStreamVolumeDB                             = binder.FirstCallTransaction + 67
-	TransactionIAudioPolicyServiceGetSurroundFormats                            = binder.FirstCallTransaction + 68
-	TransactionIAudioPolicyServiceGetReportedSurroundFormats                    = binder.FirstCallTransaction + 69
-	TransactionIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia = binder.FirstCallTransaction + 70
-	TransactionIAudioPolicyServiceSetSurroundFormatEnabled                      = binder.FirstCallTransaction + 71
-	TransactionIAudioPolicyServiceSetAssistantServicesUids                      = binder.FirstCallTransaction + 72
-	TransactionIAudioPolicyServiceSetActiveAssistantServicesUids                = binder.FirstCallTransaction + 73
-	TransactionIAudioPolicyServiceSetA11yServicesUids                           = binder.FirstCallTransaction + 74
-	TransactionIAudioPolicyServiceSetCurrentImeUid                              = binder.FirstCallTransaction + 75
-	TransactionIAudioPolicyServiceIsHapticPlaybackSupported                     = binder.FirstCallTransaction + 76
-	TransactionIAudioPolicyServiceIsUltrasoundSupported                         = binder.FirstCallTransaction + 77
-	TransactionIAudioPolicyServiceIsHotwordStreamSupported                      = binder.FirstCallTransaction + 78
-	TransactionIAudioPolicyServiceListAudioProductStrategies                    = binder.FirstCallTransaction + 79
-	TransactionIAudioPolicyServiceGetProductStrategyFromAudioAttributes         = binder.FirstCallTransaction + 80
-	TransactionIAudioPolicyServiceListAudioVolumeGroups                         = binder.FirstCallTransaction + 81
-	TransactionIAudioPolicyServiceGetVolumeGroupFromAudioAttributes             = binder.FirstCallTransaction + 82
-	TransactionIAudioPolicyServiceSetRttEnabled                                 = binder.FirstCallTransaction + 83
-	TransactionIAudioPolicyServiceIsCallScreenModeSupported                     = binder.FirstCallTransaction + 84
-	TransactionIAudioPolicyServiceSetDevicesRoleForStrategy                     = binder.FirstCallTransaction + 85
-	TransactionIAudioPolicyServiceRemoveDevicesRoleForStrategy                  = binder.FirstCallTransaction + 86
-	TransactionIAudioPolicyServiceClearDevicesRoleForStrategy                   = binder.FirstCallTransaction + 87
-	TransactionIAudioPolicyServiceGetDevicesForRoleAndStrategy                  = binder.FirstCallTransaction + 88
-	TransactionIAudioPolicyServiceSetDevicesRoleForCapturePreset                = binder.FirstCallTransaction + 89
-	TransactionIAudioPolicyServiceAddDevicesRoleForCapturePreset                = binder.FirstCallTransaction + 90
-	TransactionIAudioPolicyServiceRemoveDevicesRoleForCapturePreset             = binder.FirstCallTransaction + 91
-	TransactionIAudioPolicyServiceClearDevicesRoleForCapturePreset              = binder.FirstCallTransaction + 92
-	TransactionIAudioPolicyServiceGetDevicesForRoleAndCapturePreset             = binder.FirstCallTransaction + 93
-	TransactionIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener      = binder.FirstCallTransaction + 94
-	TransactionIAudioPolicyServiceGetSpatializer                                = binder.FirstCallTransaction + 95
-	TransactionIAudioPolicyServiceCanBeSpatialized                              = binder.FirstCallTransaction + 96
-	TransactionIAudioPolicyServiceGetDirectPlaybackSupport                      = binder.FirstCallTransaction + 97
-	TransactionIAudioPolicyServiceGetDirectProfilesForAttributes                = binder.FirstCallTransaction + 98
-	TransactionIAudioPolicyServiceGetSupportedMixerAttributes                   = binder.FirstCallTransaction + 99
-	TransactionIAudioPolicyServiceSetPreferredMixerAttributes                   = binder.FirstCallTransaction + 100
-	TransactionIAudioPolicyServiceGetPreferredMixerAttributes                   = binder.FirstCallTransaction + 101
-	TransactionIAudioPolicyServiceClearPreferredMixerAttributes                 = binder.FirstCallTransaction + 102
-	TransactionIAudioPolicyServiceGetPermissionController                       = binder.FirstCallTransaction + 103
-	TransactionIAudioPolicyServiceGetMmapPolicyInfos                            = binder.FirstCallTransaction + 104
-	TransactionIAudioPolicyServiceGetMmapPolicyForDevice                        = binder.FirstCallTransaction + 105
+	TransactionIAudioPolicyServiceInitStreamVolume                              = binder.FirstCallTransaction + 16
+	TransactionIAudioPolicyServiceSetStreamVolumeIndex                          = binder.FirstCallTransaction + 17
+	TransactionIAudioPolicyServiceGetStreamVolumeIndex                          = binder.FirstCallTransaction + 18
+	TransactionIAudioPolicyServiceSetVolumeIndexForAttributes                   = binder.FirstCallTransaction + 19
+	TransactionIAudioPolicyServiceGetVolumeIndexForAttributes                   = binder.FirstCallTransaction + 20
+	TransactionIAudioPolicyServiceGetMaxVolumeIndexForAttributes                = binder.FirstCallTransaction + 21
+	TransactionIAudioPolicyServiceGetMinVolumeIndexForAttributes                = binder.FirstCallTransaction + 22
+	TransactionIAudioPolicyServiceGetStrategyForStream                          = binder.FirstCallTransaction + 23
+	TransactionIAudioPolicyServiceGetDevicesForAttributes                       = binder.FirstCallTransaction + 24
+	TransactionIAudioPolicyServiceGetOutputForEffect                            = binder.FirstCallTransaction + 25
+	TransactionIAudioPolicyServiceRegisterEffect                                = binder.FirstCallTransaction + 26
+	TransactionIAudioPolicyServiceUnregisterEffect                              = binder.FirstCallTransaction + 27
+	TransactionIAudioPolicyServiceSetEffectEnabled                              = binder.FirstCallTransaction + 28
+	TransactionIAudioPolicyServiceMoveEffectsToIo                               = binder.FirstCallTransaction + 29
+	TransactionIAudioPolicyServiceIsStreamActive                                = binder.FirstCallTransaction + 30
+	TransactionIAudioPolicyServiceIsStreamActiveRemotely                        = binder.FirstCallTransaction + 31
+	TransactionIAudioPolicyServiceIsSourceActive                                = binder.FirstCallTransaction + 32
+	TransactionIAudioPolicyServiceQueryDefaultPreProcessing                     = binder.FirstCallTransaction + 33
+	TransactionIAudioPolicyServiceAddSourceDefaultEffect                        = binder.FirstCallTransaction + 34
+	TransactionIAudioPolicyServiceAddStreamDefaultEffect                        = binder.FirstCallTransaction + 35
+	TransactionIAudioPolicyServiceRemoveSourceDefaultEffect                     = binder.FirstCallTransaction + 36
+	TransactionIAudioPolicyServiceRemoveStreamDefaultEffect                     = binder.FirstCallTransaction + 37
+	TransactionIAudioPolicyServiceSetSupportedSystemUsages                      = binder.FirstCallTransaction + 38
+	TransactionIAudioPolicyServiceSetAllowedCapturePolicy                       = binder.FirstCallTransaction + 39
+	TransactionIAudioPolicyServiceGetOffloadSupport                             = binder.FirstCallTransaction + 40
+	TransactionIAudioPolicyServiceIsDirectOutputSupported                       = binder.FirstCallTransaction + 41
+	TransactionIAudioPolicyServiceListAudioPorts                                = binder.FirstCallTransaction + 42
+	TransactionIAudioPolicyServiceListDeclaredDevicePorts                       = binder.FirstCallTransaction + 43
+	TransactionIAudioPolicyServiceGetAudioPort                                  = binder.FirstCallTransaction + 44
+	TransactionIAudioPolicyServiceCreateAudioPatch                              = binder.FirstCallTransaction + 45
+	TransactionIAudioPolicyServiceReleaseAudioPatch                             = binder.FirstCallTransaction + 46
+	TransactionIAudioPolicyServiceListAudioPatches                              = binder.FirstCallTransaction + 47
+	TransactionIAudioPolicyServiceSetAudioPortConfig                            = binder.FirstCallTransaction + 48
+	TransactionIAudioPolicyServiceRegisterClient                                = binder.FirstCallTransaction + 49
+	TransactionIAudioPolicyServiceSetAudioPortCallbacksEnabled                  = binder.FirstCallTransaction + 50
+	TransactionIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled           = binder.FirstCallTransaction + 51
+	TransactionIAudioPolicyServiceAcquireSoundTriggerSession                    = binder.FirstCallTransaction + 52
+	TransactionIAudioPolicyServiceReleaseSoundTriggerSession                    = binder.FirstCallTransaction + 53
+	TransactionIAudioPolicyServiceGetPhoneState                                 = binder.FirstCallTransaction + 54
+	TransactionIAudioPolicyServiceRegisterPolicyMixes                           = binder.FirstCallTransaction + 55
+	TransactionIAudioPolicyServiceGetRegisteredPolicyMixes                      = binder.FirstCallTransaction + 56
+	TransactionIAudioPolicyServiceUpdatePolicyMixes                             = binder.FirstCallTransaction + 57
+	TransactionIAudioPolicyServiceSetUidDeviceAffinities                        = binder.FirstCallTransaction + 58
+	TransactionIAudioPolicyServiceRemoveUidDeviceAffinities                     = binder.FirstCallTransaction + 59
+	TransactionIAudioPolicyServiceSetUserIdDeviceAffinities                     = binder.FirstCallTransaction + 60
+	TransactionIAudioPolicyServiceRemoveUserIdDeviceAffinities                  = binder.FirstCallTransaction + 61
+	TransactionIAudioPolicyServiceStartAudioSource                              = binder.FirstCallTransaction + 62
+	TransactionIAudioPolicyServiceStopAudioSource                               = binder.FirstCallTransaction + 63
+	TransactionIAudioPolicyServiceSetMasterMono                                 = binder.FirstCallTransaction + 64
+	TransactionIAudioPolicyServiceGetMasterMono                                 = binder.FirstCallTransaction + 65
+	TransactionIAudioPolicyServiceGetStreamVolumeDB                             = binder.FirstCallTransaction + 66
+	TransactionIAudioPolicyServiceGetSurroundFormats                            = binder.FirstCallTransaction + 67
+	TransactionIAudioPolicyServiceGetReportedSurroundFormats                    = binder.FirstCallTransaction + 68
+	TransactionIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia = binder.FirstCallTransaction + 69
+	TransactionIAudioPolicyServiceSetSurroundFormatEnabled                      = binder.FirstCallTransaction + 70
+	TransactionIAudioPolicyServiceSetAssistantServicesUids                      = binder.FirstCallTransaction + 71
+	TransactionIAudioPolicyServiceSetActiveAssistantServicesUids                = binder.FirstCallTransaction + 72
+	TransactionIAudioPolicyServiceSetA11yServicesUids                           = binder.FirstCallTransaction + 73
+	TransactionIAudioPolicyServiceSetCurrentImeUid                              = binder.FirstCallTransaction + 74
+	TransactionIAudioPolicyServiceIsHapticPlaybackSupported                     = binder.FirstCallTransaction + 75
+	TransactionIAudioPolicyServiceIsUltrasoundSupported                         = binder.FirstCallTransaction + 76
+	TransactionIAudioPolicyServiceIsHotwordStreamSupported                      = binder.FirstCallTransaction + 77
+	TransactionIAudioPolicyServiceListAudioProductStrategies                    = binder.FirstCallTransaction + 78
+	TransactionIAudioPolicyServiceGetProductStrategyFromAudioAttributes         = binder.FirstCallTransaction + 79
+	TransactionIAudioPolicyServiceListAudioVolumeGroups                         = binder.FirstCallTransaction + 80
+	TransactionIAudioPolicyServiceGetVolumeGroupFromAudioAttributes             = binder.FirstCallTransaction + 81
+	TransactionIAudioPolicyServiceSetRttEnabled                                 = binder.FirstCallTransaction + 82
+	TransactionIAudioPolicyServiceIsCallScreenModeSupported                     = binder.FirstCallTransaction + 83
+	TransactionIAudioPolicyServiceSetDevicesRoleForStrategy                     = binder.FirstCallTransaction + 84
+	TransactionIAudioPolicyServiceRemoveDevicesRoleForStrategy                  = binder.FirstCallTransaction + 85
+	TransactionIAudioPolicyServiceClearDevicesRoleForStrategy                   = binder.FirstCallTransaction + 86
+	TransactionIAudioPolicyServiceGetDevicesForRoleAndStrategy                  = binder.FirstCallTransaction + 87
+	TransactionIAudioPolicyServiceSetDevicesRoleForCapturePreset                = binder.FirstCallTransaction + 88
+	TransactionIAudioPolicyServiceAddDevicesRoleForCapturePreset                = binder.FirstCallTransaction + 89
+	TransactionIAudioPolicyServiceRemoveDevicesRoleForCapturePreset             = binder.FirstCallTransaction + 90
+	TransactionIAudioPolicyServiceClearDevicesRoleForCapturePreset              = binder.FirstCallTransaction + 91
+	TransactionIAudioPolicyServiceGetDevicesForRoleAndCapturePreset             = binder.FirstCallTransaction + 92
+	TransactionIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener      = binder.FirstCallTransaction + 93
+	TransactionIAudioPolicyServiceGetSpatializer                                = binder.FirstCallTransaction + 94
+	TransactionIAudioPolicyServiceCanBeSpatialized                              = binder.FirstCallTransaction + 95
+	TransactionIAudioPolicyServiceGetDirectPlaybackSupport                      = binder.FirstCallTransaction + 96
+	TransactionIAudioPolicyServiceGetDirectProfilesForAttributes                = binder.FirstCallTransaction + 97
+	TransactionIAudioPolicyServiceGetSupportedMixerAttributes                   = binder.FirstCallTransaction + 98
+	TransactionIAudioPolicyServiceSetPreferredMixerAttributes                   = binder.FirstCallTransaction + 99
+	TransactionIAudioPolicyServiceGetPreferredMixerAttributes                   = binder.FirstCallTransaction + 100
+	TransactionIAudioPolicyServiceClearPreferredMixerAttributes                 = binder.FirstCallTransaction + 101
+)
+
+const (
+	MethodIAudioPolicyServiceOnNewAudioModulesAvailable                    = "onNewAudioModulesAvailable"
+	MethodIAudioPolicyServiceSetDeviceConnectionState                      = "setDeviceConnectionState"
+	MethodIAudioPolicyServiceGetDeviceConnectionState                      = "getDeviceConnectionState"
+	MethodIAudioPolicyServiceHandleDeviceConfigChange                      = "handleDeviceConfigChange"
+	MethodIAudioPolicyServiceSetPhoneState                                 = "setPhoneState"
+	MethodIAudioPolicyServiceSetForceUse                                   = "setForceUse"
+	MethodIAudioPolicyServiceGetForceUse                                   = "getForceUse"
+	MethodIAudioPolicyServiceGetOutput                                     = "getOutput"
+	MethodIAudioPolicyServiceGetOutputForAttr                              = "getOutputForAttr"
+	MethodIAudioPolicyServiceStartOutput                                   = "startOutput"
+	MethodIAudioPolicyServiceStopOutput                                    = "stopOutput"
+	MethodIAudioPolicyServiceReleaseOutput                                 = "releaseOutput"
+	MethodIAudioPolicyServiceGetInputForAttr                               = "getInputForAttr"
+	MethodIAudioPolicyServiceStartInput                                    = "startInput"
+	MethodIAudioPolicyServiceStopInput                                     = "stopInput"
+	MethodIAudioPolicyServiceReleaseInput                                  = "releaseInput"
+	MethodIAudioPolicyServiceInitStreamVolume                              = "initStreamVolume"
+	MethodIAudioPolicyServiceSetStreamVolumeIndex                          = "setStreamVolumeIndex"
+	MethodIAudioPolicyServiceGetStreamVolumeIndex                          = "getStreamVolumeIndex"
+	MethodIAudioPolicyServiceSetVolumeIndexForAttributes                   = "setVolumeIndexForAttributes"
+	MethodIAudioPolicyServiceGetVolumeIndexForAttributes                   = "getVolumeIndexForAttributes"
+	MethodIAudioPolicyServiceGetMaxVolumeIndexForAttributes                = "getMaxVolumeIndexForAttributes"
+	MethodIAudioPolicyServiceGetMinVolumeIndexForAttributes                = "getMinVolumeIndexForAttributes"
+	MethodIAudioPolicyServiceGetStrategyForStream                          = "getStrategyForStream"
+	MethodIAudioPolicyServiceGetDevicesForAttributes                       = "getDevicesForAttributes"
+	MethodIAudioPolicyServiceGetOutputForEffect                            = "getOutputForEffect"
+	MethodIAudioPolicyServiceRegisterEffect                                = "registerEffect"
+	MethodIAudioPolicyServiceUnregisterEffect                              = "unregisterEffect"
+	MethodIAudioPolicyServiceSetEffectEnabled                              = "setEffectEnabled"
+	MethodIAudioPolicyServiceMoveEffectsToIo                               = "moveEffectsToIo"
+	MethodIAudioPolicyServiceIsStreamActive                                = "isStreamActive"
+	MethodIAudioPolicyServiceIsStreamActiveRemotely                        = "isStreamActiveRemotely"
+	MethodIAudioPolicyServiceIsSourceActive                                = "isSourceActive"
+	MethodIAudioPolicyServiceQueryDefaultPreProcessing                     = "queryDefaultPreProcessing"
+	MethodIAudioPolicyServiceAddSourceDefaultEffect                        = "addSourceDefaultEffect"
+	MethodIAudioPolicyServiceAddStreamDefaultEffect                        = "addStreamDefaultEffect"
+	MethodIAudioPolicyServiceRemoveSourceDefaultEffect                     = "removeSourceDefaultEffect"
+	MethodIAudioPolicyServiceRemoveStreamDefaultEffect                     = "removeStreamDefaultEffect"
+	MethodIAudioPolicyServiceSetSupportedSystemUsages                      = "setSupportedSystemUsages"
+	MethodIAudioPolicyServiceSetAllowedCapturePolicy                       = "setAllowedCapturePolicy"
+	MethodIAudioPolicyServiceGetOffloadSupport                             = "getOffloadSupport"
+	MethodIAudioPolicyServiceIsDirectOutputSupported                       = "isDirectOutputSupported"
+	MethodIAudioPolicyServiceListAudioPorts                                = "listAudioPorts"
+	MethodIAudioPolicyServiceListDeclaredDevicePorts                       = "listDeclaredDevicePorts"
+	MethodIAudioPolicyServiceGetAudioPort                                  = "getAudioPort"
+	MethodIAudioPolicyServiceCreateAudioPatch                              = "createAudioPatch"
+	MethodIAudioPolicyServiceReleaseAudioPatch                             = "releaseAudioPatch"
+	MethodIAudioPolicyServiceListAudioPatches                              = "listAudioPatches"
+	MethodIAudioPolicyServiceSetAudioPortConfig                            = "setAudioPortConfig"
+	MethodIAudioPolicyServiceRegisterClient                                = "registerClient"
+	MethodIAudioPolicyServiceSetAudioPortCallbacksEnabled                  = "setAudioPortCallbacksEnabled"
+	MethodIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled           = "setAudioVolumeGroupCallbacksEnabled"
+	MethodIAudioPolicyServiceAcquireSoundTriggerSession                    = "acquireSoundTriggerSession"
+	MethodIAudioPolicyServiceReleaseSoundTriggerSession                    = "releaseSoundTriggerSession"
+	MethodIAudioPolicyServiceGetPhoneState                                 = "getPhoneState"
+	MethodIAudioPolicyServiceRegisterPolicyMixes                           = "registerPolicyMixes"
+	MethodIAudioPolicyServiceGetRegisteredPolicyMixes                      = "getRegisteredPolicyMixes"
+	MethodIAudioPolicyServiceUpdatePolicyMixes                             = "updatePolicyMixes"
+	MethodIAudioPolicyServiceSetUidDeviceAffinities                        = "setUidDeviceAffinities"
+	MethodIAudioPolicyServiceRemoveUidDeviceAffinities                     = "removeUidDeviceAffinities"
+	MethodIAudioPolicyServiceSetUserIdDeviceAffinities                     = "setUserIdDeviceAffinities"
+	MethodIAudioPolicyServiceRemoveUserIdDeviceAffinities                  = "removeUserIdDeviceAffinities"
+	MethodIAudioPolicyServiceStartAudioSource                              = "startAudioSource"
+	MethodIAudioPolicyServiceStopAudioSource                               = "stopAudioSource"
+	MethodIAudioPolicyServiceSetMasterMono                                 = "setMasterMono"
+	MethodIAudioPolicyServiceGetMasterMono                                 = "getMasterMono"
+	MethodIAudioPolicyServiceGetStreamVolumeDB                             = "getStreamVolumeDB"
+	MethodIAudioPolicyServiceGetSurroundFormats                            = "getSurroundFormats"
+	MethodIAudioPolicyServiceGetReportedSurroundFormats                    = "getReportedSurroundFormats"
+	MethodIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia = "getHwOffloadFormatsSupportedForBluetoothMedia"
+	MethodIAudioPolicyServiceSetSurroundFormatEnabled                      = "setSurroundFormatEnabled"
+	MethodIAudioPolicyServiceSetAssistantServicesUids                      = "setAssistantServicesUids"
+	MethodIAudioPolicyServiceSetActiveAssistantServicesUids                = "setActiveAssistantServicesUids"
+	MethodIAudioPolicyServiceSetA11yServicesUids                           = "setA11yServicesUids"
+	MethodIAudioPolicyServiceSetCurrentImeUid                              = "setCurrentImeUid"
+	MethodIAudioPolicyServiceIsHapticPlaybackSupported                     = "isHapticPlaybackSupported"
+	MethodIAudioPolicyServiceIsUltrasoundSupported                         = "isUltrasoundSupported"
+	MethodIAudioPolicyServiceIsHotwordStreamSupported                      = "isHotwordStreamSupported"
+	MethodIAudioPolicyServiceListAudioProductStrategies                    = "listAudioProductStrategies"
+	MethodIAudioPolicyServiceGetProductStrategyFromAudioAttributes         = "getProductStrategyFromAudioAttributes"
+	MethodIAudioPolicyServiceListAudioVolumeGroups                         = "listAudioVolumeGroups"
+	MethodIAudioPolicyServiceGetVolumeGroupFromAudioAttributes             = "getVolumeGroupFromAudioAttributes"
+	MethodIAudioPolicyServiceSetRttEnabled                                 = "setRttEnabled"
+	MethodIAudioPolicyServiceIsCallScreenModeSupported                     = "isCallScreenModeSupported"
+	MethodIAudioPolicyServiceSetDevicesRoleForStrategy                     = "setDevicesRoleForStrategy"
+	MethodIAudioPolicyServiceRemoveDevicesRoleForStrategy                  = "removeDevicesRoleForStrategy"
+	MethodIAudioPolicyServiceClearDevicesRoleForStrategy                   = "clearDevicesRoleForStrategy"
+	MethodIAudioPolicyServiceGetDevicesForRoleAndStrategy                  = "getDevicesForRoleAndStrategy"
+	MethodIAudioPolicyServiceSetDevicesRoleForCapturePreset                = "setDevicesRoleForCapturePreset"
+	MethodIAudioPolicyServiceAddDevicesRoleForCapturePreset                = "addDevicesRoleForCapturePreset"
+	MethodIAudioPolicyServiceRemoveDevicesRoleForCapturePreset             = "removeDevicesRoleForCapturePreset"
+	MethodIAudioPolicyServiceClearDevicesRoleForCapturePreset              = "clearDevicesRoleForCapturePreset"
+	MethodIAudioPolicyServiceGetDevicesForRoleAndCapturePreset             = "getDevicesForRoleAndCapturePreset"
+	MethodIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener      = "registerSoundTriggerCaptureStateListener"
+	MethodIAudioPolicyServiceGetSpatializer                                = "getSpatializer"
+	MethodIAudioPolicyServiceCanBeSpatialized                              = "canBeSpatialized"
+	MethodIAudioPolicyServiceGetDirectPlaybackSupport                      = "getDirectPlaybackSupport"
+	MethodIAudioPolicyServiceGetDirectProfilesForAttributes                = "getDirectProfilesForAttributes"
+	MethodIAudioPolicyServiceGetSupportedMixerAttributes                   = "getSupportedMixerAttributes"
+	MethodIAudioPolicyServiceSetPreferredMixerAttributes                   = "setPreferredMixerAttributes"
+	MethodIAudioPolicyServiceGetPreferredMixerAttributes                   = "getPreferredMixerAttributes"
+	MethodIAudioPolicyServiceClearPreferredMixerAttributes                 = "clearPreferredMixerAttributes"
 )
 
 type IAudioPolicyService interface {
 	AsBinder() binder.IBinder
 	OnNewAudioModulesAvailable(ctx context.Context) error
-	SetDeviceConnectionState(ctx context.Context, state AudioPolicyDeviceState, port common.AudioPort, encodedFormat common.AudioFormatDescription) error
-	GetDeviceConnectionState(ctx context.Context, device common.AudioDevice) (AudioPolicyDeviceState, error)
-	HandleDeviceConfigChange(ctx context.Context, device common.AudioDevice, deviceName string, encodedFormat common.AudioFormatDescription) error
-	SetPhoneState(ctx context.Context, state common.AudioMode, uid int32) error
+	SetDeviceConnectionState(ctx context.Context, state AudioPolicyDeviceState, port interface{}, encodedFormat interface{}) error
+	GetDeviceConnectionState(ctx context.Context, device interface{}) (AudioPolicyDeviceState, error)
+	HandleDeviceConfigChange(ctx context.Context, device interface{}, deviceName string, encodedFormat interface{}) error
+	SetPhoneState(ctx context.Context, state interface{}, uid int32) error
 	SetForceUse(ctx context.Context, usage AudioPolicyForceUse, config AudioPolicyForcedConfig) error
 	GetForceUse(ctx context.Context, usage AudioPolicyForceUse) (AudioPolicyForcedConfig, error)
 	GetOutput(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
-	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config common.AudioConfig, flags int32, selectedDeviceIds []int32) (GetOutputForAttrResponse, error)
+	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config interface{}, flags int32, selectedDeviceId int32) (GetOutputForAttrResponse, error)
 	StartOutput(ctx context.Context, portId int32) error
 	StopOutput(ctx context.Context, portId int32) error
 	ReleaseOutput(ctx context.Context, portId int32) error
-	GetInputForAttr(ctx context.Context, attr AudioAttributes, input int32, riid int32, session int32, attributionSource content.AttributionSourceState, config common.AudioConfigBase, flags int32, selectedDeviceId int32) (GetInputForAttrResponse, error)
+	GetInputForAttr(ctx context.Context, attr AudioAttributes, input int32, riid int32, session int32, attributionSource content.AttributionSourceState, config interface{}, flags int32, selectedDeviceId int32) (GetInputForAttrResponse, error)
 	StartInput(ctx context.Context, portId int32) error
 	StopInput(ctx context.Context, portId int32) error
 	ReleaseInput(ctx context.Context, portId int32) error
-	SetDeviceAbsoluteVolumeEnabled(ctx context.Context, device common.AudioDevice, enabled bool, streamToDriveAbs tuner.AudioStreamType) error
 	InitStreamVolume(ctx context.Context, stream tuner.AudioStreamType, indexMin int32, indexMax int32) error
-	SetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription, index int32, muted bool) error
-	GetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription) (int32, error)
-	SetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription, index int32, muted bool) error
-	GetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription) (int32, error)
+	SetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device interface{}, index int32) error
+	GetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device interface{}) (int32, error)
+	SetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device interface{}, index int32) error
+	GetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device interface{}) (int32, error)
 	GetMaxVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
 	GetMinVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
 	GetStrategyForStream(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
-	GetDevicesForAttributes(ctx context.Context, attr AudioAttributes, forVolume bool) ([]common.AudioDevice, error)
+	GetDevicesForAttributes(ctx context.Context, attr AudioAttributes, forVolume bool) ([]interface{}, error)
 	GetOutputForEffect(ctx context.Context, desc EffectDescriptor) (int32, error)
 	RegisterEffect(ctx context.Context, desc EffectDescriptor, io int32, strategy int32, session int32, id int32) error
 	UnregisterEffect(ctx context.Context, id int32) error
@@ -159,45 +257,45 @@ type IAudioPolicyService interface {
 	MoveEffectsToIo(ctx context.Context, ids []int32, io int32) error
 	IsStreamActive(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
 	IsStreamActiveRemotely(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
-	IsSourceActive(ctx context.Context, source common.AudioSource) (bool, error)
-	QueryDefaultPreProcessing(ctx context.Context, audioSession int32, count common.Int) ([]EffectDescriptor, error)
-	AddSourceDefaultEffect(ctx context.Context, type_ common.AudioUuid, uuid common.AudioUuid, priority int32, source common.AudioSource) (int32, error)
-	AddStreamDefaultEffect(ctx context.Context, type_ common.AudioUuid, uuid common.AudioUuid, priority int32, usage common.AudioUsage) (int32, error)
+	IsSourceActive(ctx context.Context, source interface{}) (bool, error)
+	QueryDefaultPreProcessing(ctx context.Context, audioSession int32, count interface{}) ([]EffectDescriptor, error)
+	AddSourceDefaultEffect(ctx context.Context, type_ interface{}, uuid interface{}, priority int32, source interface{}) (int32, error)
+	AddStreamDefaultEffect(ctx context.Context, type_ interface{}, uuid interface{}, priority int32, usage interface{}) (int32, error)
 	RemoveSourceDefaultEffect(ctx context.Context, id int32) error
 	RemoveStreamDefaultEffect(ctx context.Context, id int32) error
-	SetSupportedSystemUsages(ctx context.Context, systemUsages []common.AudioUsage) error
+	SetSupportedSystemUsages(ctx context.Context, systemUsages []interface{}) error
 	SetAllowedCapturePolicy(ctx context.Context, uid int32, capturePolicy int32) error
-	GetOffloadSupport(ctx context.Context, info common.AudioOffloadInfo) (AudioOffloadMode, error)
-	IsDirectOutputSupported(ctx context.Context, config common.AudioConfigBase, attributes AudioAttributes) (bool, error)
-	ListAudioPorts(ctx context.Context, role AudioPortRole, type_ AudioPortType, count common.Int, ports []AudioPortFw) (int32, error)
+	GetOffloadSupport(ctx context.Context, info interface{}) (AudioOffloadMode, error)
+	IsDirectOutputSupported(ctx context.Context, config interface{}, attributes AudioAttributes) (bool, error)
+	ListAudioPorts(ctx context.Context, role AudioPortRole, type_ AudioPortType, count interface{}, ports []AudioPortFw) (int32, error)
 	ListDeclaredDevicePorts(ctx context.Context, role AudioPortRole) ([]AudioPortFw, error)
 	GetAudioPort(ctx context.Context, portId int32) (AudioPortFw, error)
 	CreateAudioPatch(ctx context.Context, patch AudioPatchFw, handle int32) (int32, error)
 	ReleaseAudioPatch(ctx context.Context, handle int32) error
-	ListAudioPatches(ctx context.Context, count common.Int, patches []AudioPatchFw) (int32, error)
+	ListAudioPatches(ctx context.Context, count interface{}, patches []AudioPatchFw) (int32, error)
 	SetAudioPortConfig(ctx context.Context, config AudioPortConfigFw) error
 	RegisterClient(ctx context.Context, client IAudioPolicyServiceClient) error
 	SetAudioPortCallbacksEnabled(ctx context.Context, enabled bool) error
 	SetAudioVolumeGroupCallbacksEnabled(ctx context.Context, enabled bool) error
 	AcquireSoundTriggerSession(ctx context.Context) (SoundTriggerSession, error)
 	ReleaseSoundTriggerSession(ctx context.Context, session int32) error
-	GetPhoneState(ctx context.Context) (common.AudioMode, error)
+	GetPhoneState(ctx context.Context) (interface{}, error)
 	RegisterPolicyMixes(ctx context.Context, mixes []AudioMix, registration bool) error
 	GetRegisteredPolicyMixes(ctx context.Context) ([]AudioMix, error)
 	UpdatePolicyMixes(ctx context.Context, updates []AudioMixUpdate) error
-	SetUidDeviceAffinities(ctx context.Context, uid int32, devices []common.AudioDevice) error
+	SetUidDeviceAffinities(ctx context.Context, uid int32, devices []interface{}) error
 	RemoveUidDeviceAffinities(ctx context.Context, uid int32) error
-	SetUserIdDeviceAffinities(ctx context.Context, devices []common.AudioDevice) error
+	SetUserIdDeviceAffinities(ctx context.Context, devices []interface{}) error
 	RemoveUserIdDeviceAffinities(ctx context.Context) error
 	StartAudioSource(ctx context.Context, source AudioPortConfigFw, attributes AudioAttributes) (int32, error)
 	StopAudioSource(ctx context.Context, portId int32) error
 	SetMasterMono(ctx context.Context, mono bool) error
 	GetMasterMono(ctx context.Context) (bool, error)
-	GetStreamVolumeDB(ctx context.Context, stream tuner.AudioStreamType, index int32, device common.AudioDeviceDescription) (float32, error)
-	GetSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription, formatsEnabled []bool) error
-	GetReportedSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription) error
-	GetHwOffloadFormatsSupportedForBluetoothMedia(ctx context.Context, device common.AudioDeviceDescription) ([]common.AudioFormatDescription, error)
-	SetSurroundFormatEnabled(ctx context.Context, audioFormat common.AudioFormatDescription, enabled bool) error
+	GetStreamVolumeDB(ctx context.Context, stream tuner.AudioStreamType, index int32, device interface{}) (float32, error)
+	GetSurroundFormats(ctx context.Context, count interface{}, formats []interface{}, formatsEnabled []bool) error
+	GetReportedSurroundFormats(ctx context.Context, count interface{}, formats []interface{}) error
+	GetHwOffloadFormatsSupportedForBluetoothMedia(ctx context.Context, device interface{}) ([]interface{}, error)
+	SetSurroundFormatEnabled(ctx context.Context, audioFormat interface{}, enabled bool) error
 	SetAssistantServicesUids(ctx context.Context, uids []int32) error
 	SetActiveAssistantServicesUids(ctx context.Context, activeUids []int32) error
 	SetA11yServicesUids(ctx context.Context, uids []int32) error
@@ -211,41 +309,38 @@ type IAudioPolicyService interface {
 	GetVolumeGroupFromAudioAttributes(ctx context.Context, aa AudioAttributes, fallbackOnDefault bool) (int32, error)
 	SetRttEnabled(ctx context.Context, enabled bool) error
 	IsCallScreenModeSupported(ctx context.Context) (bool, error)
-	SetDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []common.AudioDevice) error
-	RemoveDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []common.AudioDevice) error
+	SetDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []interface{}) error
+	RemoveDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []interface{}) error
 	ClearDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole) error
-	GetDevicesForRoleAndStrategy(ctx context.Context, strategy int32, role DeviceRole) ([]common.AudioDevice, error)
-	SetDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole, devices []common.AudioDevice) error
-	AddDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole, devices []common.AudioDevice) error
-	RemoveDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole, devices []common.AudioDevice) error
-	ClearDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole) error
-	GetDevicesForRoleAndCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole) ([]common.AudioDevice, error)
+	GetDevicesForRoleAndStrategy(ctx context.Context, strategy int32, role DeviceRole) ([]interface{}, error)
+	SetDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole, devices []interface{}) error
+	AddDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole, devices []interface{}) error
+	RemoveDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole, devices []interface{}) error
+	ClearDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole) error
+	GetDevicesForRoleAndCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole) ([]interface{}, error)
 	RegisterSoundTriggerCaptureStateListener(ctx context.Context, listener ICaptureStateListener) (bool, error)
 	GetSpatializer(ctx context.Context, callback INativeSpatializerCallback) (GetSpatializerResponse, error)
-	CanBeSpatialized(ctx context.Context, attr *AudioAttributes, config *common.AudioConfig, devices []common.AudioDevice) (bool, error)
-	GetDirectPlaybackSupport(ctx context.Context, attr AudioAttributes, config common.AudioConfig) (AudioDirectMode, error)
-	GetDirectProfilesForAttributes(ctx context.Context, attr AudioAttributes) ([]common.AudioProfile, error)
+	CanBeSpatialized(ctx context.Context, attr *AudioAttributes, config *interface{}, devices []interface{}) (bool, error)
+	GetDirectPlaybackSupport(ctx context.Context, attr AudioAttributes, config interface{}) (AudioDirectMode, error)
+	GetDirectProfilesForAttributes(ctx context.Context, attr AudioAttributes) ([]interface{}, error)
 	GetSupportedMixerAttributes(ctx context.Context, portId int32) ([]AudioMixerAttributesInternal, error)
 	SetPreferredMixerAttributes(ctx context.Context, attr AudioAttributes, portId int32, uid int32, mixerAttr AudioMixerAttributesInternal) error
 	GetPreferredMixerAttributes(ctx context.Context, attr AudioAttributes, portId int32) (AudioMixerAttributesInternal, error)
 	ClearPreferredMixerAttributes(ctx context.Context, attr AudioAttributes, portId int32, uid int32) error
-	GetPermissionController(ctx context.Context) (permission.INativePermissionController, error)
-	GetMmapPolicyInfos(ctx context.Context, policyType common.AudioMMapPolicyType) ([]common.AudioMMapPolicyInfo, error)
-	GetMmapPolicyForDevice(ctx context.Context, policyType common.AudioMMapPolicyType, policyInfo common.AudioMMapPolicyInfo) error
 }
 
 type AudioPolicyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioPolicyServiceProxy(
 	remote binder.IBinder,
 ) *AudioPolicyServiceProxy {
-	return &AudioPolicyServiceProxy{remote: remote}
+	return &AudioPolicyServiceProxy{Remote: remote}
 }
 
 func (p *AudioPolicyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioPolicyService = (*AudioPolicyServiceProxy)(nil)
@@ -256,39 +351,31 @@ func (p *AudioPolicyServiceProxy) OnNewAudioModulesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "onNewAudioModulesAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceOnNewAudioModulesAvailable)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceOnNewAudioModulesAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceOnNewAudioModulesAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *AudioPolicyServiceProxy) SetDeviceConnectionState(
 	ctx context.Context,
 	state AudioPolicyDeviceState,
-	port common.AudioPort,
-	encodedFormat common.AudioFormatDescription,
+	port interface{},
+	encodedFormat interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(state))
-	_data.WriteInt32(1)
-	if _err := port.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := encodedFormat.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDeviceConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDeviceConnectionState)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetDeviceConnectionState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDeviceConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -303,22 +390,18 @@ func (p *AudioPolicyServiceProxy) SetDeviceConnectionState(
 
 func (p *AudioPolicyServiceProxy) GetDeviceConnectionState(
 	ctx context.Context,
-	device common.AudioDevice,
+	device interface{},
 ) (AudioPolicyDeviceState, error) {
 	var _result AudioPolicyDeviceState
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDeviceConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDeviceConnectionState)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetDeviceConnectionState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDeviceConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -338,28 +421,20 @@ func (p *AudioPolicyServiceProxy) GetDeviceConnectionState(
 
 func (p *AudioPolicyServiceProxy) HandleDeviceConfigChange(
 	ctx context.Context,
-	device common.AudioDevice,
+	device interface{},
 	deviceName string,
-	encodedFormat common.AudioFormatDescription,
+	encodedFormat interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteString16(deviceName)
-	_data.WriteInt32(1)
-	if _err := encodedFormat.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "handleDeviceConfigChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceHandleDeviceConfigChange)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceHandleDeviceConfigChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceHandleDeviceConfigChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -374,20 +449,19 @@ func (p *AudioPolicyServiceProxy) HandleDeviceConfigChange(
 
 func (p *AudioPolicyServiceProxy) SetPhoneState(
 	ctx context.Context,
-	state common.AudioMode,
+	state interface{},
 	uid int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(state))
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setPhoneState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPhoneState)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetPhoneState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPhoneState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -410,12 +484,12 @@ func (p *AudioPolicyServiceProxy) SetForceUse(
 	_data.WriteInt32(int32(usage))
 	_data.WriteInt32(int32(config))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setForceUse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetForceUse)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetForceUse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetForceUse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -437,12 +511,12 @@ func (p *AudioPolicyServiceProxy) GetForceUse(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(usage))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getForceUse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetForceUse)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetForceUse
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetForceUse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -469,12 +543,12 @@ func (p *AudioPolicyServiceProxy) GetOutput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(stream))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOutput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetOutput
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -496,9 +570,9 @@ func (p *AudioPolicyServiceProxy) GetOutputForAttr(
 	attr AudioAttributes,
 	session int32,
 	attributionSource content.AttributionSourceState,
-	config common.AudioConfig,
+	config interface{},
 	flags int32,
-	selectedDeviceIds []int32,
+	selectedDeviceId int32,
 ) (GetOutputForAttrResponse, error) {
 	var _result GetOutputForAttrResponse
 	_data := parcel.New()
@@ -512,26 +586,15 @@ func (p *AudioPolicyServiceProxy) GetOutputForAttr(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteInt32(flags)
-	if selectedDeviceIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(selectedDeviceIds)))
-		for _, _item := range selectedDeviceIds {
-			_data.WriteInt32(_item)
-		}
-	}
+	_data.WriteInt32(selectedDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOutputForAttr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForAttr)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetOutputForAttr
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForAttr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -561,12 +624,12 @@ func (p *AudioPolicyServiceProxy) StartOutput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "startOutput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartOutput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceStartOutput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartOutput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -587,12 +650,12 @@ func (p *AudioPolicyServiceProxy) StopOutput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "stopOutput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopOutput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceStopOutput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopOutput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -613,12 +676,12 @@ func (p *AudioPolicyServiceProxy) ReleaseOutput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseOutput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseOutput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceReleaseOutput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseOutput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -638,7 +701,7 @@ func (p *AudioPolicyServiceProxy) GetInputForAttr(
 	riid int32,
 	session int32,
 	attributionSource content.AttributionSourceState,
-	config common.AudioConfigBase,
+	config interface{},
 	flags int32,
 	selectedDeviceId int32,
 ) (GetInputForAttrResponse, error) {
@@ -656,19 +719,15 @@ func (p *AudioPolicyServiceProxy) GetInputForAttr(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(selectedDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getInputForAttr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetInputForAttr)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetInputForAttr
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetInputForAttr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -698,12 +757,12 @@ func (p *AudioPolicyServiceProxy) StartInput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "startInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartInput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceStartInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartInput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -724,12 +783,12 @@ func (p *AudioPolicyServiceProxy) StopInput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "stopInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopInput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceStopInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopInput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -750,45 +809,12 @@ func (p *AudioPolicyServiceProxy) ReleaseInput(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseInput)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceReleaseInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseInput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *AudioPolicyServiceProxy) SetDeviceAbsoluteVolumeEnabled(
-	ctx context.Context,
-	device common.AudioDevice,
-	enabled bool,
-	streamToDriveAbs tuner.AudioStreamType,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteBool(enabled)
-	_data.WriteInt32(int32(streamToDriveAbs))
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDeviceAbsoluteVolumeEnabled")
-	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetDeviceAbsoluteVolumeEnabled
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -813,12 +839,12 @@ func (p *AudioPolicyServiceProxy) InitStreamVolume(
 	_data.WriteInt32(indexMin)
 	_data.WriteInt32(indexMax)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "initStreamVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceInitStreamVolume)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceInitStreamVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceInitStreamVolume, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -834,26 +860,20 @@ func (p *AudioPolicyServiceProxy) InitStreamVolume(
 func (p *AudioPolicyServiceProxy) SetStreamVolumeIndex(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
-	device common.AudioDeviceDescription,
+	device interface{},
 	index int32,
-	muted bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(index)
-	_data.WriteBool(muted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setStreamVolumeIndex")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetStreamVolumeIndex)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetStreamVolumeIndex
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetStreamVolumeIndex, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -869,23 +889,19 @@ func (p *AudioPolicyServiceProxy) SetStreamVolumeIndex(
 func (p *AudioPolicyServiceProxy) GetStreamVolumeIndex(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
-	device common.AudioDeviceDescription,
+	device interface{},
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(stream))
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getStreamVolumeIndex")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeIndex)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetStreamVolumeIndex
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeIndex, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -905,9 +921,8 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeIndex(
 func (p *AudioPolicyServiceProxy) SetVolumeIndexForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
-	device common.AudioDeviceDescription,
+	device interface{},
 	index int32,
-	muted bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
@@ -915,19 +930,14 @@ func (p *AudioPolicyServiceProxy) SetVolumeIndexForAttributes(
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(index)
-	_data.WriteBool(muted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setVolumeIndexForAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetVolumeIndexForAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetVolumeIndexForAttributes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetVolumeIndexForAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -943,7 +953,7 @@ func (p *AudioPolicyServiceProxy) SetVolumeIndexForAttributes(
 func (p *AudioPolicyServiceProxy) GetVolumeIndexForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
-	device common.AudioDeviceDescription,
+	device interface{},
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -952,17 +962,13 @@ func (p *AudioPolicyServiceProxy) GetVolumeIndexForAttributes(
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getVolumeIndexForAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeIndexForAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetVolumeIndexForAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeIndexForAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -991,12 +997,12 @@ func (p *AudioPolicyServiceProxy) GetMaxVolumeIndexForAttributes(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMaxVolumeIndexForAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMaxVolumeIndexForAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetMaxVolumeIndexForAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMaxVolumeIndexForAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1025,12 +1031,12 @@ func (p *AudioPolicyServiceProxy) GetMinVolumeIndexForAttributes(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMinVolumeIndexForAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMinVolumeIndexForAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetMinVolumeIndexForAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMinVolumeIndexForAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1056,12 +1062,12 @@ func (p *AudioPolicyServiceProxy) GetStrategyForStream(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(stream))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getStrategyForStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStrategyForStream)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetStrategyForStream
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStrategyForStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1082,8 +1088,8 @@ func (p *AudioPolicyServiceProxy) GetDevicesForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
 	forVolume bool,
-) ([]common.AudioDevice, error) {
-	var _result []common.AudioDevice
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(1)
@@ -1092,12 +1098,12 @@ func (p *AudioPolicyServiceProxy) GetDevicesForAttributes(
 	}
 	_data.WriteBool(forVolume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDevicesForAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetDevicesForAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1113,11 +1119,8 @@ func (p *AudioPolicyServiceProxy) GetDevicesForAttributes(
 	}
 
 	if _count >= 0 {
-		_result = make([]common.AudioDevice, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -1135,12 +1138,12 @@ func (p *AudioPolicyServiceProxy) GetOutputForEffect(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOutputForEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetOutputForEffect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOutputForEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1176,12 +1179,12 @@ func (p *AudioPolicyServiceProxy) RegisterEffect(
 	_data.WriteInt32(session)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRegisterEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1202,12 +1205,12 @@ func (p *AudioPolicyServiceProxy) UnregisterEffect(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "unregisterEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUnregisterEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceUnregisterEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUnregisterEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1230,12 +1233,12 @@ func (p *AudioPolicyServiceProxy) SetEffectEnabled(
 	_data.WriteInt32(id)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setEffectEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetEffectEnabled)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetEffectEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetEffectEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1265,12 +1268,12 @@ func (p *AudioPolicyServiceProxy) MoveEffectsToIo(
 	}
 	_data.WriteInt32(io)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "moveEffectsToIo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceMoveEffectsToIo)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceMoveEffectsToIo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceMoveEffectsToIo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1294,12 +1297,12 @@ func (p *AudioPolicyServiceProxy) IsStreamActive(
 	_data.WriteInt32(int32(stream))
 	_data.WriteInt32(inPastMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isStreamActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActive)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsStreamActive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1327,12 +1330,12 @@ func (p *AudioPolicyServiceProxy) IsStreamActiveRemotely(
 	_data.WriteInt32(int32(stream))
 	_data.WriteInt32(inPastMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isStreamActiveRemotely")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActiveRemotely)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsStreamActiveRemotely
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsStreamActiveRemotely, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1351,19 +1354,18 @@ func (p *AudioPolicyServiceProxy) IsStreamActiveRemotely(
 
 func (p *AudioPolicyServiceProxy) IsSourceActive(
 	ctx context.Context,
-	source common.AudioSource,
+	source interface{},
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(source))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isSourceActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsSourceActive)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsSourceActive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsSourceActive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1383,32 +1385,25 @@ func (p *AudioPolicyServiceProxy) IsSourceActive(
 func (p *AudioPolicyServiceProxy) QueryDefaultPreProcessing(
 	ctx context.Context,
 	audioSession int32,
-	count common.Int,
+	count interface{},
 ) ([]EffectDescriptor, error) {
 	var _result []EffectDescriptor
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(audioSession)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "queryDefaultPreProcessing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceQueryDefaultPreProcessing)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceQueryDefaultPreProcessing
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceQueryDefaultPreProcessing, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-	if _err = count.UnmarshalParcel(_reply); _err != nil {
 		return _result, _err
 	}
 
@@ -1420,6 +1415,9 @@ func (p *AudioPolicyServiceProxy) QueryDefaultPreProcessing(
 	if _count >= 0 {
 		_result = make([]EffectDescriptor, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1430,33 +1428,24 @@ func (p *AudioPolicyServiceProxy) QueryDefaultPreProcessing(
 
 func (p *AudioPolicyServiceProxy) AddSourceDefaultEffect(
 	ctx context.Context,
-	type_ common.AudioUuid,
-	uuid common.AudioUuid,
+	type_ interface{},
+	uuid interface{},
 	priority int32,
-	source common.AudioSource,
+	source interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := type_.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := uuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteInt32(priority)
-	_data.WriteInt32(int32(source))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "addSourceDefaultEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddSourceDefaultEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceAddSourceDefaultEffect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddSourceDefaultEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1475,33 +1464,24 @@ func (p *AudioPolicyServiceProxy) AddSourceDefaultEffect(
 
 func (p *AudioPolicyServiceProxy) AddStreamDefaultEffect(
 	ctx context.Context,
-	type_ common.AudioUuid,
-	uuid common.AudioUuid,
+	type_ interface{},
+	uuid interface{},
 	priority int32,
-	usage common.AudioUsage,
+	usage interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := type_.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(1)
-	if _err := uuid.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteInt32(priority)
-	_data.WriteInt32(int32(usage))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "addStreamDefaultEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddStreamDefaultEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceAddStreamDefaultEffect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddStreamDefaultEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1526,12 +1506,12 @@ func (p *AudioPolicyServiceProxy) RemoveSourceDefaultEffect(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeSourceDefaultEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveSourceDefaultEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRemoveSourceDefaultEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveSourceDefaultEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1552,12 +1532,12 @@ func (p *AudioPolicyServiceProxy) RemoveStreamDefaultEffect(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeStreamDefaultEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveStreamDefaultEffect)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRemoveStreamDefaultEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveStreamDefaultEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1572,7 +1552,7 @@ func (p *AudioPolicyServiceProxy) RemoveStreamDefaultEffect(
 
 func (p *AudioPolicyServiceProxy) SetSupportedSystemUsages(
 	ctx context.Context,
-	systemUsages []common.AudioUsage,
+	systemUsages []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
@@ -1580,17 +1560,14 @@ func (p *AudioPolicyServiceProxy) SetSupportedSystemUsages(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(systemUsages)))
-		for _, _item := range systemUsages {
-			_data.WriteInt32(int32(_item))
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setSupportedSystemUsages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSupportedSystemUsages)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetSupportedSystemUsages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSupportedSystemUsages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1613,12 +1590,12 @@ func (p *AudioPolicyServiceProxy) SetAllowedCapturePolicy(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(capturePolicy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAllowedCapturePolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAllowedCapturePolicy)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetAllowedCapturePolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAllowedCapturePolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1633,22 +1610,18 @@ func (p *AudioPolicyServiceProxy) SetAllowedCapturePolicy(
 
 func (p *AudioPolicyServiceProxy) GetOffloadSupport(
 	ctx context.Context,
-	info common.AudioOffloadInfo,
+	info interface{},
 ) (AudioOffloadMode, error) {
 	var _result AudioOffloadMode
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOffloadSupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOffloadSupport)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetOffloadSupport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetOffloadSupport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1668,27 +1641,23 @@ func (p *AudioPolicyServiceProxy) GetOffloadSupport(
 
 func (p *AudioPolicyServiceProxy) IsDirectOutputSupported(
 	ctx context.Context,
-	config common.AudioConfigBase,
+	config interface{},
 	attributes AudioAttributes,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isDirectOutputSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsDirectOutputSupported)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsDirectOutputSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsDirectOutputSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1709,7 +1678,7 @@ func (p *AudioPolicyServiceProxy) ListAudioPorts(
 	ctx context.Context,
 	role AudioPortRole,
 	type_ AudioPortType,
-	count common.Int,
+	count interface{},
 	ports []AudioPortFw,
 ) (int32, error) {
 	var _result int32
@@ -1717,26 +1686,19 @@ func (p *AudioPolicyServiceProxy) ListAudioPorts(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(role))
 	_data.WriteInt32(int32(type_))
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioPorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPorts)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceListAudioPorts
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-	if _err = count.UnmarshalParcel(_reply); _err != nil {
 		return _result, _err
 	}
 	_outCount0, _err := _reply.ReadInt32()
@@ -1746,6 +1708,9 @@ func (p *AudioPolicyServiceProxy) ListAudioPorts(
 	if _outCount0 >= 0 {
 		ports = make([]AudioPortFw, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = ports[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1768,12 +1733,12 @@ func (p *AudioPolicyServiceProxy) ListDeclaredDevicePorts(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(role))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listDeclaredDevicePorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListDeclaredDevicePorts)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceListDeclaredDevicePorts
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListDeclaredDevicePorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1791,6 +1756,9 @@ func (p *AudioPolicyServiceProxy) ListDeclaredDevicePorts(
 	if _count >= 0 {
 		_result = make([]AudioPortFw, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1808,12 +1776,12 @@ func (p *AudioPolicyServiceProxy) GetAudioPort(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getAudioPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetAudioPort)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetAudioPort
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetAudioPort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1849,12 +1817,12 @@ func (p *AudioPolicyServiceProxy) CreateAudioPatch(
 	}
 	_data.WriteInt32(handle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "createAudioPatch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCreateAudioPatch)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceCreateAudioPatch
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCreateAudioPatch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1879,12 +1847,12 @@ func (p *AudioPolicyServiceProxy) ReleaseAudioPatch(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(handle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseAudioPatch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseAudioPatch)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceReleaseAudioPatch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseAudioPatch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1899,32 +1867,25 @@ func (p *AudioPolicyServiceProxy) ReleaseAudioPatch(
 
 func (p *AudioPolicyServiceProxy) ListAudioPatches(
 	ctx context.Context,
-	count common.Int,
+	count interface{},
 	patches []AudioPatchFw,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioPatches")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPatches)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceListAudioPatches
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioPatches, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-	if _err = count.UnmarshalParcel(_reply); _err != nil {
 		return _result, _err
 	}
 	_outCount0, _err := _reply.ReadInt32()
@@ -1934,6 +1895,9 @@ func (p *AudioPolicyServiceProxy) ListAudioPatches(
 	if _outCount0 >= 0 {
 		patches = make([]AudioPatchFw, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = patches[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1958,12 +1922,12 @@ func (p *AudioPolicyServiceProxy) SetAudioPortConfig(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAudioPortConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortConfig)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetAudioPortConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1982,14 +1946,14 @@ func (p *AudioPolicyServiceProxy) RegisterClient(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterClient)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRegisterClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2010,12 +1974,12 @@ func (p *AudioPolicyServiceProxy) SetAudioPortCallbacksEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAudioPortCallbacksEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortCallbacksEnabled)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetAudioPortCallbacksEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioPortCallbacksEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2036,12 +2000,12 @@ func (p *AudioPolicyServiceProxy) SetAudioVolumeGroupCallbacksEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAudioVolumeGroupCallbacksEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2061,12 +2025,12 @@ func (p *AudioPolicyServiceProxy) AcquireSoundTriggerSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "acquireSoundTriggerSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAcquireSoundTriggerSession)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceAcquireSoundTriggerSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAcquireSoundTriggerSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2096,12 +2060,12 @@ func (p *AudioPolicyServiceProxy) ReleaseSoundTriggerSession(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(session)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseSoundTriggerSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseSoundTriggerSession)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceReleaseSoundTriggerSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceReleaseSoundTriggerSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2116,17 +2080,17 @@ func (p *AudioPolicyServiceProxy) ReleaseSoundTriggerSession(
 
 func (p *AudioPolicyServiceProxy) GetPhoneState(
 	ctx context.Context,
-) (common.AudioMode, error) {
-	var _result common.AudioMode
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getPhoneState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetPhoneState)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetPhoneState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetPhoneState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2136,11 +2100,6 @@ func (p *AudioPolicyServiceProxy) GetPhoneState(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = common.AudioMode(_raw)
 	return _result, nil
 }
 
@@ -2156,6 +2115,7 @@ func (p *AudioPolicyServiceProxy) RegisterPolicyMixes(
 	} else {
 		_data.WriteInt32(int32(len(mixes)))
 		for _, _item := range mixes {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -2163,12 +2123,12 @@ func (p *AudioPolicyServiceProxy) RegisterPolicyMixes(
 	}
 	_data.WriteBool(registration)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerPolicyMixes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterPolicyMixes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRegisterPolicyMixes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterPolicyMixes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2188,12 +2148,12 @@ func (p *AudioPolicyServiceProxy) GetRegisteredPolicyMixes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getRegisteredPolicyMixes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetRegisteredPolicyMixes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetRegisteredPolicyMixes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetRegisteredPolicyMixes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2211,6 +2171,9 @@ func (p *AudioPolicyServiceProxy) GetRegisteredPolicyMixes(
 	if _count >= 0 {
 		_result = make([]AudioMix, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2230,18 +2193,19 @@ func (p *AudioPolicyServiceProxy) UpdatePolicyMixes(
 	} else {
 		_data.WriteInt32(int32(len(updates)))
 		for _, _item := range updates {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "updatePolicyMixes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUpdatePolicyMixes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceUpdatePolicyMixes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceUpdatePolicyMixes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2257,7 +2221,7 @@ func (p *AudioPolicyServiceProxy) UpdatePolicyMixes(
 func (p *AudioPolicyServiceProxy) SetUidDeviceAffinities(
 	ctx context.Context,
 	uid int32,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
@@ -2266,19 +2230,14 @@ func (p *AudioPolicyServiceProxy) SetUidDeviceAffinities(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setUidDeviceAffinities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetUidDeviceAffinities)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetUidDeviceAffinities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetUidDeviceAffinities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2299,12 +2258,12 @@ func (p *AudioPolicyServiceProxy) RemoveUidDeviceAffinities(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeUidDeviceAffinities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUidDeviceAffinities)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRemoveUidDeviceAffinities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUidDeviceAffinities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2319,9 +2278,9 @@ func (p *AudioPolicyServiceProxy) RemoveUidDeviceAffinities(
 
 func (p *AudioPolicyServiceProxy) SetUserIdDeviceAffinities(
 	ctx context.Context,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(_identity.UserID)
@@ -2329,19 +2288,14 @@ func (p *AudioPolicyServiceProxy) SetUserIdDeviceAffinities(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setUserIdDeviceAffinities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetUserIdDeviceAffinities)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetUserIdDeviceAffinities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetUserIdDeviceAffinities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2357,17 +2311,17 @@ func (p *AudioPolicyServiceProxy) SetUserIdDeviceAffinities(
 func (p *AudioPolicyServiceProxy) RemoveUserIdDeviceAffinities(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeUserIdDeviceAffinities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUserIdDeviceAffinities)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRemoveUserIdDeviceAffinities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveUserIdDeviceAffinities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2397,12 +2351,12 @@ func (p *AudioPolicyServiceProxy) StartAudioSource(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "startAudioSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartAudioSource)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceStartAudioSource
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStartAudioSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2427,12 +2381,12 @@ func (p *AudioPolicyServiceProxy) StopAudioSource(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "stopAudioSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopAudioSource)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceStopAudioSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceStopAudioSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2453,12 +2407,12 @@ func (p *AudioPolicyServiceProxy) SetMasterMono(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteBool(mono)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setMasterMono")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetMasterMono)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetMasterMono
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetMasterMono, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2478,12 +2432,12 @@ func (p *AudioPolicyServiceProxy) GetMasterMono(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMasterMono")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMasterMono)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetMasterMono
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetMasterMono, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2504,24 +2458,20 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeDB(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
 	index int32,
-	device common.AudioDeviceDescription,
+	device interface{},
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(int32(stream))
 	_data.WriteInt32(index)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getStreamVolumeDB")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeDB)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetStreamVolumeDB
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetStreamVolumeDB, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2540,23 +2490,19 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeDB(
 
 func (p *AudioPolicyServiceProxy) GetSurroundFormats(
 	ctx context.Context,
-	count common.Int,
-	formats []common.AudioFormatDescription,
+	count interface{},
+	formats []interface{},
 	formatsEnabled []bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getSurroundFormats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSurroundFormats)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetSurroundFormats
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSurroundFormats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2565,20 +2511,12 @@ func (p *AudioPolicyServiceProxy) GetSurroundFormats(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = count.UnmarshalParcel(_reply); _err != nil {
-		return _err
-	}
 	_outCount0, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	if _outCount0 >= 0 {
-		formats = make([]common.AudioFormatDescription, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			if _err = formats[_i].UnmarshalParcel(_reply); _err != nil {
-				return _err
-			}
-		}
+		formats = make([]interface{}, _outCount0)
 	}
 	_outCount1, _err := _reply.ReadInt32()
 	if _err != nil {
@@ -2599,22 +2537,18 @@ func (p *AudioPolicyServiceProxy) GetSurroundFormats(
 
 func (p *AudioPolicyServiceProxy) GetReportedSurroundFormats(
 	ctx context.Context,
-	count common.Int,
-	formats []common.AudioFormatDescription,
+	count interface{},
+	formats []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := count.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getReportedSurroundFormats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetReportedSurroundFormats)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetReportedSurroundFormats
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetReportedSurroundFormats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2623,20 +2557,12 @@ func (p *AudioPolicyServiceProxy) GetReportedSurroundFormats(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
-	if _err = count.UnmarshalParcel(_reply); _err != nil {
-		return _err
-	}
 	_outCount0, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _err
 	}
 	if _outCount0 >= 0 {
-		formats = make([]common.AudioFormatDescription, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			if _err = formats[_i].UnmarshalParcel(_reply); _err != nil {
-				return _err
-			}
-		}
+		formats = make([]interface{}, _outCount0)
 	}
 
 	return nil
@@ -2644,22 +2570,18 @@ func (p *AudioPolicyServiceProxy) GetReportedSurroundFormats(
 
 func (p *AudioPolicyServiceProxy) GetHwOffloadFormatsSupportedForBluetoothMedia(
 	ctx context.Context,
-	device common.AudioDeviceDescription,
-) ([]common.AudioFormatDescription, error) {
-	var _result []common.AudioFormatDescription
+	device interface{},
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getHwOffloadFormatsSupportedForBluetoothMedia")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2675,11 +2597,8 @@ func (p *AudioPolicyServiceProxy) GetHwOffloadFormatsSupportedForBluetoothMedia(
 	}
 
 	if _count >= 0 {
-		_result = make([]common.AudioFormatDescription, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -2687,23 +2606,19 @@ func (p *AudioPolicyServiceProxy) GetHwOffloadFormatsSupportedForBluetoothMedia(
 
 func (p *AudioPolicyServiceProxy) SetSurroundFormatEnabled(
 	ctx context.Context,
-	audioFormat common.AudioFormatDescription,
+	audioFormat interface{},
 	enabled bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setSurroundFormatEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSurroundFormatEnabled)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetSurroundFormatEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetSurroundFormatEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2731,12 +2646,12 @@ func (p *AudioPolicyServiceProxy) SetAssistantServicesUids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAssistantServicesUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAssistantServicesUids)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetAssistantServicesUids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetAssistantServicesUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2764,12 +2679,12 @@ func (p *AudioPolicyServiceProxy) SetActiveAssistantServicesUids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setActiveAssistantServicesUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetActiveAssistantServicesUids)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetActiveAssistantServicesUids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetActiveAssistantServicesUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2797,12 +2712,12 @@ func (p *AudioPolicyServiceProxy) SetA11yServicesUids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setA11yServicesUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetA11yServicesUids)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetA11yServicesUids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetA11yServicesUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2823,12 +2738,12 @@ func (p *AudioPolicyServiceProxy) SetCurrentImeUid(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setCurrentImeUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetCurrentImeUid)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetCurrentImeUid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetCurrentImeUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2848,12 +2763,12 @@ func (p *AudioPolicyServiceProxy) IsHapticPlaybackSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isHapticPlaybackSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsHapticPlaybackSupported)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsHapticPlaybackSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsHapticPlaybackSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2877,12 +2792,12 @@ func (p *AudioPolicyServiceProxy) IsUltrasoundSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isUltrasoundSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsUltrasoundSupported)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsUltrasoundSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsUltrasoundSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2908,12 +2823,12 @@ func (p *AudioPolicyServiceProxy) IsHotwordStreamSupported(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteBool(lookbackAudio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isHotwordStreamSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsHotwordStreamSupported)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsHotwordStreamSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsHotwordStreamSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2937,12 +2852,12 @@ func (p *AudioPolicyServiceProxy) ListAudioProductStrategies(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioProductStrategies")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioProductStrategies)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceListAudioProductStrategies
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioProductStrategies, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2960,6 +2875,9 @@ func (p *AudioPolicyServiceProxy) ListAudioProductStrategies(
 	if _count >= 0 {
 		_result = make([]AudioProductStrategy, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2982,12 +2900,12 @@ func (p *AudioPolicyServiceProxy) GetProductStrategyFromAudioAttributes(
 	}
 	_data.WriteBool(fallbackOnDefault)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getProductStrategyFromAudioAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetProductStrategyFromAudioAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetProductStrategyFromAudioAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetProductStrategyFromAudioAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3011,12 +2929,12 @@ func (p *AudioPolicyServiceProxy) ListAudioVolumeGroups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioVolumeGroups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioVolumeGroups)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceListAudioVolumeGroups
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceListAudioVolumeGroups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3034,6 +2952,9 @@ func (p *AudioPolicyServiceProxy) ListAudioVolumeGroups(
 	if _count >= 0 {
 		_result = make([]AudioVolumeGroup, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -3056,12 +2977,12 @@ func (p *AudioPolicyServiceProxy) GetVolumeGroupFromAudioAttributes(
 	}
 	_data.WriteBool(fallbackOnDefault)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getVolumeGroupFromAudioAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeGroupFromAudioAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetVolumeGroupFromAudioAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetVolumeGroupFromAudioAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3086,12 +3007,12 @@ func (p *AudioPolicyServiceProxy) SetRttEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setRttEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetRttEnabled)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetRttEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetRttEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3111,12 +3032,12 @@ func (p *AudioPolicyServiceProxy) IsCallScreenModeSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isCallScreenModeSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsCallScreenModeSupported)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceIsCallScreenModeSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceIsCallScreenModeSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3137,7 +3058,7 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForStrategy(
 	ctx context.Context,
 	strategy int32,
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
@@ -3147,19 +3068,14 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForStrategy(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDevicesRoleForStrategy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDevicesRoleForStrategy)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetDevicesRoleForStrategy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDevicesRoleForStrategy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3176,7 +3092,7 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForStrategy(
 	ctx context.Context,
 	strategy int32,
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
@@ -3186,19 +3102,14 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForStrategy(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeDevicesRoleForStrategy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveDevicesRoleForStrategy)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRemoveDevicesRoleForStrategy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveDevicesRoleForStrategy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3221,12 +3132,12 @@ func (p *AudioPolicyServiceProxy) ClearDevicesRoleForStrategy(
 	_data.WriteInt32(strategy)
 	_data.WriteInt32(int32(role))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "clearDevicesRoleForStrategy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForStrategy)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClearDevicesRoleForStrategy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForStrategy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3243,19 +3154,19 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndStrategy(
 	ctx context.Context,
 	strategy int32,
 	role DeviceRole,
-) ([]common.AudioDevice, error) {
-	var _result []common.AudioDevice
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(strategy)
 	_data.WriteInt32(int32(role))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDevicesForRoleAndStrategy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndStrategy)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetDevicesForRoleAndStrategy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndStrategy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3271,11 +3182,8 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndStrategy(
 	}
 
 	if _count >= 0 {
-		_result = make([]common.AudioDevice, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -3283,31 +3191,25 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndStrategy(
 
 func (p *AudioPolicyServiceProxy) SetDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
 	_data.WriteInt32(int32(role))
 	if devices == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDevicesRoleForCapturePreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDevicesRoleForCapturePreset)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetDevicesRoleForCapturePreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetDevicesRoleForCapturePreset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3322,31 +3224,25 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForCapturePreset(
 
 func (p *AudioPolicyServiceProxy) AddDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
 	_data.WriteInt32(int32(role))
 	if devices == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "addDevicesRoleForCapturePreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddDevicesRoleForCapturePreset)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceAddDevicesRoleForCapturePreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceAddDevicesRoleForCapturePreset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3361,31 +3257,25 @@ func (p *AudioPolicyServiceProxy) AddDevicesRoleForCapturePreset(
 
 func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
 	_data.WriteInt32(int32(role))
 	if devices == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeDevicesRoleForCapturePreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveDevicesRoleForCapturePreset)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRemoveDevicesRoleForCapturePreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRemoveDevicesRoleForCapturePreset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3400,20 +3290,19 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForCapturePreset(
 
 func (p *AudioPolicyServiceProxy) ClearDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
 	_data.WriteInt32(int32(role))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "clearDevicesRoleForCapturePreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForCapturePreset)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClearDevicesRoleForCapturePreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearDevicesRoleForCapturePreset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3428,21 +3317,20 @@ func (p *AudioPolicyServiceProxy) ClearDevicesRoleForCapturePreset(
 
 func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-) ([]common.AudioDevice, error) {
-	var _result []common.AudioDevice
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(audioSource))
 	_data.WriteInt32(int32(role))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDevicesForRoleAndCapturePreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndCapturePreset)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetDevicesForRoleAndCapturePreset
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDevicesForRoleAndCapturePreset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3458,11 +3346,8 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndCapturePreset(
 	}
 
 	if _count >= 0 {
-		_result = make([]common.AudioDevice, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -3475,14 +3360,14 @@ func (p *AudioPolicyServiceProxy) RegisterSoundTriggerCaptureStateListener(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerSoundTriggerCaptureStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3506,14 +3391,14 @@ func (p *AudioPolicyServiceProxy) GetSpatializer(
 	var _result GetSpatializerResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getSpatializer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSpatializer)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetSpatializer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSpatializer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3538,8 +3423,8 @@ func (p *AudioPolicyServiceProxy) GetSpatializer(
 func (p *AudioPolicyServiceProxy) CanBeSpatialized(
 	ctx context.Context,
 	attr *AudioAttributes,
-	config *common.AudioConfig,
-	devices []common.AudioDevice,
+	config *interface{},
+	devices []interface{},
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -3551,30 +3436,18 @@ func (p *AudioPolicyServiceProxy) CanBeSpatialized(
 	} else {
 		_data.WriteInt32(-1)
 	}
-	if config != nil {
-		if _err := (*config).MarshalParcel(_data); _err != nil {
-			return _result, _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
 	if devices == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(devices)))
-		for _, _item := range devices {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "canBeSpatialized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCanBeSpatialized)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceCanBeSpatialized
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceCanBeSpatialized, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3594,7 +3467,7 @@ func (p *AudioPolicyServiceProxy) CanBeSpatialized(
 func (p *AudioPolicyServiceProxy) GetDirectPlaybackSupport(
 	ctx context.Context,
 	attr AudioAttributes,
-	config common.AudioConfig,
+	config interface{},
 ) (AudioDirectMode, error) {
 	var _result AudioDirectMode
 	_data := parcel.New()
@@ -3603,17 +3476,13 @@ func (p *AudioPolicyServiceProxy) GetDirectPlaybackSupport(
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDirectPlaybackSupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectPlaybackSupport)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetDirectPlaybackSupport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectPlaybackSupport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3634,8 +3503,8 @@ func (p *AudioPolicyServiceProxy) GetDirectPlaybackSupport(
 func (p *AudioPolicyServiceProxy) GetDirectProfilesForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
-) ([]common.AudioProfile, error) {
-	var _result []common.AudioProfile
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(1)
@@ -3643,12 +3512,12 @@ func (p *AudioPolicyServiceProxy) GetDirectProfilesForAttributes(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDirectProfilesForAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectProfilesForAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetDirectProfilesForAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetDirectProfilesForAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3664,11 +3533,8 @@ func (p *AudioPolicyServiceProxy) GetDirectProfilesForAttributes(
 	}
 
 	if _count >= 0 {
-		_result = make([]common.AudioProfile, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -3683,12 +3549,12 @@ func (p *AudioPolicyServiceProxy) GetSupportedMixerAttributes(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getSupportedMixerAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSupportedMixerAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetSupportedMixerAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetSupportedMixerAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3706,6 +3572,9 @@ func (p *AudioPolicyServiceProxy) GetSupportedMixerAttributes(
 	if _count >= 0 {
 		_result = make([]AudioMixerAttributesInternal, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -3734,12 +3603,12 @@ func (p *AudioPolicyServiceProxy) SetPreferredMixerAttributes(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setPreferredMixerAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPreferredMixerAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceSetPreferredMixerAttributes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceSetPreferredMixerAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3766,12 +3635,12 @@ func (p *AudioPolicyServiceProxy) GetPreferredMixerAttributes(
 	}
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getPreferredMixerAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetPreferredMixerAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetPreferredMixerAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceGetPreferredMixerAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3808,122 +3677,18 @@ func (p *AudioPolicyServiceProxy) ClearPreferredMixerAttributes(
 	_data.WriteInt32(portId)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "clearPreferredMixerAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearPreferredMixerAttributes)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClearPreferredMixerAttributes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyService, MethodIAudioPolicyServiceClearPreferredMixerAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *AudioPolicyServiceProxy) GetPermissionController(
-	ctx context.Context,
-) (permission.INativePermissionController, error) {
-	var _result permission.INativePermissionController
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getPermissionController")
-	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetPermissionController
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = permission.NewNativePermissionControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
-	return _result, nil
-}
-
-func (p *AudioPolicyServiceProxy) GetMmapPolicyInfos(
-	ctx context.Context,
-	policyType common.AudioMMapPolicyType,
-) ([]common.AudioMMapPolicyInfo, error) {
-	var _result []common.AudioMMapPolicyInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(policyType))
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMmapPolicyInfos")
-	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetMmapPolicyInfos
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]common.AudioMMapPolicyInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *AudioPolicyServiceProxy) GetMmapPolicyForDevice(
-	ctx context.Context,
-	policyType common.AudioMMapPolicyType,
-	policyInfo common.AudioMMapPolicyInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioPolicyService)
-	_data.WriteInt32(int32(policyType))
-	_data.WriteInt32(1)
-	if _err := policyInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMmapPolicyForDevice")
-	if _err != nil {
-		_code = TransactionIAudioPolicyServiceGetMmapPolicyForDevice
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-	if _err = policyInfo.UnmarshalParcel(_reply); _err != nil {
 		return _err
 	}
 
@@ -3937,6 +3702,10 @@ type AudioPolicyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioPolicyServiceStub)(nil)
+
+func (s *AudioPolicyServiceStub) Descriptor() string {
+	return DescriptorIAudioPolicyService
+}
 
 func (s *AudioPolicyServiceStub) OnTransaction(
 	ctx context.Context,
@@ -3960,30 +3729,8 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_state := AudioPolicyDeviceState(_raw_state)
-		var _arg_port common.AudioPort
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_port.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_encodedFormat common.AudioFormatDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_encodedFormat.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_port interface{}
+		var _arg_encodedFormat interface{}
 		_err = s.Impl.SetDeviceConnectionState(ctx, _arg_state, _arg_port, _arg_encodedFormat)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3996,18 +3743,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_device common.AudioDevice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_result, _err := s.Impl.GetDeviceConnectionState(ctx, _arg_device)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4021,34 +3757,12 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_device common.AudioDevice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_arg_deviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_encodedFormat common.AudioFormatDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_encodedFormat.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_encodedFormat interface{}
 		_err = s.Impl.HandleDeviceConfigChange(ctx, _arg_device, _arg_deviceName, _arg_encodedFormat)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4061,11 +3775,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_state, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_state := common.AudioMode(_raw_state)
+		var _arg_state interface{}
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4168,26 +3878,16 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_config common.AudioConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_config interface{}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_selectedDeviceIds []int32
-		_ = _arg_selectedDeviceIds
-		_result, _err := s.Impl.GetOutputForAttr(ctx, _arg_attr, _arg_session, _arg_attributionSource, _arg_config, _arg_flags, _arg_selectedDeviceIds)
+		_arg_selectedDeviceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetOutputForAttr(ctx, _arg_attr, _arg_session, _arg_attributionSource, _arg_config, _arg_flags, _arg_selectedDeviceId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4287,18 +3987,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_config common.AudioConfigBase
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_config interface{}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4367,39 +4056,6 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIAudioPolicyServiceSetDeviceAbsoluteVolumeEnabled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device common.AudioDevice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_enabled, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_raw_streamToDriveAbs, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_streamToDriveAbs := tuner.AudioStreamType(_raw_streamToDriveAbs)
-		_err = s.Impl.SetDeviceAbsoluteVolumeEnabled(ctx, _arg_device, _arg_enabled, _arg_streamToDriveAbs)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	case TransactionIAudioPolicyServiceInitStreamVolume:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -4434,27 +4090,12 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
-		var _arg_device common.AudioDeviceDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_muted, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetStreamVolumeIndex(ctx, _arg_stream, _arg_device, _arg_index, _arg_muted)
+		_err = s.Impl.SetStreamVolumeIndex(ctx, _arg_stream, _arg_device, _arg_index)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4471,18 +4112,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
-		var _arg_device common.AudioDeviceDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_result, _err := s.Impl.GetStreamVolumeIndex(ctx, _arg_stream, _arg_device)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4508,27 +4138,12 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_device common.AudioDeviceDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_muted, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetVolumeIndexForAttributes(ctx, _arg_attr, _arg_device, _arg_index, _arg_muted)
+		_err = s.Impl.SetVolumeIndexForAttributes(ctx, _arg_attr, _arg_device, _arg_index)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4552,18 +4167,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_device common.AudioDeviceDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_result, _err := s.Impl.GetVolumeIndexForAttributes(ctx, _arg_attr, _arg_device)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4839,11 +4443,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_source, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_source := common.AudioSource(_raw_source)
+		var _arg_source interface{}
 		_result, _err := s.Impl.IsSourceActive(ctx, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4861,18 +4461,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_count common.Int
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_count.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_count interface{}
 		_result, _err := s.Impl.QueryDefaultPreProcessing(ctx, _arg_audioSession, _arg_count)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4887,42 +4476,16 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_type_ common.AudioUuid
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_type_ interface{}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uuid common.AudioUuid
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_uuid interface{}
 		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_source, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_source := common.AudioSource(_raw_source)
+		var _arg_source interface{}
 		_result, _err := s.Impl.AddSourceDefaultEffect(ctx, _arg_type_, _arg_uuid, _arg_priority, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4936,42 +4499,16 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_type_ common.AudioUuid
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_type_ interface{}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uuid common.AudioUuid
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_uuid interface{}
 		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_usage, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_usage := common.AudioUsage(_raw_usage)
+		var _arg_usage interface{}
 		_result, _err := s.Impl.AddStreamDefaultEffect(ctx, _arg_type_, _arg_uuid, _arg_priority, _arg_usage)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5018,7 +4555,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_systemUsages []common.AudioUsage
+		var _arg_systemUsages []interface{}
 		_ = _arg_systemUsages
 		_err := s.Impl.SetSupportedSystemUsages(ctx, _arg_systemUsages)
 		_reply := parcel.New()
@@ -5052,18 +4589,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_info common.AudioOffloadInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_info interface{}
 		_result, _err := s.Impl.GetOffloadSupport(ctx, _arg_info)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5077,18 +4603,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_config common.AudioConfigBase
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_config interface{}
 		var _arg_attributes AudioAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -5124,18 +4639,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_type_ := AudioPortType(_raw_type_)
-		var _arg_count common.Int
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_count.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_count interface{}
 		var _arg_ports []AudioPortFw
 		_result, _err := s.Impl.ListAudioPorts(ctx, _arg_role, _arg_type_, _arg_count, _arg_ports)
 		_reply := parcel.New()
@@ -5234,18 +4738,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_count common.Int
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_count.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_count interface{}
 		var _arg_patches []AudioPatchFw
 		_result, _err := s.Impl.ListAudioPatches(ctx, _arg_count, _arg_patches)
 		_reply := parcel.New()
@@ -5370,7 +4863,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRegisterPolicyMixes:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -5429,7 +4922,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err = s.Impl.SetUidDeviceAffinities(ctx, _arg_uid, _arg_devices)
 		_reply := parcel.New()
@@ -5463,7 +4956,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err := s.Impl.SetUserIdDeviceAffinities(ctx, _arg_devices)
 		_reply := parcel.New()
@@ -5583,18 +5076,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_device common.AudioDeviceDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_result, _err := s.Impl.GetStreamVolumeDB(ctx, _arg_stream, _arg_index, _arg_device)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5608,19 +5090,8 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_count common.Int
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_count.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_formats []common.AudioFormatDescription
+		var _arg_count interface{}
+		var _arg_formats []interface{}
 		var _arg_formatsEnabled []bool
 		_err := s.Impl.GetSurroundFormats(ctx, _arg_count, _arg_formats, _arg_formatsEnabled)
 		_reply := parcel.New()
@@ -5634,19 +5105,8 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_count common.Int
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_count.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_formats []common.AudioFormatDescription
+		var _arg_count interface{}
+		var _arg_formats []interface{}
 		_err := s.Impl.GetReportedSurroundFormats(ctx, _arg_count, _arg_formats)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5659,18 +5119,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_device common.AudioDeviceDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_device interface{}
 		_result, _err := s.Impl.GetHwOffloadFormatsSupportedForBluetoothMedia(ctx, _arg_device)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5685,18 +5134,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_audioFormat common.AudioFormatDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_audioFormat.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_audioFormat interface{}
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5942,7 +5380,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		_arg_role := DeviceRole(_raw_role)
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err = s.Impl.SetDevicesRoleForStrategy(ctx, _arg_strategy, _arg_role, _arg_devices)
 		_reply := parcel.New()
@@ -5966,7 +5404,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		_arg_role := DeviceRole(_raw_role)
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err = s.Impl.RemoveDevicesRoleForStrategy(ctx, _arg_strategy, _arg_role, _arg_devices)
 		_reply := parcel.New()
@@ -6024,18 +5462,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_audioSource, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_audioSource := common.AudioSource(_raw_audioSource)
+		var _arg_audioSource interface{}
 		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_role := DeviceRole(_raw_role)
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err = s.Impl.SetDevicesRoleForCapturePreset(ctx, _arg_audioSource, _arg_role, _arg_devices)
 		_reply := parcel.New()
@@ -6049,18 +5483,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_audioSource, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_audioSource := common.AudioSource(_raw_audioSource)
+		var _arg_audioSource interface{}
 		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_role := DeviceRole(_raw_role)
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err = s.Impl.AddDevicesRoleForCapturePreset(ctx, _arg_audioSource, _arg_role, _arg_devices)
 		_reply := parcel.New()
@@ -6074,18 +5504,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_audioSource, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_audioSource := common.AudioSource(_raw_audioSource)
+		var _arg_audioSource interface{}
 		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_role := DeviceRole(_raw_role)
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_err = s.Impl.RemoveDevicesRoleForCapturePreset(ctx, _arg_audioSource, _arg_role, _arg_devices)
 		_reply := parcel.New()
@@ -6099,11 +5525,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_audioSource, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_audioSource := common.AudioSource(_raw_audioSource)
+		var _arg_audioSource interface{}
 		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6121,11 +5543,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_audioSource, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_audioSource := common.AudioSource(_raw_audioSource)
+		var _arg_audioSource interface{}
 		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6192,20 +5610,9 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_config *common.AudioConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_config *interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_devices []common.AudioDevice
+		var _arg_devices []interface{}
 		_ = _arg_devices
 		_result, _err := s.Impl.CanBeSpatialized(ctx, _arg_attr, _arg_config, _arg_devices)
 		_reply := parcel.New()
@@ -6232,18 +5639,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_config common.AudioConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_config interface{}
 		_result, _err := s.Impl.GetDirectPlaybackSupport(ctx, _arg_attr, _arg_config)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6405,68 +5801,6 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIAudioPolicyServiceGetPermissionController:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetPermissionController(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIAudioPolicyServiceGetMmapPolicyInfos:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_raw_policyType, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_policyType := common.AudioMMapPolicyType(_raw_policyType)
-		_result, _err := s.Impl.GetMmapPolicyInfos(ctx, _arg_policyType)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIAudioPolicyServiceGetMmapPolicyForDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_raw_policyType, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_policyType := common.AudioMMapPolicyType(_raw_policyType)
-		var _arg_policyInfo common.AudioMMapPolicyInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_policyInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.GetMmapPolicyForDevice(ctx, _arg_policyType, _arg_policyInfo)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -6477,31 +5811,30 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IAudioPolicyServiceServer interface {
 	OnNewAudioModulesAvailable(ctx context.Context) error
-	SetDeviceConnectionState(ctx context.Context, state AudioPolicyDeviceState, port common.AudioPort, encodedFormat common.AudioFormatDescription) error
-	GetDeviceConnectionState(ctx context.Context, device common.AudioDevice) (AudioPolicyDeviceState, error)
-	HandleDeviceConfigChange(ctx context.Context, device common.AudioDevice, deviceName string, encodedFormat common.AudioFormatDescription) error
-	SetPhoneState(ctx context.Context, state common.AudioMode, uid int32) error
+	SetDeviceConnectionState(ctx context.Context, state AudioPolicyDeviceState, port interface{}, encodedFormat interface{}) error
+	GetDeviceConnectionState(ctx context.Context, device interface{}) (AudioPolicyDeviceState, error)
+	HandleDeviceConfigChange(ctx context.Context, device interface{}, deviceName string, encodedFormat interface{}) error
+	SetPhoneState(ctx context.Context, state interface{}, uid int32) error
 	SetForceUse(ctx context.Context, usage AudioPolicyForceUse, config AudioPolicyForcedConfig) error
 	GetForceUse(ctx context.Context, usage AudioPolicyForceUse) (AudioPolicyForcedConfig, error)
 	GetOutput(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
-	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config common.AudioConfig, flags int32, selectedDeviceIds []int32) (GetOutputForAttrResponse, error)
+	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config interface{}, flags int32, selectedDeviceId int32) (GetOutputForAttrResponse, error)
 	StartOutput(ctx context.Context, portId int32) error
 	StopOutput(ctx context.Context, portId int32) error
 	ReleaseOutput(ctx context.Context, portId int32) error
-	GetInputForAttr(ctx context.Context, attr AudioAttributes, input int32, riid int32, session int32, attributionSource content.AttributionSourceState, config common.AudioConfigBase, flags int32, selectedDeviceId int32) (GetInputForAttrResponse, error)
+	GetInputForAttr(ctx context.Context, attr AudioAttributes, input int32, riid int32, session int32, attributionSource content.AttributionSourceState, config interface{}, flags int32, selectedDeviceId int32) (GetInputForAttrResponse, error)
 	StartInput(ctx context.Context, portId int32) error
 	StopInput(ctx context.Context, portId int32) error
 	ReleaseInput(ctx context.Context, portId int32) error
-	SetDeviceAbsoluteVolumeEnabled(ctx context.Context, device common.AudioDevice, enabled bool, streamToDriveAbs tuner.AudioStreamType) error
 	InitStreamVolume(ctx context.Context, stream tuner.AudioStreamType, indexMin int32, indexMax int32) error
-	SetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription, index int32, muted bool) error
-	GetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription) (int32, error)
-	SetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription, index int32, muted bool) error
-	GetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription) (int32, error)
+	SetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device interface{}, index int32) error
+	GetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device interface{}) (int32, error)
+	SetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device interface{}, index int32) error
+	GetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device interface{}) (int32, error)
 	GetMaxVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
 	GetMinVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
 	GetStrategyForStream(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
-	GetDevicesForAttributes(ctx context.Context, attr AudioAttributes, forVolume bool) ([]common.AudioDevice, error)
+	GetDevicesForAttributes(ctx context.Context, attr AudioAttributes, forVolume bool) ([]interface{}, error)
 	GetOutputForEffect(ctx context.Context, desc EffectDescriptor) (int32, error)
 	RegisterEffect(ctx context.Context, desc EffectDescriptor, io int32, strategy int32, session int32, id int32) error
 	UnregisterEffect(ctx context.Context, id int32) error
@@ -6509,45 +5842,45 @@ type IAudioPolicyServiceServer interface {
 	MoveEffectsToIo(ctx context.Context, ids []int32, io int32) error
 	IsStreamActive(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
 	IsStreamActiveRemotely(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
-	IsSourceActive(ctx context.Context, source common.AudioSource) (bool, error)
-	QueryDefaultPreProcessing(ctx context.Context, audioSession int32, count common.Int) ([]EffectDescriptor, error)
-	AddSourceDefaultEffect(ctx context.Context, type_ common.AudioUuid, uuid common.AudioUuid, priority int32, source common.AudioSource) (int32, error)
-	AddStreamDefaultEffect(ctx context.Context, type_ common.AudioUuid, uuid common.AudioUuid, priority int32, usage common.AudioUsage) (int32, error)
+	IsSourceActive(ctx context.Context, source interface{}) (bool, error)
+	QueryDefaultPreProcessing(ctx context.Context, audioSession int32, count interface{}) ([]EffectDescriptor, error)
+	AddSourceDefaultEffect(ctx context.Context, type_ interface{}, uuid interface{}, priority int32, source interface{}) (int32, error)
+	AddStreamDefaultEffect(ctx context.Context, type_ interface{}, uuid interface{}, priority int32, usage interface{}) (int32, error)
 	RemoveSourceDefaultEffect(ctx context.Context, id int32) error
 	RemoveStreamDefaultEffect(ctx context.Context, id int32) error
-	SetSupportedSystemUsages(ctx context.Context, systemUsages []common.AudioUsage) error
+	SetSupportedSystemUsages(ctx context.Context, systemUsages []interface{}) error
 	SetAllowedCapturePolicy(ctx context.Context, uid int32, capturePolicy int32) error
-	GetOffloadSupport(ctx context.Context, info common.AudioOffloadInfo) (AudioOffloadMode, error)
-	IsDirectOutputSupported(ctx context.Context, config common.AudioConfigBase, attributes AudioAttributes) (bool, error)
-	ListAudioPorts(ctx context.Context, role AudioPortRole, type_ AudioPortType, count common.Int, ports []AudioPortFw) (int32, error)
+	GetOffloadSupport(ctx context.Context, info interface{}) (AudioOffloadMode, error)
+	IsDirectOutputSupported(ctx context.Context, config interface{}, attributes AudioAttributes) (bool, error)
+	ListAudioPorts(ctx context.Context, role AudioPortRole, type_ AudioPortType, count interface{}, ports []AudioPortFw) (int32, error)
 	ListDeclaredDevicePorts(ctx context.Context, role AudioPortRole) ([]AudioPortFw, error)
 	GetAudioPort(ctx context.Context, portId int32) (AudioPortFw, error)
 	CreateAudioPatch(ctx context.Context, patch AudioPatchFw, handle int32) (int32, error)
 	ReleaseAudioPatch(ctx context.Context, handle int32) error
-	ListAudioPatches(ctx context.Context, count common.Int, patches []AudioPatchFw) (int32, error)
+	ListAudioPatches(ctx context.Context, count interface{}, patches []AudioPatchFw) (int32, error)
 	SetAudioPortConfig(ctx context.Context, config AudioPortConfigFw) error
 	RegisterClient(ctx context.Context, client IAudioPolicyServiceClient) error
 	SetAudioPortCallbacksEnabled(ctx context.Context, enabled bool) error
 	SetAudioVolumeGroupCallbacksEnabled(ctx context.Context, enabled bool) error
 	AcquireSoundTriggerSession(ctx context.Context) (SoundTriggerSession, error)
 	ReleaseSoundTriggerSession(ctx context.Context, session int32) error
-	GetPhoneState(ctx context.Context) (common.AudioMode, error)
+	GetPhoneState(ctx context.Context) (interface{}, error)
 	RegisterPolicyMixes(ctx context.Context, mixes []AudioMix, registration bool) error
 	GetRegisteredPolicyMixes(ctx context.Context) ([]AudioMix, error)
 	UpdatePolicyMixes(ctx context.Context, updates []AudioMixUpdate) error
-	SetUidDeviceAffinities(ctx context.Context, uid int32, devices []common.AudioDevice) error
+	SetUidDeviceAffinities(ctx context.Context, uid int32, devices []interface{}) error
 	RemoveUidDeviceAffinities(ctx context.Context, uid int32) error
-	SetUserIdDeviceAffinities(ctx context.Context, devices []common.AudioDevice) error
+	SetUserIdDeviceAffinities(ctx context.Context, devices []interface{}) error
 	RemoveUserIdDeviceAffinities(ctx context.Context) error
 	StartAudioSource(ctx context.Context, source AudioPortConfigFw, attributes AudioAttributes) (int32, error)
 	StopAudioSource(ctx context.Context, portId int32) error
 	SetMasterMono(ctx context.Context, mono bool) error
 	GetMasterMono(ctx context.Context) (bool, error)
-	GetStreamVolumeDB(ctx context.Context, stream tuner.AudioStreamType, index int32, device common.AudioDeviceDescription) (float32, error)
-	GetSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription, formatsEnabled []bool) error
-	GetReportedSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription) error
-	GetHwOffloadFormatsSupportedForBluetoothMedia(ctx context.Context, device common.AudioDeviceDescription) ([]common.AudioFormatDescription, error)
-	SetSurroundFormatEnabled(ctx context.Context, audioFormat common.AudioFormatDescription, enabled bool) error
+	GetStreamVolumeDB(ctx context.Context, stream tuner.AudioStreamType, index int32, device interface{}) (float32, error)
+	GetSurroundFormats(ctx context.Context, count interface{}, formats []interface{}, formatsEnabled []bool) error
+	GetReportedSurroundFormats(ctx context.Context, count interface{}, formats []interface{}) error
+	GetHwOffloadFormatsSupportedForBluetoothMedia(ctx context.Context, device interface{}) ([]interface{}, error)
+	SetSurroundFormatEnabled(ctx context.Context, audioFormat interface{}, enabled bool) error
 	SetAssistantServicesUids(ctx context.Context, uids []int32) error
 	SetActiveAssistantServicesUids(ctx context.Context, activeUids []int32) error
 	SetA11yServicesUids(ctx context.Context, uids []int32) error
@@ -6561,27 +5894,24 @@ type IAudioPolicyServiceServer interface {
 	GetVolumeGroupFromAudioAttributes(ctx context.Context, aa AudioAttributes, fallbackOnDefault bool) (int32, error)
 	SetRttEnabled(ctx context.Context, enabled bool) error
 	IsCallScreenModeSupported(ctx context.Context) (bool, error)
-	SetDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []common.AudioDevice) error
-	RemoveDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []common.AudioDevice) error
+	SetDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []interface{}) error
+	RemoveDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole, devices []interface{}) error
 	ClearDevicesRoleForStrategy(ctx context.Context, strategy int32, role DeviceRole) error
-	GetDevicesForRoleAndStrategy(ctx context.Context, strategy int32, role DeviceRole) ([]common.AudioDevice, error)
-	SetDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole, devices []common.AudioDevice) error
-	AddDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole, devices []common.AudioDevice) error
-	RemoveDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole, devices []common.AudioDevice) error
-	ClearDevicesRoleForCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole) error
-	GetDevicesForRoleAndCapturePreset(ctx context.Context, audioSource common.AudioSource, role DeviceRole) ([]common.AudioDevice, error)
+	GetDevicesForRoleAndStrategy(ctx context.Context, strategy int32, role DeviceRole) ([]interface{}, error)
+	SetDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole, devices []interface{}) error
+	AddDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole, devices []interface{}) error
+	RemoveDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole, devices []interface{}) error
+	ClearDevicesRoleForCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole) error
+	GetDevicesForRoleAndCapturePreset(ctx context.Context, audioSource interface{}, role DeviceRole) ([]interface{}, error)
 	RegisterSoundTriggerCaptureStateListener(ctx context.Context, listener ICaptureStateListener) (bool, error)
 	GetSpatializer(ctx context.Context, callback INativeSpatializerCallback) (GetSpatializerResponse, error)
-	CanBeSpatialized(ctx context.Context, attr *AudioAttributes, config *common.AudioConfig, devices []common.AudioDevice) (bool, error)
-	GetDirectPlaybackSupport(ctx context.Context, attr AudioAttributes, config common.AudioConfig) (AudioDirectMode, error)
-	GetDirectProfilesForAttributes(ctx context.Context, attr AudioAttributes) ([]common.AudioProfile, error)
+	CanBeSpatialized(ctx context.Context, attr *AudioAttributes, config *interface{}, devices []interface{}) (bool, error)
+	GetDirectPlaybackSupport(ctx context.Context, attr AudioAttributes, config interface{}) (AudioDirectMode, error)
+	GetDirectProfilesForAttributes(ctx context.Context, attr AudioAttributes) ([]interface{}, error)
 	GetSupportedMixerAttributes(ctx context.Context, portId int32) ([]AudioMixerAttributesInternal, error)
 	SetPreferredMixerAttributes(ctx context.Context, attr AudioAttributes, portId int32, uid int32, mixerAttr AudioMixerAttributesInternal) error
 	GetPreferredMixerAttributes(ctx context.Context, attr AudioAttributes, portId int32) (AudioMixerAttributesInternal, error)
 	ClearPreferredMixerAttributes(ctx context.Context, attr AudioAttributes, portId int32, uid int32) error
-	GetPermissionController(ctx context.Context) (permission.INativePermissionController, error)
-	GetMmapPolicyInfos(ctx context.Context, policyType common.AudioMMapPolicyType) ([]common.AudioMMapPolicyInfo, error)
-	GetMmapPolicyForDevice(ctx context.Context, policyType common.AudioMMapPolicyType, policyInfo common.AudioMMapPolicyInfo) error
 }
 
 type audioPolicyServiceStubWrapper struct {
@@ -6602,31 +5932,31 @@ func (w *audioPolicyServiceStubWrapper) OnNewAudioModulesAvailable(
 func (w *audioPolicyServiceStubWrapper) SetDeviceConnectionState(
 	ctx context.Context,
 	state AudioPolicyDeviceState,
-	port common.AudioPort,
-	encodedFormat common.AudioFormatDescription,
+	port interface{},
+	encodedFormat interface{},
 ) error {
 	return w.impl.SetDeviceConnectionState(ctx, state, port, encodedFormat)
 }
 
 func (w *audioPolicyServiceStubWrapper) GetDeviceConnectionState(
 	ctx context.Context,
-	device common.AudioDevice,
+	device interface{},
 ) (AudioPolicyDeviceState, error) {
 	return w.impl.GetDeviceConnectionState(ctx, device)
 }
 
 func (w *audioPolicyServiceStubWrapper) HandleDeviceConfigChange(
 	ctx context.Context,
-	device common.AudioDevice,
+	device interface{},
 	deviceName string,
-	encodedFormat common.AudioFormatDescription,
+	encodedFormat interface{},
 ) error {
 	return w.impl.HandleDeviceConfigChange(ctx, device, deviceName, encodedFormat)
 }
 
 func (w *audioPolicyServiceStubWrapper) SetPhoneState(
 	ctx context.Context,
-	state common.AudioMode,
+	state interface{},
 	uid int32,
 ) error {
 	return w.impl.SetPhoneState(ctx, state, uid)
@@ -6659,11 +5989,11 @@ func (w *audioPolicyServiceStubWrapper) GetOutputForAttr(
 	attr AudioAttributes,
 	session int32,
 	attributionSource content.AttributionSourceState,
-	config common.AudioConfig,
+	config interface{},
 	flags int32,
-	selectedDeviceIds []int32,
+	selectedDeviceId int32,
 ) (GetOutputForAttrResponse, error) {
-	return w.impl.GetOutputForAttr(ctx, attr, session, attributionSource, config, flags, selectedDeviceIds)
+	return w.impl.GetOutputForAttr(ctx, attr, session, attributionSource, config, flags, selectedDeviceId)
 }
 
 func (w *audioPolicyServiceStubWrapper) StartOutput(
@@ -6694,7 +6024,7 @@ func (w *audioPolicyServiceStubWrapper) GetInputForAttr(
 	riid int32,
 	session int32,
 	attributionSource content.AttributionSourceState,
-	config common.AudioConfigBase,
+	config interface{},
 	flags int32,
 	selectedDeviceId int32,
 ) (GetInputForAttrResponse, error) {
@@ -6722,15 +6052,6 @@ func (w *audioPolicyServiceStubWrapper) ReleaseInput(
 	return w.impl.ReleaseInput(ctx, portId)
 }
 
-func (w *audioPolicyServiceStubWrapper) SetDeviceAbsoluteVolumeEnabled(
-	ctx context.Context,
-	device common.AudioDevice,
-	enabled bool,
-	streamToDriveAbs tuner.AudioStreamType,
-) error {
-	return w.impl.SetDeviceAbsoluteVolumeEnabled(ctx, device, enabled, streamToDriveAbs)
-}
-
 func (w *audioPolicyServiceStubWrapper) InitStreamVolume(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
@@ -6743,17 +6064,16 @@ func (w *audioPolicyServiceStubWrapper) InitStreamVolume(
 func (w *audioPolicyServiceStubWrapper) SetStreamVolumeIndex(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
-	device common.AudioDeviceDescription,
+	device interface{},
 	index int32,
-	muted bool,
 ) error {
-	return w.impl.SetStreamVolumeIndex(ctx, stream, device, index, muted)
+	return w.impl.SetStreamVolumeIndex(ctx, stream, device, index)
 }
 
 func (w *audioPolicyServiceStubWrapper) GetStreamVolumeIndex(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
-	device common.AudioDeviceDescription,
+	device interface{},
 ) (int32, error) {
 	return w.impl.GetStreamVolumeIndex(ctx, stream, device)
 }
@@ -6761,17 +6081,16 @@ func (w *audioPolicyServiceStubWrapper) GetStreamVolumeIndex(
 func (w *audioPolicyServiceStubWrapper) SetVolumeIndexForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
-	device common.AudioDeviceDescription,
+	device interface{},
 	index int32,
-	muted bool,
 ) error {
-	return w.impl.SetVolumeIndexForAttributes(ctx, attr, device, index, muted)
+	return w.impl.SetVolumeIndexForAttributes(ctx, attr, device, index)
 }
 
 func (w *audioPolicyServiceStubWrapper) GetVolumeIndexForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
-	device common.AudioDeviceDescription,
+	device interface{},
 ) (int32, error) {
 	return w.impl.GetVolumeIndexForAttributes(ctx, attr, device)
 }
@@ -6801,7 +6120,7 @@ func (w *audioPolicyServiceStubWrapper) GetDevicesForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
 	forVolume bool,
-) ([]common.AudioDevice, error) {
+) ([]interface{}, error) {
 	return w.impl.GetDevicesForAttributes(ctx, attr, forVolume)
 }
 
@@ -6864,7 +6183,7 @@ func (w *audioPolicyServiceStubWrapper) IsStreamActiveRemotely(
 
 func (w *audioPolicyServiceStubWrapper) IsSourceActive(
 	ctx context.Context,
-	source common.AudioSource,
+	source interface{},
 ) (bool, error) {
 	return w.impl.IsSourceActive(ctx, source)
 }
@@ -6872,27 +6191,27 @@ func (w *audioPolicyServiceStubWrapper) IsSourceActive(
 func (w *audioPolicyServiceStubWrapper) QueryDefaultPreProcessing(
 	ctx context.Context,
 	audioSession int32,
-	count common.Int,
+	count interface{},
 ) ([]EffectDescriptor, error) {
 	return w.impl.QueryDefaultPreProcessing(ctx, audioSession, count)
 }
 
 func (w *audioPolicyServiceStubWrapper) AddSourceDefaultEffect(
 	ctx context.Context,
-	type_ common.AudioUuid,
-	uuid common.AudioUuid,
+	type_ interface{},
+	uuid interface{},
 	priority int32,
-	source common.AudioSource,
+	source interface{},
 ) (int32, error) {
 	return w.impl.AddSourceDefaultEffect(ctx, type_, uuid, priority, source)
 }
 
 func (w *audioPolicyServiceStubWrapper) AddStreamDefaultEffect(
 	ctx context.Context,
-	type_ common.AudioUuid,
-	uuid common.AudioUuid,
+	type_ interface{},
+	uuid interface{},
 	priority int32,
-	usage common.AudioUsage,
+	usage interface{},
 ) (int32, error) {
 	return w.impl.AddStreamDefaultEffect(ctx, type_, uuid, priority, usage)
 }
@@ -6913,7 +6232,7 @@ func (w *audioPolicyServiceStubWrapper) RemoveStreamDefaultEffect(
 
 func (w *audioPolicyServiceStubWrapper) SetSupportedSystemUsages(
 	ctx context.Context,
-	systemUsages []common.AudioUsage,
+	systemUsages []interface{},
 ) error {
 	return w.impl.SetSupportedSystemUsages(ctx, systemUsages)
 }
@@ -6928,14 +6247,14 @@ func (w *audioPolicyServiceStubWrapper) SetAllowedCapturePolicy(
 
 func (w *audioPolicyServiceStubWrapper) GetOffloadSupport(
 	ctx context.Context,
-	info common.AudioOffloadInfo,
+	info interface{},
 ) (AudioOffloadMode, error) {
 	return w.impl.GetOffloadSupport(ctx, info)
 }
 
 func (w *audioPolicyServiceStubWrapper) IsDirectOutputSupported(
 	ctx context.Context,
-	config common.AudioConfigBase,
+	config interface{},
 	attributes AudioAttributes,
 ) (bool, error) {
 	return w.impl.IsDirectOutputSupported(ctx, config, attributes)
@@ -6945,7 +6264,7 @@ func (w *audioPolicyServiceStubWrapper) ListAudioPorts(
 	ctx context.Context,
 	role AudioPortRole,
 	type_ AudioPortType,
-	count common.Int,
+	count interface{},
 	ports []AudioPortFw,
 ) (int32, error) {
 	return w.impl.ListAudioPorts(ctx, role, type_, count, ports)
@@ -6982,7 +6301,7 @@ func (w *audioPolicyServiceStubWrapper) ReleaseAudioPatch(
 
 func (w *audioPolicyServiceStubWrapper) ListAudioPatches(
 	ctx context.Context,
-	count common.Int,
+	count interface{},
 	patches []AudioPatchFw,
 ) (int32, error) {
 	return w.impl.ListAudioPatches(ctx, count, patches)
@@ -7031,7 +6350,7 @@ func (w *audioPolicyServiceStubWrapper) ReleaseSoundTriggerSession(
 
 func (w *audioPolicyServiceStubWrapper) GetPhoneState(
 	ctx context.Context,
-) (common.AudioMode, error) {
+) (interface{}, error) {
 	return w.impl.GetPhoneState(ctx)
 }
 
@@ -7059,7 +6378,7 @@ func (w *audioPolicyServiceStubWrapper) UpdatePolicyMixes(
 func (w *audioPolicyServiceStubWrapper) SetUidDeviceAffinities(
 	ctx context.Context,
 	uid int32,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.SetUidDeviceAffinities(ctx, uid, devices)
 }
@@ -7073,7 +6392,7 @@ func (w *audioPolicyServiceStubWrapper) RemoveUidDeviceAffinities(
 
 func (w *audioPolicyServiceStubWrapper) SetUserIdDeviceAffinities(
 	ctx context.Context,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.SetUserIdDeviceAffinities(ctx, devices)
 }
@@ -7116,15 +6435,15 @@ func (w *audioPolicyServiceStubWrapper) GetStreamVolumeDB(
 	ctx context.Context,
 	stream tuner.AudioStreamType,
 	index int32,
-	device common.AudioDeviceDescription,
+	device interface{},
 ) (float32, error) {
 	return w.impl.GetStreamVolumeDB(ctx, stream, index, device)
 }
 
 func (w *audioPolicyServiceStubWrapper) GetSurroundFormats(
 	ctx context.Context,
-	count common.Int,
-	formats []common.AudioFormatDescription,
+	count interface{},
+	formats []interface{},
 	formatsEnabled []bool,
 ) error {
 	return w.impl.GetSurroundFormats(ctx, count, formats, formatsEnabled)
@@ -7132,22 +6451,22 @@ func (w *audioPolicyServiceStubWrapper) GetSurroundFormats(
 
 func (w *audioPolicyServiceStubWrapper) GetReportedSurroundFormats(
 	ctx context.Context,
-	count common.Int,
-	formats []common.AudioFormatDescription,
+	count interface{},
+	formats []interface{},
 ) error {
 	return w.impl.GetReportedSurroundFormats(ctx, count, formats)
 }
 
 func (w *audioPolicyServiceStubWrapper) GetHwOffloadFormatsSupportedForBluetoothMedia(
 	ctx context.Context,
-	device common.AudioDeviceDescription,
-) ([]common.AudioFormatDescription, error) {
+	device interface{},
+) ([]interface{}, error) {
 	return w.impl.GetHwOffloadFormatsSupportedForBluetoothMedia(ctx, device)
 }
 
 func (w *audioPolicyServiceStubWrapper) SetSurroundFormatEnabled(
 	ctx context.Context,
-	audioFormat common.AudioFormatDescription,
+	audioFormat interface{},
 	enabled bool,
 ) error {
 	return w.impl.SetSurroundFormatEnabled(ctx, audioFormat, enabled)
@@ -7245,7 +6564,7 @@ func (w *audioPolicyServiceStubWrapper) SetDevicesRoleForStrategy(
 	ctx context.Context,
 	strategy int32,
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.SetDevicesRoleForStrategy(ctx, strategy, role, devices)
 }
@@ -7254,7 +6573,7 @@ func (w *audioPolicyServiceStubWrapper) RemoveDevicesRoleForStrategy(
 	ctx context.Context,
 	strategy int32,
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.RemoveDevicesRoleForStrategy(ctx, strategy, role, devices)
 }
@@ -7271,40 +6590,40 @@ func (w *audioPolicyServiceStubWrapper) GetDevicesForRoleAndStrategy(
 	ctx context.Context,
 	strategy int32,
 	role DeviceRole,
-) ([]common.AudioDevice, error) {
+) ([]interface{}, error) {
 	return w.impl.GetDevicesForRoleAndStrategy(ctx, strategy, role)
 }
 
 func (w *audioPolicyServiceStubWrapper) SetDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.SetDevicesRoleForCapturePreset(ctx, audioSource, role, devices)
 }
 
 func (w *audioPolicyServiceStubWrapper) AddDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.AddDevicesRoleForCapturePreset(ctx, audioSource, role, devices)
 }
 
 func (w *audioPolicyServiceStubWrapper) RemoveDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-	devices []common.AudioDevice,
+	devices []interface{},
 ) error {
 	return w.impl.RemoveDevicesRoleForCapturePreset(ctx, audioSource, role, devices)
 }
 
 func (w *audioPolicyServiceStubWrapper) ClearDevicesRoleForCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
 ) error {
 	return w.impl.ClearDevicesRoleForCapturePreset(ctx, audioSource, role)
@@ -7312,9 +6631,9 @@ func (w *audioPolicyServiceStubWrapper) ClearDevicesRoleForCapturePreset(
 
 func (w *audioPolicyServiceStubWrapper) GetDevicesForRoleAndCapturePreset(
 	ctx context.Context,
-	audioSource common.AudioSource,
+	audioSource interface{},
 	role DeviceRole,
-) ([]common.AudioDevice, error) {
+) ([]interface{}, error) {
 	return w.impl.GetDevicesForRoleAndCapturePreset(ctx, audioSource, role)
 }
 
@@ -7335,8 +6654,8 @@ func (w *audioPolicyServiceStubWrapper) GetSpatializer(
 func (w *audioPolicyServiceStubWrapper) CanBeSpatialized(
 	ctx context.Context,
 	attr *AudioAttributes,
-	config *common.AudioConfig,
-	devices []common.AudioDevice,
+	config *interface{},
+	devices []interface{},
 ) (bool, error) {
 	return w.impl.CanBeSpatialized(ctx, attr, config, devices)
 }
@@ -7344,7 +6663,7 @@ func (w *audioPolicyServiceStubWrapper) CanBeSpatialized(
 func (w *audioPolicyServiceStubWrapper) GetDirectPlaybackSupport(
 	ctx context.Context,
 	attr AudioAttributes,
-	config common.AudioConfig,
+	config interface{},
 ) (AudioDirectMode, error) {
 	return w.impl.GetDirectPlaybackSupport(ctx, attr, config)
 }
@@ -7352,7 +6671,7 @@ func (w *audioPolicyServiceStubWrapper) GetDirectPlaybackSupport(
 func (w *audioPolicyServiceStubWrapper) GetDirectProfilesForAttributes(
 	ctx context.Context,
 	attr AudioAttributes,
-) ([]common.AudioProfile, error) {
+) ([]interface{}, error) {
 	return w.impl.GetDirectProfilesForAttributes(ctx, attr)
 }
 
@@ -7388,27 +6707,6 @@ func (w *audioPolicyServiceStubWrapper) ClearPreferredMixerAttributes(
 	uid int32,
 ) error {
 	return w.impl.ClearPreferredMixerAttributes(ctx, attr, portId, uid)
-}
-
-func (w *audioPolicyServiceStubWrapper) GetPermissionController(
-	ctx context.Context,
-) (permission.INativePermissionController, error) {
-	return w.impl.GetPermissionController(ctx)
-}
-
-func (w *audioPolicyServiceStubWrapper) GetMmapPolicyInfos(
-	ctx context.Context,
-	policyType common.AudioMMapPolicyType,
-) ([]common.AudioMMapPolicyInfo, error) {
-	return w.impl.GetMmapPolicyInfos(ctx, policyType)
-}
-
-func (w *audioPolicyServiceStubWrapper) GetMmapPolicyForDevice(
-	ctx context.Context,
-	policyType common.AudioMMapPolicyType,
-	policyInfo common.AudioMMapPolicyInfo,
-) error {
-	return w.impl.GetMmapPolicyForDevice(ctx, policyType, policyInfo)
 }
 
 var _ IAudioPolicyService = (*audioPolicyServiceStubWrapper)(nil)

@@ -21,6 +21,16 @@ const (
 	TransactionIUwbChipSendUciMessage                = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIUwbChipGetName                       = "getName"
+	MethodIUwbChipOpen                          = "open"
+	MethodIUwbChipClose                         = "close"
+	MethodIUwbChipCoreInit                      = "coreInit"
+	MethodIUwbChipSessionInit                   = "sessionInit"
+	MethodIUwbChipGetSupportedAndroidUciVersion = "getSupportedAndroidUciVersion"
+	MethodIUwbChipSendUciMessage                = "sendUciMessage"
+)
+
 type IUwbChip interface {
 	AsBinder() binder.IBinder
 	GetName(ctx context.Context) (string, error)
@@ -33,17 +43,17 @@ type IUwbChip interface {
 }
 
 type UwbChipProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUwbChipProxy(
 	remote binder.IBinder,
 ) *UwbChipProxy {
-	return &UwbChipProxy{remote: remote}
+	return &UwbChipProxy{Remote: remote}
 }
 
 func (p *UwbChipProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUwbChip = (*UwbChipProxy)(nil)
@@ -55,12 +65,12 @@ func (p *UwbChipProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipGetName)
 	if _err != nil {
-		_code = TransactionIUwbChipGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,14 +93,14 @@ func (p *UwbChipProxy) Open(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
-	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "open")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipOpen)
 	if _err != nil {
-		_code = TransactionIUwbChipOpen
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipOpen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +119,12 @@ func (p *UwbChipProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipClose)
 	if _err != nil {
-		_code = TransactionIUwbChipClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,12 +143,12 @@ func (p *UwbChipProxy) CoreInit(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "coreInit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipCoreInit)
 	if _err != nil {
-		_code = TransactionIUwbChipCoreInit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipCoreInit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -159,12 +169,12 @@ func (p *UwbChipProxy) SessionInit(
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "sessionInit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipSessionInit)
 	if _err != nil {
-		_code = TransactionIUwbChipSessionInit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipSessionInit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -184,12 +194,12 @@ func (p *UwbChipProxy) GetSupportedAndroidUciVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUwbChip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "getSupportedAndroidUciVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipGetSupportedAndroidUciVersion)
 	if _err != nil {
-		_code = TransactionIUwbChipGetSupportedAndroidUciVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipGetSupportedAndroidUciVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -222,12 +232,12 @@ func (p *UwbChipProxy) SendUciMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "sendUciMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbChip, MethodIUwbChipSendUciMessage)
 	if _err != nil {
-		_code = TransactionIUwbChipSendUciMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbChip, MethodIUwbChipSendUciMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -251,6 +261,10 @@ type UwbChipStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UwbChipStub)(nil)
+
+func (s *UwbChipStub) Descriptor() string {
+	return DescriptorIUwbChip
+}
 
 func (s *UwbChipStub) OnTransaction(
 	ctx context.Context,

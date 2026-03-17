@@ -15,23 +15,27 @@ const (
 	TransactionIRecommendationServiceRegisterCallbacks = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRecommendationServiceRegisterCallbacks = "registerCallbacks"
+)
+
 type IRecommendationService interface {
 	AsBinder() binder.IBinder
 	RegisterCallbacks(ctx context.Context, callbacks IRecommendationServiceCallbacks) error
 }
 
 type RecommendationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecommendationServiceProxy(
 	remote binder.IBinder,
 ) *RecommendationServiceProxy {
-	return &RecommendationServiceProxy{remote: remote}
+	return &RecommendationServiceProxy{Remote: remote}
 }
 
 func (p *RecommendationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecommendationService = (*RecommendationServiceProxy)(nil)
@@ -42,14 +46,14 @@ func (p *RecommendationServiceProxy) RegisterCallbacks(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecommendationService)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecommendationService, "registerCallbacks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecommendationService, MethodIRecommendationServiceRegisterCallbacks)
 	if _err != nil {
-		_code = TransactionIRecommendationServiceRegisterCallbacks
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecommendationService, MethodIRecommendationServiceRegisterCallbacks, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RecommendationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecommendationServiceStub)(nil)
+
+func (s *RecommendationServiceStub) Descriptor() string {
+	return DescriptorIRecommendationService
+}
 
 func (s *RecommendationServiceStub) OnTransaction(
 	ctx context.Context,

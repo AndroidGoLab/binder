@@ -12,32 +12,39 @@ import (
 const DescriptorIContextHub = "android.hardware.contexthub.IContextHub"
 
 const (
-	TransactionIContextHubGetContextHubs                      = binder.FirstCallTransaction + 0
-	TransactionIContextHubLoadNanoapp                         = binder.FirstCallTransaction + 1
-	TransactionIContextHubUnloadNanoapp                       = binder.FirstCallTransaction + 2
-	TransactionIContextHubDisableNanoapp                      = binder.FirstCallTransaction + 3
-	TransactionIContextHubEnableNanoapp                       = binder.FirstCallTransaction + 4
-	TransactionIContextHubOnSettingChanged                    = binder.FirstCallTransaction + 5
-	TransactionIContextHubQueryNanoapps                       = binder.FirstCallTransaction + 6
-	TransactionIContextHubRegisterCallback                    = binder.FirstCallTransaction + 7
-	TransactionIContextHubSendMessageToHub                    = binder.FirstCallTransaction + 8
-	TransactionIContextHubOnHostEndpointConnected             = binder.FirstCallTransaction + 9
-	TransactionIContextHubOnHostEndpointDisconnected          = binder.FirstCallTransaction + 10
-	TransactionIContextHubGetPreloadedNanoappIds              = binder.FirstCallTransaction + 11
-	TransactionIContextHubOnNanSessionStateChanged            = binder.FirstCallTransaction + 12
-	TransactionIContextHubSetTestMode                         = binder.FirstCallTransaction + 13
-	TransactionIContextHubSendMessageDeliveryStatusToHub      = binder.FirstCallTransaction + 14
-	TransactionIContextHubGetHubs                             = binder.FirstCallTransaction + 15
-	TransactionIContextHubGetEndpoints                        = binder.FirstCallTransaction + 16
-	TransactionIContextHubRegisterEndpoint                    = binder.FirstCallTransaction + 17
-	TransactionIContextHubUnregisterEndpoint                  = binder.FirstCallTransaction + 18
-	TransactionIContextHubRegisterEndpointCallback            = binder.FirstCallTransaction + 19
-	TransactionIContextHubRequestSessionIdRange               = binder.FirstCallTransaction + 20
-	TransactionIContextHubOpenEndpointSession                 = binder.FirstCallTransaction + 21
-	TransactionIContextHubSendMessageToEndpoint               = binder.FirstCallTransaction + 22
-	TransactionIContextHubSendMessageDeliveryStatusToEndpoint = binder.FirstCallTransaction + 23
-	TransactionIContextHubCloseEndpointSession                = binder.FirstCallTransaction + 24
-	TransactionIContextHubEndpointSessionOpenComplete         = binder.FirstCallTransaction + 25
+	TransactionIContextHubGetContextHubs                 = binder.FirstCallTransaction + 0
+	TransactionIContextHubLoadNanoapp                    = binder.FirstCallTransaction + 1
+	TransactionIContextHubUnloadNanoapp                  = binder.FirstCallTransaction + 2
+	TransactionIContextHubDisableNanoapp                 = binder.FirstCallTransaction + 3
+	TransactionIContextHubEnableNanoapp                  = binder.FirstCallTransaction + 4
+	TransactionIContextHubOnSettingChanged               = binder.FirstCallTransaction + 5
+	TransactionIContextHubQueryNanoapps                  = binder.FirstCallTransaction + 6
+	TransactionIContextHubRegisterCallback               = binder.FirstCallTransaction + 7
+	TransactionIContextHubSendMessageToHub               = binder.FirstCallTransaction + 8
+	TransactionIContextHubOnHostEndpointConnected        = binder.FirstCallTransaction + 9
+	TransactionIContextHubOnHostEndpointDisconnected     = binder.FirstCallTransaction + 10
+	TransactionIContextHubGetPreloadedNanoappIds         = binder.FirstCallTransaction + 11
+	TransactionIContextHubOnNanSessionStateChanged       = binder.FirstCallTransaction + 12
+	TransactionIContextHubSetTestMode                    = binder.FirstCallTransaction + 13
+	TransactionIContextHubSendMessageDeliveryStatusToHub = binder.FirstCallTransaction + 14
+)
+
+const (
+	MethodIContextHubGetContextHubs                 = "getContextHubs"
+	MethodIContextHubLoadNanoapp                    = "loadNanoapp"
+	MethodIContextHubUnloadNanoapp                  = "unloadNanoapp"
+	MethodIContextHubDisableNanoapp                 = "disableNanoapp"
+	MethodIContextHubEnableNanoapp                  = "enableNanoapp"
+	MethodIContextHubOnSettingChanged               = "onSettingChanged"
+	MethodIContextHubQueryNanoapps                  = "queryNanoapps"
+	MethodIContextHubRegisterCallback               = "registerCallback"
+	MethodIContextHubSendMessageToHub               = "sendMessageToHub"
+	MethodIContextHubOnHostEndpointConnected        = "onHostEndpointConnected"
+	MethodIContextHubOnHostEndpointDisconnected     = "onHostEndpointDisconnected"
+	MethodIContextHubGetPreloadedNanoappIds         = "getPreloadedNanoappIds"
+	MethodIContextHubOnNanSessionStateChanged       = "onNanSessionStateChanged"
+	MethodIContextHubSetTestMode                    = "setTestMode"
+	MethodIContextHubSendMessageDeliveryStatusToHub = "sendMessageDeliveryStatusToHub"
 )
 
 type IContextHub interface {
@@ -57,17 +64,6 @@ type IContextHub interface {
 	OnNanSessionStateChanged(ctx context.Context, update NanSessionStateUpdate) error
 	SetTestMode(ctx context.Context, enable bool) error
 	SendMessageDeliveryStatusToHub(ctx context.Context, contextHubId int32, messageDeliveryStatus MessageDeliveryStatus) error
-	GetHubs(ctx context.Context) ([]HubInfo, error)
-	GetEndpoints(ctx context.Context) ([]EndpointInfo, error)
-	RegisterEndpoint(ctx context.Context, endpoint EndpointInfo) error
-	UnregisterEndpoint(ctx context.Context, endpoint EndpointInfo) error
-	RegisterEndpointCallback(ctx context.Context, callback IEndpointCallback) error
-	RequestSessionIdRange(ctx context.Context, size int32) ([]int32, error)
-	OpenEndpointSession(ctx context.Context, sessionId int32, destination EndpointId, initiator EndpointId, serviceDescriptor string) error
-	SendMessageToEndpoint(ctx context.Context, sessionId int32, msg Message) error
-	SendMessageDeliveryStatusToEndpoint(ctx context.Context, sessionId int32, msgStatus MessageDeliveryStatus) error
-	CloseEndpointSession(ctx context.Context, sessionId int32, reason Reason) error
-	EndpointSessionOpenComplete(ctx context.Context, sessionId int32) error
 }
 
 const (
@@ -75,17 +71,17 @@ const (
 )
 
 type ContextHubProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubProxy(
 	remote binder.IBinder,
 ) *ContextHubProxy {
-	return &ContextHubProxy{remote: remote}
+	return &ContextHubProxy{Remote: remote}
 }
 
 func (p *ContextHubProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHub = (*ContextHubProxy)(nil)
@@ -97,12 +93,12 @@ func (p *ContextHubProxy) GetContextHubs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "getContextHubs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubGetContextHubs)
 	if _err != nil {
-		_code = TransactionIContextHubGetContextHubs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubGetContextHubs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -120,6 +116,9 @@ func (p *ContextHubProxy) GetContextHubs(
 	if _count >= 0 {
 		_result = make([]ContextHubInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -143,12 +142,12 @@ func (p *ContextHubProxy) LoadNanoapp(
 	}
 	_data.WriteInt32(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "loadNanoapp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubLoadNanoapp)
 	if _err != nil {
-		_code = TransactionIContextHubLoadNanoapp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubLoadNanoapp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -173,12 +172,12 @@ func (p *ContextHubProxy) UnloadNanoapp(
 	_data.WriteInt64(appId)
 	_data.WriteInt32(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "unloadNanoapp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubUnloadNanoapp)
 	if _err != nil {
-		_code = TransactionIContextHubUnloadNanoapp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubUnloadNanoapp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -203,12 +202,12 @@ func (p *ContextHubProxy) DisableNanoapp(
 	_data.WriteInt64(appId)
 	_data.WriteInt32(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "disableNanoapp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubDisableNanoapp)
 	if _err != nil {
-		_code = TransactionIContextHubDisableNanoapp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubDisableNanoapp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -233,12 +232,12 @@ func (p *ContextHubProxy) EnableNanoapp(
 	_data.WriteInt64(appId)
 	_data.WriteInt32(transactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "enableNanoapp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubEnableNanoapp)
 	if _err != nil {
-		_code = TransactionIContextHubEnableNanoapp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubEnableNanoapp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -261,12 +260,12 @@ func (p *ContextHubProxy) OnSettingChanged(
 	_data.WritePaddedByte(byte(setting))
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "onSettingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnSettingChanged)
 	if _err != nil {
-		_code = TransactionIContextHubOnSettingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubOnSettingChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -287,12 +286,12 @@ func (p *ContextHubProxy) QueryNanoapps(
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(contextHubId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "queryNanoapps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubQueryNanoapps)
 	if _err != nil {
-		_code = TransactionIContextHubQueryNanoapps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubQueryNanoapps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,14 +312,14 @@ func (p *ContextHubProxy) RegisterCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubRegisterCallback)
 	if _err != nil {
-		_code = TransactionIContextHubRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -346,12 +345,12 @@ func (p *ContextHubProxy) SendMessageToHub(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "sendMessageToHub")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubSendMessageToHub)
 	if _err != nil {
-		_code = TransactionIContextHubSendMessageToHub
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubSendMessageToHub, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -375,12 +374,12 @@ func (p *ContextHubProxy) OnHostEndpointConnected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "onHostEndpointConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnHostEndpointConnected)
 	if _err != nil {
-		_code = TransactionIContextHubOnHostEndpointConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubOnHostEndpointConnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -401,12 +400,12 @@ func (p *ContextHubProxy) OnHostEndpointDisconnected(
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(int32(hostEndpointId))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "onHostEndpointDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnHostEndpointDisconnected)
 	if _err != nil {
-		_code = TransactionIContextHubOnHostEndpointDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubOnHostEndpointDisconnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -428,12 +427,12 @@ func (p *ContextHubProxy) GetPreloadedNanoappIds(
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(contextHubId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "getPreloadedNanoappIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubGetPreloadedNanoappIds)
 	if _err != nil {
-		_code = TransactionIContextHubGetPreloadedNanoappIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubGetPreloadedNanoappIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -471,12 +470,12 @@ func (p *ContextHubProxy) OnNanSessionStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "onNanSessionStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubOnNanSessionStateChanged)
 	if _err != nil {
-		_code = TransactionIContextHubOnNanSessionStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubOnNanSessionStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -497,12 +496,12 @@ func (p *ContextHubProxy) SetTestMode(
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "setTestMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubSetTestMode)
 	if _err != nil {
-		_code = TransactionIContextHubSetTestMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubSetTestMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -528,367 +527,12 @@ func (p *ContextHubProxy) SendMessageDeliveryStatusToHub(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "sendMessageDeliveryStatusToHub")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHub, MethodIContextHubSendMessageDeliveryStatusToHub)
 	if _err != nil {
-		_code = TransactionIContextHubSendMessageDeliveryStatusToHub
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHub, MethodIContextHubSendMessageDeliveryStatusToHub, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) GetHubs(
-	ctx context.Context,
-) ([]HubInfo, error) {
-	var _result []HubInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "getHubs")
-	if _err != nil {
-		_code = TransactionIContextHubGetHubs
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]HubInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *ContextHubProxy) GetEndpoints(
-	ctx context.Context,
-) ([]EndpointInfo, error) {
-	var _result []EndpointInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "getEndpoints")
-	if _err != nil {
-		_code = TransactionIContextHubGetEndpoints
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]EndpointInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *ContextHubProxy) RegisterEndpoint(
-	ctx context.Context,
-	endpoint EndpointInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(1)
-	if _err := endpoint.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "registerEndpoint")
-	if _err != nil {
-		_code = TransactionIContextHubRegisterEndpoint
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) UnregisterEndpoint(
-	ctx context.Context,
-	endpoint EndpointInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(1)
-	if _err := endpoint.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "unregisterEndpoint")
-	if _err != nil {
-		_code = TransactionIContextHubUnregisterEndpoint
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) RegisterEndpointCallback(
-	ctx context.Context,
-	callback IEndpointCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "registerEndpointCallback")
-	if _err != nil {
-		_code = TransactionIContextHubRegisterEndpointCallback
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) RequestSessionIdRange(
-	ctx context.Context,
-	size int32,
-) ([]int32, error) {
-	var _result []int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(size)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "requestSessionIdRange")
-	if _err != nil {
-		_code = TransactionIContextHubRequestSessionIdRange
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]int32, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadInt32()
-			if _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *ContextHubProxy) OpenEndpointSession(
-	ctx context.Context,
-	sessionId int32,
-	destination EndpointId,
-	initiator EndpointId,
-	serviceDescriptor string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := destination.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := initiator.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(serviceDescriptor)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "openEndpointSession")
-	if _err != nil {
-		_code = TransactionIContextHubOpenEndpointSession
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) SendMessageToEndpoint(
-	ctx context.Context,
-	sessionId int32,
-	msg Message,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := msg.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "sendMessageToEndpoint")
-	if _err != nil {
-		_code = TransactionIContextHubSendMessageToEndpoint
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) SendMessageDeliveryStatusToEndpoint(
-	ctx context.Context,
-	sessionId int32,
-	msgStatus MessageDeliveryStatus,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := msgStatus.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "sendMessageDeliveryStatusToEndpoint")
-	if _err != nil {
-		_code = TransactionIContextHubSendMessageDeliveryStatusToEndpoint
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) CloseEndpointSession(
-	ctx context.Context,
-	sessionId int32,
-	reason Reason,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(sessionId)
-	_data.WritePaddedByte(byte(reason))
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "closeEndpointSession")
-	if _err != nil {
-		_code = TransactionIContextHubCloseEndpointSession
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubProxy) EndpointSessionOpenComplete(
-	ctx context.Context,
-	sessionId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHub)
-	_data.WriteInt32(sessionId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHub, "endpointSessionOpenComplete")
-	if _err != nil {
-		_code = TransactionIContextHubEndpointSessionOpenComplete
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -908,6 +552,10 @@ type ContextHubStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubStub)(nil)
+
+func (s *ContextHubStub) Descriptor() string {
+	return DescriptorIContextHub
+}
 
 func (s *ContextHubStub) OnTransaction(
 	ctx context.Context,
@@ -1244,252 +892,6 @@ func (s *ContextHubStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIContextHubGetHubs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetHubs(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubGetEndpoints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetEndpoints(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubRegisterEndpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_endpoint EndpointInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_endpoint.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.RegisterEndpoint(ctx, _arg_endpoint)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubUnregisterEndpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_endpoint EndpointInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_endpoint.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.UnregisterEndpoint(ctx, _arg_endpoint)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubRegisterEndpointCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IEndpointCallback
-		_ = _arg_callback
-		_err := s.Impl.RegisterEndpointCallback(ctx, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubRequestSessionIdRange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_size, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.RequestSessionIdRange(ctx, _arg_size)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubOpenEndpointSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_destination EndpointId
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_destination.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_initiator EndpointId
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_initiator.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_serviceDescriptor, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OpenEndpointSession(ctx, _arg_sessionId, _arg_destination, _arg_initiator, _arg_serviceDescriptor)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubSendMessageToEndpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_msg Message
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.SendMessageToEndpoint(ctx, _arg_sessionId, _arg_msg)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubSendMessageDeliveryStatusToEndpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_msgStatus MessageDeliveryStatus
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_msgStatus.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.SendMessageDeliveryStatusToEndpoint(ctx, _arg_sessionId, _arg_msgStatus)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubCloseEndpointSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_raw_reason, _err := _data.ReadPaddedByte()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reason := Reason(_raw_reason)
-		_err = s.Impl.CloseEndpointSession(ctx, _arg_sessionId, _arg_reason)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubEndpointSessionOpenComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.EndpointSessionOpenComplete(ctx, _arg_sessionId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1514,17 +916,6 @@ type IContextHubServer interface {
 	OnNanSessionStateChanged(ctx context.Context, update NanSessionStateUpdate) error
 	SetTestMode(ctx context.Context, enable bool) error
 	SendMessageDeliveryStatusToHub(ctx context.Context, contextHubId int32, messageDeliveryStatus MessageDeliveryStatus) error
-	GetHubs(ctx context.Context) ([]HubInfo, error)
-	GetEndpoints(ctx context.Context) ([]EndpointInfo, error)
-	RegisterEndpoint(ctx context.Context, endpoint EndpointInfo) error
-	UnregisterEndpoint(ctx context.Context, endpoint EndpointInfo) error
-	RegisterEndpointCallback(ctx context.Context, callback IEndpointCallback) error
-	RequestSessionIdRange(ctx context.Context, size int32) ([]int32, error)
-	OpenEndpointSession(ctx context.Context, sessionId int32, destination EndpointId, initiator EndpointId, serviceDescriptor string) error
-	SendMessageToEndpoint(ctx context.Context, sessionId int32, msg Message) error
-	SendMessageDeliveryStatusToEndpoint(ctx context.Context, sessionId int32, msgStatus MessageDeliveryStatus) error
-	CloseEndpointSession(ctx context.Context, sessionId int32, reason Reason) error
-	EndpointSessionOpenComplete(ctx context.Context, sessionId int32) error
 }
 
 type contextHubStubWrapper struct {
@@ -1650,87 +1041,6 @@ func (w *contextHubStubWrapper) SendMessageDeliveryStatusToHub(
 	messageDeliveryStatus MessageDeliveryStatus,
 ) error {
 	return w.impl.SendMessageDeliveryStatusToHub(ctx, contextHubId, messageDeliveryStatus)
-}
-
-func (w *contextHubStubWrapper) GetHubs(
-	ctx context.Context,
-) ([]HubInfo, error) {
-	return w.impl.GetHubs(ctx)
-}
-
-func (w *contextHubStubWrapper) GetEndpoints(
-	ctx context.Context,
-) ([]EndpointInfo, error) {
-	return w.impl.GetEndpoints(ctx)
-}
-
-func (w *contextHubStubWrapper) RegisterEndpoint(
-	ctx context.Context,
-	endpoint EndpointInfo,
-) error {
-	return w.impl.RegisterEndpoint(ctx, endpoint)
-}
-
-func (w *contextHubStubWrapper) UnregisterEndpoint(
-	ctx context.Context,
-	endpoint EndpointInfo,
-) error {
-	return w.impl.UnregisterEndpoint(ctx, endpoint)
-}
-
-func (w *contextHubStubWrapper) RegisterEndpointCallback(
-	ctx context.Context,
-	callback IEndpointCallback,
-) error {
-	return w.impl.RegisterEndpointCallback(ctx, callback)
-}
-
-func (w *contextHubStubWrapper) RequestSessionIdRange(
-	ctx context.Context,
-	size int32,
-) ([]int32, error) {
-	return w.impl.RequestSessionIdRange(ctx, size)
-}
-
-func (w *contextHubStubWrapper) OpenEndpointSession(
-	ctx context.Context,
-	sessionId int32,
-	destination EndpointId,
-	initiator EndpointId,
-	serviceDescriptor string,
-) error {
-	return w.impl.OpenEndpointSession(ctx, sessionId, destination, initiator, serviceDescriptor)
-}
-
-func (w *contextHubStubWrapper) SendMessageToEndpoint(
-	ctx context.Context,
-	sessionId int32,
-	msg Message,
-) error {
-	return w.impl.SendMessageToEndpoint(ctx, sessionId, msg)
-}
-
-func (w *contextHubStubWrapper) SendMessageDeliveryStatusToEndpoint(
-	ctx context.Context,
-	sessionId int32,
-	msgStatus MessageDeliveryStatus,
-) error {
-	return w.impl.SendMessageDeliveryStatusToEndpoint(ctx, sessionId, msgStatus)
-}
-
-func (w *contextHubStubWrapper) CloseEndpointSession(
-	ctx context.Context,
-	sessionId int32,
-	reason Reason,
-) error {
-	return w.impl.CloseEndpointSession(ctx, sessionId, reason)
-}
-
-func (w *contextHubStubWrapper) EndpointSessionOpenComplete(
-	ctx context.Context,
-	sessionId int32,
-) error {
-	return w.impl.EndpointSessionOpenComplete(ctx, sessionId)
 }
 
 var _ IContextHub = (*contextHubStubWrapper)(nil)

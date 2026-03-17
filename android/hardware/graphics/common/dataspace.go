@@ -67,6 +67,5 @@ const (
 	DataspaceJpegAppSegments                 Dataspace = 4099
 	DataspaceHEIF                            Dataspace = 4100
 	DataspaceJpegR                           Dataspace = 4101
-	DataspaceHeifUltrahdr                    Dataspace = 4102
 	DataspaceBt709FullRange                  Dataspace = (((1 << 16) | (3 << 22)) | (1 << 27))
 )

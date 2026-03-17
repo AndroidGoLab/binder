@@ -19,6 +19,14 @@ const (
 	TransactionINetworkWatchlistManagerGetWatchlistConfigHash     = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodINetworkWatchlistManagerStartWatchlistLogging      = "startWatchlistLogging"
+	MethodINetworkWatchlistManagerStopWatchlistLogging       = "stopWatchlistLogging"
+	MethodINetworkWatchlistManagerReloadWatchlist            = "reloadWatchlist"
+	MethodINetworkWatchlistManagerReportWatchlistIfNecessary = "reportWatchlistIfNecessary"
+	MethodINetworkWatchlistManagerGetWatchlistConfigHash     = "getWatchlistConfigHash"
+)
+
 type INetworkWatchlistManager interface {
 	AsBinder() binder.IBinder
 	StartWatchlistLogging(ctx context.Context) (bool, error)
@@ -29,17 +37,17 @@ type INetworkWatchlistManager interface {
 }
 
 type NetworkWatchlistManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetworkWatchlistManagerProxy(
 	remote binder.IBinder,
 ) *NetworkWatchlistManagerProxy {
-	return &NetworkWatchlistManagerProxy{remote: remote}
+	return &NetworkWatchlistManagerProxy{Remote: remote}
 }
 
 func (p *NetworkWatchlistManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetworkWatchlistManager = (*NetworkWatchlistManagerProxy)(nil)
@@ -51,12 +59,12 @@ func (p *NetworkWatchlistManagerProxy) StartWatchlistLogging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "startWatchlistLogging")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerStartWatchlistLogging)
 	if _err != nil {
-		_code = TransactionINetworkWatchlistManagerStartWatchlistLogging
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerStartWatchlistLogging, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,12 +88,12 @@ func (p *NetworkWatchlistManagerProxy) StopWatchlistLogging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "stopWatchlistLogging")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerStopWatchlistLogging)
 	if _err != nil {
-		_code = TransactionINetworkWatchlistManagerStopWatchlistLogging
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerStopWatchlistLogging, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,12 +116,12 @@ func (p *NetworkWatchlistManagerProxy) ReloadWatchlist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "reloadWatchlist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerReloadWatchlist)
 	if _err != nil {
-		_code = TransactionINetworkWatchlistManagerReloadWatchlist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerReloadWatchlist, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,12 +140,12 @@ func (p *NetworkWatchlistManagerProxy) ReportWatchlistIfNecessary(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "reportWatchlistIfNecessary")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerReportWatchlistIfNecessary)
 	if _err != nil {
-		_code = TransactionINetworkWatchlistManagerReportWatchlistIfNecessary
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerReportWatchlistIfNecessary, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -157,12 +165,12 @@ func (p *NetworkWatchlistManagerProxy) GetWatchlistConfigHash(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "getWatchlistConfigHash")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerGetWatchlistConfigHash)
 	if _err != nil {
-		_code = TransactionINetworkWatchlistManagerGetWatchlistConfigHash
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkWatchlistManager, MethodINetworkWatchlistManagerGetWatchlistConfigHash, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,6 +204,10 @@ type NetworkWatchlistManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetworkWatchlistManagerStub)(nil)
+
+func (s *NetworkWatchlistManagerStub) Descriptor() string {
+	return DescriptorINetworkWatchlistManager
+}
 
 func (s *NetworkWatchlistManagerStub) OnTransaction(
 	ctx context.Context,

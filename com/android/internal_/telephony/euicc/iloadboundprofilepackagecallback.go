@@ -15,23 +15,27 @@ const (
 	TransactionILoadBoundProfilePackageCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILoadBoundProfilePackageCallbackOnComplete = "onComplete"
+)
+
 type ILoadBoundProfilePackageCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, response []byte) error
 }
 
 type LoadBoundProfilePackageCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLoadBoundProfilePackageCallbackProxy(
 	remote binder.IBinder,
 ) *LoadBoundProfilePackageCallbackProxy {
-	return &LoadBoundProfilePackageCallbackProxy{remote: remote}
+	return &LoadBoundProfilePackageCallbackProxy{Remote: remote}
 }
 
 func (p *LoadBoundProfilePackageCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILoadBoundProfilePackageCallback = (*LoadBoundProfilePackageCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *LoadBoundProfilePackageCallbackProxy) OnComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILoadBoundProfilePackageCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILoadBoundProfilePackageCallback, MethodILoadBoundProfilePackageCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionILoadBoundProfilePackageCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILoadBoundProfilePackageCallback, MethodILoadBoundProfilePackageCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type LoadBoundProfilePackageCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LoadBoundProfilePackageCallbackStub)(nil)
+
+func (s *LoadBoundProfilePackageCallbackStub) Descriptor() string {
+	return DescriptorILoadBoundProfilePackageCallback
+}
 
 func (s *LoadBoundProfilePackageCallbackStub) OnTransaction(
 	ctx context.Context,

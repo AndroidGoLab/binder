@@ -17,6 +17,12 @@ const (
 	TransactionIPmtRatingInterfaceRemovePmtRatingListener = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIPmtRatingInterfaceGetPmtRating            = "getPmtRating"
+	MethodIPmtRatingInterfaceAddPmtRatingListener    = "addPmtRatingListener"
+	MethodIPmtRatingInterfaceRemovePmtRatingListener = "removePmtRatingListener"
+)
+
 type IPmtRatingInterface interface {
 	AsBinder() binder.IBinder
 	GetPmtRating(ctx context.Context, sessionToken string) (string, error)
@@ -25,17 +31,17 @@ type IPmtRatingInterface interface {
 }
 
 type PmtRatingInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPmtRatingInterfaceProxy(
 	remote binder.IBinder,
 ) *PmtRatingInterfaceProxy {
-	return &PmtRatingInterfaceProxy{remote: remote}
+	return &PmtRatingInterfaceProxy{Remote: remote}
 }
 
 func (p *PmtRatingInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPmtRatingInterface = (*PmtRatingInterfaceProxy)(nil)
@@ -49,12 +55,12 @@ func (p *PmtRatingInterfaceProxy) GetPmtRating(
 	_data.WriteInterfaceToken(DescriptorIPmtRatingInterface)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPmtRatingInterface, "getPmtRating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPmtRatingInterface, MethodIPmtRatingInterfaceGetPmtRating)
 	if _err != nil {
-		_code = TransactionIPmtRatingInterfaceGetPmtRating
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPmtRatingInterface, MethodIPmtRatingInterfaceGetPmtRating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,14 +85,14 @@ func (p *PmtRatingInterfaceProxy) AddPmtRatingListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPmtRatingInterface)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPmtRatingInterface, "addPmtRatingListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPmtRatingInterface, MethodIPmtRatingInterfaceAddPmtRatingListener)
 	if _err != nil {
-		_code = TransactionIPmtRatingInterfaceAddPmtRatingListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPmtRatingInterface, MethodIPmtRatingInterfaceAddPmtRatingListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,14 +111,14 @@ func (p *PmtRatingInterfaceProxy) RemovePmtRatingListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPmtRatingInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPmtRatingInterface, "removePmtRatingListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPmtRatingInterface, MethodIPmtRatingInterfaceRemovePmtRatingListener)
 	if _err != nil {
-		_code = TransactionIPmtRatingInterfaceRemovePmtRatingListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPmtRatingInterface, MethodIPmtRatingInterfaceRemovePmtRatingListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,6 +138,10 @@ type PmtRatingInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PmtRatingInterfaceStub)(nil)
+
+func (s *PmtRatingInterfaceStub) Descriptor() string {
+	return DescriptorIPmtRatingInterface
+}
 
 func (s *PmtRatingInterfaceStub) OnTransaction(
 	ctx context.Context,

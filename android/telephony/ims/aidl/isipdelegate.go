@@ -19,6 +19,13 @@ const (
 	TransactionISipDelegateCleanupSession            = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodISipDelegateSendMessage               = "sendMessage"
+	MethodISipDelegateNotifyMessageReceived     = "notifyMessageReceived"
+	MethodISipDelegateNotifyMessageReceiveError = "notifyMessageReceiveError"
+	MethodISipDelegateCleanupSession            = "cleanupSession"
+)
+
 type ISipDelegate interface {
 	AsBinder() binder.IBinder
 	SendMessage(ctx context.Context, sipMessage ims.SipMessage, configVersion int64) error
@@ -28,17 +35,17 @@ type ISipDelegate interface {
 }
 
 type SipDelegateProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSipDelegateProxy(
 	remote binder.IBinder,
 ) *SipDelegateProxy {
-	return &SipDelegateProxy{remote: remote}
+	return &SipDelegateProxy{Remote: remote}
 }
 
 func (p *SipDelegateProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISipDelegate = (*SipDelegateProxy)(nil)
@@ -56,12 +63,12 @@ func (p *SipDelegateProxy) SendMessage(
 	}
 	_data.WriteInt64(configVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegate, "sendMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegate, MethodISipDelegateSendMessage)
 	if _err != nil {
-		_code = TransactionISipDelegateSendMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegate, MethodISipDelegateSendMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +80,12 @@ func (p *SipDelegateProxy) NotifyMessageReceived(
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(viaTransactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegate, "notifyMessageReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegate, MethodISipDelegateNotifyMessageReceived)
 	if _err != nil {
-		_code = TransactionISipDelegateNotifyMessageReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegate, MethodISipDelegateNotifyMessageReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +99,12 @@ func (p *SipDelegateProxy) NotifyMessageReceiveError(
 	_data.WriteString16(viaTransactionId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegate, "notifyMessageReceiveError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegate, MethodISipDelegateNotifyMessageReceiveError)
 	if _err != nil {
-		_code = TransactionISipDelegateNotifyMessageReceiveError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegate, MethodISipDelegateNotifyMessageReceiveError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +116,12 @@ func (p *SipDelegateProxy) CleanupSession(
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegate, "cleanupSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegate, MethodISipDelegateCleanupSession)
 	if _err != nil {
-		_code = TransactionISipDelegateCleanupSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegate, MethodISipDelegateCleanupSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,6 +132,10 @@ type SipDelegateStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SipDelegateStub)(nil)
+
+func (s *SipDelegateStub) Descriptor() string {
+	return DescriptorISipDelegate
+}
 
 func (s *SipDelegateStub) OnTransaction(
 	ctx context.Context,

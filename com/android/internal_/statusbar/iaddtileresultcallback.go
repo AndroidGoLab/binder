@@ -15,23 +15,27 @@ const (
 	TransactionIAddTileResultCallbackOnTileRequest = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAddTileResultCallbackOnTileRequest = "onTileRequest"
+)
+
 type IAddTileResultCallback interface {
 	AsBinder() binder.IBinder
 	OnTileRequest(ctx context.Context, userResponse int32) error
 }
 
 type AddTileResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAddTileResultCallbackProxy(
 	remote binder.IBinder,
 ) *AddTileResultCallbackProxy {
-	return &AddTileResultCallbackProxy{remote: remote}
+	return &AddTileResultCallbackProxy{Remote: remote}
 }
 
 func (p *AddTileResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAddTileResultCallback = (*AddTileResultCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *AddTileResultCallbackProxy) OnTileRequest(
 	_data.WriteInterfaceToken(DescriptorIAddTileResultCallback)
 	_data.WriteInt32(userResponse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAddTileResultCallback, "onTileRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAddTileResultCallback, MethodIAddTileResultCallbackOnTileRequest)
 	if _err != nil {
-		_code = TransactionIAddTileResultCallbackOnTileRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAddTileResultCallback, MethodIAddTileResultCallbackOnTileRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type AddTileResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AddTileResultCallbackStub)(nil)
+
+func (s *AddTileResultCallbackStub) Descriptor() string {
+	return DescriptorIAddTileResultCallback
+}
 
 func (s *AddTileResultCallbackStub) OnTransaction(
 	ctx context.Context,

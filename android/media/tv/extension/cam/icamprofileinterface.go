@@ -17,6 +17,11 @@ const (
 	TransactionICamProfileInterfaceRequestResendProfileInfoBroadcastACON = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICamProfileInterfaceGetCamServiceUpdateInfo               = "getCamServiceUpdateInfo"
+	MethodICamProfileInterfaceRequestResendProfileInfoBroadcastACON = "requestResendProfileInfoBroadcastACON"
+)
+
 type ICamProfileInterface interface {
 	AsBinder() binder.IBinder
 	GetCamServiceUpdateInfo(ctx context.Context, slotNumber int32) (os.Bundle, error)
@@ -24,17 +29,17 @@ type ICamProfileInterface interface {
 }
 
 type CamProfileInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamProfileInterfaceProxy(
 	remote binder.IBinder,
 ) *CamProfileInterfaceProxy {
-	return &CamProfileInterfaceProxy{remote: remote}
+	return &CamProfileInterfaceProxy{Remote: remote}
 }
 
 func (p *CamProfileInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamProfileInterface = (*CamProfileInterfaceProxy)(nil)
@@ -48,12 +53,12 @@ func (p *CamProfileInterfaceProxy) GetCamServiceUpdateInfo(
 	_data.WriteInterfaceToken(DescriptorICamProfileInterface)
 	_data.WriteInt32(slotNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamProfileInterface, "getCamServiceUpdateInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamProfileInterface, MethodICamProfileInterfaceGetCamServiceUpdateInfo)
 	if _err != nil {
-		_code = TransactionICamProfileInterfaceGetCamServiceUpdateInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICamProfileInterface, MethodICamProfileInterfaceGetCamServiceUpdateInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,12 +86,12 @@ func (p *CamProfileInterfaceProxy) RequestResendProfileInfoBroadcastACON(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamProfileInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamProfileInterface, "requestResendProfileInfoBroadcastACON")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamProfileInterface, MethodICamProfileInterfaceRequestResendProfileInfoBroadcastACON)
 	if _err != nil {
-		_code = TransactionICamProfileInterfaceRequestResendProfileInfoBroadcastACON
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamProfileInterface, MethodICamProfileInterfaceRequestResendProfileInfoBroadcastACON, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,6 +111,10 @@ type CamProfileInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamProfileInterfaceStub)(nil)
+
+func (s *CamProfileInterfaceStub) Descriptor() string {
+	return DescriptorICamProfileInterface
+}
 
 func (s *CamProfileInterfaceStub) OnTransaction(
 	ctx context.Context,

@@ -18,32 +18,19 @@ func (s *AttestationKey) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.KeyBlob == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.KeyBlob)))
-		for _, _item := range s.KeyBlob {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.KeyBlob)
 	if s.AttestKeyParams == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.AttestKeyParams)))
 		for _, _item := range s.AttestKeyParams {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.IssuerSubjectName == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.IssuerSubjectName)))
-		for _, _item := range s.IssuerSubjectName {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.IssuerSubjectName)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -57,19 +44,9 @@ func (s *AttestationKey) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.KeyBlob, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.KeyBlob = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.KeyBlob[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -80,25 +57,18 @@ func (s *AttestationKey) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.AttestKeyParams = make([]KeyParameter, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AttestKeyParams[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.IssuerSubjectName, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.IssuerSubjectName = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.IssuerSubjectName[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

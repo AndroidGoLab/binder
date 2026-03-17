@@ -22,6 +22,17 @@ const (
 	TransactionIContextHubCallbackGetName                     = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIContextHubCallbackHandleNanoappInfo           = "handleNanoappInfo"
+	MethodIContextHubCallbackHandleContextHubMessage     = "handleContextHubMessage"
+	MethodIContextHubCallbackHandleContextHubAsyncEvent  = "handleContextHubAsyncEvent"
+	MethodIContextHubCallbackHandleTransactionResult     = "handleTransactionResult"
+	MethodIContextHubCallbackHandleNanSessionRequest     = "handleNanSessionRequest"
+	MethodIContextHubCallbackHandleMessageDeliveryStatus = "handleMessageDeliveryStatus"
+	MethodIContextHubCallbackGetUuid                     = "getUuid"
+	MethodIContextHubCallbackGetName                     = "getName"
+)
+
 type IContextHubCallback interface {
 	AsBinder() binder.IBinder
 	HandleNanoappInfo(ctx context.Context, appInfo []NanoappInfo) error
@@ -39,17 +50,17 @@ const (
 )
 
 type ContextHubCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubCallbackProxy(
 	remote binder.IBinder,
 ) *ContextHubCallbackProxy {
-	return &ContextHubCallbackProxy{remote: remote}
+	return &ContextHubCallbackProxy{Remote: remote}
 }
 
 func (p *ContextHubCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubCallback = (*ContextHubCallbackProxy)(nil)
@@ -65,18 +76,19 @@ func (p *ContextHubCallbackProxy) HandleNanoappInfo(
 	} else {
 		_data.WriteInt32(int32(len(appInfo)))
 		for _, _item := range appInfo {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "handleNanoappInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackHandleNanoappInfo)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackHandleNanoappInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackHandleNanoappInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +121,12 @@ func (p *ContextHubCallbackProxy) HandleContextHubMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "handleContextHubMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackHandleContextHubMessage)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackHandleContextHubMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackHandleContextHubMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -135,12 +147,12 @@ func (p *ContextHubCallbackProxy) HandleContextHubAsyncEvent(
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(int32(evt))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "handleContextHubAsyncEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackHandleContextHubAsyncEvent)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackHandleContextHubAsyncEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackHandleContextHubAsyncEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -163,12 +175,12 @@ func (p *ContextHubCallbackProxy) HandleTransactionResult(
 	_data.WriteInt32(transactionId)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "handleTransactionResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackHandleTransactionResult)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackHandleTransactionResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackHandleTransactionResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,12 +204,12 @@ func (p *ContextHubCallbackProxy) HandleNanSessionRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "handleNanSessionRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackHandleNanSessionRequest)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackHandleNanSessionRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackHandleNanSessionRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -223,12 +235,12 @@ func (p *ContextHubCallbackProxy) HandleMessageDeliveryStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "handleMessageDeliveryStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackHandleMessageDeliveryStatus)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackHandleMessageDeliveryStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackHandleMessageDeliveryStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -248,12 +260,12 @@ func (p *ContextHubCallbackProxy) GetUuid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "getUuid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackGetUuid)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackGetUuid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackGetUuid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -287,12 +299,12 @@ func (p *ContextHubCallbackProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackGetName)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -316,6 +328,10 @@ type ContextHubCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubCallbackStub)(nil)
+
+func (s *ContextHubCallbackStub) Descriptor() string {
+	return DescriptorIContextHubCallback
+}
 
 func (s *ContextHubCallbackStub) OnTransaction(
 	ctx context.Context,

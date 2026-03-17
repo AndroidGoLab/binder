@@ -25,36 +25,15 @@ func (s *NanInitiateDataPathRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.PeerId)
-	if s.PeerDiscMacAddr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerDiscMacAddr)))
-		for _, _item := range s.PeerDiscMacAddr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerDiscMacAddr, 6)
 	p.WriteInt32(int32(s.ChannelRequestType))
 	p.WriteInt32(s.Channel)
 	p.WriteString16(s.IfaceName)
 	if _err := s.SecurityConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.AppInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.AppInfo)))
-		for _, _item := range s.AppInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ServiceNameOutOfBand == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceNameOutOfBand)))
-		for _, _item := range s.ServiceNameOutOfBand {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.AppInfo)
+	p.WriteByteArray(s.ServiceNameOutOfBand)
 	p.WritePaddedByte(s.DiscoverySessionId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -74,19 +53,9 @@ func (s *NanInitiateDataPathRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerDiscMacAddr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerDiscMacAddr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerDiscMacAddr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_channelRequestTypeRaw, _err := p.ReadInt32()
@@ -109,34 +78,14 @@ func (s *NanInitiateDataPathRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.AppInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.AppInfo = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.AppInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.ServiceNameOutOfBand, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.ServiceNameOutOfBand = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.ServiceNameOutOfBand[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DiscoverySessionId, _err = p.ReadPaddedByte()

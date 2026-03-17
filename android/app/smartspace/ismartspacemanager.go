@@ -20,6 +20,15 @@ const (
 	TransactionISmartspaceManagerDestroySmartspaceSession    = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodISmartspaceManagerCreateSmartspaceSession     = "createSmartspaceSession"
+	MethodISmartspaceManagerNotifySmartspaceEvent       = "notifySmartspaceEvent"
+	MethodISmartspaceManagerRequestSmartspaceUpdate     = "requestSmartspaceUpdate"
+	MethodISmartspaceManagerRegisterSmartspaceUpdates   = "registerSmartspaceUpdates"
+	MethodISmartspaceManagerUnregisterSmartspaceUpdates = "unregisterSmartspaceUpdates"
+	MethodISmartspaceManagerDestroySmartspaceSession    = "destroySmartspaceSession"
+)
+
 type ISmartspaceManager interface {
 	AsBinder() binder.IBinder
 	CreateSmartspaceSession(ctx context.Context, config SmartspaceConfig, sessionId SmartspaceSessionId, token binder.IBinder) error
@@ -31,17 +40,17 @@ type ISmartspaceManager interface {
 }
 
 type SmartspaceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSmartspaceManagerProxy(
 	remote binder.IBinder,
 ) *SmartspaceManagerProxy {
-	return &SmartspaceManagerProxy{remote: remote}
+	return &SmartspaceManagerProxy{Remote: remote}
 }
 
 func (p *SmartspaceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISmartspaceManager = (*SmartspaceManagerProxy)(nil)
@@ -62,14 +71,14 @@ func (p *SmartspaceManagerProxy) CreateSmartspaceSession(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "createSmartspaceSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceManager, MethodISmartspaceManagerCreateSmartspaceSession)
 	if _err != nil {
-		_code = TransactionISmartspaceManagerCreateSmartspaceSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceManager, MethodISmartspaceManagerCreateSmartspaceSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +98,12 @@ func (p *SmartspaceManagerProxy) NotifySmartspaceEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "notifySmartspaceEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceManager, MethodISmartspaceManagerNotifySmartspaceEvent)
 	if _err != nil {
-		_code = TransactionISmartspaceManagerNotifySmartspaceEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceManager, MethodISmartspaceManagerNotifySmartspaceEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +118,12 @@ func (p *SmartspaceManagerProxy) RequestSmartspaceUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "requestSmartspaceUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceManager, MethodISmartspaceManagerRequestSmartspaceUpdate)
 	if _err != nil {
-		_code = TransactionISmartspaceManagerRequestSmartspaceUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceManager, MethodISmartspaceManagerRequestSmartspaceUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,14 +138,14 @@ func (p *SmartspaceManagerProxy) RegisterSmartspaceUpdates(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "registerSmartspaceUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceManager, MethodISmartspaceManagerRegisterSmartspaceUpdates)
 	if _err != nil {
-		_code = TransactionISmartspaceManagerRegisterSmartspaceUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceManager, MethodISmartspaceManagerRegisterSmartspaceUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,14 +160,14 @@ func (p *SmartspaceManagerProxy) UnregisterSmartspaceUpdates(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "unregisterSmartspaceUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceManager, MethodISmartspaceManagerUnregisterSmartspaceUpdates)
 	if _err != nil {
-		_code = TransactionISmartspaceManagerUnregisterSmartspaceUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceManager, MethodISmartspaceManagerUnregisterSmartspaceUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -173,12 +182,12 @@ func (p *SmartspaceManagerProxy) DestroySmartspaceSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "destroySmartspaceSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceManager, MethodISmartspaceManagerDestroySmartspaceSession)
 	if _err != nil {
-		_code = TransactionISmartspaceManagerDestroySmartspaceSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceManager, MethodISmartspaceManagerDestroySmartspaceSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -189,6 +198,10 @@ type SmartspaceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SmartspaceManagerStub)(nil)
+
+func (s *SmartspaceManagerStub) Descriptor() string {
+	return DescriptorISmartspaceManager
+}
 
 func (s *SmartspaceManagerStub) OnTransaction(
 	ctx context.Context,

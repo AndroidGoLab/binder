@@ -16,6 +16,11 @@ const (
 	TransactionINfcClientCallbackSendEvent = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINfcClientCallbackSendData  = "sendData"
+	MethodINfcClientCallbackSendEvent = "sendEvent"
+)
+
 type INfcClientCallback interface {
 	AsBinder() binder.IBinder
 	SendData(ctx context.Context, data []byte) error
@@ -23,17 +28,17 @@ type INfcClientCallback interface {
 }
 
 type NfcClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNfcClientCallbackProxy(
 	remote binder.IBinder,
 ) *NfcClientCallbackProxy {
-	return &NfcClientCallbackProxy{remote: remote}
+	return &NfcClientCallbackProxy{Remote: remote}
 }
 
 func (p *NfcClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INfcClientCallback = (*NfcClientCallbackProxy)(nil)
@@ -53,12 +58,12 @@ func (p *NfcClientCallbackProxy) SendData(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfcClientCallback, "sendData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcClientCallback, MethodINfcClientCallbackSendData)
 	if _err != nil {
-		_code = TransactionINfcClientCallbackSendData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfcClientCallback, MethodINfcClientCallbackSendData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,12 +86,12 @@ func (p *NfcClientCallbackProxy) SendEvent(
 	_data.WriteInt32(int32(event))
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfcClientCallback, "sendEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfcClientCallback, MethodINfcClientCallbackSendEvent)
 	if _err != nil {
-		_code = TransactionINfcClientCallbackSendEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfcClientCallback, MethodINfcClientCallbackSendEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,6 +111,10 @@ type NfcClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NfcClientCallbackStub)(nil)
+
+func (s *NfcClientCallbackStub) Descriptor() string {
+	return DescriptorINfcClientCallback
+}
 
 func (s *NfcClientCallbackStub) OnTransaction(
 	ctx context.Context,

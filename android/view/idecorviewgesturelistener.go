@@ -15,23 +15,27 @@ const (
 	TransactionIDecorViewGestureListenerOnInterceptionChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDecorViewGestureListenerOnInterceptionChanged = "onInterceptionChanged"
+)
+
 type IDecorViewGestureListener interface {
 	AsBinder() binder.IBinder
 	OnInterceptionChanged(ctx context.Context, windowToken binder.IBinder, intercepted bool) error
 }
 
 type DecorViewGestureListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDecorViewGestureListenerProxy(
 	remote binder.IBinder,
 ) *DecorViewGestureListenerProxy {
-	return &DecorViewGestureListenerProxy{remote: remote}
+	return &DecorViewGestureListenerProxy{Remote: remote}
 }
 
 func (p *DecorViewGestureListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDecorViewGestureListener = (*DecorViewGestureListenerProxy)(nil)
@@ -43,15 +47,15 @@ func (p *DecorViewGestureListenerProxy) OnInterceptionChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDecorViewGestureListener)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteBool(intercepted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDecorViewGestureListener, "onInterceptionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDecorViewGestureListener, MethodIDecorViewGestureListenerOnInterceptionChanged)
 	if _err != nil {
-		_code = TransactionIDecorViewGestureListenerOnInterceptionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDecorViewGestureListener, MethodIDecorViewGestureListenerOnInterceptionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type DecorViewGestureListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DecorViewGestureListenerStub)(nil)
+
+func (s *DecorViewGestureListenerStub) Descriptor() string {
+	return DescriptorIDecorViewGestureListener
+}
 
 func (s *DecorViewGestureListenerStub) OnTransaction(
 	ctx context.Context,

@@ -22,8 +22,6 @@ type NfcConfig struct {
 	OffHostRouteUicc            []byte
 	OffHostRouteEse             []byte
 	DefaultIsoDepRoute          byte
-	OffHostSimPipeIds           []byte
-	T4tNfceeEnable              bool
 }
 
 var _ parcel.Parcelable = (*NfcConfig)(nil)
@@ -45,40 +43,10 @@ func (s *NfcConfig) MarshalParcel(
 	p.WritePaddedByte(s.OffHostESEPipeId)
 	p.WritePaddedByte(s.OffHostSIMPipeId)
 	p.WriteInt32(s.MaxIsoDepTransceiveLength)
-	if s.HostAllowlist == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.HostAllowlist)))
-		for _, _item := range s.HostAllowlist {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.OffHostRouteUicc == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OffHostRouteUicc)))
-		for _, _item := range s.OffHostRouteUicc {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.OffHostRouteEse == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OffHostRouteEse)))
-		for _, _item := range s.OffHostRouteEse {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.HostAllowlist)
+	p.WriteByteArray(s.OffHostRouteUicc)
+	p.WriteByteArray(s.OffHostRouteEse)
 	p.WritePaddedByte(s.DefaultIsoDepRoute)
-	if s.OffHostSimPipeIds == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OffHostSimPipeIds)))
-		for _, _item := range s.OffHostSimPipeIds {
-			p.WritePaddedByte(_item)
-		}
-	}
-	p.WriteBool(s.T4tNfceeEnable)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -147,72 +115,22 @@ func (s *NfcConfig) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.HostAllowlist, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.HostAllowlist = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.HostAllowlist[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.OffHostRouteUicc, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.OffHostRouteUicc = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.OffHostRouteUicc[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.OffHostRouteEse, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.OffHostRouteEse = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.OffHostRouteEse[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DefaultIsoDepRoute, _err = p.ReadPaddedByte()
-	if _err != nil {
-		return _err
-	}
-
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count3 >= 0 {
-		s.OffHostSimPipeIds = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.OffHostSimPipeIds[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-
-	s.T4tNfceeEnable, _err = p.ReadBool()
 	if _err != nil {
 		return _err
 	}

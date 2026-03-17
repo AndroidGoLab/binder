@@ -16,6 +16,11 @@ const (
 	TransactionIPackageMoveObserverOnStatusChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPackageMoveObserverOnCreated       = "onCreated"
+	MethodIPackageMoveObserverOnStatusChanged = "onStatusChanged"
+)
+
 type IPackageMoveObserver interface {
 	AsBinder() binder.IBinder
 	OnCreated(ctx context.Context, moveId int32, extras interface{}) error
@@ -23,17 +28,17 @@ type IPackageMoveObserver interface {
 }
 
 type PackageMoveObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageMoveObserverProxy(
 	remote binder.IBinder,
 ) *PackageMoveObserverProxy {
-	return &PackageMoveObserverProxy{remote: remote}
+	return &PackageMoveObserverProxy{Remote: remote}
 }
 
 func (p *PackageMoveObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageMoveObserver = (*PackageMoveObserverProxy)(nil)
@@ -47,12 +52,12 @@ func (p *PackageMoveObserverProxy) OnCreated(
 	_data.WriteInterfaceToken(DescriptorIPackageMoveObserver)
 	_data.WriteInt32(moveId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageMoveObserver, "onCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnCreated)
 	if _err != nil {
-		_code = TransactionIPackageMoveObserverOnCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *PackageMoveObserverProxy) OnStatusChanged(
 	_data.WriteInt32(status)
 	_data.WriteInt64(estMillis)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageMoveObserver, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnStatusChanged)
 	if _err != nil {
-		_code = TransactionIPackageMoveObserverOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageMoveObserver, MethodIPackageMoveObserverOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type PackageMoveObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageMoveObserverStub)(nil)
+
+func (s *PackageMoveObserverStub) Descriptor() string {
+	return DescriptorIPackageMoveObserver
+}
 
 func (s *PackageMoveObserverStub) OnTransaction(
 	ctx context.Context,

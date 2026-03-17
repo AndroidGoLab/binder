@@ -15,6 +15,10 @@ const (
 	TransactionIDataLoaderStatusListenerOnStatusChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDataLoaderStatusListenerOnStatusChanged = "onStatusChanged"
+)
+
 type IDataLoaderStatusListener interface {
 	AsBinder() binder.IBinder
 	OnStatusChanged(ctx context.Context, dataLoaderId int32, status int32) error
@@ -34,17 +38,17 @@ const (
 )
 
 type DataLoaderStatusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataLoaderStatusListenerProxy(
 	remote binder.IBinder,
 ) *DataLoaderStatusListenerProxy {
-	return &DataLoaderStatusListenerProxy{remote: remote}
+	return &DataLoaderStatusListenerProxy{Remote: remote}
 }
 
 func (p *DataLoaderStatusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataLoaderStatusListener = (*DataLoaderStatusListenerProxy)(nil)
@@ -59,12 +63,12 @@ func (p *DataLoaderStatusListenerProxy) OnStatusChanged(
 	_data.WriteInt32(dataLoaderId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataLoaderStatusListener, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoaderStatusListener, MethodIDataLoaderStatusListenerOnStatusChanged)
 	if _err != nil {
-		_code = TransactionIDataLoaderStatusListenerOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataLoaderStatusListener, MethodIDataLoaderStatusListenerOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +79,10 @@ type DataLoaderStatusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataLoaderStatusListenerStub)(nil)
+
+func (s *DataLoaderStatusListenerStub) Descriptor() string {
+	return DescriptorIDataLoaderStatusListener
+}
 
 func (s *DataLoaderStatusListenerStub) OnTransaction(
 	ctx context.Context,

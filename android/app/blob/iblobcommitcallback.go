@@ -15,23 +15,27 @@ const (
 	TransactionIBlobCommitCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBlobCommitCallbackOnResult = "onResult"
+)
+
 type IBlobCommitCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, result int32) error
 }
 
 type BlobCommitCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBlobCommitCallbackProxy(
 	remote binder.IBinder,
 ) *BlobCommitCallbackProxy {
-	return &BlobCommitCallbackProxy{remote: remote}
+	return &BlobCommitCallbackProxy{Remote: remote}
 }
 
 func (p *BlobCommitCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBlobCommitCallback = (*BlobCommitCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *BlobCommitCallbackProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIBlobCommitCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobCommitCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobCommitCallback, MethodIBlobCommitCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIBlobCommitCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobCommitCallback, MethodIBlobCommitCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type BlobCommitCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BlobCommitCallbackStub)(nil)
+
+func (s *BlobCommitCallbackStub) Descriptor() string {
+	return DescriptorIBlobCommitCallback
+}
 
 func (s *BlobCommitCallbackStub) OnTransaction(
 	ctx context.Context,

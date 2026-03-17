@@ -20,6 +20,14 @@ const (
 	TransactionIHdmiSignalInterfaceSetForceVrr                  = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIHdmiSignalInterfaceAddHdmiSignalInfoListener    = "addHdmiSignalInfoListener"
+	MethodIHdmiSignalInterfaceRemoveHdmiSignalInfoListener = "removeHdmiSignalInfoListener"
+	MethodIHdmiSignalInterfaceGetHdmiSignalInfo            = "getHdmiSignalInfo"
+	MethodIHdmiSignalInterfaceSetLowLatency                = "setLowLatency"
+	MethodIHdmiSignalInterfaceSetForceVrr                  = "setForceVrr"
+)
+
 type IHdmiSignalInterface interface {
 	AsBinder() binder.IBinder
 	AddHdmiSignalInfoListener(ctx context.Context, inputId string, listener IHdmiSignalInfoListener) error
@@ -30,17 +38,17 @@ type IHdmiSignalInterface interface {
 }
 
 type HdmiSignalInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiSignalInterfaceProxy(
 	remote binder.IBinder,
 ) *HdmiSignalInterfaceProxy {
-	return &HdmiSignalInterfaceProxy{remote: remote}
+	return &HdmiSignalInterfaceProxy{Remote: remote}
 }
 
 func (p *HdmiSignalInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiSignalInterface = (*HdmiSignalInterfaceProxy)(nil)
@@ -53,14 +61,14 @@ func (p *HdmiSignalInterfaceProxy) AddHdmiSignalInfoListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInterface)
 	_data.WriteString16(inputId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "addHdmiSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceAddHdmiSignalInfoListener)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInterfaceAddHdmiSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceAddHdmiSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,14 +89,14 @@ func (p *HdmiSignalInterfaceProxy) RemoveHdmiSignalInfoListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInterface)
 	_data.WriteString16(inputId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "removeHdmiSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceRemoveHdmiSignalInfoListener)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInterfaceRemoveHdmiSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceRemoveHdmiSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,12 +118,12 @@ func (p *HdmiSignalInterfaceProxy) GetHdmiSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInterface)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "getHdmiSignalInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceGetHdmiSignalInfo)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInterfaceGetHdmiSignalInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceGetHdmiSignalInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,12 +155,12 @@ func (p *HdmiSignalInterfaceProxy) SetLowLatency(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "setLowLatency")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceSetLowLatency)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInterfaceSetLowLatency
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceSetLowLatency, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -175,12 +183,12 @@ func (p *HdmiSignalInterfaceProxy) SetForceVrr(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "setForceVrr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceSetForceVrr)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInterfaceSetForceVrr
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInterface, MethodIHdmiSignalInterfaceSetForceVrr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,6 +208,10 @@ type HdmiSignalInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiSignalInterfaceStub)(nil)
+
+func (s *HdmiSignalInterfaceStub) Descriptor() string {
+	return DescriptorIHdmiSignalInterface
+}
 
 func (s *HdmiSignalInterfaceStub) OnTransaction(
 	ctx context.Context,

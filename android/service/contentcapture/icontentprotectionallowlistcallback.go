@@ -15,23 +15,27 @@ const (
 	TransactionIContentProtectionAllowlistCallbackSetAllowlist = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIContentProtectionAllowlistCallbackSetAllowlist = "setAllowlist"
+)
+
 type IContentProtectionAllowlistCallback interface {
 	AsBinder() binder.IBinder
 	SetAllowlist(ctx context.Context, packages []string) error
 }
 
 type ContentProtectionAllowlistCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentProtectionAllowlistCallbackProxy(
 	remote binder.IBinder,
 ) *ContentProtectionAllowlistCallbackProxy {
-	return &ContentProtectionAllowlistCallbackProxy{remote: remote}
+	return &ContentProtectionAllowlistCallbackProxy{Remote: remote}
 }
 
 func (p *ContentProtectionAllowlistCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentProtectionAllowlistCallback = (*ContentProtectionAllowlistCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *ContentProtectionAllowlistCallbackProxy) SetAllowlist(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentProtectionAllowlistCallback, "setAllowlist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentProtectionAllowlistCallback, MethodIContentProtectionAllowlistCallbackSetAllowlist)
 	if _err != nil {
-		_code = TransactionIContentProtectionAllowlistCallbackSetAllowlist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentProtectionAllowlistCallback, MethodIContentProtectionAllowlistCallbackSetAllowlist, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type ContentProtectionAllowlistCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentProtectionAllowlistCallbackStub)(nil)
+
+func (s *ContentProtectionAllowlistCallbackStub) Descriptor() string {
+	return DescriptorIContentProtectionAllowlistCallback
+}
 
 func (s *ContentProtectionAllowlistCallbackStub) OnTransaction(
 	ctx context.Context,

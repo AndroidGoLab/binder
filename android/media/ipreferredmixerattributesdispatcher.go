@@ -15,23 +15,27 @@ const (
 	TransactionIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged = "dispatchPrefMixerAttributesChanged"
+)
+
 type IPreferredMixerAttributesDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchPrefMixerAttributesChanged(ctx context.Context, attributes AudioAttributes, deviceId int32, mixerAttributes *AudioMixerAttributes) error
 }
 
 type PreferredMixerAttributesDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPreferredMixerAttributesDispatcherProxy(
 	remote binder.IBinder,
 ) *PreferredMixerAttributesDispatcherProxy {
-	return &PreferredMixerAttributesDispatcherProxy{remote: remote}
+	return &PreferredMixerAttributesDispatcherProxy{Remote: remote}
 }
 
 func (p *PreferredMixerAttributesDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPreferredMixerAttributesDispatcher = (*PreferredMixerAttributesDispatcherProxy)(nil)
@@ -57,12 +61,12 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreferredMixerAttributesDispatcher, "dispatchPrefMixerAttributesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreferredMixerAttributesDispatcher, MethodIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged)
 	if _err != nil {
-		_code = TransactionIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPreferredMixerAttributesDispatcher, MethodIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,6 +77,10 @@ type PreferredMixerAttributesDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PreferredMixerAttributesDispatcherStub)(nil)
+
+func (s *PreferredMixerAttributesDispatcherStub) Descriptor() string {
+	return DescriptorIPreferredMixerAttributesDispatcher
+}
 
 func (s *PreferredMixerAttributesDispatcherStub) OnTransaction(
 	ctx context.Context,

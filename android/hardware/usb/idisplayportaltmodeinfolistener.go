@@ -15,23 +15,27 @@ const (
 	TransactionIDisplayPortAltModeInfoListenerOnDisplayPortAltModeInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDisplayPortAltModeInfoListenerOnDisplayPortAltModeInfoChanged = "onDisplayPortAltModeInfoChanged"
+)
+
 type IDisplayPortAltModeInfoListener interface {
 	AsBinder() binder.IBinder
 	OnDisplayPortAltModeInfoChanged(ctx context.Context, portId string, DisplayPortAltModeInfo DisplayPortAltModeInfo) error
 }
 
 type DisplayPortAltModeInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayPortAltModeInfoListenerProxy(
 	remote binder.IBinder,
 ) *DisplayPortAltModeInfoListenerProxy {
-	return &DisplayPortAltModeInfoListenerProxy{remote: remote}
+	return &DisplayPortAltModeInfoListenerProxy{Remote: remote}
 }
 
 func (p *DisplayPortAltModeInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayPortAltModeInfoListener = (*DisplayPortAltModeInfoListenerProxy)(nil)
@@ -49,12 +53,12 @@ func (p *DisplayPortAltModeInfoListenerProxy) OnDisplayPortAltModeInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayPortAltModeInfoListener, "onDisplayPortAltModeInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayPortAltModeInfoListener, MethodIDisplayPortAltModeInfoListenerOnDisplayPortAltModeInfoChanged)
 	if _err != nil {
-		_code = TransactionIDisplayPortAltModeInfoListenerOnDisplayPortAltModeInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayPortAltModeInfoListener, MethodIDisplayPortAltModeInfoListenerOnDisplayPortAltModeInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type DisplayPortAltModeInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayPortAltModeInfoListenerStub)(nil)
+
+func (s *DisplayPortAltModeInfoListenerStub) Descriptor() string {
+	return DescriptorIDisplayPortAltModeInfoListener
+}
 
 func (s *DisplayPortAltModeInfoListenerStub) OnTransaction(
 	ctx context.Context,

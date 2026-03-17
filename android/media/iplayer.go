@@ -21,6 +21,16 @@ const (
 	TransactionIPlayerApplyVolumeShaper = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIPlayerStart             = "start"
+	MethodIPlayerPause             = "pause"
+	MethodIPlayerStop              = "stop"
+	MethodIPlayerSetVolume         = "setVolume"
+	MethodIPlayerSetPan            = "setPan"
+	MethodIPlayerSetStartDelayMs   = "setStartDelayMs"
+	MethodIPlayerApplyVolumeShaper = "applyVolumeShaper"
+)
+
 type IPlayer interface {
 	AsBinder() binder.IBinder
 	Start(ctx context.Context) error
@@ -33,17 +43,17 @@ type IPlayer interface {
 }
 
 type PlayerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPlayerProxy(
 	remote binder.IBinder,
 ) *PlayerProxy {
-	return &PlayerProxy{remote: remote}
+	return &PlayerProxy{Remote: remote}
 }
 
 func (p *PlayerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPlayer = (*PlayerProxy)(nil)
@@ -54,12 +64,12 @@ func (p *PlayerProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerStart)
 	if _err != nil {
-		_code = TransactionIPlayerStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +79,12 @@ func (p *PlayerProxy) Pause(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "pause")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerPause)
 	if _err != nil {
-		_code = TransactionIPlayerPause
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerPause, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +94,12 @@ func (p *PlayerProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerStop)
 	if _err != nil {
-		_code = TransactionIPlayerStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +111,12 @@ func (p *PlayerProxy) SetVolume(
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteFloat32(vol)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "setVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerSetVolume)
 	if _err != nil {
-		_code = TransactionIPlayerSetVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerSetVolume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,12 +128,12 @@ func (p *PlayerProxy) SetPan(
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteFloat32(pan)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "setPan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerSetPan)
 	if _err != nil {
-		_code = TransactionIPlayerSetPan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerSetPan, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,12 +145,12 @@ func (p *PlayerProxy) SetStartDelayMs(
 	_data.WriteInterfaceToken(DescriptorIPlayer)
 	_data.WriteInt32(delayMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "setStartDelayMs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerSetStartDelayMs)
 	if _err != nil {
-		_code = TransactionIPlayerSetStartDelayMs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerSetStartDelayMs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,12 +170,12 @@ func (p *PlayerProxy) ApplyVolumeShaper(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "applyVolumeShaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayer, MethodIPlayerApplyVolumeShaper)
 	if _err != nil {
-		_code = TransactionIPlayerApplyVolumeShaper
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayer, MethodIPlayerApplyVolumeShaper, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,6 +186,10 @@ type PlayerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PlayerStub)(nil)
+
+func (s *PlayerStub) Descriptor() string {
+	return DescriptorIPlayer
+}
 
 func (s *PlayerStub) OnTransaction(
 	ctx context.Context,

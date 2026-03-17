@@ -16,6 +16,11 @@ const (
 	TransactionITvInputHardwareCallbackOnStreamConfigChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITvInputHardwareCallbackOnReleased            = "onReleased"
+	MethodITvInputHardwareCallbackOnStreamConfigChanged = "onStreamConfigChanged"
+)
+
 type ITvInputHardwareCallback interface {
 	AsBinder() binder.IBinder
 	OnReleased(ctx context.Context) error
@@ -23,17 +28,17 @@ type ITvInputHardwareCallback interface {
 }
 
 type TvInputHardwareCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInputHardwareCallbackProxy(
 	remote binder.IBinder,
 ) *TvInputHardwareCallbackProxy {
-	return &TvInputHardwareCallbackProxy{remote: remote}
+	return &TvInputHardwareCallbackProxy{Remote: remote}
 }
 
 func (p *TvInputHardwareCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInputHardwareCallback = (*TvInputHardwareCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *TvInputHardwareCallbackProxy) OnReleased(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputHardwareCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardwareCallback, "onReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputHardwareCallback, MethodITvInputHardwareCallbackOnReleased)
 	if _err != nil {
-		_code = TransactionITvInputHardwareCallbackOnReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputHardwareCallback, MethodITvInputHardwareCallbackOnReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,18 +69,19 @@ func (p *TvInputHardwareCallbackProxy) OnStreamConfigChanged(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardwareCallback, "onStreamConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputHardwareCallback, MethodITvInputHardwareCallbackOnStreamConfigChanged)
 	if _err != nil {
-		_code = TransactionITvInputHardwareCallbackOnStreamConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputHardwareCallback, MethodITvInputHardwareCallbackOnStreamConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +92,10 @@ type TvInputHardwareCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInputHardwareCallbackStub)(nil)
+
+func (s *TvInputHardwareCallbackStub) Descriptor() string {
+	return DescriptorITvInputHardwareCallback
+}
 
 func (s *TvInputHardwareCallbackStub) OnTransaction(
 	ctx context.Context,

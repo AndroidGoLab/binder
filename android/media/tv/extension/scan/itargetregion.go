@@ -18,6 +18,12 @@ const (
 	TransactionITargetRegionSetListener      = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITargetRegionGetTargetRegions = "getTargetRegions"
+	MethodITargetRegionSetTargetRegion  = "setTargetRegion"
+	MethodITargetRegionSetListener      = "setListener"
+)
+
 type ITargetRegion interface {
 	AsBinder() binder.IBinder
 	GetTargetRegions(ctx context.Context) ([]os.Bundle, error)
@@ -26,17 +32,17 @@ type ITargetRegion interface {
 }
 
 type TargetRegionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTargetRegionProxy(
 	remote binder.IBinder,
 ) *TargetRegionProxy {
-	return &TargetRegionProxy{remote: remote}
+	return &TargetRegionProxy{Remote: remote}
 }
 
 func (p *TargetRegionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITargetRegion = (*TargetRegionProxy)(nil)
@@ -48,12 +54,12 @@ func (p *TargetRegionProxy) GetTargetRegions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITargetRegion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITargetRegion, "getTargetRegions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITargetRegion, MethodITargetRegionGetTargetRegions)
 	if _err != nil {
-		_code = TransactionITargetRegionGetTargetRegions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITargetRegion, MethodITargetRegionGetTargetRegions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -71,6 +77,9 @@ func (p *TargetRegionProxy) GetTargetRegions(
 	if _count >= 0 {
 		_result = make([]os.Bundle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -91,12 +100,12 @@ func (p *TargetRegionProxy) SetTargetRegion(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITargetRegion, "setTargetRegion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITargetRegion, MethodITargetRegionSetTargetRegion)
 	if _err != nil {
-		_code = TransactionITargetRegionSetTargetRegion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITargetRegion, MethodITargetRegionSetTargetRegion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -120,14 +129,14 @@ func (p *TargetRegionProxy) SetListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITargetRegion)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITargetRegion, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITargetRegion, MethodITargetRegionSetListener)
 	if _err != nil {
-		_code = TransactionITargetRegionSetListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITargetRegion, MethodITargetRegionSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,6 +160,10 @@ type TargetRegionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TargetRegionStub)(nil)
+
+func (s *TargetRegionStub) Descriptor() string {
+	return DescriptorITargetRegion
+}
 
 func (s *TargetRegionStub) OnTransaction(
 	ctx context.Context,

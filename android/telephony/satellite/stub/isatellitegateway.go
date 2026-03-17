@@ -16,17 +16,17 @@ type ISatelliteGateway interface {
 }
 
 type SatelliteGatewayProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteGatewayProxy(
 	remote binder.IBinder,
 ) *SatelliteGatewayProxy {
-	return &SatelliteGatewayProxy{remote: remote}
+	return &SatelliteGatewayProxy{Remote: remote}
 }
 
 func (p *SatelliteGatewayProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteGateway = (*SatelliteGatewayProxy)(nil)
@@ -38,6 +38,10 @@ type SatelliteGatewayStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteGatewayStub)(nil)
+
+func (s *SatelliteGatewayStub) Descriptor() string {
+	return DescriptorISatelliteGateway
+}
 
 func (s *SatelliteGatewayStub) OnTransaction(
 	ctx context.Context,

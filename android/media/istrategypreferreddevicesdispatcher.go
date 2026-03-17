@@ -15,23 +15,27 @@ const (
 	TransactionIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged = "dispatchPrefDevicesChanged"
+)
+
 type IStrategyPreferredDevicesDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchPrefDevicesChanged(ctx context.Context, strategyId int32, devices []AudioDeviceAttributes) error
 }
 
 type StrategyPreferredDevicesDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStrategyPreferredDevicesDispatcherProxy(
 	remote binder.IBinder,
 ) *StrategyPreferredDevicesDispatcherProxy {
-	return &StrategyPreferredDevicesDispatcherProxy{remote: remote}
+	return &StrategyPreferredDevicesDispatcherProxy{Remote: remote}
 }
 
 func (p *StrategyPreferredDevicesDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStrategyPreferredDevicesDispatcher = (*StrategyPreferredDevicesDispatcherProxy)(nil)
@@ -49,18 +53,19 @@ func (p *StrategyPreferredDevicesDispatcherProxy) DispatchPrefDevicesChanged(
 	} else {
 		_data.WriteInt32(int32(len(devices)))
 		for _, _item := range devices {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStrategyPreferredDevicesDispatcher, "dispatchPrefDevicesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStrategyPreferredDevicesDispatcher, MethodIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged)
 	if _err != nil {
-		_code = TransactionIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStrategyPreferredDevicesDispatcher, MethodIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +76,10 @@ type StrategyPreferredDevicesDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StrategyPreferredDevicesDispatcherStub)(nil)
+
+func (s *StrategyPreferredDevicesDispatcherStub) Descriptor() string {
+	return DescriptorIStrategyPreferredDevicesDispatcher
+}
 
 func (s *StrategyPreferredDevicesDispatcherStub) OnTransaction(
 	ctx context.Context,

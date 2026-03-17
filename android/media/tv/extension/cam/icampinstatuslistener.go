@@ -16,23 +16,27 @@ const (
 	TransactionICamPinStatusListenerOnCamPinValidationReply = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICamPinStatusListenerOnCamPinValidationReply = "onCamPinValidationReply"
+)
+
 type ICamPinStatusListener interface {
 	AsBinder() binder.IBinder
 	OnCamPinValidationReply(ctx context.Context, slotId int32, bundle os.Bundle) error
 }
 
 type CamPinStatusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamPinStatusListenerProxy(
 	remote binder.IBinder,
 ) *CamPinStatusListenerProxy {
-	return &CamPinStatusListenerProxy{remote: remote}
+	return &CamPinStatusListenerProxy{Remote: remote}
 }
 
 func (p *CamPinStatusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamPinStatusListener = (*CamPinStatusListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *CamPinStatusListenerProxy) OnCamPinValidationReply(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamPinStatusListener, "onCamPinValidationReply")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamPinStatusListener, MethodICamPinStatusListenerOnCamPinValidationReply)
 	if _err != nil {
-		_code = TransactionICamPinStatusListenerOnCamPinValidationReply
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamPinStatusListener, MethodICamPinStatusListenerOnCamPinValidationReply, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type CamPinStatusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamPinStatusListenerStub)(nil)
+
+func (s *CamPinStatusListenerStub) Descriptor() string {
+	return DescriptorICamPinStatusListener
+}
 
 func (s *CamPinStatusListenerStub) OnTransaction(
 	ctx context.Context,

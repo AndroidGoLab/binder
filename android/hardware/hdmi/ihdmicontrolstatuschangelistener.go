@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiControlStatusChangeListenerOnStatusChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiControlStatusChangeListenerOnStatusChange = "onStatusChange"
+)
+
 type IHdmiControlStatusChangeListener interface {
 	AsBinder() binder.IBinder
 	OnStatusChange(ctx context.Context, isCecEnabled int32, isCecAvailable bool) error
 }
 
 type HdmiControlStatusChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiControlStatusChangeListenerProxy(
 	remote binder.IBinder,
 ) *HdmiControlStatusChangeListenerProxy {
-	return &HdmiControlStatusChangeListenerProxy{remote: remote}
+	return &HdmiControlStatusChangeListenerProxy{Remote: remote}
 }
 
 func (p *HdmiControlStatusChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiControlStatusChangeListener = (*HdmiControlStatusChangeListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *HdmiControlStatusChangeListenerProxy) OnStatusChange(
 	_data.WriteInt32(isCecEnabled)
 	_data.WriteBool(isCecAvailable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiControlStatusChangeListener, "onStatusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlStatusChangeListener, MethodIHdmiControlStatusChangeListenerOnStatusChange)
 	if _err != nil {
-		_code = TransactionIHdmiControlStatusChangeListenerOnStatusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiControlStatusChangeListener, MethodIHdmiControlStatusChangeListenerOnStatusChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type HdmiControlStatusChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiControlStatusChangeListenerStub)(nil)
+
+func (s *HdmiControlStatusChangeListenerStub) Descriptor() string {
+	return DescriptorIHdmiControlStatusChangeListener
+}
 
 func (s *HdmiControlStatusChangeListenerStub) OnTransaction(
 	ctx context.Context,

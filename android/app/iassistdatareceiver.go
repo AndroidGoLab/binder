@@ -17,6 +17,11 @@ const (
 	TransactionIAssistDataReceiverOnHandleAssistScreenshot = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAssistDataReceiverOnHandleAssistData       = "onHandleAssistData"
+	MethodIAssistDataReceiverOnHandleAssistScreenshot = "onHandleAssistScreenshot"
+)
+
 type IAssistDataReceiver interface {
 	AsBinder() binder.IBinder
 	OnHandleAssistData(ctx context.Context, resultData interface{}) error
@@ -24,17 +29,17 @@ type IAssistDataReceiver interface {
 }
 
 type AssistDataReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAssistDataReceiverProxy(
 	remote binder.IBinder,
 ) *AssistDataReceiverProxy {
-	return &AssistDataReceiverProxy{remote: remote}
+	return &AssistDataReceiverProxy{Remote: remote}
 }
 
 func (p *AssistDataReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAssistDataReceiver = (*AssistDataReceiverProxy)(nil)
@@ -46,12 +51,12 @@ func (p *AssistDataReceiverProxy) OnHandleAssistData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssistDataReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssistDataReceiver, MethodIAssistDataReceiverOnHandleAssistData)
 	if _err != nil {
-		_code = TransactionIAssistDataReceiverOnHandleAssistData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAssistDataReceiver, MethodIAssistDataReceiverOnHandleAssistData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistScreenshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssistDataReceiver, MethodIAssistDataReceiverOnHandleAssistScreenshot)
 	if _err != nil {
-		_code = TransactionIAssistDataReceiverOnHandleAssistScreenshot
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAssistDataReceiver, MethodIAssistDataReceiverOnHandleAssistScreenshot, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type AssistDataReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AssistDataReceiverStub)(nil)
+
+func (s *AssistDataReceiverStub) Descriptor() string {
+	return DescriptorIAssistDataReceiver
+}
 
 func (s *AssistDataReceiverStub) OnTransaction(
 	ctx context.Context,

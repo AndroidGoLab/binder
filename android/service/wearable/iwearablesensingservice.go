@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	ambientcontext "github.com/xaionaro-go/binder/android/app/ambientcontext"
-	appWearable "github.com/xaionaro-go/binder/android/app/wearable"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -16,28 +15,40 @@ const DescriptorIWearableSensingService = "android.service.wearable.IWearableSen
 
 const (
 	TransactionIWearableSensingServiceProvideSecureConnection              = binder.FirstCallTransaction + 0
-	TransactionIWearableSensingServiceProvideConcurrentSecureConnection    = binder.FirstCallTransaction + 1
-	TransactionIWearableSensingServiceProvideReadOnlyParcelFileDescriptor  = binder.FirstCallTransaction + 2
-	TransactionIWearableSensingServiceProvideDataStream                    = binder.FirstCallTransaction + 3
-	TransactionIWearableSensingServiceProvideData                          = binder.FirstCallTransaction + 4
-	TransactionIWearableSensingServiceRegisterDataRequestObserver          = binder.FirstCallTransaction + 5
-	TransactionIWearableSensingServiceUnregisterDataRequestObserver        = binder.FirstCallTransaction + 6
-	TransactionIWearableSensingServiceStartHotwordRecognition              = binder.FirstCallTransaction + 7
-	TransactionIWearableSensingServiceStopHotwordRecognition               = binder.FirstCallTransaction + 8
-	TransactionIWearableSensingServiceOnValidatedByHotwordDetectionService = binder.FirstCallTransaction + 9
-	TransactionIWearableSensingServiceStopActiveHotwordAudio               = binder.FirstCallTransaction + 10
-	TransactionIWearableSensingServiceStartDetection                       = binder.FirstCallTransaction + 11
-	TransactionIWearableSensingServiceStopDetection                        = binder.FirstCallTransaction + 12
-	TransactionIWearableSensingServiceQueryServiceStatus                   = binder.FirstCallTransaction + 13
-	TransactionIWearableSensingServiceKillProcess                          = binder.FirstCallTransaction + 14
+	TransactionIWearableSensingServiceProvideDataStream                    = binder.FirstCallTransaction + 1
+	TransactionIWearableSensingServiceProvideData                          = binder.FirstCallTransaction + 2
+	TransactionIWearableSensingServiceRegisterDataRequestObserver          = binder.FirstCallTransaction + 3
+	TransactionIWearableSensingServiceUnregisterDataRequestObserver        = binder.FirstCallTransaction + 4
+	TransactionIWearableSensingServiceStartHotwordRecognition              = binder.FirstCallTransaction + 5
+	TransactionIWearableSensingServiceStopHotwordRecognition               = binder.FirstCallTransaction + 6
+	TransactionIWearableSensingServiceOnValidatedByHotwordDetectionService = binder.FirstCallTransaction + 7
+	TransactionIWearableSensingServiceStopActiveHotwordAudio               = binder.FirstCallTransaction + 8
+	TransactionIWearableSensingServiceStartDetection                       = binder.FirstCallTransaction + 9
+	TransactionIWearableSensingServiceStopDetection                        = binder.FirstCallTransaction + 10
+	TransactionIWearableSensingServiceQueryServiceStatus                   = binder.FirstCallTransaction + 11
+	TransactionIWearableSensingServiceKillProcess                          = binder.FirstCallTransaction + 12
+)
+
+const (
+	MethodIWearableSensingServiceProvideSecureConnection              = "provideSecureConnection"
+	MethodIWearableSensingServiceProvideDataStream                    = "provideDataStream"
+	MethodIWearableSensingServiceProvideData                          = "provideData"
+	MethodIWearableSensingServiceRegisterDataRequestObserver          = "registerDataRequestObserver"
+	MethodIWearableSensingServiceUnregisterDataRequestObserver        = "unregisterDataRequestObserver"
+	MethodIWearableSensingServiceStartHotwordRecognition              = "startHotwordRecognition"
+	MethodIWearableSensingServiceStopHotwordRecognition               = "stopHotwordRecognition"
+	MethodIWearableSensingServiceOnValidatedByHotwordDetectionService = "onValidatedByHotwordDetectionService"
+	MethodIWearableSensingServiceStopActiveHotwordAudio               = "stopActiveHotwordAudio"
+	MethodIWearableSensingServiceStartDetection                       = "startDetection"
+	MethodIWearableSensingServiceStopDetection                        = "stopDetection"
+	MethodIWearableSensingServiceQueryServiceStatus                   = "queryServiceStatus"
+	MethodIWearableSensingServiceKillProcess                          = "killProcess"
 )
 
 type IWearableSensingService interface {
 	AsBinder() binder.IBinder
-	ProvideSecureConnection(ctx context.Context, parcelFileDescriptor int32, wearableSensingCallback appWearable.IWearableSensingCallback, statusCallback os.RemoteCallback) error
-	ProvideConcurrentSecureConnection(ctx context.Context, parcelFileDescriptor int32, metadata interface{}, wearableSensingCallback appWearable.IWearableSensingCallback, statusCallback os.RemoteCallback) error
-	ProvideReadOnlyParcelFileDescriptor(ctx context.Context, parcelFileDescriptor int32, metadata interface{}, statusCallback os.RemoteCallback) error
-	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, wearableSensingCallback appWearable.IWearableSensingCallback, statusCallback os.RemoteCallback) error
+	ProvideSecureConnection(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
+	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
 	ProvideData(ctx context.Context, data interface{}, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
 	RegisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestCallback os.RemoteCallback, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
 	UnregisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
@@ -52,17 +63,17 @@ type IWearableSensingService interface {
 }
 
 type WearableSensingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWearableSensingServiceProxy(
 	remote binder.IBinder,
 ) *WearableSensingServiceProxy {
-	return &WearableSensingServiceProxy{remote: remote}
+	return &WearableSensingServiceProxy{Remote: remote}
 }
 
 func (p *WearableSensingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWearableSensingService = (*WearableSensingServiceProxy)(nil)
@@ -70,96 +81,44 @@ var _ IWearableSensingService = (*WearableSensingServiceProxy)(nil)
 func (p *WearableSensingServiceProxy) ProvideSecureConnection(
 	ctx context.Context,
 	parcelFileDescriptor int32,
-	wearableSensingCallback appWearable.IWearableSensingCallback,
-	statusCallback os.RemoteCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteFileDescriptor(parcelFileDescriptor)
-	binder.WriteBinderToParcel(ctx, _data, wearableSensingCallback.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "provideSecureConnection")
-	if _err != nil {
-		_code = TransactionIWearableSensingServiceProvideSecureConnection
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *WearableSensingServiceProxy) ProvideConcurrentSecureConnection(
-	ctx context.Context,
-	parcelFileDescriptor int32,
-	metadata interface{},
-	wearableSensingCallback appWearable.IWearableSensingCallback,
-	statusCallback os.RemoteCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
-	_data.WriteFileDescriptor(parcelFileDescriptor)
-	binder.WriteBinderToParcel(ctx, _data, wearableSensingCallback.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "provideConcurrentSecureConnection")
-	if _err != nil {
-		_code = TransactionIWearableSensingServiceProvideConcurrentSecureConnection
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *WearableSensingServiceProxy) ProvideReadOnlyParcelFileDescriptor(
-	ctx context.Context,
-	parcelFileDescriptor int32,
-	metadata interface{},
-	statusCallback os.RemoteCallback,
+	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
+	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "provideReadOnlyParcelFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideSecureConnection)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceProvideReadOnlyParcelFileDescriptor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideSecureConnection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *WearableSensingServiceProxy) ProvideDataStream(
 	ctx context.Context,
 	parcelFileDescriptor int32,
-	wearableSensingCallback appWearable.IWearableSensingCallback,
-	statusCallback os.RemoteCallback,
+	callback os.RemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
-	binder.WriteBinderToParcel(ctx, _data, wearableSensingCallback.AsBinder(), p.remote.Transport())
 	_data.WriteInt32(1)
-	if _err := statusCallback.MarshalParcel(_data); _err != nil {
+	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "provideDataStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideDataStream)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceProvideDataStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideDataStream, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -180,12 +139,12 @@ func (p *WearableSensingServiceProxy) ProvideData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "provideData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideData)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceProvideData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceProvideData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -211,12 +170,12 @@ func (p *WearableSensingServiceProxy) RegisterDataRequestObserver(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "registerDataRequestObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceRegisterDataRequestObserver)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceRegisterDataRequestObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceRegisterDataRequestObserver, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -237,12 +196,12 @@ func (p *WearableSensingServiceProxy) UnregisterDataRequestObserver(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "unregisterDataRequestObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceUnregisterDataRequestObserver)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceUnregisterDataRequestObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceUnregisterDataRequestObserver, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -262,12 +221,12 @@ func (p *WearableSensingServiceProxy) StartHotwordRecognition(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "startHotwordRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStartHotwordRecognition)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceStartHotwordRecognition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceStartHotwordRecognition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -282,12 +241,12 @@ func (p *WearableSensingServiceProxy) StopHotwordRecognition(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "stopHotwordRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopHotwordRecognition)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceStopHotwordRecognition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceStopHotwordRecognition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -297,12 +256,12 @@ func (p *WearableSensingServiceProxy) OnValidatedByHotwordDetectionService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "onValidatedByHotwordDetectionService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceOnValidatedByHotwordDetectionService)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceOnValidatedByHotwordDetectionService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceOnValidatedByHotwordDetectionService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -312,12 +271,12 @@ func (p *WearableSensingServiceProxy) StopActiveHotwordAudio(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "stopActiveHotwordAudio")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopActiveHotwordAudio)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceStopActiveHotwordAudio
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceStopActiveHotwordAudio, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -344,12 +303,12 @@ func (p *WearableSensingServiceProxy) StartDetection(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "startDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStartDetection)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceStartDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceStartDetection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -361,12 +320,12 @@ func (p *WearableSensingServiceProxy) StopDetection(
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "stopDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceStopDetection)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceStopDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceStopDetection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -392,12 +351,12 @@ func (p *WearableSensingServiceProxy) QueryServiceStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "queryServiceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceQueryServiceStatus)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceQueryServiceStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceQueryServiceStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -407,12 +366,12 @@ func (p *WearableSensingServiceProxy) KillProcess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingService, "killProcess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingService, MethodIWearableSensingServiceKillProcess)
 	if _err != nil {
-		_code = TransactionIWearableSensingServiceKillProcess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingService, MethodIWearableSensingServiceKillProcess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -423,6 +382,10 @@ type WearableSensingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WearableSensingServiceStub)(nil)
+
+func (s *WearableSensingServiceStub) Descriptor() string {
+	return DescriptorIWearableSensingService
+}
 
 func (s *WearableSensingServiceStub) OnTransaction(
 	ctx context.Context,
@@ -438,73 +401,19 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_wearableSensingCallback appWearable.IWearableSensingCallback
-		_ = _arg_wearableSensingCallback
-		var _arg_statusCallback os.RemoteCallback
+		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_err = s.Impl.ProvideSecureConnection(ctx, _arg_parcelFileDescriptor, _arg_wearableSensingCallback, _arg_statusCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIWearableSensingServiceProvideConcurrentSecureConnection:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_metadata interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_wearableSensingCallback appWearable.IWearableSensingCallback
-		_ = _arg_wearableSensingCallback
-		var _arg_statusCallback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.ProvideConcurrentSecureConnection(ctx, _arg_parcelFileDescriptor, _arg_metadata, _arg_wearableSensingCallback, _arg_statusCallback)
-		_ = _err
-		return nil, nil
-	case TransactionIWearableSensingServiceProvideReadOnlyParcelFileDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_metadata interface{}
-		var _arg_statusCallback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.ProvideReadOnlyParcelFileDescriptor(ctx, _arg_parcelFileDescriptor, _arg_metadata, _arg_statusCallback)
+		_err = s.Impl.ProvideSecureConnection(ctx, _arg_parcelFileDescriptor, _arg_callback)
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceProvideDataStream:
@@ -515,22 +424,19 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_wearableSensingCallback appWearable.IWearableSensingCallback
-		_ = _arg_wearableSensingCallback
-		var _arg_statusCallback os.RemoteCallback
+		var _arg_callback os.RemoteCallback
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_err = s.Impl.ProvideDataStream(ctx, _arg_parcelFileDescriptor, _arg_wearableSensingCallback, _arg_statusCallback)
+		_err = s.Impl.ProvideDataStream(ctx, _arg_parcelFileDescriptor, _arg_callback)
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceProvideData:
@@ -803,10 +709,8 @@ func (s *WearableSensingServiceStub) OnTransaction(
 // provide to NewWearableSensingServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWearableSensingServiceServer interface {
-	ProvideSecureConnection(ctx context.Context, parcelFileDescriptor int32, wearableSensingCallback appWearable.IWearableSensingCallback, statusCallback os.RemoteCallback) error
-	ProvideConcurrentSecureConnection(ctx context.Context, parcelFileDescriptor int32, metadata interface{}, wearableSensingCallback appWearable.IWearableSensingCallback, statusCallback os.RemoteCallback) error
-	ProvideReadOnlyParcelFileDescriptor(ctx context.Context, parcelFileDescriptor int32, metadata interface{}, statusCallback os.RemoteCallback) error
-	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, wearableSensingCallback appWearable.IWearableSensingCallback, statusCallback os.RemoteCallback) error
+	ProvideSecureConnection(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
+	ProvideDataStream(ctx context.Context, parcelFileDescriptor int32, callback os.RemoteCallback) error
 	ProvideData(ctx context.Context, data interface{}, sharedMemory os.SharedMemory, callback os.RemoteCallback) error
 	RegisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestCallback os.RemoteCallback, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
 	UnregisterDataRequestObserver(ctx context.Context, dataType int32, dataRequestObserverId int32, packageName string, statusCallback os.RemoteCallback) error
@@ -832,38 +736,17 @@ func (w *wearableSensingServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *wearableSensingServiceStubWrapper) ProvideSecureConnection(
 	ctx context.Context,
 	parcelFileDescriptor int32,
-	wearableSensingCallback appWearable.IWearableSensingCallback,
-	statusCallback os.RemoteCallback,
+	callback os.RemoteCallback,
 ) error {
-	return w.impl.ProvideSecureConnection(ctx, parcelFileDescriptor, wearableSensingCallback, statusCallback)
-}
-
-func (w *wearableSensingServiceStubWrapper) ProvideConcurrentSecureConnection(
-	ctx context.Context,
-	parcelFileDescriptor int32,
-	metadata interface{},
-	wearableSensingCallback appWearable.IWearableSensingCallback,
-	statusCallback os.RemoteCallback,
-) error {
-	return w.impl.ProvideConcurrentSecureConnection(ctx, parcelFileDescriptor, metadata, wearableSensingCallback, statusCallback)
-}
-
-func (w *wearableSensingServiceStubWrapper) ProvideReadOnlyParcelFileDescriptor(
-	ctx context.Context,
-	parcelFileDescriptor int32,
-	metadata interface{},
-	statusCallback os.RemoteCallback,
-) error {
-	return w.impl.ProvideReadOnlyParcelFileDescriptor(ctx, parcelFileDescriptor, metadata, statusCallback)
+	return w.impl.ProvideSecureConnection(ctx, parcelFileDescriptor, callback)
 }
 
 func (w *wearableSensingServiceStubWrapper) ProvideDataStream(
 	ctx context.Context,
 	parcelFileDescriptor int32,
-	wearableSensingCallback appWearable.IWearableSensingCallback,
-	statusCallback os.RemoteCallback,
+	callback os.RemoteCallback,
 ) error {
-	return w.impl.ProvideDataStream(ctx, parcelFileDescriptor, wearableSensingCallback, statusCallback)
+	return w.impl.ProvideDataStream(ctx, parcelFileDescriptor, callback)
 }
 
 func (w *wearableSensingServiceStubWrapper) ProvideData(

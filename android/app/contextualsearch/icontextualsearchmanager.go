@@ -16,6 +16,11 @@ const (
 	TransactionIContextualSearchManagerGetContextualSearchState = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIContextualSearchManagerStartContextualSearch    = "startContextualSearch"
+	MethodIContextualSearchManagerGetContextualSearchState = "getContextualSearchState"
+)
+
 type IContextualSearchManager interface {
 	AsBinder() binder.IBinder
 	StartContextualSearch(ctx context.Context, entrypoint int32) error
@@ -23,17 +28,17 @@ type IContextualSearchManager interface {
 }
 
 type ContextualSearchManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextualSearchManagerProxy(
 	remote binder.IBinder,
 ) *ContextualSearchManagerProxy {
-	return &ContextualSearchManagerProxy{remote: remote}
+	return &ContextualSearchManagerProxy{Remote: remote}
 }
 
 func (p *ContextualSearchManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextualSearchManager = (*ContextualSearchManagerProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ContextualSearchManagerProxy) StartContextualSearch(
 	_data.WriteInterfaceToken(DescriptorIContextualSearchManager)
 	_data.WriteInt32(entrypoint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchManager, "startContextualSearch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextualSearchManager, MethodIContextualSearchManagerStartContextualSearch)
 	if _err != nil {
-		_code = TransactionIContextualSearchManagerStartContextualSearch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextualSearchManager, MethodIContextualSearchManagerStartContextualSearch, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,15 +67,15 @@ func (p *ContextualSearchManagerProxy) GetContextualSearchState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextualSearchManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchManager, "getContextualSearchState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextualSearchManager, MethodIContextualSearchManagerGetContextualSearchState)
 	if _err != nil {
-		_code = TransactionIContextualSearchManagerGetContextualSearchState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextualSearchManager, MethodIContextualSearchManagerGetContextualSearchState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type ContextualSearchManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextualSearchManagerStub)(nil)
+
+func (s *ContextualSearchManagerStub) Descriptor() string {
+	return DescriptorIContextualSearchManager
+}
 
 func (s *ContextualSearchManagerStub) OnTransaction(
 	ctx context.Context,

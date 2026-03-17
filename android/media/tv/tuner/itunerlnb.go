@@ -21,6 +21,15 @@ const (
 	TransactionITunerLnbClose                = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodITunerLnbSetCallback          = "setCallback"
+	MethodITunerLnbSetVoltage           = "setVoltage"
+	MethodITunerLnbSetTone              = "setTone"
+	MethodITunerLnbSetSatellitePosition = "setSatellitePosition"
+	MethodITunerLnbSendDiseqcMessage    = "sendDiseqcMessage"
+	MethodITunerLnbClose                = "close"
+)
+
 type ITunerLnb interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, tunerLnbCallback ITunerLnbCallback) error
@@ -32,17 +41,17 @@ type ITunerLnb interface {
 }
 
 type TunerLnbProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerLnbProxy(
 	remote binder.IBinder,
 ) *TunerLnbProxy {
-	return &TunerLnbProxy{remote: remote}
+	return &TunerLnbProxy{Remote: remote}
 }
 
 func (p *TunerLnbProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerLnb = (*TunerLnbProxy)(nil)
@@ -53,14 +62,14 @@ func (p *TunerLnbProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
-	binder.WriteBinderToParcel(ctx, _data, tunerLnbCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tunerLnbCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetCallback)
 	if _err != nil {
-		_code = TransactionITunerLnbSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnb, MethodITunerLnbSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,12 +90,12 @@ func (p *TunerLnbProxy) SetVoltage(
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	_data.WriteInt32(int32(voltage))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setVoltage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetVoltage)
 	if _err != nil {
-		_code = TransactionITunerLnbSetVoltage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnb, MethodITunerLnbSetVoltage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,12 +116,12 @@ func (p *TunerLnbProxy) SetTone(
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	_data.WriteInt32(int32(tone))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setTone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetTone)
 	if _err != nil {
-		_code = TransactionITunerLnbSetTone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnb, MethodITunerLnbSetTone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,12 +142,12 @@ func (p *TunerLnbProxy) SetSatellitePosition(
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 	_data.WriteInt32(int32(position))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setSatellitePosition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSetSatellitePosition)
 	if _err != nil {
-		_code = TransactionITunerLnbSetSatellitePosition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnb, MethodITunerLnbSetSatellitePosition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -166,12 +175,12 @@ func (p *TunerLnbProxy) SendDiseqcMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "sendDiseqcMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbSendDiseqcMessage)
 	if _err != nil {
-		_code = TransactionITunerLnbSendDiseqcMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnb, MethodITunerLnbSendDiseqcMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -190,12 +199,12 @@ func (p *TunerLnbProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerLnb)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnb, MethodITunerLnbClose)
 	if _err != nil {
-		_code = TransactionITunerLnbClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnb, MethodITunerLnbClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -215,6 +224,10 @@ type TunerLnbStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerLnbStub)(nil)
+
+func (s *TunerLnbStub) Descriptor() string {
+	return DescriptorITunerLnb
+}
 
 func (s *TunerLnbStub) OnTransaction(
 	ctx context.Context,

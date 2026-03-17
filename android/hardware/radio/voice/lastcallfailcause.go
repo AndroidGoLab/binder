@@ -5,7 +5,6 @@ package voice
 type LastCallFailCause int32
 
 const (
-	LastCallFailCauseINVALID                                   LastCallFailCause = 0
 	LastCallFailCauseUnobtainableNumber                        LastCallFailCause = 1
 	LastCallFailCauseNoRouteToDestination                      LastCallFailCause = 3
 	LastCallFailCauseChannelUnacceptable                       LastCallFailCause = 6

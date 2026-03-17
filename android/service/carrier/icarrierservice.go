@@ -16,23 +16,27 @@ const (
 	TransactionICarrierServiceGetCarrierConfig = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICarrierServiceGetCarrierConfig = "getCarrierConfig"
+)
+
 type ICarrierService interface {
 	AsBinder() binder.IBinder
 	GetCarrierConfig(ctx context.Context, phoneId int32, id CarrierIdentifier, result os.ResultReceiver) error
 }
 
 type CarrierServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierServiceProxy(
 	remote binder.IBinder,
 ) *CarrierServiceProxy {
-	return &CarrierServiceProxy{remote: remote}
+	return &CarrierServiceProxy{Remote: remote}
 }
 
 func (p *CarrierServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierService = (*CarrierServiceProxy)(nil)
@@ -55,12 +59,12 @@ func (p *CarrierServiceProxy) GetCarrierConfig(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierService, "getCarrierConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierService, MethodICarrierServiceGetCarrierConfig)
 	if _err != nil {
-		_code = TransactionICarrierServiceGetCarrierConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierService, MethodICarrierServiceGetCarrierConfig, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +75,10 @@ type CarrierServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierServiceStub)(nil)
+
+func (s *CarrierServiceStub) Descriptor() string {
+	return DescriptorICarrierService
+}
 
 func (s *CarrierServiceStub) OnTransaction(
 	ctx context.Context,

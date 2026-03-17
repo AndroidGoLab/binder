@@ -15,23 +15,27 @@ const (
 	TransactionIWindowInfosPublisherAckWindowInfosReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWindowInfosPublisherAckWindowInfosReceived = "ackWindowInfosReceived"
+)
+
 type IWindowInfosPublisher interface {
 	AsBinder() binder.IBinder
 	AckWindowInfosReceived(ctx context.Context, vsyncId int64, listenerId int64) error
 }
 
 type WindowInfosPublisherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowInfosPublisherProxy(
 	remote binder.IBinder,
 ) *WindowInfosPublisherProxy {
-	return &WindowInfosPublisherProxy{remote: remote}
+	return &WindowInfosPublisherProxy{Remote: remote}
 }
 
 func (p *WindowInfosPublisherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowInfosPublisher = (*WindowInfosPublisherProxy)(nil)
@@ -46,12 +50,12 @@ func (p *WindowInfosPublisherProxy) AckWindowInfosReceived(
 	_data.WriteInt64(vsyncId)
 	_data.WriteInt64(listenerId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowInfosPublisher, "ackWindowInfosReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowInfosPublisher, MethodIWindowInfosPublisherAckWindowInfosReceived)
 	if _err != nil {
-		_code = TransactionIWindowInfosPublisherAckWindowInfosReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowInfosPublisher, MethodIWindowInfosPublisherAckWindowInfosReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type WindowInfosPublisherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowInfosPublisherStub)(nil)
+
+func (s *WindowInfosPublisherStub) Descriptor() string {
+	return DescriptorIWindowInfosPublisher
+}
 
 func (s *WindowInfosPublisherStub) OnTransaction(
 	ctx context.Context,

@@ -23,19 +23,13 @@ func (s *SessionInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SharedKeys)))
 		for _, _item := range s.SharedKeys {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.SessionId == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SessionId)))
-		for _, _item := range s.SessionId {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.SessionId)
 	if _err := s.Signature.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -60,25 +54,18 @@ func (s *SessionInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.SharedKeys = make([]Arc, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SharedKeys[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.SessionId, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.SessionId = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.SessionId[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	if _err = s.Signature.UnmarshalParcel(p); _err != nil {

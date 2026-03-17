@@ -16,6 +16,11 @@ const (
 	TransactionIKeyGestureHandlerIsKeyGestureSupported = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIKeyGestureHandlerHandleKeyGesture      = "handleKeyGesture"
+	MethodIKeyGestureHandlerIsKeyGestureSupported = "isKeyGestureSupported"
+)
+
 type IKeyGestureHandler interface {
 	AsBinder() binder.IBinder
 	HandleKeyGesture(ctx context.Context, event AidlKeyGestureEvent, focusedToken binder.IBinder) (bool, error)
@@ -23,17 +28,17 @@ type IKeyGestureHandler interface {
 }
 
 type KeyGestureHandlerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyGestureHandlerProxy(
 	remote binder.IBinder,
 ) *KeyGestureHandlerProxy {
-	return &KeyGestureHandlerProxy{remote: remote}
+	return &KeyGestureHandlerProxy{Remote: remote}
 }
 
 func (p *KeyGestureHandlerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyGestureHandler = (*KeyGestureHandlerProxy)(nil)
@@ -50,14 +55,14 @@ func (p *KeyGestureHandlerProxy) HandleKeyGesture(
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, focusedToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, focusedToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyGestureHandler, "handleKeyGesture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyGestureHandler, MethodIKeyGestureHandlerHandleKeyGesture)
 	if _err != nil {
-		_code = TransactionIKeyGestureHandlerHandleKeyGesture
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyGestureHandler, MethodIKeyGestureHandlerHandleKeyGesture, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,12 +88,12 @@ func (p *KeyGestureHandlerProxy) IsKeyGestureSupported(
 	_data.WriteInterfaceToken(DescriptorIKeyGestureHandler)
 	_data.WriteInt32(gestureType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyGestureHandler, "isKeyGestureSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyGestureHandler, MethodIKeyGestureHandlerIsKeyGestureSupported)
 	if _err != nil {
-		_code = TransactionIKeyGestureHandlerIsKeyGestureSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyGestureHandler, MethodIKeyGestureHandlerIsKeyGestureSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -112,6 +117,10 @@ type KeyGestureHandlerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyGestureHandlerStub)(nil)
+
+func (s *KeyGestureHandlerStub) Descriptor() string {
+	return DescriptorIKeyGestureHandler
+}
 
 func (s *KeyGestureHandlerStub) OnTransaction(
 	ctx context.Context,

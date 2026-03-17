@@ -16,6 +16,11 @@ const (
 	TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged  = "dispatchSpatializerActualHeadTrackingModeChanged"
+	MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged = "dispatchSpatializerDesiredHeadTrackingModeChanged"
+)
+
 type ISpatializerHeadTrackingModeCallback interface {
 	AsBinder() binder.IBinder
 	DispatchSpatializerActualHeadTrackingModeChanged(ctx context.Context, mode int32) error
@@ -23,17 +28,17 @@ type ISpatializerHeadTrackingModeCallback interface {
 }
 
 type SpatializerHeadTrackingModeCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpatializerHeadTrackingModeCallbackProxy(
 	remote binder.IBinder,
 ) *SpatializerHeadTrackingModeCallbackProxy {
-	return &SpatializerHeadTrackingModeCallbackProxy{remote: remote}
+	return &SpatializerHeadTrackingModeCallbackProxy{Remote: remote}
 }
 
 func (p *SpatializerHeadTrackingModeCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpatializerHeadTrackingModeCallback = (*SpatializerHeadTrackingModeCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerActualHead
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingModeCallback, "dispatchSpatializerActualHeadTrackingModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged)
 	if _err != nil {
-		_code = TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingModeCallback, "dispatchSpatializerDesiredHeadTrackingModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged)
 	if _err != nil {
-		_code = TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerHeadTrackingModeCallback, MethodISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type SpatializerHeadTrackingModeCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadTrackingModeCallbackStub)(nil)
+
+func (s *SpatializerHeadTrackingModeCallbackStub) Descriptor() string {
+	return DescriptorISpatializerHeadTrackingModeCallback
+}
 
 func (s *SpatializerHeadTrackingModeCallbackStub) OnTransaction(
 	ctx context.Context,

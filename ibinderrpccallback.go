@@ -16,6 +16,11 @@ const (
 	TransactionIBinderRpcCallbackSendOnewayCallback = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBinderRpcCallbackSendCallback       = "sendCallback"
+	MethodIBinderRpcCallbackSendOnewayCallback = "sendOnewayCallback"
+)
+
 type IBinderRpcCallback interface {
 	AsBinder() binder.IBinder
 	SendCallback(ctx context.Context, str string) error
@@ -23,17 +28,17 @@ type IBinderRpcCallback interface {
 }
 
 type BinderRpcCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderRpcCallbackProxy(
 	remote binder.IBinder,
 ) *BinderRpcCallbackProxy {
-	return &BinderRpcCallbackProxy{remote: remote}
+	return &BinderRpcCallbackProxy{Remote: remote}
 }
 
 func (p *BinderRpcCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderRpcCallback = (*BinderRpcCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *BinderRpcCallbackProxy) SendCallback(
 	_data.WriteInterfaceToken(DescriptorIBinderRpcCallback)
 	_data.WriteString16(str)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcCallback, "sendCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcCallback, MethodIBinderRpcCallbackSendCallback)
 	if _err != nil {
-		_code = TransactionIBinderRpcCallbackSendCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcCallback, MethodIBinderRpcCallbackSendCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,12 +77,12 @@ func (p *BinderRpcCallbackProxy) SendOnewayCallback(
 	_data.WriteInterfaceToken(DescriptorIBinderRpcCallback)
 	_data.WriteString16(str)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcCallback, "sendOnewayCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRpcCallback, MethodIBinderRpcCallbackSendOnewayCallback)
 	if _err != nil {
-		_code = TransactionIBinderRpcCallbackSendOnewayCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRpcCallback, MethodIBinderRpcCallbackSendOnewayCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +93,10 @@ type BinderRpcCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderRpcCallbackStub)(nil)
+
+func (s *BinderRpcCallbackStub) Descriptor() string {
+	return DescriptorIBinderRpcCallback
+}
 
 func (s *BinderRpcCallbackStub) OnTransaction(
 	ctx context.Context,

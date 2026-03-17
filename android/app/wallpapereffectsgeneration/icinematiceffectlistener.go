@@ -15,23 +15,27 @@ const (
 	TransactionICinematicEffectListenerOnCinematicEffectGenerated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICinematicEffectListenerOnCinematicEffectGenerated = "onCinematicEffectGenerated"
+)
+
 type ICinematicEffectListener interface {
 	AsBinder() binder.IBinder
 	OnCinematicEffectGenerated(ctx context.Context, response CinematicEffectResponse) error
 }
 
 type CinematicEffectListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCinematicEffectListenerProxy(
 	remote binder.IBinder,
 ) *CinematicEffectListenerProxy {
-	return &CinematicEffectListenerProxy{remote: remote}
+	return &CinematicEffectListenerProxy{Remote: remote}
 }
 
 func (p *CinematicEffectListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICinematicEffectListener = (*CinematicEffectListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *CinematicEffectListenerProxy) OnCinematicEffectGenerated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICinematicEffectListener, "onCinematicEffectGenerated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICinematicEffectListener, MethodICinematicEffectListenerOnCinematicEffectGenerated)
 	if _err != nil {
-		_code = TransactionICinematicEffectListenerOnCinematicEffectGenerated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICinematicEffectListener, MethodICinematicEffectListenerOnCinematicEffectGenerated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type CinematicEffectListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CinematicEffectListenerStub)(nil)
+
+func (s *CinematicEffectListenerStub) Descriptor() string {
+	return DescriptorICinematicEffectListener
+}
 
 func (s *CinematicEffectListenerStub) OnTransaction(
 	ctx context.Context,

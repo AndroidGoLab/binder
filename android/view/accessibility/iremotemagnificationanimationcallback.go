@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteMagnificationAnimationCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteMagnificationAnimationCallbackOnResult = "onResult"
+)
+
 type IRemoteMagnificationAnimationCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, success bool) error
 }
 
 type RemoteMagnificationAnimationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteMagnificationAnimationCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteMagnificationAnimationCallbackProxy {
-	return &RemoteMagnificationAnimationCallbackProxy{remote: remote}
+	return &RemoteMagnificationAnimationCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteMagnificationAnimationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteMagnificationAnimationCallback = (*RemoteMagnificationAnimationCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *RemoteMagnificationAnimationCallbackProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIRemoteMagnificationAnimationCallback)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMagnificationAnimationCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteMagnificationAnimationCallback, MethodIRemoteMagnificationAnimationCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIRemoteMagnificationAnimationCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteMagnificationAnimationCallback, MethodIRemoteMagnificationAnimationCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RemoteMagnificationAnimationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteMagnificationAnimationCallbackStub)(nil)
+
+func (s *RemoteMagnificationAnimationCallbackStub) Descriptor() string {
+	return DescriptorIRemoteMagnificationAnimationCallback
+}
 
 func (s *RemoteMagnificationAnimationCallbackStub) OnTransaction(
 	ctx context.Context,

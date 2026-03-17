@@ -21,7 +21,6 @@ const (
 	IInputConstantsInvalidInputEventId                         int32 = 0
 	IInputConstantsInvalidInputDeviceId                        int32 = -2
 	IInputConstantsPolicyFlagInjectedFromAccessibility         int32 = 131072
-	IInputConstantsPolicyFlagKeyGestureTriggered               int32 = 262144
 	IInputConstantsInputEventFlagCanceled                      int32 = 32
 	IInputConstantsInputEventFlagIsAccessibilityEvent          int32 = 2048
 	IInputConstantsInputEventFlagTainted                       int32 = -2147483648
@@ -37,39 +36,20 @@ const (
 	IInputConstantsVelocityTrackerStrategyInt1                 int32 = 7
 	IInputConstantsVelocityTrackerStrategyInt2                 int32 = 8
 	IInputConstantsVelocityTrackerStrategyLegacy               int32 = 9
-	IInputConstantsDeviceClassKeyboard                         int32 = 1
-	IInputConstantsDeviceClassAlphakey                         int32 = 2
-	IInputConstantsDeviceClassTouch                            int32 = 4
-	IInputConstantsDeviceClassCursor                           int32 = 8
-	IInputConstantsDeviceClassTouchMt                          int32 = 16
-	IInputConstantsDeviceClassDpad                             int32 = 32
-	IInputConstantsDeviceClassGamepad                          int32 = 64
-	IInputConstantsDeviceClassSwitch                           int32 = 128
-	IInputConstantsDeviceClassJoystick                         int32 = 256
-	IInputConstantsDeviceClassVibrator                         int32 = 512
-	IInputConstantsDeviceClassMic                              int32 = 1024
-	IInputConstantsDeviceClassExternalStylus                   int32 = 2048
-	IInputConstantsDeviceClassRotaryEncoder                    int32 = 4096
-	IInputConstantsDeviceClassSensor                           int32 = 8192
-	IInputConstantsDeviceClassBattery                          int32 = 16384
-	IInputConstantsDeviceClassLight                            int32 = 32768
-	IInputConstantsDeviceClassTouchpad                         int32 = 65536
-	IInputConstantsDeviceClassVirtual                          int32 = 536870912
-	IInputConstantsDeviceClassExternal                         int32 = 1073741824
 )
 
 type InputConstantsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputConstantsProxy(
 	remote binder.IBinder,
 ) *InputConstantsProxy {
-	return &InputConstantsProxy{remote: remote}
+	return &InputConstantsProxy{Remote: remote}
 }
 
 func (p *InputConstantsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputConstants = (*InputConstantsProxy)(nil)
@@ -81,6 +61,10 @@ type InputConstantsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputConstantsStub)(nil)
+
+func (s *InputConstantsStub) Descriptor() string {
+	return DescriptorIInputConstants
+}
 
 func (s *InputConstantsStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,13 @@ const (
 	TransactionITransportSelectorCallbackOnSelectionTerminated = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodITransportSelectorCallbackOnCreated             = "onCreated"
+	MethodITransportSelectorCallbackOnWlanSelected        = "onWlanSelected"
+	MethodITransportSelectorCallbackOnWwanSelectedAsync   = "onWwanSelectedAsync"
+	MethodITransportSelectorCallbackOnSelectionTerminated = "onSelectionTerminated"
+)
+
 type ITransportSelectorCallback interface {
 	AsBinder() binder.IBinder
 	OnCreated(ctx context.Context, selector IDomainSelector) error
@@ -27,17 +34,17 @@ type ITransportSelectorCallback interface {
 }
 
 type TransportSelectorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransportSelectorCallbackProxy(
 	remote binder.IBinder,
 ) *TransportSelectorCallbackProxy {
-	return &TransportSelectorCallbackProxy{remote: remote}
+	return &TransportSelectorCallbackProxy{Remote: remote}
 }
 
 func (p *TransportSelectorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransportSelectorCallback = (*TransportSelectorCallbackProxy)(nil)
@@ -48,14 +55,14 @@ func (p *TransportSelectorCallbackProxy) OnCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
-	binder.WriteBinderToParcel(ctx, _data, selector.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, selector.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnCreated)
 	if _err != nil {
-		_code = TransactionITransportSelectorCallbackOnCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *TransportSelectorCallbackProxy) OnWlanSelected(
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
 	_data.WriteBool(useEmergencyPdn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onWlanSelected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWlanSelected)
 	if _err != nil {
-		_code = TransactionITransportSelectorCallbackOnWlanSelected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWlanSelected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,14 +89,14 @@ func (p *TransportSelectorCallbackProxy) OnWwanSelectedAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onWwanSelectedAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWwanSelectedAsync)
 	if _err != nil {
-		_code = TransactionITransportSelectorCallbackOnWwanSelectedAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnWwanSelectedAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +108,12 @@ func (p *TransportSelectorCallbackProxy) OnSelectionTerminated(
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
 	_data.WriteInt32(cause)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onSelectionTerminated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnSelectionTerminated)
 	if _err != nil {
-		_code = TransactionITransportSelectorCallbackOnSelectionTerminated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportSelectorCallback, MethodITransportSelectorCallbackOnSelectionTerminated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +124,10 @@ type TransportSelectorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransportSelectorCallbackStub)(nil)
+
+func (s *TransportSelectorCallbackStub) Descriptor() string {
+	return DescriptorITransportSelectorCallback
+}
 
 func (s *TransportSelectorCallbackStub) OnTransaction(
 	ctx context.Context,

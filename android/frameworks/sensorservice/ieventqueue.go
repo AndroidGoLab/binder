@@ -16,6 +16,11 @@ const (
 	TransactionIEventQueueEnableSensor  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIEventQueueDisableSensor = "disableSensor"
+	MethodIEventQueueEnableSensor  = "enableSensor"
+)
+
 type IEventQueue interface {
 	AsBinder() binder.IBinder
 	DisableSensor(ctx context.Context, sensorHandle int32) error
@@ -23,17 +28,17 @@ type IEventQueue interface {
 }
 
 type EventQueueProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventQueueProxy(
 	remote binder.IBinder,
 ) *EventQueueProxy {
-	return &EventQueueProxy{remote: remote}
+	return &EventQueueProxy{Remote: remote}
 }
 
 func (p *EventQueueProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventQueue = (*EventQueueProxy)(nil)
@@ -46,12 +51,12 @@ func (p *EventQueueProxy) DisableSensor(
 	_data.WriteInterfaceToken(DescriptorIEventQueue)
 	_data.WriteInt32(sensorHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventQueue, "disableSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventQueue, MethodIEventQueueDisableSensor)
 	if _err != nil {
-		_code = TransactionIEventQueueDisableSensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventQueue, MethodIEventQueueDisableSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,12 +81,12 @@ func (p *EventQueueProxy) EnableSensor(
 	_data.WriteInt32(samplingPeriodUs)
 	_data.WriteInt64(maxBatchReportLatencyUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventQueue, "enableSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventQueue, MethodIEventQueueEnableSensor)
 	if _err != nil {
-		_code = TransactionIEventQueueEnableSensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventQueue, MethodIEventQueueEnableSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,6 +106,10 @@ type EventQueueStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventQueueStub)(nil)
+
+func (s *EventQueueStub) Descriptor() string {
+	return DescriptorIEventQueue
+}
 
 func (s *EventQueueStub) OnTransaction(
 	ctx context.Context,

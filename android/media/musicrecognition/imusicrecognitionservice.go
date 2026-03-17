@@ -17,6 +17,11 @@ const (
 	TransactionIMusicRecognitionServiceGetAttributionTag    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMusicRecognitionServiceOnAudioStreamStarted = "onAudioStreamStarted"
+	MethodIMusicRecognitionServiceGetAttributionTag    = "getAttributionTag"
+)
+
 type IMusicRecognitionService interface {
 	AsBinder() binder.IBinder
 	OnAudioStreamStarted(ctx context.Context, fd int32, audioFormat media.AudioFormat, callback IMusicRecognitionServiceCallback) error
@@ -24,17 +29,17 @@ type IMusicRecognitionService interface {
 }
 
 type MusicRecognitionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMusicRecognitionServiceProxy(
 	remote binder.IBinder,
 ) *MusicRecognitionServiceProxy {
-	return &MusicRecognitionServiceProxy{remote: remote}
+	return &MusicRecognitionServiceProxy{Remote: remote}
 }
 
 func (p *MusicRecognitionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMusicRecognitionService = (*MusicRecognitionServiceProxy)(nil)
@@ -52,14 +57,14 @@ func (p *MusicRecognitionServiceProxy) OnAudioStreamStarted(
 	if _err := audioFormat.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionService, "onAudioStreamStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceOnAudioStreamStarted)
 	if _err != nil {
-		_code = TransactionIMusicRecognitionServiceOnAudioStreamStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceOnAudioStreamStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,14 +74,14 @@ func (p *MusicRecognitionServiceProxy) GetAttributionTag(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionService, "getAttributionTag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceGetAttributionTag)
 	if _err != nil {
-		_code = TransactionIMusicRecognitionServiceGetAttributionTag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMusicRecognitionService, MethodIMusicRecognitionServiceGetAttributionTag, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type MusicRecognitionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionServiceStub)(nil)
+
+func (s *MusicRecognitionServiceStub) Descriptor() string {
+	return DescriptorIMusicRecognitionService
+}
 
 func (s *MusicRecognitionServiceStub) OnTransaction(
 	ctx context.Context,

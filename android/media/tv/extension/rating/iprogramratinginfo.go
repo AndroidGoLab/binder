@@ -18,6 +18,12 @@ const (
 	TransactionIProgramRatingInfoGetProgramRatingInfo            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIProgramRatingInfoAddProgramRatingInfoListener    = "addProgramRatingInfoListener"
+	MethodIProgramRatingInfoRemoveProgramRatingInfoListener = "removeProgramRatingInfoListener"
+	MethodIProgramRatingInfoGetProgramRatingInfo            = "getProgramRatingInfo"
+)
+
 type IProgramRatingInfo interface {
 	AsBinder() binder.IBinder
 	AddProgramRatingInfoListener(ctx context.Context, clientToken string, listener IProgramRatingInfoListener) error
@@ -26,17 +32,17 @@ type IProgramRatingInfo interface {
 }
 
 type ProgramRatingInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProgramRatingInfoProxy(
 	remote binder.IBinder,
 ) *ProgramRatingInfoProxy {
-	return &ProgramRatingInfoProxy{remote: remote}
+	return &ProgramRatingInfoProxy{Remote: remote}
 }
 
 func (p *ProgramRatingInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProgramRatingInfo = (*ProgramRatingInfoProxy)(nil)
@@ -49,14 +55,14 @@ func (p *ProgramRatingInfoProxy) AddProgramRatingInfoListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProgramRatingInfo)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfo, "addProgramRatingInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgramRatingInfo, MethodIProgramRatingInfoAddProgramRatingInfoListener)
 	if _err != nil {
-		_code = TransactionIProgramRatingInfoAddProgramRatingInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProgramRatingInfo, MethodIProgramRatingInfoAddProgramRatingInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,14 +81,14 @@ func (p *ProgramRatingInfoProxy) RemoveProgramRatingInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProgramRatingInfo)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfo, "removeProgramRatingInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgramRatingInfo, MethodIProgramRatingInfoRemoveProgramRatingInfoListener)
 	if _err != nil {
-		_code = TransactionIProgramRatingInfoRemoveProgramRatingInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProgramRatingInfo, MethodIProgramRatingInfoRemoveProgramRatingInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,12 +110,12 @@ func (p *ProgramRatingInfoProxy) GetProgramRatingInfo(
 	_data.WriteInterfaceToken(DescriptorIProgramRatingInfo)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfo, "getProgramRatingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgramRatingInfo, MethodIProgramRatingInfoGetProgramRatingInfo)
 	if _err != nil {
-		_code = TransactionIProgramRatingInfoGetProgramRatingInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProgramRatingInfo, MethodIProgramRatingInfoGetProgramRatingInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,6 +144,10 @@ type ProgramRatingInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProgramRatingInfoStub)(nil)
+
+func (s *ProgramRatingInfoStub) Descriptor() string {
+	return DescriptorIProgramRatingInfo
+}
 
 func (s *ProgramRatingInfoStub) OnTransaction(
 	ctx context.Context,

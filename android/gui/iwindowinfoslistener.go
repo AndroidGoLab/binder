@@ -15,23 +15,27 @@ const (
 	TransactionIWindowInfosListenerOnWindowInfosChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWindowInfosListenerOnWindowInfosChanged = "onWindowInfosChanged"
+)
+
 type IWindowInfosListener interface {
 	AsBinder() binder.IBinder
 	OnWindowInfosChanged(ctx context.Context, update interface{}) error
 }
 
 type WindowInfosListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowInfosListenerProxy(
 	remote binder.IBinder,
 ) *WindowInfosListenerProxy {
-	return &WindowInfosListenerProxy{remote: remote}
+	return &WindowInfosListenerProxy{Remote: remote}
 }
 
 func (p *WindowInfosListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowInfosListener = (*WindowInfosListenerProxy)(nil)
@@ -43,12 +47,12 @@ func (p *WindowInfosListenerProxy) OnWindowInfosChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowInfosListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowInfosListener, "onWindowInfosChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowInfosListener, MethodIWindowInfosListenerOnWindowInfosChanged)
 	if _err != nil {
-		_code = TransactionIWindowInfosListenerOnWindowInfosChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowInfosListener, MethodIWindowInfosListenerOnWindowInfosChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type WindowInfosListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowInfosListenerStub)(nil)
+
+func (s *WindowInfosListenerStub) Descriptor() string {
+	return DescriptorIWindowInfosListener
+}
 
 func (s *WindowInfosListenerStub) OnTransaction(
 	ctx context.Context,

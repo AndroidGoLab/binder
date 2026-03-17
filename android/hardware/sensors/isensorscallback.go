@@ -16,6 +16,11 @@ const (
 	TransactionISensorsCallbackOnDynamicSensorsDisconnected = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISensorsCallbackOnDynamicSensorsConnected    = "onDynamicSensorsConnected"
+	MethodISensorsCallbackOnDynamicSensorsDisconnected = "onDynamicSensorsDisconnected"
+)
+
 type ISensorsCallback interface {
 	AsBinder() binder.IBinder
 	OnDynamicSensorsConnected(ctx context.Context, sensorInfos []SensorInfo) error
@@ -23,17 +28,17 @@ type ISensorsCallback interface {
 }
 
 type SensorsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSensorsCallbackProxy(
 	remote binder.IBinder,
 ) *SensorsCallbackProxy {
-	return &SensorsCallbackProxy{remote: remote}
+	return &SensorsCallbackProxy{Remote: remote}
 }
 
 func (p *SensorsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISensorsCallback = (*SensorsCallbackProxy)(nil)
@@ -49,18 +54,19 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsConnected(
 	} else {
 		_data.WriteInt32(int32(len(sensorInfos)))
 		for _, _item := range sensorInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorsCallback, "onDynamicSensorsConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorsCallback, MethodISensorsCallbackOnDynamicSensorsConnected)
 	if _err != nil {
-		_code = TransactionISensorsCallbackOnDynamicSensorsConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISensorsCallback, MethodISensorsCallbackOnDynamicSensorsConnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -88,12 +94,12 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsDisconnected(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorsCallback, "onDynamicSensorsDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorsCallback, MethodISensorsCallbackOnDynamicSensorsDisconnected)
 	if _err != nil {
-		_code = TransactionISensorsCallbackOnDynamicSensorsDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISensorsCallback, MethodISensorsCallbackOnDynamicSensorsDisconnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,6 +119,10 @@ type SensorsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SensorsCallbackStub)(nil)
+
+func (s *SensorsCallbackStub) Descriptor() string {
+	return DescriptorISensorsCallback
+}
 
 func (s *SensorsCallbackStub) OnTransaction(
 	ctx context.Context,

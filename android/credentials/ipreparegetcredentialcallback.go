@@ -16,6 +16,11 @@ const (
 	TransactionIPrepareGetCredentialCallbackOnError    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPrepareGetCredentialCallbackOnResponse = "onResponse"
+	MethodIPrepareGetCredentialCallbackOnError    = "onError"
+)
+
 type IPrepareGetCredentialCallback interface {
 	AsBinder() binder.IBinder
 	OnResponse(ctx context.Context, response PrepareGetCredentialResponseInternal) error
@@ -23,17 +28,17 @@ type IPrepareGetCredentialCallback interface {
 }
 
 type PrepareGetCredentialCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrepareGetCredentialCallbackProxy(
 	remote binder.IBinder,
 ) *PrepareGetCredentialCallbackProxy {
-	return &PrepareGetCredentialCallbackProxy{remote: remote}
+	return &PrepareGetCredentialCallbackProxy{Remote: remote}
 }
 
 func (p *PrepareGetCredentialCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrepareGetCredentialCallback = (*PrepareGetCredentialCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *PrepareGetCredentialCallbackProxy) OnResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrepareGetCredentialCallback, "onResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrepareGetCredentialCallback, MethodIPrepareGetCredentialCallbackOnResponse)
 	if _err != nil {
-		_code = TransactionIPrepareGetCredentialCallbackOnResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrepareGetCredentialCallback, MethodIPrepareGetCredentialCallbackOnResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *PrepareGetCredentialCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrepareGetCredentialCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrepareGetCredentialCallback, MethodIPrepareGetCredentialCallbackOnError)
 	if _err != nil {
-		_code = TransactionIPrepareGetCredentialCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrepareGetCredentialCallback, MethodIPrepareGetCredentialCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type PrepareGetCredentialCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrepareGetCredentialCallbackStub)(nil)
+
+func (s *PrepareGetCredentialCallbackStub) Descriptor() string {
+	return DescriptorIPrepareGetCredentialCallback
+}
 
 func (s *PrepareGetCredentialCallbackStub) OnTransaction(
 	ctx context.Context,

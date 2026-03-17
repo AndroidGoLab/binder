@@ -17,6 +17,12 @@ const (
 	TransactionIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIAuthMgrAuthorizationInitAuthentication                        = "initAuthentication"
+	MethodIAuthMgrAuthorizationCompleteAuthentication                    = "completeAuthentication"
+	MethodIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService = "authorizeAndConnectClientToTrustedService"
+)
+
 type IAuthMgrAuthorization interface {
 	AsBinder() binder.IBinder
 	InitAuthentication(ctx context.Context, diceCertChain ExplicitKeyDiceCertChain, instanceIdentifier []byte) ([]byte, error)
@@ -25,17 +31,17 @@ type IAuthMgrAuthorization interface {
 }
 
 type AuthMgrAuthorizationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthMgrAuthorizationProxy(
 	remote binder.IBinder,
 ) *AuthMgrAuthorizationProxy {
-	return &AuthMgrAuthorizationProxy{remote: remote}
+	return &AuthMgrAuthorizationProxy{Remote: remote}
 }
 
 func (p *AuthMgrAuthorizationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuthMgrAuthorization = (*AuthMgrAuthorizationProxy)(nil)
@@ -61,12 +67,12 @@ func (p *AuthMgrAuthorizationProxy) InitAuthentication(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthMgrAuthorization, "initAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthMgrAuthorization, MethodIAuthMgrAuthorizationInitAuthentication)
 	if _err != nil {
-		_code = TransactionIAuthMgrAuthorizationInitAuthentication
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthMgrAuthorization, MethodIAuthMgrAuthorizationInitAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -109,12 +115,12 @@ func (p *AuthMgrAuthorizationProxy) CompleteAuthentication(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthMgrAuthorization, "completeAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthMgrAuthorization, MethodIAuthMgrAuthorizationCompleteAuthentication)
 	if _err != nil {
-		_code = TransactionIAuthMgrAuthorizationCompleteAuthentication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthMgrAuthorization, MethodIAuthMgrAuthorizationCompleteAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -158,12 +164,12 @@ func (p *AuthMgrAuthorizationProxy) AuthorizeAndConnectClientToTrustedService(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthMgrAuthorization, "authorizeAndConnectClientToTrustedService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthMgrAuthorization, MethodIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService)
 	if _err != nil {
-		_code = TransactionIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthMgrAuthorization, MethodIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,6 +189,10 @@ type AuthMgrAuthorizationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuthMgrAuthorizationStub)(nil)
+
+func (s *AuthMgrAuthorizationStub) Descriptor() string {
+	return DescriptorIAuthMgrAuthorization
+}
 
 func (s *AuthMgrAuthorizationStub) OnTransaction(
 	ctx context.Context,

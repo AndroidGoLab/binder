@@ -17,6 +17,12 @@ const (
 	TransactionICountryDetectorRemoveCountryListener = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICountryDetectorDetectCountry         = "detectCountry"
+	MethodICountryDetectorAddCountryListener    = "addCountryListener"
+	MethodICountryDetectorRemoveCountryListener = "removeCountryListener"
+)
+
 type ICountryDetector interface {
 	AsBinder() binder.IBinder
 	DetectCountry(ctx context.Context) (Country, error)
@@ -25,17 +31,17 @@ type ICountryDetector interface {
 }
 
 type CountryDetectorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCountryDetectorProxy(
 	remote binder.IBinder,
 ) *CountryDetectorProxy {
-	return &CountryDetectorProxy{remote: remote}
+	return &CountryDetectorProxy{Remote: remote}
 }
 
 func (p *CountryDetectorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICountryDetector = (*CountryDetectorProxy)(nil)
@@ -47,12 +53,12 @@ func (p *CountryDetectorProxy) DetectCountry(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICountryDetector)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICountryDetector, "detectCountry")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICountryDetector, MethodICountryDetectorDetectCountry)
 	if _err != nil {
-		_code = TransactionICountryDetectorDetectCountry
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICountryDetector, MethodICountryDetectorDetectCountry, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,14 +86,14 @@ func (p *CountryDetectorProxy) AddCountryListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICountryDetector)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICountryDetector, "addCountryListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICountryDetector, MethodICountryDetectorAddCountryListener)
 	if _err != nil {
-		_code = TransactionICountryDetectorAddCountryListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICountryDetector, MethodICountryDetectorAddCountryListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,14 +112,14 @@ func (p *CountryDetectorProxy) RemoveCountryListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICountryDetector)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICountryDetector, "removeCountryListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICountryDetector, MethodICountryDetectorRemoveCountryListener)
 	if _err != nil {
-		_code = TransactionICountryDetectorRemoveCountryListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICountryDetector, MethodICountryDetectorRemoveCountryListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,6 +139,10 @@ type CountryDetectorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CountryDetectorStub)(nil)
+
+func (s *CountryDetectorStub) Descriptor() string {
+	return DescriptorICountryDetector
+}
 
 func (s *CountryDetectorStub) OnTransaction(
 	ctx context.Context,

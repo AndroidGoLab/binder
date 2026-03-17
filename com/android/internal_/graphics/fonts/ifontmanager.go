@@ -18,6 +18,11 @@ const (
 	TransactionIFontManagerUpdateFontFamily = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFontManagerGetFontConfig    = "getFontConfig"
+	MethodIFontManagerUpdateFontFamily = "updateFontFamily"
+)
+
 type IFontManager interface {
 	AsBinder() binder.IBinder
 	GetFontConfig(ctx context.Context) (text.FontConfig, error)
@@ -25,17 +30,17 @@ type IFontManager interface {
 }
 
 type FontManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFontManagerProxy(
 	remote binder.IBinder,
 ) *FontManagerProxy {
-	return &FontManagerProxy{remote: remote}
+	return &FontManagerProxy{Remote: remote}
 }
 
 func (p *FontManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFontManager = (*FontManagerProxy)(nil)
@@ -47,12 +52,12 @@ func (p *FontManagerProxy) GetFontConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFontManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFontManager, "getFontConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFontManager, MethodIFontManagerGetFontConfig)
 	if _err != nil {
-		_code = TransactionIFontManagerGetFontConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFontManager, MethodIFontManagerGetFontConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,6 +92,7 @@ func (p *FontManagerProxy) UpdateFontFamily(
 	} else {
 		_data.WriteInt32(int32(len(request)))
 		for _, _item := range request {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -94,12 +100,12 @@ func (p *FontManagerProxy) UpdateFontFamily(
 	}
 	_data.WriteInt32(baseVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFontManager, "updateFontFamily")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFontManager, MethodIFontManagerUpdateFontFamily)
 	if _err != nil {
-		_code = TransactionIFontManagerUpdateFontFamily
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFontManager, MethodIFontManagerUpdateFontFamily, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,6 +129,10 @@ type FontManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FontManagerStub)(nil)
+
+func (s *FontManagerStub) Descriptor() string {
+	return DescriptorIFontManager
+}
 
 func (s *FontManagerStub) OnTransaction(
 	ctx context.Context,

@@ -77,6 +77,7 @@ func (u *DemuxFilterMediaEventExtraMetaData) MarshalParcel(
 	case DemuxFilterMediaEventExtraMetaDataTagNoinit:
 		p.WriteBool(u.Noinit)
 	case DemuxFilterMediaEventExtraMetaDataTagAudio:
+		p.WriteInt32(1)
 		if _err := u.Audio.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -86,6 +87,7 @@ func (u *DemuxFilterMediaEventExtraMetaData) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.AudioPresentations)))
 			for _, _item := range u.AudioPresentations {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -119,6 +121,9 @@ func (u *DemuxFilterMediaEventExtraMetaData) UnmarshalParcel(
 			return _err
 		}
 	case DemuxFilterMediaEventExtraMetaDataTagAudio:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Audio.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -132,6 +137,9 @@ func (u *DemuxFilterMediaEventExtraMetaData) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.AudioPresentations = make([]AudioPresentation, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.AudioPresentations[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}

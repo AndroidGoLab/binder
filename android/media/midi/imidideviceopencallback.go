@@ -15,23 +15,27 @@ const (
 	TransactionIMidiDeviceOpenCallbackOnDeviceOpened = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMidiDeviceOpenCallbackOnDeviceOpened = "onDeviceOpened"
+)
+
 type IMidiDeviceOpenCallback interface {
 	AsBinder() binder.IBinder
 	OnDeviceOpened(ctx context.Context, server IMidiDeviceServer, token binder.IBinder) error
 }
 
 type MidiDeviceOpenCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMidiDeviceOpenCallbackProxy(
 	remote binder.IBinder,
 ) *MidiDeviceOpenCallbackProxy {
-	return &MidiDeviceOpenCallbackProxy{remote: remote}
+	return &MidiDeviceOpenCallbackProxy{Remote: remote}
 }
 
 func (p *MidiDeviceOpenCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMidiDeviceOpenCallback = (*MidiDeviceOpenCallbackProxy)(nil)
@@ -43,15 +47,15 @@ func (p *MidiDeviceOpenCallbackProxy) OnDeviceOpened(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceOpenCallback)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceOpenCallback, "onDeviceOpened")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceOpenCallback, MethodIMidiDeviceOpenCallbackOnDeviceOpened)
 	if _err != nil {
-		_code = TransactionIMidiDeviceOpenCallbackOnDeviceOpened
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiDeviceOpenCallback, MethodIMidiDeviceOpenCallbackOnDeviceOpened, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type MidiDeviceOpenCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MidiDeviceOpenCallbackStub)(nil)
+
+func (s *MidiDeviceOpenCallbackStub) Descriptor() string {
+	return DescriptorIMidiDeviceOpenCallback
+}
 
 func (s *MidiDeviceOpenCallbackStub) OnTransaction(
 	ctx context.Context,

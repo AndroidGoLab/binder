@@ -15,23 +15,27 @@ const (
 	TransactionIParcelFileDescriptorFactoryOpen = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIParcelFileDescriptorFactoryOpen = "open"
+)
+
 type IParcelFileDescriptorFactory interface {
 	AsBinder() binder.IBinder
 	Open(ctx context.Context, name string, mode int32) (int32, error)
 }
 
 type ParcelFileDescriptorFactoryProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewParcelFileDescriptorFactoryProxy(
 	remote binder.IBinder,
 ) *ParcelFileDescriptorFactoryProxy {
-	return &ParcelFileDescriptorFactoryProxy{remote: remote}
+	return &ParcelFileDescriptorFactoryProxy{Remote: remote}
 }
 
 func (p *ParcelFileDescriptorFactoryProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IParcelFileDescriptorFactory = (*ParcelFileDescriptorFactoryProxy)(nil)
@@ -47,12 +51,12 @@ func (p *ParcelFileDescriptorFactoryProxy) Open(
 	_data.WriteString16(name)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIParcelFileDescriptorFactory, "open")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIParcelFileDescriptorFactory, MethodIParcelFileDescriptorFactoryOpen)
 	if _err != nil {
-		_code = TransactionIParcelFileDescriptorFactoryOpen
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIParcelFileDescriptorFactory, MethodIParcelFileDescriptorFactoryOpen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,6 +80,10 @@ type ParcelFileDescriptorFactoryStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ParcelFileDescriptorFactoryStub)(nil)
+
+func (s *ParcelFileDescriptorFactoryStub) Descriptor() string {
+	return DescriptorIParcelFileDescriptorFactory
+}
 
 func (s *ParcelFileDescriptorFactoryStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,12 @@ const (
 	TransactionICamHostControlTuneQuietlyFlagGetHcTuneQuietlyFlag            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICamHostControlTuneQuietlyFlagAddHcTuneQuietlyFlagListener    = "addHcTuneQuietlyFlagListener"
+	MethodICamHostControlTuneQuietlyFlagRemoveHcTuneQuietlyFlagListener = "removeHcTuneQuietlyFlagListener"
+	MethodICamHostControlTuneQuietlyFlagGetHcTuneQuietlyFlag            = "getHcTuneQuietlyFlag"
+)
+
 type ICamHostControlTuneQuietlyFlag interface {
 	AsBinder() binder.IBinder
 	AddHcTuneQuietlyFlagListener(ctx context.Context, listener ICamHostControlTuneQuietlyFlagListener) error
@@ -26,17 +32,17 @@ type ICamHostControlTuneQuietlyFlag interface {
 }
 
 type CamHostControlTuneQuietlyFlagProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamHostControlTuneQuietlyFlagProxy(
 	remote binder.IBinder,
 ) *CamHostControlTuneQuietlyFlagProxy {
-	return &CamHostControlTuneQuietlyFlagProxy{remote: remote}
+	return &CamHostControlTuneQuietlyFlagProxy{Remote: remote}
 }
 
 func (p *CamHostControlTuneQuietlyFlagProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamHostControlTuneQuietlyFlag = (*CamHostControlTuneQuietlyFlagProxy)(nil)
@@ -47,14 +53,14 @@ func (p *CamHostControlTuneQuietlyFlagProxy) AddHcTuneQuietlyFlagListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamHostControlTuneQuietlyFlag)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlag, "addHcTuneQuietlyFlagListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlTuneQuietlyFlag, MethodICamHostControlTuneQuietlyFlagAddHcTuneQuietlyFlagListener)
 	if _err != nil {
-		_code = TransactionICamHostControlTuneQuietlyFlagAddHcTuneQuietlyFlagListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlTuneQuietlyFlag, MethodICamHostControlTuneQuietlyFlagAddHcTuneQuietlyFlagListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,14 +79,14 @@ func (p *CamHostControlTuneQuietlyFlagProxy) RemoveHcTuneQuietlyFlagListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamHostControlTuneQuietlyFlag)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlag, "removeHcTuneQuietlyFlagListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlTuneQuietlyFlag, MethodICamHostControlTuneQuietlyFlagRemoveHcTuneQuietlyFlagListener)
 	if _err != nil {
-		_code = TransactionICamHostControlTuneQuietlyFlagRemoveHcTuneQuietlyFlagListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlTuneQuietlyFlag, MethodICamHostControlTuneQuietlyFlagRemoveHcTuneQuietlyFlagListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +108,12 @@ func (p *CamHostControlTuneQuietlyFlagProxy) GetHcTuneQuietlyFlag(
 	_data.WriteInterfaceToken(DescriptorICamHostControlTuneQuietlyFlag)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlag, "getHcTuneQuietlyFlag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlTuneQuietlyFlag, MethodICamHostControlTuneQuietlyFlagGetHcTuneQuietlyFlag)
 	if _err != nil {
-		_code = TransactionICamHostControlTuneQuietlyFlagGetHcTuneQuietlyFlag
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlTuneQuietlyFlag, MethodICamHostControlTuneQuietlyFlagGetHcTuneQuietlyFlag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -136,6 +142,10 @@ type CamHostControlTuneQuietlyFlagStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamHostControlTuneQuietlyFlagStub)(nil)
+
+func (s *CamHostControlTuneQuietlyFlagStub) Descriptor() string {
+	return DescriptorICamHostControlTuneQuietlyFlag
+}
 
 func (s *CamHostControlTuneQuietlyFlagStub) OnTransaction(
 	ctx context.Context,

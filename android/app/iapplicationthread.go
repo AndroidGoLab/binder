@@ -6,7 +6,6 @@ import (
 	servertransaction "github.com/xaionaro-go/binder/android/app/servertransaction"
 	content "github.com/xaionaro-go/binder/android/content"
 	res "github.com/xaionaro-go/binder/android/content/res"
-	instrumentation "github.com/xaionaro-go/binder/android/os/instrumentation"
 	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	translation "github.com/xaionaro-go/binder/android/view/translation"
 	"github.com/xaionaro-go/binder/binder"
@@ -82,7 +81,72 @@ const (
 	TransactionIApplicationThreadScheduleTimeoutService                = binder.FirstCallTransaction + 60
 	TransactionIApplicationThreadScheduleTimeoutServiceForType         = binder.FirstCallTransaction + 61
 	TransactionIApplicationThreadSchedulePing                          = binder.FirstCallTransaction + 62
-	TransactionIApplicationThreadGetExecutableMethodFileOffsets        = binder.FirstCallTransaction + 63
+)
+
+const (
+	MethodIApplicationThreadScheduleReceiver                      = "scheduleReceiver"
+	MethodIApplicationThreadScheduleReceiverList                  = "scheduleReceiverList"
+	MethodIApplicationThreadScheduleCreateService                 = "scheduleCreateService"
+	MethodIApplicationThreadScheduleStopService                   = "scheduleStopService"
+	MethodIApplicationThreadBindApplication                       = "bindApplication"
+	MethodIApplicationThreadRunIsolatedEntryPoint                 = "runIsolatedEntryPoint"
+	MethodIApplicationThreadScheduleExit                          = "scheduleExit"
+	MethodIApplicationThreadScheduleServiceArgs                   = "scheduleServiceArgs"
+	MethodIApplicationThreadUpdateTimeZone                        = "updateTimeZone"
+	MethodIApplicationThreadProcessInBackground                   = "processInBackground"
+	MethodIApplicationThreadScheduleBindService                   = "scheduleBindService"
+	MethodIApplicationThreadScheduleUnbindService                 = "scheduleUnbindService"
+	MethodIApplicationThreadDumpService                           = "dumpService"
+	MethodIApplicationThreadScheduleRegisteredReceiver            = "scheduleRegisteredReceiver"
+	MethodIApplicationThreadScheduleLowMemory                     = "scheduleLowMemory"
+	MethodIApplicationThreadProfilerControl                       = "profilerControl"
+	MethodIApplicationThreadSetSchedulingGroup                    = "setSchedulingGroup"
+	MethodIApplicationThreadScheduleCreateBackupAgent             = "scheduleCreateBackupAgent"
+	MethodIApplicationThreadScheduleDestroyBackupAgent            = "scheduleDestroyBackupAgent"
+	MethodIApplicationThreadScheduleOnNewSceneTransitionInfo      = "scheduleOnNewSceneTransitionInfo"
+	MethodIApplicationThreadScheduleSuicide                       = "scheduleSuicide"
+	MethodIApplicationThreadDispatchPackageBroadcast              = "dispatchPackageBroadcast"
+	MethodIApplicationThreadScheduleCrash                         = "scheduleCrash"
+	MethodIApplicationThreadDumpHeap                              = "dumpHeap"
+	MethodIApplicationThreadDumpActivity                          = "dumpActivity"
+	MethodIApplicationThreadDumpResources                         = "dumpResources"
+	MethodIApplicationThreadClearDnsCache                         = "clearDnsCache"
+	MethodIApplicationThreadUpdateHttpProxy                       = "updateHttpProxy"
+	MethodIApplicationThreadSetCoreSettings                       = "setCoreSettings"
+	MethodIApplicationThreadUpdatePackageCompatibilityInfo        = "updatePackageCompatibilityInfo"
+	MethodIApplicationThreadScheduleTrimMemory                    = "scheduleTrimMemory"
+	MethodIApplicationThreadDumpMemInfo                           = "dumpMemInfo"
+	MethodIApplicationThreadDumpMemInfoProto                      = "dumpMemInfoProto"
+	MethodIApplicationThreadDumpGfxInfo                           = "dumpGfxInfo"
+	MethodIApplicationThreadDumpCacheInfo                         = "dumpCacheInfo"
+	MethodIApplicationThreadDumpProvider                          = "dumpProvider"
+	MethodIApplicationThreadDumpDbInfo                            = "dumpDbInfo"
+	MethodIApplicationThreadUnstableProviderDied                  = "unstableProviderDied"
+	MethodIApplicationThreadRequestAssistContextExtras            = "requestAssistContextExtras"
+	MethodIApplicationThreadScheduleTranslucentConversionComplete = "scheduleTranslucentConversionComplete"
+	MethodIApplicationThreadSetProcessState                       = "setProcessState"
+	MethodIApplicationThreadScheduleInstallProvider               = "scheduleInstallProvider"
+	MethodIApplicationThreadUpdateTimePrefs                       = "updateTimePrefs"
+	MethodIApplicationThreadScheduleEnterAnimationComplete        = "scheduleEnterAnimationComplete"
+	MethodIApplicationThreadNotifyCleartextNetwork                = "notifyCleartextNetwork"
+	MethodIApplicationThreadStartBinderTracking                   = "startBinderTracking"
+	MethodIApplicationThreadStopBinderTrackingAndDump             = "stopBinderTrackingAndDump"
+	MethodIApplicationThreadScheduleLocalVoiceInteractionStarted  = "scheduleLocalVoiceInteractionStarted"
+	MethodIApplicationThreadHandleTrustStorageUpdate              = "handleTrustStorageUpdate"
+	MethodIApplicationThreadAttachAgent                           = "attachAgent"
+	MethodIApplicationThreadAttachStartupAgents                   = "attachStartupAgents"
+	MethodIApplicationThreadScheduleApplicationInfoChanged        = "scheduleApplicationInfoChanged"
+	MethodIApplicationThreadSetNetworkBlockSeq                    = "setNetworkBlockSeq"
+	MethodIApplicationThreadScheduleTransaction                   = "scheduleTransaction"
+	MethodIApplicationThreadScheduleTaskFragmentTransaction       = "scheduleTaskFragmentTransaction"
+	MethodIApplicationThreadRequestDirectActions                  = "requestDirectActions"
+	MethodIApplicationThreadPerformDirectAction                   = "performDirectAction"
+	MethodIApplicationThreadNotifyContentProviderPublishStatus    = "notifyContentProviderPublishStatus"
+	MethodIApplicationThreadInstrumentWithoutRestart              = "instrumentWithoutRestart"
+	MethodIApplicationThreadUpdateUiTranslationState              = "updateUiTranslationState"
+	MethodIApplicationThreadScheduleTimeoutService                = "scheduleTimeoutService"
+	MethodIApplicationThreadScheduleTimeoutServiceForType         = "scheduleTimeoutServiceForType"
+	MethodIApplicationThreadSchedulePing                          = "schedulePing"
 )
 
 type IApplicationThread interface {
@@ -91,7 +155,7 @@ type IApplicationThread interface {
 	ScheduleReceiverList(ctx context.Context, info []ReceiverInfo) error
 	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo res.CompatibilityInfo, processState int32) error
 	ScheduleStopService(ctx context.Context, token binder.IBinder) error
-	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, loggableCompatChanges []int64, serializedSystemFontMap interface{}, applicationSharedMemoryFd interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
+	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, serializedSystemFontMap interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
 	RunIsolatedEntryPoint(ctx context.Context, entryPoint string, entryPointArgs []string) error
 	ScheduleExit(ctx context.Context) error
 	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args interface{}) error
@@ -110,7 +174,7 @@ type IApplicationThread interface {
 	ScheduleSuicide(ctx context.Context) error
 	DispatchPackageBroadcast(ctx context.Context, cmd int32, packages []string) error
 	ScheduleCrash(ctx context.Context, msg string, typeId int32, extras interface{}) error
-	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, dumpBitmaps string, path string, fd int32, finishCallback interface{}) error
+	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, path string, fd int32, finishCallback interface{}) error
 	DumpActivity(ctx context.Context, fd int32, servicetoken binder.IBinder, prefix string, args []string) error
 	DumpResources(ctx context.Context, fd int32, finishCallback interface{}) error
 	ClearDnsCache(ctx context.Context) error
@@ -150,21 +214,20 @@ type IApplicationThread interface {
 	ScheduleTimeoutService(ctx context.Context, token binder.IBinder, startId int32) error
 	ScheduleTimeoutServiceForType(ctx context.Context, token binder.IBinder, startId int32, fgsType int32) error
 	SchedulePing(ctx context.Context, pong interface{}) error
-	GetExecutableMethodFileOffsets(ctx context.Context, methodDescriptor instrumentation.MethodDescriptor, resultCallback instrumentation.IOffsetCallback) error
 }
 
 type ApplicationThreadProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewApplicationThreadProxy(
 	remote binder.IBinder,
 ) *ApplicationThreadProxy {
-	return &ApplicationThreadProxy{remote: remote}
+	return &ApplicationThreadProxy{Remote: remote}
 }
 
 func (p *ApplicationThreadProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IApplicationThread = (*ApplicationThreadProxy)(nil)
@@ -203,12 +266,12 @@ func (p *ApplicationThreadProxy) ScheduleReceiver(
 	_data.WriteInt32(sentFromUid)
 	_data.WriteString16(sentFromPackage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleReceiver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleReceiver)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleReceiver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleReceiver, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -223,18 +286,19 @@ func (p *ApplicationThreadProxy) ScheduleReceiverList(
 	} else {
 		_data.WriteInt32(int32(len(info)))
 		for _, _item := range info {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleReceiverList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleReceiverList)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleReceiverList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleReceiverList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -247,19 +311,19 @@ func (p *ApplicationThreadProxy) ScheduleCreateService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := compatInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(processState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCreateService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleCreateService)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleCreateService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleCreateService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -269,14 +333,14 @@ func (p *ApplicationThreadProxy) ScheduleStopService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleStopService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleStopService)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleStopService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleStopService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -306,9 +370,7 @@ func (p *ApplicationThreadProxy) BindApplication(
 	autofillOptions content.AutofillOptions,
 	contentCaptureOptions content.ContentCaptureOptions,
 	disabledCompatChanges []int64,
-	loggableCompatChanges []int64,
 	serializedSystemFontMap interface{},
-	applicationSharedMemoryFd interface{},
 	startRequestedElapsedTime int64,
 	startRequestedUptime int64,
 ) error {
@@ -326,8 +388,8 @@ func (p *ApplicationThreadProxy) BindApplication(
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, testWatcher.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, uiAutomationConnection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, testWatcher.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, uiAutomationConnection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(debugMode)
 	_data.WriteBool(enableBinderTracking)
 	_data.WriteBool(trackAllocation)
@@ -367,23 +429,15 @@ func (p *ApplicationThreadProxy) BindApplication(
 			_data.WriteInt64(_item)
 		}
 	}
-	if loggableCompatChanges == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(loggableCompatChanges)))
-		for _, _item := range loggableCompatChanges {
-			_data.WriteInt64(_item)
-		}
-	}
 	_data.WriteInt64(startRequestedElapsedTime)
 	_data.WriteInt64(startRequestedUptime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "bindApplication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadBindApplication)
 	if _err != nil {
-		_code = TransactionIApplicationThreadBindApplication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadBindApplication, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -404,12 +458,12 @@ func (p *ApplicationThreadProxy) RunIsolatedEntryPoint(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "runIsolatedEntryPoint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadRunIsolatedEntryPoint)
 	if _err != nil {
-		_code = TransactionIApplicationThreadRunIsolatedEntryPoint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadRunIsolatedEntryPoint, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -419,12 +473,12 @@ func (p *ApplicationThreadProxy) ScheduleExit(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleExit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleExit)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleExit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleExit, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -435,14 +489,14 @@ func (p *ApplicationThreadProxy) ScheduleServiceArgs(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleServiceArgs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleServiceArgs)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleServiceArgs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleServiceArgs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -452,12 +506,12 @@ func (p *ApplicationThreadProxy) UpdateTimeZone(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateTimeZone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdateTimeZone)
 	if _err != nil {
-		_code = TransactionIApplicationThreadUpdateTimeZone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadUpdateTimeZone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -467,12 +521,12 @@ func (p *ApplicationThreadProxy) ProcessInBackground(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "processInBackground")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadProcessInBackground)
 	if _err != nil {
-		_code = TransactionIApplicationThreadProcessInBackground
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadProcessInBackground, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -486,7 +540,7 @@ func (p *ApplicationThreadProxy) ScheduleBindService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
@@ -495,12 +549,12 @@ func (p *ApplicationThreadProxy) ScheduleBindService(
 	_data.WriteInt32(processState)
 	_data.WriteInt64(bindSeq)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleBindService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleBindService)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleBindService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleBindService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -511,18 +565,18 @@ func (p *ApplicationThreadProxy) ScheduleUnbindService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleUnbindService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleUnbindService)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleUnbindService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleUnbindService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -535,7 +589,7 @@ func (p *ApplicationThreadProxy) DumpService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
-	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.Remote.Transport())
 	if args == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -545,12 +599,12 @@ func (p *ApplicationThreadProxy) DumpService(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpService)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -571,7 +625,7 @@ func (p *ApplicationThreadProxy) ScheduleRegisteredReceiver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
@@ -586,12 +640,12 @@ func (p *ApplicationThreadProxy) ScheduleRegisteredReceiver(
 	_data.WriteInt32(sentFromUid)
 	_data.WriteString16(sentFromPackage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleRegisteredReceiver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleRegisteredReceiver)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleRegisteredReceiver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleRegisteredReceiver, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -601,12 +655,12 @@ func (p *ApplicationThreadProxy) ScheduleLowMemory(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleLowMemory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleLowMemory)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleLowMemory
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleLowMemory, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -625,12 +679,12 @@ func (p *ApplicationThreadProxy) ProfilerControl(
 	}
 	_data.WriteInt32(profileType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "profilerControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadProfilerControl)
 	if _err != nil {
-		_code = TransactionIApplicationThreadProfilerControl
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadProfilerControl, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -642,12 +696,12 @@ func (p *ApplicationThreadProxy) SetSchedulingGroup(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(group)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setSchedulingGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSetSchedulingGroup)
 	if _err != nil {
-		_code = TransactionIApplicationThreadSetSchedulingGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadSetSchedulingGroup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -657,19 +711,19 @@ func (p *ApplicationThreadProxy) ScheduleCreateBackupAgent(
 	backupMode int32,
 	operationType int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(backupMode)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(operationType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCreateBackupAgent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleCreateBackupAgent)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleCreateBackupAgent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleCreateBackupAgent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -677,17 +731,17 @@ func (p *ApplicationThreadProxy) ScheduleDestroyBackupAgent(
 	ctx context.Context,
 	app interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleDestroyBackupAgent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleDestroyBackupAgent)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleDestroyBackupAgent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleDestroyBackupAgent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -698,18 +752,18 @@ func (p *ApplicationThreadProxy) ScheduleOnNewSceneTransitionInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleOnNewSceneTransitionInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleOnNewSceneTransitionInfo)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleOnNewSceneTransitionInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleOnNewSceneTransitionInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -719,12 +773,12 @@ func (p *ApplicationThreadProxy) ScheduleSuicide(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleSuicide")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleSuicide)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleSuicide
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleSuicide, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -745,12 +799,12 @@ func (p *ApplicationThreadProxy) DispatchPackageBroadcast(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dispatchPackageBroadcast")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDispatchPackageBroadcast)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDispatchPackageBroadcast
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDispatchPackageBroadcast, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -765,12 +819,12 @@ func (p *ApplicationThreadProxy) ScheduleCrash(
 	_data.WriteString16(msg)
 	_data.WriteInt32(typeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCrash")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleCrash)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleCrash
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleCrash, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -779,7 +833,6 @@ func (p *ApplicationThreadProxy) DumpHeap(
 	managed bool,
 	mallocInfo bool,
 	runGc bool,
-	dumpBitmaps string,
 	path string,
 	fd int32,
 	finishCallback interface{},
@@ -789,16 +842,15 @@ func (p *ApplicationThreadProxy) DumpHeap(
 	_data.WriteBool(managed)
 	_data.WriteBool(mallocInfo)
 	_data.WriteBool(runGc)
-	_data.WriteString16(dumpBitmaps)
 	_data.WriteString16(path)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpHeap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpHeap)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpHeap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpHeap, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -812,7 +864,7 @@ func (p *ApplicationThreadProxy) DumpActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
-	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.Remote.Transport())
 	_data.WriteString16(prefix)
 	if args == nil {
 		_data.WriteInt32(-1)
@@ -823,12 +875,12 @@ func (p *ApplicationThreadProxy) DumpActivity(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpActivity)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpActivity, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -841,12 +893,12 @@ func (p *ApplicationThreadProxy) DumpResources(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpResources")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpResources)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpResources
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpResources, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -856,12 +908,12 @@ func (p *ApplicationThreadProxy) ClearDnsCache(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "clearDnsCache")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadClearDnsCache)
 	if _err != nil {
-		_code = TransactionIApplicationThreadClearDnsCache
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadClearDnsCache, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -871,12 +923,12 @@ func (p *ApplicationThreadProxy) UpdateHttpProxy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateHttpProxy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdateHttpProxy)
 	if _err != nil {
-		_code = TransactionIApplicationThreadUpdateHttpProxy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadUpdateHttpProxy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -887,12 +939,12 @@ func (p *ApplicationThreadProxy) SetCoreSettings(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setCoreSettings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSetCoreSettings)
 	if _err != nil {
-		_code = TransactionIApplicationThreadSetCoreSettings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadSetCoreSettings, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -909,12 +961,12 @@ func (p *ApplicationThreadProxy) UpdatePackageCompatibilityInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updatePackageCompatibilityInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdatePackageCompatibilityInfo)
 	if _err != nil {
-		_code = TransactionIApplicationThreadUpdatePackageCompatibilityInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadUpdatePackageCompatibilityInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -926,12 +978,12 @@ func (p *ApplicationThreadProxy) ScheduleTrimMemory(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(level)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTrimMemory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTrimMemory)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleTrimMemory
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleTrimMemory, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -965,12 +1017,12 @@ func (p *ApplicationThreadProxy) DumpMemInfo(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpMemInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpMemInfo)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpMemInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpMemInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1000,12 +1052,12 @@ func (p *ApplicationThreadProxy) DumpMemInfoProto(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpMemInfoProto")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpMemInfoProto)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpMemInfoProto
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpMemInfoProto, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1026,12 +1078,12 @@ func (p *ApplicationThreadProxy) DumpGfxInfo(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpGfxInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpGfxInfo)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpGfxInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpGfxInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1052,12 +1104,12 @@ func (p *ApplicationThreadProxy) DumpCacheInfo(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpCacheInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpCacheInfo)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpCacheInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpCacheInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1070,7 +1122,7 @@ func (p *ApplicationThreadProxy) DumpProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
-	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, servicetoken, p.Remote.Transport())
 	if args == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -1080,12 +1132,12 @@ func (p *ApplicationThreadProxy) DumpProvider(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpProvider)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpProvider, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1106,12 +1158,12 @@ func (p *ApplicationThreadProxy) DumpDbInfo(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpDbInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadDumpDbInfo)
 	if _err != nil {
-		_code = TransactionIApplicationThreadDumpDbInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadDumpDbInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1121,14 +1173,14 @@ func (p *ApplicationThreadProxy) UnstableProviderDied(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, provider, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, provider, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "unstableProviderDied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUnstableProviderDied)
 	if _err != nil {
-		_code = TransactionIApplicationThreadUnstableProviderDied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadUnstableProviderDied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1142,18 +1194,18 @@ func (p *ApplicationThreadProxy) RequestAssistContextExtras(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, requestToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
 	_data.WriteInt32(requestType)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "requestAssistContextExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadRequestAssistContextExtras)
 	if _err != nil {
-		_code = TransactionIApplicationThreadRequestAssistContextExtras
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadRequestAssistContextExtras, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1164,15 +1216,15 @@ func (p *ApplicationThreadProxy) ScheduleTranslucentConversionComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteBool(timeout)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTranslucentConversionComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTranslucentConversionComplete)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleTranslucentConversionComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleTranslucentConversionComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1184,12 +1236,12 @@ func (p *ApplicationThreadProxy) SetProcessState(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setProcessState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSetProcessState)
 	if _err != nil {
-		_code = TransactionIApplicationThreadSetProcessState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadSetProcessState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1200,12 +1252,12 @@ func (p *ApplicationThreadProxy) ScheduleInstallProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleInstallProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleInstallProvider)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleInstallProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleInstallProvider, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1217,12 +1269,12 @@ func (p *ApplicationThreadProxy) UpdateTimePrefs(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(timeFormatPreference)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateTimePrefs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdateTimePrefs)
 	if _err != nil {
-		_code = TransactionIApplicationThreadUpdateTimePrefs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadUpdateTimePrefs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1232,14 +1284,14 @@ func (p *ApplicationThreadProxy) ScheduleEnterAnimationComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleEnterAnimationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleEnterAnimationComplete)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleEnterAnimationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleEnterAnimationComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1258,12 +1310,12 @@ func (p *ApplicationThreadProxy) NotifyCleartextNetwork(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "notifyCleartextNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadNotifyCleartextNetwork)
 	if _err != nil {
-		_code = TransactionIApplicationThreadNotifyCleartextNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadNotifyCleartextNetwork, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1273,12 +1325,12 @@ func (p *ApplicationThreadProxy) StartBinderTracking(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "startBinderTracking")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadStartBinderTracking)
 	if _err != nil {
-		_code = TransactionIApplicationThreadStartBinderTracking
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadStartBinderTracking, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1290,12 +1342,12 @@ func (p *ApplicationThreadProxy) StopBinderTrackingAndDump(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "stopBinderTrackingAndDump")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadStopBinderTrackingAndDump)
 	if _err != nil {
-		_code = TransactionIApplicationThreadStopBinderTrackingAndDump
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadStopBinderTrackingAndDump, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1306,15 +1358,15 @@ func (p *ApplicationThreadProxy) ScheduleLocalVoiceInteractionStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, voiceInteractor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, voiceInteractor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleLocalVoiceInteractionStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleLocalVoiceInteractionStarted)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleLocalVoiceInteractionStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleLocalVoiceInteractionStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1324,12 +1376,12 @@ func (p *ApplicationThreadProxy) HandleTrustStorageUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "handleTrustStorageUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadHandleTrustStorageUpdate)
 	if _err != nil {
-		_code = TransactionIApplicationThreadHandleTrustStorageUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadHandleTrustStorageUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1341,12 +1393,12 @@ func (p *ApplicationThreadProxy) AttachAgent(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(path)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "attachAgent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadAttachAgent)
 	if _err != nil {
-		_code = TransactionIApplicationThreadAttachAgent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadAttachAgent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1358,12 +1410,12 @@ func (p *ApplicationThreadProxy) AttachStartupAgents(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(dataDir)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "attachStartupAgents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadAttachStartupAgents)
 	if _err != nil {
-		_code = TransactionIApplicationThreadAttachStartupAgents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadAttachStartupAgents, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1374,12 +1426,12 @@ func (p *ApplicationThreadProxy) ScheduleApplicationInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleApplicationInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleApplicationInfoChanged)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleApplicationInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleApplicationInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1391,12 +1443,12 @@ func (p *ApplicationThreadProxy) SetNetworkBlockSeq(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt64(procStateSeq)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setNetworkBlockSeq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSetNetworkBlockSeq)
 	if _err != nil {
-		_code = TransactionIApplicationThreadSetNetworkBlockSeq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadSetNetworkBlockSeq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1411,12 +1463,12 @@ func (p *ApplicationThreadProxy) ScheduleTransaction(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTransaction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTransaction)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleTransaction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleTransaction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1428,12 +1480,12 @@ func (p *ApplicationThreadProxy) ScheduleTaskFragmentTransaction(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTaskFragmentTransaction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTaskFragmentTransaction)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleTaskFragmentTransaction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleTaskFragmentTransaction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1446,15 +1498,15 @@ func (p *ApplicationThreadProxy) RequestDirectActions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, intractor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, intractor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "requestDirectActions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadRequestDirectActions)
 	if _err != nil {
-		_code = TransactionIApplicationThreadRequestDirectActions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadRequestDirectActions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1468,15 +1520,15 @@ func (p *ApplicationThreadProxy) PerformDirectAction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteString16(actionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "performDirectAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadPerformDirectAction)
 	if _err != nil {
-		_code = TransactionIApplicationThreadPerformDirectAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadPerformDirectAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1486,7 +1538,7 @@ func (p *ApplicationThreadProxy) NotifyContentProviderPublishStatus(
 	authorities string,
 	published bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(1)
@@ -1497,12 +1549,12 @@ func (p *ApplicationThreadProxy) NotifyContentProviderPublishStatus(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(published)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "notifyContentProviderPublishStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadNotifyContentProviderPublishStatus)
 	if _err != nil {
-		_code = TransactionIApplicationThreadNotifyContentProviderPublishStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadNotifyContentProviderPublishStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1520,15 +1572,15 @@ func (p *ApplicationThreadProxy) InstrumentWithoutRestart(
 	if _err := instrumentationName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, instrumentationWatcher.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, instrumentationUiConnection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, instrumentationWatcher.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, instrumentationUiConnection.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "instrumentWithoutRestart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadInstrumentWithoutRestart)
 	if _err != nil {
-		_code = TransactionIApplicationThreadInstrumentWithoutRestart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadInstrumentWithoutRestart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1543,7 +1595,7 @@ func (p *ApplicationThreadProxy) UpdateUiTranslationState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteInt32(state)
 	_data.WriteInt32(1)
 	if _err := sourceSpec.MarshalParcel(_data); _err != nil {
@@ -1558,6 +1610,7 @@ func (p *ApplicationThreadProxy) UpdateUiTranslationState(
 	} else {
 		_data.WriteInt32(int32(len(viewIds)))
 		for _, _item := range viewIds {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -1568,12 +1621,12 @@ func (p *ApplicationThreadProxy) UpdateUiTranslationState(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateUiTranslationState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadUpdateUiTranslationState)
 	if _err != nil {
-		_code = TransactionIApplicationThreadUpdateUiTranslationState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadUpdateUiTranslationState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1584,15 +1637,15 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(startId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTimeoutService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTimeoutService)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleTimeoutService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleTimeoutService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1604,16 +1657,16 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutServiceForType(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(startId)
 	_data.WriteInt32(fgsType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTimeoutServiceForType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleTimeoutServiceForType)
 	if _err != nil {
-		_code = TransactionIApplicationThreadScheduleTimeoutServiceForType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadScheduleTimeoutServiceForType, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1624,34 +1677,12 @@ func (p *ApplicationThreadProxy) SchedulePing(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "schedulePing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadSchedulePing)
 	if _err != nil {
-		_code = TransactionIApplicationThreadSchedulePing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationThread, MethodIApplicationThreadSchedulePing, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *ApplicationThreadProxy) GetExecutableMethodFileOffsets(
-	ctx context.Context,
-	methodDescriptor instrumentation.MethodDescriptor,
-	resultCallback instrumentation.IOffsetCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	_data.WriteInt32(1)
-	if _err := methodDescriptor.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "getExecutableMethodFileOffsets")
-	if _err != nil {
-		_code = TransactionIApplicationThreadGetExecutableMethodFileOffsets
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1662,6 +1693,10 @@ type ApplicationThreadStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ApplicationThreadStub)(nil)
+
+func (s *ApplicationThreadStub) Descriptor() string {
+	return DescriptorIApplicationThread
+}
 
 func (s *ApplicationThreadStub) OnTransaction(
 	ctx context.Context,
@@ -1913,11 +1948,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_disabledCompatChanges []int64
 		_ = _arg_disabledCompatChanges
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_loggableCompatChanges []int64
-		_ = _arg_loggableCompatChanges
 		var _arg_serializedSystemFontMap interface{}
-		var _arg_applicationSharedMemoryFd interface{}
 		_arg_startRequestedElapsedTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1926,7 +1957,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.BindApplication(ctx, _arg_packageName, _arg_info, _arg_sdkSandboxClientAppVolumeUuid, _arg_sdkSandboxClientAppPackage, _arg_isSdkInSandbox, _arg_providerList, _arg_testName, _arg_profilerInfo, _arg_testArguments, _arg_testWatcher, _arg_uiAutomationConnection, _arg_debugMode, _arg_enableBinderTracking, _arg_trackAllocation, _arg_restrictedBackupMode, _arg_persistent, _arg_config, _arg_compatInfo, _arg_services, _arg_coreSettings, _arg_buildSerial, _arg_autofillOptions, _arg_contentCaptureOptions, _arg_disabledCompatChanges, _arg_loggableCompatChanges, _arg_serializedSystemFontMap, _arg_applicationSharedMemoryFd, _arg_startRequestedElapsedTime, _arg_startRequestedUptime)
+		_err = s.Impl.BindApplication(ctx, _arg_packageName, _arg_info, _arg_sdkSandboxClientAppVolumeUuid, _arg_sdkSandboxClientAppPackage, _arg_isSdkInSandbox, _arg_providerList, _arg_testName, _arg_profilerInfo, _arg_testArguments, _arg_testWatcher, _arg_uiAutomationConnection, _arg_debugMode, _arg_enableBinderTracking, _arg_trackAllocation, _arg_restrictedBackupMode, _arg_persistent, _arg_config, _arg_compatInfo, _arg_services, _arg_coreSettings, _arg_buildSerial, _arg_autofillOptions, _arg_contentCaptureOptions, _arg_disabledCompatChanges, _arg_serializedSystemFontMap, _arg_startRequestedElapsedTime, _arg_startRequestedUptime)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadRunIsolatedEntryPoint:
@@ -2257,10 +2288,6 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpBitmaps, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
 		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2270,7 +2297,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_finishCallback interface{}
-		_err = s.Impl.DumpHeap(ctx, _arg_managed, _arg_mallocInfo, _arg_runGc, _arg_dumpBitmaps, _arg_path, _arg_fd, _arg_finishCallback)
+		_err = s.Impl.DumpHeap(ctx, _arg_managed, _arg_mallocInfo, _arg_runGc, _arg_path, _arg_fd, _arg_finishCallback)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpActivity:
@@ -2879,28 +2906,6 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_err := s.Impl.SchedulePing(ctx, _arg_pong)
 		_ = _err
 		return nil, nil
-	case TransactionIApplicationThreadGetExecutableMethodFileOffsets:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_methodDescriptor instrumentation.MethodDescriptor
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_methodDescriptor.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_resultCallback instrumentation.IOffsetCallback
-		_ = _arg_resultCallback
-		_err := s.Impl.GetExecutableMethodFileOffsets(ctx, _arg_methodDescriptor, _arg_resultCallback)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2914,7 +2919,7 @@ type IApplicationThreadServer interface {
 	ScheduleReceiverList(ctx context.Context, info []ReceiverInfo) error
 	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo res.CompatibilityInfo, processState int32) error
 	ScheduleStopService(ctx context.Context, token binder.IBinder) error
-	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, loggableCompatChanges []int64, serializedSystemFontMap interface{}, applicationSharedMemoryFd interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
+	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, serializedSystemFontMap interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
 	RunIsolatedEntryPoint(ctx context.Context, entryPoint string, entryPointArgs []string) error
 	ScheduleExit(ctx context.Context) error
 	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args interface{}) error
@@ -2933,7 +2938,7 @@ type IApplicationThreadServer interface {
 	ScheduleSuicide(ctx context.Context) error
 	DispatchPackageBroadcast(ctx context.Context, cmd int32, packages []string) error
 	ScheduleCrash(ctx context.Context, msg string, typeId int32, extras interface{}) error
-	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, dumpBitmaps string, path string, fd int32, finishCallback interface{}) error
+	DumpHeap(ctx context.Context, managed bool, mallocInfo bool, runGc bool, path string, fd int32, finishCallback interface{}) error
 	DumpActivity(ctx context.Context, fd int32, servicetoken binder.IBinder, prefix string, args []string) error
 	DumpResources(ctx context.Context, fd int32, finishCallback interface{}) error
 	ClearDnsCache(ctx context.Context) error
@@ -2973,7 +2978,6 @@ type IApplicationThreadServer interface {
 	ScheduleTimeoutService(ctx context.Context, token binder.IBinder, startId int32) error
 	ScheduleTimeoutServiceForType(ctx context.Context, token binder.IBinder, startId int32, fgsType int32) error
 	SchedulePing(ctx context.Context, pong interface{}) error
-	GetExecutableMethodFileOffsets(ctx context.Context, methodDescriptor instrumentation.MethodDescriptor, resultCallback instrumentation.IOffsetCallback) error
 }
 
 type applicationThreadStubWrapper struct {
@@ -3053,13 +3057,11 @@ func (w *applicationThreadStubWrapper) BindApplication(
 	autofillOptions content.AutofillOptions,
 	contentCaptureOptions content.ContentCaptureOptions,
 	disabledCompatChanges []int64,
-	loggableCompatChanges []int64,
 	serializedSystemFontMap interface{},
-	applicationSharedMemoryFd interface{},
 	startRequestedElapsedTime int64,
 	startRequestedUptime int64,
 ) error {
-	return w.impl.BindApplication(ctx, packageName, info, sdkSandboxClientAppVolumeUuid, sdkSandboxClientAppPackage, isSdkInSandbox, providerList, testName, profilerInfo, testArguments, testWatcher, uiAutomationConnection, debugMode, enableBinderTracking, trackAllocation, restrictedBackupMode, persistent, config, compatInfo, services, coreSettings, buildSerial, autofillOptions, contentCaptureOptions, disabledCompatChanges, loggableCompatChanges, serializedSystemFontMap, applicationSharedMemoryFd, startRequestedElapsedTime, startRequestedUptime)
+	return w.impl.BindApplication(ctx, packageName, info, sdkSandboxClientAppVolumeUuid, sdkSandboxClientAppPackage, isSdkInSandbox, providerList, testName, profilerInfo, testArguments, testWatcher, uiAutomationConnection, debugMode, enableBinderTracking, trackAllocation, restrictedBackupMode, persistent, config, compatInfo, services, coreSettings, buildSerial, autofillOptions, contentCaptureOptions, disabledCompatChanges, serializedSystemFontMap, startRequestedElapsedTime, startRequestedUptime)
 }
 
 func (w *applicationThreadStubWrapper) RunIsolatedEntryPoint(
@@ -3216,12 +3218,11 @@ func (w *applicationThreadStubWrapper) DumpHeap(
 	managed bool,
 	mallocInfo bool,
 	runGc bool,
-	dumpBitmaps string,
 	path string,
 	fd int32,
 	finishCallback interface{},
 ) error {
-	return w.impl.DumpHeap(ctx, managed, mallocInfo, runGc, dumpBitmaps, path, fd, finishCallback)
+	return w.impl.DumpHeap(ctx, managed, mallocInfo, runGc, path, fd, finishCallback)
 }
 
 func (w *applicationThreadStubWrapper) DumpActivity(
@@ -3543,14 +3544,6 @@ func (w *applicationThreadStubWrapper) SchedulePing(
 	pong interface{},
 ) error {
 	return w.impl.SchedulePing(ctx, pong)
-}
-
-func (w *applicationThreadStubWrapper) GetExecutableMethodFileOffsets(
-	ctx context.Context,
-	methodDescriptor instrumentation.MethodDescriptor,
-	resultCallback instrumentation.IOffsetCallback,
-) error {
-	return w.impl.GetExecutableMethodFileOffsets(ctx, methodDescriptor, resultCallback)
 }
 
 var _ IApplicationThread = (*applicationThreadStubWrapper)(nil)

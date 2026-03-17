@@ -10,13 +10,10 @@ type RadioConst struct {
 }
 
 const (
-	RadioConstValueUnavailable     int32 = 2147483647
-	RadioConstValueUnavailableLong int64 = 9223372036854775807
-	RadioConstValueUnavailableByte byte  = 255
-	RadioConstMaxRilds             int32 = 3
-	RadioConstMaxUuidLength        int32 = 64
-	RadioConstCardMaxApps          int32 = 8
-	RadioConstP2ConstantNoP2       int32 = -1
+	RadioConstMaxRilds       int32 = 3
+	RadioConstMaxUuidLength  int32 = 64
+	RadioConstCardMaxApps    int32 = 8
+	RadioConstP2ConstantNoP2 int32 = -1
 )
 
 var _ parcel.Parcelable = (*RadioConst)(nil)

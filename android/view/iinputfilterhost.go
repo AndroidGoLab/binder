@@ -15,23 +15,27 @@ const (
 	TransactionIInputFilterHostSendInputEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputFilterHostSendInputEvent = "sendInputEvent"
+)
+
 type IInputFilterHost interface {
 	AsBinder() binder.IBinder
 	SendInputEvent(ctx context.Context, event InputEvent, policyFlags int32) error
 }
 
 type InputFilterHostProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFilterHostProxy(
 	remote binder.IBinder,
 ) *InputFilterHostProxy {
-	return &InputFilterHostProxy{remote: remote}
+	return &InputFilterHostProxy{Remote: remote}
 }
 
 func (p *InputFilterHostProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFilterHost = (*InputFilterHostProxy)(nil)
@@ -49,12 +53,12 @@ func (p *InputFilterHostProxy) SendInputEvent(
 	}
 	_data.WriteInt32(policyFlags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterHost, "sendInputEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterHost, MethodIInputFilterHostSendInputEvent)
 	if _err != nil {
-		_code = TransactionIInputFilterHostSendInputEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilterHost, MethodIInputFilterHostSendInputEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type InputFilterHostStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputFilterHostStub)(nil)
+
+func (s *InputFilterHostStub) Descriptor() string {
+	return DescriptorIInputFilterHost
+}
 
 func (s *InputFilterHostStub) OnTransaction(
 	ctx context.Context,

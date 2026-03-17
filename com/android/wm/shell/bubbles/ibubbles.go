@@ -3,10 +3,8 @@ package bubbles
 import (
 	"context"
 	"fmt"
-	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
+	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
-	sharedBubbles "github.com/xaionaro-go/binder/com/android/wm/shell/shared/bubbles"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,52 +13,51 @@ import (
 const DescriptorIBubbles = "com.android.wm.shell.bubbles.IBubbles"
 
 const (
-	TransactionIBubblesRegisterBubbleListener     = binder.FirstCallTransaction + 0
-	TransactionIBubblesUnregisterBubbleListener   = binder.FirstCallTransaction + 1
-	TransactionIBubblesShowBubble                 = binder.FirstCallTransaction + 2
-	TransactionIBubblesDragBubbleToDismiss        = binder.FirstCallTransaction + 3
-	TransactionIBubblesRemoveAllBubbles           = binder.FirstCallTransaction + 4
-	TransactionIBubblesCollapseBubbles            = binder.FirstCallTransaction + 5
-	TransactionIBubblesStartBubbleDrag            = binder.FirstCallTransaction + 6
-	TransactionIBubblesShowUserEducation          = binder.FirstCallTransaction + 7
-	TransactionIBubblesSetBubbleBarLocation       = binder.FirstCallTransaction + 8
-	TransactionIBubblesUpdateBubbleBarTopOnScreen = binder.FirstCallTransaction + 9
-	TransactionIBubblesStopBubbleDrag             = binder.FirstCallTransaction + 10
-	TransactionIBubblesShowShortcutBubble         = binder.FirstCallTransaction + 11
-	TransactionIBubblesShowAppBubble              = binder.FirstCallTransaction + 12
-	TransactionIBubblesShowExpandedView           = binder.FirstCallTransaction + 13
+	TransactionIBubblesRegisterBubbleListener   = binder.FirstCallTransaction + 0
+	TransactionIBubblesUnregisterBubbleListener = binder.FirstCallTransaction + 1
+	TransactionIBubblesShowBubble               = binder.FirstCallTransaction + 2
+	TransactionIBubblesRemoveBubble             = binder.FirstCallTransaction + 3
+	TransactionIBubblesRemoveAllBubbles         = binder.FirstCallTransaction + 4
+	TransactionIBubblesCollapseBubbles          = binder.FirstCallTransaction + 5
+	TransactionIBubblesOnBubbleDrag             = binder.FirstCallTransaction + 6
+	TransactionIBubblesShowUserEducation        = binder.FirstCallTransaction + 7
+)
+
+const (
+	MethodIBubblesRegisterBubbleListener   = "registerBubbleListener"
+	MethodIBubblesUnregisterBubbleListener = "unregisterBubbleListener"
+	MethodIBubblesShowBubble               = "showBubble"
+	MethodIBubblesRemoveBubble             = "removeBubble"
+	MethodIBubblesRemoveAllBubbles         = "removeAllBubbles"
+	MethodIBubblesCollapseBubbles          = "collapseBubbles"
+	MethodIBubblesOnBubbleDrag             = "onBubbleDrag"
+	MethodIBubblesShowUserEducation        = "showUserEducation"
 )
 
 type IBubbles interface {
 	AsBinder() binder.IBinder
 	RegisterBubbleListener(ctx context.Context, listener IBubblesListener) error
 	UnregisterBubbleListener(ctx context.Context, listener IBubblesListener) error
-	ShowBubble(ctx context.Context, key string, topOnScreen int32) error
-	DragBubbleToDismiss(ctx context.Context, key string, timestamp int64) error
+	ShowBubble(ctx context.Context, key string, bubbleBarBounds graphics.Rect) error
+	RemoveBubble(ctx context.Context, key string) error
 	RemoveAllBubbles(ctx context.Context) error
 	CollapseBubbles(ctx context.Context) error
-	StartBubbleDrag(ctx context.Context, key string) error
+	OnBubbleDrag(ctx context.Context, key string, isBeingDragged bool) error
 	ShowUserEducation(ctx context.Context, positionX int32, positionY int32) error
-	SetBubbleBarLocation(ctx context.Context, location sharedBubbles.BubbleBarLocation, source int32) error
-	UpdateBubbleBarTopOnScreen(ctx context.Context, topOnScreen int32) error
-	StopBubbleDrag(ctx context.Context, location sharedBubbles.BubbleBarLocation, topOnScreen int32) error
-	ShowShortcutBubble(ctx context.Context, info pm.ShortcutInfo) error
-	ShowAppBubble(ctx context.Context, intent content.Intent) error
-	ShowExpandedView(ctx context.Context) error
 }
 
 type BubblesProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBubblesProxy(
 	remote binder.IBinder,
 ) *BubblesProxy {
-	return &BubblesProxy{remote: remote}
+	return &BubblesProxy{Remote: remote}
 }
 
 func (p *BubblesProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBubbles = (*BubblesProxy)(nil)
@@ -71,14 +68,14 @@ func (p *BubblesProxy) RegisterBubbleListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "registerBubbleListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesRegisterBubbleListener)
 	if _err != nil {
-		_code = TransactionIBubblesRegisterBubbleListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesRegisterBubbleListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,52 +85,53 @@ func (p *BubblesProxy) UnregisterBubbleListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "unregisterBubbleListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesUnregisterBubbleListener)
 	if _err != nil {
-		_code = TransactionIBubblesUnregisterBubbleListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesUnregisterBubbleListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *BubblesProxy) ShowBubble(
 	ctx context.Context,
 	key string,
-	topOnScreen int32,
+	bubbleBarBounds graphics.Rect,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
-	_data.WriteInt32(topOnScreen)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showBubble")
-	if _err != nil {
-		_code = TransactionIBubblesShowBubble
+	_data.WriteInt32(1)
+	if _err := bubbleBarBounds.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesShowBubble)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesShowBubble, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
-func (p *BubblesProxy) DragBubbleToDismiss(
+func (p *BubblesProxy) RemoveBubble(
 	ctx context.Context,
 	key string,
-	timestamp int64,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
-	_data.WriteInt64(timestamp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "dragBubbleToDismiss")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesRemoveBubble)
 	if _err != nil {
-		_code = TransactionIBubblesDragBubbleToDismiss
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesRemoveBubble, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,12 +141,12 @@ func (p *BubblesProxy) RemoveAllBubbles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "removeAllBubbles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesRemoveAllBubbles)
 	if _err != nil {
-		_code = TransactionIBubblesRemoveAllBubbles
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesRemoveAllBubbles, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,29 +156,31 @@ func (p *BubblesProxy) CollapseBubbles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "collapseBubbles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesCollapseBubbles)
 	if _err != nil {
-		_code = TransactionIBubblesCollapseBubbles
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesCollapseBubbles, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
-func (p *BubblesProxy) StartBubbleDrag(
+func (p *BubblesProxy) OnBubbleDrag(
 	ctx context.Context,
 	key string,
+	isBeingDragged bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
+	_data.WriteBool(isBeingDragged)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "startBubbleDrag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesOnBubbleDrag)
 	if _err != nil {
-		_code = TransactionIBubblesStartBubbleDrag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesOnBubbleDrag, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,128 +194,12 @@ func (p *BubblesProxy) ShowUserEducation(
 	_data.WriteInt32(positionX)
 	_data.WriteInt32(positionY)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showUserEducation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubbles, MethodIBubblesShowUserEducation)
 	if _err != nil {
-		_code = TransactionIBubblesShowUserEducation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubbles, MethodIBubblesShowUserEducation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesProxy) SetBubbleBarLocation(
-	ctx context.Context,
-	location sharedBubbles.BubbleBarLocation,
-	source int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(source)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "setBubbleBarLocation")
-	if _err != nil {
-		_code = TransactionIBubblesSetBubbleBarLocation
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesProxy) UpdateBubbleBarTopOnScreen(
-	ctx context.Context,
-	topOnScreen int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteInt32(topOnScreen)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "updateBubbleBarTopOnScreen")
-	if _err != nil {
-		_code = TransactionIBubblesUpdateBubbleBarTopOnScreen
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesProxy) StopBubbleDrag(
-	ctx context.Context,
-	location sharedBubbles.BubbleBarLocation,
-	topOnScreen int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(topOnScreen)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "stopBubbleDrag")
-	if _err != nil {
-		_code = TransactionIBubblesStopBubbleDrag
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesProxy) ShowShortcutBubble(
-	ctx context.Context,
-	info pm.ShortcutInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showShortcutBubble")
-	if _err != nil {
-		_code = TransactionIBubblesShowShortcutBubble
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesProxy) ShowAppBubble(
-	ctx context.Context,
-	intent content.Intent,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubbles)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showAppBubble")
-	if _err != nil {
-		_code = TransactionIBubblesShowAppBubble
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesProxy) ShowExpandedView(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubbles)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showExpandedView")
-	if _err != nil {
-		_code = TransactionIBubblesShowExpandedView
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -326,6 +210,10 @@ type BubblesStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BubblesStub)(nil)
+
+func (s *BubblesStub) Descriptor() string {
+	return DescriptorIBubbles
+}
 
 func (s *BubblesStub) OnTransaction(
 	ctx context.Context,
@@ -361,14 +249,22 @@ func (s *BubblesStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_topOnScreen, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_bubbleBarBounds graphics.Rect
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bubbleBarBounds.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_err = s.Impl.ShowBubble(ctx, _arg_key, _arg_topOnScreen)
+		_err = s.Impl.ShowBubble(ctx, _arg_key, _arg_bubbleBarBounds)
 		_ = _err
 		return nil, nil
-	case TransactionIBubblesDragBubbleToDismiss:
+	case TransactionIBubblesRemoveBubble:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -376,11 +272,7 @@ func (s *BubblesStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.DragBubbleToDismiss(ctx, _arg_key, _arg_timestamp)
+		_err = s.Impl.RemoveBubble(ctx, _arg_key)
 		_ = _err
 		return nil, nil
 	case TransactionIBubblesRemoveAllBubbles:
@@ -397,7 +289,7 @@ func (s *BubblesStub) OnTransaction(
 		_err := s.Impl.CollapseBubbles(ctx)
 		_ = _err
 		return nil, nil
-	case TransactionIBubblesStartBubbleDrag:
+	case TransactionIBubblesOnBubbleDrag:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -405,7 +297,11 @@ func (s *BubblesStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.StartBubbleDrag(ctx, _arg_key)
+		_arg_isBeingDragged, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBubbleDrag(ctx, _arg_key, _arg_isBeingDragged)
 		_ = _err
 		return nil, nil
 	case TransactionIBubblesShowUserEducation:
@@ -423,108 +319,6 @@ func (s *BubblesStub) OnTransaction(
 		_err = s.Impl.ShowUserEducation(ctx, _arg_positionX, _arg_positionY)
 		_ = _err
 		return nil, nil
-	case TransactionIBubblesSetBubbleBarLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_location sharedBubbles.BubbleBarLocation
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_source, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetBubbleBarLocation(ctx, _arg_location, _arg_source)
-		_ = _err
-		return nil, nil
-	case TransactionIBubblesUpdateBubbleBarTopOnScreen:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_topOnScreen, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.UpdateBubbleBarTopOnScreen(ctx, _arg_topOnScreen)
-		_ = _err
-		return nil, nil
-	case TransactionIBubblesStopBubbleDrag:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_location sharedBubbles.BubbleBarLocation
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_topOnScreen, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.StopBubbleDrag(ctx, _arg_location, _arg_topOnScreen)
-		_ = _err
-		return nil, nil
-	case TransactionIBubblesShowShortcutBubble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_info pm.ShortcutInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.ShowShortcutBubble(ctx, _arg_info)
-		_ = _err
-		return nil, nil
-	case TransactionIBubblesShowAppBubble:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_intent content.Intent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.ShowAppBubble(ctx, _arg_intent)
-		_ = _err
-		return nil, nil
-	case TransactionIBubblesShowExpandedView:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.ShowExpandedView(ctx)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -536,18 +330,12 @@ func (s *BubblesStub) OnTransaction(
 type IBubblesServer interface {
 	RegisterBubbleListener(ctx context.Context, listener IBubblesListener) error
 	UnregisterBubbleListener(ctx context.Context, listener IBubblesListener) error
-	ShowBubble(ctx context.Context, key string, topOnScreen int32) error
-	DragBubbleToDismiss(ctx context.Context, key string, timestamp int64) error
+	ShowBubble(ctx context.Context, key string, bubbleBarBounds graphics.Rect) error
+	RemoveBubble(ctx context.Context, key string) error
 	RemoveAllBubbles(ctx context.Context) error
 	CollapseBubbles(ctx context.Context) error
-	StartBubbleDrag(ctx context.Context, key string) error
+	OnBubbleDrag(ctx context.Context, key string, isBeingDragged bool) error
 	ShowUserEducation(ctx context.Context, positionX int32, positionY int32) error
-	SetBubbleBarLocation(ctx context.Context, location sharedBubbles.BubbleBarLocation, source int32) error
-	UpdateBubbleBarTopOnScreen(ctx context.Context, topOnScreen int32) error
-	StopBubbleDrag(ctx context.Context, location sharedBubbles.BubbleBarLocation, topOnScreen int32) error
-	ShowShortcutBubble(ctx context.Context, info pm.ShortcutInfo) error
-	ShowAppBubble(ctx context.Context, intent content.Intent) error
-	ShowExpandedView(ctx context.Context) error
 }
 
 type bubblesStubWrapper struct {
@@ -576,17 +364,16 @@ func (w *bubblesStubWrapper) UnregisterBubbleListener(
 func (w *bubblesStubWrapper) ShowBubble(
 	ctx context.Context,
 	key string,
-	topOnScreen int32,
+	bubbleBarBounds graphics.Rect,
 ) error {
-	return w.impl.ShowBubble(ctx, key, topOnScreen)
+	return w.impl.ShowBubble(ctx, key, bubbleBarBounds)
 }
 
-func (w *bubblesStubWrapper) DragBubbleToDismiss(
+func (w *bubblesStubWrapper) RemoveBubble(
 	ctx context.Context,
 	key string,
-	timestamp int64,
 ) error {
-	return w.impl.DragBubbleToDismiss(ctx, key, timestamp)
+	return w.impl.RemoveBubble(ctx, key)
 }
 
 func (w *bubblesStubWrapper) RemoveAllBubbles(
@@ -601,11 +388,12 @@ func (w *bubblesStubWrapper) CollapseBubbles(
 	return w.impl.CollapseBubbles(ctx)
 }
 
-func (w *bubblesStubWrapper) StartBubbleDrag(
+func (w *bubblesStubWrapper) OnBubbleDrag(
 	ctx context.Context,
 	key string,
+	isBeingDragged bool,
 ) error {
-	return w.impl.StartBubbleDrag(ctx, key)
+	return w.impl.OnBubbleDrag(ctx, key, isBeingDragged)
 }
 
 func (w *bubblesStubWrapper) ShowUserEducation(
@@ -614,49 +402,6 @@ func (w *bubblesStubWrapper) ShowUserEducation(
 	positionY int32,
 ) error {
 	return w.impl.ShowUserEducation(ctx, positionX, positionY)
-}
-
-func (w *bubblesStubWrapper) SetBubbleBarLocation(
-	ctx context.Context,
-	location sharedBubbles.BubbleBarLocation,
-	source int32,
-) error {
-	return w.impl.SetBubbleBarLocation(ctx, location, source)
-}
-
-func (w *bubblesStubWrapper) UpdateBubbleBarTopOnScreen(
-	ctx context.Context,
-	topOnScreen int32,
-) error {
-	return w.impl.UpdateBubbleBarTopOnScreen(ctx, topOnScreen)
-}
-
-func (w *bubblesStubWrapper) StopBubbleDrag(
-	ctx context.Context,
-	location sharedBubbles.BubbleBarLocation,
-	topOnScreen int32,
-) error {
-	return w.impl.StopBubbleDrag(ctx, location, topOnScreen)
-}
-
-func (w *bubblesStubWrapper) ShowShortcutBubble(
-	ctx context.Context,
-	info pm.ShortcutInfo,
-) error {
-	return w.impl.ShowShortcutBubble(ctx, info)
-}
-
-func (w *bubblesStubWrapper) ShowAppBubble(
-	ctx context.Context,
-	intent content.Intent,
-) error {
-	return w.impl.ShowAppBubble(ctx, intent)
-}
-
-func (w *bubblesStubWrapper) ShowExpandedView(
-	ctx context.Context,
-) error {
-	return w.impl.ShowExpandedView(ctx)
 }
 
 var _ IBubbles = (*bubblesStubWrapper)(nil)

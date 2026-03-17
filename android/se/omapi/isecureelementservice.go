@@ -17,6 +17,12 @@ const (
 	TransactionISecureElementServiceIsNfcEventAllowed = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISecureElementServiceGetReaders        = "getReaders"
+	MethodISecureElementServiceGetReader         = "getReader"
+	MethodISecureElementServiceIsNfcEventAllowed = "isNfcEventAllowed"
+)
+
 type ISecureElementService interface {
 	AsBinder() binder.IBinder
 	GetReaders(ctx context.Context) ([]string, error)
@@ -25,17 +31,17 @@ type ISecureElementService interface {
 }
 
 type SecureElementServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureElementServiceProxy(
 	remote binder.IBinder,
 ) *SecureElementServiceProxy {
-	return &SecureElementServiceProxy{remote: remote}
+	return &SecureElementServiceProxy{Remote: remote}
 }
 
 func (p *SecureElementServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureElementService = (*SecureElementServiceProxy)(nil)
@@ -47,12 +53,12 @@ func (p *SecureElementServiceProxy) GetReaders(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementService, "getReaders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementService, MethodISecureElementServiceGetReaders)
 	if _err != nil {
-		_code = TransactionISecureElementServiceGetReaders
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementService, MethodISecureElementServiceGetReaders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -88,12 +94,12 @@ func (p *SecureElementServiceProxy) GetReader(
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
 	_data.WriteString16(reader)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementService, "getReader")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementService, MethodISecureElementServiceGetReader)
 	if _err != nil {
-		_code = TransactionISecureElementServiceGetReader
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementService, MethodISecureElementServiceGetReader, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,7 +113,7 @@ func (p *SecureElementServiceProxy) GetReader(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSecureElementReaderProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSecureElementReaderProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -118,7 +124,7 @@ func (p *SecureElementServiceProxy) IsNfcEventAllowed(
 	packageNames []string,
 ) ([]bool, error) {
 	var _result []bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
 	_data.WriteString16(reader)
@@ -140,12 +146,12 @@ func (p *SecureElementServiceProxy) IsNfcEventAllowed(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementService, "isNfcEventAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementService, MethodISecureElementServiceIsNfcEventAllowed)
 	if _err != nil {
-		_code = TransactionISecureElementServiceIsNfcEventAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementService, MethodISecureElementServiceIsNfcEventAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,6 +185,10 @@ type SecureElementServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureElementServiceStub)(nil)
+
+func (s *SecureElementServiceStub) Descriptor() string {
+	return DescriptorISecureElementService
+}
 
 func (s *SecureElementServiceStub) OnTransaction(
 	ctx context.Context,

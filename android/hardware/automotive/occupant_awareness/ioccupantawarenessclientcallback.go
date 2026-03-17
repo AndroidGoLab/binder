@@ -16,6 +16,11 @@ const (
 	TransactionIOccupantAwarenessClientCallbackOnDetectionEvent      = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIOccupantAwarenessClientCallbackOnSystemStatusChanged = "onSystemStatusChanged"
+	MethodIOccupantAwarenessClientCallbackOnDetectionEvent      = "onDetectionEvent"
+)
+
 type IOccupantAwarenessClientCallback interface {
 	AsBinder() binder.IBinder
 	OnSystemStatusChanged(ctx context.Context, detectionFlags int32, status OccupantAwarenessStatus) error
@@ -23,17 +28,17 @@ type IOccupantAwarenessClientCallback interface {
 }
 
 type OccupantAwarenessClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOccupantAwarenessClientCallbackProxy(
 	remote binder.IBinder,
 ) *OccupantAwarenessClientCallbackProxy {
-	return &OccupantAwarenessClientCallbackProxy{remote: remote}
+	return &OccupantAwarenessClientCallbackProxy{Remote: remote}
 }
 
 func (p *OccupantAwarenessClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOccupantAwarenessClientCallback = (*OccupantAwarenessClientCallbackProxy)(nil)
@@ -48,12 +53,12 @@ func (p *OccupantAwarenessClientCallbackProxy) OnSystemStatusChanged(
 	_data.WriteInt32(detectionFlags)
 	_data.WritePaddedByte(byte(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwarenessClientCallback, "onSystemStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnSystemStatusChanged)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessClientCallbackOnSystemStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnSystemStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwarenessClientCallback, "onDetectionEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnDetectionEvent)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessClientCallbackOnDetectionEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwarenessClientCallback, MethodIOccupantAwarenessClientCallbackOnDetectionEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type OccupantAwarenessClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OccupantAwarenessClientCallbackStub)(nil)
+
+func (s *OccupantAwarenessClientCallbackStub) Descriptor() string {
+	return DescriptorIOccupantAwarenessClientCallback
+}
 
 func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
 	ctx context.Context,

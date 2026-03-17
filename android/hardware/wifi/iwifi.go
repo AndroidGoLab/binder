@@ -20,6 +20,15 @@ const (
 	TransactionIWifiStop                  = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIWifiGetChip               = "getChip"
+	MethodIWifiGetChipIds            = "getChipIds"
+	MethodIWifiIsStarted             = "isStarted"
+	MethodIWifiRegisterEventCallback = "registerEventCallback"
+	MethodIWifiStart                 = "start"
+	MethodIWifiStop                  = "stop"
+)
+
 type IWifi interface {
 	AsBinder() binder.IBinder
 	GetChip(ctx context.Context, chipId int32) (IWifiChip, error)
@@ -31,17 +40,17 @@ type IWifi interface {
 }
 
 type WifiProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWifiProxy(
 	remote binder.IBinder,
 ) *WifiProxy {
-	return &WifiProxy{remote: remote}
+	return &WifiProxy{Remote: remote}
 }
 
 func (p *WifiProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWifi = (*WifiProxy)(nil)
@@ -55,12 +64,12 @@ func (p *WifiProxy) GetChip(
 	_data.WriteInterfaceToken(DescriptorIWifi)
 	_data.WriteInt32(chipId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "getChip")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiGetChip)
 	if _err != nil {
-		_code = TransactionIWifiGetChip
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWifi, MethodIWifiGetChip, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,7 +83,7 @@ func (p *WifiProxy) GetChip(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiChipProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewWifiChipProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -85,12 +94,12 @@ func (p *WifiProxy) GetChipIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "getChipIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiGetChipIds)
 	if _err != nil {
-		_code = TransactionIWifiGetChipIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWifi, MethodIWifiGetChipIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,12 +133,12 @@ func (p *WifiProxy) IsStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "isStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiIsStarted)
 	if _err != nil {
-		_code = TransactionIWifiIsStarted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWifi, MethodIWifiIsStarted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,14 +161,14 @@ func (p *WifiProxy) RegisterEventCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "registerEventCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiRegisterEventCallback)
 	if _err != nil {
-		_code = TransactionIWifiRegisterEventCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifi, MethodIWifiRegisterEventCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,12 +187,12 @@ func (p *WifiProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiStart)
 	if _err != nil {
-		_code = TransactionIWifiStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifi, MethodIWifiStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,12 +211,12 @@ func (p *WifiProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifi, MethodIWifiStop)
 	if _err != nil {
-		_code = TransactionIWifiStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifi, MethodIWifiStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,6 +236,10 @@ type WifiStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WifiStub)(nil)
+
+func (s *WifiStub) Descriptor() string {
+	return DescriptorIWifi
+}
 
 func (s *WifiStub) OnTransaction(
 	ctx context.Context,

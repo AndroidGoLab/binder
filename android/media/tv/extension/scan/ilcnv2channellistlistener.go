@@ -16,23 +16,27 @@ const (
 	TransactionILcnV2ChannelListListenerOnDetectLcnV2ChannelList = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILcnV2ChannelListListenerOnDetectLcnV2ChannelList = "onDetectLcnV2ChannelList"
+)
+
 type ILcnV2ChannelListListener interface {
 	AsBinder() binder.IBinder
 	OnDetectLcnV2ChannelList(ctx context.Context, detectLcnV2ChannelList os.Bundle) error
 }
 
 type LcnV2ChannelListListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLcnV2ChannelListListenerProxy(
 	remote binder.IBinder,
 ) *LcnV2ChannelListListenerProxy {
-	return &LcnV2ChannelListListenerProxy{remote: remote}
+	return &LcnV2ChannelListListenerProxy{Remote: remote}
 }
 
 func (p *LcnV2ChannelListListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILcnV2ChannelListListener = (*LcnV2ChannelListListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *LcnV2ChannelListListenerProxy) OnDetectLcnV2ChannelList(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelListListener, "onDetectLcnV2ChannelList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnV2ChannelListListener, MethodILcnV2ChannelListListenerOnDetectLcnV2ChannelList)
 	if _err != nil {
-		_code = TransactionILcnV2ChannelListListenerOnDetectLcnV2ChannelList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILcnV2ChannelListListener, MethodILcnV2ChannelListListenerOnDetectLcnV2ChannelList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type LcnV2ChannelListListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LcnV2ChannelListListenerStub)(nil)
+
+func (s *LcnV2ChannelListListenerStub) Descriptor() string {
+	return DescriptorILcnV2ChannelListListener
+}
 
 func (s *LcnV2ChannelListListenerStub) OnTransaction(
 	ctx context.Context,

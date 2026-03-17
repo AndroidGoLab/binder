@@ -15,23 +15,27 @@ const (
 	TransactionIStreamAliasingDispatcherDispatchStreamAliasingChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStreamAliasingDispatcherDispatchStreamAliasingChanged = "dispatchStreamAliasingChanged"
+)
+
 type IStreamAliasingDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchStreamAliasingChanged(ctx context.Context) error
 }
 
 type StreamAliasingDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamAliasingDispatcherProxy(
 	remote binder.IBinder,
 ) *StreamAliasingDispatcherProxy {
-	return &StreamAliasingDispatcherProxy{remote: remote}
+	return &StreamAliasingDispatcherProxy{Remote: remote}
 }
 
 func (p *StreamAliasingDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamAliasingDispatcher = (*StreamAliasingDispatcherProxy)(nil)
@@ -42,12 +46,12 @@ func (p *StreamAliasingDispatcherProxy) DispatchStreamAliasingChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamAliasingDispatcher)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamAliasingDispatcher, "dispatchStreamAliasingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamAliasingDispatcher, MethodIStreamAliasingDispatcherDispatchStreamAliasingChanged)
 	if _err != nil {
-		_code = TransactionIStreamAliasingDispatcherDispatchStreamAliasingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamAliasingDispatcher, MethodIStreamAliasingDispatcherDispatchStreamAliasingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type StreamAliasingDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamAliasingDispatcherStub)(nil)
+
+func (s *StreamAliasingDispatcherStub) Descriptor() string {
+	return DescriptorIStreamAliasingDispatcher
+}
 
 func (s *StreamAliasingDispatcherStub) OnTransaction(
 	ctx context.Context,

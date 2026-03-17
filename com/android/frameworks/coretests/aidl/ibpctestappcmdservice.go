@@ -21,6 +21,16 @@ const (
 	TransactionIBpcTestAppCmdServiceUnbindFromTestService = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIBpcTestAppCmdServiceCreateSystemBinders   = "createSystemBinders"
+	MethodIBpcTestAppCmdServiceReleaseSystemBinders  = "releaseSystemBinders"
+	MethodIBpcTestAppCmdServiceCreateTestBinders     = "createTestBinders"
+	MethodIBpcTestAppCmdServiceReleaseTestBinders    = "releaseTestBinders"
+	MethodIBpcTestAppCmdServiceReleaseAllBinders     = "releaseAllBinders"
+	MethodIBpcTestAppCmdServiceBindToTestService     = "bindToTestService"
+	MethodIBpcTestAppCmdServiceUnbindFromTestService = "unbindFromTestService"
+)
+
 type IBpcTestAppCmdService interface {
 	AsBinder() binder.IBinder
 	CreateSystemBinders(ctx context.Context, count int32) error
@@ -33,17 +43,17 @@ type IBpcTestAppCmdService interface {
 }
 
 type BpcTestAppCmdServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBpcTestAppCmdServiceProxy(
 	remote binder.IBinder,
 ) *BpcTestAppCmdServiceProxy {
-	return &BpcTestAppCmdServiceProxy{remote: remote}
+	return &BpcTestAppCmdServiceProxy{Remote: remote}
 }
 
 func (p *BpcTestAppCmdServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBpcTestAppCmdService = (*BpcTestAppCmdServiceProxy)(nil)
@@ -56,12 +66,12 @@ func (p *BpcTestAppCmdServiceProxy) CreateSystemBinders(
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "createSystemBinders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateSystemBinders)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceCreateSystemBinders
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateSystemBinders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +92,12 @@ func (p *BpcTestAppCmdServiceProxy) ReleaseSystemBinders(
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "releaseSystemBinders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseSystemBinders)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceReleaseSystemBinders
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseSystemBinders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,12 +118,12 @@ func (p *BpcTestAppCmdServiceProxy) CreateTestBinders(
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "createTestBinders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateTestBinders)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceCreateTestBinders
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceCreateTestBinders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,12 +144,12 @@ func (p *BpcTestAppCmdServiceProxy) ReleaseTestBinders(
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "releaseTestBinders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseTestBinders)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceReleaseTestBinders
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseTestBinders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -158,12 +168,12 @@ func (p *BpcTestAppCmdServiceProxy) ReleaseAllBinders(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "releaseAllBinders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseAllBinders)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceReleaseAllBinders
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceReleaseAllBinders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,12 +193,12 @@ func (p *BpcTestAppCmdServiceProxy) BindToTestService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "bindToTestService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceBindToTestService)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceBindToTestService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceBindToTestService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,12 +221,12 @@ func (p *BpcTestAppCmdServiceProxy) UnbindFromTestService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestAppCmdService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestAppCmdService, "unbindFromTestService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceUnbindFromTestService)
 	if _err != nil {
-		_code = TransactionIBpcTestAppCmdServiceUnbindFromTestService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestAppCmdService, MethodIBpcTestAppCmdServiceUnbindFromTestService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -236,6 +246,10 @@ type BpcTestAppCmdServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BpcTestAppCmdServiceStub)(nil)
+
+func (s *BpcTestAppCmdServiceStub) Descriptor() string {
+	return DescriptorIBpcTestAppCmdService
+}
 
 func (s *BpcTestAppCmdServiceStub) OnTransaction(
 	ctx context.Context,

@@ -21,10 +21,20 @@ const (
 	TransactionIDeviceStateManagerOnStateRequestOverlayDismissed = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIDeviceStateManagerGetDeviceStateInfo             = "getDeviceStateInfo"
+	MethodIDeviceStateManagerRegisterCallback               = "registerCallback"
+	MethodIDeviceStateManagerRequestState                   = "requestState"
+	MethodIDeviceStateManagerCancelStateRequest             = "cancelStateRequest"
+	MethodIDeviceStateManagerRequestBaseStateOverride       = "requestBaseStateOverride"
+	MethodIDeviceStateManagerCancelBaseStateOverride        = "cancelBaseStateOverride"
+	MethodIDeviceStateManagerOnStateRequestOverlayDismissed = "onStateRequestOverlayDismissed"
+)
+
 type IDeviceStateManager interface {
 	AsBinder() binder.IBinder
 	GetDeviceStateInfo(ctx context.Context) (DeviceStateInfo, error)
-	RegisterCallback(ctx context.Context, callback IDeviceStateManagerCallback) (DeviceStateInfo, error)
+	RegisterCallback(ctx context.Context, callback IDeviceStateManagerCallback) error
 	RequestState(ctx context.Context, token binder.IBinder, state int32, flags int32) error
 	CancelStateRequest(ctx context.Context) error
 	RequestBaseStateOverride(ctx context.Context, token binder.IBinder, state int32, flags int32) error
@@ -33,17 +43,17 @@ type IDeviceStateManager interface {
 }
 
 type DeviceStateManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceStateManagerProxy(
 	remote binder.IBinder,
 ) *DeviceStateManagerProxy {
-	return &DeviceStateManagerProxy{remote: remote}
+	return &DeviceStateManagerProxy{Remote: remote}
 }
 
 func (p *DeviceStateManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceStateManager = (*DeviceStateManagerProxy)(nil)
@@ -55,12 +65,12 @@ func (p *DeviceStateManagerProxy) GetDeviceStateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "getDeviceStateInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerGetDeviceStateInfo)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerGetDeviceStateInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerGetDeviceStateInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,37 +95,27 @@ func (p *DeviceStateManagerProxy) GetDeviceStateInfo(
 func (p *DeviceStateManagerProxy) RegisterCallback(
 	ctx context.Context,
 	callback IDeviceStateManagerCallback,
-) (DeviceStateInfo, error) {
-	var _result DeviceStateInfo
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerRegisterCallback)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return _result, _err
+		return _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
+	return nil
 }
 
 func (p *DeviceStateManagerProxy) RequestState(
@@ -126,16 +126,16 @@ func (p *DeviceStateManagerProxy) RequestState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(state)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "requestState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerRequestState)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerRequestState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerRequestState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,12 +154,12 @@ func (p *DeviceStateManagerProxy) CancelStateRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "cancelStateRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerCancelStateRequest)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerCancelStateRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerCancelStateRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,16 +180,16 @@ func (p *DeviceStateManagerProxy) RequestBaseStateOverride(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(state)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "requestBaseStateOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerRequestBaseStateOverride)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerRequestBaseStateOverride
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerRequestBaseStateOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -208,12 +208,12 @@ func (p *DeviceStateManagerProxy) CancelBaseStateOverride(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "cancelBaseStateOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerCancelBaseStateOverride)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerCancelBaseStateOverride
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerCancelBaseStateOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -234,12 +234,12 @@ func (p *DeviceStateManagerProxy) OnStateRequestOverlayDismissed(
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	_data.WriteBool(shouldCancelRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "onStateRequestOverlayDismissed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManager, MethodIDeviceStateManagerOnStateRequestOverlayDismissed)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerOnStateRequestOverlayDismissed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManager, MethodIDeviceStateManagerOnStateRequestOverlayDismissed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -259,6 +259,10 @@ type DeviceStateManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceStateManagerStub)(nil)
+
+func (s *DeviceStateManagerStub) Descriptor() string {
+	return DescriptorIDeviceStateManager
+}
 
 func (s *DeviceStateManagerStub) OnTransaction(
 	ctx context.Context,
@@ -289,17 +293,13 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDeviceStateManagerCallback
 		_ = _arg_callback
-		_result, _err := s.Impl.RegisterCallback(ctx, _arg_callback)
+		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
 		return _reply, nil
 	case TransactionIDeviceStateManagerRequestState:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -397,7 +397,7 @@ func (s *DeviceStateManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IDeviceStateManagerServer interface {
 	GetDeviceStateInfo(ctx context.Context) (DeviceStateInfo, error)
-	RegisterCallback(ctx context.Context, callback IDeviceStateManagerCallback) (DeviceStateInfo, error)
+	RegisterCallback(ctx context.Context, callback IDeviceStateManagerCallback) error
 	RequestState(ctx context.Context, token binder.IBinder, state int32, flags int32) error
 	CancelStateRequest(ctx context.Context) error
 	RequestBaseStateOverride(ctx context.Context, token binder.IBinder, state int32, flags int32) error
@@ -423,7 +423,7 @@ func (w *deviceStateManagerStubWrapper) GetDeviceStateInfo(
 func (w *deviceStateManagerStubWrapper) RegisterCallback(
 	ctx context.Context,
 	callback IDeviceStateManagerCallback,
-) (DeviceStateInfo, error) {
+) error {
 	return w.impl.RegisterCallback(ctx, callback)
 }
 

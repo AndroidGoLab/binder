@@ -19,6 +19,14 @@ const (
 	TransactionIDropBoxManagerServiceGetNextEntryWithAttribution = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIDropBoxManagerServiceAddData                     = "addData"
+	MethodIDropBoxManagerServiceAddFile                     = "addFile"
+	MethodIDropBoxManagerServiceIsTagEnabled                = "isTagEnabled"
+	MethodIDropBoxManagerServiceGetNextEntry                = "getNextEntry"
+	MethodIDropBoxManagerServiceGetNextEntryWithAttribution = "getNextEntryWithAttribution"
+)
+
 type IDropBoxManagerService interface {
 	AsBinder() binder.IBinder
 	AddData(ctx context.Context, tag string, data []byte, flags int32) error
@@ -29,17 +37,17 @@ type IDropBoxManagerService interface {
 }
 
 type DropBoxManagerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDropBoxManagerServiceProxy(
 	remote binder.IBinder,
 ) *DropBoxManagerServiceProxy {
-	return &DropBoxManagerServiceProxy{remote: remote}
+	return &DropBoxManagerServiceProxy{Remote: remote}
 }
 
 func (p *DropBoxManagerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDropBoxManagerService = (*DropBoxManagerServiceProxy)(nil)
@@ -63,12 +71,12 @@ func (p *DropBoxManagerServiceProxy) AddData(
 	}
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "addData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddData)
 	if _err != nil {
-		_code = TransactionIDropBoxManagerServiceAddData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,12 +101,12 @@ func (p *DropBoxManagerServiceProxy) AddFile(
 	_data.WriteFileDescriptor(fd)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "addFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddFile)
 	if _err != nil {
-		_code = TransactionIDropBoxManagerServiceAddFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceAddFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,12 +128,12 @@ func (p *DropBoxManagerServiceProxy) IsTagEnabled(
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "isTagEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceIsTagEnabled)
 	if _err != nil {
-		_code = TransactionIDropBoxManagerServiceIsTagEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceIsTagEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,12 +163,12 @@ func (p *DropBoxManagerServiceProxy) GetNextEntry(
 	_data.WriteInt64(millis)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "getNextEntry")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntry)
 	if _err != nil {
-		_code = TransactionIDropBoxManagerServiceGetNextEntry
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntry, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,7 +188,7 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 	packageName string,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDropBoxManagerService)
 	_data.WriteString16(tag)
@@ -188,12 +196,12 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "getNextEntryWithAttribution")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntryWithAttribution)
 	if _err != nil {
-		_code = TransactionIDropBoxManagerServiceGetNextEntryWithAttribution
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDropBoxManagerService, MethodIDropBoxManagerServiceGetNextEntryWithAttribution, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -213,6 +221,10 @@ type DropBoxManagerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DropBoxManagerServiceStub)(nil)
+
+func (s *DropBoxManagerServiceStub) Descriptor() string {
+	return DescriptorIDropBoxManagerService
+}
 
 func (s *DropBoxManagerServiceStub) OnTransaction(
 	ctx context.Context,

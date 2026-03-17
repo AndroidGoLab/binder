@@ -16,6 +16,11 @@ const (
 	TransactionIWakelockCallbackNotifyReleased = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIWakelockCallbackNotifyAcquired = "notifyAcquired"
+	MethodIWakelockCallbackNotifyReleased = "notifyReleased"
+)
+
 type IWakelockCallback interface {
 	AsBinder() binder.IBinder
 	NotifyAcquired(ctx context.Context) error
@@ -23,17 +28,17 @@ type IWakelockCallback interface {
 }
 
 type WakelockCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWakelockCallbackProxy(
 	remote binder.IBinder,
 ) *WakelockCallbackProxy {
-	return &WakelockCallbackProxy{remote: remote}
+	return &WakelockCallbackProxy{Remote: remote}
 }
 
 func (p *WakelockCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWakelockCallback = (*WakelockCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *WakelockCallbackProxy) NotifyAcquired(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWakelockCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWakelockCallback, "notifyAcquired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWakelockCallback, MethodIWakelockCallbackNotifyAcquired)
 	if _err != nil {
-		_code = TransactionIWakelockCallbackNotifyAcquired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWakelockCallback, MethodIWakelockCallbackNotifyAcquired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *WakelockCallbackProxy) NotifyReleased(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWakelockCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWakelockCallback, "notifyReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWakelockCallback, MethodIWakelockCallbackNotifyReleased)
 	if _err != nil {
-		_code = TransactionIWakelockCallbackNotifyReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWakelockCallback, MethodIWakelockCallbackNotifyReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type WakelockCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WakelockCallbackStub)(nil)
+
+func (s *WakelockCallbackStub) Descriptor() string {
+	return DescriptorIWakelockCallback
+}
 
 func (s *WakelockCallbackStub) OnTransaction(
 	ctx context.Context,

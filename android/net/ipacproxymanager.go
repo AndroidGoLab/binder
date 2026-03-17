@@ -17,6 +17,12 @@ const (
 	TransactionIPacProxyManagerSetCurrentProxyScriptUrl = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIPacProxyManagerAddListener              = "addListener"
+	MethodIPacProxyManagerRemoveListener           = "removeListener"
+	MethodIPacProxyManagerSetCurrentProxyScriptUrl = "setCurrentProxyScriptUrl"
+)
+
 type IPacProxyManager interface {
 	AsBinder() binder.IBinder
 	AddListener(ctx context.Context, listener IPacProxyInstalledListener) error
@@ -25,17 +31,17 @@ type IPacProxyManager interface {
 }
 
 type PacProxyManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPacProxyManagerProxy(
 	remote binder.IBinder,
 ) *PacProxyManagerProxy {
-	return &PacProxyManagerProxy{remote: remote}
+	return &PacProxyManagerProxy{Remote: remote}
 }
 
 func (p *PacProxyManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPacProxyManager = (*PacProxyManagerProxy)(nil)
@@ -46,14 +52,14 @@ func (p *PacProxyManagerProxy) AddListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyManager, "addListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyManager, MethodIPacProxyManagerAddListener)
 	if _err != nil {
-		_code = TransactionIPacProxyManagerAddListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPacProxyManager, MethodIPacProxyManagerAddListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,14 +78,14 @@ func (p *PacProxyManagerProxy) RemoveListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyManager, "removeListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyManager, MethodIPacProxyManagerRemoveListener)
 	if _err != nil {
-		_code = TransactionIPacProxyManagerRemoveListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPacProxyManager, MethodIPacProxyManagerRemoveListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,12 +105,12 @@ func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyManager, "setCurrentProxyScriptUrl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyManager, MethodIPacProxyManagerSetCurrentProxyScriptUrl)
 	if _err != nil {
-		_code = TransactionIPacProxyManagerSetCurrentProxyScriptUrl
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPacProxyManager, MethodIPacProxyManagerSetCurrentProxyScriptUrl, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,6 +130,10 @@ type PacProxyManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PacProxyManagerStub)(nil)
+
+func (s *PacProxyManagerStub) Descriptor() string {
+	return DescriptorIPacProxyManager
+}
 
 func (s *PacProxyManagerStub) OnTransaction(
 	ctx context.Context,

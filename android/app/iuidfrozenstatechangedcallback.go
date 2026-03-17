@@ -15,23 +15,27 @@ const (
 	TransactionIUidFrozenStateChangedCallbackOnUidFrozenStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUidFrozenStateChangedCallbackOnUidFrozenStateChanged = "onUidFrozenStateChanged"
+)
+
 type IUidFrozenStateChangedCallback interface {
 	AsBinder() binder.IBinder
 	OnUidFrozenStateChanged(ctx context.Context, uids []int32, frozenStates []int32) error
 }
 
 type UidFrozenStateChangedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUidFrozenStateChangedCallbackProxy(
 	remote binder.IBinder,
 ) *UidFrozenStateChangedCallbackProxy {
-	return &UidFrozenStateChangedCallbackProxy{remote: remote}
+	return &UidFrozenStateChangedCallbackProxy{Remote: remote}
 }
 
 func (p *UidFrozenStateChangedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUidFrozenStateChangedCallback = (*UidFrozenStateChangedCallbackProxy)(nil)
@@ -60,12 +64,12 @@ func (p *UidFrozenStateChangedCallbackProxy) OnUidFrozenStateChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUidFrozenStateChangedCallback, "onUidFrozenStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUidFrozenStateChangedCallback, MethodIUidFrozenStateChangedCallbackOnUidFrozenStateChanged)
 	if _err != nil {
-		_code = TransactionIUidFrozenStateChangedCallbackOnUidFrozenStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUidFrozenStateChangedCallback, MethodIUidFrozenStateChangedCallbackOnUidFrozenStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +80,10 @@ type UidFrozenStateChangedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UidFrozenStateChangedCallbackStub)(nil)
+
+func (s *UidFrozenStateChangedCallbackStub) Descriptor() string {
+	return DescriptorIUidFrozenStateChangedCallback
+}
 
 func (s *UidFrozenStateChangedCallbackStub) OnTransaction(
 	ctx context.Context,

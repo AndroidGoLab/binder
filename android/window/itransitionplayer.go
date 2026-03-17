@@ -17,6 +17,11 @@ const (
 	TransactionITransitionPlayerRequestStartTransition = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITransitionPlayerOnTransitionReady      = "onTransitionReady"
+	MethodITransitionPlayerRequestStartTransition = "requestStartTransition"
+)
+
 type ITransitionPlayer interface {
 	AsBinder() binder.IBinder
 	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishT view.SurfaceControlTransaction) error
@@ -24,17 +29,17 @@ type ITransitionPlayer interface {
 }
 
 type TransitionPlayerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransitionPlayerProxy(
 	remote binder.IBinder,
 ) *TransitionPlayerProxy {
-	return &TransitionPlayerProxy{remote: remote}
+	return &TransitionPlayerProxy{Remote: remote}
 }
 
 func (p *TransitionPlayerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransitionPlayer = (*TransitionPlayerProxy)(nil)
@@ -48,7 +53,7 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
-	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
@@ -62,12 +67,12 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransitionPlayer, "onTransitionReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionPlayer, MethodITransitionPlayerOnTransitionReady)
 	if _err != nil {
-		_code = TransactionITransitionPlayerOnTransitionReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransitionPlayer, MethodITransitionPlayerOnTransitionReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,18 +83,18 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
-	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransitionPlayer, "requestStartTransition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionPlayer, MethodITransitionPlayerRequestStartTransition)
 	if _err != nil {
-		_code = TransactionITransitionPlayerRequestStartTransition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransitionPlayer, MethodITransitionPlayerRequestStartTransition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +105,10 @@ type TransitionPlayerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransitionPlayerStub)(nil)
+
+func (s *TransitionPlayerStub) Descriptor() string {
+	return DescriptorITransitionPlayer
+}
 
 func (s *TransitionPlayerStub) OnTransaction(
 	ctx context.Context,

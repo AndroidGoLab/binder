@@ -15,23 +15,27 @@ const (
 	TransactionICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged = "dispatchDevicesRoleChanged"
+)
+
 type ICapturePresetDevicesRoleDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchDevicesRoleChanged(ctx context.Context, capturePreset int32, role int32, devices []AudioDeviceAttributes) error
 }
 
 type CapturePresetDevicesRoleDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCapturePresetDevicesRoleDispatcherProxy(
 	remote binder.IBinder,
 ) *CapturePresetDevicesRoleDispatcherProxy {
-	return &CapturePresetDevicesRoleDispatcherProxy{remote: remote}
+	return &CapturePresetDevicesRoleDispatcherProxy{Remote: remote}
 }
 
 func (p *CapturePresetDevicesRoleDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICapturePresetDevicesRoleDispatcher = (*CapturePresetDevicesRoleDispatcherProxy)(nil)
@@ -51,18 +55,19 @@ func (p *CapturePresetDevicesRoleDispatcherProxy) DispatchDevicesRoleChanged(
 	} else {
 		_data.WriteInt32(int32(len(devices)))
 		for _, _item := range devices {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICapturePresetDevicesRoleDispatcher, "dispatchDevicesRoleChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapturePresetDevicesRoleDispatcher, MethodICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged)
 	if _err != nil {
-		_code = TransactionICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICapturePresetDevicesRoleDispatcher, MethodICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,6 +78,10 @@ type CapturePresetDevicesRoleDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CapturePresetDevicesRoleDispatcherStub)(nil)
+
+func (s *CapturePresetDevicesRoleDispatcherStub) Descriptor() string {
+	return DescriptorICapturePresetDevicesRoleDispatcher
+}
 
 func (s *CapturePresetDevicesRoleDispatcherStub) OnTransaction(
 	ctx context.Context,

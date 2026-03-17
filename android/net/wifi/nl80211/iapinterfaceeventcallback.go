@@ -16,6 +16,11 @@ const (
 	TransactionIApInterfaceEventCallbackOnSoftApChannelSwitched   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIApInterfaceEventCallbackOnConnectedClientsChanged = "onConnectedClientsChanged"
+	MethodIApInterfaceEventCallbackOnSoftApChannelSwitched   = "onSoftApChannelSwitched"
+)
+
 type IApInterfaceEventCallback interface {
 	AsBinder() binder.IBinder
 	OnConnectedClientsChanged(ctx context.Context, client interface{}, isConnected bool) error
@@ -34,17 +39,17 @@ const (
 )
 
 type ApInterfaceEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewApInterfaceEventCallbackProxy(
 	remote binder.IBinder,
 ) *ApInterfaceEventCallbackProxy {
-	return &ApInterfaceEventCallbackProxy{remote: remote}
+	return &ApInterfaceEventCallbackProxy{Remote: remote}
 }
 
 func (p *ApInterfaceEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IApInterfaceEventCallback = (*ApInterfaceEventCallbackProxy)(nil)
@@ -58,12 +63,12 @@ func (p *ApInterfaceEventCallbackProxy) OnConnectedClientsChanged(
 	_data.WriteInterfaceToken(DescriptorIApInterfaceEventCallback)
 	_data.WriteBool(isConnected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApInterfaceEventCallback, "onConnectedClientsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnConnectedClientsChanged)
 	if _err != nil {
-		_code = TransactionIApInterfaceEventCallbackOnConnectedClientsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnConnectedClientsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +82,12 @@ func (p *ApInterfaceEventCallbackProxy) OnSoftApChannelSwitched(
 	_data.WriteInt32(frequency)
 	_data.WriteInt32(bandwidth)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApInterfaceEventCallback, "onSoftApChannelSwitched")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnSoftApChannelSwitched)
 	if _err != nil {
-		_code = TransactionIApInterfaceEventCallbackOnSoftApChannelSwitched
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApInterfaceEventCallback, MethodIApInterfaceEventCallbackOnSoftApChannelSwitched, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,6 +98,10 @@ type ApInterfaceEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ApInterfaceEventCallbackStub)(nil)
+
+func (s *ApInterfaceEventCallbackStub) Descriptor() string {
+	return DescriptorIApInterfaceEventCallback
+}
 
 func (s *ApInterfaceEventCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionICamHostControlInfoListenerOnCamHostControlInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICamHostControlInfoListenerOnCamHostControlInfoChanged = "onCamHostControlInfoChanged"
+)
+
 type ICamHostControlInfoListener interface {
 	AsBinder() binder.IBinder
 	OnCamHostControlInfoChanged(ctx context.Context, sessionToken string, sessionStatus int32) error
 }
 
 type CamHostControlInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamHostControlInfoListenerProxy(
 	remote binder.IBinder,
 ) *CamHostControlInfoListenerProxy {
-	return &CamHostControlInfoListenerProxy{remote: remote}
+	return &CamHostControlInfoListenerProxy{Remote: remote}
 }
 
 func (p *CamHostControlInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamHostControlInfoListener = (*CamHostControlInfoListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *CamHostControlInfoListenerProxy) OnCamHostControlInfoChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(sessionStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlInfoListener, "onCamHostControlInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlInfoListener, MethodICamHostControlInfoListenerOnCamHostControlInfoChanged)
 	if _err != nil {
-		_code = TransactionICamHostControlInfoListenerOnCamHostControlInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlInfoListener, MethodICamHostControlInfoListenerOnCamHostControlInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type CamHostControlInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamHostControlInfoListenerStub)(nil)
+
+func (s *CamHostControlInfoListenerStub) Descriptor() string {
+	return DescriptorICamHostControlInfoListener
+}
 
 func (s *CamHostControlInfoListenerStub) OnTransaction(
 	ctx context.Context,

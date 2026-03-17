@@ -21,6 +21,16 @@ const (
 	TransactionIVoiceInteractorCallbackDestroy                    = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIVoiceInteractorCallbackDeliverConfirmationResult  = "deliverConfirmationResult"
+	MethodIVoiceInteractorCallbackDeliverPickOptionResult    = "deliverPickOptionResult"
+	MethodIVoiceInteractorCallbackDeliverCompleteVoiceResult = "deliverCompleteVoiceResult"
+	MethodIVoiceInteractorCallbackDeliverAbortVoiceResult    = "deliverAbortVoiceResult"
+	MethodIVoiceInteractorCallbackDeliverCommandResult       = "deliverCommandResult"
+	MethodIVoiceInteractorCallbackDeliverCancel              = "deliverCancel"
+	MethodIVoiceInteractorCallbackDestroy                    = "destroy"
+)
+
 type IVoiceInteractorCallback interface {
 	AsBinder() binder.IBinder
 	DeliverConfirmationResult(ctx context.Context, request IVoiceInteractorRequest, confirmed bool, result interface{}) error
@@ -33,17 +43,17 @@ type IVoiceInteractorCallback interface {
 }
 
 type VoiceInteractorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractorCallbackProxy(
 	remote binder.IBinder,
 ) *VoiceInteractorCallbackProxy {
-	return &VoiceInteractorCallbackProxy{remote: remote}
+	return &VoiceInteractorCallbackProxy{Remote: remote}
 }
 
 func (p *VoiceInteractorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractorCallback = (*VoiceInteractorCallbackProxy)(nil)
@@ -56,15 +66,15 @@ func (p *VoiceInteractorCallbackProxy) DeliverConfirmationResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
-	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(confirmed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "deliverConfirmationResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverConfirmationResult)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDeliverConfirmationResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverConfirmationResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +87,7 @@ func (p *VoiceInteractorCallbackProxy) DeliverPickOptionResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
-	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(finished)
 	if selections == nil {
 		_data.WriteInt32(-1)
@@ -85,12 +95,12 @@ func (p *VoiceInteractorCallbackProxy) DeliverPickOptionResult(
 		_data.WriteInt32(int32(len(selections)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "deliverPickOptionResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverPickOptionResult)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDeliverPickOptionResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverPickOptionResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,14 +111,14 @@ func (p *VoiceInteractorCallbackProxy) DeliverCompleteVoiceResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
-	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "deliverCompleteVoiceResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCompleteVoiceResult)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDeliverCompleteVoiceResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCompleteVoiceResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,14 +129,14 @@ func (p *VoiceInteractorCallbackProxy) DeliverAbortVoiceResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
-	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "deliverAbortVoiceResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverAbortVoiceResult)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDeliverAbortVoiceResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverAbortVoiceResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,15 +148,15 @@ func (p *VoiceInteractorCallbackProxy) DeliverCommandResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
-	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(finished)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "deliverCommandResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCommandResult)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDeliverCommandResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCommandResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,14 +166,14 @@ func (p *VoiceInteractorCallbackProxy) DeliverCancel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
-	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, request.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "deliverCancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCancel)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDeliverCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDeliverCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -173,12 +183,12 @@ func (p *VoiceInteractorCallbackProxy) Destroy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorCallback, "destroy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDestroy)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorCallbackDestroy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorCallback, MethodIVoiceInteractorCallbackDestroy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -189,6 +199,10 @@ type VoiceInteractorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractorCallbackStub)(nil)
+
+func (s *VoiceInteractorCallbackStub) Descriptor() string {
+	return DescriptorIVoiceInteractorCallback
+}
 
 func (s *VoiceInteractorCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,12 @@ const (
 	TransactionIRatingInterfaceSetResetRrt5     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRatingInterfaceGetRRTRatingInfo = "getRRTRatingInfo"
+	MethodIRatingInterfaceSetRRTRatingInfo = "setRRTRatingInfo"
+	MethodIRatingInterfaceSetResetRrt5     = "setResetRrt5"
+)
+
 type IRatingInterface interface {
 	AsBinder() binder.IBinder
 	GetRRTRatingInfo(ctx context.Context) (os.Bundle, error)
@@ -26,17 +32,17 @@ type IRatingInterface interface {
 }
 
 type RatingInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRatingInterfaceProxy(
 	remote binder.IBinder,
 ) *RatingInterfaceProxy {
-	return &RatingInterfaceProxy{remote: remote}
+	return &RatingInterfaceProxy{Remote: remote}
 }
 
 func (p *RatingInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRatingInterface = (*RatingInterfaceProxy)(nil)
@@ -48,12 +54,12 @@ func (p *RatingInterfaceProxy) GetRRTRatingInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRatingInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRatingInterface, "getRRTRatingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRatingInterface, MethodIRatingInterfaceGetRRTRatingInfo)
 	if _err != nil {
-		_code = TransactionIRatingInterfaceGetRRTRatingInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRatingInterface, MethodIRatingInterfaceGetRRTRatingInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,12 +93,12 @@ func (p *RatingInterfaceProxy) SetRRTRatingInfo(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRatingInterface, "setRRTRatingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRatingInterface, MethodIRatingInterfaceSetRRTRatingInfo)
 	if _err != nil {
-		_code = TransactionIRatingInterfaceSetRRTRatingInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRatingInterface, MethodIRatingInterfaceSetRRTRatingInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,12 +122,12 @@ func (p *RatingInterfaceProxy) SetResetRrt5(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRatingInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRatingInterface, "setResetRrt5")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRatingInterface, MethodIRatingInterfaceSetResetRrt5)
 	if _err != nil {
-		_code = TransactionIRatingInterfaceSetResetRrt5
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRatingInterface, MethodIRatingInterfaceSetResetRrt5, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,6 +151,10 @@ type RatingInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RatingInterfaceStub)(nil)
+
+func (s *RatingInterfaceStub) Descriptor() string {
+	return DescriptorIRatingInterface
+}
 
 func (s *RatingInterfaceStub) OnTransaction(
 	ctx context.Context,

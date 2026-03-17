@@ -20,19 +20,13 @@ func (s *Worklet) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.ComponentId)
-	if s.Tunings == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Tunings)))
-		for _, _item := range s.Tunings {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Tunings)
 	if s.Failures == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Failures)))
 		for _, _item := range s.Failures {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -59,19 +53,9 @@ func (s *Worklet) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Tunings, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Tunings = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Tunings[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -82,6 +66,9 @@ func (s *Worklet) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Failures = make([]SettingResult, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Failures[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

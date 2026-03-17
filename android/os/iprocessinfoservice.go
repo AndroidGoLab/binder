@@ -16,6 +16,11 @@ const (
 	TransactionIProcessInfoServiceGetProcessStatesAndOomScoresFromPids = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIProcessInfoServiceGetProcessStatesFromPids             = "getProcessStatesFromPids"
+	MethodIProcessInfoServiceGetProcessStatesAndOomScoresFromPids = "getProcessStatesAndOomScoresFromPids"
+)
+
 type IProcessInfoService interface {
 	AsBinder() binder.IBinder
 	GetProcessStatesFromPids(ctx context.Context, pids []int32, states []int32) error
@@ -23,17 +28,17 @@ type IProcessInfoService interface {
 }
 
 type ProcessInfoServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProcessInfoServiceProxy(
 	remote binder.IBinder,
 ) *ProcessInfoServiceProxy {
-	return &ProcessInfoServiceProxy{remote: remote}
+	return &ProcessInfoServiceProxy{Remote: remote}
 }
 
 func (p *ProcessInfoServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProcessInfoService = (*ProcessInfoServiceProxy)(nil)
@@ -54,12 +59,12 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesFromPids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessInfoService, "getProcessStatesFromPids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessInfoService, MethodIProcessInfoServiceGetProcessStatesFromPids)
 	if _err != nil {
-		_code = TransactionIProcessInfoServiceGetProcessStatesFromPids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessInfoService, MethodIProcessInfoServiceGetProcessStatesFromPids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +107,12 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessInfoService, "getProcessStatesAndOomScoresFromPids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessInfoService, MethodIProcessInfoServiceGetProcessStatesAndOomScoresFromPids)
 	if _err != nil {
-		_code = TransactionIProcessInfoServiceGetProcessStatesAndOomScoresFromPids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessInfoService, MethodIProcessInfoServiceGetProcessStatesAndOomScoresFromPids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,6 +158,10 @@ type ProcessInfoServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProcessInfoServiceStub)(nil)
+
+func (s *ProcessInfoServiceStub) Descriptor() string {
+	return DescriptorIProcessInfoService
+}
 
 func (s *ProcessInfoServiceStub) OnTransaction(
 	ctx context.Context,

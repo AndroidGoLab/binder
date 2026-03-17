@@ -18,6 +18,13 @@ const (
 	TransactionICallDiagnosticServiceAdapterOverrideDisconnectMessage = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICallDiagnosticServiceAdapterDisplayDiagnosticMessage  = "displayDiagnosticMessage"
+	MethodICallDiagnosticServiceAdapterClearDiagnosticMessage    = "clearDiagnosticMessage"
+	MethodICallDiagnosticServiceAdapterSendDeviceToDeviceMessage = "sendDeviceToDeviceMessage"
+	MethodICallDiagnosticServiceAdapterOverrideDisconnectMessage = "overrideDisconnectMessage"
+)
+
 type ICallDiagnosticServiceAdapter interface {
 	AsBinder() binder.IBinder
 	DisplayDiagnosticMessage(ctx context.Context, callId string, messageId int32, message interface{}) error
@@ -27,17 +34,17 @@ type ICallDiagnosticServiceAdapter interface {
 }
 
 type CallDiagnosticServiceAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallDiagnosticServiceAdapterProxy(
 	remote binder.IBinder,
 ) *CallDiagnosticServiceAdapterProxy {
-	return &CallDiagnosticServiceAdapterProxy{remote: remote}
+	return &CallDiagnosticServiceAdapterProxy{Remote: remote}
 }
 
 func (p *CallDiagnosticServiceAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallDiagnosticServiceAdapter = (*CallDiagnosticServiceAdapterProxy)(nil)
@@ -53,12 +60,12 @@ func (p *CallDiagnosticServiceAdapterProxy) DisplayDiagnosticMessage(
 	_data.WriteString16(callId)
 	_data.WriteInt32(messageId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "displayDiagnosticMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterDisplayDiagnosticMessage)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceAdapterDisplayDiagnosticMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterDisplayDiagnosticMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +79,12 @@ func (p *CallDiagnosticServiceAdapterProxy) ClearDiagnosticMessage(
 	_data.WriteString16(callId)
 	_data.WriteInt32(messageId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "clearDiagnosticMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterClearDiagnosticMessage)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceAdapterClearDiagnosticMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterClearDiagnosticMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +100,12 @@ func (p *CallDiagnosticServiceAdapterProxy) SendDeviceToDeviceMessage(
 	_data.WriteInt32(message)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "sendDeviceToDeviceMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterSendDeviceToDeviceMessage)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceAdapterSendDeviceToDeviceMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterSendDeviceToDeviceMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,12 +118,12 @@ func (p *CallDiagnosticServiceAdapterProxy) OverrideDisconnectMessage(
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticServiceAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "overrideDisconnectMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterOverrideDisconnectMessage)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceAdapterOverrideDisconnectMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticServiceAdapter, MethodICallDiagnosticServiceAdapterOverrideDisconnectMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,6 +134,10 @@ type CallDiagnosticServiceAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallDiagnosticServiceAdapterStub)(nil)
+
+func (s *CallDiagnosticServiceAdapterStub) Descriptor() string {
+	return DescriptorICallDiagnosticServiceAdapter
+}
 
 func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 	ctx context.Context,

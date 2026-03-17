@@ -15,23 +15,27 @@ const (
 	TransactionISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable = "dispatchSpatializerHeadTrackerAvailable"
+)
+
 type ISpatializerHeadTrackerAvailableCallback interface {
 	AsBinder() binder.IBinder
 	DispatchSpatializerHeadTrackerAvailable(ctx context.Context, available bool) error
 }
 
 type SpatializerHeadTrackerAvailableCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpatializerHeadTrackerAvailableCallbackProxy(
 	remote binder.IBinder,
 ) *SpatializerHeadTrackerAvailableCallbackProxy {
-	return &SpatializerHeadTrackerAvailableCallbackProxy{remote: remote}
+	return &SpatializerHeadTrackerAvailableCallbackProxy{Remote: remote}
 }
 
 func (p *SpatializerHeadTrackerAvailableCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpatializerHeadTrackerAvailableCallback = (*SpatializerHeadTrackerAvailableCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SpatializerHeadTrackerAvailableCallbackProxy) DispatchSpatializerHeadTr
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackerAvailableCallback)
 	_data.WriteBool(available)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackerAvailableCallback, "dispatchSpatializerHeadTrackerAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackerAvailableCallback, MethodISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable)
 	if _err != nil {
-		_code = TransactionISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerHeadTrackerAvailableCallback, MethodISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SpatializerHeadTrackerAvailableCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadTrackerAvailableCallbackStub)(nil)
+
+func (s *SpatializerHeadTrackerAvailableCallbackStub) Descriptor() string {
+	return DescriptorISpatializerHeadTrackerAvailableCallback
+}
 
 func (s *SpatializerHeadTrackerAvailableCallbackStub) OnTransaction(
 	ctx context.Context,

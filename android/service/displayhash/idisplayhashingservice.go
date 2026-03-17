@@ -21,6 +21,13 @@ const (
 	TransactionIDisplayHashingServiceGetIntervalBetweenRequestsMillis = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDisplayHashingServiceGenerateDisplayHash              = "generateDisplayHash"
+	MethodIDisplayHashingServiceVerifyDisplayHash                = "verifyDisplayHash"
+	MethodIDisplayHashingServiceGetDisplayHashAlgorithms         = "getDisplayHashAlgorithms"
+	MethodIDisplayHashingServiceGetIntervalBetweenRequestsMillis = "getIntervalBetweenRequestsMillis"
+)
+
 type IDisplayHashingService interface {
 	AsBinder() binder.IBinder
 	GenerateDisplayHash(ctx context.Context, salt []byte, buffer interface{}, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
@@ -30,17 +37,17 @@ type IDisplayHashingService interface {
 }
 
 type DisplayHashingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayHashingServiceProxy(
 	remote binder.IBinder,
 ) *DisplayHashingServiceProxy {
-	return &DisplayHashingServiceProxy{remote: remote}
+	return &DisplayHashingServiceProxy{Remote: remote}
 }
 
 func (p *DisplayHashingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayHashingService = (*DisplayHashingServiceProxy)(nil)
@@ -73,12 +80,12 @@ func (p *DisplayHashingServiceProxy) GenerateDisplayHash(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "generateDisplayHash")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayHashingService, MethodIDisplayHashingServiceGenerateDisplayHash)
 	if _err != nil {
-		_code = TransactionIDisplayHashingServiceGenerateDisplayHash
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayHashingService, MethodIDisplayHashingServiceGenerateDisplayHash, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +114,12 @@ func (p *DisplayHashingServiceProxy) VerifyDisplayHash(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "verifyDisplayHash")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayHashingService, MethodIDisplayHashingServiceVerifyDisplayHash)
 	if _err != nil {
-		_code = TransactionIDisplayHashingServiceVerifyDisplayHash
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayHashingService, MethodIDisplayHashingServiceVerifyDisplayHash, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,12 +134,12 @@ func (p *DisplayHashingServiceProxy) GetDisplayHashAlgorithms(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "getDisplayHashAlgorithms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayHashingService, MethodIDisplayHashingServiceGetDisplayHashAlgorithms)
 	if _err != nil {
-		_code = TransactionIDisplayHashingServiceGetDisplayHashAlgorithms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayHashingService, MethodIDisplayHashingServiceGetDisplayHashAlgorithms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,12 +154,12 @@ func (p *DisplayHashingServiceProxy) GetIntervalBetweenRequestsMillis(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "getIntervalBetweenRequestsMillis")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayHashingService, MethodIDisplayHashingServiceGetIntervalBetweenRequestsMillis)
 	if _err != nil {
-		_code = TransactionIDisplayHashingServiceGetIntervalBetweenRequestsMillis
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayHashingService, MethodIDisplayHashingServiceGetIntervalBetweenRequestsMillis, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,6 +170,10 @@ type DisplayHashingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayHashingServiceStub)(nil)
+
+func (s *DisplayHashingServiceStub) Descriptor() string {
+	return DescriptorIDisplayHashingService
+}
 
 func (s *DisplayHashingServiceStub) OnTransaction(
 	ctx context.Context,

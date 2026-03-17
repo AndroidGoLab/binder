@@ -15,23 +15,27 @@ const (
 	TransactionIEraserCallbackOnClassifierUpdate = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEraserCallbackOnClassifierUpdate = "onClassifierUpdate"
+)
+
 type IEraserCallback interface {
 	AsBinder() binder.IBinder
 	OnClassifierUpdate(ctx context.Context, soundSourceId int32, metadata ClassificationMetadataList) error
 }
 
 type EraserCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEraserCallbackProxy(
 	remote binder.IBinder,
 ) *EraserCallbackProxy {
-	return &EraserCallbackProxy{remote: remote}
+	return &EraserCallbackProxy{Remote: remote}
 }
 
 func (p *EraserCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEraserCallback = (*EraserCallbackProxy)(nil)
@@ -49,12 +53,12 @@ func (p *EraserCallbackProxy) OnClassifierUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEraserCallback, "onClassifierUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEraserCallback, MethodIEraserCallbackOnClassifierUpdate)
 	if _err != nil {
-		_code = TransactionIEraserCallbackOnClassifierUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEraserCallback, MethodIEraserCallbackOnClassifierUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type EraserCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EraserCallbackStub)(nil)
+
+func (s *EraserCallbackStub) Descriptor() string {
+	return DescriptorIEraserCallback
+}
 
 func (s *EraserCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -17,6 +17,11 @@ const (
 	TransactionITunerFrontendCallbackOnScanMessage = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITunerFrontendCallbackOnEvent       = "onEvent"
+	MethodITunerFrontendCallbackOnScanMessage = "onScanMessage"
+)
+
 type ITunerFrontendCallback interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, frontendEventType tvTuner.FrontendEventType) error
@@ -24,17 +29,17 @@ type ITunerFrontendCallback interface {
 }
 
 type TunerFrontendCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerFrontendCallbackProxy(
 	remote binder.IBinder,
 ) *TunerFrontendCallbackProxy {
-	return &TunerFrontendCallbackProxy{remote: remote}
+	return &TunerFrontendCallbackProxy{Remote: remote}
 }
 
 func (p *TunerFrontendCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerFrontendCallback = (*TunerFrontendCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *TunerFrontendCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorITunerFrontendCallback)
 	_data.WriteInt32(int32(frontendEventType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontendCallback, MethodITunerFrontendCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionITunerFrontendCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontendCallback, MethodITunerFrontendCallbackOnEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +83,12 @@ func (p *TunerFrontendCallbackProxy) OnScanMessage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendCallback, "onScanMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontendCallback, MethodITunerFrontendCallbackOnScanMessage)
 	if _err != nil {
-		_code = TransactionITunerFrontendCallbackOnScanMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontendCallback, MethodITunerFrontendCallbackOnScanMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,6 +108,10 @@ type TunerFrontendCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerFrontendCallbackStub)(nil)
+
+func (s *TunerFrontendCallbackStub) Descriptor() string {
+	return DescriptorITunerFrontendCallback
+}
 
 func (s *TunerFrontendCallbackStub) OnTransaction(
 	ctx context.Context,

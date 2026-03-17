@@ -25,6 +25,7 @@ func (s *VrrConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.FrameIntervalPowerHints)))
 		for _, _item := range s.FrameIntervalPowerHints {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -59,6 +60,9 @@ func (s *VrrConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.FrameIntervalPowerHints = make([]composer3VrrConfig.FrameIntervalPowerHint, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.FrameIntervalPowerHints[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

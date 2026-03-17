@@ -18,6 +18,12 @@ const (
 	TransactionIBluetoothAudioProviderFactoryGetProviderInfo         = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBluetoothAudioProviderFactoryGetProviderCapabilities = "getProviderCapabilities"
+	MethodIBluetoothAudioProviderFactoryOpenProvider            = "openProvider"
+	MethodIBluetoothAudioProviderFactoryGetProviderInfo         = "getProviderInfo"
+)
+
 type IBluetoothAudioProviderFactory interface {
 	AsBinder() binder.IBinder
 	GetProviderCapabilities(ctx context.Context, sessionType SessionType) ([]AudioCapabilities, error)
@@ -26,17 +32,17 @@ type IBluetoothAudioProviderFactory interface {
 }
 
 type BluetoothAudioProviderFactoryProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothAudioProviderFactoryProxy(
 	remote binder.IBinder,
 ) *BluetoothAudioProviderFactoryProxy {
-	return &BluetoothAudioProviderFactoryProxy{remote: remote}
+	return &BluetoothAudioProviderFactoryProxy{Remote: remote}
 }
 
 func (p *BluetoothAudioProviderFactoryProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothAudioProviderFactory = (*BluetoothAudioProviderFactoryProxy)(nil)
@@ -50,12 +56,12 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderCapabilities(
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
 	_data.WritePaddedByte(byte(sessionType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProviderFactory, "getProviderCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProviderFactory, MethodIBluetoothAudioProviderFactoryGetProviderCapabilities)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioProviderFactoryGetProviderCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioProviderFactory, MethodIBluetoothAudioProviderFactoryGetProviderCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,6 +79,9 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderCapabilities(
 	if _count >= 0 {
 		_result = make([]AudioCapabilities, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -90,12 +99,12 @@ func (p *BluetoothAudioProviderFactoryProxy) OpenProvider(
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
 	_data.WritePaddedByte(byte(sessionType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProviderFactory, "openProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProviderFactory, MethodIBluetoothAudioProviderFactoryOpenProvider)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioProviderFactoryOpenProvider
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioProviderFactory, MethodIBluetoothAudioProviderFactoryOpenProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -109,7 +118,7 @@ func (p *BluetoothAudioProviderFactoryProxy) OpenProvider(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBluetoothAudioProviderProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewBluetoothAudioProviderProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -122,12 +131,12 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderInfo(
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
 	_data.WritePaddedByte(byte(sessionType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProviderFactory, "getProviderInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioProviderFactory, MethodIBluetoothAudioProviderFactoryGetProviderInfo)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioProviderFactoryGetProviderInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioProviderFactory, MethodIBluetoothAudioProviderFactoryGetProviderInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,6 +165,10 @@ type BluetoothAudioProviderFactoryStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAudioProviderFactoryStub)(nil)
+
+func (s *BluetoothAudioProviderFactoryStub) Descriptor() string {
+	return DescriptorIBluetoothAudioProviderFactory
+}
 
 func (s *BluetoothAudioProviderFactoryStub) OnTransaction(
 	ctx context.Context,

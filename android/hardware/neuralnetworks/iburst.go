@@ -17,6 +17,12 @@ const (
 	TransactionIBurstExecuteSynchronouslyWithConfig = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBurstExecuteSynchronously           = "executeSynchronously"
+	MethodIBurstReleaseMemoryResource          = "releaseMemoryResource"
+	MethodIBurstExecuteSynchronouslyWithConfig = "executeSynchronouslyWithConfig"
+)
+
 type IBurst interface {
 	AsBinder() binder.IBinder
 	ExecuteSynchronously(ctx context.Context, request Request, memoryIdentifierTokens []int64, measureTiming bool, deadlineNs int64, loopTimeoutDurationNs int64) (ExecutionResult, error)
@@ -25,17 +31,17 @@ type IBurst interface {
 }
 
 type BurstProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBurstProxy(
 	remote binder.IBinder,
 ) *BurstProxy {
-	return &BurstProxy{remote: remote}
+	return &BurstProxy{Remote: remote}
 }
 
 func (p *BurstProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBurst = (*BurstProxy)(nil)
@@ -67,12 +73,12 @@ func (p *BurstProxy) ExecuteSynchronously(
 	_data.WriteInt64(deadlineNs)
 	_data.WriteInt64(loopTimeoutDurationNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBurst, "executeSynchronously")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBurst, MethodIBurstExecuteSynchronously)
 	if _err != nil {
-		_code = TransactionIBurstExecuteSynchronously
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBurst, MethodIBurstExecuteSynchronously, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,12 +108,12 @@ func (p *BurstProxy) ReleaseMemoryResource(
 	_data.WriteInterfaceToken(DescriptorIBurst)
 	_data.WriteInt64(memoryIdentifierToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBurst, "releaseMemoryResource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBurst, MethodIBurstReleaseMemoryResource)
 	if _err != nil {
-		_code = TransactionIBurstReleaseMemoryResource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBurst, MethodIBurstReleaseMemoryResource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,12 +154,12 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 	}
 	_data.WriteInt64(deadlineNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBurst, "executeSynchronouslyWithConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBurst, MethodIBurstExecuteSynchronouslyWithConfig)
 	if _err != nil {
-		_code = TransactionIBurstExecuteSynchronouslyWithConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBurst, MethodIBurstExecuteSynchronouslyWithConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,6 +188,10 @@ type BurstStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BurstStub)(nil)
+
+func (s *BurstStub) Descriptor() string {
+	return DescriptorIBurst
+}
 
 func (s *BurstStub) OnTransaction(
 	ctx context.Context,

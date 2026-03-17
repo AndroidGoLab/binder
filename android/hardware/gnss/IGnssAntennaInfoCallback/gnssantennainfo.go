@@ -30,6 +30,7 @@ func (s *GnssAntennaInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PhaseCenterVariationCorrectionMillimeters)))
 		for _, _item := range s.PhaseCenterVariationCorrectionMillimeters {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -40,6 +41,7 @@ func (s *GnssAntennaInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PhaseCenterVariationCorrectionUncertaintyMillimeters)))
 		for _, _item := range s.PhaseCenterVariationCorrectionUncertaintyMillimeters {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -50,6 +52,7 @@ func (s *GnssAntennaInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SignalGainCorrectionDbi)))
 		for _, _item := range s.SignalGainCorrectionDbi {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -60,6 +63,7 @@ func (s *GnssAntennaInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SignalGainCorrectionUncertaintyDbi)))
 		for _, _item := range s.SignalGainCorrectionUncertaintyDbi {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -95,6 +99,9 @@ func (s *GnssAntennaInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.PhaseCenterVariationCorrectionMillimeters = make([]Row, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PhaseCenterVariationCorrectionMillimeters[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -109,6 +116,9 @@ func (s *GnssAntennaInfo) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.PhaseCenterVariationCorrectionUncertaintyMillimeters = make([]Row, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PhaseCenterVariationCorrectionUncertaintyMillimeters[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -123,6 +133,9 @@ func (s *GnssAntennaInfo) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.SignalGainCorrectionDbi = make([]Row, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SignalGainCorrectionDbi[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -137,6 +150,9 @@ func (s *GnssAntennaInfo) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.SignalGainCorrectionUncertaintyDbi = make([]Row, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SignalGainCorrectionUncertaintyDbi[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

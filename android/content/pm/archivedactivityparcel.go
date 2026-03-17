@@ -24,22 +24,8 @@ func (s *ArchivedActivityParcel) MarshalParcel(
 	if _err := s.OriginalComponentName.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.IconBitmap == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.IconBitmap)))
-		for _, _item := range s.IconBitmap {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.MonochromeIconBitmap == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.MonochromeIconBitmap)))
-		for _, _item := range s.MonochromeIconBitmap {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.IconBitmap)
+	p.WriteByteArray(s.MonochromeIconBitmap)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -62,34 +48,14 @@ func (s *ArchivedActivityParcel) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.IconBitmap, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.IconBitmap = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.IconBitmap[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.MonochromeIconBitmap, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.MonochromeIconBitmap = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.MonochromeIconBitmap[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -19,20 +19,14 @@ func (s *P2pGoNegotiationReqEventParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.SrcAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SrcAddress)))
-		for _, _item := range s.SrcAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.SrcAddress, 6)
 	p.WriteInt32(int32(s.PasswordId))
 	if s.VendorData == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -51,19 +45,9 @@ func (s *P2pGoNegotiationReqEventParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.SrcAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.SrcAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.SrcAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_passwordIdRaw, _err := p.ReadInt32()
@@ -80,6 +64,9 @@ func (s *P2pGoNegotiationReqEventParams) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

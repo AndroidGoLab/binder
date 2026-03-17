@@ -16,6 +16,11 @@ const (
 	TransactionIVisualQueryRecognitionStatusListenerOnStopPerceiving  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVisualQueryRecognitionStatusListenerOnStartPerceiving = "onStartPerceiving"
+	MethodIVisualQueryRecognitionStatusListenerOnStopPerceiving  = "onStopPerceiving"
+)
+
 type IVisualQueryRecognitionStatusListener interface {
 	AsBinder() binder.IBinder
 	OnStartPerceiving(ctx context.Context) error
@@ -23,17 +28,17 @@ type IVisualQueryRecognitionStatusListener interface {
 }
 
 type VisualQueryRecognitionStatusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVisualQueryRecognitionStatusListenerProxy(
 	remote binder.IBinder,
 ) *VisualQueryRecognitionStatusListenerProxy {
-	return &VisualQueryRecognitionStatusListenerProxy{remote: remote}
+	return &VisualQueryRecognitionStatusListenerProxy{Remote: remote}
 }
 
 func (p *VisualQueryRecognitionStatusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVisualQueryRecognitionStatusListener = (*VisualQueryRecognitionStatusListenerProxy)(nil)
@@ -44,12 +49,12 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStartPerceiving(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryRecognitionStatusListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryRecognitionStatusListener, "onStartPerceiving")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryRecognitionStatusListener, MethodIVisualQueryRecognitionStatusListenerOnStartPerceiving)
 	if _err != nil {
-		_code = TransactionIVisualQueryRecognitionStatusListenerOnStartPerceiving
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVisualQueryRecognitionStatusListener, MethodIVisualQueryRecognitionStatusListenerOnStartPerceiving, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStopPerceiving(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryRecognitionStatusListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryRecognitionStatusListener, "onStopPerceiving")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryRecognitionStatusListener, MethodIVisualQueryRecognitionStatusListenerOnStopPerceiving)
 	if _err != nil {
-		_code = TransactionIVisualQueryRecognitionStatusListenerOnStopPerceiving
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVisualQueryRecognitionStatusListener, MethodIVisualQueryRecognitionStatusListenerOnStopPerceiving, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type VisualQueryRecognitionStatusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VisualQueryRecognitionStatusListenerStub)(nil)
+
+func (s *VisualQueryRecognitionStatusListenerStub) Descriptor() string {
+	return DescriptorIVisualQueryRecognitionStatusListener
+}
 
 func (s *VisualQueryRecognitionStatusListenerStub) OnTransaction(
 	ctx context.Context,

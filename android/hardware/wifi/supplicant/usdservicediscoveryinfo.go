@@ -24,31 +24,10 @@ func (s *UsdServiceDiscoveryInfo) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.OwnId)
 	p.WriteInt32(s.PeerId)
-	if s.PeerMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerMacAddress)))
-		for _, _item := range s.PeerMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.MatchFilter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.MatchFilter)))
-		for _, _item := range s.MatchFilter {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerMacAddress, 6)
+	p.WriteByteArray(s.MatchFilter)
 	p.WriteInt32(int32(s.ProtoType))
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceSpecificInfo)
 	p.WriteBool(s.IsFsd)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -73,34 +52,14 @@ func (s *UsdServiceDiscoveryInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.MatchFilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.MatchFilter = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.MatchFilter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_protoTypeRaw, _err := p.ReadInt32()
@@ -109,19 +68,9 @@ func (s *UsdServiceDiscoveryInfo) UnmarshalParcel(
 	}
 	s.ProtoType = UsdServiceProtoType(_protoTypeRaw)
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.IsFsd, _err = p.ReadBool()

@@ -23,6 +23,18 @@ const (
 	TransactionISapTransferCardReaderStatusReq = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodISapApduReq                     = "apduReq"
+	MethodISapConnectReq                  = "connectReq"
+	MethodISapDisconnectReq               = "disconnectReq"
+	MethodISapPowerReq                    = "powerReq"
+	MethodISapResetSimReq                 = "resetSimReq"
+	MethodISapSetCallback                 = "setCallback"
+	MethodISapSetTransferProtocolReq      = "setTransferProtocolReq"
+	MethodISapTransferAtrReq              = "transferAtrReq"
+	MethodISapTransferCardReaderStatusReq = "transferCardReaderStatusReq"
+)
+
 type ISap interface {
 	AsBinder() binder.IBinder
 	ApduReq(ctx context.Context, serial int32, type_ SapApduType, command []byte) error
@@ -37,17 +49,17 @@ type ISap interface {
 }
 
 type SapProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSapProxy(
 	remote binder.IBinder,
 ) *SapProxy {
-	return &SapProxy{remote: remote}
+	return &SapProxy{Remote: remote}
 }
 
 func (p *SapProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISap = (*SapProxy)(nil)
@@ -71,12 +83,12 @@ func (p *SapProxy) ApduReq(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "apduReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapApduReq)
 	if _err != nil {
-		_code = TransactionISapApduReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapApduReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +102,12 @@ func (p *SapProxy) ConnectReq(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(maxMsgSizeBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "connectReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapConnectReq)
 	if _err != nil {
-		_code = TransactionISapConnectReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapConnectReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +119,12 @@ func (p *SapProxy) DisconnectReq(
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "disconnectReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapDisconnectReq)
 	if _err != nil {
-		_code = TransactionISapDisconnectReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapDisconnectReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +138,12 @@ func (p *SapProxy) PowerReq(
 	_data.WriteInt32(serial)
 	_data.WriteBool(powerOn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "powerReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapPowerReq)
 	if _err != nil {
-		_code = TransactionISapPowerReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapPowerReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,12 +155,12 @@ func (p *SapProxy) ResetSimReq(
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "resetSimReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapResetSimReq)
 	if _err != nil {
-		_code = TransactionISapResetSimReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapResetSimReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,14 +170,14 @@ func (p *SapProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISap)
-	binder.WriteBinderToParcel(ctx, _data, sapCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sapCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapSetCallback)
 	if _err != nil {
-		_code = TransactionISapSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapSetCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,12 +191,12 @@ func (p *SapProxy) SetTransferProtocolReq(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(transferProtocol))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "setTransferProtocolReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapSetTransferProtocolReq)
 	if _err != nil {
-		_code = TransactionISapSetTransferProtocolReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapSetTransferProtocolReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,12 +208,12 @@ func (p *SapProxy) TransferAtrReq(
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "transferAtrReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapTransferAtrReq)
 	if _err != nil {
-		_code = TransactionISapTransferAtrReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapTransferAtrReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,12 +225,12 @@ func (p *SapProxy) TransferCardReaderStatusReq(
 	_data.WriteInterfaceToken(DescriptorISap)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISap, "transferCardReaderStatusReq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISap, MethodISapTransferCardReaderStatusReq)
 	if _err != nil {
-		_code = TransactionISapTransferCardReaderStatusReq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISap, MethodISapTransferCardReaderStatusReq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -229,6 +241,10 @@ type SapStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SapStub)(nil)
+
+func (s *SapStub) Descriptor() string {
+	return DescriptorISap
+}
 
 func (s *SapStub) OnTransaction(
 	ctx context.Context,

@@ -24,6 +24,19 @@ const (
 	TransactionISupplicantP2pNetworkSetClientList    = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodISupplicantP2pNetworkGetBssid         = "getBssid"
+	MethodISupplicantP2pNetworkGetClientList    = "getClientList"
+	MethodISupplicantP2pNetworkGetId            = "getId"
+	MethodISupplicantP2pNetworkGetInterfaceName = "getInterfaceName"
+	MethodISupplicantP2pNetworkGetSsid          = "getSsid"
+	MethodISupplicantP2pNetworkGetType          = "getType"
+	MethodISupplicantP2pNetworkIsCurrent        = "isCurrent"
+	MethodISupplicantP2pNetworkIsGroupOwner     = "isGroupOwner"
+	MethodISupplicantP2pNetworkIsPersistent     = "isPersistent"
+	MethodISupplicantP2pNetworkSetClientList    = "setClientList"
+)
+
 type ISupplicantP2pNetwork interface {
 	AsBinder() binder.IBinder
 	GetBssid(ctx context.Context) ([]byte, error)
@@ -39,17 +52,17 @@ type ISupplicantP2pNetwork interface {
 }
 
 type SupplicantP2pNetworkProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantP2pNetworkProxy(
 	remote binder.IBinder,
 ) *SupplicantP2pNetworkProxy {
-	return &SupplicantP2pNetworkProxy{remote: remote}
+	return &SupplicantP2pNetworkProxy{Remote: remote}
 }
 
 func (p *SupplicantP2pNetworkProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicantP2pNetwork = (*SupplicantP2pNetworkProxy)(nil)
@@ -61,12 +74,12 @@ func (p *SupplicantP2pNetworkProxy) GetBssid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getBssid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetBssid)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkGetBssid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetBssid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,12 +113,12 @@ func (p *SupplicantP2pNetworkProxy) GetClientList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getClientList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetClientList)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkGetClientList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetClientList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,6 +136,9 @@ func (p *SupplicantP2pNetworkProxy) GetClientList(
 	if _count >= 0 {
 		_result = make([]MacAddress, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -138,12 +154,12 @@ func (p *SupplicantP2pNetworkProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetId)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkGetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,12 +183,12 @@ func (p *SupplicantP2pNetworkProxy) GetInterfaceName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getInterfaceName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetInterfaceName)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkGetInterfaceName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetInterfaceName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,12 +212,12 @@ func (p *SupplicantP2pNetworkProxy) GetSsid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getSsid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetSsid)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkGetSsid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetSsid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -235,12 +251,12 @@ func (p *SupplicantP2pNetworkProxy) GetType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetType)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkGetType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkGetType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -265,12 +281,12 @@ func (p *SupplicantP2pNetworkProxy) IsCurrent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "isCurrent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsCurrent)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkIsCurrent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsCurrent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -294,12 +310,12 @@ func (p *SupplicantP2pNetworkProxy) IsGroupOwner(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "isGroupOwner")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsGroupOwner)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkIsGroupOwner
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsGroupOwner, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -323,12 +339,12 @@ func (p *SupplicantP2pNetworkProxy) IsPersistent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pNetwork)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "isPersistent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsPersistent)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkIsPersistent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkIsPersistent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -356,18 +372,19 @@ func (p *SupplicantP2pNetworkProxy) SetClientList(
 	} else {
 		_data.WriteInt32(int32(len(clients)))
 		for _, _item := range clients {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "setClientList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkSetClientList)
 	if _err != nil {
-		_code = TransactionISupplicantP2pNetworkSetClientList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pNetwork, MethodISupplicantP2pNetworkSetClientList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -387,6 +404,10 @@ type SupplicantP2pNetworkStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantP2pNetworkStub)(nil)
+
+func (s *SupplicantP2pNetworkStub) Descriptor() string {
+	return DescriptorISupplicantP2pNetwork
+}
 
 func (s *SupplicantP2pNetworkStub) OnTransaction(
 	ctx context.Context,

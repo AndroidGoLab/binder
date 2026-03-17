@@ -20,25 +20,11 @@ func (s *P2pUsdBasedServiceDiscoveryResultParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.PeerMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerMacAddress)))
-		for _, _item := range s.PeerMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerMacAddress, 6)
 	p.WriteInt32(s.SessionId)
 	p.WriteInt32(s.PeerSessionId)
 	p.WriteInt32(s.ServiceProtocolType)
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceSpecificInfo)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -52,19 +38,9 @@ func (s *P2pUsdBasedServiceDiscoveryResultParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.SessionId, _err = p.ReadInt32()
@@ -82,19 +58,9 @@ func (s *P2pUsdBasedServiceDiscoveryResultParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

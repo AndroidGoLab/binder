@@ -21,6 +21,16 @@ const (
 	TransactionIVolumeControllerDisplayCsdWarning        = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIVolumeControllerDisplaySafeVolumeWarning = "displaySafeVolumeWarning"
+	MethodIVolumeControllerVolumeChanged            = "volumeChanged"
+	MethodIVolumeControllerMasterMuteChanged        = "masterMuteChanged"
+	MethodIVolumeControllerSetLayoutDirection       = "setLayoutDirection"
+	MethodIVolumeControllerDismiss                  = "dismiss"
+	MethodIVolumeControllerSetA11yMode              = "setA11yMode"
+	MethodIVolumeControllerDisplayCsdWarning        = "displayCsdWarning"
+)
+
 type IVolumeController interface {
 	AsBinder() binder.IBinder
 	DisplaySafeVolumeWarning(ctx context.Context, flags int32) error
@@ -33,17 +43,17 @@ type IVolumeController interface {
 }
 
 type VolumeControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVolumeControllerProxy(
 	remote binder.IBinder,
 ) *VolumeControllerProxy {
-	return &VolumeControllerProxy{remote: remote}
+	return &VolumeControllerProxy{Remote: remote}
 }
 
 func (p *VolumeControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVolumeController = (*VolumeControllerProxy)(nil)
@@ -56,12 +66,12 @@ func (p *VolumeControllerProxy) DisplaySafeVolumeWarning(
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "displaySafeVolumeWarning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerDisplaySafeVolumeWarning)
 	if _err != nil {
-		_code = TransactionIVolumeControllerDisplaySafeVolumeWarning
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerDisplaySafeVolumeWarning, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +85,12 @@ func (p *VolumeControllerProxy) VolumeChanged(
 	_data.WriteInt32(streamType)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "volumeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerVolumeChanged)
 	if _err != nil {
-		_code = TransactionIVolumeControllerVolumeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerVolumeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +102,12 @@ func (p *VolumeControllerProxy) MasterMuteChanged(
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "masterMuteChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerMasterMuteChanged)
 	if _err != nil {
-		_code = TransactionIVolumeControllerMasterMuteChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerMasterMuteChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +119,12 @@ func (p *VolumeControllerProxy) SetLayoutDirection(
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(layoutDirection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "setLayoutDirection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerSetLayoutDirection)
 	if _err != nil {
-		_code = TransactionIVolumeControllerSetLayoutDirection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerSetLayoutDirection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,12 +134,12 @@ func (p *VolumeControllerProxy) Dismiss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "dismiss")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerDismiss)
 	if _err != nil {
-		_code = TransactionIVolumeControllerDismiss
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerDismiss, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,12 +151,12 @@ func (p *VolumeControllerProxy) SetA11yMode(
 	_data.WriteInterfaceToken(DescriptorIVolumeController)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "setA11yMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerSetA11yMode)
 	if _err != nil {
-		_code = TransactionIVolumeControllerSetA11yMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerSetA11yMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,12 +170,12 @@ func (p *VolumeControllerProxy) DisplayCsdWarning(
 	_data.WriteInt32(warning)
 	_data.WriteInt32(displayDurationMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "displayCsdWarning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVolumeController, MethodIVolumeControllerDisplayCsdWarning)
 	if _err != nil {
-		_code = TransactionIVolumeControllerDisplayCsdWarning
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVolumeController, MethodIVolumeControllerDisplayCsdWarning, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,6 +186,10 @@ type VolumeControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VolumeControllerStub)(nil)
+
+func (s *VolumeControllerStub) Descriptor() string {
+	return DescriptorIVolumeController
+}
 
 func (s *VolumeControllerStub) OnTransaction(
 	ctx context.Context,

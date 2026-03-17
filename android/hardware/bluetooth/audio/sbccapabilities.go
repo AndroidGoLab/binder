@@ -39,22 +39,8 @@ func (s *SbcCapabilities) MarshalParcel(
 			p.WritePaddedByte(byte(_item))
 		}
 	}
-	if s.BlockLength == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BlockLength)))
-		for _, _item := range s.BlockLength {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.NumSubbands == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.NumSubbands)))
-		for _, _item := range s.NumSubbands {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.BlockLength)
+	p.WriteByteArray(s.NumSubbands)
 	if s.AllocMethod == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -63,14 +49,7 @@ func (s *SbcCapabilities) MarshalParcel(
 			p.WritePaddedByte(byte(_item))
 		}
 	}
-	if s.BitsPerSample == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BitsPerSample)))
-		for _, _item := range s.BitsPerSample {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.BitsPerSample)
 	p.WriteInt32(s.MinBitpool)
 	p.WriteInt32(s.MaxBitpool)
 
@@ -117,34 +96,14 @@ func (s *SbcCapabilities) UnmarshalParcel(
 		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.BlockLength, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.BlockLength = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.BlockLength[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.NumSubbands, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.NumSubbands = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.NumSubbands[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count4 int32
@@ -163,19 +122,9 @@ func (s *SbcCapabilities) UnmarshalParcel(
 		}
 	}
 
-	var _count5 int32
-	_count5, _err = p.ReadInt32()
+	s.BitsPerSample, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count5 >= 0 {
-		s.BitsPerSample = make([]byte, _count5)
-		for _i := int32(0); _i < _count5; _i++ {
-			s.BitsPerSample[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.MinBitpool, _err = p.ReadInt32()

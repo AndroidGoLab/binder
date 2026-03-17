@@ -17,6 +17,12 @@ const (
 	TransactionIAccountAuthenticatorResponseOnError            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIAccountAuthenticatorResponseOnResult           = "onResult"
+	MethodIAccountAuthenticatorResponseOnRequestContinued = "onRequestContinued"
+	MethodIAccountAuthenticatorResponseOnError            = "onError"
+)
+
 type IAccountAuthenticatorResponse interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, value interface{}) error
@@ -25,17 +31,17 @@ type IAccountAuthenticatorResponse interface {
 }
 
 type AccountAuthenticatorResponseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccountAuthenticatorResponseProxy(
 	remote binder.IBinder,
 ) *AccountAuthenticatorResponseProxy {
-	return &AccountAuthenticatorResponseProxy{remote: remote}
+	return &AccountAuthenticatorResponseProxy{Remote: remote}
 }
 
 func (p *AccountAuthenticatorResponseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccountAuthenticatorResponse = (*AccountAuthenticatorResponseProxy)(nil)
@@ -47,12 +53,12 @@ func (p *AccountAuthenticatorResponseProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnResult)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorResponseOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,12 +68,12 @@ func (p *AccountAuthenticatorResponseProxy) OnRequestContinued(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onRequestContinued")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnRequestContinued)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorResponseOnRequestContinued
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnRequestContinued, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +87,12 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnError)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorResponseOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticatorResponse, MethodIAccountAuthenticatorResponseOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,6 +103,10 @@ type AccountAuthenticatorResponseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccountAuthenticatorResponseStub)(nil)
+
+func (s *AccountAuthenticatorResponseStub) Descriptor() string {
+	return DescriptorIAccountAuthenticatorResponse
+}
 
 func (s *AccountAuthenticatorResponseStub) OnTransaction(
 	ctx context.Context,

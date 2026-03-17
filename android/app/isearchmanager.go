@@ -21,6 +21,15 @@ const (
 	TransactionISearchManagerLaunchAssist                 = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodISearchManagerGetSearchableInfo            = "getSearchableInfo"
+	MethodISearchManagerGetSearchablesInGlobalSearch = "getSearchablesInGlobalSearch"
+	MethodISearchManagerGetGlobalSearchActivities    = "getGlobalSearchActivities"
+	MethodISearchManagerGetGlobalSearchActivity      = "getGlobalSearchActivity"
+	MethodISearchManagerGetWebSearchActivity         = "getWebSearchActivity"
+	MethodISearchManagerLaunchAssist                 = "launchAssist"
+)
+
 type ISearchManager interface {
 	AsBinder() binder.IBinder
 	GetSearchableInfo(ctx context.Context, launchActivity content.ComponentName) (SearchableInfo, error)
@@ -32,17 +41,17 @@ type ISearchManager interface {
 }
 
 type SearchManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSearchManagerProxy(
 	remote binder.IBinder,
 ) *SearchManagerProxy {
-	return &SearchManagerProxy{remote: remote}
+	return &SearchManagerProxy{Remote: remote}
 }
 
 func (p *SearchManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISearchManager = (*SearchManagerProxy)(nil)
@@ -59,12 +68,12 @@ func (p *SearchManagerProxy) GetSearchableInfo(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getSearchableInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetSearchableInfo)
 	if _err != nil {
-		_code = TransactionISearchManagerGetSearchableInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManager, MethodISearchManagerGetSearchableInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +102,12 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getSearchablesInGlobalSearch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetSearchablesInGlobalSearch)
 	if _err != nil {
-		_code = TransactionISearchManagerGetSearchablesInGlobalSearch
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManager, MethodISearchManagerGetSearchablesInGlobalSearch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,6 +125,9 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 	if _count >= 0 {
 		_result = make([]SearchableInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -131,12 +143,12 @@ func (p *SearchManagerProxy) GetGlobalSearchActivities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getGlobalSearchActivities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetGlobalSearchActivities)
 	if _err != nil {
-		_code = TransactionISearchManagerGetGlobalSearchActivities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManager, MethodISearchManagerGetGlobalSearchActivities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,12 +178,12 @@ func (p *SearchManagerProxy) GetGlobalSearchActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getGlobalSearchActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetGlobalSearchActivity)
 	if _err != nil {
-		_code = TransactionISearchManagerGetGlobalSearchActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManager, MethodISearchManagerGetGlobalSearchActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -200,12 +212,12 @@ func (p *SearchManagerProxy) GetWebSearchActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getWebSearchActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerGetWebSearchActivity)
 	if _err != nil {
-		_code = TransactionISearchManagerGetWebSearchActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManager, MethodISearchManagerGetWebSearchActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -231,17 +243,17 @@ func (p *SearchManagerProxy) LaunchAssist(
 	ctx context.Context,
 	args interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "launchAssist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManager, MethodISearchManagerLaunchAssist)
 	if _err != nil {
-		_code = TransactionISearchManagerLaunchAssist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManager, MethodISearchManagerLaunchAssist, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -261,6 +273,10 @@ type SearchManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SearchManagerStub)(nil)
+
+func (s *SearchManagerStub) Descriptor() string {
+	return DescriptorISearchManager
+}
 
 func (s *SearchManagerStub) OnTransaction(
 	ctx context.Context,

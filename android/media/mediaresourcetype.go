@@ -5,15 +5,11 @@ package media
 type MediaResourceType int32
 
 const (
-	MediaResourceTypeKUnspecified       MediaResourceType = 0
-	MediaResourceTypeKSecureCodec       MediaResourceType = 1
-	MediaResourceTypeKNonSecureCodec    MediaResourceType = 2
-	MediaResourceTypeKGraphicMemory     MediaResourceType = 3
-	MediaResourceTypeKCpuBoost          MediaResourceType = 4
-	MediaResourceTypeKBattery           MediaResourceType = 5
-	MediaResourceTypeKDrmSession        MediaResourceType = 6
-	MediaResourceTypeKSwResourceTypeMin MediaResourceType = 4096
-	MediaResourceTypeKSwResourceTypeMax MediaResourceType = 8191
-	MediaResourceTypeKHwResourceTypeMin MediaResourceType = 8192
-	MediaResourceTypeKHwResourceTypeMax MediaResourceType = 12287
+	MediaResourceTypeKUnspecified    MediaResourceType = 0
+	MediaResourceTypeKSecureCodec    MediaResourceType = 1
+	MediaResourceTypeKNonSecureCodec MediaResourceType = 2
+	MediaResourceTypeKGraphicMemory  MediaResourceType = 3
+	MediaResourceTypeKCpuBoost       MediaResourceType = 4
+	MediaResourceTypeKBattery        MediaResourceType = 5
+	MediaResourceTypeKDrmSession     MediaResourceType = 6
 )

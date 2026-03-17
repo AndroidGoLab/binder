@@ -17,6 +17,12 @@ const (
 	TransactionIRegistrationStoreUpgradedKeyAsync = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRegistrationGetKey                = "getKey"
+	MethodIRegistrationCancelGetKey          = "cancelGetKey"
+	MethodIRegistrationStoreUpgradedKeyAsync = "storeUpgradedKeyAsync"
+)
+
 type IRegistration interface {
 	AsBinder() binder.IBinder
 	GetKey(ctx context.Context, keyId int32, callback IGetKeyCallback) error
@@ -25,17 +31,17 @@ type IRegistration interface {
 }
 
 type RegistrationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRegistrationProxy(
 	remote binder.IBinder,
 ) *RegistrationProxy {
-	return &RegistrationProxy{remote: remote}
+	return &RegistrationProxy{Remote: remote}
 }
 
 func (p *RegistrationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRegistration = (*RegistrationProxy)(nil)
@@ -48,14 +54,14 @@ func (p *RegistrationProxy) GetKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
 	_data.WriteInt32(keyId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegistration, "getKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationGetKey)
 	if _err != nil {
-		_code = TransactionIRegistrationGetKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRegistration, MethodIRegistrationGetKey, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,14 +71,14 @@ func (p *RegistrationProxy) CancelGetKey(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRegistration)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegistration, "cancelGetKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationCancelGetKey)
 	if _err != nil {
-		_code = TransactionIRegistrationCancelGetKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRegistration, MethodIRegistrationCancelGetKey, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,14 +106,14 @@ func (p *RegistrationProxy) StoreUpgradedKeyAsync(
 			_data.WritePaddedByte(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegistration, "storeUpgradedKeyAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegistration, MethodIRegistrationStoreUpgradedKeyAsync)
 	if _err != nil {
-		_code = TransactionIRegistrationStoreUpgradedKeyAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRegistration, MethodIRegistrationStoreUpgradedKeyAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,6 +124,10 @@ type RegistrationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RegistrationStub)(nil)
+
+func (s *RegistrationStub) Descriptor() string {
+	return DescriptorIRegistration
+}
 
 func (s *RegistrationStub) OnTransaction(
 	ctx context.Context,

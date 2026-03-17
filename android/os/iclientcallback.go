@@ -15,23 +15,27 @@ const (
 	TransactionIClientCallbackOnClients = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIClientCallbackOnClients = "onClients"
+)
+
 type IClientCallback interface {
 	AsBinder() binder.IBinder
 	OnClients(ctx context.Context, registered binder.IBinder, hasClients bool) error
 }
 
 type ClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewClientCallbackProxy(
 	remote binder.IBinder,
 ) *ClientCallbackProxy {
-	return &ClientCallbackProxy{remote: remote}
+	return &ClientCallbackProxy{Remote: remote}
 }
 
 func (p *ClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IClientCallback = (*ClientCallbackProxy)(nil)
@@ -43,15 +47,15 @@ func (p *ClientCallbackProxy) OnClients(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientCallback)
-	binder.WriteBinderToParcel(ctx, _data, registered, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, registered, p.Remote.Transport())
 	_data.WriteBool(hasClients)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientCallback, "onClients")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientCallback, MethodIClientCallbackOnClients)
 	if _err != nil {
-		_code = TransactionIClientCallbackOnClients
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIClientCallback, MethodIClientCallbackOnClients, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type ClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ClientCallbackStub)(nil)
+
+func (s *ClientCallbackStub) Descriptor() string {
+	return DescriptorIClientCallback
+}
 
 func (s *ClientCallbackStub) OnTransaction(
 	ctx context.Context,

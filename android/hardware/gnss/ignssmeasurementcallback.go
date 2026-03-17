@@ -15,23 +15,27 @@ const (
 	TransactionIGnssMeasurementCallbackGnssMeasurementCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssMeasurementCallbackGnssMeasurementCb = "gnssMeasurementCb"
+)
+
 type IGnssMeasurementCallback interface {
 	AsBinder() binder.IBinder
 	GnssMeasurementCb(ctx context.Context, data GnssData) error
 }
 
 type GnssMeasurementCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssMeasurementCallbackProxy(
 	remote binder.IBinder,
 ) *GnssMeasurementCallbackProxy {
-	return &GnssMeasurementCallbackProxy{remote: remote}
+	return &GnssMeasurementCallbackProxy{Remote: remote}
 }
 
 func (p *GnssMeasurementCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssMeasurementCallback = (*GnssMeasurementCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *GnssMeasurementCallbackProxy) GnssMeasurementCb(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementCallback, "gnssMeasurementCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementCallback, MethodIGnssMeasurementCallbackGnssMeasurementCb)
 	if _err != nil {
-		_code = TransactionIGnssMeasurementCallbackGnssMeasurementCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssMeasurementCallback, MethodIGnssMeasurementCallbackGnssMeasurementCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,6 +76,10 @@ type GnssMeasurementCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssMeasurementCallbackStub)(nil)
+
+func (s *GnssMeasurementCallbackStub) Descriptor() string {
+	return DescriptorIGnssMeasurementCallback
+}
 
 func (s *GnssMeasurementCallbackStub) OnTransaction(
 	ctx context.Context,

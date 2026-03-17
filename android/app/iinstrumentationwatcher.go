@@ -17,6 +17,11 @@ const (
 	TransactionIInstrumentationWatcherInstrumentationFinished = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInstrumentationWatcherInstrumentationStatus   = "instrumentationStatus"
+	MethodIInstrumentationWatcherInstrumentationFinished = "instrumentationFinished"
+)
+
 type IInstrumentationWatcher interface {
 	AsBinder() binder.IBinder
 	InstrumentationStatus(ctx context.Context, name content.ComponentName, resultCode int32, results interface{}) error
@@ -24,17 +29,17 @@ type IInstrumentationWatcher interface {
 }
 
 type InstrumentationWatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInstrumentationWatcherProxy(
 	remote binder.IBinder,
 ) *InstrumentationWatcherProxy {
-	return &InstrumentationWatcherProxy{remote: remote}
+	return &InstrumentationWatcherProxy{Remote: remote}
 }
 
 func (p *InstrumentationWatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInstrumentationWatcher = (*InstrumentationWatcherProxy)(nil)
@@ -53,12 +58,12 @@ func (p *InstrumentationWatcherProxy) InstrumentationStatus(
 	}
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInstrumentationWatcher, "instrumentationStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationStatus)
 	if _err != nil {
-		_code = TransactionIInstrumentationWatcherInstrumentationStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -85,12 +90,12 @@ func (p *InstrumentationWatcherProxy) InstrumentationFinished(
 	}
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInstrumentationWatcher, "instrumentationFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationFinished)
 	if _err != nil {
-		_code = TransactionIInstrumentationWatcherInstrumentationFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInstrumentationWatcher, MethodIInstrumentationWatcherInstrumentationFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,6 +115,10 @@ type InstrumentationWatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InstrumentationWatcherStub)(nil)
+
+func (s *InstrumentationWatcherStub) Descriptor() string {
+	return DescriptorIInstrumentationWatcher
+}
 
 func (s *InstrumentationWatcherStub) OnTransaction(
 	ctx context.Context,

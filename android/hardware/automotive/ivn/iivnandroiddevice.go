@@ -20,6 +20,15 @@ const (
 	TransactionIIvnAndroidDeviceGetEndpointInfoForDevice   = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIIvnAndroidDeviceGetMyDeviceId              = "getMyDeviceId"
+	MethodIIvnAndroidDeviceGetOtherDeviceIds          = "getOtherDeviceIds"
+	MethodIIvnAndroidDeviceGetDeviceIdForOccupantZone = "getDeviceIdForOccupantZone"
+	MethodIIvnAndroidDeviceGetOccupantZonesForDevice  = "getOccupantZonesForDevice"
+	MethodIIvnAndroidDeviceGetMyEndpointInfo          = "getMyEndpointInfo"
+	MethodIIvnAndroidDeviceGetEndpointInfoForDevice   = "getEndpointInfoForDevice"
+)
+
 type IIvnAndroidDevice interface {
 	AsBinder() binder.IBinder
 	GetMyDeviceId(ctx context.Context) (int32, error)
@@ -31,17 +40,17 @@ type IIvnAndroidDevice interface {
 }
 
 type IvnAndroidDeviceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIvnAndroidDeviceProxy(
 	remote binder.IBinder,
 ) *IvnAndroidDeviceProxy {
-	return &IvnAndroidDeviceProxy{remote: remote}
+	return &IvnAndroidDeviceProxy{Remote: remote}
 }
 
 func (p *IvnAndroidDeviceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIvnAndroidDevice = (*IvnAndroidDeviceProxy)(nil)
@@ -53,12 +62,12 @@ func (p *IvnAndroidDeviceProxy) GetMyDeviceId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIvnAndroidDevice, "getMyDeviceId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetMyDeviceId)
 	if _err != nil {
-		_code = TransactionIIvnAndroidDeviceGetMyDeviceId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetMyDeviceId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +91,12 @@ func (p *IvnAndroidDeviceProxy) GetOtherDeviceIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIvnAndroidDevice, "getOtherDeviceIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOtherDeviceIds)
 	if _err != nil {
-		_code = TransactionIIvnAndroidDeviceGetOtherDeviceIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOtherDeviceIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,12 +132,12 @@ func (p *IvnAndroidDeviceProxy) GetDeviceIdForOccupantZone(
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 	_data.WriteInt32(zoneId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIvnAndroidDevice, "getDeviceIdForOccupantZone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetDeviceIdForOccupantZone)
 	if _err != nil {
-		_code = TransactionIIvnAndroidDeviceGetDeviceIdForOccupantZone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetDeviceIdForOccupantZone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -154,12 +163,12 @@ func (p *IvnAndroidDeviceProxy) GetOccupantZonesForDevice(
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 	_data.WriteInt32(androidDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIvnAndroidDevice, "getOccupantZonesForDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOccupantZonesForDevice)
 	if _err != nil {
-		_code = TransactionIIvnAndroidDeviceGetOccupantZonesForDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetOccupantZonesForDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -177,6 +186,9 @@ func (p *IvnAndroidDeviceProxy) GetOccupantZonesForDevice(
 	if _count >= 0 {
 		_result = make([]OccupantZoneInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -192,12 +204,12 @@ func (p *IvnAndroidDeviceProxy) GetMyEndpointInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIvnAndroidDevice, "getMyEndpointInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetMyEndpointInfo)
 	if _err != nil {
-		_code = TransactionIIvnAndroidDeviceGetMyEndpointInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetMyEndpointInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,12 +240,12 @@ func (p *IvnAndroidDeviceProxy) GetEndpointInfoForDevice(
 	_data.WriteInterfaceToken(DescriptorIIvnAndroidDevice)
 	_data.WriteInt32(androidDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIvnAndroidDevice, "getEndpointInfoForDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetEndpointInfoForDevice)
 	if _err != nil {
-		_code = TransactionIIvnAndroidDeviceGetEndpointInfoForDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIvnAndroidDevice, MethodIIvnAndroidDeviceGetEndpointInfoForDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -262,6 +274,10 @@ type IvnAndroidDeviceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IvnAndroidDeviceStub)(nil)
+
+func (s *IvnAndroidDeviceStub) Descriptor() string {
+	return DescriptorIIvnAndroidDevice
+}
 
 func (s *IvnAndroidDeviceStub) OnTransaction(
 	ctx context.Context,

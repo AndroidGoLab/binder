@@ -15,23 +15,27 @@ const (
 	TransactionIObserverOnMessage = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIObserverOnMessage = "onMessage"
+)
+
 type IObserver interface {
 	AsBinder() binder.IBinder
 	OnMessage(ctx context.Context, connectionId int64, msgId int32) error
 }
 
 type ObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewObserverProxy(
 	remote binder.IBinder,
 ) *ObserverProxy {
-	return &ObserverProxy{remote: remote}
+	return &ObserverProxy{Remote: remote}
 }
 
 func (p *ObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IObserver = (*ObserverProxy)(nil)
@@ -46,12 +50,12 @@ func (p *ObserverProxy) OnMessage(
 	_data.WriteInt64(connectionId)
 	_data.WriteInt32(msgId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIObserver, "onMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObserver, MethodIObserverOnMessage)
 	if _err != nil {
-		_code = TransactionIObserverOnMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIObserver, MethodIObserverOnMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type ObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ObserverStub)(nil)
+
+func (s *ObserverStub) Descriptor() string {
+	return DescriptorIObserver
+}
 
 func (s *ObserverStub) OnTransaction(
 	ctx context.Context,

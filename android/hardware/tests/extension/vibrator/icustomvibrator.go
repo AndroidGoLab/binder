@@ -18,6 +18,12 @@ const (
 	TransactionICustomVibratorPerform               = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICustomVibratorGetVendorCapabilities = "getVendorCapabilities"
+	MethodICustomVibratorSetDirectionality     = "setDirectionality"
+	MethodICustomVibratorPerform               = "perform"
+)
+
 type ICustomVibrator interface {
 	AsBinder() binder.IBinder
 	GetVendorCapabilities(ctx context.Context) (int32, error)
@@ -30,17 +36,17 @@ const (
 )
 
 type CustomVibratorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCustomVibratorProxy(
 	remote binder.IBinder,
 ) *CustomVibratorProxy {
-	return &CustomVibratorProxy{remote: remote}
+	return &CustomVibratorProxy{Remote: remote}
 }
 
 func (p *CustomVibratorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICustomVibrator = (*CustomVibratorProxy)(nil)
@@ -52,12 +58,12 @@ func (p *CustomVibratorProxy) GetVendorCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "getVendorCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICustomVibrator, MethodICustomVibratorGetVendorCapabilities)
 	if _err != nil {
-		_code = TransactionICustomVibratorGetVendorCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICustomVibrator, MethodICustomVibratorGetVendorCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +88,12 @@ func (p *CustomVibratorProxy) SetDirectionality(
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 	_data.WriteInt32(int32(directionality))
 
-	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "setDirectionality")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICustomVibrator, MethodICustomVibratorSetDirectionality)
 	if _err != nil {
-		_code = TransactionICustomVibratorSetDirectionality
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICustomVibrator, MethodICustomVibratorSetDirectionality, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,14 +115,14 @@ func (p *CustomVibratorProxy) Perform(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 	_data.WriteInt32(int32(effect))
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "perform")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICustomVibrator, MethodICustomVibratorPerform)
 	if _err != nil {
-		_code = TransactionICustomVibratorPerform
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICustomVibrator, MethodICustomVibratorPerform, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,6 +146,10 @@ type CustomVibratorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CustomVibratorStub)(nil)
+
+func (s *CustomVibratorStub) Descriptor() string {
+	return DescriptorICustomVibrator
+}
 
 func (s *CustomVibratorStub) OnTransaction(
 	ctx context.Context,

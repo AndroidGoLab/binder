@@ -15,23 +15,27 @@ const (
 	TransactionIBluetoothQualityReportReadyCallbackOnBluetoothQualityReportReady = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothQualityReportReadyCallbackOnBluetoothQualityReportReady = "onBluetoothQualityReportReady"
+)
+
 type IBluetoothQualityReportReadyCallback interface {
 	AsBinder() binder.IBinder
 	OnBluetoothQualityReportReady(ctx context.Context, device BluetoothDevice, bluetoothQualityReport BluetoothQualityReport, status int32) error
 }
 
 type BluetoothQualityReportReadyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothQualityReportReadyCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothQualityReportReadyCallbackProxy {
-	return &BluetoothQualityReportReadyCallbackProxy{remote: remote}
+	return &BluetoothQualityReportReadyCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothQualityReportReadyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothQualityReportReadyCallback = (*BluetoothQualityReportReadyCallbackProxy)(nil)
@@ -54,12 +58,12 @@ func (p *BluetoothQualityReportReadyCallbackProxy) OnBluetoothQualityReportReady
 	}
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothQualityReportReadyCallback, "onBluetoothQualityReportReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothQualityReportReadyCallback, MethodIBluetoothQualityReportReadyCallbackOnBluetoothQualityReportReady)
 	if _err != nil {
-		_code = TransactionIBluetoothQualityReportReadyCallbackOnBluetoothQualityReportReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothQualityReportReadyCallback, MethodIBluetoothQualityReportReadyCallbackOnBluetoothQualityReportReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +74,10 @@ type BluetoothQualityReportReadyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothQualityReportReadyCallbackStub)(nil)
+
+func (s *BluetoothQualityReportReadyCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothQualityReportReadyCallback
+}
 
 func (s *BluetoothQualityReportReadyCallbackStub) OnTransaction(
 	ctx context.Context,

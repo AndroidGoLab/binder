@@ -33,8 +33,6 @@ type LayerCommand struct {
 	BufferSlotsToClear             []int32
 	LayerLifecycleBatchCommandType LayerLifecycleBatchCommandType
 	NewBufferSlotCount             int32
-	Luts                           Luts
-	PictureProfileId               int64
 }
 
 var _ parcel.Parcelable = (*LayerCommand)(nil)
@@ -55,6 +53,7 @@ func (s *LayerCommand) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Damage)))
 		for _, _item := range s.Damage {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -92,6 +91,7 @@ func (s *LayerCommand) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VisibleRegion)))
 		for _, _item := range s.VisibleRegion {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -116,6 +116,7 @@ func (s *LayerCommand) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PerFrameMetadata)))
 		for _, _item := range s.PerFrameMetadata {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -126,6 +127,7 @@ func (s *LayerCommand) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PerFrameMetadataBlob)))
 		for _, _item := range s.PerFrameMetadataBlob {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -136,6 +138,7 @@ func (s *LayerCommand) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.BlockingRegion)))
 		for _, _item := range s.BlockingRegion {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -151,10 +154,6 @@ func (s *LayerCommand) MarshalParcel(
 	}
 	p.WriteInt32(int32(s.LayerLifecycleBatchCommandType))
 	p.WriteInt32(s.NewBufferSlotCount)
-	if _err := s.Luts.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	p.WriteInt64(s.PictureProfileId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -189,6 +188,9 @@ func (s *LayerCommand) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Damage = make([]graphics.Rect, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Damage[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -239,6 +241,9 @@ func (s *LayerCommand) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.VisibleRegion = make([]graphics.Rect, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VisibleRegion[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -276,6 +281,9 @@ func (s *LayerCommand) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.PerFrameMetadata = make([]PerFrameMetadata, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PerFrameMetadata[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -290,6 +298,9 @@ func (s *LayerCommand) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.PerFrameMetadataBlob = make([]PerFrameMetadataBlob, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PerFrameMetadataBlob[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -304,6 +315,9 @@ func (s *LayerCommand) UnmarshalParcel(
 	if _count5 >= 0 {
 		s.BlockingRegion = make([]graphics.Rect, _count5)
 		for _i := int32(0); _i < _count5; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.BlockingRegion[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -332,15 +346,6 @@ func (s *LayerCommand) UnmarshalParcel(
 	s.LayerLifecycleBatchCommandType = LayerLifecycleBatchCommandType(_layerLifecycleBatchCommandTypeRaw)
 
 	s.NewBufferSlotCount, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-
-	if _err = s.Luts.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	s.PictureProfileId, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}

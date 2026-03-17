@@ -49,6 +49,40 @@ const (
 	TransactionITvInteractiveAppSessionCallbackOnAdRequest                  = binder.FirstCallTransaction + 30
 )
 
+const (
+	MethodITvInteractiveAppSessionCallbackOnSessionCreated             = "onSessionCreated"
+	MethodITvInteractiveAppSessionCallbackOnLayoutSurface              = "onLayoutSurface"
+	MethodITvInteractiveAppSessionCallbackOnBroadcastInfoRequest       = "onBroadcastInfoRequest"
+	MethodITvInteractiveAppSessionCallbackOnRemoveBroadcastInfo        = "onRemoveBroadcastInfo"
+	MethodITvInteractiveAppSessionCallbackOnSessionStateChanged        = "onSessionStateChanged"
+	MethodITvInteractiveAppSessionCallbackOnBiInteractiveAppCreated    = "onBiInteractiveAppCreated"
+	MethodITvInteractiveAppSessionCallbackOnTeletextAppStateChanged    = "onTeletextAppStateChanged"
+	MethodITvInteractiveAppSessionCallbackOnAdBufferReady              = "onAdBufferReady"
+	MethodITvInteractiveAppSessionCallbackOnCommandRequest             = "onCommandRequest"
+	MethodITvInteractiveAppSessionCallbackOnTimeShiftCommandRequest    = "onTimeShiftCommandRequest"
+	MethodITvInteractiveAppSessionCallbackOnSetVideoBounds             = "onSetVideoBounds"
+	MethodITvInteractiveAppSessionCallbackOnRequestCurrentVideoBounds  = "onRequestCurrentVideoBounds"
+	MethodITvInteractiveAppSessionCallbackOnRequestCurrentChannelUri   = "onRequestCurrentChannelUri"
+	MethodITvInteractiveAppSessionCallbackOnRequestCurrentChannelLcn   = "onRequestCurrentChannelLcn"
+	MethodITvInteractiveAppSessionCallbackOnRequestStreamVolume        = "onRequestStreamVolume"
+	MethodITvInteractiveAppSessionCallbackOnRequestTrackInfoList       = "onRequestTrackInfoList"
+	MethodITvInteractiveAppSessionCallbackOnRequestCurrentTvInputId    = "onRequestCurrentTvInputId"
+	MethodITvInteractiveAppSessionCallbackOnRequestTimeShiftMode       = "onRequestTimeShiftMode"
+	MethodITvInteractiveAppSessionCallbackOnRequestAvailableSpeeds     = "onRequestAvailableSpeeds"
+	MethodITvInteractiveAppSessionCallbackOnRequestSelectedTrackInfo   = "onRequestSelectedTrackInfo"
+	MethodITvInteractiveAppSessionCallbackOnRequestStartRecording      = "onRequestStartRecording"
+	MethodITvInteractiveAppSessionCallbackOnRequestStopRecording       = "onRequestStopRecording"
+	MethodITvInteractiveAppSessionCallbackOnRequestScheduleRecording   = "onRequestScheduleRecording"
+	MethodITvInteractiveAppSessionCallbackOnRequestScheduleRecording2  = "onRequestScheduleRecording2"
+	MethodITvInteractiveAppSessionCallbackOnSetTvRecordingInfo         = "onSetTvRecordingInfo"
+	MethodITvInteractiveAppSessionCallbackOnRequestTvRecordingInfo     = "onRequestTvRecordingInfo"
+	MethodITvInteractiveAppSessionCallbackOnRequestTvRecordingInfoList = "onRequestTvRecordingInfoList"
+	MethodITvInteractiveAppSessionCallbackOnRequestSigning             = "onRequestSigning"
+	MethodITvInteractiveAppSessionCallbackOnRequestSigning2            = "onRequestSigning2"
+	MethodITvInteractiveAppSessionCallbackOnRequestCertificate         = "onRequestCertificate"
+	MethodITvInteractiveAppSessionCallbackOnAdRequest                  = "onAdRequest"
+)
+
 type ITvInteractiveAppSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnSessionCreated(ctx context.Context, session ITvInteractiveAppSession) error
@@ -85,17 +119,17 @@ type ITvInteractiveAppSessionCallback interface {
 }
 
 type TvInteractiveAppSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInteractiveAppSessionCallbackProxy(
 	remote binder.IBinder,
 ) *TvInteractiveAppSessionCallbackProxy {
-	return &TvInteractiveAppSessionCallbackProxy{remote: remote}
+	return &TvInteractiveAppSessionCallbackProxy{Remote: remote}
 }
 
 func (p *TvInteractiveAppSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInteractiveAppSessionCallback = (*TvInteractiveAppSessionCallbackProxy)(nil)
@@ -106,14 +140,14 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnSessionCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onSessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSessionCreated)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnSessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,12 +165,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnLayoutSurface(
 	_data.WriteInt32(right)
 	_data.WriteInt32(bottom)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onLayoutSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnLayoutSurface)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnLayoutSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnLayoutSurface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,12 +185,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnBroadcastInfoRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onBroadcastInfoRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnBroadcastInfoRequest)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnBroadcastInfoRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnBroadcastInfoRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,12 +202,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRemoveBroadcastInfo(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRemoveBroadcastInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRemoveBroadcastInfo)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRemoveBroadcastInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRemoveBroadcastInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,12 +221,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnSessionStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteInt32(err)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onSessionStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSessionStateChanged)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnSessionStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSessionStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -209,12 +243,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnBiInteractiveAppCreated(
 	}
 	_data.WriteString16(biIAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onBiInteractiveAppCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnBiInteractiveAppCreated)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnBiInteractiveAppCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnBiInteractiveAppCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -226,12 +260,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnTeletextAppStateChanged(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onTeletextAppStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnTeletextAppStateChanged)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnTeletextAppStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnTeletextAppStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -246,12 +280,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnAdBufferReady(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onAdBufferReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnAdBufferReady)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnAdBufferReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnAdBufferReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -268,12 +302,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnCommandRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onCommandRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnCommandRequest)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnCommandRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnCommandRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -290,12 +324,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnTimeShiftCommandRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onTimeShiftCommandRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnTimeShiftCommandRequest)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnTimeShiftCommandRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnTimeShiftCommandRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -310,12 +344,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnSetVideoBounds(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onSetVideoBounds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSetVideoBounds)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnSetVideoBounds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSetVideoBounds, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -325,12 +359,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestCurrentVideoBounds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestCurrentVideoBounds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentVideoBounds)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestCurrentVideoBounds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentVideoBounds, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -340,12 +374,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestCurrentChannelUri(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestCurrentChannelUri")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentChannelUri)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestCurrentChannelUri
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentChannelUri, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -355,12 +389,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestCurrentChannelLcn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestCurrentChannelLcn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentChannelLcn)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestCurrentChannelLcn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentChannelLcn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -370,12 +404,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestStreamVolume(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestStreamVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestStreamVolume)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestStreamVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestStreamVolume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -385,12 +419,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestTrackInfoList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestTrackInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTrackInfoList)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestTrackInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTrackInfoList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -400,12 +434,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestCurrentTvInputId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestCurrentTvInputId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentTvInputId)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestCurrentTvInputId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCurrentTvInputId, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -415,12 +449,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestTimeShiftMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestTimeShiftMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTimeShiftMode)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestTimeShiftMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTimeShiftMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -430,12 +464,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestAvailableSpeeds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestAvailableSpeeds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestAvailableSpeeds)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestAvailableSpeeds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestAvailableSpeeds, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -445,12 +479,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestSelectedTrackInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestSelectedTrackInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestSelectedTrackInfo)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestSelectedTrackInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestSelectedTrackInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -467,12 +501,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestStartRecording(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestStartRecording")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestStartRecording)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestStartRecording
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestStartRecording, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -484,12 +518,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestStopRecording(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(recordingId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestStopRecording")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestStopRecording)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestStopRecording
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestStopRecording, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -518,12 +552,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestScheduleRecording(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestScheduleRecording")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestScheduleRecording)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestScheduleRecording
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestScheduleRecording, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -553,12 +587,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestScheduleRecording2(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestScheduleRecording2")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestScheduleRecording2)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestScheduleRecording2
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestScheduleRecording2, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -575,12 +609,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnSetTvRecordingInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onSetTvRecordingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSetTvRecordingInfo)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnSetTvRecordingInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnSetTvRecordingInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -592,12 +626,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestTvRecordingInfo(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(recordingId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestTvRecordingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTvRecordingInfo)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestTvRecordingInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTvRecordingInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -609,12 +643,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestTvRecordingInfoList(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteInt32(type_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestTvRecordingInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTvRecordingInfoList)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestTvRecordingInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestTvRecordingInfoList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -639,12 +673,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestSigning(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestSigning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestSigning)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestSigning
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestSigning, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -671,12 +705,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestSigning2(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestSigning2")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestSigning2)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestSigning2
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestSigning2, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -690,12 +724,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestCertificate(
 	_data.WriteString16(host)
 	_data.WriteInt32(port)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onRequestCertificate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCertificate)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnRequestCertificate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnRequestCertificate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -710,12 +744,12 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnAdRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppSessionCallback, "onAdRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnAdRequest)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppSessionCallbackOnAdRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppSessionCallback, MethodITvInteractiveAppSessionCallbackOnAdRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -726,6 +760,10 @@ type TvInteractiveAppSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppSessionCallbackStub)(nil)
+
+func (s *TvInteractiveAppSessionCallbackStub) Descriptor() string {
+	return DescriptorITvInteractiveAppSessionCallback
+}
 
 func (s *TvInteractiveAppSessionCallbackStub) OnTransaction(
 	ctx context.Context,

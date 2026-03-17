@@ -16,23 +16,27 @@ const (
 	TransactionISearchCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISearchCallbackOnResult = "onResult"
+)
+
 type ISearchCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, result pm.ParceledListSlice) error
 }
 
 type SearchCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSearchCallbackProxy(
 	remote binder.IBinder,
 ) *SearchCallbackProxy {
-	return &SearchCallbackProxy{remote: remote}
+	return &SearchCallbackProxy{Remote: remote}
 }
 
 func (p *SearchCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISearchCallback = (*SearchCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *SearchCallbackProxy) OnResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchCallback, MethodISearchCallbackOnResult)
 	if _err != nil {
-		_code = TransactionISearchCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchCallback, MethodISearchCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type SearchCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SearchCallbackStub)(nil)
+
+func (s *SearchCallbackStub) Descriptor() string {
+	return DescriptorISearchCallback
+}
 
 func (s *SearchCallbackStub) OnTransaction(
 	ctx context.Context,

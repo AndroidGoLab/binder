@@ -16,23 +16,27 @@ const (
 	TransactionIVrListenerFocusedActivityChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVrListenerFocusedActivityChanged = "focusedActivityChanged"
+)
+
 type IVrListener interface {
 	AsBinder() binder.IBinder
 	FocusedActivityChanged(ctx context.Context, component content.ComponentName, running2dInVr bool, pid int32) error
 }
 
 type VrListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVrListenerProxy(
 	remote binder.IBinder,
 ) *VrListenerProxy {
-	return &VrListenerProxy{remote: remote}
+	return &VrListenerProxy{Remote: remote}
 }
 
 func (p *VrListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVrListener = (*VrListenerProxy)(nil)
@@ -52,12 +56,12 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 	_data.WriteBool(running2dInVr)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrListener, "focusedActivityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrListener, MethodIVrListenerFocusedActivityChanged)
 	if _err != nil {
-		_code = TransactionIVrListenerFocusedActivityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrListener, MethodIVrListenerFocusedActivityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +72,10 @@ type VrListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VrListenerStub)(nil)
+
+func (s *VrListenerStub) Descriptor() string {
+	return DescriptorIVrListener
+}
 
 func (s *VrListenerStub) OnTransaction(
 	ctx context.Context,

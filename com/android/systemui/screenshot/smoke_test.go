@@ -17,3 +17,25 @@ func TestSmoke_CrossProfileServiceProxy(t *testing.T) {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)
 	}
 }
+
+func TestSmoke_OnDoneCallbackProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewOnDoneCallbackProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("OnDoneCallbackProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
+func TestSmoke_ScreenshotProxyProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewScreenshotProxyProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("ScreenshotProxyProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}

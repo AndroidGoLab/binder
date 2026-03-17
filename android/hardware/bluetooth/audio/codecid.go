@@ -81,6 +81,7 @@ func (u *CodecId) MarshalParcel(
 	case CodecIdTagCore:
 		p.WriteInt32(int32(u.Core))
 	case CodecIdTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -119,6 +120,9 @@ func (u *CodecId) UnmarshalParcel(
 		}
 		u.Core = audioCodecId.Core(_raw)
 	case CodecIdTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

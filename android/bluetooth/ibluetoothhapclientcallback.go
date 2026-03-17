@@ -20,6 +20,15 @@ const (
 	TransactionIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed   = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIBluetoothHapClientCallbackOnPresetSelected                = "onPresetSelected"
+	MethodIBluetoothHapClientCallbackOnPresetSelectionFailed         = "onPresetSelectionFailed"
+	MethodIBluetoothHapClientCallbackOnPresetSelectionForGroupFailed = "onPresetSelectionForGroupFailed"
+	MethodIBluetoothHapClientCallbackOnPresetInfoChanged             = "onPresetInfoChanged"
+	MethodIBluetoothHapClientCallbackOnSetPresetNameFailed           = "onSetPresetNameFailed"
+	MethodIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed   = "onSetPresetNameForGroupFailed"
+)
+
 type IBluetoothHapClientCallback interface {
 	AsBinder() binder.IBinder
 	OnPresetSelected(ctx context.Context, device BluetoothDevice, presetIndex int32, reasonCode int32) error
@@ -31,17 +40,17 @@ type IBluetoothHapClientCallback interface {
 }
 
 type BluetoothHapClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothHapClientCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothHapClientCallbackProxy {
-	return &BluetoothHapClientCallbackProxy{remote: remote}
+	return &BluetoothHapClientCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothHapClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothHapClientCallback = (*BluetoothHapClientCallbackProxy)(nil)
@@ -61,12 +70,12 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelected(
 	_data.WriteInt32(presetIndex)
 	_data.WriteInt32(reasonCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetSelected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetSelected)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientCallbackOnPresetSelected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetSelected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +92,12 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelectionFailed(
 	}
 	_data.WriteInt32(statusCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetSelectionFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetSelectionFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientCallbackOnPresetSelectionFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetSelectionFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +111,12 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelectionForGroupFailed(
 	_data.WriteInt32(hapGroupId)
 	_data.WriteInt32(statusCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetSelectionForGroupFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetSelectionForGroupFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientCallbackOnPresetSelectionForGroupFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetSelectionForGroupFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,6 +137,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetInfoChanged(
 	} else {
 		_data.WriteInt32(int32(len(presetInfoList)))
 		for _, _item := range presetInfoList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -135,12 +145,12 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetInfoChanged(
 	}
 	_data.WriteInt32(statusCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetInfoChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientCallbackOnPresetInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnPresetInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -157,12 +167,12 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameFailed(
 	}
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onSetPresetNameFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnSetPresetNameFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientCallbackOnSetPresetNameFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnSetPresetNameFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,12 +186,12 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameForGroupFailed(
 	_data.WriteInt32(hapGroupId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onSetPresetNameForGroupFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClientCallback, MethodIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -192,6 +202,10 @@ type BluetoothHapClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHapClientCallbackStub)(nil)
+
+func (s *BluetoothHapClientCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothHapClientCallback
+}
 
 func (s *BluetoothHapClientCallbackStub) OnTransaction(
 	ctx context.Context,

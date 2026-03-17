@@ -31,35 +31,51 @@ const (
 	TransactionIMmsGetAutoPersisting         = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIMmsSendMessage               = "sendMessage"
+	MethodIMmsDownloadMessage           = "downloadMessage"
+	MethodIMmsImportTextMessage         = "importTextMessage"
+	MethodIMmsImportMultimediaMessage   = "importMultimediaMessage"
+	MethodIMmsDeleteStoredMessage       = "deleteStoredMessage"
+	MethodIMmsDeleteStoredConversation  = "deleteStoredConversation"
+	MethodIMmsUpdateStoredMessageStatus = "updateStoredMessageStatus"
+	MethodIMmsArchiveStoredConversation = "archiveStoredConversation"
+	MethodIMmsAddTextMessageDraft       = "addTextMessageDraft"
+	MethodIMmsAddMultimediaMessageDraft = "addMultimediaMessageDraft"
+	MethodIMmsSendStoredMessage         = "sendStoredMessage"
+	MethodIMmsSetAutoPersisting         = "setAutoPersisting"
+	MethodIMmsGetAutoPersisting         = "getAutoPersisting"
+)
+
 type IMms interface {
 	AsBinder() binder.IBinder
-	SendMessage(ctx context.Context, subId int32, callingUser int32, callingPkg string, contentUri net.Uri, locationUrl string, configOverrides os.Bundle, sentIntent app.PendingIntent, messageId int64) error
-	DownloadMessage(ctx context.Context, subId int32, callingUser int32, callingPkg string, locationUrl string, contentUri net.Uri, configOverrides os.Bundle, downloadedIntent app.PendingIntent, messageId int64) error
+	SendMessage(ctx context.Context, subId int32, callingPkg string, contentUri net.Uri, locationUrl string, configOverrides os.Bundle, sentIntent app.PendingIntent, messageId int64) error
+	DownloadMessage(ctx context.Context, subId int32, callingPkg string, locationUrl string, contentUri net.Uri, configOverrides os.Bundle, downloadedIntent app.PendingIntent, messageId int64) error
 	ImportTextMessage(ctx context.Context, callingPkg string, address string, type_ int32, text string, timestampMillis int64, seen bool, read bool) (net.Uri, error)
-	ImportMultimediaMessage(ctx context.Context, callingUser int32, callingPkg string, contentUri net.Uri, messageId string, timestampSecs int64, seen bool, read bool) (net.Uri, error)
+	ImportMultimediaMessage(ctx context.Context, callingPkg string, contentUri net.Uri, messageId string, timestampSecs int64, seen bool, read bool) (net.Uri, error)
 	DeleteStoredMessage(ctx context.Context, callingPkg string, messageUri net.Uri) (bool, error)
 	DeleteStoredConversation(ctx context.Context, callingPkg string, conversationId int64) (bool, error)
 	UpdateStoredMessageStatus(ctx context.Context, callingPkg string, messageUri net.Uri, statusValues content.ContentValues) (bool, error)
 	ArchiveStoredConversation(ctx context.Context, callingPkg string, conversationId int64, archived bool) (bool, error)
 	AddTextMessageDraft(ctx context.Context, callingPkg string, address string, text string) (net.Uri, error)
-	AddMultimediaMessageDraft(ctx context.Context, callingUser int32, callingPkg string, contentUri net.Uri) (net.Uri, error)
+	AddMultimediaMessageDraft(ctx context.Context, callingPkg string, contentUri net.Uri) (net.Uri, error)
 	SendStoredMessage(ctx context.Context, subId int32, callingPkg string, messageUri net.Uri, configOverrides os.Bundle, sentIntent app.PendingIntent) error
 	SetAutoPersisting(ctx context.Context, callingPkg string, enabled bool) error
 	GetAutoPersisting(ctx context.Context) (bool, error)
 }
 
 type MmsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMmsProxy(
 	remote binder.IBinder,
 ) *MmsProxy {
-	return &MmsProxy{remote: remote}
+	return &MmsProxy{Remote: remote}
 }
 
 func (p *MmsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMms = (*MmsProxy)(nil)
@@ -67,7 +83,6 @@ var _ IMms = (*MmsProxy)(nil)
 func (p *MmsProxy) SendMessage(
 	ctx context.Context,
 	subId int32,
-	callingUser int32,
 	callingPkg string,
 	contentUri net.Uri,
 	locationUrl string,
@@ -75,11 +90,10 @@ func (p *MmsProxy) SendMessage(
 	sentIntent app.PendingIntent,
 	messageId int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(subId)
-	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
@@ -97,12 +111,12 @@ func (p *MmsProxy) SendMessage(
 	_data.WriteInt64(messageId)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "sendMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsSendMessage)
 	if _err != nil {
-		_code = TransactionIMmsSendMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsSendMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,7 +132,6 @@ func (p *MmsProxy) SendMessage(
 func (p *MmsProxy) DownloadMessage(
 	ctx context.Context,
 	subId int32,
-	callingUser int32,
 	callingPkg string,
 	locationUrl string,
 	contentUri net.Uri,
@@ -126,11 +139,10 @@ func (p *MmsProxy) DownloadMessage(
 	downloadedIntent app.PendingIntent,
 	messageId int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(subId)
-	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(locationUrl)
 	_data.WriteInt32(1)
@@ -148,12 +160,12 @@ func (p *MmsProxy) DownloadMessage(
 	_data.WriteInt64(messageId)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "downloadMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsDownloadMessage)
 	if _err != nil {
-		_code = TransactionIMmsDownloadMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsDownloadMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -187,12 +199,12 @@ func (p *MmsProxy) ImportTextMessage(
 	_data.WriteBool(seen)
 	_data.WriteBool(read)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "importTextMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsImportTextMessage)
 	if _err != nil {
-		_code = TransactionIMmsImportTextMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsImportTextMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -216,7 +228,6 @@ func (p *MmsProxy) ImportTextMessage(
 
 func (p *MmsProxy) ImportMultimediaMessage(
 	ctx context.Context,
-	callingUser int32,
 	callingPkg string,
 	contentUri net.Uri,
 	messageId string,
@@ -227,7 +238,6 @@ func (p *MmsProxy) ImportMultimediaMessage(
 	var _result net.Uri
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
@@ -238,12 +248,12 @@ func (p *MmsProxy) ImportMultimediaMessage(
 	_data.WriteBool(seen)
 	_data.WriteBool(read)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "importMultimediaMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsImportMultimediaMessage)
 	if _err != nil {
-		_code = TransactionIMmsImportMultimediaMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsImportMultimediaMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,12 +289,12 @@ func (p *MmsProxy) DeleteStoredMessage(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "deleteStoredMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsDeleteStoredMessage)
 	if _err != nil {
-		_code = TransactionIMmsDeleteStoredMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsDeleteStoredMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -312,12 +322,12 @@ func (p *MmsProxy) DeleteStoredConversation(
 	_data.WriteString16(callingPkg)
 	_data.WriteInt64(conversationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "deleteStoredConversation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsDeleteStoredConversation)
 	if _err != nil {
-		_code = TransactionIMmsDeleteStoredConversation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsDeleteStoredConversation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -353,12 +363,12 @@ func (p *MmsProxy) UpdateStoredMessageStatus(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "updateStoredMessageStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsUpdateStoredMessageStatus)
 	if _err != nil {
-		_code = TransactionIMmsUpdateStoredMessageStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsUpdateStoredMessageStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -388,12 +398,12 @@ func (p *MmsProxy) ArchiveStoredConversation(
 	_data.WriteInt64(conversationId)
 	_data.WriteBool(archived)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "archiveStoredConversation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsArchiveStoredConversation)
 	if _err != nil {
-		_code = TransactionIMmsArchiveStoredConversation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsArchiveStoredConversation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -423,12 +433,12 @@ func (p *MmsProxy) AddTextMessageDraft(
 	_data.WriteString16(address)
 	_data.WriteString16(text)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "addTextMessageDraft")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsAddTextMessageDraft)
 	if _err != nil {
-		_code = TransactionIMmsAddTextMessageDraft
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsAddTextMessageDraft, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -452,26 +462,24 @@ func (p *MmsProxy) AddTextMessageDraft(
 
 func (p *MmsProxy) AddMultimediaMessageDraft(
 	ctx context.Context,
-	callingUser int32,
 	callingPkg string,
 	contentUri net.Uri,
 ) (net.Uri, error) {
 	var _result net.Uri
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
-	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
 	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "addMultimediaMessageDraft")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsAddMultimediaMessageDraft)
 	if _err != nil {
-		_code = TransactionIMmsAddMultimediaMessageDraft
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsAddMultimediaMessageDraft, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -518,12 +526,12 @@ func (p *MmsProxy) SendStoredMessage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "sendStoredMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsSendStoredMessage)
 	if _err != nil {
-		_code = TransactionIMmsSendStoredMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsSendStoredMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -546,12 +554,12 @@ func (p *MmsProxy) SetAutoPersisting(
 	_data.WriteString16(callingPkg)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "setAutoPersisting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsSetAutoPersisting)
 	if _err != nil {
-		_code = TransactionIMmsSetAutoPersisting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsSetAutoPersisting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -571,12 +579,12 @@ func (p *MmsProxy) GetAutoPersisting(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMms, "getAutoPersisting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMms, MethodIMmsGetAutoPersisting)
 	if _err != nil {
-		_code = TransactionIMmsGetAutoPersisting
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMms, MethodIMmsGetAutoPersisting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -601,6 +609,10 @@ type MmsStub struct {
 
 var _ binder.TransactionReceiver = (*MmsStub)(nil)
 
+func (s *MmsStub) Descriptor() string {
+	return DescriptorIMms
+}
+
 func (s *MmsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -612,10 +624,6 @@ func (s *MmsStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_subId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_callingUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -670,7 +678,7 @@ func (s *MmsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SendMessage(ctx, _arg_subId, _arg_callingUser, _arg_callingPkg, _arg_contentUri, _arg_locationUrl, _arg_configOverrides, _arg_sentIntent, _arg_messageId)
+		_err = s.Impl.SendMessage(ctx, _arg_subId, _arg_callingPkg, _arg_contentUri, _arg_locationUrl, _arg_configOverrides, _arg_sentIntent, _arg_messageId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -683,10 +691,6 @@ func (s *MmsStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_subId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_callingUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -741,7 +745,7 @@ func (s *MmsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.DownloadMessage(ctx, _arg_subId, _arg_callingUser, _arg_callingPkg, _arg_locationUrl, _arg_contentUri, _arg_configOverrides, _arg_downloadedIntent, _arg_messageId)
+		_err = s.Impl.DownloadMessage(ctx, _arg_subId, _arg_callingPkg, _arg_locationUrl, _arg_contentUri, _arg_configOverrides, _arg_downloadedIntent, _arg_messageId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -797,10 +801,6 @@ func (s *MmsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingUser, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -833,7 +833,7 @@ func (s *MmsStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.ImportMultimediaMessage(ctx, _arg_callingUser, _arg_callingPkg, _arg_contentUri, _arg_messageId, _arg_timestampSecs, _arg_seen, _arg_read)
+		_result, _err := s.Impl.ImportMultimediaMessage(ctx, _arg_callingPkg, _arg_contentUri, _arg_messageId, _arg_timestampSecs, _arg_seen, _arg_read)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -993,10 +993,6 @@ func (s *MmsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingUser, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -1013,7 +1009,7 @@ func (s *MmsStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.AddMultimediaMessageDraft(ctx, _arg_callingUser, _arg_callingPkg, _arg_contentUri)
+		_result, _err := s.Impl.AddMultimediaMessageDraft(ctx, _arg_callingPkg, _arg_contentUri)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1123,16 +1119,16 @@ func (s *MmsStub) OnTransaction(
 // provide to NewMmsStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IMmsServer interface {
-	SendMessage(ctx context.Context, subId int32, callingUser int32, callingPkg string, contentUri net.Uri, locationUrl string, configOverrides os.Bundle, sentIntent app.PendingIntent, messageId int64) error
-	DownloadMessage(ctx context.Context, subId int32, callingUser int32, callingPkg string, locationUrl string, contentUri net.Uri, configOverrides os.Bundle, downloadedIntent app.PendingIntent, messageId int64) error
+	SendMessage(ctx context.Context, subId int32, callingPkg string, contentUri net.Uri, locationUrl string, configOverrides os.Bundle, sentIntent app.PendingIntent, messageId int64) error
+	DownloadMessage(ctx context.Context, subId int32, callingPkg string, locationUrl string, contentUri net.Uri, configOverrides os.Bundle, downloadedIntent app.PendingIntent, messageId int64) error
 	ImportTextMessage(ctx context.Context, callingPkg string, address string, type_ int32, text string, timestampMillis int64, seen bool, read bool) (net.Uri, error)
-	ImportMultimediaMessage(ctx context.Context, callingUser int32, callingPkg string, contentUri net.Uri, messageId string, timestampSecs int64, seen bool, read bool) (net.Uri, error)
+	ImportMultimediaMessage(ctx context.Context, callingPkg string, contentUri net.Uri, messageId string, timestampSecs int64, seen bool, read bool) (net.Uri, error)
 	DeleteStoredMessage(ctx context.Context, callingPkg string, messageUri net.Uri) (bool, error)
 	DeleteStoredConversation(ctx context.Context, callingPkg string, conversationId int64) (bool, error)
 	UpdateStoredMessageStatus(ctx context.Context, callingPkg string, messageUri net.Uri, statusValues content.ContentValues) (bool, error)
 	ArchiveStoredConversation(ctx context.Context, callingPkg string, conversationId int64, archived bool) (bool, error)
 	AddTextMessageDraft(ctx context.Context, callingPkg string, address string, text string) (net.Uri, error)
-	AddMultimediaMessageDraft(ctx context.Context, callingUser int32, callingPkg string, contentUri net.Uri) (net.Uri, error)
+	AddMultimediaMessageDraft(ctx context.Context, callingPkg string, contentUri net.Uri) (net.Uri, error)
 	SendStoredMessage(ctx context.Context, subId int32, callingPkg string, messageUri net.Uri, configOverrides os.Bundle, sentIntent app.PendingIntent) error
 	SetAutoPersisting(ctx context.Context, callingPkg string, enabled bool) error
 	GetAutoPersisting(ctx context.Context) (bool, error)
@@ -1150,7 +1146,6 @@ func (w *mmsStubWrapper) AsBinder() binder.IBinder {
 func (w *mmsStubWrapper) SendMessage(
 	ctx context.Context,
 	subId int32,
-	callingUser int32,
 	callingPkg string,
 	contentUri net.Uri,
 	locationUrl string,
@@ -1158,13 +1153,12 @@ func (w *mmsStubWrapper) SendMessage(
 	sentIntent app.PendingIntent,
 	messageId int64,
 ) error {
-	return w.impl.SendMessage(ctx, subId, callingUser, callingPkg, contentUri, locationUrl, configOverrides, sentIntent, messageId)
+	return w.impl.SendMessage(ctx, subId, callingPkg, contentUri, locationUrl, configOverrides, sentIntent, messageId)
 }
 
 func (w *mmsStubWrapper) DownloadMessage(
 	ctx context.Context,
 	subId int32,
-	callingUser int32,
 	callingPkg string,
 	locationUrl string,
 	contentUri net.Uri,
@@ -1172,7 +1166,7 @@ func (w *mmsStubWrapper) DownloadMessage(
 	downloadedIntent app.PendingIntent,
 	messageId int64,
 ) error {
-	return w.impl.DownloadMessage(ctx, subId, callingUser, callingPkg, locationUrl, contentUri, configOverrides, downloadedIntent, messageId)
+	return w.impl.DownloadMessage(ctx, subId, callingPkg, locationUrl, contentUri, configOverrides, downloadedIntent, messageId)
 }
 
 func (w *mmsStubWrapper) ImportTextMessage(
@@ -1190,7 +1184,6 @@ func (w *mmsStubWrapper) ImportTextMessage(
 
 func (w *mmsStubWrapper) ImportMultimediaMessage(
 	ctx context.Context,
-	callingUser int32,
 	callingPkg string,
 	contentUri net.Uri,
 	messageId string,
@@ -1198,7 +1191,7 @@ func (w *mmsStubWrapper) ImportMultimediaMessage(
 	seen bool,
 	read bool,
 ) (net.Uri, error) {
-	return w.impl.ImportMultimediaMessage(ctx, callingUser, callingPkg, contentUri, messageId, timestampSecs, seen, read)
+	return w.impl.ImportMultimediaMessage(ctx, callingPkg, contentUri, messageId, timestampSecs, seen, read)
 }
 
 func (w *mmsStubWrapper) DeleteStoredMessage(
@@ -1246,11 +1239,10 @@ func (w *mmsStubWrapper) AddTextMessageDraft(
 
 func (w *mmsStubWrapper) AddMultimediaMessageDraft(
 	ctx context.Context,
-	callingUser int32,
 	callingPkg string,
 	contentUri net.Uri,
 ) (net.Uri, error) {
-	return w.impl.AddMultimediaMessageDraft(ctx, callingUser, callingPkg, contentUri)
+	return w.impl.AddMultimediaMessageDraft(ctx, callingPkg, contentUri)
 }
 
 func (w *mmsStubWrapper) SendStoredMessage(

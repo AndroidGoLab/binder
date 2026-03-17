@@ -19,6 +19,13 @@ const (
 	TransactionIWapPushManagerDeletePackage  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIWapPushManagerProcessMessage = "processMessage"
+	MethodIWapPushManagerAddPackage     = "addPackage"
+	MethodIWapPushManagerUpdatePackage  = "updatePackage"
+	MethodIWapPushManagerDeletePackage  = "deletePackage"
+)
+
 type IWapPushManager interface {
 	AsBinder() binder.IBinder
 	ProcessMessage(ctx context.Context, app_id string, content_type string, intent content.Intent) (int32, error)
@@ -28,17 +35,17 @@ type IWapPushManager interface {
 }
 
 type WapPushManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWapPushManagerProxy(
 	remote binder.IBinder,
 ) *WapPushManagerProxy {
-	return &WapPushManagerProxy{remote: remote}
+	return &WapPushManagerProxy{Remote: remote}
 }
 
 func (p *WapPushManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWapPushManager = (*WapPushManagerProxy)(nil)
@@ -59,12 +66,12 @@ func (p *WapPushManagerProxy) ProcessMessage(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWapPushManager, "processMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerProcessMessage)
 	if _err != nil {
-		_code = TransactionIWapPushManagerProcessMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWapPushManager, MethodIWapPushManagerProcessMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,12 +109,12 @@ func (p *WapPushManagerProxy) AddPackage(
 	_data.WriteBool(need_signature)
 	_data.WriteBool(further_processing)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWapPushManager, "addPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerAddPackage)
 	if _err != nil {
-		_code = TransactionIWapPushManagerAddPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWapPushManager, MethodIWapPushManagerAddPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,12 +152,12 @@ func (p *WapPushManagerProxy) UpdatePackage(
 	_data.WriteBool(need_signature)
 	_data.WriteBool(further_processing)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWapPushManager, "updatePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerUpdatePackage)
 	if _err != nil {
-		_code = TransactionIWapPushManagerUpdatePackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWapPushManager, MethodIWapPushManagerUpdatePackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,12 +189,12 @@ func (p *WapPushManagerProxy) DeletePackage(
 	_data.WriteString16(package_name)
 	_data.WriteString16(class_name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWapPushManager, "deletePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWapPushManager, MethodIWapPushManagerDeletePackage)
 	if _err != nil {
-		_code = TransactionIWapPushManagerDeletePackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWapPushManager, MethodIWapPushManagerDeletePackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,6 +218,10 @@ type WapPushManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WapPushManagerStub)(nil)
+
+func (s *WapPushManagerStub) Descriptor() string {
+	return DescriptorIWapPushManager
+}
 
 func (s *WapPushManagerStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIAuthenticationPolicyServiceDisableSecureLockDevice = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAuthenticationPolicyServiceEnableSecureLockDevice  = "enableSecureLockDevice"
+	MethodIAuthenticationPolicyServiceDisableSecureLockDevice = "disableSecureLockDevice"
+)
+
 type IAuthenticationPolicyService interface {
 	AsBinder() binder.IBinder
 	EnableSecureLockDevice(ctx context.Context, params EnableSecureLockDeviceParams) (int32, error)
@@ -23,17 +28,17 @@ type IAuthenticationPolicyService interface {
 }
 
 type AuthenticationPolicyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthenticationPolicyServiceProxy(
 	remote binder.IBinder,
 ) *AuthenticationPolicyServiceProxy {
-	return &AuthenticationPolicyServiceProxy{remote: remote}
+	return &AuthenticationPolicyServiceProxy{Remote: remote}
 }
 
 func (p *AuthenticationPolicyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuthenticationPolicyService = (*AuthenticationPolicyServiceProxy)(nil)
@@ -50,12 +55,12 @@ func (p *AuthenticationPolicyServiceProxy) EnableSecureLockDevice(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthenticationPolicyService, "enableSecureLockDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthenticationPolicyService, MethodIAuthenticationPolicyServiceEnableSecureLockDevice)
 	if _err != nil {
-		_code = TransactionIAuthenticationPolicyServiceEnableSecureLockDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthenticationPolicyService, MethodIAuthenticationPolicyServiceEnableSecureLockDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,12 +89,12 @@ func (p *AuthenticationPolicyServiceProxy) DisableSecureLockDevice(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthenticationPolicyService, "disableSecureLockDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthenticationPolicyService, MethodIAuthenticationPolicyServiceDisableSecureLockDevice)
 	if _err != nil {
-		_code = TransactionIAuthenticationPolicyServiceDisableSecureLockDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthenticationPolicyService, MethodIAuthenticationPolicyServiceDisableSecureLockDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,6 +118,10 @@ type AuthenticationPolicyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuthenticationPolicyServiceStub)(nil)
+
+func (s *AuthenticationPolicyServiceStub) Descriptor() string {
+	return DescriptorIAuthenticationPolicyService
+}
 
 func (s *AuthenticationPolicyServiceStub) OnTransaction(
 	ctx context.Context,

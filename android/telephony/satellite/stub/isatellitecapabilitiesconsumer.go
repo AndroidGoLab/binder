@@ -15,23 +15,27 @@ const (
 	TransactionISatelliteCapabilitiesConsumerAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISatelliteCapabilitiesConsumerAccept = "accept"
+)
+
 type ISatelliteCapabilitiesConsumer interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, result SatelliteCapabilities) error
 }
 
 type SatelliteCapabilitiesConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteCapabilitiesConsumerProxy(
 	remote binder.IBinder,
 ) *SatelliteCapabilitiesConsumerProxy {
-	return &SatelliteCapabilitiesConsumerProxy{remote: remote}
+	return &SatelliteCapabilitiesConsumerProxy{Remote: remote}
 }
 
 func (p *SatelliteCapabilitiesConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteCapabilitiesConsumer = (*SatelliteCapabilitiesConsumerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *SatelliteCapabilitiesConsumerProxy) Accept(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCapabilitiesConsumer, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteCapabilitiesConsumer, MethodISatelliteCapabilitiesConsumerAccept)
 	if _err != nil {
-		_code = TransactionISatelliteCapabilitiesConsumerAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteCapabilitiesConsumer, MethodISatelliteCapabilitiesConsumerAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type SatelliteCapabilitiesConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteCapabilitiesConsumerStub)(nil)
+
+func (s *SatelliteCapabilitiesConsumerStub) Descriptor() string {
+	return DescriptorISatelliteCapabilitiesConsumer
+}
 
 func (s *SatelliteCapabilitiesConsumerStub) OnTransaction(
 	ctx context.Context,

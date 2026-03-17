@@ -24,22 +24,8 @@ func (s *SupplicantStateChangeData) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.NewState))
 	p.WriteInt32(s.Id)
-	if s.Ssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Ssid)))
-		for _, _item := range s.Ssid {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Bssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Bssid)))
-		for _, _item := range s.Bssid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Ssid)
+	p.WriteFixedByteArray(s.Bssid, 6)
 	p.WriteInt32(int32(s.KeyMgmtMask))
 	p.WriteInt32(s.FrequencyMhz)
 	p.WriteBool(s.FilsHlpSent)
@@ -67,34 +53,14 @@ func (s *SupplicantStateChangeData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Ssid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Ssid = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Ssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Bssid, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Bssid = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Bssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_keyMgmtMaskRaw, _err := p.ReadInt32()

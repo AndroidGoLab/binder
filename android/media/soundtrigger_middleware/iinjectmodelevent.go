@@ -15,23 +15,27 @@ const (
 	TransactionIInjectModelEventTriggerUnloadModel = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInjectModelEventTriggerUnloadModel = "triggerUnloadModel"
+)
+
 type IInjectModelEvent interface {
 	AsBinder() binder.IBinder
 	TriggerUnloadModel(ctx context.Context) error
 }
 
 type InjectModelEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInjectModelEventProxy(
 	remote binder.IBinder,
 ) *InjectModelEventProxy {
-	return &InjectModelEventProxy{remote: remote}
+	return &InjectModelEventProxy{Remote: remote}
 }
 
 func (p *InjectModelEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInjectModelEvent = (*InjectModelEventProxy)(nil)
@@ -42,12 +46,12 @@ func (p *InjectModelEventProxy) TriggerUnloadModel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectModelEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInjectModelEvent, "triggerUnloadModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectModelEvent, MethodIInjectModelEventTriggerUnloadModel)
 	if _err != nil {
-		_code = TransactionIInjectModelEventTriggerUnloadModel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInjectModelEvent, MethodIInjectModelEventTriggerUnloadModel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type InjectModelEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InjectModelEventStub)(nil)
+
+func (s *InjectModelEventStub) Descriptor() string {
+	return DescriptorIInjectModelEvent
+}
 
 func (s *InjectModelEventStub) OnTransaction(
 	ctx context.Context,

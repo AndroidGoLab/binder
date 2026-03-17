@@ -16,23 +16,27 @@ const (
 	TransactionIDirectReportChannelConfigure = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDirectReportChannelConfigure = "configure"
+)
+
 type IDirectReportChannel interface {
 	AsBinder() binder.IBinder
 	Configure(ctx context.Context, sensorHandle int32, rate ISensors.RateLevel) (int32, error)
 }
 
 type DirectReportChannelProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDirectReportChannelProxy(
 	remote binder.IBinder,
 ) *DirectReportChannelProxy {
-	return &DirectReportChannelProxy{remote: remote}
+	return &DirectReportChannelProxy{Remote: remote}
 }
 
 func (p *DirectReportChannelProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDirectReportChannel = (*DirectReportChannelProxy)(nil)
@@ -48,12 +52,12 @@ func (p *DirectReportChannelProxy) Configure(
 	_data.WriteInt32(sensorHandle)
 	_data.WriteInt32(int32(rate))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDirectReportChannel, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDirectReportChannel, MethodIDirectReportChannelConfigure)
 	if _err != nil {
-		_code = TransactionIDirectReportChannelConfigure
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDirectReportChannel, MethodIDirectReportChannelConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,6 +81,10 @@ type DirectReportChannelStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DirectReportChannelStub)(nil)
+
+func (s *DirectReportChannelStub) Descriptor() string {
+	return DescriptorIDirectReportChannel
+}
 
 func (s *DirectReportChannelStub) OnTransaction(
 	ctx context.Context,

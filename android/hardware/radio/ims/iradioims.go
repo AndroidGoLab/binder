@@ -24,6 +24,17 @@ const (
 	TransactionIRadioImsUpdateImsCallStatus       = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIRadioImsSetSrvccCallInfo          = "setSrvccCallInfo"
+	MethodIRadioImsUpdateImsRegistrationInfo = "updateImsRegistrationInfo"
+	MethodIRadioImsStartImsTraffic           = "startImsTraffic"
+	MethodIRadioImsStopImsTraffic            = "stopImsTraffic"
+	MethodIRadioImsTriggerEpsFallback        = "triggerEpsFallback"
+	MethodIRadioImsSetResponseFunctions      = "setResponseFunctions"
+	MethodIRadioImsSendAnbrQuery             = "sendAnbrQuery"
+	MethodIRadioImsUpdateImsCallStatus       = "updateImsCallStatus"
+)
+
 type IRadioIms interface {
 	AsBinder() binder.IBinder
 	SetSrvccCallInfo(ctx context.Context, serial int32, srvccCalls []SrvccCall) error
@@ -37,17 +48,17 @@ type IRadioIms interface {
 }
 
 type RadioImsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioImsProxy(
 	remote binder.IBinder,
 ) *RadioImsProxy {
-	return &RadioImsProxy{remote: remote}
+	return &RadioImsProxy{Remote: remote}
 }
 
 func (p *RadioImsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioIms = (*RadioImsProxy)(nil)
@@ -65,18 +76,19 @@ func (p *RadioImsProxy) SetSrvccCallInfo(
 	} else {
 		_data.WriteInt32(int32(len(srvccCalls)))
 		for _, _item := range srvccCalls {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "setSrvccCallInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsSetSrvccCallInfo)
 	if _err != nil {
-		_code = TransactionIRadioImsSetSrvccCallInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsSetSrvccCallInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +105,12 @@ func (p *RadioImsProxy) UpdateImsRegistrationInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "updateImsRegistrationInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsUpdateImsRegistrationInfo)
 	if _err != nil {
-		_code = TransactionIRadioImsUpdateImsRegistrationInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsUpdateImsRegistrationInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,12 +130,12 @@ func (p *RadioImsProxy) StartImsTraffic(
 	_data.WriteInt32(int32(accessNetworkType))
 	_data.WriteInt32(int32(trafficDirection))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "startImsTraffic")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsStartImsTraffic)
 	if _err != nil {
-		_code = TransactionIRadioImsStartImsTraffic
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsStartImsTraffic, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,12 +149,12 @@ func (p *RadioImsProxy) StopImsTraffic(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "stopImsTraffic")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsStopImsTraffic)
 	if _err != nil {
-		_code = TransactionIRadioImsStopImsTraffic
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsStopImsTraffic, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,12 +168,12 @@ func (p *RadioImsProxy) TriggerEpsFallback(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(reason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "triggerEpsFallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsTriggerEpsFallback)
 	if _err != nil {
-		_code = TransactionIRadioImsTriggerEpsFallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsTriggerEpsFallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,15 +184,15 @@ func (p *RadioImsProxy) SetResponseFunctions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
-	binder.WriteBinderToParcel(ctx, _data, radioImsResponse.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, radioImsIndication.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, radioImsResponse.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, radioImsIndication.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "setResponseFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsSetResponseFunctions)
 	if _err != nil {
-		_code = TransactionIRadioImsSetResponseFunctions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsSetResponseFunctions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,12 +210,12 @@ func (p *RadioImsProxy) SendAnbrQuery(
 	_data.WriteInt32(int32(direction))
 	_data.WriteInt32(bitsPerSecond)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "sendAnbrQuery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsSendAnbrQuery)
 	if _err != nil {
-		_code = TransactionIRadioImsSendAnbrQuery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsSendAnbrQuery, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -220,18 +232,19 @@ func (p *RadioImsProxy) UpdateImsCallStatus(
 	} else {
 		_data.WriteInt32(int32(len(imsCalls)))
 		for _, _item := range imsCalls {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioIms, "updateImsCallStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioIms, MethodIRadioImsUpdateImsCallStatus)
 	if _err != nil {
-		_code = TransactionIRadioImsUpdateImsCallStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioIms, MethodIRadioImsUpdateImsCallStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -242,6 +255,10 @@ type RadioImsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioImsStub)(nil)
+
+func (s *RadioImsStub) Descriptor() string {
+	return DescriptorIRadioIms
+}
 
 func (s *RadioImsStub) OnTransaction(
 	ctx context.Context,

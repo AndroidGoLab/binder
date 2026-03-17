@@ -15,23 +15,27 @@ const (
 	TransactionIFpsListenerOnFpsReported = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFpsListenerOnFpsReported = "onFpsReported"
+)
+
 type IFpsListener interface {
 	AsBinder() binder.IBinder
 	OnFpsReported(ctx context.Context, fps float32) error
 }
 
 type FpsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFpsListenerProxy(
 	remote binder.IBinder,
 ) *FpsListenerProxy {
-	return &FpsListenerProxy{remote: remote}
+	return &FpsListenerProxy{Remote: remote}
 }
 
 func (p *FpsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFpsListener = (*FpsListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *FpsListenerProxy) OnFpsReported(
 	_data.WriteInterfaceToken(DescriptorIFpsListener)
 	_data.WriteFloat32(fps)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFpsListener, "onFpsReported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFpsListener, MethodIFpsListenerOnFpsReported)
 	if _err != nil {
-		_code = TransactionIFpsListenerOnFpsReported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFpsListener, MethodIFpsListenerOnFpsReported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type FpsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FpsListenerStub)(nil)
+
+func (s *FpsListenerStub) Descriptor() string {
+	return DescriptorIFpsListener
+}
 
 func (s *FpsListenerStub) OnTransaction(
 	ctx context.Context,

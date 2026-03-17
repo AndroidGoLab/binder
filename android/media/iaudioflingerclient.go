@@ -3,7 +3,6 @@ package media
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,24 +16,29 @@ const (
 	TransactionIAudioFlingerClientOnSupportedLatencyModesChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAudioFlingerClientIoConfigChanged                = "ioConfigChanged"
+	MethodIAudioFlingerClientOnSupportedLatencyModesChanged = "onSupportedLatencyModesChanged"
+)
+
 type IAudioFlingerClient interface {
 	AsBinder() binder.IBinder
 	IoConfigChanged(ctx context.Context, event AudioIoConfigEvent, ioDesc AudioIoDescriptor) error
-	OnSupportedLatencyModesChanged(ctx context.Context, output int32, latencyModes []common.AudioLatencyMode) error
+	OnSupportedLatencyModesChanged(ctx context.Context, output int32, latencyModes []interface{}) error
 }
 
 type AudioFlingerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioFlingerClientProxy(
 	remote binder.IBinder,
 ) *AudioFlingerClientProxy {
-	return &AudioFlingerClientProxy{remote: remote}
+	return &AudioFlingerClientProxy{Remote: remote}
 }
 
 func (p *AudioFlingerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioFlingerClient = (*AudioFlingerClientProxy)(nil)
@@ -52,19 +56,19 @@ func (p *AudioFlingerClientProxy) IoConfigChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioFlingerClient, "ioConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerClient, MethodIAudioFlingerClientIoConfigChanged)
 	if _err != nil {
-		_code = TransactionIAudioFlingerClientIoConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioFlingerClient, MethodIAudioFlingerClientIoConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *AudioFlingerClientProxy) OnSupportedLatencyModesChanged(
 	ctx context.Context,
 	output int32,
-	latencyModes []common.AudioLatencyMode,
+	latencyModes []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerClient)
@@ -73,17 +77,14 @@ func (p *AudioFlingerClientProxy) OnSupportedLatencyModesChanged(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(latencyModes)))
-		for _, _item := range latencyModes {
-			_data.WritePaddedByte(byte(_item))
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioFlingerClient, "onSupportedLatencyModesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFlingerClient, MethodIAudioFlingerClientOnSupportedLatencyModesChanged)
 	if _err != nil {
-		_code = TransactionIAudioFlingerClientOnSupportedLatencyModesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioFlingerClient, MethodIAudioFlingerClientOnSupportedLatencyModesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +95,10 @@ type AudioFlingerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioFlingerClientStub)(nil)
+
+func (s *AudioFlingerClientStub) Descriptor() string {
+	return DescriptorIAudioFlingerClient
+}
 
 func (s *AudioFlingerClientStub) OnTransaction(
 	ctx context.Context,
@@ -134,7 +139,7 @@ func (s *AudioFlingerClientStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_latencyModes []common.AudioLatencyMode
+		var _arg_latencyModes []interface{}
 		_ = _arg_latencyModes
 		_err = s.Impl.OnSupportedLatencyModesChanged(ctx, _arg_output, _arg_latencyModes)
 		_ = _err
@@ -149,7 +154,7 @@ func (s *AudioFlingerClientStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IAudioFlingerClientServer interface {
 	IoConfigChanged(ctx context.Context, event AudioIoConfigEvent, ioDesc AudioIoDescriptor) error
-	OnSupportedLatencyModesChanged(ctx context.Context, output int32, latencyModes []common.AudioLatencyMode) error
+	OnSupportedLatencyModesChanged(ctx context.Context, output int32, latencyModes []interface{}) error
 }
 
 type audioFlingerClientStubWrapper struct {
@@ -172,7 +177,7 @@ func (w *audioFlingerClientStubWrapper) IoConfigChanged(
 func (w *audioFlingerClientStubWrapper) OnSupportedLatencyModesChanged(
 	ctx context.Context,
 	output int32,
-	latencyModes []common.AudioLatencyMode,
+	latencyModes []interface{},
 ) error {
 	return w.impl.OnSupportedLatencyModesChanged(ctx, output, latencyModes)
 }

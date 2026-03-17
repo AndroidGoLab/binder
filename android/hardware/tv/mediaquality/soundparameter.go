@@ -304,6 +304,7 @@ func (u *SoundParameter) MarshalParcel(
 	case SoundParameterTagSurroundSoundEnabled:
 		p.WriteBool(u.SurroundSoundEnabled)
 	case SoundParameterTagEqualizerDetail:
+		p.WriteInt32(1)
 		if _err := u.EqualizerDetail.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -320,12 +321,14 @@ func (u *SoundParameter) MarshalParcel(
 	case SoundParameterTagDtsDrc:
 		p.WriteBool(u.DtsDrc)
 	case SoundParameterTagDolbyAudioProcessing:
+		p.WriteInt32(1)
 		if _err := u.DolbyAudioProcessing.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case SoundParameterTagDolbyDialogueEnhancer:
 		p.WriteInt32(int32(u.DolbyDialogueEnhancer))
 	case SoundParameterTagDtsVirtualX:
+		p.WriteInt32(1)
 		if _err := u.DtsVirtualX.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -376,6 +379,9 @@ func (u *SoundParameter) UnmarshalParcel(
 			return _err
 		}
 	case SoundParameterTagEqualizerDetail:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.EqualizerDetail.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -411,6 +417,9 @@ func (u *SoundParameter) UnmarshalParcel(
 			return _err
 		}
 	case SoundParameterTagDolbyAudioProcessing:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DolbyAudioProcessing.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -421,6 +430,9 @@ func (u *SoundParameter) UnmarshalParcel(
 		}
 		u.DolbyDialogueEnhancer = QualityLevel(_raw)
 	case SoundParameterTagDtsVirtualX:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DtsVirtualX.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

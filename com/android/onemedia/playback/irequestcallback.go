@@ -16,23 +16,27 @@ const (
 	TransactionIRequestCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRequestCallbackOnResult = "onResult"
+)
+
 type IRequestCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, result os.Bundle) error
 }
 
 type RequestCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRequestCallbackProxy(
 	remote binder.IBinder,
 ) *RequestCallbackProxy {
-	return &RequestCallbackProxy{remote: remote}
+	return &RequestCallbackProxy{Remote: remote}
 }
 
 func (p *RequestCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRequestCallback = (*RequestCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *RequestCallbackProxy) OnResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type RequestCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RequestCallbackStub)(nil)
+
+func (s *RequestCallbackStub) Descriptor() string {
+	return DescriptorIRequestCallback
+}
 
 func (s *RequestCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIGnssPsdsSetCallback    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssPsdsInjectPsdsData = "injectPsdsData"
+	MethodIGnssPsdsSetCallback    = "setCallback"
+)
+
 type IGnssPsds interface {
 	AsBinder() binder.IBinder
 	InjectPsdsData(ctx context.Context, psdsType PsdsType, psdsData []byte) error
@@ -23,17 +28,17 @@ type IGnssPsds interface {
 }
 
 type GnssPsdsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssPsdsProxy(
 	remote binder.IBinder,
 ) *GnssPsdsProxy {
-	return &GnssPsdsProxy{remote: remote}
+	return &GnssPsdsProxy{Remote: remote}
 }
 
 func (p *GnssPsdsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssPsds = (*GnssPsdsProxy)(nil)
@@ -55,12 +60,12 @@ func (p *GnssPsdsProxy) InjectPsdsData(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssPsds, "injectPsdsData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPsds, MethodIGnssPsdsInjectPsdsData)
 	if _err != nil {
-		_code = TransactionIGnssPsdsInjectPsdsData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssPsds, MethodIGnssPsdsInjectPsdsData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,14 +84,14 @@ func (p *GnssPsdsProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssPsds)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssPsds, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPsds, MethodIGnssPsdsSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssPsdsSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssPsds, MethodIGnssPsdsSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,6 +111,10 @@ type GnssPsdsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssPsdsStub)(nil)
+
+func (s *GnssPsdsStub) Descriptor() string {
+	return DescriptorIGnssPsds
+}
 
 func (s *GnssPsdsStub) OnTransaction(
 	ctx context.Context,

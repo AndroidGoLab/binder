@@ -15,23 +15,27 @@ const (
 	TransactionIProviderRequestListenerOnProviderRequestChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProviderRequestListenerOnProviderRequestChanged = "onProviderRequestChanged"
+)
+
 type IProviderRequestListener interface {
 	AsBinder() binder.IBinder
 	OnProviderRequestChanged(ctx context.Context, provider string, request ProviderRequest) error
 }
 
 type ProviderRequestListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProviderRequestListenerProxy(
 	remote binder.IBinder,
 ) *ProviderRequestListenerProxy {
-	return &ProviderRequestListenerProxy{remote: remote}
+	return &ProviderRequestListenerProxy{Remote: remote}
 }
 
 func (p *ProviderRequestListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProviderRequestListener = (*ProviderRequestListenerProxy)(nil)
@@ -49,12 +53,12 @@ func (p *ProviderRequestListenerProxy) OnProviderRequestChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProviderRequestListener, "onProviderRequestChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProviderRequestListener, MethodIProviderRequestListenerOnProviderRequestChanged)
 	if _err != nil {
-		_code = TransactionIProviderRequestListenerOnProviderRequestChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProviderRequestListener, MethodIProviderRequestListenerOnProviderRequestChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type ProviderRequestListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProviderRequestListenerStub)(nil)
+
+func (s *ProviderRequestListenerStub) Descriptor() string {
+	return DescriptorIProviderRequestListener
+}
 
 func (s *ProviderRequestListenerStub) OnTransaction(
 	ctx context.Context,

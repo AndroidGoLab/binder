@@ -19,6 +19,13 @@ const (
 	TransactionIKeyMintOperationAbort     = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIKeyMintOperationUpdateAad = "updateAad"
+	MethodIKeyMintOperationUpdate    = "update"
+	MethodIKeyMintOperationFinish    = "finish"
+	MethodIKeyMintOperationAbort     = "abort"
+)
+
 type IKeyMintOperation interface {
 	AsBinder() binder.IBinder
 	UpdateAad(ctx context.Context, input []byte, authToken *HardwareAuthToken, timeStampToken *secureclock.TimeStampToken) error
@@ -28,17 +35,17 @@ type IKeyMintOperation interface {
 }
 
 type KeyMintOperationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyMintOperationProxy(
 	remote binder.IBinder,
 ) *KeyMintOperationProxy {
-	return &KeyMintOperationProxy{remote: remote}
+	return &KeyMintOperationProxy{Remote: remote}
 }
 
 func (p *KeyMintOperationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyMintOperation = (*KeyMintOperationProxy)(nil)
@@ -74,12 +81,12 @@ func (p *KeyMintOperationProxy) UpdateAad(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintOperation, "updateAad")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdateAad)
 	if _err != nil {
-		_code = TransactionIKeyMintOperationUpdateAad
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdateAad, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,12 +131,12 @@ func (p *KeyMintOperationProxy) Update(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintOperation, "update")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdate)
 	if _err != nil {
-		_code = TransactionIKeyMintOperationUpdate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintOperation, MethodIKeyMintOperationUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,12 +213,12 @@ func (p *KeyMintOperationProxy) Finish(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintOperation, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationFinish)
 	if _err != nil {
-		_code = TransactionIKeyMintOperationFinish
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintOperation, MethodIKeyMintOperationFinish, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -244,12 +251,12 @@ func (p *KeyMintOperationProxy) Abort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintOperation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintOperation, "abort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyMintOperation, MethodIKeyMintOperationAbort)
 	if _err != nil {
-		_code = TransactionIKeyMintOperationAbort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyMintOperation, MethodIKeyMintOperationAbort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,6 +276,10 @@ type KeyMintOperationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyMintOperationStub)(nil)
+
+func (s *KeyMintOperationStub) Descriptor() string {
+	return DescriptorIKeyMintOperation
+}
 
 func (s *KeyMintOperationStub) OnTransaction(
 	ctx context.Context,

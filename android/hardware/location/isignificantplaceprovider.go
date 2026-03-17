@@ -16,6 +16,11 @@ const (
 	TransactionISignificantPlaceProviderOnSignificantPlaceCheck            = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISignificantPlaceProviderSetSignificantPlaceProviderManager = "setSignificantPlaceProviderManager"
+	MethodISignificantPlaceProviderOnSignificantPlaceCheck            = "onSignificantPlaceCheck"
+)
+
 type ISignificantPlaceProvider interface {
 	AsBinder() binder.IBinder
 	SetSignificantPlaceProviderManager(ctx context.Context, manager ISignificantPlaceProviderManager) error
@@ -23,17 +28,17 @@ type ISignificantPlaceProvider interface {
 }
 
 type SignificantPlaceProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSignificantPlaceProviderProxy(
 	remote binder.IBinder,
 ) *SignificantPlaceProviderProxy {
-	return &SignificantPlaceProviderProxy{remote: remote}
+	return &SignificantPlaceProviderProxy{Remote: remote}
 }
 
 func (p *SignificantPlaceProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISignificantPlaceProvider = (*SignificantPlaceProviderProxy)(nil)
@@ -44,14 +49,14 @@ func (p *SignificantPlaceProviderProxy) SetSignificantPlaceProviderManager(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISignificantPlaceProvider)
-	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISignificantPlaceProvider, "setSignificantPlaceProviderManager")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISignificantPlaceProvider, MethodISignificantPlaceProviderSetSignificantPlaceProviderManager)
 	if _err != nil {
-		_code = TransactionISignificantPlaceProviderSetSignificantPlaceProviderManager
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISignificantPlaceProvider, MethodISignificantPlaceProviderSetSignificantPlaceProviderManager, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *SignificantPlaceProviderProxy) OnSignificantPlaceCheck(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISignificantPlaceProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISignificantPlaceProvider, "onSignificantPlaceCheck")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISignificantPlaceProvider, MethodISignificantPlaceProviderOnSignificantPlaceCheck)
 	if _err != nil {
-		_code = TransactionISignificantPlaceProviderOnSignificantPlaceCheck
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISignificantPlaceProvider, MethodISignificantPlaceProviderOnSignificantPlaceCheck, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type SignificantPlaceProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SignificantPlaceProviderStub)(nil)
+
+func (s *SignificantPlaceProviderStub) Descriptor() string {
+	return DescriptorISignificantPlaceProvider
+}
 
 func (s *SignificantPlaceProviderStub) OnTransaction(
 	ctx context.Context,

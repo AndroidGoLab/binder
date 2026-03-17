@@ -15,23 +15,27 @@ const (
 	TransactionIActivityRecognitionHardwareClientOnAvailabilityChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIActivityRecognitionHardwareClientOnAvailabilityChanged = "onAvailabilityChanged"
+)
+
 type IActivityRecognitionHardwareClient interface {
 	AsBinder() binder.IBinder
 	OnAvailabilityChanged(ctx context.Context, isSupported bool, instance IActivityRecognitionHardware) error
 }
 
 type ActivityRecognitionHardwareClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityRecognitionHardwareClientProxy(
 	remote binder.IBinder,
 ) *ActivityRecognitionHardwareClientProxy {
-	return &ActivityRecognitionHardwareClientProxy{remote: remote}
+	return &ActivityRecognitionHardwareClientProxy{Remote: remote}
 }
 
 func (p *ActivityRecognitionHardwareClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityRecognitionHardwareClient = (*ActivityRecognitionHardwareClientProxy)(nil)
@@ -44,14 +48,14 @@ func (p *ActivityRecognitionHardwareClientProxy) OnAvailabilityChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardwareClient)
 	_data.WriteBool(isSupported)
-	binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareClient, "onAvailabilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardwareClient, MethodIActivityRecognitionHardwareClientOnAvailabilityChanged)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareClientOnAvailabilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardwareClient, MethodIActivityRecognitionHardwareClientOnAvailabilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type ActivityRecognitionHardwareClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareClientStub)(nil)
+
+func (s *ActivityRecognitionHardwareClientStub) Descriptor() string {
+	return DescriptorIActivityRecognitionHardwareClient
+}
 
 func (s *ActivityRecognitionHardwareClientStub) OnTransaction(
 	ctx context.Context,

@@ -21,6 +21,16 @@ const (
 	TransactionICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature  = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodICarrierConfigLoaderGetConfigForSubId                   = "getConfigForSubId"
+	MethodICarrierConfigLoaderGetConfigForSubIdWithFeature        = "getConfigForSubIdWithFeature"
+	MethodICarrierConfigLoaderOverrideConfig                      = "overrideConfig"
+	MethodICarrierConfigLoaderNotifyConfigChangedForSubId         = "notifyConfigChangedForSubId"
+	MethodICarrierConfigLoaderUpdateConfigForPhoneId              = "updateConfigForPhoneId"
+	MethodICarrierConfigLoaderGetDefaultCarrierServicePackageName = "getDefaultCarrierServicePackageName"
+	MethodICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature  = "getConfigSubsetForSubIdWithFeature"
+)
+
 type ICarrierConfigLoader interface {
 	AsBinder() binder.IBinder
 	GetConfigForSubId(ctx context.Context, subId int32) (interface{}, error)
@@ -33,17 +43,17 @@ type ICarrierConfigLoader interface {
 }
 
 type CarrierConfigLoaderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierConfigLoaderProxy(
 	remote binder.IBinder,
 ) *CarrierConfigLoaderProxy {
-	return &CarrierConfigLoaderProxy{remote: remote}
+	return &CarrierConfigLoaderProxy{Remote: remote}
 }
 
 func (p *CarrierConfigLoaderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierConfigLoader = (*CarrierConfigLoaderProxy)(nil)
@@ -53,18 +63,18 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubId(
 	subId int32,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigForSubId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubId)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderGetConfigForSubId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,19 +92,19 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubIdWithFeature(
 	subId int32,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigForSubIdWithFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubIdWithFeature)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderGetConfigForSubIdWithFeature
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigForSubIdWithFeature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,12 +128,12 @@ func (p *CarrierConfigLoaderProxy) OverrideConfig(
 	_data.WriteInt32(subId)
 	_data.WriteBool(persistent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "overrideConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderOverrideConfig)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderOverrideConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderOverrideConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -144,12 +154,12 @@ func (p *CarrierConfigLoaderProxy) NotifyConfigChangedForSubId(
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "notifyConfigChangedForSubId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderNotifyConfigChangedForSubId)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderNotifyConfigChangedForSubId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderNotifyConfigChangedForSubId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,12 +182,12 @@ func (p *CarrierConfigLoaderProxy) UpdateConfigForPhoneId(
 	_data.WriteInt32(phoneId)
 	_data.WriteString16(simState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "updateConfigForPhoneId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderUpdateConfigForPhoneId)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderUpdateConfigForPhoneId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderUpdateConfigForPhoneId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,12 +207,12 @@ func (p *CarrierConfigLoaderProxy) GetDefaultCarrierServicePackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getDefaultCarrierServicePackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetDefaultCarrierServicePackageName)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderGetDefaultCarrierServicePackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetDefaultCarrierServicePackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -225,7 +235,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 	carrierConfigs []string,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
@@ -240,12 +250,12 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigSubsetForSubIdWithFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature)
 	if _err != nil {
-		_code = TransactionICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigLoader, MethodICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -265,6 +275,10 @@ type CarrierConfigLoaderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierConfigLoaderStub)(nil)
+
+func (s *CarrierConfigLoaderStub) Descriptor() string {
+	return DescriptorICarrierConfigLoader
+}
 
 func (s *CarrierConfigLoaderStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIThermalHeadroomListenerOnHeadroomChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIThermalHeadroomListenerOnHeadroomChange = "onHeadroomChange"
+)
+
 type IThermalHeadroomListener interface {
 	AsBinder() binder.IBinder
 	OnHeadroomChange(ctx context.Context, headroom float32, forecastHeadroom float32, forecastSeconds int32, thresholds []float32) error
 }
 
 type ThermalHeadroomListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewThermalHeadroomListenerProxy(
 	remote binder.IBinder,
 ) *ThermalHeadroomListenerProxy {
-	return &ThermalHeadroomListenerProxy{remote: remote}
+	return &ThermalHeadroomListenerProxy{Remote: remote}
 }
 
 func (p *ThermalHeadroomListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IThermalHeadroomListener = (*ThermalHeadroomListenerProxy)(nil)
@@ -57,12 +61,12 @@ func (p *ThermalHeadroomListenerProxy) OnHeadroomChange(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThermalHeadroomListener, "onHeadroomChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalHeadroomListener, MethodIThermalHeadroomListenerOnHeadroomChange)
 	if _err != nil {
-		_code = TransactionIThermalHeadroomListenerOnHeadroomChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThermalHeadroomListener, MethodIThermalHeadroomListenerOnHeadroomChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,6 +77,10 @@ type ThermalHeadroomListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ThermalHeadroomListenerStub)(nil)
+
+func (s *ThermalHeadroomListenerStub) Descriptor() string {
+	return DescriptorIThermalHeadroomListener
+}
 
 func (s *ThermalHeadroomListenerStub) OnTransaction(
 	ctx context.Context,

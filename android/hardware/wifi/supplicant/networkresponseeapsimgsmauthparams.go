@@ -17,22 +17,8 @@ func (s *NetworkResponseEapSimGsmAuthParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Kc == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Kc)))
-		for _, _item := range s.Kc {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Sres == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Sres)))
-		for _, _item := range s.Sres {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Kc)
+	p.WriteByteArray(s.Sres)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *NetworkResponseEapSimGsmAuthParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Kc, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Kc = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Kc[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Sres, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Sres = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Sres[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

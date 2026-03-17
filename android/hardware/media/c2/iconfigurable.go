@@ -3,6 +3,7 @@ package c2
 import (
 	"context"
 	"fmt"
+	c2IConfigurable "github.com/xaionaro-go/binder/android/hardware/media/c2/IConfigurable"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,28 +21,37 @@ const (
 	TransactionIConfigurableQuerySupportedValues = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIConfigurableConfig               = "config"
+	MethodIConfigurableGetId                = "getId"
+	MethodIConfigurableGetName              = "getName"
+	MethodIConfigurableQuery                = "query"
+	MethodIConfigurableQuerySupportedParams = "querySupportedParams"
+	MethodIConfigurableQuerySupportedValues = "querySupportedValues"
+)
+
 type IConfigurable interface {
 	AsBinder() binder.IBinder
-	Config(ctx context.Context, inParams Params, mayBlock bool) (interface{}, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (interface{}, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (interface{}, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
 }
 
 type ConfigurableProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConfigurableProxy(
 	remote binder.IBinder,
 ) *ConfigurableProxy {
-	return &ConfigurableProxy{remote: remote}
+	return &ConfigurableProxy{Remote: remote}
 }
 
 func (p *ConfigurableProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConfigurable = (*ConfigurableProxy)(nil)
@@ -50,8 +60,8 @@ func (p *ConfigurableProxy) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (interface{}, error) {
-	var _result interface{}
+) (c2IConfigurable.ConfigResult, error) {
+	var _result c2IConfigurable.ConfigResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	_data.WriteInt32(1)
@@ -60,12 +70,12 @@ func (p *ConfigurableProxy) Config(
 	}
 	_data.WriteBool(mayBlock)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigurable, "config")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableConfig)
 	if _err != nil {
-		_code = TransactionIConfigurableConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigurable, MethodIConfigurableConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,6 +85,15 @@ func (p *ConfigurableProxy) Config(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -85,12 +104,12 @@ func (p *ConfigurableProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigurable, "getId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableGetId)
 	if _err != nil {
-		_code = TransactionIConfigurableGetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigurable, MethodIConfigurableGetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,12 +133,12 @@ func (p *ConfigurableProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigurable, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableGetName)
 	if _err != nil {
-		_code = TransactionIConfigurableGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigurable, MethodIConfigurableGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,8 +159,8 @@ func (p *ConfigurableProxy) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (interface{}, error) {
-	var _result interface{}
+) (c2IConfigurable.QueryResult, error) {
+	var _result c2IConfigurable.QueryResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if indices == nil {
@@ -154,12 +173,12 @@ func (p *ConfigurableProxy) Query(
 	}
 	_data.WriteBool(mayBlock)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigurable, "query")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableQuery)
 	if _err != nil {
-		_code = TransactionIConfigurableQuery
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigurable, MethodIConfigurableQuery, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,6 +188,15 @@ func (p *ConfigurableProxy) Query(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -183,12 +211,12 @@ func (p *ConfigurableProxy) QuerySupportedParams(
 	_data.WriteInt32(start)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigurable, "querySupportedParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableQuerySupportedParams)
 	if _err != nil {
-		_code = TransactionIConfigurableQuerySupportedParams
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigurable, MethodIConfigurableQuerySupportedParams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,6 +234,9 @@ func (p *ConfigurableProxy) QuerySupportedParams(
 	if _count >= 0 {
 		_result = make([]ParamDescriptor, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -218,8 +249,8 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (interface{}, error) {
-	var _result interface{}
+) (c2IConfigurable.QuerySupportedValuesResult, error) {
+	var _result c2IConfigurable.QuerySupportedValuesResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if inFields == nil {
@@ -227,6 +258,7 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	} else {
 		_data.WriteInt32(int32(len(inFields)))
 		for _, _item := range inFields {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -234,12 +266,12 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	}
 	_data.WriteBool(mayBlock)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigurable, "querySupportedValues")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigurable, MethodIConfigurableQuerySupportedValues)
 	if _err != nil {
-		_code = TransactionIConfigurableQuerySupportedValues
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigurable, MethodIConfigurableQuerySupportedValues, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -249,6 +281,15 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -259,6 +300,10 @@ type ConfigurableStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConfigurableStub)(nil)
+
+func (s *ConfigurableStub) Descriptor() string {
+	return DescriptorIConfigurable
+}
 
 func (s *ConfigurableStub) OnTransaction(
 	ctx context.Context,
@@ -293,7 +338,10 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIConfigurableGetId:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -339,7 +387,10 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedParams:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -381,7 +432,10 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -392,12 +446,12 @@ func (s *ConfigurableStub) OnTransaction(
 // provide to NewConfigurableStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IConfigurableServer interface {
-	Config(ctx context.Context, inParams Params, mayBlock bool) (interface{}, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (interface{}, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (interface{}, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
 }
 
 type configurableStubWrapper struct {
@@ -413,7 +467,7 @@ func (w *configurableStubWrapper) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (interface{}, error) {
+) (c2IConfigurable.ConfigResult, error) {
 	return w.impl.Config(ctx, inParams, mayBlock)
 }
 
@@ -433,7 +487,7 @@ func (w *configurableStubWrapper) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (interface{}, error) {
+) (c2IConfigurable.QueryResult, error) {
 	return w.impl.Query(ctx, indices, mayBlock)
 }
 
@@ -449,7 +503,7 @@ func (w *configurableStubWrapper) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (interface{}, error) {
+) (c2IConfigurable.QuerySupportedValuesResult, error) {
 	return w.impl.QuerySupportedValues(ctx, inFields, mayBlock)
 }
 

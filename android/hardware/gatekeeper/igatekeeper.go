@@ -18,6 +18,13 @@ const (
 	TransactionIGatekeeperVerify         = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIGatekeeperDeleteAllUsers = "deleteAllUsers"
+	MethodIGatekeeperDeleteUser     = "deleteUser"
+	MethodIGatekeeperEnroll         = "enroll"
+	MethodIGatekeeperVerify         = "verify"
+)
+
 type IGatekeeper interface {
 	AsBinder() binder.IBinder
 	DeleteAllUsers(ctx context.Context) error
@@ -35,17 +42,17 @@ const (
 )
 
 type GatekeeperProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGatekeeperProxy(
 	remote binder.IBinder,
 ) *GatekeeperProxy {
-	return &GatekeeperProxy{remote: remote}
+	return &GatekeeperProxy{Remote: remote}
 }
 
 func (p *GatekeeperProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGatekeeper = (*GatekeeperProxy)(nil)
@@ -56,12 +63,12 @@ func (p *GatekeeperProxy) DeleteAllUsers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "deleteAllUsers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperDeleteAllUsers)
 	if _err != nil {
-		_code = TransactionIGatekeeperDeleteAllUsers
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGatekeeper, MethodIGatekeeperDeleteAllUsers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +89,12 @@ func (p *GatekeeperProxy) DeleteUser(
 	_data.WriteInterfaceToken(DescriptorIGatekeeper)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "deleteUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperDeleteUser)
 	if _err != nil {
-		_code = TransactionIGatekeeperDeleteUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGatekeeper, MethodIGatekeeperDeleteUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -136,12 +143,12 @@ func (p *GatekeeperProxy) Enroll(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "enroll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperEnroll)
 	if _err != nil {
-		_code = TransactionIGatekeeperEnroll
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGatekeeper, MethodIGatekeeperEnroll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -192,12 +199,12 @@ func (p *GatekeeperProxy) Verify(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "verify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGatekeeper, MethodIGatekeeperVerify)
 	if _err != nil {
-		_code = TransactionIGatekeeperVerify
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGatekeeper, MethodIGatekeeperVerify, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -226,6 +233,10 @@ type GatekeeperStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GatekeeperStub)(nil)
+
+func (s *GatekeeperStub) Descriptor() string {
+	return DescriptorIGatekeeper
+}
 
 func (s *GatekeeperStub) OnTransaction(
 	ctx context.Context,

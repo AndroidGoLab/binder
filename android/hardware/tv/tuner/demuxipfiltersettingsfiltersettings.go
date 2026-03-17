@@ -77,6 +77,7 @@ func (u *DemuxIpFilterSettingsFilterSettings) MarshalParcel(
 	case DemuxIpFilterSettingsFilterSettingsTagNoinit:
 		p.WriteBool(u.Noinit)
 	case DemuxIpFilterSettingsFilterSettingsTagSection:
+		p.WriteInt32(1)
 		if _err := u.Section.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -110,6 +111,9 @@ func (u *DemuxIpFilterSettingsFilterSettings) UnmarshalParcel(
 			return _err
 		}
 	case DemuxIpFilterSettingsFilterSettingsTagSection:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Section.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

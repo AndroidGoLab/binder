@@ -51,17 +51,6 @@ func TestSmoke_SatelliteDatagramCallbackProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_SatelliteDisallowedReasonsCallbackProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewSatelliteDisallowedReasonsCallbackProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("SatelliteDisallowedReasonsCallbackProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_SatelliteModemStateCallbackProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewSatelliteModemStateCallbackProxy(mock)
@@ -100,17 +89,6 @@ func TestSmoke_SatelliteTransmissionUpdateCallbackProxy(t *testing.T) {
 	proxy := NewSatelliteTransmissionUpdateCallbackProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SatelliteTransmissionUpdateCallbackProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
-func TestSmoke_SelectedNbIotSatelliteSubscriptionCallbackProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewSelectedNbIotSatelliteSubscriptionCallbackProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("SelectedNbIotSatelliteSubscriptionCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)

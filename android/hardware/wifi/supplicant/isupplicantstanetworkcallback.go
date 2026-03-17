@@ -20,6 +20,15 @@ const (
 	TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied         = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest    = "onNetworkEapIdentityRequest"
+	MethodISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest  = "onNetworkEapSimGsmAuthRequest"
+	MethodISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest = "onNetworkEapSimUmtsAuthRequest"
+	MethodISupplicantStaNetworkCallbackOnTransitionDisable            = "onTransitionDisable"
+	MethodISupplicantStaNetworkCallbackOnServerCertificateAvailable   = "onServerCertificateAvailable"
+	MethodISupplicantStaNetworkCallbackOnPermanentIdReqDenied         = "onPermanentIdReqDenied"
+)
+
 type ISupplicantStaNetworkCallback interface {
 	AsBinder() binder.IBinder
 	OnNetworkEapIdentityRequest(ctx context.Context) error
@@ -31,17 +40,17 @@ type ISupplicantStaNetworkCallback interface {
 }
 
 type SupplicantStaNetworkCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantStaNetworkCallbackProxy(
 	remote binder.IBinder,
 ) *SupplicantStaNetworkCallbackProxy {
-	return &SupplicantStaNetworkCallbackProxy{remote: remote}
+	return &SupplicantStaNetworkCallbackProxy{Remote: remote}
 }
 
 func (p *SupplicantStaNetworkCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicantStaNetworkCallback = (*SupplicantStaNetworkCallbackProxy)(nil)
@@ -52,12 +61,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapIdentityRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapIdentityRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest)
 	if _err != nil {
-		_code = TransactionISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +81,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimGsmAuthRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapSimGsmAuthRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest)
 	if _err != nil {
-		_code = TransactionISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +101,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimUmtsAuthRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapSimUmtsAuthRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest)
 	if _err != nil {
-		_code = TransactionISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +118,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnTransitionDisable(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 	_data.WriteInt32(int32(ind))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onTransitionDisable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnTransitionDisable)
 	if _err != nil {
-		_code = TransactionISupplicantStaNetworkCallbackOnTransitionDisable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnTransitionDisable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,12 +162,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnServerCertificateAvailable(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onServerCertificateAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnServerCertificateAvailable)
 	if _err != nil {
-		_code = TransactionISupplicantStaNetworkCallbackOnServerCertificateAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnServerCertificateAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,12 +177,12 @@ func (p *SupplicantStaNetworkCallbackProxy) OnPermanentIdReqDenied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onPermanentIdReqDenied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnPermanentIdReqDenied)
 	if _err != nil {
-		_code = TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaNetworkCallback, MethodISupplicantStaNetworkCallbackOnPermanentIdReqDenied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -184,6 +193,10 @@ type SupplicantStaNetworkCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStaNetworkCallbackStub)(nil)
+
+func (s *SupplicantStaNetworkCallbackStub) Descriptor() string {
+	return DescriptorISupplicantStaNetworkCallback
+}
 
 func (s *SupplicantStaNetworkCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIDisableProfileCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDisableProfileCallbackOnComplete = "onComplete"
+)
+
 type IDisableProfileCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32) error
 }
 
 type DisableProfileCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisableProfileCallbackProxy(
 	remote binder.IBinder,
 ) *DisableProfileCallbackProxy {
-	return &DisableProfileCallbackProxy{remote: remote}
+	return &DisableProfileCallbackProxy{Remote: remote}
 }
 
 func (p *DisableProfileCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisableProfileCallback = (*DisableProfileCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *DisableProfileCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIDisableProfileCallback)
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisableProfileCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisableProfileCallback, MethodIDisableProfileCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIDisableProfileCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisableProfileCallback, MethodIDisableProfileCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type DisableProfileCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisableProfileCallbackStub)(nil)
+
+func (s *DisableProfileCallbackStub) Descriptor() string {
+	return DescriptorIDisableProfileCallback
+}
 
 func (s *DisableProfileCallbackStub) OnTransaction(
 	ctx context.Context,

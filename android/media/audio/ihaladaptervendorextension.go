@@ -21,6 +21,14 @@ const (
 	TransactionIHalAdapterVendorExtensionProcessVendorParameters              = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIHalAdapterVendorExtensionParseVendorParameterIds              = "parseVendorParameterIds"
+	MethodIHalAdapterVendorExtensionParseVendorParameters                = "parseVendorParameters"
+	MethodIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload = "parseBluetoothA2dpReconfigureOffload"
+	MethodIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload   = "parseBluetoothLeReconfigureOffload"
+	MethodIHalAdapterVendorExtensionProcessVendorParameters              = "processVendorParameters"
+)
+
 type IHalAdapterVendorExtension interface {
 	AsBinder() binder.IBinder
 	ParseVendorParameterIds(ctx context.Context, scope audioIHalAdapterVendorExtension.ParameterScope, rawKeys string) ([]string, error)
@@ -31,17 +39,17 @@ type IHalAdapterVendorExtension interface {
 }
 
 type HalAdapterVendorExtensionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHalAdapterVendorExtensionProxy(
 	remote binder.IBinder,
 ) *HalAdapterVendorExtensionProxy {
-	return &HalAdapterVendorExtensionProxy{remote: remote}
+	return &HalAdapterVendorExtensionProxy{Remote: remote}
 }
 
 func (p *HalAdapterVendorExtensionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHalAdapterVendorExtension = (*HalAdapterVendorExtensionProxy)(nil)
@@ -57,12 +65,12 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameterIds(
 	_data.WriteInt32(int32(scope))
 	_data.WriteString16(rawKeys)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseVendorParameterIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameterIds)
 	if _err != nil {
-		_code = TransactionIHalAdapterVendorExtensionParseVendorParameterIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameterIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -101,12 +109,12 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	_data.WriteInt32(int32(scope))
 	_data.WriteString16(rawKeysAndValues)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseVendorParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameters)
 	if _err != nil {
-		_code = TransactionIHalAdapterVendorExtensionParseVendorParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseVendorParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,6 +130,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	if _outCount0 >= 0 {
 		syncParameters = make([]core.VendorParameter, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = syncParameters[_i].UnmarshalParcel(_reply); _err != nil {
 				return _err
 			}
@@ -134,6 +145,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 	if _outCount1 >= 0 {
 		asyncParameters = make([]core.VendorParameter, _outCount1)
 		for _i := int32(0); _i < _outCount1; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = asyncParameters[_i].UnmarshalParcel(_reply); _err != nil {
 				return _err
 			}
@@ -152,12 +166,12 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothA2dpReconfigureOffload(
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteString16(rawValue)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseBluetoothA2dpReconfigureOffload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload)
 	if _err != nil {
-		_code = TransactionIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,6 +189,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothA2dpReconfigureOffload(
 	if _count >= 0 {
 		_result = make([]core.VendorParameter, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -192,12 +209,12 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 	_data.WriteInterfaceToken(DescriptorIHalAdapterVendorExtension)
 	_data.WriteString16(rawValue)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseBluetoothLeReconfigureOffload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload)
 	if _err != nil {
-		_code = TransactionIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -215,6 +232,9 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 	if _count >= 0 {
 		_result = make([]core.VendorParameter, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -237,18 +257,19 @@ func (p *HalAdapterVendorExtensionProxy) ProcessVendorParameters(
 	} else {
 		_data.WriteInt32(int32(len(parameters)))
 		for _, _item := range parameters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "processVendorParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionProcessVendorParameters)
 	if _err != nil {
-		_code = TransactionIHalAdapterVendorExtensionProcessVendorParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHalAdapterVendorExtension, MethodIHalAdapterVendorExtensionProcessVendorParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -272,6 +293,10 @@ type HalAdapterVendorExtensionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HalAdapterVendorExtensionStub)(nil)
+
+func (s *HalAdapterVendorExtensionStub) Descriptor() string {
+	return DescriptorIHalAdapterVendorExtension
+}
 
 func (s *HalAdapterVendorExtensionStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIAppOpsAsyncNotedCallbackOpNoted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppOpsAsyncNotedCallbackOpNoted = "opNoted"
+)
+
 type IAppOpsAsyncNotedCallback interface {
 	AsBinder() binder.IBinder
 	OpNoted(ctx context.Context, op interface{}) error
 }
 
 type AppOpsAsyncNotedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppOpsAsyncNotedCallbackProxy(
 	remote binder.IBinder,
 ) *AppOpsAsyncNotedCallbackProxy {
-	return &AppOpsAsyncNotedCallbackProxy{remote: remote}
+	return &AppOpsAsyncNotedCallbackProxy{Remote: remote}
 }
 
 func (p *AppOpsAsyncNotedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppOpsAsyncNotedCallback = (*AppOpsAsyncNotedCallbackProxy)(nil)
@@ -43,12 +47,12 @@ func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsAsyncNotedCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsAsyncNotedCallback, "opNoted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsAsyncNotedCallback, MethodIAppOpsAsyncNotedCallbackOpNoted)
 	if _err != nil {
-		_code = TransactionIAppOpsAsyncNotedCallbackOpNoted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsAsyncNotedCallback, MethodIAppOpsAsyncNotedCallbackOpNoted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type AppOpsAsyncNotedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppOpsAsyncNotedCallbackStub)(nil)
+
+func (s *AppOpsAsyncNotedCallbackStub) Descriptor() string {
+	return DescriptorIAppOpsAsyncNotedCallback
+}
 
 func (s *AppOpsAsyncNotedCallbackStub) OnTransaction(
 	ctx context.Context,

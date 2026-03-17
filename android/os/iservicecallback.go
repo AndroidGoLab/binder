@@ -15,23 +15,27 @@ const (
 	TransactionIServiceCallbackOnRegistration = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIServiceCallbackOnRegistration = "onRegistration"
+)
+
 type IServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnRegistration(ctx context.Context, name string, binder_ binder.IBinder) error
 }
 
 type ServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceCallbackProxy(
 	remote binder.IBinder,
 ) *ServiceCallbackProxy {
-	return &ServiceCallbackProxy{remote: remote}
+	return &ServiceCallbackProxy{Remote: remote}
 }
 
 func (p *ServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceCallback = (*ServiceCallbackProxy)(nil)
@@ -44,14 +48,14 @@ func (p *ServiceCallbackProxy) OnRegistration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceCallback)
 	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceCallback, "onRegistration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceCallback, MethodIServiceCallbackOnRegistration)
 	if _err != nil {
-		_code = TransactionIServiceCallbackOnRegistration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceCallback, MethodIServiceCallbackOnRegistration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type ServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceCallbackStub)(nil)
+
+func (s *ServiceCallbackStub) Descriptor() string {
+	return DescriptorIServiceCallback
+}
 
 func (s *ServiceCallbackStub) OnTransaction(
 	ctx context.Context,

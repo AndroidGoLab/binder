@@ -15,23 +15,27 @@ const (
 	TransactionIAmbientBacklightCallbackOnAmbientBacklightEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAmbientBacklightCallbackOnAmbientBacklightEvent = "onAmbientBacklightEvent"
+)
+
 type IAmbientBacklightCallback interface {
 	AsBinder() binder.IBinder
 	OnAmbientBacklightEvent(ctx context.Context, event AmbientBacklightEvent) error
 }
 
 type AmbientBacklightCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAmbientBacklightCallbackProxy(
 	remote binder.IBinder,
 ) *AmbientBacklightCallbackProxy {
-	return &AmbientBacklightCallbackProxy{remote: remote}
+	return &AmbientBacklightCallbackProxy{Remote: remote}
 }
 
 func (p *AmbientBacklightCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAmbientBacklightCallback = (*AmbientBacklightCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *AmbientBacklightCallbackProxy) OnAmbientBacklightEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientBacklightCallback, "onAmbientBacklightEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientBacklightCallback, MethodIAmbientBacklightCallbackOnAmbientBacklightEvent)
 	if _err != nil {
-		_code = TransactionIAmbientBacklightCallbackOnAmbientBacklightEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientBacklightCallback, MethodIAmbientBacklightCallbackOnAmbientBacklightEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type AmbientBacklightCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AmbientBacklightCallbackStub)(nil)
+
+func (s *AmbientBacklightCallbackStub) Descriptor() string {
+	return DescriptorIAmbientBacklightCallback
+}
 
 func (s *AmbientBacklightCallbackStub) OnTransaction(
 	ctx context.Context,

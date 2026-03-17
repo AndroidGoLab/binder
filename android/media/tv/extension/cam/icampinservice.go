@@ -19,6 +19,13 @@ const (
 	TransactionICamPinServiceGetCamPinCapability            = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICamPinServiceAddCamPinCapabilityListener    = "addCamPinCapabilityListener"
+	MethodICamPinServiceRemoveCamPinCapabilityListener = "removeCamPinCapabilityListener"
+	MethodICamPinServiceRequestCamPinValidation        = "requestCamPinValidation"
+	MethodICamPinServiceGetCamPinCapability            = "getCamPinCapability"
+)
+
 type ICamPinService interface {
 	AsBinder() binder.IBinder
 	AddCamPinCapabilityListener(ctx context.Context, listener ICamPinCapabilityListener) error
@@ -28,17 +35,17 @@ type ICamPinService interface {
 }
 
 type CamPinServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamPinServiceProxy(
 	remote binder.IBinder,
 ) *CamPinServiceProxy {
-	return &CamPinServiceProxy{remote: remote}
+	return &CamPinServiceProxy{Remote: remote}
 }
 
 func (p *CamPinServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamPinService = (*CamPinServiceProxy)(nil)
@@ -49,14 +56,14 @@ func (p *CamPinServiceProxy) AddCamPinCapabilityListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamPinService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "addCamPinCapabilityListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamPinService, MethodICamPinServiceAddCamPinCapabilityListener)
 	if _err != nil {
-		_code = TransactionICamPinServiceAddCamPinCapabilityListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamPinService, MethodICamPinServiceAddCamPinCapabilityListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,14 +82,14 @@ func (p *CamPinServiceProxy) RemoveCamPinCapabilityListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamPinService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "removeCamPinCapabilityListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamPinService, MethodICamPinServiceRemoveCamPinCapabilityListener)
 	if _err != nil {
-		_code = TransactionICamPinServiceRemoveCamPinCapabilityListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamPinService, MethodICamPinServiceRemoveCamPinCapabilityListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,14 +120,14 @@ func (p *CamPinServiceProxy) RequestCamPinValidation(
 			_data.WriteInt32(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "requestCamPinValidation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamPinService, MethodICamPinServiceRequestCamPinValidation)
 	if _err != nil {
-		_code = TransactionICamPinServiceRequestCamPinValidation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICamPinService, MethodICamPinServiceRequestCamPinValidation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,12 +154,12 @@ func (p *CamPinServiceProxy) GetCamPinCapability(
 	_data.WriteInterfaceToken(DescriptorICamPinService)
 	_data.WriteInt32(slotId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "getCamPinCapability")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamPinService, MethodICamPinServiceGetCamPinCapability)
 	if _err != nil {
-		_code = TransactionICamPinServiceGetCamPinCapability
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICamPinService, MethodICamPinServiceGetCamPinCapability, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,6 +186,10 @@ type CamPinServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamPinServiceStub)(nil)
+
+func (s *CamPinServiceStub) Descriptor() string {
+	return DescriptorICamPinService
+}
 
 func (s *CamPinServiceStub) OnTransaction(
 	ctx context.Context,

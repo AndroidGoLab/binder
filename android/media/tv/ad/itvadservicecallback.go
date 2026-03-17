@@ -16,17 +16,17 @@ type ITvAdServiceCallback interface {
 }
 
 type TvAdServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvAdServiceCallbackProxy(
 	remote binder.IBinder,
 ) *TvAdServiceCallbackProxy {
-	return &TvAdServiceCallbackProxy{remote: remote}
+	return &TvAdServiceCallbackProxy{Remote: remote}
 }
 
 func (p *TvAdServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvAdServiceCallback = (*TvAdServiceCallbackProxy)(nil)
@@ -38,6 +38,10 @@ type TvAdServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvAdServiceCallbackStub)(nil)
+
+func (s *TvAdServiceCallbackStub) Descriptor() string {
+	return DescriptorITvAdServiceCallback
+}
 
 func (s *TvAdServiceCallbackStub) OnTransaction(
 	ctx context.Context,

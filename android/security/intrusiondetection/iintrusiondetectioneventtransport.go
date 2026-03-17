@@ -18,6 +18,12 @@ const (
 	TransactionIIntrusionDetectionEventTransportRelease    = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIIntrusionDetectionEventTransportInitialize = "initialize"
+	MethodIIntrusionDetectionEventTransportAddData    = "addData"
+	MethodIIntrusionDetectionEventTransportRelease    = "release"
+)
+
 type IIntrusionDetectionEventTransport interface {
 	AsBinder() binder.IBinder
 	Initialize(ctx context.Context, resultFuture infra.AndroidFuture) error
@@ -26,17 +32,17 @@ type IIntrusionDetectionEventTransport interface {
 }
 
 type IntrusionDetectionEventTransportProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntrusionDetectionEventTransportProxy(
 	remote binder.IBinder,
 ) *IntrusionDetectionEventTransportProxy {
-	return &IntrusionDetectionEventTransportProxy{remote: remote}
+	return &IntrusionDetectionEventTransportProxy{Remote: remote}
 }
 
 func (p *IntrusionDetectionEventTransportProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntrusionDetectionEventTransport = (*IntrusionDetectionEventTransportProxy)(nil)
@@ -52,12 +58,12 @@ func (p *IntrusionDetectionEventTransportProxy) Initialize(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionEventTransport, "initialize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionEventTransport, MethodIIntrusionDetectionEventTransportInitialize)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionEventTransportInitialize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionEventTransport, MethodIIntrusionDetectionEventTransportInitialize, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,6 +79,7 @@ func (p *IntrusionDetectionEventTransportProxy) AddData(
 	} else {
 		_data.WriteInt32(int32(len(events)))
 		for _, _item := range events {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -83,12 +90,12 @@ func (p *IntrusionDetectionEventTransportProxy) AddData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionEventTransport, "addData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionEventTransport, MethodIIntrusionDetectionEventTransportAddData)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionEventTransportAddData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionEventTransport, MethodIIntrusionDetectionEventTransportAddData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +110,12 @@ func (p *IntrusionDetectionEventTransportProxy) Release(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionEventTransport, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionEventTransport, MethodIIntrusionDetectionEventTransportRelease)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionEventTransportRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionEventTransport, MethodIIntrusionDetectionEventTransportRelease, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +126,10 @@ type IntrusionDetectionEventTransportStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntrusionDetectionEventTransportStub)(nil)
+
+func (s *IntrusionDetectionEventTransportStub) Descriptor() string {
+	return DescriptorIIntrusionDetectionEventTransport
+}
 
 func (s *IntrusionDetectionEventTransportStub) OnTransaction(
 	ctx context.Context,

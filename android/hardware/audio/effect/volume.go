@@ -75,6 +75,7 @@ func (u *Volume) MarshalParcel(
 
 	switch u.Tag {
 	case VolumeTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -105,6 +106,9 @@ func (u *Volume) UnmarshalParcel(
 
 	switch u.Tag {
 	case VolumeTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

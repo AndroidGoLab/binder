@@ -17,6 +17,12 @@ const (
 	TransactionITvAdManagerCallbackOnAdServiceUpdated = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITvAdManagerCallbackOnAdServiceAdded   = "onAdServiceAdded"
+	MethodITvAdManagerCallbackOnAdServiceRemoved = "onAdServiceRemoved"
+	MethodITvAdManagerCallbackOnAdServiceUpdated = "onAdServiceUpdated"
+)
+
 type ITvAdManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnAdServiceAdded(ctx context.Context, serviceId string) error
@@ -25,17 +31,17 @@ type ITvAdManagerCallback interface {
 }
 
 type TvAdManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvAdManagerCallbackProxy(
 	remote binder.IBinder,
 ) *TvAdManagerCallbackProxy {
-	return &TvAdManagerCallbackProxy{remote: remote}
+	return &TvAdManagerCallbackProxy{Remote: remote}
 }
 
 func (p *TvAdManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvAdManagerCallback = (*TvAdManagerCallbackProxy)(nil)
@@ -48,12 +54,12 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceAdded(
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdManagerCallback, MethodITvAdManagerCallbackOnAdServiceAdded)
 	if _err != nil {
-		_code = TransactionITvAdManagerCallbackOnAdServiceAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdManagerCallback, MethodITvAdManagerCallbackOnAdServiceAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceRemoved(
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdManagerCallback, MethodITvAdManagerCallbackOnAdServiceRemoved)
 	if _err != nil {
-		_code = TransactionITvAdManagerCallbackOnAdServiceRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdManagerCallback, MethodITvAdManagerCallbackOnAdServiceRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +88,12 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceUpdated(
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdManagerCallback, MethodITvAdManagerCallbackOnAdServiceUpdated)
 	if _err != nil {
-		_code = TransactionITvAdManagerCallbackOnAdServiceUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdManagerCallback, MethodITvAdManagerCallbackOnAdServiceUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +104,10 @@ type TvAdManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvAdManagerCallbackStub)(nil)
+
+func (s *TvAdManagerCallbackStub) Descriptor() string {
+	return DescriptorITvAdManagerCallback
+}
 
 func (s *TvAdManagerCallbackStub) OnTransaction(
 	ctx context.Context,

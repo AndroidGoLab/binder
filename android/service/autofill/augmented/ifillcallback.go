@@ -3,7 +3,7 @@ package augmented
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	autofill "github.com/xaionaro-go/binder/android/service/autofill"
 	"github.com/xaionaro-go/binder/binder"
@@ -21,44 +21,51 @@ const (
 	TransactionIFillCallbackCancel        = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIFillCallbackOnCancellable = "onCancellable"
+	MethodIFillCallbackOnSuccess     = "onSuccess"
+	MethodIFillCallbackIsCompleted   = "isCompleted"
+	MethodIFillCallbackCancel        = "cancel"
+)
+
 type IFillCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, inlineSuggestionsData []autofill.Dataset, clientState *os.Bundle, showingFillWindow bool) error
 	IsCompleted(ctx context.Context) (bool, error)
 	Cancel(ctx context.Context) error
 }
 
 type FillCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFillCallbackProxy(
 	remote binder.IBinder,
 ) *FillCallbackProxy {
-	return &FillCallbackProxy{remote: remote}
+	return &FillCallbackProxy{Remote: remote}
 }
 
 func (p *FillCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFillCallback = (*FillCallbackProxy)(nil)
 
 func (p *FillCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onCancellable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnCancellable)
 	if _err != nil {
-		_code = TransactionIFillCallbackOnCancellable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackOnCancellable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,6 +91,7 @@ func (p *FillCallbackProxy) OnSuccess(
 	} else {
 		_data.WriteInt32(int32(len(inlineSuggestionsData)))
 		for _, _item := range inlineSuggestionsData {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -98,12 +106,12 @@ func (p *FillCallbackProxy) OnSuccess(
 	}
 	_data.WriteBool(showingFillWindow)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIFillCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackOnSuccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -123,12 +131,12 @@ func (p *FillCallbackProxy) IsCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "isCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackIsCompleted)
 	if _err != nil {
-		_code = TransactionIFillCallbackIsCompleted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackIsCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,12 +159,12 @@ func (p *FillCallbackProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackCancel)
 	if _err != nil {
-		_code = TransactionIFillCallbackCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackCancel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -177,6 +185,10 @@ type FillCallbackStub struct {
 
 var _ binder.TransactionReceiver = (*FillCallbackStub)(nil)
 
+func (s *FillCallbackStub) Descriptor() string {
+	return DescriptorIFillCallback
+}
+
 func (s *FillCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -188,7 +200,7 @@ func (s *FillCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_reply := parcel.New()
@@ -263,7 +275,7 @@ func (s *FillCallbackStub) OnTransaction(
 // provide to NewFillCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IFillCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, inlineSuggestionsData []autofill.Dataset, clientState *os.Bundle, showingFillWindow bool) error
 	IsCompleted(ctx context.Context) (bool, error)
 	Cancel(ctx context.Context) error
@@ -280,7 +292,7 @@ func (w *fillCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *fillCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

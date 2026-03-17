@@ -16,23 +16,27 @@ const (
 	TransactionILcnConflictListenerOnDetectLcnConflict = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILcnConflictListenerOnDetectLcnConflict = "onDetectLcnConflict"
+)
+
 type ILcnConflictListener interface {
 	AsBinder() binder.IBinder
 	OnDetectLcnConflict(ctx context.Context, detectLcnConflicts os.Bundle) error
 }
 
 type LcnConflictListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLcnConflictListenerProxy(
 	remote binder.IBinder,
 ) *LcnConflictListenerProxy {
-	return &LcnConflictListenerProxy{remote: remote}
+	return &LcnConflictListenerProxy{Remote: remote}
 }
 
 func (p *LcnConflictListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILcnConflictListener = (*LcnConflictListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *LcnConflictListenerProxy) OnDetectLcnConflict(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnConflictListener, "onDetectLcnConflict")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnConflictListener, MethodILcnConflictListenerOnDetectLcnConflict)
 	if _err != nil {
-		_code = TransactionILcnConflictListenerOnDetectLcnConflict
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILcnConflictListener, MethodILcnConflictListenerOnDetectLcnConflict, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type LcnConflictListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LcnConflictListenerStub)(nil)
+
+func (s *LcnConflictListenerStub) Descriptor() string {
+	return DescriptorILcnConflictListener
+}
 
 func (s *LcnConflictListenerStub) OnTransaction(
 	ctx context.Context,

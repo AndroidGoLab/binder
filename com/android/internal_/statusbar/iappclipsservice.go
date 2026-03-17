@@ -16,6 +16,11 @@ const (
 	TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAppClipsServiceCanLaunchCaptureContentActivityForNote         = "canLaunchCaptureContentActivityForNote"
+	MethodIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal = "canLaunchCaptureContentActivityForNoteInternal"
+)
+
 type IAppClipsService interface {
 	AsBinder() binder.IBinder
 	CanLaunchCaptureContentActivityForNote(ctx context.Context, taskId int32) (bool, error)
@@ -23,17 +28,17 @@ type IAppClipsService interface {
 }
 
 type AppClipsServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppClipsServiceProxy(
 	remote binder.IBinder,
 ) *AppClipsServiceProxy {
-	return &AppClipsServiceProxy{remote: remote}
+	return &AppClipsServiceProxy{Remote: remote}
 }
 
 func (p *AppClipsServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppClipsService = (*AppClipsServiceProxy)(nil)
@@ -47,12 +52,12 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNote(
 	_data.WriteInterfaceToken(DescriptorIAppClipsService)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppClipsService, "canLaunchCaptureContentActivityForNote")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNote)
 	if _err != nil {
-		_code = TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNote
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNote, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,12 +83,12 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNoteInternal(
 	_data.WriteInterfaceToken(DescriptorIAppClipsService)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppClipsService, "canLaunchCaptureContentActivityForNoteInternal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal)
 	if _err != nil {
-		_code = TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppClipsService, MethodIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,6 +112,10 @@ type AppClipsServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppClipsServiceStub)(nil)
+
+func (s *AppClipsServiceStub) Descriptor() string {
+	return DescriptorIAppClipsService
+}
 
 func (s *AppClipsServiceStub) OnTransaction(
 	ctx context.Context,

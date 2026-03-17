@@ -22,6 +22,7 @@ func (s *WorkBundle) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Works)))
 		for _, _item := range s.Works {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -32,6 +33,7 @@ func (s *WorkBundle) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.BaseBlocks)))
 		for _, _item := range s.BaseBlocks {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -58,6 +60,9 @@ func (s *WorkBundle) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Works = make([]Work, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Works[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +77,9 @@ func (s *WorkBundle) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.BaseBlocks = make([]BaseBlock, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.BaseBlocks[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

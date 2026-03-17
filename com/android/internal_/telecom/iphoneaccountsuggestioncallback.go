@@ -16,23 +16,27 @@ const (
 	TransactionIPhoneAccountSuggestionCallbackSuggestPhoneAccounts = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPhoneAccountSuggestionCallbackSuggestPhoneAccounts = "suggestPhoneAccounts"
+)
+
 type IPhoneAccountSuggestionCallback interface {
 	AsBinder() binder.IBinder
 	SuggestPhoneAccounts(ctx context.Context, number string, suggestions []androidTelecom.PhoneAccountSuggestion) error
 }
 
 type PhoneAccountSuggestionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPhoneAccountSuggestionCallbackProxy(
 	remote binder.IBinder,
 ) *PhoneAccountSuggestionCallbackProxy {
-	return &PhoneAccountSuggestionCallbackProxy{remote: remote}
+	return &PhoneAccountSuggestionCallbackProxy{Remote: remote}
 }
 
 func (p *PhoneAccountSuggestionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPhoneAccountSuggestionCallback = (*PhoneAccountSuggestionCallbackProxy)(nil)
@@ -50,18 +54,19 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 	} else {
 		_data.WriteInt32(int32(len(suggestions)))
 		for _, _item := range suggestions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPhoneAccountSuggestionCallback, "suggestPhoneAccounts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneAccountSuggestionCallback, MethodIPhoneAccountSuggestionCallbackSuggestPhoneAccounts)
 	if _err != nil {
-		_code = TransactionIPhoneAccountSuggestionCallbackSuggestPhoneAccounts
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPhoneAccountSuggestionCallback, MethodIPhoneAccountSuggestionCallbackSuggestPhoneAccounts, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +77,10 @@ type PhoneAccountSuggestionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PhoneAccountSuggestionCallbackStub)(nil)
+
+func (s *PhoneAccountSuggestionCallbackStub) Descriptor() string {
+	return DescriptorIPhoneAccountSuggestionCallback
+}
 
 func (s *PhoneAccountSuggestionCallbackStub) OnTransaction(
 	ctx context.Context,

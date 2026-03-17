@@ -16,6 +16,11 @@ const (
 	TransactionIWindowFocusObserverFocusLost   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIWindowFocusObserverFocusGained = "focusGained"
+	MethodIWindowFocusObserverFocusLost   = "focusLost"
+)
+
 type IWindowFocusObserver interface {
 	AsBinder() binder.IBinder
 	FocusGained(ctx context.Context, inputToken binder.IBinder) error
@@ -23,17 +28,17 @@ type IWindowFocusObserver interface {
 }
 
 type WindowFocusObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowFocusObserverProxy(
 	remote binder.IBinder,
 ) *WindowFocusObserverProxy {
-	return &WindowFocusObserverProxy{remote: remote}
+	return &WindowFocusObserverProxy{Remote: remote}
 }
 
 func (p *WindowFocusObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowFocusObserver = (*WindowFocusObserverProxy)(nil)
@@ -44,14 +49,14 @@ func (p *WindowFocusObserverProxy) FocusGained(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowFocusObserver)
-	binder.WriteBinderToParcel(ctx, _data, inputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowFocusObserver, "focusGained")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowFocusObserver, MethodIWindowFocusObserverFocusGained)
 	if _err != nil {
-		_code = TransactionIWindowFocusObserverFocusGained
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowFocusObserver, MethodIWindowFocusObserverFocusGained, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,14 +66,14 @@ func (p *WindowFocusObserverProxy) FocusLost(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowFocusObserver)
-	binder.WriteBinderToParcel(ctx, _data, inputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowFocusObserver, "focusLost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowFocusObserver, MethodIWindowFocusObserverFocusLost)
 	if _err != nil {
-		_code = TransactionIWindowFocusObserverFocusLost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowFocusObserver, MethodIWindowFocusObserverFocusLost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type WindowFocusObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowFocusObserverStub)(nil)
+
+func (s *WindowFocusObserverStub) Descriptor() string {
+	return DescriptorIWindowFocusObserver
+}
 
 func (s *WindowFocusObserverStub) OnTransaction(
 	ctx context.Context,

@@ -21,5 +21,4 @@ const (
 	AudioPolicyForcedConfigEncodedSurroundNever    AudioPolicyForcedConfig = 13
 	AudioPolicyForcedConfigEncodedSurroundAlways   AudioPolicyForcedConfig = 14
 	AudioPolicyForcedConfigEncodedSurroundManual   AudioPolicyForcedConfig = 15
-	AudioPolicyForcedConfigBtBle                   AudioPolicyForcedConfig = 16
 )

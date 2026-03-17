@@ -23,6 +23,17 @@ const (
 	TransactionIAidlNodeOnDataSpaceChanged      = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIAidlNodeFreeNode                = "freeNode"
+	MethodIAidlNodeGetConsumerUsage        = "getConsumerUsage"
+	MethodIAidlNodeGetInputBufferParams    = "getInputBufferParams"
+	MethodIAidlNodeSetConsumerUsage        = "setConsumerUsage"
+	MethodIAidlNodeSetAdjustTimestampGapUs = "setAdjustTimestampGapUs"
+	MethodIAidlNodeSetInputSurface         = "setInputSurface"
+	MethodIAidlNodeSubmitBuffer            = "submitBuffer"
+	MethodIAidlNodeOnDataSpaceChanged      = "onDataSpaceChanged"
+)
+
 type IAidlNode interface {
 	AsBinder() binder.IBinder
 	FreeNode(ctx context.Context) error
@@ -36,17 +47,17 @@ type IAidlNode interface {
 }
 
 type AidlNodeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAidlNodeProxy(
 	remote binder.IBinder,
 ) *AidlNodeProxy {
-	return &AidlNodeProxy{remote: remote}
+	return &AidlNodeProxy{Remote: remote}
 }
 
 func (p *AidlNodeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAidlNode = (*AidlNodeProxy)(nil)
@@ -57,12 +68,12 @@ func (p *AidlNodeProxy) FreeNode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlNode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "freeNode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeFreeNode)
 	if _err != nil {
-		_code = TransactionIAidlNodeFreeNode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeFreeNode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +93,12 @@ func (p *AidlNodeProxy) GetConsumerUsage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlNode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "getConsumerUsage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeGetConsumerUsage)
 	if _err != nil {
-		_code = TransactionIAidlNodeGetConsumerUsage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeGetConsumerUsage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,12 +122,12 @@ func (p *AidlNodeProxy) GetInputBufferParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlNode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "getInputBufferParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeGetInputBufferParams)
 	if _err != nil {
-		_code = TransactionIAidlNodeGetInputBufferParams
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeGetInputBufferParams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -146,12 +157,12 @@ func (p *AidlNodeProxy) SetConsumerUsage(
 	_data.WriteInterfaceToken(DescriptorIAidlNode)
 	_data.WriteInt64(usage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "setConsumerUsage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeSetConsumerUsage)
 	if _err != nil {
-		_code = TransactionIAidlNodeSetConsumerUsage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeSetConsumerUsage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,12 +183,12 @@ func (p *AidlNodeProxy) SetAdjustTimestampGapUs(
 	_data.WriteInterfaceToken(DescriptorIAidlNode)
 	_data.WriteInt32(gapUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "setAdjustTimestampGapUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeSetAdjustTimestampGapUs)
 	if _err != nil {
-		_code = TransactionIAidlNodeSetAdjustTimestampGapUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeSetAdjustTimestampGapUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -196,14 +207,14 @@ func (p *AidlNodeProxy) SetInputSurface(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlNode)
-	binder.WriteBinderToParcel(ctx, _data, bufferSource.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, bufferSource.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "setInputSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeSetInputSurface)
 	if _err != nil {
-		_code = TransactionIAidlNodeSetInputSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeSetInputSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -235,12 +246,12 @@ func (p *AidlNodeProxy) SubmitBuffer(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "submitBuffer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeSubmitBuffer)
 	if _err != nil {
-		_code = TransactionIAidlNodeSubmitBuffer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeSubmitBuffer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -265,12 +276,12 @@ func (p *AidlNodeProxy) OnDataSpaceChanged(
 	_data.WriteInt32(aspects)
 	_data.WriteInt32(pixelFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "onDataSpaceChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlNode, MethodIAidlNodeOnDataSpaceChanged)
 	if _err != nil {
-		_code = TransactionIAidlNodeOnDataSpaceChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlNode, MethodIAidlNodeOnDataSpaceChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -290,6 +301,10 @@ type AidlNodeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AidlNodeStub)(nil)
+
+func (s *AidlNodeStub) Descriptor() string {
+	return DescriptorIAidlNode
+}
 
 func (s *AidlNodeStub) OnTransaction(
 	ctx context.Context,

@@ -25,14 +25,7 @@ func (s *ContextHubMessage) MarshalParcel(
 	p.WriteInt64(s.NanoappId)
 	p.WriteInt32(int32(s.HostEndPoint))
 	p.WriteInt32(s.MessageType)
-	if s.MessageBody == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.MessageBody)))
-		for _, _item := range s.MessageBody {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.MessageBody)
 	if s.Permissions == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -72,19 +65,9 @@ func (s *ContextHubMessage) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.MessageBody, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.MessageBody = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.MessageBody[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32

@@ -31,6 +31,26 @@ const (
 	TransactionIBiometricServiceGetSupportedModalities            = binder.FirstCallTransaction + 16
 )
 
+const (
+	MethodIBiometricServiceCreateTestSession                 = "createTestSession"
+	MethodIBiometricServiceGetSensorProperties               = "getSensorProperties"
+	MethodIBiometricServiceAuthenticate                      = "authenticate"
+	MethodIBiometricServiceCancelAuthentication              = "cancelAuthentication"
+	MethodIBiometricServiceCanAuthenticate                   = "canAuthenticate"
+	MethodIBiometricServiceGetLastAuthenticationTime         = "getLastAuthenticationTime"
+	MethodIBiometricServiceHasEnrolledBiometrics             = "hasEnrolledBiometrics"
+	MethodIBiometricServiceRegisterAuthenticator             = "registerAuthenticator"
+	MethodIBiometricServiceRegisterEnabledOnKeyguardCallback = "registerEnabledOnKeyguardCallback"
+	MethodIBiometricServiceOnReadyForAuthentication          = "onReadyForAuthentication"
+	MethodIBiometricServiceInvalidateAuthenticatorIds        = "invalidateAuthenticatorIds"
+	MethodIBiometricServiceGetAuthenticatorIds               = "getAuthenticatorIds"
+	MethodIBiometricServiceResetLockoutTimeBound             = "resetLockoutTimeBound"
+	MethodIBiometricServiceResetLockout                      = "resetLockout"
+	MethodIBiometricServiceGetCurrentStrength                = "getCurrentStrength"
+	MethodIBiometricServiceGetCurrentModality                = "getCurrentModality"
+	MethodIBiometricServiceGetSupportedModalities            = "getSupportedModalities"
+)
+
 type IBiometricService interface {
 	AsBinder() binder.IBinder
 	CreateTestSession(ctx context.Context, sensorId int32, callback ITestSessionCallback) (ITestSession, error)
@@ -53,17 +73,17 @@ type IBiometricService interface {
 }
 
 type BiometricServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricServiceProxy(
 	remote binder.IBinder,
 ) *BiometricServiceProxy {
-	return &BiometricServiceProxy{remote: remote}
+	return &BiometricServiceProxy{Remote: remote}
 }
 
 func (p *BiometricServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricService = (*BiometricServiceProxy)(nil)
@@ -74,19 +94,19 @@ func (p *BiometricServiceProxy) CreateTestSession(
 	callback ITestSessionCallback,
 ) (ITestSession, error) {
 	var _result ITestSession
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(sensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "createTestSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceCreateTestSession)
 	if _err != nil {
-		_code = TransactionIBiometricServiceCreateTestSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceCreateTestSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,7 +120,7 @@ func (p *BiometricServiceProxy) CreateTestSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTestSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTestSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -108,17 +128,17 @@ func (p *BiometricServiceProxy) GetSensorProperties(
 	ctx context.Context,
 ) ([]SensorPropertiesInternal, error) {
 	var _result []SensorPropertiesInternal
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "getSensorProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceGetSensorProperties)
 	if _err != nil {
-		_code = TransactionIBiometricServiceGetSensorProperties
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceGetSensorProperties, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -136,6 +156,9 @@ func (p *BiometricServiceProxy) GetSensorProperties(
 	if _count >= 0 {
 		_result = make([]SensorPropertiesInternal, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -152,25 +175,25 @@ func (p *BiometricServiceProxy) Authenticate(
 	promptInfo PromptInfo,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt64(operationId)
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(1)
 	if _err := promptInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "authenticate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceAuthenticate)
 	if _err != nil {
-		_code = TransactionIBiometricServiceAuthenticate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceAuthenticate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -192,19 +215,19 @@ func (p *BiometricServiceProxy) CancelAuthentication(
 	token binder.IBinder,
 	requestId int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt64(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "cancelAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceCancelAuthentication)
 	if _err != nil {
-		_code = TransactionIBiometricServiceCancelAuthentication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceCancelAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -222,7 +245,7 @@ func (p *BiometricServiceProxy) CanAuthenticate(
 	authenticators int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(_identity.PackageName)
@@ -230,12 +253,12 @@ func (p *BiometricServiceProxy) CanAuthenticate(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "canAuthenticate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceCanAuthenticate)
 	if _err != nil {
-		_code = TransactionIBiometricServiceCanAuthenticate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceCanAuthenticate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -257,18 +280,18 @@ func (p *BiometricServiceProxy) GetLastAuthenticationTime(
 	authenticators int32,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "getLastAuthenticationTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceGetLastAuthenticationTime)
 	if _err != nil {
-		_code = TransactionIBiometricServiceGetLastAuthenticationTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceGetLastAuthenticationTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -289,18 +312,18 @@ func (p *BiometricServiceProxy) HasEnrolledBiometrics(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "hasEnrolledBiometrics")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceHasEnrolledBiometrics)
 	if _err != nil {
-		_code = TransactionIBiometricServiceHasEnrolledBiometrics
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceHasEnrolledBiometrics, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -329,14 +352,14 @@ func (p *BiometricServiceProxy) RegisterAuthenticator(
 	_data.WriteInt32(id)
 	_data.WriteInt32(modality)
 	_data.WriteInt32(strength)
-	binder.WriteBinderToParcel(ctx, _data, authenticator.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, authenticator.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "registerAuthenticator")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceRegisterAuthenticator)
 	if _err != nil {
-		_code = TransactionIBiometricServiceRegisterAuthenticator
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceRegisterAuthenticator, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -355,14 +378,14 @@ func (p *BiometricServiceProxy) RegisterEnabledOnKeyguardCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "registerEnabledOnKeyguardCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceRegisterEnabledOnKeyguardCallback)
 	if _err != nil {
-		_code = TransactionIBiometricServiceRegisterEnabledOnKeyguardCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceRegisterEnabledOnKeyguardCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -385,12 +408,12 @@ func (p *BiometricServiceProxy) OnReadyForAuthentication(
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(cookie)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "onReadyForAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceOnReadyForAuthentication)
 	if _err != nil {
-		_code = TransactionIBiometricServiceOnReadyForAuthentication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceOnReadyForAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -408,19 +431,19 @@ func (p *BiometricServiceProxy) InvalidateAuthenticatorIds(
 	fromSensorId int32,
 	callback IInvalidationCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(fromSensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "invalidateAuthenticatorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceInvalidateAuthenticatorIds)
 	if _err != nil {
-		_code = TransactionIBiometricServiceInvalidateAuthenticatorIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceInvalidateAuthenticatorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -437,17 +460,17 @@ func (p *BiometricServiceProxy) GetAuthenticatorIds(
 	ctx context.Context,
 ) ([]int64, error) {
 	var _result []int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "getAuthenticatorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceGetAuthenticatorIds)
 	if _err != nil {
-		_code = TransactionIBiometricServiceGetAuthenticatorIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceGetAuthenticatorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -480,10 +503,10 @@ func (p *BiometricServiceProxy) ResetLockoutTimeBound(
 	fromSensorId int32,
 	hardwareAuthToken []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(fromSensorId)
 	_data.WriteInt32(_identity.UserID)
@@ -496,12 +519,12 @@ func (p *BiometricServiceProxy) ResetLockoutTimeBound(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "resetLockoutTimeBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceResetLockoutTimeBound)
 	if _err != nil {
-		_code = TransactionIBiometricServiceResetLockoutTimeBound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceResetLockoutTimeBound, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -518,7 +541,7 @@ func (p *BiometricServiceProxy) ResetLockout(
 	ctx context.Context,
 	hardwareAuthToken []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(_identity.UserID)
@@ -531,12 +554,12 @@ func (p *BiometricServiceProxy) ResetLockout(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "resetLockout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceResetLockout)
 	if _err != nil {
-		_code = TransactionIBiometricServiceResetLockout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceResetLockout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -558,12 +581,12 @@ func (p *BiometricServiceProxy) GetCurrentStrength(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(sensorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "getCurrentStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceGetCurrentStrength)
 	if _err != nil {
-		_code = TransactionIBiometricServiceGetCurrentStrength
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceGetCurrentStrength, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -585,7 +608,7 @@ func (p *BiometricServiceProxy) GetCurrentModality(
 	authenticators int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(_identity.PackageName)
@@ -593,12 +616,12 @@ func (p *BiometricServiceProxy) GetCurrentModality(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "getCurrentModality")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceGetCurrentModality)
 	if _err != nil {
-		_code = TransactionIBiometricServiceGetCurrentModality
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceGetCurrentModality, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -624,12 +647,12 @@ func (p *BiometricServiceProxy) GetSupportedModalities(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(authenticators)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricService, "getSupportedModalities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricService, MethodIBiometricServiceGetSupportedModalities)
 	if _err != nil {
-		_code = TransactionIBiometricServiceGetSupportedModalities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricService, MethodIBiometricServiceGetSupportedModalities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -653,6 +676,10 @@ type BiometricServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricServiceStub)(nil)
+
+func (s *BiometricServiceStub) Descriptor() string {
+	return DescriptorIBiometricService
+}
 
 func (s *BiometricServiceStub) OnTransaction(
 	ctx context.Context,

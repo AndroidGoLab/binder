@@ -16,6 +16,11 @@ const (
 	TransactionIGetValueCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGetValueCallbackOnSuccess = "onSuccess"
+	MethodIGetValueCallbackOnFailure = "onFailure"
+)
+
 type IGetValueCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result GetValueResult) error
@@ -23,17 +28,17 @@ type IGetValueCallback interface {
 }
 
 type GetValueCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetValueCallbackProxy(
 	remote binder.IBinder,
 ) *GetValueCallbackProxy {
-	return &GetValueCallbackProxy{remote: remote}
+	return &GetValueCallbackProxy{Remote: remote}
 }
 
 func (p *GetValueCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetValueCallback = (*GetValueCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *GetValueCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetValueCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetValueCallback, MethodIGetValueCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIGetValueCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetValueCallback, MethodIGetValueCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,12 +69,12 @@ func (p *GetValueCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetValueCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetValueCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetValueCallback, MethodIGetValueCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIGetValueCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetValueCallback, MethodIGetValueCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,6 +85,10 @@ type GetValueCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetValueCallbackStub)(nil)
+
+func (s *GetValueCallbackStub) Descriptor() string {
+	return DescriptorIGetValueCallback
+}
 
 func (s *GetValueCallbackStub) OnTransaction(
 	ctx context.Context,

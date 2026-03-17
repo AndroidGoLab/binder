@@ -15,6 +15,10 @@ const (
 	TransactionISecureClockGenerateTimeStamp = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISecureClockGenerateTimeStamp = "generateTimeStamp"
+)
+
 type ISecureClock interface {
 	AsBinder() binder.IBinder
 	GenerateTimeStamp(ctx context.Context, challenge int64) (TimeStampToken, error)
@@ -25,17 +29,17 @@ const (
 )
 
 type SecureClockProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureClockProxy(
 	remote binder.IBinder,
 ) *SecureClockProxy {
-	return &SecureClockProxy{remote: remote}
+	return &SecureClockProxy{Remote: remote}
 }
 
 func (p *SecureClockProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureClock = (*SecureClockProxy)(nil)
@@ -49,12 +53,12 @@ func (p *SecureClockProxy) GenerateTimeStamp(
 	_data.WriteInterfaceToken(DescriptorISecureClock)
 	_data.WriteInt64(challenge)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureClock, "generateTimeStamp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureClock, MethodISecureClockGenerateTimeStamp)
 	if _err != nil {
-		_code = TransactionISecureClockGenerateTimeStamp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureClock, MethodISecureClockGenerateTimeStamp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,6 +87,10 @@ type SecureClockStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureClockStub)(nil)
+
+func (s *SecureClockStub) Descriptor() string {
+	return DescriptorISecureClock
+}
 
 func (s *SecureClockStub) OnTransaction(
 	ctx context.Context,

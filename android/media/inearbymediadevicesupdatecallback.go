@@ -15,23 +15,27 @@ const (
 	TransactionINearbyMediaDevicesUpdateCallbackOnDevicesUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodINearbyMediaDevicesUpdateCallbackOnDevicesUpdated = "onDevicesUpdated"
+)
+
 type INearbyMediaDevicesUpdateCallback interface {
 	AsBinder() binder.IBinder
 	OnDevicesUpdated(ctx context.Context, nearbyDevices []NearbyDevice) error
 }
 
 type NearbyMediaDevicesUpdateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNearbyMediaDevicesUpdateCallbackProxy(
 	remote binder.IBinder,
 ) *NearbyMediaDevicesUpdateCallbackProxy {
-	return &NearbyMediaDevicesUpdateCallbackProxy{remote: remote}
+	return &NearbyMediaDevicesUpdateCallbackProxy{Remote: remote}
 }
 
 func (p *NearbyMediaDevicesUpdateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INearbyMediaDevicesUpdateCallback = (*NearbyMediaDevicesUpdateCallbackProxy)(nil)
@@ -47,18 +51,19 @@ func (p *NearbyMediaDevicesUpdateCallbackProxy) OnDevicesUpdated(
 	} else {
 		_data.WriteInt32(int32(len(nearbyDevices)))
 		for _, _item := range nearbyDevices {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINearbyMediaDevicesUpdateCallback, "onDevicesUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINearbyMediaDevicesUpdateCallback, MethodINearbyMediaDevicesUpdateCallbackOnDevicesUpdated)
 	if _err != nil {
-		_code = TransactionINearbyMediaDevicesUpdateCallbackOnDevicesUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINearbyMediaDevicesUpdateCallback, MethodINearbyMediaDevicesUpdateCallbackOnDevicesUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type NearbyMediaDevicesUpdateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NearbyMediaDevicesUpdateCallbackStub)(nil)
+
+func (s *NearbyMediaDevicesUpdateCallbackStub) Descriptor() string {
+	return DescriptorINearbyMediaDevicesUpdateCallback
+}
 
 func (s *NearbyMediaDevicesUpdateCallbackStub) OnTransaction(
 	ctx context.Context,

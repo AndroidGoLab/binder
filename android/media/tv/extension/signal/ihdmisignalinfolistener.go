@@ -16,6 +16,11 @@ const (
 	TransactionIHdmiSignalInfoListenerOnLowLatencyModeChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIHdmiSignalInfoListenerOnSignalInfoChanged     = "onSignalInfoChanged"
+	MethodIHdmiSignalInfoListenerOnLowLatencyModeChanged = "onLowLatencyModeChanged"
+)
+
 type IHdmiSignalInfoListener interface {
 	AsBinder() binder.IBinder
 	OnSignalInfoChanged(ctx context.Context, sessionToken string) error
@@ -23,17 +28,17 @@ type IHdmiSignalInfoListener interface {
 }
 
 type HdmiSignalInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiSignalInfoListenerProxy(
 	remote binder.IBinder,
 ) *HdmiSignalInfoListenerProxy {
-	return &HdmiSignalInfoListenerProxy{remote: remote}
+	return &HdmiSignalInfoListenerProxy{Remote: remote}
 }
 
 func (p *HdmiSignalInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiSignalInfoListener = (*HdmiSignalInfoListenerProxy)(nil)
@@ -46,12 +51,12 @@ func (p *HdmiSignalInfoListenerProxy) OnSignalInfoChanged(
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInfoListener)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInfoListener, "onSignalInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInfoListener, MethodIHdmiSignalInfoListenerOnSignalInfoChanged)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInfoListenerOnSignalInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInfoListener, MethodIHdmiSignalInfoListenerOnSignalInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *HdmiSignalInfoListenerProxy) OnLowLatencyModeChanged(
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInfoListener)
 	_data.WriteInt32(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInfoListener, "onLowLatencyModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSignalInfoListener, MethodIHdmiSignalInfoListenerOnLowLatencyModeChanged)
 	if _err != nil {
-		_code = TransactionIHdmiSignalInfoListenerOnLowLatencyModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSignalInfoListener, MethodIHdmiSignalInfoListenerOnLowLatencyModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type HdmiSignalInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiSignalInfoListenerStub)(nil)
+
+func (s *HdmiSignalInfoListenerStub) Descriptor() string {
+	return DescriptorIHdmiSignalInfoListener
+}
 
 func (s *HdmiSignalInfoListenerStub) OnTransaction(
 	ctx context.Context,

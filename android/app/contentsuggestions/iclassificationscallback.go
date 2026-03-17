@@ -15,23 +15,27 @@ const (
 	TransactionIClassificationsCallbackOnContentClassificationsAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIClassificationsCallbackOnContentClassificationsAvailable = "onContentClassificationsAvailable"
+)
+
 type IClassificationsCallback interface {
 	AsBinder() binder.IBinder
 	OnContentClassificationsAvailable(ctx context.Context, statusCode int32, classifications []ContentClassification) error
 }
 
 type ClassificationsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewClassificationsCallbackProxy(
 	remote binder.IBinder,
 ) *ClassificationsCallbackProxy {
-	return &ClassificationsCallbackProxy{remote: remote}
+	return &ClassificationsCallbackProxy{Remote: remote}
 }
 
 func (p *ClassificationsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IClassificationsCallback = (*ClassificationsCallbackProxy)(nil)
@@ -49,18 +53,19 @@ func (p *ClassificationsCallbackProxy) OnContentClassificationsAvailable(
 	} else {
 		_data.WriteInt32(int32(len(classifications)))
 		for _, _item := range classifications {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClassificationsCallback, "onContentClassificationsAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClassificationsCallback, MethodIClassificationsCallbackOnContentClassificationsAvailable)
 	if _err != nil {
-		_code = TransactionIClassificationsCallbackOnContentClassificationsAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIClassificationsCallback, MethodIClassificationsCallbackOnContentClassificationsAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +76,10 @@ type ClassificationsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ClassificationsCallbackStub)(nil)
+
+func (s *ClassificationsCallbackStub) Descriptor() string {
+	return DescriptorIClassificationsCallback
+}
 
 func (s *ClassificationsCallbackStub) OnTransaction(
 	ctx context.Context,

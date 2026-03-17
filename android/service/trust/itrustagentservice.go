@@ -27,6 +27,21 @@ const (
 	TransactionITrustAgentServiceOnEscrowTokenRemoved   = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodITrustAgentServiceOnUnlockAttempt        = "onUnlockAttempt"
+	MethodITrustAgentServiceOnUserRequestedUnlock  = "onUserRequestedUnlock"
+	MethodITrustAgentServiceOnUserMayRequestUnlock = "onUserMayRequestUnlock"
+	MethodITrustAgentServiceOnUnlockLockout        = "onUnlockLockout"
+	MethodITrustAgentServiceOnTrustTimeout         = "onTrustTimeout"
+	MethodITrustAgentServiceOnDeviceLocked         = "onDeviceLocked"
+	MethodITrustAgentServiceOnDeviceUnlocked       = "onDeviceUnlocked"
+	MethodITrustAgentServiceOnConfigure            = "onConfigure"
+	MethodITrustAgentServiceSetCallback            = "setCallback"
+	MethodITrustAgentServiceOnEscrowTokenAdded     = "onEscrowTokenAdded"
+	MethodITrustAgentServiceOnTokenStateReceived   = "onTokenStateReceived"
+	MethodITrustAgentServiceOnEscrowTokenRemoved   = "onEscrowTokenRemoved"
+)
+
 type ITrustAgentService interface {
 	AsBinder() binder.IBinder
 	OnUnlockAttempt(ctx context.Context, successful bool) error
@@ -44,17 +59,17 @@ type ITrustAgentService interface {
 }
 
 type TrustAgentServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTrustAgentServiceProxy(
 	remote binder.IBinder,
 ) *TrustAgentServiceProxy {
-	return &TrustAgentServiceProxy{remote: remote}
+	return &TrustAgentServiceProxy{Remote: remote}
 }
 
 func (p *TrustAgentServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITrustAgentService = (*TrustAgentServiceProxy)(nil)
@@ -67,12 +82,12 @@ func (p *TrustAgentServiceProxy) OnUnlockAttempt(
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteBool(successful)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onUnlockAttempt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockAttempt)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnUnlockAttempt
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockAttempt, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +99,12 @@ func (p *TrustAgentServiceProxy) OnUserRequestedUnlock(
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteBool(dismissKeyguard)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onUserRequestedUnlock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUserRequestedUnlock)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnUserRequestedUnlock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnUserRequestedUnlock, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +114,12 @@ func (p *TrustAgentServiceProxy) OnUserMayRequestUnlock(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onUserMayRequestUnlock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUserMayRequestUnlock)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnUserMayRequestUnlock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnUserMayRequestUnlock, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,12 +131,12 @@ func (p *TrustAgentServiceProxy) OnUnlockLockout(
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 	_data.WriteInt32(timeoutMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onUnlockLockout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockLockout)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnUnlockLockout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnUnlockLockout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,12 +146,12 @@ func (p *TrustAgentServiceProxy) OnTrustTimeout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onTrustTimeout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnTrustTimeout)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnTrustTimeout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnTrustTimeout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,12 +161,12 @@ func (p *TrustAgentServiceProxy) OnDeviceLocked(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onDeviceLocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnDeviceLocked)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnDeviceLocked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnDeviceLocked, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,12 +176,12 @@ func (p *TrustAgentServiceProxy) OnDeviceUnlocked(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onDeviceUnlocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnDeviceUnlocked)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnDeviceUnlocked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnDeviceUnlocked, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -182,14 +197,14 @@ func (p *TrustAgentServiceProxy) OnConfigure(
 	} else {
 		_data.WriteInt32(int32(len(options)))
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onConfigure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnConfigure)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnConfigure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -199,14 +214,14 @@ func (p *TrustAgentServiceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceSetCallback)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceSetCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,12 +247,12 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onEscrowTokenAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenAdded)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnEscrowTokenAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -251,12 +266,12 @@ func (p *TrustAgentServiceProxy) OnTokenStateReceived(
 	_data.WriteInt64(handle)
 	_data.WriteInt32(tokenState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onTokenStateReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnTokenStateReceived)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnTokenStateReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnTokenStateReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -270,12 +285,12 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenRemoved(
 	_data.WriteInt64(handle)
 	_data.WriteBool(successful)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustAgentService, "onEscrowTokenRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenRemoved)
 	if _err != nil {
-		_code = TransactionITrustAgentServiceOnEscrowTokenRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustAgentService, MethodITrustAgentServiceOnEscrowTokenRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -286,6 +301,10 @@ type TrustAgentServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TrustAgentServiceStub)(nil)
+
+func (s *TrustAgentServiceStub) Descriptor() string {
+	return DescriptorITrustAgentService
+}
 
 func (s *TrustAgentServiceStub) OnTransaction(
 	ctx context.Context,

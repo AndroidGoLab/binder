@@ -17,6 +17,12 @@ const (
 	TransactionIHardwarePropertiesManagerGetFanSpeeds          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIHardwarePropertiesManagerGetDeviceTemperatures = "getDeviceTemperatures"
+	MethodIHardwarePropertiesManagerGetCpuUsages          = "getCpuUsages"
+	MethodIHardwarePropertiesManagerGetFanSpeeds          = "getFanSpeeds"
+)
+
 type IHardwarePropertiesManager interface {
 	AsBinder() binder.IBinder
 	GetDeviceTemperatures(ctx context.Context, type_ int32, source int32) ([]float32, error)
@@ -25,17 +31,17 @@ type IHardwarePropertiesManager interface {
 }
 
 type HardwarePropertiesManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHardwarePropertiesManagerProxy(
 	remote binder.IBinder,
 ) *HardwarePropertiesManagerProxy {
-	return &HardwarePropertiesManagerProxy{remote: remote}
+	return &HardwarePropertiesManagerProxy{Remote: remote}
 }
 
 func (p *HardwarePropertiesManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHardwarePropertiesManager = (*HardwarePropertiesManagerProxy)(nil)
@@ -46,19 +52,19 @@ func (p *HardwarePropertiesManagerProxy) GetDeviceTemperatures(
 	source int32,
 ) ([]float32, error) {
 	var _result []float32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(type_)
 	_data.WriteInt32(source)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHardwarePropertiesManager, "getDeviceTemperatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetDeviceTemperatures)
 	if _err != nil {
-		_code = TransactionIHardwarePropertiesManagerGetDeviceTemperatures
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetDeviceTemperatures, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,17 +95,17 @@ func (p *HardwarePropertiesManagerProxy) GetCpuUsages(
 	ctx context.Context,
 ) ([]CpuUsageInfo, error) {
 	var _result []CpuUsageInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHardwarePropertiesManager, "getCpuUsages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetCpuUsages)
 	if _err != nil {
-		_code = TransactionIHardwarePropertiesManagerGetCpuUsages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetCpuUsages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,6 +123,9 @@ func (p *HardwarePropertiesManagerProxy) GetCpuUsages(
 	if _count >= 0 {
 		_result = make([]CpuUsageInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -129,17 +138,17 @@ func (p *HardwarePropertiesManagerProxy) GetFanSpeeds(
 	ctx context.Context,
 ) ([]float32, error) {
 	var _result []float32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHardwarePropertiesManager, "getFanSpeeds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetFanSpeeds)
 	if _err != nil {
-		_code = TransactionIHardwarePropertiesManagerGetFanSpeeds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHardwarePropertiesManager, MethodIHardwarePropertiesManagerGetFanSpeeds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -173,6 +182,10 @@ type HardwarePropertiesManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HardwarePropertiesManagerStub)(nil)
+
+func (s *HardwarePropertiesManagerStub) Descriptor() string {
+	return DescriptorIHardwarePropertiesManager
+}
 
 func (s *HardwarePropertiesManagerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIVoiceInteractorRequestCancel = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVoiceInteractorRequestCancel = "cancel"
+)
+
 type IVoiceInteractorRequest interface {
 	AsBinder() binder.IBinder
 	Cancel(ctx context.Context) error
 }
 
 type VoiceInteractorRequestProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractorRequestProxy(
 	remote binder.IBinder,
 ) *VoiceInteractorRequestProxy {
-	return &VoiceInteractorRequestProxy{remote: remote}
+	return &VoiceInteractorRequestProxy{Remote: remote}
 }
 
 func (p *VoiceInteractorRequestProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractorRequest = (*VoiceInteractorRequestProxy)(nil)
@@ -42,12 +46,12 @@ func (p *VoiceInteractorRequestProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorRequest, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractorRequest, MethodIVoiceInteractorRequestCancel)
 	if _err != nil {
-		_code = TransactionIVoiceInteractorRequestCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractorRequest, MethodIVoiceInteractorRequestCancel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type VoiceInteractorRequestStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractorRequestStub)(nil)
+
+func (s *VoiceInteractorRequestStub) Descriptor() string {
+	return DescriptorIVoiceInteractorRequest
+}
 
 func (s *VoiceInteractorRequestStub) OnTransaction(
 	ctx context.Context,

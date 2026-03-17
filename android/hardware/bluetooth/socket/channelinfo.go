@@ -58,10 +58,12 @@ func (u *ChannelInfo) MarshalParcel(
 
 	switch u.Tag {
 	case ChannelInfoTagLeCocChannelInfo:
+		p.WriteInt32(1)
 		if _err := u.LeCocChannelInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ChannelInfoTagRfcommChannelInfo:
+		p.WriteInt32(1)
 		if _err := u.RfcommChannelInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *ChannelInfo) UnmarshalParcel(
 
 	switch u.Tag {
 	case ChannelInfoTagLeCocChannelInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.LeCocChannelInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ChannelInfoTagRfcommChannelInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.RfcommChannelInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -16,17 +16,17 @@ type IFsveritySetupAuthToken interface {
 }
 
 type FsveritySetupAuthTokenProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFsveritySetupAuthTokenProxy(
 	remote binder.IBinder,
 ) *FsveritySetupAuthTokenProxy {
-	return &FsveritySetupAuthTokenProxy{remote: remote}
+	return &FsveritySetupAuthTokenProxy{Remote: remote}
 }
 
 func (p *FsveritySetupAuthTokenProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFsveritySetupAuthToken = (*FsveritySetupAuthTokenProxy)(nil)
@@ -38,6 +38,10 @@ type FsveritySetupAuthTokenStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FsveritySetupAuthTokenStub)(nil)
+
+func (s *FsveritySetupAuthTokenStub) Descriptor() string {
+	return DescriptorIFsveritySetupAuthToken
+}
 
 func (s *FsveritySetupAuthTokenStub) OnTransaction(
 	ctx context.Context,

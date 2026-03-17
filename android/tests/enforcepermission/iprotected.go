@@ -28,6 +28,23 @@ const (
 	TransactionIProtectedManuallyProtected                                  = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodIProtectedProtectedByInternet                                = "ProtectedByInternet"
+	MethodIProtectedProtectedByVibrate                                 = "ProtectedByVibrate"
+	MethodIProtectedProtectedByInternetAndVibrateImplicitly            = "ProtectedByInternetAndVibrateImplicitly"
+	MethodIProtectedProtectedByInternetAndAccessNetworkStateImplicitly = "ProtectedByInternetAndAccessNetworkStateImplicitly"
+	MethodIProtectedProtectedByInternetAndReadSyncSettingsImplicitly   = "ProtectedByInternetAndReadSyncSettingsImplicitly"
+	MethodIProtectedProtectedByTurnScreenOn                            = "ProtectedByTurnScreenOn"
+	MethodIProtectedProtectedByReadContacts                            = "ProtectedByReadContacts"
+	MethodIProtectedProtectedByReadCalendar                            = "ProtectedByReadCalendar"
+	MethodIProtectedProtectedByInternetAndVibrate                      = "ProtectedByInternetAndVibrate"
+	MethodIProtectedProtectedByInternetAndReadSyncSettings             = "ProtectedByInternetAndReadSyncSettings"
+	MethodIProtectedProtectedByAccessWifiStateOrVibrate                = "ProtectedByAccessWifiStateOrVibrate"
+	MethodIProtectedProtectedByInternetOrVibrate                       = "ProtectedByInternetOrVibrate"
+	MethodIProtectedNotProtected                                       = "NotProtected"
+	MethodIProtectedManuallyProtected                                  = "ManuallyProtected"
+)
+
 type IProtected interface {
 	AsBinder() binder.IBinder
 	ProtectedByInternet(ctx context.Context) error
@@ -47,17 +64,17 @@ type IProtected interface {
 }
 
 type ProtectedProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProtectedProxy(
 	remote binder.IBinder,
 ) *ProtectedProxy {
-	return &ProtectedProxy{remote: remote}
+	return &ProtectedProxy{Remote: remote}
 }
 
 func (p *ProtectedProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProtected = (*ProtectedProxy)(nil)
@@ -68,12 +85,12 @@ func (p *ProtectedProxy) ProtectedByInternet(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternet)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +109,12 @@ func (p *ProtectedProxy) ProtectedByVibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByVibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByVibrate)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -116,12 +133,12 @@ func (p *ProtectedProxy) ProtectedByInternetAndVibrateImplicitly(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternetAndVibrateImplicitly")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndVibrateImplicitly)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternetAndVibrateImplicitly
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternetAndVibrateImplicitly, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -140,12 +157,12 @@ func (p *ProtectedProxy) ProtectedByInternetAndAccessNetworkStateImplicitly(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternetAndAccessNetworkStateImplicitly")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndAccessNetworkStateImplicitly)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternetAndAccessNetworkStateImplicitly
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternetAndAccessNetworkStateImplicitly, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -164,12 +181,12 @@ func (p *ProtectedProxy) ProtectedByInternetAndReadSyncSettingsImplicitly(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternetAndReadSyncSettingsImplicitly")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndReadSyncSettingsImplicitly)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternetAndReadSyncSettingsImplicitly
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternetAndReadSyncSettingsImplicitly, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,12 +205,12 @@ func (p *ProtectedProxy) ProtectedByTurnScreenOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByTurnScreenOn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByTurnScreenOn)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByTurnScreenOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByTurnScreenOn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -212,12 +229,12 @@ func (p *ProtectedProxy) ProtectedByReadContacts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByReadContacts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByReadContacts)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByReadContacts
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByReadContacts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -236,12 +253,12 @@ func (p *ProtectedProxy) ProtectedByReadCalendar(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByReadCalendar")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByReadCalendar)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByReadCalendar
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByReadCalendar, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -260,12 +277,12 @@ func (p *ProtectedProxy) ProtectedByInternetAndVibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternetAndVibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndVibrate)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternetAndVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternetAndVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -284,12 +301,12 @@ func (p *ProtectedProxy) ProtectedByInternetAndReadSyncSettings(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternetAndReadSyncSettings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetAndReadSyncSettings)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternetAndReadSyncSettings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternetAndReadSyncSettings, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -308,12 +325,12 @@ func (p *ProtectedProxy) ProtectedByAccessWifiStateOrVibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByAccessWifiStateOrVibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByAccessWifiStateOrVibrate)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByAccessWifiStateOrVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByAccessWifiStateOrVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -332,12 +349,12 @@ func (p *ProtectedProxy) ProtectedByInternetOrVibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ProtectedByInternetOrVibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedProtectedByInternetOrVibrate)
 	if _err != nil {
-		_code = TransactionIProtectedProtectedByInternetOrVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedProtectedByInternetOrVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -356,12 +373,12 @@ func (p *ProtectedProxy) NotProtected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "NotProtected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedNotProtected)
 	if _err != nil {
-		_code = TransactionIProtectedNotProtected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedNotProtected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -380,12 +397,12 @@ func (p *ProtectedProxy) ManuallyProtected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtected, "ManuallyProtected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtected, MethodIProtectedManuallyProtected)
 	if _err != nil {
-		_code = TransactionIProtectedManuallyProtected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtected, MethodIProtectedManuallyProtected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -405,6 +422,10 @@ type ProtectedStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProtectedStub)(nil)
+
+func (s *ProtectedStub) Descriptor() string {
+	return DescriptorIProtected
+}
 
 func (s *ProtectedStub) OnTransaction(
 	ctx context.Context,

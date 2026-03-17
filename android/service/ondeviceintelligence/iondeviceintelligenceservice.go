@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	appOndeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -23,38 +24,43 @@ const (
 	TransactionIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap = binder.FirstCallTransaction + 5
 	TransactionIOnDeviceIntelligenceServiceRequestFeatureDownload              = binder.FirstCallTransaction + 6
 	TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices              = binder.FirstCallTransaction + 7
-	TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceConnected     = binder.FirstCallTransaction + 8
-	TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceDisconnected  = binder.FirstCallTransaction + 9
-	TransactionIOnDeviceIntelligenceServiceReady                               = binder.FirstCallTransaction + 10
+)
+
+const (
+	MethodIOnDeviceIntelligenceServiceGetVersion                          = "getVersion"
+	MethodIOnDeviceIntelligenceServiceGetFeature                          = "getFeature"
+	MethodIOnDeviceIntelligenceServiceListFeatures                        = "listFeatures"
+	MethodIOnDeviceIntelligenceServiceGetFeatureDetails                   = "getFeatureDetails"
+	MethodIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor           = "getReadOnlyFileDescriptor"
+	MethodIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap = "getReadOnlyFeatureFileDescriptorMap"
+	MethodIOnDeviceIntelligenceServiceRequestFeatureDownload              = "requestFeatureDownload"
+	MethodIOnDeviceIntelligenceServiceRegisterRemoteServices              = "registerRemoteServices"
 )
 
 type IOnDeviceIntelligenceService interface {
 	AsBinder() binder.IBinder
 	GetVersion(ctx context.Context, remoteCallback os.RemoteCallback) error
-	GetFeature(ctx context.Context, callerUid int32, featureId int32, featureCallback appOndeviceintelligence.IFeatureCallback) error
-	ListFeatures(ctx context.Context, callerUid int32, listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback) error
-	GetFeatureDetails(ctx context.Context, callerUid int32, feature appOndeviceintelligence.Feature, featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback) error
+	GetFeature(ctx context.Context, featureId int32, featureCallback appOndeviceintelligence.IFeatureCallback) error
+	ListFeatures(ctx context.Context, listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback) error
+	GetFeatureDetails(ctx context.Context, feature appOndeviceintelligence.Feature, featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback) error
 	GetReadOnlyFileDescriptor(ctx context.Context, fileName string, future infra.AndroidFuture) error
 	GetReadOnlyFeatureFileDescriptorMap(ctx context.Context, feature appOndeviceintelligence.Feature, remoteCallback os.RemoteCallback) error
-	RequestFeatureDownload(ctx context.Context, callerUid int32, feature appOndeviceintelligence.Feature, cancellationSignal infra.AndroidFuture, downloadCallback appOndeviceintelligence.IDownloadCallback) error
+	RequestFeatureDownload(ctx context.Context, feature appOndeviceintelligence.Feature, cancellationSignal common.ICancellationSignal, downloadCallback appOndeviceintelligence.IDownloadCallback) error
 	RegisterRemoteServices(ctx context.Context, remoteProcessingService IRemoteProcessingService) error
-	NotifyInferenceServiceConnected(ctx context.Context) error
-	NotifyInferenceServiceDisconnected(ctx context.Context) error
-	Ready(ctx context.Context) error
 }
 
 type OnDeviceIntelligenceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnDeviceIntelligenceServiceProxy(
 	remote binder.IBinder,
 ) *OnDeviceIntelligenceServiceProxy {
-	return &OnDeviceIntelligenceServiceProxy{remote: remote}
+	return &OnDeviceIntelligenceServiceProxy{Remote: remote}
 }
 
 func (p *OnDeviceIntelligenceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnDeviceIntelligenceService = (*OnDeviceIntelligenceServiceProxy)(nil)
@@ -70,76 +76,70 @@ func (p *OnDeviceIntelligenceServiceProxy) GetVersion(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetVersion)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceGetVersion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetVersion, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *OnDeviceIntelligenceServiceProxy) GetFeature(
 	ctx context.Context,
-	callerUid int32,
 	featureId int32,
 	featureCallback appOndeviceintelligence.IFeatureCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(callerUid)
 	_data.WriteInt32(featureId)
-	binder.WriteBinderToParcel(ctx, _data, featureCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, featureCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeature)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceGetFeature
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeature, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *OnDeviceIntelligenceServiceProxy) ListFeatures(
 	ctx context.Context,
-	callerUid int32,
 	listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(callerUid)
-	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listFeaturesCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "listFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceListFeatures)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceListFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceListFeatures, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *OnDeviceIntelligenceServiceProxy) GetFeatureDetails(
 	ctx context.Context,
-	callerUid int32,
 	feature appOndeviceintelligence.Feature,
 	featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(callerUid)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, featureDetailsCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getFeatureDetails")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeatureDetails)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceGetFeatureDetails
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetFeatureDetails, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,12 +156,12 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFileDescriptor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getReadOnlyFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -181,41 +181,36 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getReadOnlyFeatureFileDescriptorMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *OnDeviceIntelligenceServiceProxy) RequestFeatureDownload(
 	ctx context.Context,
-	callerUid int32,
 	feature appOndeviceintelligence.Feature,
-	cancellationSignal infra.AndroidFuture,
+	cancellationSignal common.ICancellationSignal,
 	downloadCallback appOndeviceintelligence.IDownloadCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	_data.WriteInt32(callerUid)
 	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := cancellationSignal.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, downloadCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellationSignal.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, downloadCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "requestFeatureDownload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRequestFeatureDownload)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceRequestFeatureDownload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRequestFeatureDownload, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,59 +220,14 @@ func (p *OnDeviceIntelligenceServiceProxy) RegisterRemoteServices(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-	binder.WriteBinderToParcel(ctx, _data, remoteProcessingService.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, remoteProcessingService.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "registerRemoteServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRegisterRemoteServices)
 	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceIntelligenceService, MethodIOnDeviceIntelligenceServiceRegisterRemoteServices, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *OnDeviceIntelligenceServiceProxy) NotifyInferenceServiceConnected(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "notifyInferenceServiceConnected")
-	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceConnected
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *OnDeviceIntelligenceServiceProxy) NotifyInferenceServiceDisconnected(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "notifyInferenceServiceDisconnected")
-	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceDisconnected
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *OnDeviceIntelligenceServiceProxy) Ready(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "ready")
-	if _err != nil {
-		_code = TransactionIOnDeviceIntelligenceServiceReady
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,6 +238,10 @@ type OnDeviceIntelligenceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnDeviceIntelligenceServiceStub)(nil)
+
+func (s *OnDeviceIntelligenceServiceStub) Descriptor() string {
+	return DescriptorIOnDeviceIntelligenceService
+}
 
 func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 	ctx context.Context,
@@ -318,10 +272,6 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		_arg_featureId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -329,29 +279,21 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_featureCallback appOndeviceintelligence.IFeatureCallback
 		_ = _arg_featureCallback
-		_err = s.Impl.GetFeature(ctx, _arg_callerUid, _arg_featureId, _arg_featureCallback)
+		_err = s.Impl.GetFeature(ctx, _arg_featureId, _arg_featureCallback)
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceListFeatures:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback
 		_ = _arg_listFeaturesCallback
-		_err = s.Impl.ListFeatures(ctx, _arg_callerUid, _arg_listFeaturesCallback)
+		_err := s.Impl.ListFeatures(ctx, _arg_listFeaturesCallback)
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceGetFeatureDetails:
 		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_callerUid, _err := _data.ReadInt32()
-		if _err != nil {
 			return nil, _err
 		}
 		var _arg_feature appOndeviceintelligence.Feature
@@ -369,7 +311,7 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback
 		_ = _arg_featureDetailsCallback
-		_err = s.Impl.GetFeatureDetails(ctx, _arg_callerUid, _arg_feature, _arg_featureDetailsCallback)
+		_err := s.Impl.GetFeatureDetails(ctx, _arg_feature, _arg_featureDetailsCallback)
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor:
@@ -430,10 +372,6 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -446,22 +384,13 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_cancellationSignal infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_cancellationSignal.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationSignal common.ICancellationSignal
+		_ = _arg_cancellationSignal
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_downloadCallback appOndeviceintelligence.IDownloadCallback
 		_ = _arg_downloadCallback
-		_err = s.Impl.RequestFeatureDownload(ctx, _arg_callerUid, _arg_feature, _arg_cancellationSignal, _arg_downloadCallback)
+		_err := s.Impl.RequestFeatureDownload(ctx, _arg_feature, _arg_cancellationSignal, _arg_downloadCallback)
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices:
@@ -474,27 +403,6 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_err := s.Impl.RegisterRemoteServices(ctx, _arg_remoteProcessingService)
 		_ = _err
 		return nil, nil
-	case TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceConnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.NotifyInferenceServiceConnected(ctx)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.NotifyInferenceServiceDisconnected(ctx)
-		_ = _err
-		return nil, nil
-	case TransactionIOnDeviceIntelligenceServiceReady:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.Ready(ctx)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -505,16 +413,13 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IOnDeviceIntelligenceServiceServer interface {
 	GetVersion(ctx context.Context, remoteCallback os.RemoteCallback) error
-	GetFeature(ctx context.Context, callerUid int32, featureId int32, featureCallback appOndeviceintelligence.IFeatureCallback) error
-	ListFeatures(ctx context.Context, callerUid int32, listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback) error
-	GetFeatureDetails(ctx context.Context, callerUid int32, feature appOndeviceintelligence.Feature, featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback) error
+	GetFeature(ctx context.Context, featureId int32, featureCallback appOndeviceintelligence.IFeatureCallback) error
+	ListFeatures(ctx context.Context, listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback) error
+	GetFeatureDetails(ctx context.Context, feature appOndeviceintelligence.Feature, featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback) error
 	GetReadOnlyFileDescriptor(ctx context.Context, fileName string, future infra.AndroidFuture) error
 	GetReadOnlyFeatureFileDescriptorMap(ctx context.Context, feature appOndeviceintelligence.Feature, remoteCallback os.RemoteCallback) error
-	RequestFeatureDownload(ctx context.Context, callerUid int32, feature appOndeviceintelligence.Feature, cancellationSignal infra.AndroidFuture, downloadCallback appOndeviceintelligence.IDownloadCallback) error
+	RequestFeatureDownload(ctx context.Context, feature appOndeviceintelligence.Feature, cancellationSignal common.ICancellationSignal, downloadCallback appOndeviceintelligence.IDownloadCallback) error
 	RegisterRemoteServices(ctx context.Context, remoteProcessingService IRemoteProcessingService) error
-	NotifyInferenceServiceConnected(ctx context.Context) error
-	NotifyInferenceServiceDisconnected(ctx context.Context) error
-	Ready(ctx context.Context) error
 }
 
 type onDeviceIntelligenceServiceStubWrapper struct {
@@ -535,28 +440,25 @@ func (w *onDeviceIntelligenceServiceStubWrapper) GetVersion(
 
 func (w *onDeviceIntelligenceServiceStubWrapper) GetFeature(
 	ctx context.Context,
-	callerUid int32,
 	featureId int32,
 	featureCallback appOndeviceintelligence.IFeatureCallback,
 ) error {
-	return w.impl.GetFeature(ctx, callerUid, featureId, featureCallback)
+	return w.impl.GetFeature(ctx, featureId, featureCallback)
 }
 
 func (w *onDeviceIntelligenceServiceStubWrapper) ListFeatures(
 	ctx context.Context,
-	callerUid int32,
 	listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback,
 ) error {
-	return w.impl.ListFeatures(ctx, callerUid, listFeaturesCallback)
+	return w.impl.ListFeatures(ctx, listFeaturesCallback)
 }
 
 func (w *onDeviceIntelligenceServiceStubWrapper) GetFeatureDetails(
 	ctx context.Context,
-	callerUid int32,
 	feature appOndeviceintelligence.Feature,
 	featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback,
 ) error {
-	return w.impl.GetFeatureDetails(ctx, callerUid, feature, featureDetailsCallback)
+	return w.impl.GetFeatureDetails(ctx, feature, featureDetailsCallback)
 }
 
 func (w *onDeviceIntelligenceServiceStubWrapper) GetReadOnlyFileDescriptor(
@@ -577,12 +479,11 @@ func (w *onDeviceIntelligenceServiceStubWrapper) GetReadOnlyFeatureFileDescripto
 
 func (w *onDeviceIntelligenceServiceStubWrapper) RequestFeatureDownload(
 	ctx context.Context,
-	callerUid int32,
 	feature appOndeviceintelligence.Feature,
-	cancellationSignal infra.AndroidFuture,
+	cancellationSignal common.ICancellationSignal,
 	downloadCallback appOndeviceintelligence.IDownloadCallback,
 ) error {
-	return w.impl.RequestFeatureDownload(ctx, callerUid, feature, cancellationSignal, downloadCallback)
+	return w.impl.RequestFeatureDownload(ctx, feature, cancellationSignal, downloadCallback)
 }
 
 func (w *onDeviceIntelligenceServiceStubWrapper) RegisterRemoteServices(
@@ -590,24 +491,6 @@ func (w *onDeviceIntelligenceServiceStubWrapper) RegisterRemoteServices(
 	remoteProcessingService IRemoteProcessingService,
 ) error {
 	return w.impl.RegisterRemoteServices(ctx, remoteProcessingService)
-}
-
-func (w *onDeviceIntelligenceServiceStubWrapper) NotifyInferenceServiceConnected(
-	ctx context.Context,
-) error {
-	return w.impl.NotifyInferenceServiceConnected(ctx)
-}
-
-func (w *onDeviceIntelligenceServiceStubWrapper) NotifyInferenceServiceDisconnected(
-	ctx context.Context,
-) error {
-	return w.impl.NotifyInferenceServiceDisconnected(ctx)
-}
-
-func (w *onDeviceIntelligenceServiceStubWrapper) Ready(
-	ctx context.Context,
-) error {
-	return w.impl.Ready(ctx)
 }
 
 var _ IOnDeviceIntelligenceService = (*onDeviceIntelligenceServiceStubWrapper)(nil)

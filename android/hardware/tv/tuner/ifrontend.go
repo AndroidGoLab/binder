@@ -27,6 +27,22 @@ const (
 	TransactionIFrontendGetFrontendStatusReadiness = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIFrontendSetCallback                = "setCallback"
+	MethodIFrontendTune                       = "tune"
+	MethodIFrontendStopTune                   = "stopTune"
+	MethodIFrontendClose                      = "close"
+	MethodIFrontendScan                       = "scan"
+	MethodIFrontendStopScan                   = "stopScan"
+	MethodIFrontendGetStatus                  = "getStatus"
+	MethodIFrontendSetLnb                     = "setLnb"
+	MethodIFrontendLinkCiCam                  = "linkCiCam"
+	MethodIFrontendUnlinkCiCam                = "unlinkCiCam"
+	MethodIFrontendGetHardwareInfo            = "getHardwareInfo"
+	MethodIFrontendRemoveOutputPid            = "removeOutputPid"
+	MethodIFrontendGetFrontendStatusReadiness = "getFrontendStatusReadiness"
+)
+
 type IFrontend interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IFrontendCallback) error
@@ -45,17 +61,17 @@ type IFrontend interface {
 }
 
 type FrontendProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFrontendProxy(
 	remote binder.IBinder,
 ) *FrontendProxy {
-	return &FrontendProxy{remote: remote}
+	return &FrontendProxy{Remote: remote}
 }
 
 func (p *FrontendProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFrontend = (*FrontendProxy)(nil)
@@ -66,14 +82,14 @@ func (p *FrontendProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendSetCallback)
 	if _err != nil {
-		_code = TransactionIFrontendSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,12 +113,12 @@ func (p *FrontendProxy) Tune(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "tune")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendTune)
 	if _err != nil {
-		_code = TransactionIFrontendTune
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendTune, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,12 +137,12 @@ func (p *FrontendProxy) StopTune(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "stopTune")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendStopTune)
 	if _err != nil {
-		_code = TransactionIFrontendStopTune
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendStopTune, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -145,12 +161,12 @@ func (p *FrontendProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendClose)
 	if _err != nil {
-		_code = TransactionIFrontendClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,12 +192,12 @@ func (p *FrontendProxy) Scan(
 	}
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "scan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendScan)
 	if _err != nil {
-		_code = TransactionIFrontendScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,12 +216,12 @@ func (p *FrontendProxy) StopScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "stopScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendStopScan)
 	if _err != nil {
-		_code = TransactionIFrontendStopScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendStopScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -234,12 +250,12 @@ func (p *FrontendProxy) GetStatus(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "getStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendGetStatus)
 	if _err != nil {
-		_code = TransactionIFrontendGetStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendGetStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -257,6 +273,9 @@ func (p *FrontendProxy) GetStatus(
 	if _count >= 0 {
 		_result = make([]FrontendStatus, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -273,12 +292,12 @@ func (p *FrontendProxy) SetLnb(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(lnbId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "setLnb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendSetLnb)
 	if _err != nil {
-		_code = TransactionIFrontendSetLnb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendSetLnb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -300,12 +319,12 @@ func (p *FrontendProxy) LinkCiCam(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(ciCamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "linkCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendLinkCiCam)
 	if _err != nil {
-		_code = TransactionIFrontendLinkCiCam
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendLinkCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -330,12 +349,12 @@ func (p *FrontendProxy) UnlinkCiCam(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(ciCamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "unlinkCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendUnlinkCiCam)
 	if _err != nil {
-		_code = TransactionIFrontendUnlinkCiCam
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendUnlinkCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -355,12 +374,12 @@ func (p *FrontendProxy) GetHardwareInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "getHardwareInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendGetHardwareInfo)
 	if _err != nil {
-		_code = TransactionIFrontendGetHardwareInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendGetHardwareInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -385,12 +404,12 @@ func (p *FrontendProxy) RemoveOutputPid(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "removeOutputPid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendRemoveOutputPid)
 	if _err != nil {
-		_code = TransactionIFrontendRemoveOutputPid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendRemoveOutputPid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -419,12 +438,12 @@ func (p *FrontendProxy) GetFrontendStatusReadiness(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "getFrontendStatusReadiness")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontend, MethodIFrontendGetFrontendStatusReadiness)
 	if _err != nil {
-		_code = TransactionIFrontendGetFrontendStatusReadiness
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontend, MethodIFrontendGetFrontendStatusReadiness, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -459,6 +478,10 @@ type FrontendStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FrontendStub)(nil)
+
+func (s *FrontendStub) Descriptor() string {
+	return DescriptorIFrontend
+}
 
 func (s *FrontendStub) OnTransaction(
 	ctx context.Context,

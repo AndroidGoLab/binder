@@ -22,6 +22,15 @@ const (
 	TransactionIDisplayWindowListenerOnKeepClearAreasChanged       = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIDisplayWindowListenerOnDisplayAdded                = "onDisplayAdded"
+	MethodIDisplayWindowListenerOnDisplayConfigurationChanged = "onDisplayConfigurationChanged"
+	MethodIDisplayWindowListenerOnDisplayRemoved              = "onDisplayRemoved"
+	MethodIDisplayWindowListenerOnFixedRotationStarted        = "onFixedRotationStarted"
+	MethodIDisplayWindowListenerOnFixedRotationFinished       = "onFixedRotationFinished"
+	MethodIDisplayWindowListenerOnKeepClearAreasChanged       = "onKeepClearAreasChanged"
+)
+
 type IDisplayWindowListener interface {
 	AsBinder() binder.IBinder
 	OnDisplayAdded(ctx context.Context, displayId int32) error
@@ -33,17 +42,17 @@ type IDisplayWindowListener interface {
 }
 
 type DisplayWindowListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayWindowListenerProxy(
 	remote binder.IBinder,
 ) *DisplayWindowListenerProxy {
-	return &DisplayWindowListenerProxy{remote: remote}
+	return &DisplayWindowListenerProxy{Remote: remote}
 }
 
 func (p *DisplayWindowListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayWindowListener = (*DisplayWindowListenerProxy)(nil)
@@ -56,12 +65,12 @@ func (p *DisplayWindowListenerProxy) OnDisplayAdded(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayAdded)
 	if _err != nil {
-		_code = TransactionIDisplayWindowListenerOnDisplayAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +87,12 @@ func (p *DisplayWindowListenerProxy) OnDisplayConfigurationChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayConfigurationChanged)
 	if _err != nil {
-		_code = TransactionIDisplayWindowListenerOnDisplayConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayConfigurationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +104,12 @@ func (p *DisplayWindowListenerProxy) OnDisplayRemoved(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayRemoved)
 	if _err != nil {
-		_code = TransactionIDisplayWindowListenerOnDisplayRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnDisplayRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,12 +123,12 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationStarted(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(newRotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onFixedRotationStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationStarted)
 	if _err != nil {
-		_code = TransactionIDisplayWindowListenerOnFixedRotationStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,12 +140,12 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationFinished(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onFixedRotationFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationFinished)
 	if _err != nil {
-		_code = TransactionIDisplayWindowListenerOnFixedRotationFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnFixedRotationFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,6 +163,7 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 	} else {
 		_data.WriteInt32(int32(len(restricted)))
 		for _, _item := range restricted {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -164,18 +174,19 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 	} else {
 		_data.WriteInt32(int32(len(unrestricted)))
 		for _, _item := range unrestricted {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onKeepClearAreasChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnKeepClearAreasChanged)
 	if _err != nil {
-		_code = TransactionIDisplayWindowListenerOnKeepClearAreasChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowListener, MethodIDisplayWindowListenerOnKeepClearAreasChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -186,6 +197,10 @@ type DisplayWindowListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayWindowListenerStub)(nil)
+
+func (s *DisplayWindowListenerStub) Descriptor() string {
+	return DescriptorIDisplayWindowListener
+}
 
 func (s *DisplayWindowListenerStub) OnTransaction(
 	ctx context.Context,

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/tools/pkg/parser"
 )
 
@@ -146,6 +147,14 @@ func writeStubType(
 
 	// Interface compliance assertion.
 	f.P("var _ binder.TransactionReceiver = (*%s)(nil)", stubName)
+	f.P("")
+
+	// Descriptor returns the AIDL interface descriptor.
+	// The binder driver calls INTERFACE_TRANSACTION to verify the
+	// remote binder's class before delivering transactions.
+	f.P("func (s *%s) Descriptor() string {", stubName)
+	f.P("\treturn %s", descriptorConst)
+	f.P("}")
 	f.P("")
 
 	// OnTransaction method. The parcel parameter is named _data (with
@@ -593,15 +602,21 @@ func writeTransactionCodes(
 		return
 	}
 
+	codes := ComputeTransactionCodes(methods)
+
 	f.P("const (")
-	counter := 0
 	for _, m := range methods {
 		constName := "Transaction" + interfaceName + AIDLToGoName(m.MethodName)
-		if m.TransactionID != 0 {
-			counter = m.TransactionID - 1
-		}
-		f.P("\t%s = binder.FirstCallTransaction + %d", constName, counter)
-		counter++
+		code := codes[m.MethodName]
+		f.P("\t%s = binder.FirstCallTransaction + %d", constName, int(code-binder.FirstCallTransaction))
+	}
+	f.P(")")
+	f.P("")
+
+	f.P("const (")
+	for _, m := range methods {
+		constName := "Method" + interfaceName + AIDLToGoName(m.MethodName)
+		f.P("\t%s = %q", constName, m.MethodName)
 	}
 	f.P(")")
 	f.P("")
@@ -630,19 +645,19 @@ func writeProxyStruct(
 	proxyName string,
 ) {
 	f.P("type %s struct {", proxyName)
-	f.P("\tremote binder.IBinder")
+	f.P("\tRemote binder.IBinder")
 	f.P("}")
 	f.P("")
 
 	f.P("func New%s(", proxyName)
 	f.P("\tremote binder.IBinder,")
 	f.P(") *%s {", proxyName)
-	f.P("\treturn &%s{remote: remote}", proxyName)
+	f.P("\treturn &%s{Remote: remote}", proxyName)
 	f.P("}")
 	f.P("")
 
 	f.P("func (p *%s) AsBinder() binder.IBinder {", proxyName)
-	f.P("\treturn p.remote")
+	f.P("\treturn p.Remote")
 	f.P("}")
 	f.P("")
 
@@ -692,7 +707,7 @@ func writeProxyMethod(
 
 	// Retrieve caller identity when any parameters are auto-filled.
 	if hasIdentity {
-		f.P("\t_identity := p.remote.Identity()")
+		f.P("\t_identity := p.Remote.Identity()")
 	}
 
 	// Build and write data parcel.
@@ -723,26 +738,30 @@ func writeProxyMethod(
 
 	// Transact call and reply handling.
 	// Use ResolveCode so the proxy asks the transport for the correct
-	// transaction code. Fall back to the compiled constant for stable
-	// AIDL interfaces not in the version table (e.g. HAL interfaces
-	// whose codes aren't extracted from framework JARs).
-	txnConst := "Transaction" + interfaceName + AIDLToGoName(m.MethodName)
+	// transaction code. The proxy returns an error if the method cannot
+	// be resolved, instead of silently falling back to a compiled constant.
+	methodConst := "Method" + interfaceName + AIDLToGoName(m.MethodName)
+	f.AddImport("fmt", "")
 	f.P("")
-	f.P("\t_code, _err := p.remote.ResolveCode(%s, %q)", descriptorConst, m.MethodName)
+	f.P("\t_code, _err := p.Remote.ResolveCode(ctx, %s, %s)", descriptorConst, methodConst)
 	f.P("\tif _err != nil {")
-	f.P("\t\t_code = %s", txnConst)
+	if hasReturn {
+		f.P("\t\treturn _result, fmt.Errorf(\"resolving %%s.%%s: %%w\", %s, %s, _err)", descriptorConst, methodConst)
+	} else {
+		f.P("\t\treturn fmt.Errorf(\"resolving %%s.%%s: %%w\", %s, %s, _err)", descriptorConst, methodConst)
+	}
 	f.P("\t}")
 	f.P("")
 	if isOneway {
 		// Oneway methods do not receive a reply from the kernel.
-		f.P("\t_, _err = p.remote.Transact(ctx, _code, %s, _data)", flags)
+		f.P("\t_, _err = p.Remote.Transact(ctx, _code, %s, _data)", flags)
 		if hasReturn {
 			f.P("\treturn _result, _err")
 		} else {
 			f.P("\treturn _err")
 		}
 	} else {
-		f.P("\t_reply, _err := p.remote.Transact(ctx, _code, %s, _data)", flags)
+		f.P("\t_reply, _err := p.Remote.Transact(ctx, _code, %s, _data)", flags)
 		if hasReturn {
 			f.P("\tif _err != nil {")
 			f.P("\t\treturn _result, _err")
@@ -845,11 +864,11 @@ func writeParamToParcel(
 	// both remote proxies (BINDER_TYPE_HANDLE) and local stubs
 	// (BINDER_TYPE_BINDER) transparently.
 	if info.IsInterface {
-		f.P("\tbinder.WriteBinderToParcel(ctx, _data, %s.AsBinder(), p.remote.Transport())", varName)
+		f.P("\tbinder.WriteBinderToParcel(ctx, _data, %s.AsBinder(), p.Remote.Transport())", varName)
 		return
 	}
 	if info.IsIBinder {
-		f.P("\tbinder.WriteBinderToParcel(ctx, _data, %s, p.remote.Transport())", varName)
+		f.P("\tbinder.WriteBinderToParcel(ctx, _data, %s, p.Remote.Transport())", varName)
 		return
 	}
 
@@ -896,6 +915,9 @@ func writeArrayToParcel(
 		f.P("\t\tfor _, _item := range %s {", varName)
 		writeExpr := fmt.Sprintf(elemInfo.WriteExpr, "_item")
 		if strings.Contains(elemInfo.WriteExpr, ".MarshalParcel") {
+			// NDK AIDL wire format: int32(1) non-null indicator before each
+			// parcelable element, matching writeTypedObject semantics.
+			f.P("\t\t\t_data.WriteInt32(1)")
 			f.P("\t\t\tif _err := %s; _err != nil {", writeExpr)
 			if hasReturn {
 				f.P("\t\t\t\treturn _result, _err")
@@ -913,18 +935,35 @@ func writeArrayToParcel(
 }
 
 // elementTypeSpec extracts the element type from an array or List type specifier.
+// For arrays (T[]), @nullable on the outer type means the array is nullable,
+// not each element, so we strip @nullable from the element annotations to
+// avoid generating incorrect pointer-type casts like *EnumType(raw).
 func elementTypeSpec(ts *parser.TypeSpecifier) *parser.TypeSpecifier {
 	if ts.Name == "List" && len(ts.TypeArgs) > 0 {
 		return ts.TypeArgs[0]
 	}
 
 	// For T[], return a type spec for T without the array flag.
+	// Strip @nullable because it applies to the array, not the elements.
 	return &parser.TypeSpecifier{
 		Name:     ts.Name,
-		Annots:   ts.Annots,
+		Annots:   stripNullableAnnotation(ts.Annots),
 		TypeArgs: ts.TypeArgs,
 		IsArray:  false,
 	}
+}
+
+// stripNullableAnnotation returns a copy of the annotation list with @nullable
+// removed. Returns nil if the result would be empty.
+func stripNullableAnnotation(annots []*parser.Annotation) []*parser.Annotation {
+	var filtered []*parser.Annotation
+	for _, a := range annots {
+		if a.Name == "nullable" {
+			continue
+		}
+		filtered = append(filtered, a)
+	}
+	return filtered
 }
 
 // readReturnValue writes the code to read a return value from a reply parcel.
@@ -973,7 +1012,7 @@ func readReturnValue(
 		f.P("\tif _err != nil {")
 		f.P("\t\treturn _result, _err")
 		f.P("\t}")
-		f.P("\t_result = %s(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))", proxyConstructor)
+		f.P("\t_result = %s(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))", proxyConstructor)
 		return
 	}
 
@@ -982,7 +1021,7 @@ func readReturnValue(
 		f.P("\tif _err != nil {")
 		f.P("\t\treturn _result, _err")
 		f.P("\t}")
-		f.P("\t_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)")
+		f.P("\t_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)")
 		return
 	}
 
@@ -1033,6 +1072,11 @@ func readArrayFromReply(
 
 	switch {
 	case strings.Contains(elemReadExpr, ".UnmarshalParcel"):
+		// NDK AIDL wire format: int32 non-null indicator before each
+		// parcelable element, matching readTypedObject semantics.
+		f.P("\t\t\tif _, _err = _reply.ReadInt32(); _err != nil {")
+		f.P("\t\t\t\treturn _result, _err")
+		f.P("\t\t\t}")
 		f.P("\t\t\tif _err = _result[_i].UnmarshalParcel(_reply); _err != nil {")
 		f.P("\t\t\t\treturn _result, _err")
 		f.P("\t\t\t}")
@@ -1042,13 +1086,13 @@ func readArrayFromReply(
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn _result, _err")
 		f.P("\t\t\t}")
-		f.P("\t\t\t_result[_i] = %s(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))", proxyConstructor)
+		f.P("\t\t\t_result[_i] = %s(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))", proxyConstructor)
 	case elemInfo.IsIBinder:
 		f.P("\t\t\t_handle, _err := %s", elemReadExpr)
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn _result, _err")
 		f.P("\t\t\t}")
-		f.P("\t\t\t_result[_i] = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)")
+		f.P("\t\t\t_result[_i] = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)")
 	case elemInfo.NeedsCast:
 		elemGoType := resolveTypeRef(typeRef, elemType)
 		f.P("\t\t\t_raw, _err := %s", elemReadExpr)
@@ -1148,6 +1192,11 @@ func readOutParamArray(
 		f.P("\t\tfor _i := int32(0); _i < %s; _i++ {", countVar)
 		switch {
 		case strings.Contains(elemReadExpr, ".UnmarshalParcel"):
+			// NDK AIDL wire format: int32 non-null indicator before each
+			// parcelable element, matching readTypedObject semantics.
+			f.P("\t\t\tif _, _err = _reply.ReadInt32(); _err != nil {")
+			f.P("\t\t\t%s", strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1))
+			f.P("\t\t\t}")
 			f.P("\t\t\tif _err = %s[_i].UnmarshalParcel(_reply); _err != nil {", varName)
 			f.P("\t\t\t%s", strings.Replace(errReturn, "\t\t", "\t\t\t\t", 1))
 			f.P("\t\t\t}")

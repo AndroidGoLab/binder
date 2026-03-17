@@ -15,23 +15,27 @@ const (
 	TransactionIOffsetCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOffsetCallbackOnResult = "onResult"
+)
+
 type IOffsetCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, offsets *ExecutableMethodFileOffsets) error
 }
 
 type OffsetCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOffsetCallbackProxy(
 	remote binder.IBinder,
 ) *OffsetCallbackProxy {
-	return &OffsetCallbackProxy{remote: remote}
+	return &OffsetCallbackProxy{Remote: remote}
 }
 
 func (p *OffsetCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOffsetCallback = (*OffsetCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *OffsetCallbackProxy) OnResult(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOffsetCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOffsetCallback, MethodIOffsetCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIOffsetCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOffsetCallback, MethodIOffsetCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type OffsetCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OffsetCallbackStub)(nil)
+
+func (s *OffsetCallbackStub) Descriptor() string {
+	return DescriptorIOffsetCallback
+}
 
 func (s *OffsetCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionITracingServiceProxyReportTrace             = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITracingServiceProxyNotifyTraceSessionEnded = "notifyTraceSessionEnded"
+	MethodITracingServiceProxyReportTrace             = "reportTrace"
+)
+
 type ITracingServiceProxy interface {
 	AsBinder() binder.IBinder
 	NotifyTraceSessionEnded(ctx context.Context, sessionStolen bool) error
@@ -23,17 +28,17 @@ type ITracingServiceProxy interface {
 }
 
 type TracingServiceProxyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTracingServiceProxyProxy(
 	remote binder.IBinder,
 ) *TracingServiceProxyProxy {
-	return &TracingServiceProxyProxy{remote: remote}
+	return &TracingServiceProxyProxy{Remote: remote}
 }
 
 func (p *TracingServiceProxyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITracingServiceProxy = (*TracingServiceProxyProxy)(nil)
@@ -46,12 +51,12 @@ func (p *TracingServiceProxyProxy) NotifyTraceSessionEnded(
 	_data.WriteInterfaceToken(DescriptorITracingServiceProxy)
 	_data.WriteBool(sessionStolen)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITracingServiceProxy, "notifyTraceSessionEnded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITracingServiceProxy, MethodITracingServiceProxyNotifyTraceSessionEnded)
 	if _err != nil {
-		_code = TransactionITracingServiceProxyNotifyTraceSessionEnded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITracingServiceProxy, MethodITracingServiceProxyNotifyTraceSessionEnded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *TracingServiceProxyProxy) ReportTrace(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITracingServiceProxy, "reportTrace")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITracingServiceProxy, MethodITracingServiceProxyReportTrace)
 	if _err != nil {
-		_code = TransactionITracingServiceProxyReportTrace
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITracingServiceProxy, MethodITracingServiceProxyReportTrace, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type TracingServiceProxyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TracingServiceProxyStub)(nil)
+
+func (s *TracingServiceProxyStub) Descriptor() string {
+	return DescriptorITracingServiceProxy
+}
 
 func (s *TracingServiceProxyStub) OnTransaction(
 	ctx context.Context,

@@ -39,6 +39,34 @@ const (
 	TransactionIColorDisplayManagerGetReduceBrightColorsOffsetFactor = binder.FirstCallTransaction + 24
 )
 
+const (
+	MethodIColorDisplayManagerIsDeviceColorManaged              = "isDeviceColorManaged"
+	MethodIColorDisplayManagerSetSaturationLevel                = "setSaturationLevel"
+	MethodIColorDisplayManagerSetAppSaturationLevel             = "setAppSaturationLevel"
+	MethodIColorDisplayManagerIsSaturationActivated             = "isSaturationActivated"
+	MethodIColorDisplayManagerGetTransformCapabilities          = "getTransformCapabilities"
+	MethodIColorDisplayManagerIsNightDisplayActivated           = "isNightDisplayActivated"
+	MethodIColorDisplayManagerSetNightDisplayActivated          = "setNightDisplayActivated"
+	MethodIColorDisplayManagerGetNightDisplayColorTemperature   = "getNightDisplayColorTemperature"
+	MethodIColorDisplayManagerSetNightDisplayColorTemperature   = "setNightDisplayColorTemperature"
+	MethodIColorDisplayManagerGetNightDisplayAutoMode           = "getNightDisplayAutoMode"
+	MethodIColorDisplayManagerGetNightDisplayAutoModeRaw        = "getNightDisplayAutoModeRaw"
+	MethodIColorDisplayManagerSetNightDisplayAutoMode           = "setNightDisplayAutoMode"
+	MethodIColorDisplayManagerGetNightDisplayCustomStartTime    = "getNightDisplayCustomStartTime"
+	MethodIColorDisplayManagerSetNightDisplayCustomStartTime    = "setNightDisplayCustomStartTime"
+	MethodIColorDisplayManagerGetNightDisplayCustomEndTime      = "getNightDisplayCustomEndTime"
+	MethodIColorDisplayManagerSetNightDisplayCustomEndTime      = "setNightDisplayCustomEndTime"
+	MethodIColorDisplayManagerGetColorMode                      = "getColorMode"
+	MethodIColorDisplayManagerSetColorMode                      = "setColorMode"
+	MethodIColorDisplayManagerIsDisplayWhiteBalanceEnabled      = "isDisplayWhiteBalanceEnabled"
+	MethodIColorDisplayManagerSetDisplayWhiteBalanceEnabled     = "setDisplayWhiteBalanceEnabled"
+	MethodIColorDisplayManagerIsReduceBrightColorsActivated     = "isReduceBrightColorsActivated"
+	MethodIColorDisplayManagerSetReduceBrightColorsActivated    = "setReduceBrightColorsActivated"
+	MethodIColorDisplayManagerGetReduceBrightColorsStrength     = "getReduceBrightColorsStrength"
+	MethodIColorDisplayManagerSetReduceBrightColorsStrength     = "setReduceBrightColorsStrength"
+	MethodIColorDisplayManagerGetReduceBrightColorsOffsetFactor = "getReduceBrightColorsOffsetFactor"
+)
+
 type IColorDisplayManager interface {
 	AsBinder() binder.IBinder
 	IsDeviceColorManaged(ctx context.Context) (bool, error)
@@ -69,17 +97,17 @@ type IColorDisplayManager interface {
 }
 
 type ColorDisplayManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewColorDisplayManagerProxy(
 	remote binder.IBinder,
 ) *ColorDisplayManagerProxy {
-	return &ColorDisplayManagerProxy{remote: remote}
+	return &ColorDisplayManagerProxy{Remote: remote}
 }
 
 func (p *ColorDisplayManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IColorDisplayManager = (*ColorDisplayManagerProxy)(nil)
@@ -91,12 +119,12 @@ func (p *ColorDisplayManagerProxy) IsDeviceColorManaged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "isDeviceColorManaged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsDeviceColorManaged)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerIsDeviceColorManaged
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsDeviceColorManaged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -122,12 +150,12 @@ func (p *ColorDisplayManagerProxy) SetSaturationLevel(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteInt32(saturationLevel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setSaturationLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetSaturationLevel)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetSaturationLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetSaturationLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,12 +183,12 @@ func (p *ColorDisplayManagerProxy) SetAppSaturationLevel(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(saturationLevel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setAppSaturationLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetAppSaturationLevel)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetAppSaturationLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetAppSaturationLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -184,12 +212,12 @@ func (p *ColorDisplayManagerProxy) IsSaturationActivated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "isSaturationActivated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsSaturationActivated)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerIsSaturationActivated
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsSaturationActivated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -213,12 +241,12 @@ func (p *ColorDisplayManagerProxy) GetTransformCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getTransformCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetTransformCapabilities)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetTransformCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetTransformCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,12 +270,12 @@ func (p *ColorDisplayManagerProxy) IsNightDisplayActivated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "isNightDisplayActivated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsNightDisplayActivated)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerIsNightDisplayActivated
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsNightDisplayActivated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -273,12 +301,12 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayActivated(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteBool(activated)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setNightDisplayActivated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayActivated)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetNightDisplayActivated
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayActivated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -302,12 +330,12 @@ func (p *ColorDisplayManagerProxy) GetNightDisplayColorTemperature(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getNightDisplayColorTemperature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayColorTemperature)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetNightDisplayColorTemperature
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayColorTemperature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -333,12 +361,12 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayColorTemperature(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteInt32(temperature)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setNightDisplayColorTemperature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayColorTemperature)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetNightDisplayColorTemperature
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayColorTemperature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -362,12 +390,12 @@ func (p *ColorDisplayManagerProxy) GetNightDisplayAutoMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getNightDisplayAutoMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayAutoMode)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetNightDisplayAutoMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayAutoMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -391,12 +419,12 @@ func (p *ColorDisplayManagerProxy) GetNightDisplayAutoModeRaw(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getNightDisplayAutoModeRaw")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayAutoModeRaw)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetNightDisplayAutoModeRaw
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayAutoModeRaw, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -422,12 +450,12 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayAutoMode(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteInt32(autoMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setNightDisplayAutoMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayAutoMode)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetNightDisplayAutoMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayAutoMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -451,12 +479,12 @@ func (p *ColorDisplayManagerProxy) GetNightDisplayCustomStartTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getNightDisplayCustomStartTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayCustomStartTime)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetNightDisplayCustomStartTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayCustomStartTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -490,12 +518,12 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayCustomStartTime(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setNightDisplayCustomStartTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomStartTime)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetNightDisplayCustomStartTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomStartTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -519,12 +547,12 @@ func (p *ColorDisplayManagerProxy) GetNightDisplayCustomEndTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getNightDisplayCustomEndTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayCustomEndTime)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetNightDisplayCustomEndTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetNightDisplayCustomEndTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -558,12 +586,12 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayCustomEndTime(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setNightDisplayCustomEndTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomEndTime)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetNightDisplayCustomEndTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetNightDisplayCustomEndTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -587,12 +615,12 @@ func (p *ColorDisplayManagerProxy) GetColorMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getColorMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetColorMode)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetColorMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetColorMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -617,12 +645,12 @@ func (p *ColorDisplayManagerProxy) SetColorMode(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteInt32(colorMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setColorMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetColorMode)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetColorMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetColorMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -642,12 +670,12 @@ func (p *ColorDisplayManagerProxy) IsDisplayWhiteBalanceEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "isDisplayWhiteBalanceEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsDisplayWhiteBalanceEnabled)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerIsDisplayWhiteBalanceEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsDisplayWhiteBalanceEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -673,12 +701,12 @@ func (p *ColorDisplayManagerProxy) SetDisplayWhiteBalanceEnabled(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setDisplayWhiteBalanceEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetDisplayWhiteBalanceEnabled)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetDisplayWhiteBalanceEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetDisplayWhiteBalanceEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -702,12 +730,12 @@ func (p *ColorDisplayManagerProxy) IsReduceBrightColorsActivated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "isReduceBrightColorsActivated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsReduceBrightColorsActivated)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerIsReduceBrightColorsActivated
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerIsReduceBrightColorsActivated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -733,12 +761,12 @@ func (p *ColorDisplayManagerProxy) SetReduceBrightColorsActivated(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteBool(activated)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setReduceBrightColorsActivated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsActivated)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetReduceBrightColorsActivated
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsActivated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -762,12 +790,12 @@ func (p *ColorDisplayManagerProxy) GetReduceBrightColorsStrength(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getReduceBrightColorsStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetReduceBrightColorsStrength)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetReduceBrightColorsStrength
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetReduceBrightColorsStrength, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -793,12 +821,12 @@ func (p *ColorDisplayManagerProxy) SetReduceBrightColorsStrength(
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 	_data.WriteInt32(strength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "setReduceBrightColorsStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsStrength)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerSetReduceBrightColorsStrength
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerSetReduceBrightColorsStrength, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -822,12 +850,12 @@ func (p *ColorDisplayManagerProxy) GetReduceBrightColorsOffsetFactor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIColorDisplayManager, "getReduceBrightColorsOffsetFactor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetReduceBrightColorsOffsetFactor)
 	if _err != nil {
-		_code = TransactionIColorDisplayManagerGetReduceBrightColorsOffsetFactor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIColorDisplayManager, MethodIColorDisplayManagerGetReduceBrightColorsOffsetFactor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -851,6 +879,10 @@ type ColorDisplayManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ColorDisplayManagerStub)(nil)
+
+func (s *ColorDisplayManagerStub) Descriptor() string {
+	return DescriptorIColorDisplayManager
+}
 
 func (s *ColorDisplayManagerStub) OnTransaction(
 	ctx context.Context,

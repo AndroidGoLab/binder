@@ -17,6 +17,12 @@ const (
 	TransactionIBackupObserverBackupFinished = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBackupObserverOnUpdate       = "onUpdate"
+	MethodIBackupObserverOnResult       = "onResult"
+	MethodIBackupObserverBackupFinished = "backupFinished"
+)
+
 type IBackupObserver interface {
 	AsBinder() binder.IBinder
 	OnUpdate(ctx context.Context, currentPackage string, backupProgress BackupProgress) error
@@ -25,17 +31,17 @@ type IBackupObserver interface {
 }
 
 type BackupObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackupObserverProxy(
 	remote binder.IBinder,
 ) *BackupObserverProxy {
-	return &BackupObserverProxy{remote: remote}
+	return &BackupObserverProxy{Remote: remote}
 }
 
 func (p *BackupObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackupObserver = (*BackupObserverProxy)(nil)
@@ -53,12 +59,12 @@ func (p *BackupObserverProxy) OnUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupObserver, "onUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupObserver, MethodIBackupObserverOnUpdate)
 	if _err != nil {
-		_code = TransactionIBackupObserverOnUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupObserver, MethodIBackupObserverOnUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +78,12 @@ func (p *BackupObserverProxy) OnResult(
 	_data.WriteString16(target)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupObserver, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupObserver, MethodIBackupObserverOnResult)
 	if _err != nil {
-		_code = TransactionIBackupObserverOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupObserver, MethodIBackupObserverOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +95,12 @@ func (p *BackupObserverProxy) BackupFinished(
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupObserver, "backupFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupObserver, MethodIBackupObserverBackupFinished)
 	if _err != nil {
-		_code = TransactionIBackupObserverBackupFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupObserver, MethodIBackupObserverBackupFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,6 +111,10 @@ type BackupObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackupObserverStub)(nil)
+
+func (s *BackupObserverStub) Descriptor() string {
+	return DescriptorIBackupObserver
+}
 
 func (s *BackupObserverStub) OnTransaction(
 	ctx context.Context,

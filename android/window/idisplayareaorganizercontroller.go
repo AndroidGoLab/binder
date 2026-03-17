@@ -18,6 +18,13 @@ const (
 	TransactionIDisplayAreaOrganizerControllerDeleteTaskDisplayArea = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDisplayAreaOrganizerControllerRegisterOrganizer     = "registerOrganizer"
+	MethodIDisplayAreaOrganizerControllerUnregisterOrganizer   = "unregisterOrganizer"
+	MethodIDisplayAreaOrganizerControllerCreateTaskDisplayArea = "createTaskDisplayArea"
+	MethodIDisplayAreaOrganizerControllerDeleteTaskDisplayArea = "deleteTaskDisplayArea"
+)
+
 type IDisplayAreaOrganizerController interface {
 	AsBinder() binder.IBinder
 	RegisterOrganizer(ctx context.Context, organizer IDisplayAreaOrganizer, displayAreaFeature int32) (interface{}, error)
@@ -27,17 +34,17 @@ type IDisplayAreaOrganizerController interface {
 }
 
 type DisplayAreaOrganizerControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayAreaOrganizerControllerProxy(
 	remote binder.IBinder,
 ) *DisplayAreaOrganizerControllerProxy {
-	return &DisplayAreaOrganizerControllerProxy{remote: remote}
+	return &DisplayAreaOrganizerControllerProxy{Remote: remote}
 }
 
 func (p *DisplayAreaOrganizerControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayAreaOrganizerController = (*DisplayAreaOrganizerControllerProxy)(nil)
@@ -50,15 +57,15 @@ func (p *DisplayAreaOrganizerControllerProxy) RegisterOrganizer(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayAreaFeature)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "registerOrganizer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerRegisterOrganizer)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerControllerRegisterOrganizer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerRegisterOrganizer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,14 +84,14 @@ func (p *DisplayAreaOrganizerControllerProxy) UnregisterOrganizer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "unregisterOrganizer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerUnregisterOrganizer)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerControllerUnregisterOrganizer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerUnregisterOrganizer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,17 +114,17 @@ func (p *DisplayAreaOrganizerControllerProxy) CreateTaskDisplayArea(
 	var _result DisplayAreaAppearedInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(parentFeatureId)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "createTaskDisplayArea")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerCreateTaskDisplayArea)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerControllerCreateTaskDisplayArea
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerCreateTaskDisplayArea, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -150,12 +157,12 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "deleteTaskDisplayArea")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerDeleteTaskDisplayArea)
 	if _err != nil {
-		_code = TransactionIDisplayAreaOrganizerControllerDeleteTaskDisplayArea
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayAreaOrganizerController, MethodIDisplayAreaOrganizerControllerDeleteTaskDisplayArea, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -175,6 +182,10 @@ type DisplayAreaOrganizerControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayAreaOrganizerControllerStub)(nil)
+
+func (s *DisplayAreaOrganizerControllerStub) Descriptor() string {
+	return DescriptorIDisplayAreaOrganizerController
+}
 
 func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
 	ctx context.Context,

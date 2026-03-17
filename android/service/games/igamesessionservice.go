@@ -16,23 +16,27 @@ const (
 	TransactionIGameSessionServiceCreate = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGameSessionServiceCreate = "create"
+)
+
 type IGameSessionService interface {
 	AsBinder() binder.IBinder
 	Create(ctx context.Context, gameSessionController IGameSessionController, createGameSessionRequest CreateGameSessionRequest, gameSessionViewHostConfiguration GameSessionViewHostConfiguration, createGameSessionResultFuture infra.AndroidFuture) error
 }
 
 type GameSessionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameSessionServiceProxy(
 	remote binder.IBinder,
 ) *GameSessionServiceProxy {
-	return &GameSessionServiceProxy{remote: remote}
+	return &GameSessionServiceProxy{Remote: remote}
 }
 
 func (p *GameSessionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameSessionService = (*GameSessionServiceProxy)(nil)
@@ -46,7 +50,7 @@ func (p *GameSessionServiceProxy) Create(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameSessionService)
-	binder.WriteBinderToParcel(ctx, _data, gameSessionController.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, gameSessionController.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := createGameSessionRequest.MarshalParcel(_data); _err != nil {
 		return _err
@@ -60,12 +64,12 @@ func (p *GameSessionServiceProxy) Create(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameSessionService, "create")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSessionService, MethodIGameSessionServiceCreate)
 	if _err != nil {
-		_code = TransactionIGameSessionServiceCreate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameSessionService, MethodIGameSessionServiceCreate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +80,10 @@ type GameSessionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameSessionServiceStub)(nil)
+
+func (s *GameSessionServiceStub) Descriptor() string {
+	return DescriptorIGameSessionService
+}
 
 func (s *GameSessionServiceStub) OnTransaction(
 	ctx context.Context,

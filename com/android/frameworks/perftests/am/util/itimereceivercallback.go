@@ -15,23 +15,27 @@ const (
 	TransactionITimeReceiverCallbackSendTime = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITimeReceiverCallbackSendTime = "sendTime"
+)
+
 type ITimeReceiverCallback interface {
 	AsBinder() binder.IBinder
 	SendTime(ctx context.Context, type_ string, timeNs int64) error
 }
 
 type TimeReceiverCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTimeReceiverCallbackProxy(
 	remote binder.IBinder,
 ) *TimeReceiverCallbackProxy {
-	return &TimeReceiverCallbackProxy{remote: remote}
+	return &TimeReceiverCallbackProxy{Remote: remote}
 }
 
 func (p *TimeReceiverCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITimeReceiverCallback = (*TimeReceiverCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *TimeReceiverCallbackProxy) SendTime(
 	_data.WriteString16(type_)
 	_data.WriteInt64(timeNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeReceiverCallback, "sendTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeReceiverCallback, MethodITimeReceiverCallbackSendTime)
 	if _err != nil {
-		_code = TransactionITimeReceiverCallbackSendTime
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeReceiverCallback, MethodITimeReceiverCallbackSendTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,6 +75,10 @@ type TimeReceiverCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TimeReceiverCallbackStub)(nil)
+
+func (s *TimeReceiverCallbackStub) Descriptor() string {
+	return DescriptorITimeReceiverCallback
+}
 
 func (s *TimeReceiverCallbackStub) OnTransaction(
 	ctx context.Context,

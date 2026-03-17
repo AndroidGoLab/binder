@@ -15,23 +15,27 @@ const (
 	TransactionIGnssBatchingCallbackGnssLocationBatchCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssBatchingCallbackGnssLocationBatchCb = "gnssLocationBatchCb"
+)
+
 type IGnssBatchingCallback interface {
 	AsBinder() binder.IBinder
 	GnssLocationBatchCb(ctx context.Context, locations []GnssLocation) error
 }
 
 type GnssBatchingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssBatchingCallbackProxy(
 	remote binder.IBinder,
 ) *GnssBatchingCallbackProxy {
-	return &GnssBatchingCallbackProxy{remote: remote}
+	return &GnssBatchingCallbackProxy{Remote: remote}
 }
 
 func (p *GnssBatchingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssBatchingCallback = (*GnssBatchingCallbackProxy)(nil)
@@ -47,18 +51,19 @@ func (p *GnssBatchingCallbackProxy) GnssLocationBatchCb(
 	} else {
 		_data.WriteInt32(int32(len(locations)))
 		for _, _item := range locations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatchingCallback, "gnssLocationBatchCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssBatchingCallback, MethodIGnssBatchingCallbackGnssLocationBatchCb)
 	if _err != nil {
-		_code = TransactionIGnssBatchingCallbackGnssLocationBatchCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssBatchingCallback, MethodIGnssBatchingCallbackGnssLocationBatchCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +83,10 @@ type GnssBatchingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssBatchingCallbackStub)(nil)
+
+func (s *GnssBatchingCallbackStub) Descriptor() string {
+	return DescriptorIGnssBatchingCallback
+}
 
 func (s *GnssBatchingCallbackStub) OnTransaction(
 	ctx context.Context,

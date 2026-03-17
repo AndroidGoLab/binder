@@ -18,6 +18,13 @@ const (
 	TransactionICamHostControlServiceSetHostControlMode               = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICamHostControlServiceAddCamHostcontrolInfoListener    = "addCamHostcontrolInfoListener"
+	MethodICamHostControlServiceRemoveCamHostcontrolInfoListener = "removeCamHostcontrolInfoListener"
+	MethodICamHostControlServiceSendCamHostControlAskRelease     = "sendCamHostControlAskRelease"
+	MethodICamHostControlServiceSetHostControlMode               = "setHostControlMode"
+)
+
 type ICamHostControlService interface {
 	AsBinder() binder.IBinder
 	AddCamHostcontrolInfoListener(ctx context.Context, listener ICamHostControlInfoListener) error
@@ -27,17 +34,17 @@ type ICamHostControlService interface {
 }
 
 type CamHostControlServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamHostControlServiceProxy(
 	remote binder.IBinder,
 ) *CamHostControlServiceProxy {
-	return &CamHostControlServiceProxy{remote: remote}
+	return &CamHostControlServiceProxy{Remote: remote}
 }
 
 func (p *CamHostControlServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamHostControlService = (*CamHostControlServiceProxy)(nil)
@@ -48,14 +55,14 @@ func (p *CamHostControlServiceProxy) AddCamHostcontrolInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamHostControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlService, "addCamHostcontrolInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlService, MethodICamHostControlServiceAddCamHostcontrolInfoListener)
 	if _err != nil {
-		_code = TransactionICamHostControlServiceAddCamHostcontrolInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlService, MethodICamHostControlServiceAddCamHostcontrolInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,14 +81,14 @@ func (p *CamHostControlServiceProxy) RemoveCamHostcontrolInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamHostControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlService, "removeCamHostcontrolInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlService, MethodICamHostControlServiceRemoveCamHostcontrolInfoListener)
 	if _err != nil {
-		_code = TransactionICamHostControlServiceRemoveCamHostcontrolInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlService, MethodICamHostControlServiceRemoveCamHostcontrolInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,14 +110,14 @@ func (p *CamHostControlServiceProxy) SendCamHostControlAskRelease(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamHostControlService)
 	_data.WriteString16(sessionToken)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlService, "sendCamHostControlAskRelease")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlService, MethodICamHostControlServiceSendCamHostControlAskRelease)
 	if _err != nil {
-		_code = TransactionICamHostControlServiceSendCamHostControlAskRelease
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlService, MethodICamHostControlServiceSendCamHostControlAskRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,12 +144,12 @@ func (p *CamHostControlServiceProxy) SetHostControlMode(
 	_data.WriteString16(sessionToken)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlService, "setHostControlMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlService, MethodICamHostControlServiceSetHostControlMode)
 	if _err != nil {
-		_code = TransactionICamHostControlServiceSetHostControlMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlService, MethodICamHostControlServiceSetHostControlMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,6 +169,10 @@ type CamHostControlServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamHostControlServiceStub)(nil)
+
+func (s *CamHostControlServiceStub) Descriptor() string {
+	return DescriptorICamHostControlService
+}
 
 func (s *CamHostControlServiceStub) OnTransaction(
 	ctx context.Context,

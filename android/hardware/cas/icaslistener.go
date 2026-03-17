@@ -17,6 +17,12 @@ const (
 	TransactionICasListenerOnStatusUpdate = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICasListenerOnEvent        = "onEvent"
+	MethodICasListenerOnSessionEvent = "onSessionEvent"
+	MethodICasListenerOnStatusUpdate = "onStatusUpdate"
+)
+
 type ICasListener interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, event int32, arg int32, data []byte) error
@@ -25,17 +31,17 @@ type ICasListener interface {
 }
 
 type CasListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCasListenerProxy(
 	remote binder.IBinder,
 ) *CasListenerProxy {
-	return &CasListenerProxy{remote: remote}
+	return &CasListenerProxy{Remote: remote}
 }
 
 func (p *CasListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICasListener = (*CasListenerProxy)(nil)
@@ -59,12 +65,12 @@ func (p *CasListenerProxy) OnEvent(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICasListener, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnEvent)
 	if _err != nil {
-		_code = TransactionICasListenerOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICasListener, MethodICasListenerOnEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,12 +111,12 @@ func (p *CasListenerProxy) OnSessionEvent(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICasListener, "onSessionEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnSessionEvent)
 	if _err != nil {
-		_code = TransactionICasListenerOnSessionEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICasListener, MethodICasListenerOnSessionEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,12 +139,12 @@ func (p *CasListenerProxy) OnStatusUpdate(
 	_data.WritePaddedByte(byte(event))
 	_data.WriteInt32(number)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICasListener, "onStatusUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICasListener, MethodICasListenerOnStatusUpdate)
 	if _err != nil {
-		_code = TransactionICasListenerOnStatusUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICasListener, MethodICasListenerOnStatusUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -158,6 +164,10 @@ type CasListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CasListenerStub)(nil)
+
+func (s *CasListenerStub) Descriptor() string {
+	return DescriptorICasListener
+}
 
 func (s *CasListenerStub) OnTransaction(
 	ctx context.Context,

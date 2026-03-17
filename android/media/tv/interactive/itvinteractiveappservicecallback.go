@@ -15,23 +15,27 @@ const (
 	TransactionITvInteractiveAppServiceCallbackOnStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITvInteractiveAppServiceCallbackOnStateChanged = "onStateChanged"
+)
+
 type ITvInteractiveAppServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnStateChanged(ctx context.Context, type_ int32, state int32, error_ int32) error
 }
 
 type TvInteractiveAppServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInteractiveAppServiceCallbackProxy(
 	remote binder.IBinder,
 ) *TvInteractiveAppServiceCallbackProxy {
-	return &TvInteractiveAppServiceCallbackProxy{remote: remote}
+	return &TvInteractiveAppServiceCallbackProxy{Remote: remote}
 }
 
 func (p *TvInteractiveAppServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInteractiveAppServiceCallback = (*TvInteractiveAppServiceCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *TvInteractiveAppServiceCallbackProxy) OnStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppServiceCallback, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppServiceCallback, MethodITvInteractiveAppServiceCallbackOnStateChanged)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceCallbackOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppServiceCallback, MethodITvInteractiveAppServiceCallbackOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type TvInteractiveAppServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppServiceCallbackStub)(nil)
+
+func (s *TvInteractiveAppServiceCallbackStub) Descriptor() string {
+	return DescriptorITvInteractiveAppServiceCallback
+}
 
 func (s *TvInteractiveAppServiceCallbackStub) OnTransaction(
 	ctx context.Context,

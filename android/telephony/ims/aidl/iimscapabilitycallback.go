@@ -17,6 +17,12 @@ const (
 	TransactionIImsCapabilityCallbackOnCapabilitiesStatusChanged          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIImsCapabilityCallbackOnQueryCapabilityConfiguration       = "onQueryCapabilityConfiguration"
+	MethodIImsCapabilityCallbackOnChangeCapabilityConfigurationError = "onChangeCapabilityConfigurationError"
+	MethodIImsCapabilityCallbackOnCapabilitiesStatusChanged          = "onCapabilitiesStatusChanged"
+)
+
 type IImsCapabilityCallback interface {
 	AsBinder() binder.IBinder
 	OnQueryCapabilityConfiguration(ctx context.Context, capability int32, radioTech int32, enabled bool) error
@@ -25,17 +31,17 @@ type IImsCapabilityCallback interface {
 }
 
 type ImsCapabilityCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsCapabilityCallbackProxy(
 	remote binder.IBinder,
 ) *ImsCapabilityCallbackProxy {
-	return &ImsCapabilityCallbackProxy{remote: remote}
+	return &ImsCapabilityCallbackProxy{Remote: remote}
 }
 
 func (p *ImsCapabilityCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsCapabilityCallback = (*ImsCapabilityCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *ImsCapabilityCallbackProxy) OnQueryCapabilityConfiguration(
 	_data.WriteInt32(radioTech)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCapabilityCallback, "onQueryCapabilityConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnQueryCapabilityConfiguration)
 	if _err != nil {
-		_code = TransactionIImsCapabilityCallbackOnQueryCapabilityConfiguration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnQueryCapabilityConfiguration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +79,12 @@ func (p *ImsCapabilityCallbackProxy) OnChangeCapabilityConfigurationError(
 	_data.WriteInt32(radioTech)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCapabilityCallback, "onChangeCapabilityConfigurationError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnChangeCapabilityConfigurationError)
 	if _err != nil {
-		_code = TransactionIImsCapabilityCallbackOnChangeCapabilityConfigurationError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnChangeCapabilityConfigurationError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +96,12 @@ func (p *ImsCapabilityCallbackProxy) OnCapabilitiesStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIImsCapabilityCallback)
 	_data.WriteInt32(config)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCapabilityCallback, "onCapabilitiesStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnCapabilitiesStatusChanged)
 	if _err != nil {
-		_code = TransactionIImsCapabilityCallbackOnCapabilitiesStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCapabilityCallback, MethodIImsCapabilityCallbackOnCapabilitiesStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +112,10 @@ type ImsCapabilityCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsCapabilityCallbackStub)(nil)
+
+func (s *ImsCapabilityCallbackStub) Descriptor() string {
+	return DescriptorIImsCapabilityCallback
+}
 
 func (s *ImsCapabilityCallbackStub) OnTransaction(
 	ctx context.Context,

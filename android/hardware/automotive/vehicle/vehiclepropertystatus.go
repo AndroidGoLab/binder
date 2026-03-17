@@ -5,14 +5,7 @@ package vehicle
 type VehiclePropertyStatus int32
 
 const (
-	VehiclePropertyStatusAVAILABLE                         VehiclePropertyStatus = 0
-	VehiclePropertyStatusUNAVAILABLE                       VehiclePropertyStatus = 1
-	VehiclePropertyStatusNotAvailableGeneral               VehiclePropertyStatus = 1
-	VehiclePropertyStatusERROR                             VehiclePropertyStatus = 2
-	VehiclePropertyStatusNotAvailableDisabled              VehiclePropertyStatus = (4096 | 1)
-	VehiclePropertyStatusNotAvailableSpeedLow              VehiclePropertyStatus = (4096 | 2)
-	VehiclePropertyStatusNotAvailableSpeedHigh             VehiclePropertyStatus = (4096 | 3)
-	VehiclePropertyStatusNotAvailablePoorVisibility        VehiclePropertyStatus = (4096 | 4)
-	VehiclePropertyStatusNotAvailableSafety                VehiclePropertyStatus = (4096 | 5)
-	VehiclePropertyStatusNotAvailableSubsystemNotConnected VehiclePropertyStatus = (4096 | 6)
+	VehiclePropertyStatusAVAILABLE   VehiclePropertyStatus = 0
+	VehiclePropertyStatusUNAVAILABLE VehiclePropertyStatus = 1
+	VehiclePropertyStatusERROR       VehiclePropertyStatus = 2
 )

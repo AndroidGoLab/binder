@@ -15,23 +15,27 @@ const (
 	TransactionINtnSignalStrengthConsumerAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodINtnSignalStrengthConsumerAccept = "accept"
+)
+
 type INtnSignalStrengthConsumer interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, result NtnSignalStrength) error
 }
 
 type NtnSignalStrengthConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNtnSignalStrengthConsumerProxy(
 	remote binder.IBinder,
 ) *NtnSignalStrengthConsumerProxy {
-	return &NtnSignalStrengthConsumerProxy{remote: remote}
+	return &NtnSignalStrengthConsumerProxy{Remote: remote}
 }
 
 func (p *NtnSignalStrengthConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INtnSignalStrengthConsumer = (*NtnSignalStrengthConsumerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *NtnSignalStrengthConsumerProxy) Accept(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINtnSignalStrengthConsumer, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINtnSignalStrengthConsumer, MethodINtnSignalStrengthConsumerAccept)
 	if _err != nil {
-		_code = TransactionINtnSignalStrengthConsumerAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINtnSignalStrengthConsumer, MethodINtnSignalStrengthConsumerAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type NtnSignalStrengthConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NtnSignalStrengthConsumerStub)(nil)
+
+func (s *NtnSignalStrengthConsumerStub) Descriptor() string {
+	return DescriptorINtnSignalStrengthConsumer
+}
 
 func (s *NtnSignalStrengthConsumerStub) OnTransaction(
 	ctx context.Context,

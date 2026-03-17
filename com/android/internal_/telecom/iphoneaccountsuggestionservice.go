@@ -15,23 +15,27 @@ const (
 	TransactionIPhoneAccountSuggestionServiceOnAccountSuggestionRequest = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPhoneAccountSuggestionServiceOnAccountSuggestionRequest = "onAccountSuggestionRequest"
+)
+
 type IPhoneAccountSuggestionService interface {
 	AsBinder() binder.IBinder
 	OnAccountSuggestionRequest(ctx context.Context, callback IPhoneAccountSuggestionCallback, number string) error
 }
 
 type PhoneAccountSuggestionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPhoneAccountSuggestionServiceProxy(
 	remote binder.IBinder,
 ) *PhoneAccountSuggestionServiceProxy {
-	return &PhoneAccountSuggestionServiceProxy{remote: remote}
+	return &PhoneAccountSuggestionServiceProxy{Remote: remote}
 }
 
 func (p *PhoneAccountSuggestionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPhoneAccountSuggestionService = (*PhoneAccountSuggestionServiceProxy)(nil)
@@ -43,15 +47,15 @@ func (p *PhoneAccountSuggestionServiceProxy) OnAccountSuggestionRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneAccountSuggestionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(number)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPhoneAccountSuggestionService, "onAccountSuggestionRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPhoneAccountSuggestionService, MethodIPhoneAccountSuggestionServiceOnAccountSuggestionRequest)
 	if _err != nil {
-		_code = TransactionIPhoneAccountSuggestionServiceOnAccountSuggestionRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPhoneAccountSuggestionService, MethodIPhoneAccountSuggestionServiceOnAccountSuggestionRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type PhoneAccountSuggestionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PhoneAccountSuggestionServiceStub)(nil)
+
+func (s *PhoneAccountSuggestionServiceStub) Descriptor() string {
+	return DescriptorIPhoneAccountSuggestionService
+}
 
 func (s *PhoneAccountSuggestionServiceStub) OnTransaction(
 	ctx context.Context,

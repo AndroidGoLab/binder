@@ -18,6 +18,13 @@ const (
 	TransactionIDeviceSettingsProviderServiceUpdateDeviceSettings             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDeviceSettingsProviderServiceGetServiceStatus                 = "getServiceStatus"
+	MethodIDeviceSettingsProviderServiceRegisterDeviceSettingsListener   = "registerDeviceSettingsListener"
+	MethodIDeviceSettingsProviderServiceUnregisterDeviceSettingsListener = "unregisterDeviceSettingsListener"
+	MethodIDeviceSettingsProviderServiceUpdateDeviceSettings             = "updateDeviceSettings"
+)
+
 type IDeviceSettingsProviderService interface {
 	AsBinder() binder.IBinder
 	GetServiceStatus(ctx context.Context) (DeviceSettingsProviderServiceStatus, error)
@@ -27,17 +34,17 @@ type IDeviceSettingsProviderService interface {
 }
 
 type DeviceSettingsProviderServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceSettingsProviderServiceProxy(
 	remote binder.IBinder,
 ) *DeviceSettingsProviderServiceProxy {
-	return &DeviceSettingsProviderServiceProxy{remote: remote}
+	return &DeviceSettingsProviderServiceProxy{Remote: remote}
 }
 
 func (p *DeviceSettingsProviderServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceSettingsProviderService = (*DeviceSettingsProviderServiceProxy)(nil)
@@ -49,12 +56,12 @@ func (p *DeviceSettingsProviderServiceProxy) GetServiceStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceSettingsProviderService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "getServiceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceGetServiceStatus)
 	if _err != nil {
-		_code = TransactionIDeviceSettingsProviderServiceGetServiceStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceGetServiceStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,14 +94,14 @@ func (p *DeviceSettingsProviderServiceProxy) RegisterDeviceSettingsListener(
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "registerDeviceSettingsListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceRegisterDeviceSettingsListener)
 	if _err != nil {
-		_code = TransactionIDeviceSettingsProviderServiceRegisterDeviceSettingsListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceRegisterDeviceSettingsListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,14 +116,14 @@ func (p *DeviceSettingsProviderServiceProxy) UnregisterDeviceSettingsListener(
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "unregisterDeviceSettingsListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceUnregisterDeviceSettingsListener)
 	if _err != nil {
-		_code = TransactionIDeviceSettingsProviderServiceUnregisterDeviceSettingsListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceUnregisterDeviceSettingsListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,12 +143,12 @@ func (p *DeviceSettingsProviderServiceProxy) UpdateDeviceSettings(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "updateDeviceSettings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceUpdateDeviceSettings)
 	if _err != nil {
-		_code = TransactionIDeviceSettingsProviderServiceUpdateDeviceSettings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceSettingsProviderService, MethodIDeviceSettingsProviderServiceUpdateDeviceSettings, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,6 +159,10 @@ type DeviceSettingsProviderServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceSettingsProviderServiceStub)(nil)
+
+func (s *DeviceSettingsProviderServiceStub) Descriptor() string {
+	return DescriptorIDeviceSettingsProviderService
+}
 
 func (s *DeviceSettingsProviderServiceStub) OnTransaction(
 	ctx context.Context,

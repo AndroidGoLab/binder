@@ -76,14 +76,17 @@ func (u *OperationParameters) MarshalParcel(
 
 	switch u.Tag {
 	case OperationParametersTagSymmetricAuthCrypto:
+		p.WriteInt32(1)
 		if _err := u.SymmetricAuthCrypto.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationParametersTagSymmetricCrypto:
+		p.WriteInt32(1)
 		if _err := u.SymmetricCrypto.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationParametersTagHmac:
+		p.WriteInt32(1)
 		if _err := u.Hmac.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -110,14 +113,23 @@ func (u *OperationParameters) UnmarshalParcel(
 
 	switch u.Tag {
 	case OperationParametersTagSymmetricAuthCrypto:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SymmetricAuthCrypto.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationParametersTagSymmetricCrypto:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SymmetricCrypto.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationParametersTagHmac:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Hmac.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

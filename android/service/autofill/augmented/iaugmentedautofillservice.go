@@ -21,6 +21,13 @@ const (
 	TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAugmentedAutofillServiceOnConnected                    = "onConnected"
+	MethodIAugmentedAutofillServiceOnDisconnected                 = "onDisconnected"
+	MethodIAugmentedAutofillServiceOnFillRequest                  = "onFillRequest"
+	MethodIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest = "onDestroyAllFillWindowsRequest"
+)
+
 type IAugmentedAutofillService interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context, debug bool, verbose bool) error
@@ -30,17 +37,17 @@ type IAugmentedAutofillService interface {
 }
 
 type AugmentedAutofillServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAugmentedAutofillServiceProxy(
 	remote binder.IBinder,
 ) *AugmentedAutofillServiceProxy {
-	return &AugmentedAutofillServiceProxy{remote: remote}
+	return &AugmentedAutofillServiceProxy{Remote: remote}
 }
 
 func (p *AugmentedAutofillServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAugmentedAutofillService = (*AugmentedAutofillServiceProxy)(nil)
@@ -55,12 +62,12 @@ func (p *AugmentedAutofillServiceProxy) OnConnected(
 	_data.WriteBool(debug)
 	_data.WriteBool(verbose)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnConnected)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillServiceOnConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +77,12 @@ func (p *AugmentedAutofillServiceProxy) OnDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnDisconnected)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillServiceOnDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,7 +101,7 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, autofillManagerClient, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, autofillManagerClient, p.Remote.Transport())
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(1)
 	if _err := activityComponent.MarshalParcel(_data); _err != nil {
@@ -113,14 +120,14 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 	if _err := inlineSuggestionsRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onFillRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnFillRequest)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillServiceOnFillRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnFillRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,12 +137,12 @@ func (p *AugmentedAutofillServiceProxy) OnDestroyAllFillWindowsRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onDestroyAllFillWindowsRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest)
 	if _err != nil {
-		_code = TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAugmentedAutofillService, MethodIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,6 +153,10 @@ type AugmentedAutofillServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AugmentedAutofillServiceStub)(nil)
+
+func (s *AugmentedAutofillServiceStub) Descriptor() string {
+	return DescriptorIAugmentedAutofillService
+}
 
 func (s *AugmentedAutofillServiceStub) OnTransaction(
 	ctx context.Context,

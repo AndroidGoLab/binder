@@ -18,8 +18,15 @@ const (
 	TransactionIVibratorManagerPrepareSynced   = binder.FirstCallTransaction + 3
 	TransactionIVibratorManagerTriggerSynced   = binder.FirstCallTransaction + 4
 	TransactionIVibratorManagerCancelSynced    = binder.FirstCallTransaction + 5
-	TransactionIVibratorManagerStartSession    = binder.FirstCallTransaction + 6
-	TransactionIVibratorManagerClearSessions   = binder.FirstCallTransaction + 7
+)
+
+const (
+	MethodIVibratorManagerGetCapabilities = "getCapabilities"
+	MethodIVibratorManagerGetVibratorIds  = "getVibratorIds"
+	MethodIVibratorManagerGetVibrator     = "getVibrator"
+	MethodIVibratorManagerPrepareSynced   = "prepareSynced"
+	MethodIVibratorManagerTriggerSynced   = "triggerSynced"
+	MethodIVibratorManagerCancelSynced    = "cancelSynced"
 )
 
 type IVibratorManager interface {
@@ -30,8 +37,6 @@ type IVibratorManager interface {
 	PrepareSynced(ctx context.Context, vibratorIds []int32) error
 	TriggerSynced(ctx context.Context, callback IVibratorCallback) error
 	CancelSynced(ctx context.Context) error
-	StartSession(ctx context.Context, vibratorIds []int32, config VibrationSessionConfig, callback IVibratorCallback) (IVibrationSession, error)
-	ClearSessions(ctx context.Context) error
 }
 
 const (
@@ -43,21 +48,20 @@ const (
 	IVibratorManagerCapMixedTriggerPerform int32 = (1 << 5)
 	IVibratorManagerCapMixedTriggerCompose int32 = (1 << 6)
 	IVibratorManagerCapTriggerCallback     int32 = (1 << 7)
-	IVibratorManagerCapStartSessions       int32 = (1 << 8)
 )
 
 type VibratorManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorManagerProxy(
 	remote binder.IBinder,
 ) *VibratorManagerProxy {
-	return &VibratorManagerProxy{remote: remote}
+	return &VibratorManagerProxy{Remote: remote}
 }
 
 func (p *VibratorManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibratorManager = (*VibratorManagerProxy)(nil)
@@ -69,12 +73,12 @@ func (p *VibratorManagerProxy) GetCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "getCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerGetCapabilities)
 	if _err != nil {
-		_code = TransactionIVibratorManagerGetCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManager, MethodIVibratorManagerGetCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,12 +102,12 @@ func (p *VibratorManagerProxy) GetVibratorIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "getVibratorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerGetVibratorIds)
 	if _err != nil {
-		_code = TransactionIVibratorManagerGetVibratorIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManager, MethodIVibratorManagerGetVibratorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,12 +143,12 @@ func (p *VibratorManagerProxy) GetVibrator(
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 	_data.WriteInt32(vibratorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "getVibrator")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerGetVibrator)
 	if _err != nil {
-		_code = TransactionIVibratorManagerGetVibrator
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManager, MethodIVibratorManagerGetVibrator, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -158,7 +162,7 @@ func (p *VibratorManagerProxy) GetVibrator(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVibratorProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewVibratorProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -177,12 +181,12 @@ func (p *VibratorManagerProxy) PrepareSynced(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "prepareSynced")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerPrepareSynced)
 	if _err != nil {
-		_code = TransactionIVibratorManagerPrepareSynced
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManager, MethodIVibratorManagerPrepareSynced, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -201,14 +205,14 @@ func (p *VibratorManagerProxy) TriggerSynced(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "triggerSynced")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerTriggerSynced)
 	if _err != nil {
-		_code = TransactionIVibratorManagerTriggerSynced
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManager, MethodIVibratorManagerTriggerSynced, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,82 +231,12 @@ func (p *VibratorManagerProxy) CancelSynced(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "cancelSynced")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManager, MethodIVibratorManagerCancelSynced)
 	if _err != nil {
-		_code = TransactionIVibratorManagerCancelSynced
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManager, MethodIVibratorManagerCancelSynced, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *VibratorManagerProxy) StartSession(
-	ctx context.Context,
-	vibratorIds []int32,
-	config VibrationSessionConfig,
-	callback IVibratorCallback,
-) (IVibrationSession, error) {
-	var _result IVibrationSession
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibratorManager)
-	if vibratorIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(vibratorIds)))
-		for _, _item := range vibratorIds {
-			_data.WriteInt32(_item)
-		}
-	}
-	_data.WriteInt32(1)
-	if _err := config.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "startSession")
-	if _err != nil {
-		_code = TransactionIVibratorManagerStartSession
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = NewVibrationSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
-	return _result, nil
-}
-
-func (p *VibratorManagerProxy) ClearSessions(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibratorManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "clearSessions")
-	if _err != nil {
-		_code = TransactionIVibratorManagerClearSessions
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -322,6 +256,10 @@ type VibratorManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorManagerStub)(nil)
+
+func (s *VibratorManagerStub) Descriptor() string {
+	return DescriptorIVibratorManager
+}
 
 func (s *VibratorManagerStub) OnTransaction(
 	ctx context.Context,
@@ -416,50 +354,6 @@ func (s *VibratorManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIVibratorManagerStartSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_vibratorIds []int32
-		_ = _arg_vibratorIds
-		var _arg_config VibrationSessionConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IVibratorCallback
-		_ = _arg_callback
-		_result, _err := s.Impl.StartSession(ctx, _arg_vibratorIds, _arg_config, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIVibratorManagerClearSessions:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.ClearSessions(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -475,8 +369,6 @@ type IVibratorManagerServer interface {
 	PrepareSynced(ctx context.Context, vibratorIds []int32) error
 	TriggerSynced(ctx context.Context, callback IVibratorCallback) error
 	CancelSynced(ctx context.Context) error
-	StartSession(ctx context.Context, vibratorIds []int32, config VibrationSessionConfig, callback IVibratorCallback) (IVibrationSession, error)
-	ClearSessions(ctx context.Context) error
 }
 
 type vibratorManagerStubWrapper struct {
@@ -525,21 +417,6 @@ func (w *vibratorManagerStubWrapper) CancelSynced(
 	ctx context.Context,
 ) error {
 	return w.impl.CancelSynced(ctx)
-}
-
-func (w *vibratorManagerStubWrapper) StartSession(
-	ctx context.Context,
-	vibratorIds []int32,
-	config VibrationSessionConfig,
-	callback IVibratorCallback,
-) (IVibrationSession, error) {
-	return w.impl.StartSession(ctx, vibratorIds, config, callback)
-}
-
-func (w *vibratorManagerStubWrapper) ClearSessions(
-	ctx context.Context,
-) error {
-	return w.impl.ClearSessions(ctx)
 }
 
 var _ IVibratorManager = (*vibratorManagerStubWrapper)(nil)

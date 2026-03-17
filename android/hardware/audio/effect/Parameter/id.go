@@ -10,12 +10,10 @@ import (
 	DynamicsProcessing "github.com/xaionaro-go/binder/android/hardware/audio/effect/DynamicsProcessing"
 	EnvironmentalReverb "github.com/xaionaro-go/binder/android/hardware/audio/effect/EnvironmentalReverb"
 	Equalizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Equalizer"
-	Eraser "github.com/xaionaro-go/binder/android/hardware/audio/effect/Eraser"
 	HapticGenerator "github.com/xaionaro-go/binder/android/hardware/audio/effect/HapticGenerator"
 	LoudnessEnhancer "github.com/xaionaro-go/binder/android/hardware/audio/effect/LoudnessEnhancer"
 	NoiseSuppression "github.com/xaionaro-go/binder/android/hardware/audio/effect/NoiseSuppression"
 	PresetReverb "github.com/xaionaro-go/binder/android/hardware/audio/effect/PresetReverb"
-	Spatializer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Spatializer"
 	Virtualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Virtualizer"
 	Visualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Visualizer"
 	"github.com/xaionaro-go/binder/parcel"
@@ -42,7 +40,6 @@ const (
 	IdTagVolumeTag                 int32 = 15
 	IdTagCommonTag                 int32 = 16
 	IdTagSpatializerTag            int32 = 17
-	IdTagEraserTag                 int32 = 18
 )
 
 type Id struct {
@@ -64,8 +61,7 @@ type Id struct {
 	VisualizerTag             Visualizer.Id
 	VolumeTag                 interface{}
 	CommonTag                 interface{}
-	SpatializerTag            Spatializer.Id
-	EraserTag                 Eraser.Id
+	SpatializerTag            interface{}
 }
 
 var _ parcel.Parcelable = (*Id)(nil)
@@ -325,34 +321,19 @@ func (u *Id) SetCommonTag(
 	u.CommonTag = v
 }
 
-func (u *Id) GetSpatializerTag() (Spatializer.Id, bool) {
+func (u *Id) GetSpatializerTag() (interface{}, bool) {
 	if u.Tag != IdTagSpatializerTag {
-		var _zero Spatializer.Id
+		var _zero interface{}
 		return _zero, false
 	}
 	return u.SpatializerTag, true
 }
 
 func (u *Id) SetSpatializerTag(
-	v Spatializer.Id,
+	v interface{},
 ) {
 	u.Tag = IdTagSpatializerTag
 	u.SpatializerTag = v
-}
-
-func (u *Id) GetEraserTag() (Eraser.Id, bool) {
-	if u.Tag != IdTagEraserTag {
-		var _zero Eraser.Id
-		return _zero, false
-	}
-	return u.EraserTag, true
-}
-
-func (u *Id) SetEraserTag(
-	v Eraser.Id,
-) {
-	u.Tag = IdTagEraserTag
-	u.EraserTag = v
 }
 
 func (u *Id) MarshalParcel(
@@ -380,7 +361,6 @@ func (u *Id) MarshalParcel(
 	case IdTagVolumeTag:
 	case IdTagCommonTag:
 	case IdTagSpatializerTag:
-	case IdTagEraserTag:
 	default:
 		return fmt.Errorf("unknown union tag %d for Id", u.Tag)
 	}
@@ -421,7 +401,6 @@ func (u *Id) UnmarshalParcel(
 	case IdTagVolumeTag:
 	case IdTagCommonTag:
 	case IdTagSpatializerTag:
-	case IdTagEraserTag:
 	default:
 		return fmt.Errorf("unknown union tag %d for Id", u.Tag)
 	}

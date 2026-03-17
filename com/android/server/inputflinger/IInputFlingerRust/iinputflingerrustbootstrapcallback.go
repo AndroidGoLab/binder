@@ -16,23 +16,27 @@ const (
 	TransactionIInputFlingerRustBootstrapCallbackOnProvideInputFlingerRust = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputFlingerRustBootstrapCallbackOnProvideInputFlingerRust = "onProvideInputFlingerRust"
+)
+
 type IInputFlingerRustBootstrapCallback interface {
 	AsBinder() binder.IBinder
 	OnProvideInputFlingerRust(ctx context.Context, inputFlingerRust inputflinger.IInputFlingerRust) error
 }
 
 type InputFlingerRustBootstrapCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFlingerRustBootstrapCallbackProxy(
 	remote binder.IBinder,
 ) *InputFlingerRustBootstrapCallbackProxy {
-	return &InputFlingerRustBootstrapCallbackProxy{remote: remote}
+	return &InputFlingerRustBootstrapCallbackProxy{Remote: remote}
 }
 
 func (p *InputFlingerRustBootstrapCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFlingerRustBootstrapCallback = (*InputFlingerRustBootstrapCallbackProxy)(nil)
@@ -43,14 +47,14 @@ func (p *InputFlingerRustBootstrapCallbackProxy) OnProvideInputFlingerRust(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFlingerRustBootstrapCallback)
-	binder.WriteBinderToParcel(ctx, _data, inputFlingerRust.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputFlingerRust.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFlingerRustBootstrapCallback, "onProvideInputFlingerRust")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFlingerRustBootstrapCallback, MethodIInputFlingerRustBootstrapCallbackOnProvideInputFlingerRust)
 	if _err != nil {
-		_code = TransactionIInputFlingerRustBootstrapCallbackOnProvideInputFlingerRust
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFlingerRustBootstrapCallback, MethodIInputFlingerRustBootstrapCallbackOnProvideInputFlingerRust, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,6 +74,10 @@ type InputFlingerRustBootstrapCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputFlingerRustBootstrapCallbackStub)(nil)
+
+func (s *InputFlingerRustBootstrapCallbackStub) Descriptor() string {
+	return DescriptorIInputFlingerRustBootstrapCallback
+}
 
 func (s *InputFlingerRustBootstrapCallbackStub) OnTransaction(
 	ctx context.Context,

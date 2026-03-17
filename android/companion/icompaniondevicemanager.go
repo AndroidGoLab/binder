@@ -23,38 +23,81 @@ const (
 	TransactionICompanionDeviceManagerHasNotificationAccess                    = binder.FirstCallTransaction + 5
 	TransactionICompanionDeviceManagerRequestNotificationAccess                = binder.FirstCallTransaction + 6
 	TransactionICompanionDeviceManagerIsDeviceAssociatedForWifiConnection      = binder.FirstCallTransaction + 7
-	TransactionICompanionDeviceManagerLegacyStartObservingDevicePresence       = binder.FirstCallTransaction + 8
-	TransactionICompanionDeviceManagerLegacyStopObservingDevicePresence        = binder.FirstCallTransaction + 9
-	TransactionICompanionDeviceManagerStartObservingDevicePresence             = binder.FirstCallTransaction + 10
-	TransactionICompanionDeviceManagerStopObservingDevicePresence              = binder.FirstCallTransaction + 11
-	TransactionICompanionDeviceManagerCanPairWithoutPrompt                     = binder.FirstCallTransaction + 12
-	TransactionICompanionDeviceManagerCreateAssociation                        = binder.FirstCallTransaction + 13
-	TransactionICompanionDeviceManagerAddOnAssociationsChangedListener         = binder.FirstCallTransaction + 14
-	TransactionICompanionDeviceManagerRemoveOnAssociationsChangedListener      = binder.FirstCallTransaction + 15
-	TransactionICompanionDeviceManagerAddOnTransportsChangedListener           = binder.FirstCallTransaction + 16
-	TransactionICompanionDeviceManagerRemoveOnTransportsChangedListener        = binder.FirstCallTransaction + 17
-	TransactionICompanionDeviceManagerSendMessage                              = binder.FirstCallTransaction + 18
-	TransactionICompanionDeviceManagerAddOnMessageReceivedListener             = binder.FirstCallTransaction + 19
-	TransactionICompanionDeviceManagerRemoveOnMessageReceivedListener          = binder.FirstCallTransaction + 20
-	TransactionICompanionDeviceManagerNotifySelfManagedDeviceAppeared          = binder.FirstCallTransaction + 21
-	TransactionICompanionDeviceManagerNotifySelfManagedDeviceDisappeared       = binder.FirstCallTransaction + 22
-	TransactionICompanionDeviceManagerBuildPermissionTransferUserConsentIntent = binder.FirstCallTransaction + 23
-	TransactionICompanionDeviceManagerIsPermissionTransferUserConsented        = binder.FirstCallTransaction + 24
-	TransactionICompanionDeviceManagerStartSystemDataTransfer                  = binder.FirstCallTransaction + 25
-	TransactionICompanionDeviceManagerAttachSystemDataTransport                = binder.FirstCallTransaction + 26
-	TransactionICompanionDeviceManagerDetachSystemDataTransport                = binder.FirstCallTransaction + 27
-	TransactionICompanionDeviceManagerIsCompanionApplicationBound              = binder.FirstCallTransaction + 28
-	TransactionICompanionDeviceManagerBuildAssociationCancellationIntent       = binder.FirstCallTransaction + 29
-	TransactionICompanionDeviceManagerEnableSystemDataSync                     = binder.FirstCallTransaction + 30
-	TransactionICompanionDeviceManagerDisableSystemDataSync                    = binder.FirstCallTransaction + 31
-	TransactionICompanionDeviceManagerEnablePermissionsSync                    = binder.FirstCallTransaction + 32
-	TransactionICompanionDeviceManagerDisablePermissionsSync                   = binder.FirstCallTransaction + 33
-	TransactionICompanionDeviceManagerGetPermissionSyncRequest                 = binder.FirstCallTransaction + 34
-	TransactionICompanionDeviceManagerEnableSecureTransport                    = binder.FirstCallTransaction + 35
-	TransactionICompanionDeviceManagerSetDeviceId                              = binder.FirstCallTransaction + 36
-	TransactionICompanionDeviceManagerGetBackupPayload                         = binder.FirstCallTransaction + 37
-	TransactionICompanionDeviceManagerApplyRestoredPayload                     = binder.FirstCallTransaction + 38
-	TransactionICompanionDeviceManagerRemoveBond                               = binder.FirstCallTransaction + 39
+	TransactionICompanionDeviceManagerRegisterDevicePresenceListenerService    = binder.FirstCallTransaction + 8
+	TransactionICompanionDeviceManagerUnregisterDevicePresenceListenerService  = binder.FirstCallTransaction + 9
+	TransactionICompanionDeviceManagerCanPairWithoutPrompt                     = binder.FirstCallTransaction + 10
+	TransactionICompanionDeviceManagerCreateAssociation                        = binder.FirstCallTransaction + 11
+	TransactionICompanionDeviceManagerAddOnAssociationsChangedListener         = binder.FirstCallTransaction + 12
+	TransactionICompanionDeviceManagerRemoveOnAssociationsChangedListener      = binder.FirstCallTransaction + 13
+	TransactionICompanionDeviceManagerAddOnTransportsChangedListener           = binder.FirstCallTransaction + 14
+	TransactionICompanionDeviceManagerRemoveOnTransportsChangedListener        = binder.FirstCallTransaction + 15
+	TransactionICompanionDeviceManagerSendMessage                              = binder.FirstCallTransaction + 16
+	TransactionICompanionDeviceManagerAddOnMessageReceivedListener             = binder.FirstCallTransaction + 17
+	TransactionICompanionDeviceManagerRemoveOnMessageReceivedListener          = binder.FirstCallTransaction + 18
+	TransactionICompanionDeviceManagerNotifyDeviceAppeared                     = binder.FirstCallTransaction + 19
+	TransactionICompanionDeviceManagerNotifyDeviceDisappeared                  = binder.FirstCallTransaction + 20
+	TransactionICompanionDeviceManagerBuildPermissionTransferUserConsentIntent = binder.FirstCallTransaction + 21
+	TransactionICompanionDeviceManagerIsPermissionTransferUserConsented        = binder.FirstCallTransaction + 22
+	TransactionICompanionDeviceManagerStartSystemDataTransfer                  = binder.FirstCallTransaction + 23
+	TransactionICompanionDeviceManagerAttachSystemDataTransport                = binder.FirstCallTransaction + 24
+	TransactionICompanionDeviceManagerDetachSystemDataTransport                = binder.FirstCallTransaction + 25
+	TransactionICompanionDeviceManagerIsCompanionApplicationBound              = binder.FirstCallTransaction + 26
+	TransactionICompanionDeviceManagerBuildAssociationCancellationIntent       = binder.FirstCallTransaction + 27
+	TransactionICompanionDeviceManagerEnableSystemDataSync                     = binder.FirstCallTransaction + 28
+	TransactionICompanionDeviceManagerDisableSystemDataSync                    = binder.FirstCallTransaction + 29
+	TransactionICompanionDeviceManagerEnablePermissionsSync                    = binder.FirstCallTransaction + 30
+	TransactionICompanionDeviceManagerDisablePermissionsSync                   = binder.FirstCallTransaction + 31
+	TransactionICompanionDeviceManagerGetPermissionSyncRequest                 = binder.FirstCallTransaction + 32
+	TransactionICompanionDeviceManagerEnableSecureTransport                    = binder.FirstCallTransaction + 33
+	TransactionICompanionDeviceManagerSetAssociationTag                        = binder.FirstCallTransaction + 34
+	TransactionICompanionDeviceManagerClearAssociationTag                      = binder.FirstCallTransaction + 35
+	TransactionICompanionDeviceManagerGetBackupPayload                         = binder.FirstCallTransaction + 36
+	TransactionICompanionDeviceManagerApplyRestoredPayload                     = binder.FirstCallTransaction + 37
+	TransactionICompanionDeviceManagerStartObservingDevicePresence             = binder.FirstCallTransaction + 38
+	TransactionICompanionDeviceManagerStopObservingDevicePresence              = binder.FirstCallTransaction + 39
+)
+
+const (
+	MethodICompanionDeviceManagerAssociate                                = "associate"
+	MethodICompanionDeviceManagerGetAssociations                          = "getAssociations"
+	MethodICompanionDeviceManagerGetAllAssociationsForUser                = "getAllAssociationsForUser"
+	MethodICompanionDeviceManagerLegacyDisassociate                       = "legacyDisassociate"
+	MethodICompanionDeviceManagerDisassociate                             = "disassociate"
+	MethodICompanionDeviceManagerHasNotificationAccess                    = "hasNotificationAccess"
+	MethodICompanionDeviceManagerRequestNotificationAccess                = "requestNotificationAccess"
+	MethodICompanionDeviceManagerIsDeviceAssociatedForWifiConnection      = "isDeviceAssociatedForWifiConnection"
+	MethodICompanionDeviceManagerRegisterDevicePresenceListenerService    = "registerDevicePresenceListenerService"
+	MethodICompanionDeviceManagerUnregisterDevicePresenceListenerService  = "unregisterDevicePresenceListenerService"
+	MethodICompanionDeviceManagerCanPairWithoutPrompt                     = "canPairWithoutPrompt"
+	MethodICompanionDeviceManagerCreateAssociation                        = "createAssociation"
+	MethodICompanionDeviceManagerAddOnAssociationsChangedListener         = "addOnAssociationsChangedListener"
+	MethodICompanionDeviceManagerRemoveOnAssociationsChangedListener      = "removeOnAssociationsChangedListener"
+	MethodICompanionDeviceManagerAddOnTransportsChangedListener           = "addOnTransportsChangedListener"
+	MethodICompanionDeviceManagerRemoveOnTransportsChangedListener        = "removeOnTransportsChangedListener"
+	MethodICompanionDeviceManagerSendMessage                              = "sendMessage"
+	MethodICompanionDeviceManagerAddOnMessageReceivedListener             = "addOnMessageReceivedListener"
+	MethodICompanionDeviceManagerRemoveOnMessageReceivedListener          = "removeOnMessageReceivedListener"
+	MethodICompanionDeviceManagerNotifyDeviceAppeared                     = "notifyDeviceAppeared"
+	MethodICompanionDeviceManagerNotifyDeviceDisappeared                  = "notifyDeviceDisappeared"
+	MethodICompanionDeviceManagerBuildPermissionTransferUserConsentIntent = "buildPermissionTransferUserConsentIntent"
+	MethodICompanionDeviceManagerIsPermissionTransferUserConsented        = "isPermissionTransferUserConsented"
+	MethodICompanionDeviceManagerStartSystemDataTransfer                  = "startSystemDataTransfer"
+	MethodICompanionDeviceManagerAttachSystemDataTransport                = "attachSystemDataTransport"
+	MethodICompanionDeviceManagerDetachSystemDataTransport                = "detachSystemDataTransport"
+	MethodICompanionDeviceManagerIsCompanionApplicationBound              = "isCompanionApplicationBound"
+	MethodICompanionDeviceManagerBuildAssociationCancellationIntent       = "buildAssociationCancellationIntent"
+	MethodICompanionDeviceManagerEnableSystemDataSync                     = "enableSystemDataSync"
+	MethodICompanionDeviceManagerDisableSystemDataSync                    = "disableSystemDataSync"
+	MethodICompanionDeviceManagerEnablePermissionsSync                    = "enablePermissionsSync"
+	MethodICompanionDeviceManagerDisablePermissionsSync                   = "disablePermissionsSync"
+	MethodICompanionDeviceManagerGetPermissionSyncRequest                 = "getPermissionSyncRequest"
+	MethodICompanionDeviceManagerEnableSecureTransport                    = "enableSecureTransport"
+	MethodICompanionDeviceManagerSetAssociationTag                        = "setAssociationTag"
+	MethodICompanionDeviceManagerClearAssociationTag                      = "clearAssociationTag"
+	MethodICompanionDeviceManagerGetBackupPayload                         = "getBackupPayload"
+	MethodICompanionDeviceManagerApplyRestoredPayload                     = "applyRestoredPayload"
+	MethodICompanionDeviceManagerStartObservingDevicePresence             = "startObservingDevicePresence"
+	MethodICompanionDeviceManagerStopObservingDevicePresence              = "stopObservingDevicePresence"
 )
 
 type ICompanionDeviceManager interface {
@@ -67,10 +110,8 @@ type ICompanionDeviceManager interface {
 	HasNotificationAccess(ctx context.Context, component content.ComponentName) (bool, error)
 	RequestNotificationAccess(ctx context.Context, component content.ComponentName) (app.PendingIntent, error)
 	IsDeviceAssociatedForWifiConnection(ctx context.Context, packageName string, macAddress string) (bool, error)
-	LegacyStartObservingDevicePresence(ctx context.Context, deviceAddress string) error
-	LegacyStopObservingDevicePresence(ctx context.Context, deviceAddress string) error
-	StartObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
-	StopObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
+	RegisterDevicePresenceListenerService(ctx context.Context, deviceAddress string) error
+	UnregisterDevicePresenceListenerService(ctx context.Context, deviceAddress string) error
 	CanPairWithoutPrompt(ctx context.Context, packageName string, deviceMacAddress string) (bool, error)
 	CreateAssociation(ctx context.Context, packageName string, macAddress string, certificate []byte) error
 	AddOnAssociationsChangedListener(ctx context.Context, listener IOnAssociationsChangedListener) error
@@ -80,8 +121,8 @@ type ICompanionDeviceManager interface {
 	SendMessage(ctx context.Context, messageType int32, data []byte, associationIds []int32) error
 	AddOnMessageReceivedListener(ctx context.Context, messageType int32, listener IOnMessageReceivedListener) error
 	RemoveOnMessageReceivedListener(ctx context.Context, messageType int32, listener IOnMessageReceivedListener) error
-	NotifySelfManagedDeviceAppeared(ctx context.Context, associationId int32) error
-	NotifySelfManagedDeviceDisappeared(ctx context.Context, associationId int32) error
+	NotifyDeviceAppeared(ctx context.Context, associationId int32) error
+	NotifyDeviceDisappeared(ctx context.Context, associationId int32) error
 	BuildPermissionTransferUserConsentIntent(ctx context.Context, associationId int32) (app.PendingIntent, error)
 	IsPermissionTransferUserConsented(ctx context.Context, associationId int32) (bool, error)
 	StartSystemDataTransfer(ctx context.Context, packageName string, associationId int32, callback ISystemDataTransferCallback) error
@@ -95,24 +136,26 @@ type ICompanionDeviceManager interface {
 	DisablePermissionsSync(ctx context.Context, associationId int32) error
 	GetPermissionSyncRequest(ctx context.Context, associationId int32) (datatransfer.PermissionSyncRequest, error)
 	EnableSecureTransport(ctx context.Context, enabled bool) error
-	SetDeviceId(ctx context.Context, associationId int32, deviceId DeviceId) error
+	SetAssociationTag(ctx context.Context, associationId int32, tag string) error
+	ClearAssociationTag(ctx context.Context, associationId int32) error
 	GetBackupPayload(ctx context.Context) ([]byte, error)
 	ApplyRestoredPayload(ctx context.Context, payload []byte) error
-	RemoveBond(ctx context.Context, associationId int32, packageName string) (bool, error)
+	StartObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
+	StopObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
 }
 
 type CompanionDeviceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCompanionDeviceManagerProxy(
 	remote binder.IBinder,
 ) *CompanionDeviceManagerProxy {
-	return &CompanionDeviceManagerProxy{remote: remote}
+	return &CompanionDeviceManagerProxy{Remote: remote}
 }
 
 func (p *CompanionDeviceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICompanionDeviceManager = (*CompanionDeviceManagerProxy)(nil)
@@ -122,23 +165,23 @@ func (p *CompanionDeviceManagerProxy) Associate(
 	request AssociationRequest,
 	callback IAssociationRequestCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "associate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAssociate)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerAssociate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAssociate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,18 +198,18 @@ func (p *CompanionDeviceManagerProxy) GetAssociations(
 	ctx context.Context,
 ) ([]AssociationInfo, error) {
 	var _result []AssociationInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getAssociations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAssociations)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerGetAssociations
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAssociations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -184,6 +227,9 @@ func (p *CompanionDeviceManagerProxy) GetAssociations(
 	if _count >= 0 {
 		_result = make([]AssociationInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -196,17 +242,17 @@ func (p *CompanionDeviceManagerProxy) GetAllAssociationsForUser(
 	ctx context.Context,
 ) ([]AssociationInfo, error) {
 	var _result []AssociationInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getAllAssociationsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAllAssociationsForUser)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerGetAllAssociationsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetAllAssociationsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -224,6 +270,9 @@ func (p *CompanionDeviceManagerProxy) GetAllAssociationsForUser(
 	if _count >= 0 {
 		_result = make([]AssociationInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -236,19 +285,19 @@ func (p *CompanionDeviceManagerProxy) LegacyDisassociate(
 	ctx context.Context,
 	deviceMacAddress string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(deviceMacAddress)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "legacyDisassociate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerLegacyDisassociate)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerLegacyDisassociate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerLegacyDisassociate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,12 +318,12 @@ func (p *CompanionDeviceManagerProxy) Disassociate(
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "disassociate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisassociate)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerDisassociate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisassociate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -299,12 +348,12 @@ func (p *CompanionDeviceManagerProxy) HasNotificationAccess(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "hasNotificationAccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerHasNotificationAccess)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerHasNotificationAccess
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerHasNotificationAccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -326,7 +375,7 @@ func (p *CompanionDeviceManagerProxy) RequestNotificationAccess(
 	component content.ComponentName,
 ) (app.PendingIntent, error) {
 	var _result app.PendingIntent
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(1)
@@ -335,12 +384,12 @@ func (p *CompanionDeviceManagerProxy) RequestNotificationAccess(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "requestNotificationAccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRequestNotificationAccess)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerRequestNotificationAccess
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRequestNotificationAccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -368,19 +417,19 @@ func (p *CompanionDeviceManagerProxy) IsDeviceAssociatedForWifiConnection(
 	macAddress string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(macAddress)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "isDeviceAssociatedForWifiConnection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsDeviceAssociatedForWifiConnection)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerIsDeviceAssociatedForWifiConnection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsDeviceAssociatedForWifiConnection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -397,23 +446,23 @@ func (p *CompanionDeviceManagerProxy) IsDeviceAssociatedForWifiConnection(
 	return _result, nil
 }
 
-func (p *CompanionDeviceManagerProxy) LegacyStartObservingDevicePresence(
+func (p *CompanionDeviceManagerProxy) RegisterDevicePresenceListenerService(
 	ctx context.Context,
 	deviceAddress string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(deviceAddress)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "legacyStartObservingDevicePresence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRegisterDevicePresenceListenerService)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerLegacyStartObservingDevicePresence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRegisterDevicePresenceListenerService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -426,89 +475,23 @@ func (p *CompanionDeviceManagerProxy) LegacyStartObservingDevicePresence(
 	return nil
 }
 
-func (p *CompanionDeviceManagerProxy) LegacyStopObservingDevicePresence(
+func (p *CompanionDeviceManagerProxy) UnregisterDevicePresenceListenerService(
 	ctx context.Context,
 	deviceAddress string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(deviceAddress)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "legacyStopObservingDevicePresence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerUnregisterDevicePresenceListenerService)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerLegacyStopObservingDevicePresence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerUnregisterDevicePresenceListenerService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *CompanionDeviceManagerProxy) StartObservingDevicePresence(
-	ctx context.Context,
-	request ObservingDevicePresenceRequest,
-	packageName string,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "startObservingDevicePresence")
-	if _err != nil {
-		_code = TransactionICompanionDeviceManagerStartObservingDevicePresence
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
-	ctx context.Context,
-	request ObservingDevicePresenceRequest,
-	packageName string,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteString16(packageName)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "stopObservingDevicePresence")
-	if _err != nil {
-		_code = TransactionICompanionDeviceManagerStopObservingDevicePresence
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -527,19 +510,19 @@ func (p *CompanionDeviceManagerProxy) CanPairWithoutPrompt(
 	deviceMacAddress string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(deviceMacAddress)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "canPairWithoutPrompt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCanPairWithoutPrompt)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerCanPairWithoutPrompt
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCanPairWithoutPrompt, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -562,7 +545,7 @@ func (p *CompanionDeviceManagerProxy) CreateAssociation(
 	macAddress string,
 	certificate []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
@@ -577,12 +560,12 @@ func (p *CompanionDeviceManagerProxy) CreateAssociation(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "createAssociation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCreateAssociation)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerCreateAssociation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerCreateAssociation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -599,18 +582,18 @@ func (p *CompanionDeviceManagerProxy) AddOnAssociationsChangedListener(
 	ctx context.Context,
 	listener IOnAssociationsChangedListener,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "addOnAssociationsChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnAssociationsChangedListener)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerAddOnAssociationsChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnAssociationsChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -627,18 +610,18 @@ func (p *CompanionDeviceManagerProxy) RemoveOnAssociationsChangedListener(
 	ctx context.Context,
 	listener IOnAssociationsChangedListener,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeOnAssociationsChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnAssociationsChangedListener)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerRemoveOnAssociationsChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnAssociationsChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -657,14 +640,14 @@ func (p *CompanionDeviceManagerProxy) AddOnTransportsChangedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "addOnTransportsChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnTransportsChangedListener)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerAddOnTransportsChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnTransportsChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -683,14 +666,14 @@ func (p *CompanionDeviceManagerProxy) RemoveOnTransportsChangedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeOnTransportsChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnTransportsChangedListener)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerRemoveOnTransportsChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnTransportsChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -729,12 +712,12 @@ func (p *CompanionDeviceManagerProxy) SendMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "sendMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSendMessage)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerSendMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSendMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -755,14 +738,14 @@ func (p *CompanionDeviceManagerProxy) AddOnMessageReceivedListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(messageType)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "addOnMessageReceivedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnMessageReceivedListener)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerAddOnMessageReceivedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAddOnMessageReceivedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -783,40 +766,14 @@ func (p *CompanionDeviceManagerProxy) RemoveOnMessageReceivedListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(messageType)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeOnMessageReceivedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnMessageReceivedListener)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerRemoveOnMessageReceivedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerRemoveOnMessageReceivedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *CompanionDeviceManagerProxy) NotifySelfManagedDeviceAppeared(
-	ctx context.Context,
-	associationId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "notifySelfManagedDeviceAppeared")
-	if _err != nil {
-		_code = TransactionICompanionDeviceManagerNotifySelfManagedDeviceAppeared
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -829,7 +786,7 @@ func (p *CompanionDeviceManagerProxy) NotifySelfManagedDeviceAppeared(
 	return nil
 }
 
-func (p *CompanionDeviceManagerProxy) NotifySelfManagedDeviceDisappeared(
+func (p *CompanionDeviceManagerProxy) NotifyDeviceAppeared(
 	ctx context.Context,
 	associationId int32,
 ) error {
@@ -837,12 +794,38 @@ func (p *CompanionDeviceManagerProxy) NotifySelfManagedDeviceDisappeared(
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "notifySelfManagedDeviceDisappeared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceAppeared)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerNotifySelfManagedDeviceDisappeared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceAppeared, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *CompanionDeviceManagerProxy) NotifyDeviceDisappeared(
+	ctx context.Context,
+	associationId int32,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(associationId)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceDisappeared)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerNotifyDeviceDisappeared, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -860,19 +843,19 @@ func (p *CompanionDeviceManagerProxy) BuildPermissionTransferUserConsentIntent(
 	associationId int32,
 ) (app.PendingIntent, error) {
 	var _result app.PendingIntent
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "buildPermissionTransferUserConsentIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildPermissionTransferUserConsentIntent)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerBuildPermissionTransferUserConsentIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildPermissionTransferUserConsentIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -899,19 +882,19 @@ func (p *CompanionDeviceManagerProxy) IsPermissionTransferUserConsented(
 	associationId int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "isPermissionTransferUserConsented")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsPermissionTransferUserConsented)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerIsPermissionTransferUserConsented
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsPermissionTransferUserConsented, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -934,20 +917,20 @@ func (p *CompanionDeviceManagerProxy) StartSystemDataTransfer(
 	associationId int32,
 	callback ISystemDataTransferCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(associationId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "startSystemDataTransfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartSystemDataTransfer)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerStartSystemDataTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartSystemDataTransfer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -966,7 +949,7 @@ func (p *CompanionDeviceManagerProxy) AttachSystemDataTransport(
 	associationId int32,
 	fd int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
@@ -974,12 +957,12 @@ func (p *CompanionDeviceManagerProxy) AttachSystemDataTransport(
 	_data.WriteInt32(associationId)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "attachSystemDataTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAttachSystemDataTransport)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerAttachSystemDataTransport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerAttachSystemDataTransport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -997,19 +980,19 @@ func (p *CompanionDeviceManagerProxy) DetachSystemDataTransport(
 	packageName string,
 	associationId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "detachSystemDataTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDetachSystemDataTransport)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerDetachSystemDataTransport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDetachSystemDataTransport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1027,18 +1010,18 @@ func (p *CompanionDeviceManagerProxy) IsCompanionApplicationBound(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "isCompanionApplicationBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsCompanionApplicationBound)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerIsCompanionApplicationBound
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerIsCompanionApplicationBound, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1059,18 +1042,18 @@ func (p *CompanionDeviceManagerProxy) BuildAssociationCancellationIntent(
 	ctx context.Context,
 ) (app.PendingIntent, error) {
 	var _result app.PendingIntent
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "buildAssociationCancellationIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildAssociationCancellationIntent)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerBuildAssociationCancellationIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerBuildAssociationCancellationIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1102,12 +1085,12 @@ func (p *CompanionDeviceManagerProxy) EnableSystemDataSync(
 	_data.WriteInt32(associationId)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "enableSystemDataSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSystemDataSync)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerEnableSystemDataSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSystemDataSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1130,12 +1113,12 @@ func (p *CompanionDeviceManagerProxy) DisableSystemDataSync(
 	_data.WriteInt32(associationId)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "disableSystemDataSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisableSystemDataSync)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerDisableSystemDataSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisableSystemDataSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1156,12 +1139,12 @@ func (p *CompanionDeviceManagerProxy) EnablePermissionsSync(
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "enablePermissionsSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnablePermissionsSync)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerEnablePermissionsSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnablePermissionsSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1182,12 +1165,12 @@ func (p *CompanionDeviceManagerProxy) DisablePermissionsSync(
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "disablePermissionsSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisablePermissionsSync)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerDisablePermissionsSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerDisablePermissionsSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1209,12 +1192,12 @@ func (p *CompanionDeviceManagerProxy) GetPermissionSyncRequest(
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getPermissionSyncRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetPermissionSyncRequest)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerGetPermissionSyncRequest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetPermissionSyncRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1244,12 +1227,12 @@ func (p *CompanionDeviceManagerProxy) EnableSecureTransport(
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "enableSecureTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSecureTransport)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerEnableSecureTransport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerEnableSecureTransport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1262,25 +1245,48 @@ func (p *CompanionDeviceManagerProxy) EnableSecureTransport(
 	return nil
 }
 
-func (p *CompanionDeviceManagerProxy) SetDeviceId(
+func (p *CompanionDeviceManagerProxy) SetAssociationTag(
 	ctx context.Context,
 	associationId int32,
-	deviceId DeviceId,
+	tag string,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
-	_data.WriteInt32(1)
-	if _err := deviceId.MarshalParcel(_data); _err != nil {
+	_data.WriteString16(tag)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSetAssociationTag)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerSetAssociationTag, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "setDeviceId")
+	return nil
+}
+
+func (p *CompanionDeviceManagerProxy) ClearAssociationTag(
+	ctx context.Context,
+	associationId int32,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(associationId)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerClearAssociationTag)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerSetDeviceId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerClearAssociationTag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1297,17 +1303,17 @@ func (p *CompanionDeviceManagerProxy) GetBackupPayload(
 	ctx context.Context,
 ) ([]byte, error) {
 	var _result []byte
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getBackupPayload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetBackupPayload)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerGetBackupPayload
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerGetBackupPayload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1338,7 +1344,7 @@ func (p *CompanionDeviceManagerProxy) ApplyRestoredPayload(
 	ctx context.Context,
 	payload []byte,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	if payload == nil {
@@ -1351,12 +1357,12 @@ func (p *CompanionDeviceManagerProxy) ApplyRestoredPayload(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "applyRestoredPayload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerApplyRestoredPayload)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerApplyRestoredPayload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerApplyRestoredPayload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1369,39 +1375,70 @@ func (p *CompanionDeviceManagerProxy) ApplyRestoredPayload(
 	return nil
 }
 
-func (p *CompanionDeviceManagerProxy) RemoveBond(
+func (p *CompanionDeviceManagerProxy) StartObservingDevicePresence(
 	ctx context.Context,
-	associationId int32,
+	request ObservingDevicePresenceRequest,
 	packageName string,
-) (bool, error) {
-	var _result bool
-	_identity := p.remote.Identity()
+) error {
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
-	_data.WriteInt32(associationId)
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeBond")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartObservingDevicePresence)
 	if _err != nil {
-		_code = TransactionICompanionDeviceManagerRemoveBond
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStartObservingDevicePresence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return _result, _err
+		return _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
+	return nil
+}
+
+func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
+	ctx context.Context,
+	request ObservingDevicePresenceRequest,
+	packageName string,
+) error {
+	_identity := p.Remote.Identity()
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
 	}
-	return _result, nil
+	_data.WriteString16(packageName)
+	_data.WriteInt32(_identity.UserID)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStopObservingDevicePresence)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceManager, MethodICompanionDeviceManagerStopObservingDevicePresence, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 // CompanionDeviceManagerStub dispatches incoming binder transactions
@@ -1411,6 +1448,10 @@ type CompanionDeviceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CompanionDeviceManagerStub)(nil)
+
+func (s *CompanionDeviceManagerStub) Descriptor() string {
+	return DescriptorICompanionDeviceManager
+}
 
 func (s *CompanionDeviceManagerStub) OnTransaction(
 	ctx context.Context,
@@ -1606,7 +1647,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionICompanionDeviceManagerLegacyStartObservingDevicePresence:
+	case TransactionICompanionDeviceManagerRegisterDevicePresenceListenerService:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1620,7 +1661,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.LegacyStartObservingDevicePresence(ctx, _arg_deviceAddress)
+		_err = s.Impl.RegisterDevicePresenceListenerService(ctx, _arg_deviceAddress)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1628,7 +1669,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICompanionDeviceManagerLegacyStopObservingDevicePresence:
+	case TransactionICompanionDeviceManagerUnregisterDevicePresenceListenerService:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1642,69 +1683,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.LegacyStopObservingDevicePresence(ctx, _arg_deviceAddress)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionICompanionDeviceManagerStartObservingDevicePresence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_request ObservingDevicePresenceRequest
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_packageName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.StartObservingDevicePresence(ctx, _arg_request, _arg_packageName)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionICompanionDeviceManagerStopObservingDevicePresence:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_request ObservingDevicePresenceRequest
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_packageName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.StopObservingDevicePresence(ctx, _arg_request, _arg_packageName)
+		_err = s.Impl.UnregisterDevicePresenceListenerService(ctx, _arg_deviceAddress)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1888,7 +1867,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICompanionDeviceManagerNotifySelfManagedDeviceAppeared:
+	case TransactionICompanionDeviceManagerNotifyDeviceAppeared:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1896,7 +1875,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.NotifySelfManagedDeviceAppeared(ctx, _arg_associationId)
+		_err = s.Impl.NotifyDeviceAppeared(ctx, _arg_associationId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1904,7 +1883,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICompanionDeviceManagerNotifySelfManagedDeviceDisappeared:
+	case TransactionICompanionDeviceManagerNotifyDeviceDisappeared:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -1912,7 +1891,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.NotifySelfManagedDeviceDisappeared(ctx, _arg_associationId)
+		_err = s.Impl.NotifyDeviceDisappeared(ctx, _arg_associationId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2195,7 +2174,7 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICompanionDeviceManagerSetDeviceId:
+	case TransactionICompanionDeviceManagerSetAssociationTag:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -2203,19 +2182,27 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_deviceId DeviceId
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_deviceId.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+		_arg_tag, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
 		}
-		_err = s.Impl.SetDeviceId(ctx, _arg_associationId, _arg_deviceId)
+		_err = s.Impl.SetAssociationTag(ctx, _arg_associationId, _arg_tag)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICompanionDeviceManagerClearAssociationTag:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_associationId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearAssociationTag(ctx, _arg_associationId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2258,13 +2245,21 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICompanionDeviceManagerRemoveBond:
+	case TransactionICompanionDeviceManagerStartObservingDevicePresence:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_associationId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_request ObservingDevicePresenceRequest
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
@@ -2273,14 +2268,44 @@ func (s *CompanionDeviceManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.RemoveBond(ctx, _arg_associationId, _arg_packageName)
+		_err = s.Impl.StartObservingDevicePresence(ctx, _arg_request, _arg_packageName)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionICompanionDeviceManagerStopObservingDevicePresence:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ObservingDevicePresenceRequest
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := _data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopObservingDevicePresence(ctx, _arg_request, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -2299,10 +2324,8 @@ type ICompanionDeviceManagerServer interface {
 	HasNotificationAccess(ctx context.Context, component content.ComponentName) (bool, error)
 	RequestNotificationAccess(ctx context.Context, component content.ComponentName) (app.PendingIntent, error)
 	IsDeviceAssociatedForWifiConnection(ctx context.Context, packageName string, macAddress string) (bool, error)
-	LegacyStartObservingDevicePresence(ctx context.Context, deviceAddress string) error
-	LegacyStopObservingDevicePresence(ctx context.Context, deviceAddress string) error
-	StartObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
-	StopObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
+	RegisterDevicePresenceListenerService(ctx context.Context, deviceAddress string) error
+	UnregisterDevicePresenceListenerService(ctx context.Context, deviceAddress string) error
 	CanPairWithoutPrompt(ctx context.Context, packageName string, deviceMacAddress string) (bool, error)
 	CreateAssociation(ctx context.Context, packageName string, macAddress string, certificate []byte) error
 	AddOnAssociationsChangedListener(ctx context.Context, listener IOnAssociationsChangedListener) error
@@ -2312,8 +2335,8 @@ type ICompanionDeviceManagerServer interface {
 	SendMessage(ctx context.Context, messageType int32, data []byte, associationIds []int32) error
 	AddOnMessageReceivedListener(ctx context.Context, messageType int32, listener IOnMessageReceivedListener) error
 	RemoveOnMessageReceivedListener(ctx context.Context, messageType int32, listener IOnMessageReceivedListener) error
-	NotifySelfManagedDeviceAppeared(ctx context.Context, associationId int32) error
-	NotifySelfManagedDeviceDisappeared(ctx context.Context, associationId int32) error
+	NotifyDeviceAppeared(ctx context.Context, associationId int32) error
+	NotifyDeviceDisappeared(ctx context.Context, associationId int32) error
 	BuildPermissionTransferUserConsentIntent(ctx context.Context, associationId int32) (app.PendingIntent, error)
 	IsPermissionTransferUserConsented(ctx context.Context, associationId int32) (bool, error)
 	StartSystemDataTransfer(ctx context.Context, packageName string, associationId int32, callback ISystemDataTransferCallback) error
@@ -2327,10 +2350,12 @@ type ICompanionDeviceManagerServer interface {
 	DisablePermissionsSync(ctx context.Context, associationId int32) error
 	GetPermissionSyncRequest(ctx context.Context, associationId int32) (datatransfer.PermissionSyncRequest, error)
 	EnableSecureTransport(ctx context.Context, enabled bool) error
-	SetDeviceId(ctx context.Context, associationId int32, deviceId DeviceId) error
+	SetAssociationTag(ctx context.Context, associationId int32, tag string) error
+	ClearAssociationTag(ctx context.Context, associationId int32) error
 	GetBackupPayload(ctx context.Context) ([]byte, error)
 	ApplyRestoredPayload(ctx context.Context, payload []byte) error
-	RemoveBond(ctx context.Context, associationId int32, packageName string) (bool, error)
+	StartObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
+	StopObservingDevicePresence(ctx context.Context, request ObservingDevicePresenceRequest, packageName string) error
 }
 
 type companionDeviceManagerStubWrapper struct {
@@ -2398,34 +2423,18 @@ func (w *companionDeviceManagerStubWrapper) IsDeviceAssociatedForWifiConnection(
 	return w.impl.IsDeviceAssociatedForWifiConnection(ctx, packageName, macAddress)
 }
 
-func (w *companionDeviceManagerStubWrapper) LegacyStartObservingDevicePresence(
+func (w *companionDeviceManagerStubWrapper) RegisterDevicePresenceListenerService(
 	ctx context.Context,
 	deviceAddress string,
 ) error {
-	return w.impl.LegacyStartObservingDevicePresence(ctx, deviceAddress)
+	return w.impl.RegisterDevicePresenceListenerService(ctx, deviceAddress)
 }
 
-func (w *companionDeviceManagerStubWrapper) LegacyStopObservingDevicePresence(
+func (w *companionDeviceManagerStubWrapper) UnregisterDevicePresenceListenerService(
 	ctx context.Context,
 	deviceAddress string,
 ) error {
-	return w.impl.LegacyStopObservingDevicePresence(ctx, deviceAddress)
-}
-
-func (w *companionDeviceManagerStubWrapper) StartObservingDevicePresence(
-	ctx context.Context,
-	request ObservingDevicePresenceRequest,
-	packageName string,
-) error {
-	return w.impl.StartObservingDevicePresence(ctx, request, packageName)
-}
-
-func (w *companionDeviceManagerStubWrapper) StopObservingDevicePresence(
-	ctx context.Context,
-	request ObservingDevicePresenceRequest,
-	packageName string,
-) error {
-	return w.impl.StopObservingDevicePresence(ctx, request, packageName)
+	return w.impl.UnregisterDevicePresenceListenerService(ctx, deviceAddress)
 }
 
 func (w *companionDeviceManagerStubWrapper) CanPairWithoutPrompt(
@@ -2498,18 +2507,18 @@ func (w *companionDeviceManagerStubWrapper) RemoveOnMessageReceivedListener(
 	return w.impl.RemoveOnMessageReceivedListener(ctx, messageType, listener)
 }
 
-func (w *companionDeviceManagerStubWrapper) NotifySelfManagedDeviceAppeared(
+func (w *companionDeviceManagerStubWrapper) NotifyDeviceAppeared(
 	ctx context.Context,
 	associationId int32,
 ) error {
-	return w.impl.NotifySelfManagedDeviceAppeared(ctx, associationId)
+	return w.impl.NotifyDeviceAppeared(ctx, associationId)
 }
 
-func (w *companionDeviceManagerStubWrapper) NotifySelfManagedDeviceDisappeared(
+func (w *companionDeviceManagerStubWrapper) NotifyDeviceDisappeared(
 	ctx context.Context,
 	associationId int32,
 ) error {
-	return w.impl.NotifySelfManagedDeviceDisappeared(ctx, associationId)
+	return w.impl.NotifyDeviceDisappeared(ctx, associationId)
 }
 
 func (w *companionDeviceManagerStubWrapper) BuildPermissionTransferUserConsentIntent(
@@ -2609,12 +2618,19 @@ func (w *companionDeviceManagerStubWrapper) EnableSecureTransport(
 	return w.impl.EnableSecureTransport(ctx, enabled)
 }
 
-func (w *companionDeviceManagerStubWrapper) SetDeviceId(
+func (w *companionDeviceManagerStubWrapper) SetAssociationTag(
 	ctx context.Context,
 	associationId int32,
-	deviceId DeviceId,
+	tag string,
 ) error {
-	return w.impl.SetDeviceId(ctx, associationId, deviceId)
+	return w.impl.SetAssociationTag(ctx, associationId, tag)
+}
+
+func (w *companionDeviceManagerStubWrapper) ClearAssociationTag(
+	ctx context.Context,
+	associationId int32,
+) error {
+	return w.impl.ClearAssociationTag(ctx, associationId)
 }
 
 func (w *companionDeviceManagerStubWrapper) GetBackupPayload(
@@ -2630,12 +2646,20 @@ func (w *companionDeviceManagerStubWrapper) ApplyRestoredPayload(
 	return w.impl.ApplyRestoredPayload(ctx, payload)
 }
 
-func (w *companionDeviceManagerStubWrapper) RemoveBond(
+func (w *companionDeviceManagerStubWrapper) StartObservingDevicePresence(
 	ctx context.Context,
-	associationId int32,
+	request ObservingDevicePresenceRequest,
 	packageName string,
-) (bool, error) {
-	return w.impl.RemoveBond(ctx, associationId, packageName)
+) error {
+	return w.impl.StartObservingDevicePresence(ctx, request, packageName)
+}
+
+func (w *companionDeviceManagerStubWrapper) StopObservingDevicePresence(
+	ctx context.Context,
+	request ObservingDevicePresenceRequest,
+	packageName string,
+) error {
+	return w.impl.StopObservingDevicePresence(ctx, request, packageName)
 }
 
 var _ ICompanionDeviceManager = (*companionDeviceManagerStubWrapper)(nil)

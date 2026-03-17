@@ -18,11 +18,11 @@ func TestSmoke_OnDeviceIntelligenceServiceProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_OnDeviceSandboxedInferenceServiceProxy(t *testing.T) {
+func TestSmoke_OnDeviceTrustedInferenceServiceProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
-	proxy := NewOnDeviceSandboxedInferenceServiceProxy(mock)
+	proxy := NewOnDeviceTrustedInferenceServiceProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("OnDeviceSandboxedInferenceServiceProxy: %d/%d passed, %d panicked, %d failed",
+	t.Logf("OnDeviceTrustedInferenceServiceProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)

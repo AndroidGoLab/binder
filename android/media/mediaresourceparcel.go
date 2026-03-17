@@ -21,14 +21,7 @@ func (s *MediaResourceParcel) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.Type))
 	p.WriteInt32(int32(s.SubType))
-	if s.Id == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Id)))
-		for _, _item := range s.Id {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Id)
 	p.WriteInt64(s.Value)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -55,19 +48,9 @@ func (s *MediaResourceParcel) UnmarshalParcel(
 	}
 	s.SubType = MediaResourceSubType(_subTypeRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Id, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Id = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Id[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Value, _err = p.ReadInt64()

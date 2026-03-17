@@ -183,17 +183,6 @@ func TestSmoke_PhoneSubInfoProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_SatelliteStateChangeListenerProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewSatelliteStateChangeListenerProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("SatelliteStateChangeListenerProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_SetOpportunisticDataCallbackProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewSetOpportunisticDataCallbackProxy(mock)

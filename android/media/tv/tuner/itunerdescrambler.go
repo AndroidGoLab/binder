@@ -20,6 +20,14 @@ const (
 	TransactionITunerDescramblerClose          = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodITunerDescramblerSetDemuxSource = "setDemuxSource"
+	MethodITunerDescramblerSetKeyToken    = "setKeyToken"
+	MethodITunerDescramblerAddPid         = "addPid"
+	MethodITunerDescramblerRemovePid      = "removePid"
+	MethodITunerDescramblerClose          = "close"
+)
+
 type ITunerDescrambler interface {
 	AsBinder() binder.IBinder
 	SetDemuxSource(ctx context.Context, tunerDemux ITunerDemux) error
@@ -30,17 +38,17 @@ type ITunerDescrambler interface {
 }
 
 type TunerDescramblerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerDescramblerProxy(
 	remote binder.IBinder,
 ) *TunerDescramblerProxy {
-	return &TunerDescramblerProxy{remote: remote}
+	return &TunerDescramblerProxy{Remote: remote}
 }
 
 func (p *TunerDescramblerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerDescrambler = (*TunerDescramblerProxy)(nil)
@@ -51,14 +59,14 @@ func (p *TunerDescramblerProxy) SetDemuxSource(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
-	binder.WriteBinderToParcel(ctx, _data, tunerDemux.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tunerDemux.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "setDemuxSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerSetDemuxSource)
 	if _err != nil {
-		_code = TransactionITunerDescramblerSetDemuxSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDescrambler, MethodITunerDescramblerSetDemuxSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -86,12 +94,12 @@ func (p *TunerDescramblerProxy) SetKeyToken(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "setKeyToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerSetKeyToken)
 	if _err != nil {
-		_code = TransactionITunerDescramblerSetKeyToken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDescrambler, MethodITunerDescramblerSetKeyToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -115,14 +123,14 @@ func (p *TunerDescramblerProxy) AddPid(
 	if _err := pid.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "addPid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerAddPid)
 	if _err != nil {
-		_code = TransactionITunerDescramblerAddPid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDescrambler, MethodITunerDescramblerAddPid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,14 +154,14 @@ func (p *TunerDescramblerProxy) RemovePid(
 	if _err := pid.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionalSourceFilter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "removePid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerRemovePid)
 	if _err != nil {
-		_code = TransactionITunerDescramblerRemovePid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDescrambler, MethodITunerDescramblerRemovePid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,12 +180,12 @@ func (p *TunerDescramblerProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDescrambler)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDescrambler, MethodITunerDescramblerClose)
 	if _err != nil {
-		_code = TransactionITunerDescramblerClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDescrambler, MethodITunerDescramblerClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,6 +205,10 @@ type TunerDescramblerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerDescramblerStub)(nil)
+
+func (s *TunerDescramblerStub) Descriptor() string {
+	return DescriptorITunerDescrambler
+}
 
 func (s *TunerDescramblerStub) OnTransaction(
 	ctx context.Context,

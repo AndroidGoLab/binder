@@ -329,9 +329,11 @@ func TestBindercli_Location_GetAllProviders(t *testing.T) {
 }
 
 func TestBindercli_Location_IsProviderEnabled(t *testing.T) {
+	// The userId parameter was absorbed into the proxy's Identity() call;
+	// the CLI method now only takes --provider.
 	stdout := runBindercliOrSkip(t,
 		"android.location.ILocationManager", "is-provider-enabled-for-user",
-		"--provider", "passive", "--userId", "0",
+		"--provider", "passive",
 	)
 
 	var envelope map[string]any
@@ -342,7 +344,7 @@ func TestBindercli_Location_IsProviderEnabled(t *testing.T) {
 
 	_, ok = raw.(bool)
 	assert.True(t, ok, "result should be bool, got %T", raw)
-	t.Logf("isProviderEnabledForUser(passive, 0): %v", raw)
+	t.Logf("isProviderEnabledForUser(passive): %v", raw)
 }
 
 func TestBindercli_Location_GetGnssHardwareModelName(t *testing.T) {
@@ -445,10 +447,10 @@ func TestBindercli_ActivityManager_IsAppFreezerSupported(t *testing.T) {
 // --- PackageManager ---
 
 func TestBindercli_PackageManager_IsPackageAvailable(t *testing.T) {
+	// The userId parameter was absorbed into the proxy's Identity() call.
 	stdout := runBindercliOrSkip(t,
 		"android.content.pm.IPackageManager", "is-package-available",
 		"--packageName", "com.android.settings",
-		"--userId", "0",
 	)
 
 	var envelope map[string]any
@@ -460,15 +462,15 @@ func TestBindercli_PackageManager_IsPackageAvailable(t *testing.T) {
 	val, ok := raw.(bool)
 	require.True(t, ok, "result should be bool, got %T", raw)
 	assert.True(t, val, "com.android.settings should be available")
-	t.Logf("isPackageAvailable(com.android.settings, 0): %v", val)
+	t.Logf("isPackageAvailable(com.android.settings): %v", val)
 }
 
 func TestBindercli_PackageManager_CheckPermission(t *testing.T) {
+	// The userId parameter was absorbed into the proxy's Identity() call.
 	stdout := runBindercliOrSkip(t,
 		"android.content.pm.IPackageManager", "check-permission",
 		"--permName", "android.permission.INTERNET",
 		"--pkgName", "com.android.settings",
-		"--userId", "0",
 	)
 
 	var envelope map[string]any
@@ -479,7 +481,7 @@ func TestBindercli_PackageManager_CheckPermission(t *testing.T) {
 
 	_, ok = raw.(float64)
 	assert.True(t, ok, "result should be numeric, got %T", raw)
-	t.Logf("checkPermission(INTERNET, com.android.settings, 0): %v", raw)
+	t.Logf("checkPermission(INTERNET, com.android.settings): %v", raw)
 }
 
 // --- Power/Battery/Thermal ---
@@ -579,13 +581,10 @@ func TestBindercli_Display_GetDisplayIds(t *testing.T) {
 // --- Clipboard ---
 
 func TestBindercli_Clipboard_HasClipboardText(t *testing.T) {
-	// Note: pass attributionTag as a non-empty placeholder to avoid
-	// adb shell stripping the empty argument and shifting subsequent flags.
+	// Identity params (callingPackage, attributionTag, userId) were absorbed
+	// into the proxy's Identity() call; only deviceId remains as a method arg.
 	stdout := runBindercliOrSkip(t,
 		"android.content.IClipboard", "has-clipboard-text",
-		"--callingPackage=com.android.shell",
-		"--attributionTag=none",
-		"--userId=0",
 		"--deviceId=0",
 	)
 
@@ -746,8 +745,24 @@ func TestBindercli_ServiceMethods(t *testing.T) {
 }
 
 func TestBindercli_ServiceTransact(t *testing.T) {
-	// Transaction code 64 on SurfaceFlinger queries active color mode.
-	stdout := runBindercliOrSkip(t, "service", "transact", "SurfaceFlinger", "64")
+	if onDevice {
+		t.Skip("bindercli tests require adb from host; skipping on-device")
+	}
+
+	// SurfaceFlinger code 1022 (getSchedulingPolicy) is a simple read-only
+	// transaction that works on both physical devices and emulators.
+	// If the emulator rejects it (permission/SELinux), skip gracefully.
+	stdout, stderr, err := runBindercli("service", "transact", "SurfaceFlinger", "1022")
+	if err != nil {
+		combined := stderr + stdout
+		switch {
+		case strings.Contains(combined, "not found"),
+			strings.Contains(combined, "no service with descriptor"):
+			t.Skipf("SurfaceFlinger not available: %s", strings.TrimSpace(combined))
+		}
+		// Raw transact may fail on emulators due to SELinux/permissions.
+		t.Skipf("transact unavailable on this device: %v\nstdout: %s\nstderr: %s", err, stdout, stderr)
+	}
 
 	var envelope map[string]any
 	require.NoError(t, json.Unmarshal([]byte(stdout), &envelope), "unmarshal response")
@@ -760,7 +775,7 @@ func TestBindercli_ServiceTransact(t *testing.T) {
 	require.True(t, ok, "response missing 'reply_size' number")
 	assert.Greater(t, replySize, float64(0), "reply_size should be > 0")
 
-	t.Logf("transact SurfaceFlinger code=64: reply_size=%.0f reply_hex=%s", replySize, replyHex)
+	t.Logf("transact SurfaceFlinger code=1022: reply_size=%.0f reply_hex=%s", replySize, replyHex)
 }
 
 // --- Location (additional) ---

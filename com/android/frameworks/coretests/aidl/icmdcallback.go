@@ -15,23 +15,27 @@ const (
 	TransactionICmdCallbackOnLaunched = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICmdCallbackOnLaunched = "onLaunched"
+)
+
 type ICmdCallback interface {
 	AsBinder() binder.IBinder
 	OnLaunched(ctx context.Context, receiver binder.IBinder) error
 }
 
 type CmdCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCmdCallbackProxy(
 	remote binder.IBinder,
 ) *CmdCallbackProxy {
-	return &CmdCallbackProxy{remote: remote}
+	return &CmdCallbackProxy{Remote: remote}
 }
 
 func (p *CmdCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICmdCallback = (*CmdCallbackProxy)(nil)
@@ -42,14 +46,14 @@ func (p *CmdCallbackProxy) OnLaunched(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICmdCallback)
-	binder.WriteBinderToParcel(ctx, _data, receiver, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICmdCallback, "onLaunched")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICmdCallback, MethodICmdCallbackOnLaunched)
 	if _err != nil {
-		_code = TransactionICmdCallbackOnLaunched
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICmdCallback, MethodICmdCallbackOnLaunched, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type CmdCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CmdCallbackStub)(nil)
+
+func (s *CmdCallbackStub) Descriptor() string {
+	return DescriptorICmdCallback
+}
 
 func (s *CmdCallbackStub) OnTransaction(
 	ctx context.Context,

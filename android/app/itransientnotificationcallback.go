@@ -16,6 +16,11 @@ const (
 	TransactionITransientNotificationCallbackOnToastHidden = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITransientNotificationCallbackOnToastShown  = "onToastShown"
+	MethodITransientNotificationCallbackOnToastHidden = "onToastHidden"
+)
+
 type ITransientNotificationCallback interface {
 	AsBinder() binder.IBinder
 	OnToastShown(ctx context.Context) error
@@ -23,17 +28,17 @@ type ITransientNotificationCallback interface {
 }
 
 type TransientNotificationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransientNotificationCallbackProxy(
 	remote binder.IBinder,
 ) *TransientNotificationCallbackProxy {
-	return &TransientNotificationCallbackProxy{remote: remote}
+	return &TransientNotificationCallbackProxy{Remote: remote}
 }
 
 func (p *TransientNotificationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransientNotificationCallback = (*TransientNotificationCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *TransientNotificationCallbackProxy) OnToastShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransientNotificationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransientNotificationCallback, "onToastShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotificationCallback, MethodITransientNotificationCallbackOnToastShown)
 	if _err != nil {
-		_code = TransactionITransientNotificationCallbackOnToastShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransientNotificationCallback, MethodITransientNotificationCallbackOnToastShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *TransientNotificationCallbackProxy) OnToastHidden(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransientNotificationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransientNotificationCallback, "onToastHidden")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotificationCallback, MethodITransientNotificationCallbackOnToastHidden)
 	if _err != nil {
-		_code = TransactionITransientNotificationCallbackOnToastHidden
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransientNotificationCallback, MethodITransientNotificationCallbackOnToastHidden, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type TransientNotificationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransientNotificationCallbackStub)(nil)
+
+func (s *TransientNotificationCallbackStub) Descriptor() string {
+	return DescriptorITransientNotificationCallback
+}
 
 func (s *TransientNotificationCallbackStub) OnTransaction(
 	ctx context.Context,

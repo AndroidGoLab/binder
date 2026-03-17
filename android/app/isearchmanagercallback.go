@@ -16,6 +16,11 @@ const (
 	TransactionISearchManagerCallbackOnCancel  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISearchManagerCallbackOnDismiss = "onDismiss"
+	MethodISearchManagerCallbackOnCancel  = "onCancel"
+)
+
 type ISearchManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnDismiss(ctx context.Context) error
@@ -23,17 +28,17 @@ type ISearchManagerCallback interface {
 }
 
 type SearchManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSearchManagerCallbackProxy(
 	remote binder.IBinder,
 ) *SearchManagerCallbackProxy {
-	return &SearchManagerCallbackProxy{remote: remote}
+	return &SearchManagerCallbackProxy{Remote: remote}
 }
 
 func (p *SearchManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISearchManagerCallback = (*SearchManagerCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *SearchManagerCallbackProxy) OnDismiss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManagerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManagerCallback, "onDismiss")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManagerCallback, MethodISearchManagerCallbackOnDismiss)
 	if _err != nil {
-		_code = TransactionISearchManagerCallbackOnDismiss
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManagerCallback, MethodISearchManagerCallbackOnDismiss, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *SearchManagerCallbackProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManagerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchManagerCallback, "onCancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchManagerCallback, MethodISearchManagerCallbackOnCancel)
 	if _err != nil {
-		_code = TransactionISearchManagerCallbackOnCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchManagerCallback, MethodISearchManagerCallbackOnCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type SearchManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SearchManagerCallbackStub)(nil)
+
+func (s *SearchManagerCallbackStub) Descriptor() string {
+	return DescriptorISearchManagerCallback
+}
 
 func (s *SearchManagerCallbackStub) OnTransaction(
 	ctx context.Context,

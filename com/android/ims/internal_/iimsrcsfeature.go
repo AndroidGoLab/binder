@@ -16,17 +16,17 @@ type IImsRcsFeature interface {
 }
 
 type ImsRcsFeatureProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsRcsFeatureProxy(
 	remote binder.IBinder,
 ) *ImsRcsFeatureProxy {
-	return &ImsRcsFeatureProxy{remote: remote}
+	return &ImsRcsFeatureProxy{Remote: remote}
 }
 
 func (p *ImsRcsFeatureProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsRcsFeature = (*ImsRcsFeatureProxy)(nil)
@@ -38,6 +38,10 @@ type ImsRcsFeatureStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsRcsFeatureStub)(nil)
+
+func (s *ImsRcsFeatureStub) Descriptor() string {
+	return DescriptorIImsRcsFeature
+}
 
 func (s *ImsRcsFeatureStub) OnTransaction(
 	ctx context.Context,

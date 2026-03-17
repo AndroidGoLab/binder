@@ -20,6 +20,15 @@ const (
 	TransactionIMediaRouter2RequestCreateSessionByManager = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIMediaRouter2NotifyRouterRegistered        = "notifyRouterRegistered"
+	MethodIMediaRouter2NotifyRoutesUpdated           = "notifyRoutesUpdated"
+	MethodIMediaRouter2NotifySessionCreated          = "notifySessionCreated"
+	MethodIMediaRouter2NotifySessionInfoChanged      = "notifySessionInfoChanged"
+	MethodIMediaRouter2NotifySessionReleased         = "notifySessionReleased"
+	MethodIMediaRouter2RequestCreateSessionByManager = "requestCreateSessionByManager"
+)
+
 type IMediaRouter2 interface {
 	AsBinder() binder.IBinder
 	NotifyRouterRegistered(ctx context.Context, currentRoutes []MediaRoute2Info, currentSystemSessionInfo RoutingSessionInfo) error
@@ -27,21 +36,21 @@ type IMediaRouter2 interface {
 	NotifySessionCreated(ctx context.Context, requestId int32, sessionInfo *RoutingSessionInfo) error
 	NotifySessionInfoChanged(ctx context.Context, sessionInfo RoutingSessionInfo) error
 	NotifySessionReleased(ctx context.Context, sessionInfo RoutingSessionInfo) error
-	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info) error
+	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
 }
 
 type MediaRouter2Proxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaRouter2Proxy(
 	remote binder.IBinder,
 ) *MediaRouter2Proxy {
-	return &MediaRouter2Proxy{remote: remote}
+	return &MediaRouter2Proxy{Remote: remote}
 }
 
 func (p *MediaRouter2Proxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaRouter2 = (*MediaRouter2Proxy)(nil)
@@ -58,6 +67,7 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 	} else {
 		_data.WriteInt32(int32(len(currentRoutes)))
 		for _, _item := range currentRoutes {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -68,12 +78,12 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifyRouterRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRouterRegistered)
 	if _err != nil {
-		_code = TransactionIMediaRouter2NotifyRouterRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRouterRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,18 +98,19 @@ func (p *MediaRouter2Proxy) NotifyRoutesUpdated(
 	} else {
 		_data.WriteInt32(int32(len(routes)))
 		for _, _item := range routes {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifyRoutesUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRoutesUpdated)
 	if _err != nil {
-		_code = TransactionIMediaRouter2NotifyRoutesUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2, MethodIMediaRouter2NotifyRoutesUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +130,12 @@ func (p *MediaRouter2Proxy) NotifySessionCreated(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionCreated)
 	if _err != nil {
-		_code = TransactionIMediaRouter2NotifySessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,12 +150,12 @@ func (p *MediaRouter2Proxy) NotifySessionInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionInfoChanged)
 	if _err != nil {
-		_code = TransactionIMediaRouter2NotifySessionInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,12 +170,12 @@ func (p *MediaRouter2Proxy) NotifySessionReleased(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionReleased)
 	if _err != nil {
-		_code = TransactionIMediaRouter2NotifySessionReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2, MethodIMediaRouter2NotifySessionReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -173,6 +184,8 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 	uniqueRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
+	transferInitiatorUserHandle interface{},
+	transferInitiatorPackageName string,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
@@ -185,13 +198,14 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteString16(transferInitiatorPackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "requestCreateSessionByManager")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2, MethodIMediaRouter2RequestCreateSessionByManager)
 	if _err != nil {
-		_code = TransactionIMediaRouter2RequestCreateSessionByManager
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2, MethodIMediaRouter2RequestCreateSessionByManager, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -202,6 +216,10 @@ type MediaRouter2Stub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaRouter2Stub)(nil)
+
+func (s *MediaRouter2Stub) Descriptor() string {
+	return DescriptorIMediaRouter2
+}
 
 func (s *MediaRouter2Stub) OnTransaction(
 	ctx context.Context,
@@ -334,7 +352,12 @@ func (s *MediaRouter2Stub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.RequestCreateSessionByManager(ctx, _arg_uniqueRequestId, _arg_oldSession, _arg_route)
+		var _arg_transferInitiatorUserHandle interface{}
+		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestCreateSessionByManager(ctx, _arg_uniqueRequestId, _arg_oldSession, _arg_route, _arg_transferInitiatorUserHandle, _arg_transferInitiatorPackageName)
 		_ = _err
 		return nil, nil
 	default:
@@ -351,7 +374,7 @@ type IMediaRouter2Server interface {
 	NotifySessionCreated(ctx context.Context, requestId int32, sessionInfo *RoutingSessionInfo) error
 	NotifySessionInfoChanged(ctx context.Context, sessionInfo RoutingSessionInfo) error
 	NotifySessionReleased(ctx context.Context, sessionInfo RoutingSessionInfo) error
-	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info) error
+	RequestCreateSessionByManager(ctx context.Context, uniqueRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
 }
 
 type mediaRouter2StubWrapper struct {
@@ -405,8 +428,10 @@ func (w *mediaRouter2StubWrapper) RequestCreateSessionByManager(
 	uniqueRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
+	transferInitiatorUserHandle interface{},
+	transferInitiatorPackageName string,
 ) error {
-	return w.impl.RequestCreateSessionByManager(ctx, uniqueRequestId, oldSession, route)
+	return w.impl.RequestCreateSessionByManager(ctx, uniqueRequestId, oldSession, route, transferInitiatorUserHandle, transferInitiatorPackageName)
 }
 
 var _ IMediaRouter2 = (*mediaRouter2StubWrapper)(nil)

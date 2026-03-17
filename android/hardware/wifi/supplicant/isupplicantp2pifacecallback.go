@@ -12,34 +12,59 @@ import (
 const DescriptorISupplicantP2pIfaceCallback = "android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback"
 
 const (
-	TransactionISupplicantP2pIfaceCallbackOnDeviceFound                            = binder.FirstCallTransaction + 0
-	TransactionISupplicantP2pIfaceCallbackOnDeviceLost                             = binder.FirstCallTransaction + 1
-	TransactionISupplicantP2pIfaceCallbackOnFindStopped                            = binder.FirstCallTransaction + 2
-	TransactionISupplicantP2pIfaceCallbackOnGoNegotiationCompleted                 = binder.FirstCallTransaction + 3
-	TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequest                   = binder.FirstCallTransaction + 4
-	TransactionISupplicantP2pIfaceCallbackOnGroupFormationFailure                  = binder.FirstCallTransaction + 5
-	TransactionISupplicantP2pIfaceCallbackOnGroupFormationSuccess                  = binder.FirstCallTransaction + 6
-	TransactionISupplicantP2pIfaceCallbackOnGroupRemoved                           = binder.FirstCallTransaction + 7
-	TransactionISupplicantP2pIfaceCallbackOnGroupStarted                           = binder.FirstCallTransaction + 8
-	TransactionISupplicantP2pIfaceCallbackOnInvitationReceived                     = binder.FirstCallTransaction + 9
-	TransactionISupplicantP2pIfaceCallbackOnInvitationResult                       = binder.FirstCallTransaction + 10
-	TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted            = binder.FirstCallTransaction + 11
-	TransactionISupplicantP2pIfaceCallbackOnR2DeviceFound                          = binder.FirstCallTransaction + 12
-	TransactionISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse               = binder.FirstCallTransaction + 13
-	TransactionISupplicantP2pIfaceCallbackOnStaAuthorized                          = binder.FirstCallTransaction + 14
-	TransactionISupplicantP2pIfaceCallbackOnStaDeauthorized                        = binder.FirstCallTransaction + 15
-	TransactionISupplicantP2pIfaceCallbackOnGroupFrequencyChanged                  = binder.FirstCallTransaction + 16
-	TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements          = binder.FirstCallTransaction + 17
-	TransactionISupplicantP2pIfaceCallbackOnGroupStartedWithParams                 = binder.FirstCallTransaction + 18
-	TransactionISupplicantP2pIfaceCallbackOnPeerClientJoined                       = binder.FirstCallTransaction + 19
-	TransactionISupplicantP2pIfaceCallbackOnPeerClientDisconnected                 = binder.FirstCallTransaction + 20
-	TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent       = binder.FirstCallTransaction + 21
-	TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithParams                  = binder.FirstCallTransaction + 22
-	TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams         = binder.FirstCallTransaction + 23
-	TransactionISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams           = binder.FirstCallTransaction + 24
-	TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryResult         = binder.FirstCallTransaction + 25
-	TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryTerminated     = binder.FirstCallTransaction + 26
-	TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceAdvertisementTerminated = binder.FirstCallTransaction + 27
+	TransactionISupplicantP2pIfaceCallbackOnDeviceFound                      = binder.FirstCallTransaction + 0
+	TransactionISupplicantP2pIfaceCallbackOnDeviceLost                       = binder.FirstCallTransaction + 1
+	TransactionISupplicantP2pIfaceCallbackOnFindStopped                      = binder.FirstCallTransaction + 2
+	TransactionISupplicantP2pIfaceCallbackOnGoNegotiationCompleted           = binder.FirstCallTransaction + 3
+	TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequest             = binder.FirstCallTransaction + 4
+	TransactionISupplicantP2pIfaceCallbackOnGroupFormationFailure            = binder.FirstCallTransaction + 5
+	TransactionISupplicantP2pIfaceCallbackOnGroupFormationSuccess            = binder.FirstCallTransaction + 6
+	TransactionISupplicantP2pIfaceCallbackOnGroupRemoved                     = binder.FirstCallTransaction + 7
+	TransactionISupplicantP2pIfaceCallbackOnGroupStarted                     = binder.FirstCallTransaction + 8
+	TransactionISupplicantP2pIfaceCallbackOnInvitationReceived               = binder.FirstCallTransaction + 9
+	TransactionISupplicantP2pIfaceCallbackOnInvitationResult                 = binder.FirstCallTransaction + 10
+	TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted      = binder.FirstCallTransaction + 11
+	TransactionISupplicantP2pIfaceCallbackOnR2DeviceFound                    = binder.FirstCallTransaction + 12
+	TransactionISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse         = binder.FirstCallTransaction + 13
+	TransactionISupplicantP2pIfaceCallbackOnStaAuthorized                    = binder.FirstCallTransaction + 14
+	TransactionISupplicantP2pIfaceCallbackOnStaDeauthorized                  = binder.FirstCallTransaction + 15
+	TransactionISupplicantP2pIfaceCallbackOnGroupFrequencyChanged            = binder.FirstCallTransaction + 16
+	TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements    = binder.FirstCallTransaction + 17
+	TransactionISupplicantP2pIfaceCallbackOnGroupStartedWithParams           = binder.FirstCallTransaction + 18
+	TransactionISupplicantP2pIfaceCallbackOnPeerClientJoined                 = binder.FirstCallTransaction + 19
+	TransactionISupplicantP2pIfaceCallbackOnPeerClientDisconnected           = binder.FirstCallTransaction + 20
+	TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent = binder.FirstCallTransaction + 21
+	TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithParams            = binder.FirstCallTransaction + 22
+	TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams   = binder.FirstCallTransaction + 23
+	TransactionISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams     = binder.FirstCallTransaction + 24
+)
+
+const (
+	MethodISupplicantP2pIfaceCallbackOnDeviceFound                      = "onDeviceFound"
+	MethodISupplicantP2pIfaceCallbackOnDeviceLost                       = "onDeviceLost"
+	MethodISupplicantP2pIfaceCallbackOnFindStopped                      = "onFindStopped"
+	MethodISupplicantP2pIfaceCallbackOnGoNegotiationCompleted           = "onGoNegotiationCompleted"
+	MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequest             = "onGoNegotiationRequest"
+	MethodISupplicantP2pIfaceCallbackOnGroupFormationFailure            = "onGroupFormationFailure"
+	MethodISupplicantP2pIfaceCallbackOnGroupFormationSuccess            = "onGroupFormationSuccess"
+	MethodISupplicantP2pIfaceCallbackOnGroupRemoved                     = "onGroupRemoved"
+	MethodISupplicantP2pIfaceCallbackOnGroupStarted                     = "onGroupStarted"
+	MethodISupplicantP2pIfaceCallbackOnInvitationReceived               = "onInvitationReceived"
+	MethodISupplicantP2pIfaceCallbackOnInvitationResult                 = "onInvitationResult"
+	MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted      = "onProvisionDiscoveryCompleted"
+	MethodISupplicantP2pIfaceCallbackOnR2DeviceFound                    = "onR2DeviceFound"
+	MethodISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse         = "onServiceDiscoveryResponse"
+	MethodISupplicantP2pIfaceCallbackOnStaAuthorized                    = "onStaAuthorized"
+	MethodISupplicantP2pIfaceCallbackOnStaDeauthorized                  = "onStaDeauthorized"
+	MethodISupplicantP2pIfaceCallbackOnGroupFrequencyChanged            = "onGroupFrequencyChanged"
+	MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements    = "onDeviceFoundWithVendorElements"
+	MethodISupplicantP2pIfaceCallbackOnGroupStartedWithParams           = "onGroupStartedWithParams"
+	MethodISupplicantP2pIfaceCallbackOnPeerClientJoined                 = "onPeerClientJoined"
+	MethodISupplicantP2pIfaceCallbackOnPeerClientDisconnected           = "onPeerClientDisconnected"
+	MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent = "onProvisionDiscoveryCompletedEvent"
+	MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithParams            = "onDeviceFoundWithParams"
+	MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams   = "onGoNegotiationRequestWithParams"
+	MethodISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams     = "onInvitationReceivedWithParams"
 )
 
 type ISupplicantP2pIfaceCallback interface {
@@ -69,23 +94,20 @@ type ISupplicantP2pIfaceCallback interface {
 	OnDeviceFoundWithParams(ctx context.Context, deviceFoundEventParams P2pDeviceFoundEventParams) error
 	OnGoNegotiationRequestWithParams(ctx context.Context, params P2pGoNegotiationReqEventParams) error
 	OnInvitationReceivedWithParams(ctx context.Context, params P2pInvitationEventParams) error
-	OnUsdBasedServiceDiscoveryResult(ctx context.Context, params P2pUsdBasedServiceDiscoveryResultParams) error
-	OnUsdBasedServiceDiscoveryTerminated(ctx context.Context, sessionId int32, reasonCode UsdTerminateReasonCode) error
-	OnUsdBasedServiceAdvertisementTerminated(ctx context.Context, sessionId int32, reasonCode UsdTerminateReasonCode) error
 }
 
 type SupplicantP2pIfaceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantP2pIfaceCallbackProxy(
 	remote binder.IBinder,
 ) *SupplicantP2pIfaceCallbackProxy {
-	return &SupplicantP2pIfaceCallbackProxy{remote: remote}
+	return &SupplicantP2pIfaceCallbackProxy{Remote: remote}
 }
 
 func (p *SupplicantP2pIfaceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicantP2pIfaceCallback = (*SupplicantP2pIfaceCallbackProxy)(nil)
@@ -140,12 +162,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFound(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onDeviceFound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFound)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnDeviceFound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFound, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -164,12 +186,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceLost(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onDeviceLost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceLost)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnDeviceLost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceLost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,12 +201,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnFindStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onFindStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnFindStopped)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnFindStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnFindStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,12 +218,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationCompleted(
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGoNegotiationCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationCompleted)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGoNegotiationCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -222,12 +244,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationRequest(
 	}
 	_data.WriteInt32(int32(passwordId))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGoNegotiationRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequest)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -239,12 +261,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupFormationFailure(
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
 	_data.WriteString16(failureReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGroupFormationFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFormationFailure)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGroupFormationFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFormationFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -254,12 +276,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupFormationSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGroupFormationSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFormationSuccess)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGroupFormationSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFormationSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -273,12 +295,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupRemoved(
 	_data.WriteString16(groupIfname)
 	_data.WriteBool(isGroupOwner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGroupRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupRemoved)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGroupRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -325,12 +347,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupStarted(
 	}
 	_data.WriteBool(isPersistent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGroupStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStarted)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGroupStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -371,12 +393,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationReceived(
 	_data.WriteInt32(persistentNetworkId)
 	_data.WriteInt32(operatingFrequency)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onInvitationReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceived)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnInvitationReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -397,12 +419,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationResult(
 	}
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onInvitationResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationResult)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnInvitationResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -429,12 +451,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnProvisionDiscoveryCompleted(
 	_data.WriteInt32(int32(configMethods))
 	_data.WriteString16(generatedPin)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onProvisionDiscoveryCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -497,12 +519,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnR2DeviceFound(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onR2DeviceFound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnR2DeviceFound)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnR2DeviceFound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnR2DeviceFound, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -532,12 +554,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnServiceDiscoveryResponse(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onServiceDiscoveryResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -565,12 +587,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnStaAuthorized(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onStaAuthorized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaAuthorized)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnStaAuthorized
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaAuthorized, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -598,12 +620,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnStaDeauthorized(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onStaDeauthorized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaDeauthorized)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnStaDeauthorized
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnStaDeauthorized, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -617,12 +639,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupFrequencyChanged(
 	_data.WriteString16(groupIfname)
 	_data.WriteInt32(frequency)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGroupFrequencyChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFrequencyChanged)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGroupFrequencyChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupFrequencyChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -694,12 +716,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFoundWithVendorElements(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onDeviceFoundWithVendorElements")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -714,12 +736,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupStartedWithParams(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGroupStartedWithParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStartedWithParams)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGroupStartedWithParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGroupStartedWithParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -734,12 +756,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnPeerClientJoined(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onPeerClientJoined")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientJoined)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnPeerClientJoined
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientJoined, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -754,12 +776,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnPeerClientDisconnected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onPeerClientDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientDisconnected)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnPeerClientDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnPeerClientDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -774,12 +796,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnProvisionDiscoveryCompletedEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onProvisionDiscoveryCompletedEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -794,12 +816,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFoundWithParams(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onDeviceFoundWithParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithParams)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnDeviceFoundWithParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -814,12 +836,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationRequestWithParams(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onGoNegotiationRequestWithParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -834,70 +856,12 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationReceivedWithParams(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onInvitationReceivedWithParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams)
 	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantP2pIfaceCallback, MethodISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantP2pIfaceCallbackProxy) OnUsdBasedServiceDiscoveryResult(
-	ctx context.Context,
-	params P2pUsdBasedServiceDiscoveryResultParams,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onUsdBasedServiceDiscoveryResult")
-	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryResult
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantP2pIfaceCallbackProxy) OnUsdBasedServiceDiscoveryTerminated(
-	ctx context.Context,
-	sessionId int32,
-	reasonCode UsdTerminateReasonCode,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(int32(reasonCode))
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onUsdBasedServiceDiscoveryTerminated")
-	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryTerminated
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantP2pIfaceCallbackProxy) OnUsdBasedServiceAdvertisementTerminated(
-	ctx context.Context,
-	sessionId int32,
-	reasonCode UsdTerminateReasonCode,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(int32(reasonCode))
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pIfaceCallback, "onUsdBasedServiceAdvertisementTerminated")
-	if _err != nil {
-		_code = TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceAdvertisementTerminated
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -908,6 +872,10 @@ type SupplicantP2pIfaceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantP2pIfaceCallbackStub)(nil)
+
+func (s *SupplicantP2pIfaceCallbackStub) Descriptor() string {
+	return DescriptorISupplicantP2pIfaceCallback
+}
 
 func (s *SupplicantP2pIfaceCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -1407,57 +1375,6 @@ func (s *SupplicantP2pIfaceCallbackStub) OnTransaction(
 		_err := s.Impl.OnInvitationReceivedWithParams(ctx, _arg_params)
 		_ = _err
 		return nil, nil
-	case TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryResult:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_params P2pUsdBasedServiceDiscoveryResultParams
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnUsdBasedServiceDiscoveryResult(ctx, _arg_params)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_raw_reasonCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reasonCode := UsdTerminateReasonCode(_raw_reasonCode)
-		_err = s.Impl.OnUsdBasedServiceDiscoveryTerminated(ctx, _arg_sessionId, _arg_reasonCode)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceAdvertisementTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_raw_reasonCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reasonCode := UsdTerminateReasonCode(_raw_reasonCode)
-		_err = s.Impl.OnUsdBasedServiceAdvertisementTerminated(ctx, _arg_sessionId, _arg_reasonCode)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1492,9 +1409,6 @@ type ISupplicantP2pIfaceCallbackServer interface {
 	OnDeviceFoundWithParams(ctx context.Context, deviceFoundEventParams P2pDeviceFoundEventParams) error
 	OnGoNegotiationRequestWithParams(ctx context.Context, params P2pGoNegotiationReqEventParams) error
 	OnInvitationReceivedWithParams(ctx context.Context, params P2pInvitationEventParams) error
-	OnUsdBasedServiceDiscoveryResult(ctx context.Context, params P2pUsdBasedServiceDiscoveryResultParams) error
-	OnUsdBasedServiceDiscoveryTerminated(ctx context.Context, sessionId int32, reasonCode UsdTerminateReasonCode) error
-	OnUsdBasedServiceAdvertisementTerminated(ctx context.Context, sessionId int32, reasonCode UsdTerminateReasonCode) error
 }
 
 type supplicantP2pIfaceCallbackStubWrapper struct {
@@ -1724,29 +1638,6 @@ func (w *supplicantP2pIfaceCallbackStubWrapper) OnInvitationReceivedWithParams(
 	params P2pInvitationEventParams,
 ) error {
 	return w.impl.OnInvitationReceivedWithParams(ctx, params)
-}
-
-func (w *supplicantP2pIfaceCallbackStubWrapper) OnUsdBasedServiceDiscoveryResult(
-	ctx context.Context,
-	params P2pUsdBasedServiceDiscoveryResultParams,
-) error {
-	return w.impl.OnUsdBasedServiceDiscoveryResult(ctx, params)
-}
-
-func (w *supplicantP2pIfaceCallbackStubWrapper) OnUsdBasedServiceDiscoveryTerminated(
-	ctx context.Context,
-	sessionId int32,
-	reasonCode UsdTerminateReasonCode,
-) error {
-	return w.impl.OnUsdBasedServiceDiscoveryTerminated(ctx, sessionId, reasonCode)
-}
-
-func (w *supplicantP2pIfaceCallbackStubWrapper) OnUsdBasedServiceAdvertisementTerminated(
-	ctx context.Context,
-	sessionId int32,
-	reasonCode UsdTerminateReasonCode,
-) error {
-	return w.impl.OnUsdBasedServiceAdvertisementTerminated(ctx, sessionId, reasonCode)
 }
 
 var _ ISupplicantP2pIfaceCallback = (*supplicantP2pIfaceCallbackStubWrapper)(nil)

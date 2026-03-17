@@ -15,23 +15,27 @@ const (
 	TransactionIGnssAssistanceCallbackInjectRequestCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssAssistanceCallbackInjectRequestCb = "injectRequestCb"
+)
+
 type IGnssAssistanceCallback interface {
 	AsBinder() binder.IBinder
 	InjectRequestCb(ctx context.Context) error
 }
 
 type GnssAssistanceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssAssistanceCallbackProxy(
 	remote binder.IBinder,
 ) *GnssAssistanceCallbackProxy {
-	return &GnssAssistanceCallbackProxy{remote: remote}
+	return &GnssAssistanceCallbackProxy{Remote: remote}
 }
 
 func (p *GnssAssistanceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssAssistanceCallback = (*GnssAssistanceCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *GnssAssistanceCallbackProxy) InjectRequestCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssAssistanceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAssistanceCallback, "injectRequestCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAssistanceCallback, MethodIGnssAssistanceCallbackInjectRequestCb)
 	if _err != nil {
-		_code = TransactionIGnssAssistanceCallbackInjectRequestCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAssistanceCallback, MethodIGnssAssistanceCallbackInjectRequestCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type GnssAssistanceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssAssistanceCallbackStub)(nil)
+
+func (s *GnssAssistanceCallbackStub) Descriptor() string {
+	return DescriptorIGnssAssistanceCallback
+}
 
 func (s *GnssAssistanceCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -16,17 +16,17 @@ type IMediaExtractor interface {
 }
 
 type MediaExtractorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaExtractorProxy(
 	remote binder.IBinder,
 ) *MediaExtractorProxy {
-	return &MediaExtractorProxy{remote: remote}
+	return &MediaExtractorProxy{Remote: remote}
 }
 
 func (p *MediaExtractorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaExtractor = (*MediaExtractorProxy)(nil)
@@ -38,6 +38,10 @@ type MediaExtractorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaExtractorStub)(nil)
+
+func (s *MediaExtractorStub) Descriptor() string {
+	return DescriptorIMediaExtractor
+}
 
 func (s *MediaExtractorStub) OnTransaction(
 	ctx context.Context,

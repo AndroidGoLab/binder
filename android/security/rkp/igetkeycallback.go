@@ -18,6 +18,12 @@ const (
 	TransactionIGetKeyCallbackOnError   = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGetKeyCallbackOnSuccess = "onSuccess"
+	MethodIGetKeyCallbackOnCancel  = "onCancel"
+	MethodIGetKeyCallbackOnError   = "onError"
+)
+
 type IGetKeyCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, key RemotelyProvisionedKey) error
@@ -26,17 +32,17 @@ type IGetKeyCallback interface {
 }
 
 type GetKeyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetKeyCallbackProxy(
 	remote binder.IBinder,
 ) *GetKeyCallbackProxy {
-	return &GetKeyCallbackProxy{remote: remote}
+	return &GetKeyCallbackProxy{Remote: remote}
 }
 
 func (p *GetKeyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetKeyCallback = (*GetKeyCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *GetKeyCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetKeyCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIGetKeyCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +73,12 @@ func (p *GetKeyCallbackProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetKeyCallback, "onCancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnCancel)
 	if _err != nil {
-		_code = TransactionIGetKeyCallbackOnCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +92,12 @@ func (p *GetKeyCallbackProxy) OnError(
 	_data.WriteInt32(int32(error_))
 	_data.WriteString16(description)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetKeyCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnError)
 	if _err != nil {
-		_code = TransactionIGetKeyCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetKeyCallback, MethodIGetKeyCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +108,10 @@ type GetKeyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetKeyCallbackStub)(nil)
+
+func (s *GetKeyCallbackStub) Descriptor() string {
+	return DescriptorIGetKeyCallback
+}
 
 func (s *GetKeyCallbackStub) OnTransaction(
 	ctx context.Context,

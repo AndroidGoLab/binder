@@ -15,23 +15,27 @@ const (
 	TransactionIPackageDataObserverOnRemoveCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPackageDataObserverOnRemoveCompleted = "onRemoveCompleted"
+)
+
 type IPackageDataObserver interface {
 	AsBinder() binder.IBinder
 	OnRemoveCompleted(ctx context.Context, packageName string, succeeded bool) error
 }
 
 type PackageDataObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageDataObserverProxy(
 	remote binder.IBinder,
 ) *PackageDataObserverProxy {
-	return &PackageDataObserverProxy{remote: remote}
+	return &PackageDataObserverProxy{Remote: remote}
 }
 
 func (p *PackageDataObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageDataObserver = (*PackageDataObserverProxy)(nil)
@@ -46,12 +50,12 @@ func (p *PackageDataObserverProxy) OnRemoveCompleted(
 	_data.WriteString16(packageName)
 	_data.WriteBool(succeeded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageDataObserver, "onRemoveCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageDataObserver, MethodIPackageDataObserverOnRemoveCompleted)
 	if _err != nil {
-		_code = TransactionIPackageDataObserverOnRemoveCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageDataObserver, MethodIPackageDataObserverOnRemoveCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type PackageDataObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageDataObserverStub)(nil)
+
+func (s *PackageDataObserverStub) Descriptor() string {
+	return DescriptorIPackageDataObserver
+}
 
 func (s *PackageDataObserverStub) OnTransaction(
 	ctx context.Context,

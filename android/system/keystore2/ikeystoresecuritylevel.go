@@ -21,6 +21,15 @@ const (
 	TransactionIKeystoreSecurityLevelDeleteKey                    = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIKeystoreSecurityLevelCreateOperation              = "createOperation"
+	MethodIKeystoreSecurityLevelGenerateKey                  = "generateKey"
+	MethodIKeystoreSecurityLevelImportKey                    = "importKey"
+	MethodIKeystoreSecurityLevelImportWrappedKey             = "importWrappedKey"
+	MethodIKeystoreSecurityLevelConvertStorageKeyToEphemeral = "convertStorageKeyToEphemeral"
+	MethodIKeystoreSecurityLevelDeleteKey                    = "deleteKey"
+)
+
 type IKeystoreSecurityLevel interface {
 	AsBinder() binder.IBinder
 	CreateOperation(ctx context.Context, key KeyDescriptor, operationParameters []keymint.KeyParameter, forced bool) (CreateOperationResponse, error)
@@ -36,17 +45,17 @@ const (
 )
 
 type KeystoreSecurityLevelProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeystoreSecurityLevelProxy(
 	remote binder.IBinder,
 ) *KeystoreSecurityLevelProxy {
-	return &KeystoreSecurityLevelProxy{remote: remote}
+	return &KeystoreSecurityLevelProxy{Remote: remote}
 }
 
 func (p *KeystoreSecurityLevelProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeystoreSecurityLevel = (*KeystoreSecurityLevelProxy)(nil)
@@ -69,6 +78,7 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 	} else {
 		_data.WriteInt32(int32(len(operationParameters)))
 		for _, _item := range operationParameters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -76,12 +86,12 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 	}
 	_data.WriteBool(forced)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "createOperation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelCreateOperation)
 	if _err != nil {
-		_code = TransactionIKeystoreSecurityLevelCreateOperation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelCreateOperation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,6 +140,7 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 	} else {
 		_data.WriteInt32(int32(len(params)))
 		for _, _item := range params {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -145,12 +156,12 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "generateKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelGenerateKey)
 	if _err != nil {
-		_code = TransactionIKeystoreSecurityLevelGenerateKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelGenerateKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -199,6 +210,7 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 	} else {
 		_data.WriteInt32(int32(len(params)))
 		for _, _item := range params {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -214,12 +226,12 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "importKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportKey)
 	if _err != nil {
-		_code = TransactionIKeystoreSecurityLevelImportKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -273,6 +285,7 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 	} else {
 		_data.WriteInt32(int32(len(params)))
 		for _, _item := range params {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -283,18 +296,19 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 	} else {
 		_data.WriteInt32(int32(len(authenticators)))
 		for _, _item := range authenticators {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "importWrappedKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportWrappedKey)
 	if _err != nil {
-		_code = TransactionIKeystoreSecurityLevelImportWrappedKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelImportWrappedKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -328,12 +342,12 @@ func (p *KeystoreSecurityLevelProxy) ConvertStorageKeyToEphemeral(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "convertStorageKeyToEphemeral")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelConvertStorageKeyToEphemeral)
 	if _err != nil {
-		_code = TransactionIKeystoreSecurityLevelConvertStorageKeyToEphemeral
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelConvertStorageKeyToEphemeral, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -366,12 +380,12 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "deleteKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelDeleteKey)
 	if _err != nil {
-		_code = TransactionIKeystoreSecurityLevelDeleteKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreSecurityLevel, MethodIKeystoreSecurityLevelDeleteKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -391,6 +405,10 @@ type KeystoreSecurityLevelStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeystoreSecurityLevelStub)(nil)
+
+func (s *KeystoreSecurityLevelStub) Descriptor() string {
+	return DescriptorIKeystoreSecurityLevel
+}
 
 func (s *KeystoreSecurityLevelStub) OnTransaction(
 	ctx context.Context,

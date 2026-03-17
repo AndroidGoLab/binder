@@ -23,6 +23,18 @@ const (
 	TransactionIDomainVerificationManagerGetUriRelativeFilterGroups               = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIDomainVerificationManagerQueryValidVerificationPackageNames       = "queryValidVerificationPackageNames"
+	MethodIDomainVerificationManagerGetDomainVerificationInfo                = "getDomainVerificationInfo"
+	MethodIDomainVerificationManagerGetDomainVerificationUserState           = "getDomainVerificationUserState"
+	MethodIDomainVerificationManagerGetOwnersForDomain                       = "getOwnersForDomain"
+	MethodIDomainVerificationManagerSetDomainVerificationStatus              = "setDomainVerificationStatus"
+	MethodIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed = "setDomainVerificationLinkHandlingAllowed"
+	MethodIDomainVerificationManagerSetDomainVerificationUserSelection       = "setDomainVerificationUserSelection"
+	MethodIDomainVerificationManagerSetUriRelativeFilterGroups               = "setUriRelativeFilterGroups"
+	MethodIDomainVerificationManagerGetUriRelativeFilterGroups               = "getUriRelativeFilterGroups"
+)
+
 type IDomainVerificationManager interface {
 	AsBinder() binder.IBinder
 	QueryValidVerificationPackageNames(ctx context.Context) ([]string, error)
@@ -37,17 +49,17 @@ type IDomainVerificationManager interface {
 }
 
 type DomainVerificationManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDomainVerificationManagerProxy(
 	remote binder.IBinder,
 ) *DomainVerificationManagerProxy {
-	return &DomainVerificationManagerProxy{remote: remote}
+	return &DomainVerificationManagerProxy{Remote: remote}
 }
 
 func (p *DomainVerificationManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDomainVerificationManager = (*DomainVerificationManagerProxy)(nil)
@@ -59,12 +71,12 @@ func (p *DomainVerificationManagerProxy) QueryValidVerificationPackageNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "queryValidVerificationPackageNames")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerQueryValidVerificationPackageNames)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerQueryValidVerificationPackageNames
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerQueryValidVerificationPackageNames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,12 +112,12 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationInfo(
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getDomainVerificationInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationInfo)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerGetDomainVerificationInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,18 +144,18 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationUserState(
 	packageName string,
 ) (DomainVerificationUserState, error) {
 	var _result DomainVerificationUserState
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getDomainVerificationUserState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationUserState)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerGetDomainVerificationUserState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetDomainVerificationUserState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,18 +182,18 @@ func (p *DomainVerificationManagerProxy) GetOwnersForDomain(
 	domain string,
 ) ([]DomainOwner, error) {
 	var _result []DomainOwner
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domain)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getOwnersForDomain")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetOwnersForDomain)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerGetOwnersForDomain
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetOwnersForDomain, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -199,6 +211,9 @@ func (p *DomainVerificationManagerProxy) GetOwnersForDomain(
 	if _count >= 0 {
 		_result = make([]DomainOwner, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -223,12 +238,12 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationStatus(
 	}
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setDomainVerificationStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationStatus)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerSetDomainVerificationStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,19 +265,19 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationLinkHandlingAllowe
 	packageName string,
 	allowed bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(allowed)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setDomainVerificationLinkHandlingAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -282,7 +297,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 	enabled bool,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domainSetId)
@@ -293,12 +308,12 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 	_data.WriteBool(enabled)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setDomainVerificationUserSelection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationUserSelection)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerSetDomainVerificationUserSelection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetDomainVerificationUserSelection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -324,12 +339,12 @@ func (p *DomainVerificationManagerProxy) SetUriRelativeFilterGroups(
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setUriRelativeFilterGroups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetUriRelativeFilterGroups)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerSetUriRelativeFilterGroups
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerSetUriRelativeFilterGroups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -360,12 +375,12 @@ func (p *DomainVerificationManagerProxy) GetUriRelativeFilterGroups(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getUriRelativeFilterGroups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetUriRelativeFilterGroups)
 	if _err != nil {
-		_code = TransactionIDomainVerificationManagerGetUriRelativeFilterGroups
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainVerificationManager, MethodIDomainVerificationManagerGetUriRelativeFilterGroups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -385,6 +400,10 @@ type DomainVerificationManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DomainVerificationManagerStub)(nil)
+
+func (s *DomainVerificationManagerStub) Descriptor() string {
+	return DescriptorIDomainVerificationManager
+}
 
 func (s *DomainVerificationManagerStub) OnTransaction(
 	ctx context.Context,

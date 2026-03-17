@@ -15,23 +15,27 @@ const (
 	TransactionIRemoveNotificationFromListCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoveNotificationFromListCallbackOnComplete = "onComplete"
+)
+
 type IRemoveNotificationFromListCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32) error
 }
 
 type RemoveNotificationFromListCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoveNotificationFromListCallbackProxy(
 	remote binder.IBinder,
 ) *RemoveNotificationFromListCallbackProxy {
-	return &RemoveNotificationFromListCallbackProxy{remote: remote}
+	return &RemoveNotificationFromListCallbackProxy{Remote: remote}
 }
 
 func (p *RemoveNotificationFromListCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoveNotificationFromListCallback = (*RemoveNotificationFromListCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *RemoveNotificationFromListCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIRemoveNotificationFromListCallback)
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoveNotificationFromListCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoveNotificationFromListCallback, MethodIRemoveNotificationFromListCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIRemoveNotificationFromListCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoveNotificationFromListCallback, MethodIRemoveNotificationFromListCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RemoveNotificationFromListCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoveNotificationFromListCallbackStub)(nil)
+
+func (s *RemoveNotificationFromListCallbackStub) Descriptor() string {
+	return DescriptorIRemoveNotificationFromListCallback
+}
 
 func (s *RemoveNotificationFromListCallbackStub) OnTransaction(
 	ctx context.Context,

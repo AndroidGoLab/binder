@@ -20,6 +20,15 @@ const (
 	TransactionIClientInterfaceSendMgmtFrame      = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIClientInterfaceGetPacketCounters  = "getPacketCounters"
+	MethodIClientInterfaceSignalPoll         = "signalPoll"
+	MethodIClientInterfaceGetMacAddress      = "getMacAddress"
+	MethodIClientInterfaceGetInterfaceName   = "getInterfaceName"
+	MethodIClientInterfaceGetWifiScannerImpl = "getWifiScannerImpl"
+	MethodIClientInterfaceSendMgmtFrame      = "SendMgmtFrame"
+)
+
 type IClientInterface interface {
 	AsBinder() binder.IBinder
 	GetPacketCounters(ctx context.Context) ([]int32, error)
@@ -31,17 +40,17 @@ type IClientInterface interface {
 }
 
 type ClientInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewClientInterfaceProxy(
 	remote binder.IBinder,
 ) *ClientInterfaceProxy {
-	return &ClientInterfaceProxy{remote: remote}
+	return &ClientInterfaceProxy{Remote: remote}
 }
 
 func (p *ClientInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IClientInterface = (*ClientInterfaceProxy)(nil)
@@ -53,12 +62,12 @@ func (p *ClientInterfaceProxy) GetPacketCounters(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getPacketCounters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetPacketCounters)
 	if _err != nil {
-		_code = TransactionIClientInterfaceGetPacketCounters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientInterface, MethodIClientInterfaceGetPacketCounters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -92,12 +101,12 @@ func (p *ClientInterfaceProxy) SignalPoll(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "signalPoll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceSignalPoll)
 	if _err != nil {
-		_code = TransactionIClientInterfaceSignalPoll
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientInterface, MethodIClientInterfaceSignalPoll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -131,12 +140,12 @@ func (p *ClientInterfaceProxy) GetMacAddress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getMacAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetMacAddress)
 	if _err != nil {
-		_code = TransactionIClientInterfaceGetMacAddress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientInterface, MethodIClientInterfaceGetMacAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,12 +179,12 @@ func (p *ClientInterfaceProxy) GetInterfaceName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getInterfaceName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetInterfaceName)
 	if _err != nil {
-		_code = TransactionIClientInterfaceGetInterfaceName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientInterface, MethodIClientInterfaceGetInterfaceName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -199,12 +208,12 @@ func (p *ClientInterfaceProxy) GetWifiScannerImpl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getWifiScannerImpl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceGetWifiScannerImpl)
 	if _err != nil {
-		_code = TransactionIClientInterfaceGetWifiScannerImpl
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientInterface, MethodIClientInterfaceGetWifiScannerImpl, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -218,7 +227,7 @@ func (p *ClientInterfaceProxy) GetWifiScannerImpl(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiScannerImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewWifiScannerImplProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -238,15 +247,15 @@ func (p *ClientInterfaceProxy) SendMgmtFrame(
 			_data.WritePaddedByte(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(mcs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "SendMgmtFrame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientInterface, MethodIClientInterfaceSendMgmtFrame)
 	if _err != nil {
-		_code = TransactionIClientInterfaceSendMgmtFrame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIClientInterface, MethodIClientInterfaceSendMgmtFrame, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -257,6 +266,10 @@ type ClientInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ClientInterfaceStub)(nil)
+
+func (s *ClientInterfaceStub) Descriptor() string {
+	return DescriptorIClientInterface
+}
 
 func (s *ClientInterfaceStub) OnTransaction(
 	ctx context.Context,

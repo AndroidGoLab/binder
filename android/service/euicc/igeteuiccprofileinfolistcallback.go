@@ -15,23 +15,27 @@ const (
 	TransactionIGetEuiccProfileInfoListCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetEuiccProfileInfoListCallbackOnComplete = "onComplete"
+)
+
 type IGetEuiccProfileInfoListCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result GetEuiccProfileInfoListResult) error
 }
 
 type GetEuiccProfileInfoListCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetEuiccProfileInfoListCallbackProxy(
 	remote binder.IBinder,
 ) *GetEuiccProfileInfoListCallbackProxy {
-	return &GetEuiccProfileInfoListCallbackProxy{remote: remote}
+	return &GetEuiccProfileInfoListCallbackProxy{Remote: remote}
 }
 
 func (p *GetEuiccProfileInfoListCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetEuiccProfileInfoListCallback = (*GetEuiccProfileInfoListCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *GetEuiccProfileInfoListCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetEuiccProfileInfoListCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetEuiccProfileInfoListCallback, MethodIGetEuiccProfileInfoListCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetEuiccProfileInfoListCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetEuiccProfileInfoListCallback, MethodIGetEuiccProfileInfoListCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type GetEuiccProfileInfoListCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetEuiccProfileInfoListCallbackStub)(nil)
+
+func (s *GetEuiccProfileInfoListCallbackStub) Descriptor() string {
+	return DescriptorIGetEuiccProfileInfoListCallback
+}
 
 func (s *GetEuiccProfileInfoListCallbackStub) OnTransaction(
 	ctx context.Context,

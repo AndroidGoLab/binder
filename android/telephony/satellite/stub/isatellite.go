@@ -13,41 +13,71 @@ import (
 const DescriptorISatellite = "android.telephony.satellite.stub.ISatellite"
 
 const (
-	TransactionISatelliteSetSatelliteListener                               = binder.FirstCallTransaction + 0
-	TransactionISatelliteRequestSatelliteListeningEnabled                   = binder.FirstCallTransaction + 1
-	TransactionISatelliteEnableTerrestrialNetworkScanWhileSatelliteModeIsOn = binder.FirstCallTransaction + 2
-	TransactionISatelliteRequestSatelliteEnabled                            = binder.FirstCallTransaction + 3
-	TransactionISatelliteRequestIsSatelliteEnabled                          = binder.FirstCallTransaction + 4
-	TransactionISatelliteRequestIsSatelliteSupported                        = binder.FirstCallTransaction + 5
-	TransactionISatelliteRequestSatelliteCapabilities                       = binder.FirstCallTransaction + 6
-	TransactionISatelliteStartSendingSatellitePointingInfo                  = binder.FirstCallTransaction + 7
-	TransactionISatelliteStopSendingSatellitePointingInfo                   = binder.FirstCallTransaction + 8
-	TransactionISatellitePollPendingSatelliteDatagrams                      = binder.FirstCallTransaction + 9
-	TransactionISatelliteSendSatelliteDatagram                              = binder.FirstCallTransaction + 10
-	TransactionISatelliteRequestSatelliteModemState                         = binder.FirstCallTransaction + 11
-	TransactionISatelliteRequestTimeForNextSatelliteVisibility              = binder.FirstCallTransaction + 12
-	TransactionISatelliteSetSatellitePlmn                                   = binder.FirstCallTransaction + 13
-	TransactionISatelliteSetSatelliteEnabledForCarrier                      = binder.FirstCallTransaction + 14
-	TransactionISatelliteRequestIsSatelliteEnabledForCarrier                = binder.FirstCallTransaction + 15
-	TransactionISatelliteRequestSignalStrength                              = binder.FirstCallTransaction + 16
-	TransactionISatelliteStartSendingNtnSignalStrength                      = binder.FirstCallTransaction + 17
-	TransactionISatelliteStopSendingNtnSignalStrength                       = binder.FirstCallTransaction + 18
-	TransactionISatelliteAbortSendingSatelliteDatagrams                     = binder.FirstCallTransaction + 19
-	TransactionISatelliteUpdateSatelliteSubscription                        = binder.FirstCallTransaction + 20
-	TransactionISatelliteUpdateSystemSelectionChannels                      = binder.FirstCallTransaction + 21
+	TransactionISatelliteSetSatelliteListener                      = binder.FirstCallTransaction + 0
+	TransactionISatelliteRequestSatelliteListeningEnabled          = binder.FirstCallTransaction + 1
+	TransactionISatelliteEnableCellularModemWhileSatelliteModeIsOn = binder.FirstCallTransaction + 2
+	TransactionISatelliteRequestSatelliteEnabled                   = binder.FirstCallTransaction + 3
+	TransactionISatelliteRequestIsSatelliteEnabled                 = binder.FirstCallTransaction + 4
+	TransactionISatelliteRequestIsSatelliteSupported               = binder.FirstCallTransaction + 5
+	TransactionISatelliteRequestSatelliteCapabilities              = binder.FirstCallTransaction + 6
+	TransactionISatelliteStartSendingSatellitePointingInfo         = binder.FirstCallTransaction + 7
+	TransactionISatelliteStopSendingSatellitePointingInfo          = binder.FirstCallTransaction + 8
+	TransactionISatelliteProvisionSatelliteService                 = binder.FirstCallTransaction + 9
+	TransactionISatelliteDeprovisionSatelliteService               = binder.FirstCallTransaction + 10
+	TransactionISatelliteRequestIsSatelliteProvisioned             = binder.FirstCallTransaction + 11
+	TransactionISatellitePollPendingSatelliteDatagrams             = binder.FirstCallTransaction + 12
+	TransactionISatelliteSendSatelliteDatagram                     = binder.FirstCallTransaction + 13
+	TransactionISatelliteRequestSatelliteModemState                = binder.FirstCallTransaction + 14
+	TransactionISatelliteRequestTimeForNextSatelliteVisibility     = binder.FirstCallTransaction + 15
+	TransactionISatelliteSetSatellitePlmn                          = binder.FirstCallTransaction + 16
+	TransactionISatelliteSetSatelliteEnabledForCarrier             = binder.FirstCallTransaction + 17
+	TransactionISatelliteRequestIsSatelliteEnabledForCarrier       = binder.FirstCallTransaction + 18
+	TransactionISatelliteRequestSignalStrength                     = binder.FirstCallTransaction + 19
+	TransactionISatelliteStartSendingNtnSignalStrength             = binder.FirstCallTransaction + 20
+	TransactionISatelliteStopSendingNtnSignalStrength              = binder.FirstCallTransaction + 21
+	TransactionISatelliteAbortSendingSatelliteDatagrams            = binder.FirstCallTransaction + 22
+)
+
+const (
+	MethodISatelliteSetSatelliteListener                      = "setSatelliteListener"
+	MethodISatelliteRequestSatelliteListeningEnabled          = "requestSatelliteListeningEnabled"
+	MethodISatelliteEnableCellularModemWhileSatelliteModeIsOn = "enableCellularModemWhileSatelliteModeIsOn"
+	MethodISatelliteRequestSatelliteEnabled                   = "requestSatelliteEnabled"
+	MethodISatelliteRequestIsSatelliteEnabled                 = "requestIsSatelliteEnabled"
+	MethodISatelliteRequestIsSatelliteSupported               = "requestIsSatelliteSupported"
+	MethodISatelliteRequestSatelliteCapabilities              = "requestSatelliteCapabilities"
+	MethodISatelliteStartSendingSatellitePointingInfo         = "startSendingSatellitePointingInfo"
+	MethodISatelliteStopSendingSatellitePointingInfo          = "stopSendingSatellitePointingInfo"
+	MethodISatelliteProvisionSatelliteService                 = "provisionSatelliteService"
+	MethodISatelliteDeprovisionSatelliteService               = "deprovisionSatelliteService"
+	MethodISatelliteRequestIsSatelliteProvisioned             = "requestIsSatelliteProvisioned"
+	MethodISatellitePollPendingSatelliteDatagrams             = "pollPendingSatelliteDatagrams"
+	MethodISatelliteSendSatelliteDatagram                     = "sendSatelliteDatagram"
+	MethodISatelliteRequestSatelliteModemState                = "requestSatelliteModemState"
+	MethodISatelliteRequestTimeForNextSatelliteVisibility     = "requestTimeForNextSatelliteVisibility"
+	MethodISatelliteSetSatellitePlmn                          = "setSatellitePlmn"
+	MethodISatelliteSetSatelliteEnabledForCarrier             = "setSatelliteEnabledForCarrier"
+	MethodISatelliteRequestIsSatelliteEnabledForCarrier       = "requestIsSatelliteEnabledForCarrier"
+	MethodISatelliteRequestSignalStrength                     = "requestSignalStrength"
+	MethodISatelliteStartSendingNtnSignalStrength             = "startSendingNtnSignalStrength"
+	MethodISatelliteStopSendingNtnSignalStrength              = "stopSendingNtnSignalStrength"
+	MethodISatelliteAbortSendingSatelliteDatagrams            = "abortSendingSatelliteDatagrams"
 )
 
 type ISatellite interface {
 	AsBinder() binder.IBinder
 	SetSatelliteListener(ctx context.Context, listener ISatelliteListener) error
 	RequestSatelliteListeningEnabled(ctx context.Context, enable bool, timeout int32, resultCallback telephony.IIntegerConsumer) error
-	EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(ctx context.Context, enabled bool, errorCallback telephony.IIntegerConsumer) error
-	RequestSatelliteEnabled(ctx context.Context, enableAttributes SatelliteModemEnableRequestAttributes, resultCallback telephony.IIntegerConsumer) error
+	EnableCellularModemWhileSatelliteModeIsOn(ctx context.Context, enabled bool, errorCallback telephony.IIntegerConsumer) error
+	RequestSatelliteEnabled(ctx context.Context, enableSatellite bool, enableDemoMode bool, isEmergency bool, resultCallback telephony.IIntegerConsumer) error
 	RequestIsSatelliteEnabled(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IBooleanConsumer) error
 	RequestIsSatelliteSupported(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IBooleanConsumer) error
 	RequestSatelliteCapabilities(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback ISatelliteCapabilitiesConsumer) error
 	StartSendingSatellitePointingInfo(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	StopSendingSatellitePointingInfo(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
+	ProvisionSatelliteService(ctx context.Context, token string, provisionData []byte, resultCallback telephony.IIntegerConsumer) error
+	DeprovisionSatelliteService(ctx context.Context, token string, resultCallback telephony.IIntegerConsumer) error
+	RequestIsSatelliteProvisioned(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IBooleanConsumer) error
 	PollPendingSatelliteDatagrams(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	SendSatelliteDatagram(ctx context.Context, datagram SatelliteDatagram, isEmergency bool, resultCallback telephony.IIntegerConsumer) error
 	RequestSatelliteModemState(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IIntegerConsumer) error
@@ -59,22 +89,20 @@ type ISatellite interface {
 	StartSendingNtnSignalStrength(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	StopSendingNtnSignalStrength(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	AbortSendingSatelliteDatagrams(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
-	UpdateSatelliteSubscription(ctx context.Context, iccId string, resultCallback telephony.IIntegerConsumer) error
-	UpdateSystemSelectionChannels(ctx context.Context, systemSelectionSpecifiers []SystemSelectionSpecifier, resultCallback telephony.IIntegerConsumer) error
 }
 
 type SatelliteProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteProxy(
 	remote binder.IBinder,
 ) *SatelliteProxy {
-	return &SatelliteProxy{remote: remote}
+	return &SatelliteProxy{Remote: remote}
 }
 
 func (p *SatelliteProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatellite = (*SatelliteProxy)(nil)
@@ -85,14 +113,14 @@ func (p *SatelliteProxy) SetSatelliteListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "setSatelliteListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSetSatelliteListener)
 	if _err != nil {
-		_code = TransactionISatelliteSetSatelliteListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteSetSatelliteListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,18 +134,18 @@ func (p *SatelliteProxy) RequestSatelliteListeningEnabled(
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteBool(enable)
 	_data.WriteInt32(timeout)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteListeningEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteListeningEnabled)
 	if _err != nil {
-		_code = TransactionISatelliteRequestSatelliteListeningEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestSatelliteListeningEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
-func (p *SatelliteProxy) EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(
+func (p *SatelliteProxy) EnableCellularModemWhileSatelliteModeIsOn(
 	ctx context.Context,
 	enabled bool,
 	errorCallback telephony.IIntegerConsumer,
@@ -125,36 +153,37 @@ func (p *SatelliteProxy) EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteBool(enabled)
-	binder.WriteBinderToParcel(ctx, _data, errorCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, errorCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "enableTerrestrialNetworkScanWhileSatelliteModeIsOn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteEnableCellularModemWhileSatelliteModeIsOn)
 	if _err != nil {
-		_code = TransactionISatelliteEnableTerrestrialNetworkScanWhileSatelliteModeIsOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteEnableCellularModemWhileSatelliteModeIsOn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *SatelliteProxy) RequestSatelliteEnabled(
 	ctx context.Context,
-	enableAttributes SatelliteModemEnableRequestAttributes,
+	enableSatellite bool,
+	enableDemoMode bool,
+	isEmergency bool,
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteInt32(1)
-	if _err := enableAttributes.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	_data.WriteBool(enableSatellite)
+	_data.WriteBool(enableDemoMode)
+	_data.WriteBool(isEmergency)
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteEnabled)
 	if _err != nil {
-		_code = TransactionISatelliteRequestSatelliteEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestSatelliteEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,15 +194,15 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestIsSatelliteEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabled)
 	if _err != nil {
-		_code = TransactionISatelliteRequestIsSatelliteEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -184,15 +213,15 @@ func (p *SatelliteProxy) RequestIsSatelliteSupported(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestIsSatelliteSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteSupported)
 	if _err != nil {
-		_code = TransactionISatelliteRequestIsSatelliteSupported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestIsSatelliteSupported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -203,15 +232,15 @@ func (p *SatelliteProxy) RequestSatelliteCapabilities(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteCapabilities)
 	if _err != nil {
-		_code = TransactionISatelliteRequestSatelliteCapabilities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestSatelliteCapabilities, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -221,14 +250,14 @@ func (p *SatelliteProxy) StartSendingSatellitePointingInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "startSendingSatellitePointingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStartSendingSatellitePointingInfo)
 	if _err != nil {
-		_code = TransactionISatelliteStartSendingSatellitePointingInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteStartSendingSatellitePointingInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -238,14 +267,80 @@ func (p *SatelliteProxy) StopSendingSatellitePointingInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "stopSendingSatellitePointingInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStopSendingSatellitePointingInfo)
 	if _err != nil {
-		_code = TransactionISatelliteStopSendingSatellitePointingInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteStopSendingSatellitePointingInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *SatelliteProxy) ProvisionSatelliteService(
+	ctx context.Context,
+	token string,
+	provisionData []byte,
+	resultCallback telephony.IIntegerConsumer,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorISatellite)
+	_data.WriteString16(token)
+	if provisionData == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(provisionData)))
+		for _, _item := range provisionData {
+			_data.WritePaddedByte(_item)
+		}
+	}
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteProvisionSatelliteService)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteProvisionSatelliteService, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *SatelliteProxy) DeprovisionSatelliteService(
+	ctx context.Context,
+	token string,
+	resultCallback telephony.IIntegerConsumer,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorISatellite)
+	_data.WriteString16(token)
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteDeprovisionSatelliteService)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteDeprovisionSatelliteService, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *SatelliteProxy) RequestIsSatelliteProvisioned(
+	ctx context.Context,
+	resultCallback telephony.IIntegerConsumer,
+	callback telephony.IBooleanConsumer,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorISatellite)
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteProvisioned)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestIsSatelliteProvisioned, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -255,14 +350,14 @@ func (p *SatelliteProxy) PollPendingSatelliteDatagrams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "pollPendingSatelliteDatagrams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatellitePollPendingSatelliteDatagrams)
 	if _err != nil {
-		_code = TransactionISatellitePollPendingSatelliteDatagrams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatellitePollPendingSatelliteDatagrams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -279,14 +374,14 @@ func (p *SatelliteProxy) SendSatelliteDatagram(
 		return _err
 	}
 	_data.WriteBool(isEmergency)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "sendSatelliteDatagram")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSendSatelliteDatagram)
 	if _err != nil {
-		_code = TransactionISatelliteSendSatelliteDatagram
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteSendSatelliteDatagram, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -297,15 +392,15 @@ func (p *SatelliteProxy) RequestSatelliteModemState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteModemState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSatelliteModemState)
 	if _err != nil {
-		_code = TransactionISatelliteRequestSatelliteModemState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestSatelliteModemState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -316,15 +411,15 @@ func (p *SatelliteProxy) RequestTimeForNextSatelliteVisibility(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestTimeForNextSatelliteVisibility")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestTimeForNextSatelliteVisibility)
 	if _err != nil {
-		_code = TransactionISatelliteRequestTimeForNextSatelliteVisibility
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestTimeForNextSatelliteVisibility, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -354,14 +449,14 @@ func (p *SatelliteProxy) SetSatellitePlmn(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "setSatellitePlmn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSetSatellitePlmn)
 	if _err != nil {
-		_code = TransactionISatelliteSetSatellitePlmn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteSetSatellitePlmn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -375,14 +470,14 @@ func (p *SatelliteProxy) SetSatelliteEnabledForCarrier(
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteInt32(simSlot)
 	_data.WriteBool(satelliteEnabled)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "setSatelliteEnabledForCarrier")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteSetSatelliteEnabledForCarrier)
 	if _err != nil {
-		_code = TransactionISatelliteSetSatelliteEnabledForCarrier
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteSetSatelliteEnabledForCarrier, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -395,15 +490,15 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabledForCarrier(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
 	_data.WriteInt32(simSlot)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestIsSatelliteEnabledForCarrier")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabledForCarrier)
 	if _err != nil {
-		_code = TransactionISatelliteRequestIsSatelliteEnabledForCarrier
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestIsSatelliteEnabledForCarrier, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -414,15 +509,15 @@ func (p *SatelliteProxy) RequestSignalStrength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSignalStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteRequestSignalStrength)
 	if _err != nil {
-		_code = TransactionISatelliteRequestSignalStrength
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteRequestSignalStrength, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -432,14 +527,14 @@ func (p *SatelliteProxy) StartSendingNtnSignalStrength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "startSendingNtnSignalStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStartSendingNtnSignalStrength)
 	if _err != nil {
-		_code = TransactionISatelliteStartSendingNtnSignalStrength
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteStartSendingNtnSignalStrength, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -449,14 +544,14 @@ func (p *SatelliteProxy) StopSendingNtnSignalStrength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "stopSendingNtnSignalStrength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteStopSendingNtnSignalStrength)
 	if _err != nil {
-		_code = TransactionISatelliteStopSendingNtnSignalStrength
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteStopSendingNtnSignalStrength, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -466,61 +561,14 @@ func (p *SatelliteProxy) AbortSendingSatelliteDatagrams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "abortSendingSatelliteDatagrams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatellite, MethodISatelliteAbortSendingSatelliteDatagrams)
 	if _err != nil {
-		_code = TransactionISatelliteAbortSendingSatelliteDatagrams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatellite, MethodISatelliteAbortSendingSatelliteDatagrams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteProxy) UpdateSatelliteSubscription(
-	ctx context.Context,
-	iccId string,
-	resultCallback telephony.IIntegerConsumer,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatellite)
-	_data.WriteString16(iccId)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "updateSatelliteSubscription")
-	if _err != nil {
-		_code = TransactionISatelliteUpdateSatelliteSubscription
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteProxy) UpdateSystemSelectionChannels(
-	ctx context.Context,
-	systemSelectionSpecifiers []SystemSelectionSpecifier,
-	resultCallback telephony.IIntegerConsumer,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatellite)
-	if systemSelectionSpecifiers == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(systemSelectionSpecifiers)))
-		for _, _item := range systemSelectionSpecifiers {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "updateSystemSelectionChannels")
-	if _err != nil {
-		_code = TransactionISatelliteUpdateSystemSelectionChannels
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -531,6 +579,10 @@ type SatelliteStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteStub)(nil)
+
+func (s *SatelliteStub) Descriptor() string {
+	return DescriptorISatellite
+}
 
 func (s *SatelliteStub) OnTransaction(
 	ctx context.Context,
@@ -566,7 +618,7 @@ func (s *SatelliteStub) OnTransaction(
 		_err = s.Impl.RequestSatelliteListeningEnabled(ctx, _arg_enable, _arg_timeout, _arg_resultCallback)
 		_ = _err
 		return nil, nil
-	case TransactionISatelliteEnableTerrestrialNetworkScanWhileSatelliteModeIsOn:
+	case TransactionISatelliteEnableCellularModemWhileSatelliteModeIsOn:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -577,29 +629,29 @@ func (s *SatelliteStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_errorCallback telephony.IIntegerConsumer
 		_ = _arg_errorCallback
-		_err = s.Impl.EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(ctx, _arg_enabled, _arg_errorCallback)
+		_err = s.Impl.EnableCellularModemWhileSatelliteModeIsOn(ctx, _arg_enabled, _arg_errorCallback)
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestSatelliteEnabled:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_enableAttributes SatelliteModemEnableRequestAttributes
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_enableAttributes.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+		_arg_enableSatellite, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableDemoMode, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEmergency, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback telephony.IIntegerConsumer
 		_ = _arg_resultCallback
-		_err := s.Impl.RequestSatelliteEnabled(ctx, _arg_enableAttributes, _arg_resultCallback)
+		_err = s.Impl.RequestSatelliteEnabled(ctx, _arg_enableSatellite, _arg_enableDemoMode, _arg_isEmergency, _arg_resultCallback)
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestIsSatelliteEnabled:
@@ -659,6 +711,50 @@ func (s *SatelliteStub) OnTransaction(
 		var _arg_resultCallback telephony.IIntegerConsumer
 		_ = _arg_resultCallback
 		_err := s.Impl.StopSendingSatellitePointingInfo(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteProvisionSatelliteService:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_provisionData []byte
+		_ = _arg_provisionData
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.ProvisionSatelliteService(ctx, _arg_token, _arg_provisionData, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteDeprovisionSatelliteService:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.DeprovisionSatelliteService(ctx, _arg_token, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestIsSatelliteProvisioned:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IBooleanConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestIsSatelliteProvisioned(ctx, _arg_resultCallback, _arg_callback)
 		_ = _err
 		return nil, nil
 	case TransactionISatellitePollPendingSatelliteDatagrams:
@@ -821,33 +917,6 @@ func (s *SatelliteStub) OnTransaction(
 		_err := s.Impl.AbortSendingSatelliteDatagrams(ctx, _arg_resultCallback)
 		_ = _err
 		return nil, nil
-	case TransactionISatelliteUpdateSatelliteSubscription:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_iccId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		_err = s.Impl.UpdateSatelliteSubscription(ctx, _arg_iccId, _arg_resultCallback)
-		_ = _err
-		return nil, nil
-	case TransactionISatelliteUpdateSystemSelectionChannels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_systemSelectionSpecifiers []SystemSelectionSpecifier
-		_ = _arg_systemSelectionSpecifiers
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_resultCallback telephony.IIntegerConsumer
-		_ = _arg_resultCallback
-		_err := s.Impl.UpdateSystemSelectionChannels(ctx, _arg_systemSelectionSpecifiers, _arg_resultCallback)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -859,13 +928,16 @@ func (s *SatelliteStub) OnTransaction(
 type ISatelliteServer interface {
 	SetSatelliteListener(ctx context.Context, listener ISatelliteListener) error
 	RequestSatelliteListeningEnabled(ctx context.Context, enable bool, timeout int32, resultCallback telephony.IIntegerConsumer) error
-	EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(ctx context.Context, enabled bool, errorCallback telephony.IIntegerConsumer) error
-	RequestSatelliteEnabled(ctx context.Context, enableAttributes SatelliteModemEnableRequestAttributes, resultCallback telephony.IIntegerConsumer) error
+	EnableCellularModemWhileSatelliteModeIsOn(ctx context.Context, enabled bool, errorCallback telephony.IIntegerConsumer) error
+	RequestSatelliteEnabled(ctx context.Context, enableSatellite bool, enableDemoMode bool, isEmergency bool, resultCallback telephony.IIntegerConsumer) error
 	RequestIsSatelliteEnabled(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IBooleanConsumer) error
 	RequestIsSatelliteSupported(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IBooleanConsumer) error
 	RequestSatelliteCapabilities(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback ISatelliteCapabilitiesConsumer) error
 	StartSendingSatellitePointingInfo(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	StopSendingSatellitePointingInfo(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
+	ProvisionSatelliteService(ctx context.Context, token string, provisionData []byte, resultCallback telephony.IIntegerConsumer) error
+	DeprovisionSatelliteService(ctx context.Context, token string, resultCallback telephony.IIntegerConsumer) error
+	RequestIsSatelliteProvisioned(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IBooleanConsumer) error
 	PollPendingSatelliteDatagrams(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	SendSatelliteDatagram(ctx context.Context, datagram SatelliteDatagram, isEmergency bool, resultCallback telephony.IIntegerConsumer) error
 	RequestSatelliteModemState(ctx context.Context, resultCallback telephony.IIntegerConsumer, callback telephony.IIntegerConsumer) error
@@ -877,8 +949,6 @@ type ISatelliteServer interface {
 	StartSendingNtnSignalStrength(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	StopSendingNtnSignalStrength(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
 	AbortSendingSatelliteDatagrams(ctx context.Context, resultCallback telephony.IIntegerConsumer) error
-	UpdateSatelliteSubscription(ctx context.Context, iccId string, resultCallback telephony.IIntegerConsumer) error
-	UpdateSystemSelectionChannels(ctx context.Context, systemSelectionSpecifiers []SystemSelectionSpecifier, resultCallback telephony.IIntegerConsumer) error
 }
 
 type satelliteStubWrapper struct {
@@ -906,20 +976,22 @@ func (w *satelliteStubWrapper) RequestSatelliteListeningEnabled(
 	return w.impl.RequestSatelliteListeningEnabled(ctx, enable, timeout, resultCallback)
 }
 
-func (w *satelliteStubWrapper) EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(
+func (w *satelliteStubWrapper) EnableCellularModemWhileSatelliteModeIsOn(
 	ctx context.Context,
 	enabled bool,
 	errorCallback telephony.IIntegerConsumer,
 ) error {
-	return w.impl.EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(ctx, enabled, errorCallback)
+	return w.impl.EnableCellularModemWhileSatelliteModeIsOn(ctx, enabled, errorCallback)
 }
 
 func (w *satelliteStubWrapper) RequestSatelliteEnabled(
 	ctx context.Context,
-	enableAttributes SatelliteModemEnableRequestAttributes,
+	enableSatellite bool,
+	enableDemoMode bool,
+	isEmergency bool,
 	resultCallback telephony.IIntegerConsumer,
 ) error {
-	return w.impl.RequestSatelliteEnabled(ctx, enableAttributes, resultCallback)
+	return w.impl.RequestSatelliteEnabled(ctx, enableSatellite, enableDemoMode, isEmergency, resultCallback)
 }
 
 func (w *satelliteStubWrapper) RequestIsSatelliteEnabled(
@@ -958,6 +1030,31 @@ func (w *satelliteStubWrapper) StopSendingSatellitePointingInfo(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	return w.impl.StopSendingSatellitePointingInfo(ctx, resultCallback)
+}
+
+func (w *satelliteStubWrapper) ProvisionSatelliteService(
+	ctx context.Context,
+	token string,
+	provisionData []byte,
+	resultCallback telephony.IIntegerConsumer,
+) error {
+	return w.impl.ProvisionSatelliteService(ctx, token, provisionData, resultCallback)
+}
+
+func (w *satelliteStubWrapper) DeprovisionSatelliteService(
+	ctx context.Context,
+	token string,
+	resultCallback telephony.IIntegerConsumer,
+) error {
+	return w.impl.DeprovisionSatelliteService(ctx, token, resultCallback)
+}
+
+func (w *satelliteStubWrapper) RequestIsSatelliteProvisioned(
+	ctx context.Context,
+	resultCallback telephony.IIntegerConsumer,
+	callback telephony.IBooleanConsumer,
+) error {
+	return w.impl.RequestIsSatelliteProvisioned(ctx, resultCallback, callback)
 }
 
 func (w *satelliteStubWrapper) PollPendingSatelliteDatagrams(
@@ -1047,22 +1144,6 @@ func (w *satelliteStubWrapper) AbortSendingSatelliteDatagrams(
 	resultCallback telephony.IIntegerConsumer,
 ) error {
 	return w.impl.AbortSendingSatelliteDatagrams(ctx, resultCallback)
-}
-
-func (w *satelliteStubWrapper) UpdateSatelliteSubscription(
-	ctx context.Context,
-	iccId string,
-	resultCallback telephony.IIntegerConsumer,
-) error {
-	return w.impl.UpdateSatelliteSubscription(ctx, iccId, resultCallback)
-}
-
-func (w *satelliteStubWrapper) UpdateSystemSelectionChannels(
-	ctx context.Context,
-	systemSelectionSpecifiers []SystemSelectionSpecifier,
-	resultCallback telephony.IIntegerConsumer,
-) error {
-	return w.impl.UpdateSystemSelectionChannels(ctx, systemSelectionSpecifiers, resultCallback)
 }
 
 var _ ISatellite = (*satelliteStubWrapper)(nil)

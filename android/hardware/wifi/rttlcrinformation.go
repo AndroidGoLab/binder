@@ -17,14 +17,7 @@ func (s *RttLcrInformation) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.CountryCode == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CountryCode)))
-		for _, _item := range s.CountryCode {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.CountryCode, 2)
 	p.WriteString16(s.CivicInfo)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -39,19 +32,9 @@ func (s *RttLcrInformation) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.CountryCode, _err = p.ReadFixedByteArray(2)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.CountryCode = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.CountryCode[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.CivicInfo, _err = p.ReadString16()

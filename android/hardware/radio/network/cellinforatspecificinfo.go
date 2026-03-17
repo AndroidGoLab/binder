@@ -126,26 +126,32 @@ func (u *CellInfoRatSpecificInfo) MarshalParcel(
 
 	switch u.Tag {
 	case CellInfoRatSpecificInfoTagGsm:
+		p.WriteInt32(1)
 		if _err := u.Gsm.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagWcdma:
+		p.WriteInt32(1)
 		if _err := u.Wcdma.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagTdscdma:
+		p.WriteInt32(1)
 		if _err := u.Tdscdma.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagLte:
+		p.WriteInt32(1)
 		if _err := u.Lte.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagNr:
+		p.WriteInt32(1)
 		if _err := u.Nr.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagCdma:
+		p.WriteInt32(1)
 		if _err := u.Cdma.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -172,26 +178,44 @@ func (u *CellInfoRatSpecificInfo) UnmarshalParcel(
 
 	switch u.Tag {
 	case CellInfoRatSpecificInfoTagGsm:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Gsm.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagWcdma:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Wcdma.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagTdscdma:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Tdscdma.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagLte:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Lte.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagNr:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Nr.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellInfoRatSpecificInfoTagCdma:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Cdma.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

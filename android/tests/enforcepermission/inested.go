@@ -16,6 +16,11 @@ const (
 	TransactionINestedProtectedByReadSyncSettings   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINestedProtectedByAccessNetworkState = "ProtectedByAccessNetworkState"
+	MethodINestedProtectedByReadSyncSettings   = "ProtectedByReadSyncSettings"
+)
+
 type INested interface {
 	AsBinder() binder.IBinder
 	ProtectedByAccessNetworkState(ctx context.Context) error
@@ -23,17 +28,17 @@ type INested interface {
 }
 
 type NestedProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNestedProxy(
 	remote binder.IBinder,
 ) *NestedProxy {
-	return &NestedProxy{remote: remote}
+	return &NestedProxy{Remote: remote}
 }
 
 func (p *NestedProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INested = (*NestedProxy)(nil)
@@ -44,12 +49,12 @@ func (p *NestedProxy) ProtectedByAccessNetworkState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINested)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINested, "ProtectedByAccessNetworkState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINested, MethodINestedProtectedByAccessNetworkState)
 	if _err != nil {
-		_code = TransactionINestedProtectedByAccessNetworkState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINested, MethodINestedProtectedByAccessNetworkState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,12 +73,12 @@ func (p *NestedProxy) ProtectedByReadSyncSettings(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINested)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINested, "ProtectedByReadSyncSettings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINested, MethodINestedProtectedByReadSyncSettings)
 	if _err != nil {
-		_code = TransactionINestedProtectedByReadSyncSettings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINested, MethodINestedProtectedByReadSyncSettings, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,6 +98,10 @@ type NestedStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NestedStub)(nil)
+
+func (s *NestedStub) Descriptor() string {
+	return DescriptorINested
+}
 
 func (s *NestedStub) OnTransaction(
 	ctx context.Context,

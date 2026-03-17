@@ -15,23 +15,27 @@ const (
 	TransactionIInternalServiceRetrieverGetDeviceIdleController = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInternalServiceRetrieverGetDeviceIdleController = "getDeviceIdleController"
+)
+
 type IInternalServiceRetriever interface {
 	AsBinder() binder.IBinder
 	GetDeviceIdleController(ctx context.Context) (IDeviceIdleControllerAdapter, error)
 }
 
 type InternalServiceRetrieverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInternalServiceRetrieverProxy(
 	remote binder.IBinder,
 ) *InternalServiceRetrieverProxy {
-	return &InternalServiceRetrieverProxy{remote: remote}
+	return &InternalServiceRetrieverProxy{Remote: remote}
 }
 
 func (p *InternalServiceRetrieverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInternalServiceRetriever = (*InternalServiceRetrieverProxy)(nil)
@@ -43,12 +47,12 @@ func (p *InternalServiceRetrieverProxy) GetDeviceIdleController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInternalServiceRetriever)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInternalServiceRetriever, "getDeviceIdleController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInternalServiceRetriever, MethodIInternalServiceRetrieverGetDeviceIdleController)
 	if _err != nil {
-		_code = TransactionIInternalServiceRetrieverGetDeviceIdleController
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInternalServiceRetriever, MethodIInternalServiceRetrieverGetDeviceIdleController, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -62,7 +66,7 @@ func (p *InternalServiceRetrieverProxy) GetDeviceIdleController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDeviceIdleControllerAdapterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDeviceIdleControllerAdapterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -73,6 +77,10 @@ type InternalServiceRetrieverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InternalServiceRetrieverStub)(nil)
+
+func (s *InternalServiceRetrieverStub) Descriptor() string {
+	return DescriptorIInternalServiceRetriever
+}
 
 func (s *InternalServiceRetrieverStub) OnTransaction(
 	ctx context.Context,

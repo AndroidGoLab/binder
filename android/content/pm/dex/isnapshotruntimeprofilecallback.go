@@ -16,6 +16,11 @@ const (
 	TransactionISnapshotRuntimeProfileCallbackOnError   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISnapshotRuntimeProfileCallbackOnSuccess = "onSuccess"
+	MethodISnapshotRuntimeProfileCallbackOnError   = "onError"
+)
+
 type ISnapshotRuntimeProfileCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, profileReadFd int32) error
@@ -23,17 +28,17 @@ type ISnapshotRuntimeProfileCallback interface {
 }
 
 type SnapshotRuntimeProfileCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSnapshotRuntimeProfileCallbackProxy(
 	remote binder.IBinder,
 ) *SnapshotRuntimeProfileCallbackProxy {
-	return &SnapshotRuntimeProfileCallbackProxy{remote: remote}
+	return &SnapshotRuntimeProfileCallbackProxy{Remote: remote}
 }
 
 func (p *SnapshotRuntimeProfileCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISnapshotRuntimeProfileCallback = (*SnapshotRuntimeProfileCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorISnapshotRuntimeProfileCallback)
 	_data.WriteFileDescriptor(profileReadFd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISnapshotRuntimeProfileCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionISnapshotRuntimeProfileCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorISnapshotRuntimeProfileCallback)
 	_data.WriteInt32(errCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISnapshotRuntimeProfileCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnError)
 	if _err != nil {
-		_code = TransactionISnapshotRuntimeProfileCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISnapshotRuntimeProfileCallback, MethodISnapshotRuntimeProfileCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type SnapshotRuntimeProfileCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SnapshotRuntimeProfileCallbackStub)(nil)
+
+func (s *SnapshotRuntimeProfileCallbackStub) Descriptor() string {
+	return DescriptorISnapshotRuntimeProfileCallback
+}
 
 func (s *SnapshotRuntimeProfileCallbackStub) OnTransaction(
 	ctx context.Context,

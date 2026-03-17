@@ -47,7 +47,7 @@ func TestGenBatch4_Auth_CanAuthenticate(t *testing.T) {
 	svc := getService(ctx, t, driver, "auth")
 
 	proxy := genBiometrics.NewAuthServiceProxy(svc)
-	result, err := proxy.CanAuthenticate(ctx, "com.android.shell", 0, 0)
+	result, err := proxy.CanAuthenticate(ctx, 0)
 	if err != nil {
 		t.Logf("CanAuthenticate returned error (may require permission): %v", err)
 	} else {
@@ -88,7 +88,7 @@ func TestGenBatch4_BackgroundInstallControl_GetBackgroundInstalledPackages(t *te
 	svc := getService(ctx, t, driver, "background_install_control")
 
 	proxy := genPm.NewBackgroundInstallControlServiceProxy(svc)
-	_, err := proxy.GetBackgroundInstalledPackages(ctx, 0, 0)
+	_, err := proxy.GetBackgroundInstalledPackages(ctx, 0)
 	if err != nil {
 		t.Logf("GetBackgroundInstalledPackages returned error (may require permission): %v", err)
 	} else {
@@ -237,7 +237,7 @@ func TestGenBatch4_CompanionDevice_GetAllAssociationsForUser(t *testing.T) {
 	svc := getService(ctx, t, driver, "companiondevice")
 
 	proxy := genCompanion.NewCompanionDeviceManagerProxy(svc)
-	result, err := proxy.GetAllAssociationsForUser(ctx, 0)
+	result, err := proxy.GetAllAssociationsForUser(ctx)
 	if err != nil {
 		t.Logf("GetAllAssociationsForUser returned error (may require permission): %v", err)
 	} else {
@@ -275,7 +275,7 @@ func TestGenBatch4_Content_GetMasterSyncAutomaticallyAsUser(t *testing.T) {
 	svc := getService(ctx, t, driver, "content")
 
 	proxy := genContent.NewContentServiceProxy(svc)
-	result, err := proxy.GetMasterSyncAutomaticallyAsUser(ctx, 0)
+	result, err := proxy.GetMasterSyncAutomaticallyAsUser(ctx)
 	requireOrSkip(t, err)
 	t.Logf("GetMasterSyncAutomaticallyAsUser(0): %v", result)
 }
@@ -334,7 +334,7 @@ func TestGenBatch4_CrossProfileApps_CanInteractAcrossProfiles(t *testing.T) {
 	svc := getService(ctx, t, driver, "crossprofileapps")
 
 	proxy := genPm.NewCrossProfileAppsProxy(svc)
-	result, err := proxy.CanInteractAcrossProfiles(ctx, "com.android.shell")
+	result, err := proxy.CanInteractAcrossProfiles(ctx)
 	if err != nil {
 		t.Logf("CanInteractAcrossProfiles returned error: %v", err)
 	} else {
@@ -528,7 +528,7 @@ func TestGenBatch4_Face_IsHardwareDetected(t *testing.T) {
 	svc := getService(ctx, t, driver, "face")
 
 	proxy := genFace.NewFaceServiceProxy(svc)
-	result, err := proxy.IsHardwareDetected(ctx, 0, "com.android.shell")
+	result, err := proxy.IsHardwareDetected(ctx, 0)
 	if err != nil {
 		t.Logf("IsHardwareDetected returned error (may require permission): %v", err)
 	} else {
@@ -568,7 +568,7 @@ func TestGenBatch4_Fingerprint_IsHardwareDetected(t *testing.T) {
 	svc := getService(ctx, t, driver, "fingerprint")
 
 	proxy := genFingerprint.NewFingerprintServiceProxy(svc)
-	result, err := proxy.IsHardwareDetected(ctx, 0, "com.android.shell")
+	result, err := proxy.IsHardwareDetected(ctx, 0)
 	if err != nil {
 		t.Logf("IsHardwareDetected returned error (may require permission): %v", err)
 	} else {
@@ -584,7 +584,7 @@ func TestGenBatch4_Game_GetGameMode(t *testing.T) {
 	svc := getService(ctx, t, driver, "game")
 
 	proxy := genApp.NewGameManagerServiceProxy(svc)
-	result, err := proxy.GetGameMode(ctx, "com.android.shell", 0)
+	result, err := proxy.GetGameMode(ctx, "com.android.shell")
 	if err != nil {
 		t.Logf("GetGameMode returned error: %v", err)
 	} else {
@@ -623,7 +623,7 @@ func TestGenBatch4_HardwareProperties_GetDeviceTemperatures(t *testing.T) {
 
 	proxy := genOs.NewHardwarePropertiesManagerProxy(svc)
 	// type_=0 (CPU), source=0 (current)
-	result, err := proxy.GetDeviceTemperatures(ctx, "com.android.shell", 0, 0)
+	result, err := proxy.GetDeviceTemperatures(ctx, 0, 0)
 	if err != nil {
 		t.Logf("GetDeviceTemperatures returned error (may require permission): %v", err)
 	} else {
@@ -847,7 +847,7 @@ func TestGenBatch4_MediaMetrics_GetPlaybackSessionId(t *testing.T) {
 	svc := getService(ctx, t, driver, "media_metrics")
 
 	proxy := genMediaMetrics.NewMediaMetricsManagerProxy(svc)
-	result, err := proxy.GetPlaybackSessionId(ctx, 0)
+	result, err := proxy.GetPlaybackSessionId(ctx)
 	if err != nil {
 		t.Logf("GetPlaybackSessionId returned error: %v", err)
 	} else {

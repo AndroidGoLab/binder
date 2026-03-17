@@ -10,5 +10,4 @@ const (
 	SessionTagHWUI           SessionTag = 2
 	SessionTagGAME           SessionTag = 3
 	SessionTagAPP            SessionTag = 4
-	SessionTagSYSUI          SessionTag = 5
 )

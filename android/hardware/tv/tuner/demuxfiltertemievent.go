@@ -20,14 +20,7 @@ func (s *DemuxFilterTemiEvent) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.Pts)
 	p.WritePaddedByte(s.DescrTag)
-	if s.DescrData == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DescrData)))
-		for _, _item := range s.DescrData {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.DescrData)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -51,19 +44,9 @@ func (s *DemuxFilterTemiEvent) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.DescrData, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.DescrData = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.DescrData[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -17,6 +17,11 @@ const (
 	TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISpellCheckerSessionListenerOnGetSuggestions         = "onGetSuggestions"
+	MethodISpellCheckerSessionListenerOnGetSentenceSuggestions = "onGetSentenceSuggestions"
+)
+
 type ISpellCheckerSessionListener interface {
 	AsBinder() binder.IBinder
 	OnGetSuggestions(ctx context.Context, results []viewTextservice.SuggestionsInfo) error
@@ -24,17 +29,17 @@ type ISpellCheckerSessionListener interface {
 }
 
 type SpellCheckerSessionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpellCheckerSessionListenerProxy(
 	remote binder.IBinder,
 ) *SpellCheckerSessionListenerProxy {
-	return &SpellCheckerSessionListenerProxy{remote: remote}
+	return &SpellCheckerSessionListenerProxy{Remote: remote}
 }
 
 func (p *SpellCheckerSessionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpellCheckerSessionListener = (*SpellCheckerSessionListenerProxy)(nil)
@@ -50,18 +55,19 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSuggestions(
 	} else {
 		_data.WriteInt32(int32(len(results)))
 		for _, _item := range results {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSessionListener, "onGetSuggestions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSessionListener, MethodISpellCheckerSessionListenerOnGetSuggestions)
 	if _err != nil {
-		_code = TransactionISpellCheckerSessionListenerOnGetSuggestions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerSessionListener, MethodISpellCheckerSessionListenerOnGetSuggestions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,18 +82,19 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSentenceSuggestions(
 	} else {
 		_data.WriteInt32(int32(len(result)))
 		for _, _item := range result {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSessionListener, "onGetSentenceSuggestions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSessionListener, MethodISpellCheckerSessionListenerOnGetSentenceSuggestions)
 	if _err != nil {
-		_code = TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerSessionListener, MethodISpellCheckerSessionListenerOnGetSentenceSuggestions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +105,10 @@ type SpellCheckerSessionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerSessionListenerStub)(nil)
+
+func (s *SpellCheckerSessionListenerStub) Descriptor() string {
+	return DescriptorISpellCheckerSessionListener
+}
 
 func (s *SpellCheckerSessionListenerStub) OnTransaction(
 	ctx context.Context,

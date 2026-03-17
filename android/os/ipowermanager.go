@@ -23,65 +23,133 @@ const (
 	TransactionIPowerManagerUpdateWakeLockWorkSource                  = binder.FirstCallTransaction + 7
 	TransactionIPowerManagerUpdateWakeLockCallback                    = binder.FirstCallTransaction + 8
 	TransactionIPowerManagerIsWakeLockLevelSupported                  = binder.FirstCallTransaction + 9
-	TransactionIPowerManagerIsWakeLockLevelSupportedWithDisplayId     = binder.FirstCallTransaction + 10
-	TransactionIPowerManagerUserActivity                              = binder.FirstCallTransaction + 11
-	TransactionIPowerManagerWakeUp                                    = binder.FirstCallTransaction + 12
-	TransactionIPowerManagerWakeUpWithDisplayId                       = binder.FirstCallTransaction + 13
-	TransactionIPowerManagerGoToSleep                                 = binder.FirstCallTransaction + 14
-	TransactionIPowerManagerGoToSleepWithDisplayId                    = binder.FirstCallTransaction + 15
-	TransactionIPowerManagerNap                                       = binder.FirstCallTransaction + 16
-	TransactionIPowerManagerGetBrightnessConstraint                   = binder.FirstCallTransaction + 17
-	TransactionIPowerManagerIsInteractive                             = binder.FirstCallTransaction + 18
-	TransactionIPowerManagerIsDisplayInteractive                      = binder.FirstCallTransaction + 19
-	TransactionIPowerManagerAreAutoPowerSaveModesEnabled              = binder.FirstCallTransaction + 20
-	TransactionIPowerManagerIsPowerSaveMode                           = binder.FirstCallTransaction + 21
-	TransactionIPowerManagerGetPowerSaveState                         = binder.FirstCallTransaction + 22
-	TransactionIPowerManagerSetPowerSaveModeEnabled                   = binder.FirstCallTransaction + 23
-	TransactionIPowerManagerIsBatterySaverSupported                   = binder.FirstCallTransaction + 24
-	TransactionIPowerManagerGetFullPowerSavePolicy                    = binder.FirstCallTransaction + 25
-	TransactionIPowerManagerSetFullPowerSavePolicy                    = binder.FirstCallTransaction + 26
-	TransactionIPowerManagerSetDynamicPowerSaveHint                   = binder.FirstCallTransaction + 27
-	TransactionIPowerManagerSetAdaptivePowerSavePolicy                = binder.FirstCallTransaction + 28
-	TransactionIPowerManagerSetAdaptivePowerSaveEnabled               = binder.FirstCallTransaction + 29
-	TransactionIPowerManagerGetPowerSaveModeTrigger                   = binder.FirstCallTransaction + 30
-	TransactionIPowerManagerSetBatteryDischargePrediction             = binder.FirstCallTransaction + 31
-	TransactionIPowerManagerGetBatteryDischargePrediction             = binder.FirstCallTransaction + 32
-	TransactionIPowerManagerIsBatteryDischargePredictionPersonalized  = binder.FirstCallTransaction + 33
-	TransactionIPowerManagerIsDeviceIdleMode                          = binder.FirstCallTransaction + 34
-	TransactionIPowerManagerIsLightDeviceIdleMode                     = binder.FirstCallTransaction + 35
-	TransactionIPowerManagerIsLowPowerStandbySupported                = binder.FirstCallTransaction + 36
-	TransactionIPowerManagerIsLowPowerStandbyEnabled                  = binder.FirstCallTransaction + 37
-	TransactionIPowerManagerSetLowPowerStandbyEnabled                 = binder.FirstCallTransaction + 38
-	TransactionIPowerManagerSetLowPowerStandbyActiveDuringMaintenance = binder.FirstCallTransaction + 39
-	TransactionIPowerManagerForceLowPowerStandbyActive                = binder.FirstCallTransaction + 40
-	TransactionIPowerManagerSetLowPowerStandbyPolicy                  = binder.FirstCallTransaction + 41
-	TransactionIPowerManagerGetLowPowerStandbyPolicy                  = binder.FirstCallTransaction + 42
-	TransactionIPowerManagerIsExemptFromLowPowerStandby               = binder.FirstCallTransaction + 43
-	TransactionIPowerManagerIsReasonAllowedInLowPowerStandby          = binder.FirstCallTransaction + 44
-	TransactionIPowerManagerIsFeatureAllowedInLowPowerStandby         = binder.FirstCallTransaction + 45
-	TransactionIPowerManagerAcquireLowPowerStandbyPorts               = binder.FirstCallTransaction + 46
-	TransactionIPowerManagerReleaseLowPowerStandbyPorts               = binder.FirstCallTransaction + 47
-	TransactionIPowerManagerGetActiveLowPowerStandbyPorts             = binder.FirstCallTransaction + 48
-	TransactionIPowerManagerReboot                                    = binder.FirstCallTransaction + 49
-	TransactionIPowerManagerRebootSafeMode                            = binder.FirstCallTransaction + 50
-	TransactionIPowerManagerShutdown                                  = binder.FirstCallTransaction + 51
-	TransactionIPowerManagerCrash                                     = binder.FirstCallTransaction + 52
-	TransactionIPowerManagerGetLastShutdownReason                     = binder.FirstCallTransaction + 53
-	TransactionIPowerManagerGetLastSleepReason                        = binder.FirstCallTransaction + 54
-	TransactionIPowerManagerSetStayOnSetting                          = binder.FirstCallTransaction + 55
-	TransactionIPowerManagerBoostScreenBrightness                     = binder.FirstCallTransaction + 56
-	TransactionIPowerManagerAcquireWakeLockAsync                      = binder.FirstCallTransaction + 57
-	TransactionIPowerManagerReleaseWakeLockAsync                      = binder.FirstCallTransaction + 58
-	TransactionIPowerManagerUpdateWakeLockUidsAsync                   = binder.FirstCallTransaction + 59
-	TransactionIPowerManagerIsScreenBrightnessBoosted                 = binder.FirstCallTransaction + 60
-	TransactionIPowerManagerSetAttentionLight                         = binder.FirstCallTransaction + 61
-	TransactionIPowerManagerSetDozeAfterScreenOff                     = binder.FirstCallTransaction + 62
-	TransactionIPowerManagerIsAmbientDisplayAvailable                 = binder.FirstCallTransaction + 63
-	TransactionIPowerManagerSuppressAmbientDisplay                    = binder.FirstCallTransaction + 64
-	TransactionIPowerManagerIsAmbientDisplaySuppressedForToken        = binder.FirstCallTransaction + 65
-	TransactionIPowerManagerIsAmbientDisplaySuppressed                = binder.FirstCallTransaction + 66
-	TransactionIPowerManagerIsAmbientDisplaySuppressedForTokenByApp   = binder.FirstCallTransaction + 67
-	TransactionIPowerManagerForceSuspend                              = binder.FirstCallTransaction + 68
+	TransactionIPowerManagerUserActivity                              = binder.FirstCallTransaction + 10
+	TransactionIPowerManagerWakeUp                                    = binder.FirstCallTransaction + 11
+	TransactionIPowerManagerGoToSleep                                 = binder.FirstCallTransaction + 12
+	TransactionIPowerManagerGoToSleepWithDisplayId                    = binder.FirstCallTransaction + 13
+	TransactionIPowerManagerNap                                       = binder.FirstCallTransaction + 14
+	TransactionIPowerManagerGetBrightnessConstraint                   = binder.FirstCallTransaction + 15
+	TransactionIPowerManagerIsInteractive                             = binder.FirstCallTransaction + 16
+	TransactionIPowerManagerIsDisplayInteractive                      = binder.FirstCallTransaction + 17
+	TransactionIPowerManagerAreAutoPowerSaveModesEnabled              = binder.FirstCallTransaction + 18
+	TransactionIPowerManagerIsPowerSaveMode                           = binder.FirstCallTransaction + 19
+	TransactionIPowerManagerGetPowerSaveState                         = binder.FirstCallTransaction + 20
+	TransactionIPowerManagerSetPowerSaveModeEnabled                   = binder.FirstCallTransaction + 21
+	TransactionIPowerManagerIsBatterySaverSupported                   = binder.FirstCallTransaction + 22
+	TransactionIPowerManagerGetFullPowerSavePolicy                    = binder.FirstCallTransaction + 23
+	TransactionIPowerManagerSetFullPowerSavePolicy                    = binder.FirstCallTransaction + 24
+	TransactionIPowerManagerSetDynamicPowerSaveHint                   = binder.FirstCallTransaction + 25
+	TransactionIPowerManagerSetAdaptivePowerSavePolicy                = binder.FirstCallTransaction + 26
+	TransactionIPowerManagerSetAdaptivePowerSaveEnabled               = binder.FirstCallTransaction + 27
+	TransactionIPowerManagerGetPowerSaveModeTrigger                   = binder.FirstCallTransaction + 28
+	TransactionIPowerManagerSetBatteryDischargePrediction             = binder.FirstCallTransaction + 29
+	TransactionIPowerManagerGetBatteryDischargePrediction             = binder.FirstCallTransaction + 30
+	TransactionIPowerManagerIsBatteryDischargePredictionPersonalized  = binder.FirstCallTransaction + 31
+	TransactionIPowerManagerIsDeviceIdleMode                          = binder.FirstCallTransaction + 32
+	TransactionIPowerManagerIsLightDeviceIdleMode                     = binder.FirstCallTransaction + 33
+	TransactionIPowerManagerIsLowPowerStandbySupported                = binder.FirstCallTransaction + 34
+	TransactionIPowerManagerIsLowPowerStandbyEnabled                  = binder.FirstCallTransaction + 35
+	TransactionIPowerManagerSetLowPowerStandbyEnabled                 = binder.FirstCallTransaction + 36
+	TransactionIPowerManagerSetLowPowerStandbyActiveDuringMaintenance = binder.FirstCallTransaction + 37
+	TransactionIPowerManagerForceLowPowerStandbyActive                = binder.FirstCallTransaction + 38
+	TransactionIPowerManagerSetLowPowerStandbyPolicy                  = binder.FirstCallTransaction + 39
+	TransactionIPowerManagerGetLowPowerStandbyPolicy                  = binder.FirstCallTransaction + 40
+	TransactionIPowerManagerIsExemptFromLowPowerStandby               = binder.FirstCallTransaction + 41
+	TransactionIPowerManagerIsReasonAllowedInLowPowerStandby          = binder.FirstCallTransaction + 42
+	TransactionIPowerManagerIsFeatureAllowedInLowPowerStandby         = binder.FirstCallTransaction + 43
+	TransactionIPowerManagerAcquireLowPowerStandbyPorts               = binder.FirstCallTransaction + 44
+	TransactionIPowerManagerReleaseLowPowerStandbyPorts               = binder.FirstCallTransaction + 45
+	TransactionIPowerManagerGetActiveLowPowerStandbyPorts             = binder.FirstCallTransaction + 46
+	TransactionIPowerManagerReboot                                    = binder.FirstCallTransaction + 47
+	TransactionIPowerManagerRebootSafeMode                            = binder.FirstCallTransaction + 48
+	TransactionIPowerManagerShutdown                                  = binder.FirstCallTransaction + 49
+	TransactionIPowerManagerCrash                                     = binder.FirstCallTransaction + 50
+	TransactionIPowerManagerGetLastShutdownReason                     = binder.FirstCallTransaction + 51
+	TransactionIPowerManagerGetLastSleepReason                        = binder.FirstCallTransaction + 52
+	TransactionIPowerManagerSetStayOnSetting                          = binder.FirstCallTransaction + 53
+	TransactionIPowerManagerBoostScreenBrightness                     = binder.FirstCallTransaction + 54
+	TransactionIPowerManagerAcquireWakeLockAsync                      = binder.FirstCallTransaction + 55
+	TransactionIPowerManagerReleaseWakeLockAsync                      = binder.FirstCallTransaction + 56
+	TransactionIPowerManagerUpdateWakeLockUidsAsync                   = binder.FirstCallTransaction + 57
+	TransactionIPowerManagerIsScreenBrightnessBoosted                 = binder.FirstCallTransaction + 58
+	TransactionIPowerManagerSetAttentionLight                         = binder.FirstCallTransaction + 59
+	TransactionIPowerManagerSetDozeAfterScreenOff                     = binder.FirstCallTransaction + 60
+	TransactionIPowerManagerIsAmbientDisplayAvailable                 = binder.FirstCallTransaction + 61
+	TransactionIPowerManagerSuppressAmbientDisplay                    = binder.FirstCallTransaction + 62
+	TransactionIPowerManagerIsAmbientDisplaySuppressedForToken        = binder.FirstCallTransaction + 63
+	TransactionIPowerManagerIsAmbientDisplaySuppressed                = binder.FirstCallTransaction + 64
+	TransactionIPowerManagerIsAmbientDisplaySuppressedForTokenByApp   = binder.FirstCallTransaction + 65
+	TransactionIPowerManagerForceSuspend                              = binder.FirstCallTransaction + 66
+)
+
+const (
+	MethodIPowerManagerAcquireWakeLock                           = "acquireWakeLock"
+	MethodIPowerManagerAcquireWakeLockWithUid                    = "acquireWakeLockWithUid"
+	MethodIPowerManagerReleaseWakeLock                           = "releaseWakeLock"
+	MethodIPowerManagerUpdateWakeLockUids                        = "updateWakeLockUids"
+	MethodIPowerManagerSetPowerBoost                             = "setPowerBoost"
+	MethodIPowerManagerSetPowerMode                              = "setPowerMode"
+	MethodIPowerManagerSetPowerModeChecked                       = "setPowerModeChecked"
+	MethodIPowerManagerUpdateWakeLockWorkSource                  = "updateWakeLockWorkSource"
+	MethodIPowerManagerUpdateWakeLockCallback                    = "updateWakeLockCallback"
+	MethodIPowerManagerIsWakeLockLevelSupported                  = "isWakeLockLevelSupported"
+	MethodIPowerManagerUserActivity                              = "userActivity"
+	MethodIPowerManagerWakeUp                                    = "wakeUp"
+	MethodIPowerManagerGoToSleep                                 = "goToSleep"
+	MethodIPowerManagerGoToSleepWithDisplayId                    = "goToSleepWithDisplayId"
+	MethodIPowerManagerNap                                       = "nap"
+	MethodIPowerManagerGetBrightnessConstraint                   = "getBrightnessConstraint"
+	MethodIPowerManagerIsInteractive                             = "isInteractive"
+	MethodIPowerManagerIsDisplayInteractive                      = "isDisplayInteractive"
+	MethodIPowerManagerAreAutoPowerSaveModesEnabled              = "areAutoPowerSaveModesEnabled"
+	MethodIPowerManagerIsPowerSaveMode                           = "isPowerSaveMode"
+	MethodIPowerManagerGetPowerSaveState                         = "getPowerSaveState"
+	MethodIPowerManagerSetPowerSaveModeEnabled                   = "setPowerSaveModeEnabled"
+	MethodIPowerManagerIsBatterySaverSupported                   = "isBatterySaverSupported"
+	MethodIPowerManagerGetFullPowerSavePolicy                    = "getFullPowerSavePolicy"
+	MethodIPowerManagerSetFullPowerSavePolicy                    = "setFullPowerSavePolicy"
+	MethodIPowerManagerSetDynamicPowerSaveHint                   = "setDynamicPowerSaveHint"
+	MethodIPowerManagerSetAdaptivePowerSavePolicy                = "setAdaptivePowerSavePolicy"
+	MethodIPowerManagerSetAdaptivePowerSaveEnabled               = "setAdaptivePowerSaveEnabled"
+	MethodIPowerManagerGetPowerSaveModeTrigger                   = "getPowerSaveModeTrigger"
+	MethodIPowerManagerSetBatteryDischargePrediction             = "setBatteryDischargePrediction"
+	MethodIPowerManagerGetBatteryDischargePrediction             = "getBatteryDischargePrediction"
+	MethodIPowerManagerIsBatteryDischargePredictionPersonalized  = "isBatteryDischargePredictionPersonalized"
+	MethodIPowerManagerIsDeviceIdleMode                          = "isDeviceIdleMode"
+	MethodIPowerManagerIsLightDeviceIdleMode                     = "isLightDeviceIdleMode"
+	MethodIPowerManagerIsLowPowerStandbySupported                = "isLowPowerStandbySupported"
+	MethodIPowerManagerIsLowPowerStandbyEnabled                  = "isLowPowerStandbyEnabled"
+	MethodIPowerManagerSetLowPowerStandbyEnabled                 = "setLowPowerStandbyEnabled"
+	MethodIPowerManagerSetLowPowerStandbyActiveDuringMaintenance = "setLowPowerStandbyActiveDuringMaintenance"
+	MethodIPowerManagerForceLowPowerStandbyActive                = "forceLowPowerStandbyActive"
+	MethodIPowerManagerSetLowPowerStandbyPolicy                  = "setLowPowerStandbyPolicy"
+	MethodIPowerManagerGetLowPowerStandbyPolicy                  = "getLowPowerStandbyPolicy"
+	MethodIPowerManagerIsExemptFromLowPowerStandby               = "isExemptFromLowPowerStandby"
+	MethodIPowerManagerIsReasonAllowedInLowPowerStandby          = "isReasonAllowedInLowPowerStandby"
+	MethodIPowerManagerIsFeatureAllowedInLowPowerStandby         = "isFeatureAllowedInLowPowerStandby"
+	MethodIPowerManagerAcquireLowPowerStandbyPorts               = "acquireLowPowerStandbyPorts"
+	MethodIPowerManagerReleaseLowPowerStandbyPorts               = "releaseLowPowerStandbyPorts"
+	MethodIPowerManagerGetActiveLowPowerStandbyPorts             = "getActiveLowPowerStandbyPorts"
+	MethodIPowerManagerReboot                                    = "reboot"
+	MethodIPowerManagerRebootSafeMode                            = "rebootSafeMode"
+	MethodIPowerManagerShutdown                                  = "shutdown"
+	MethodIPowerManagerCrash                                     = "crash"
+	MethodIPowerManagerGetLastShutdownReason                     = "getLastShutdownReason"
+	MethodIPowerManagerGetLastSleepReason                        = "getLastSleepReason"
+	MethodIPowerManagerSetStayOnSetting                          = "setStayOnSetting"
+	MethodIPowerManagerBoostScreenBrightness                     = "boostScreenBrightness"
+	MethodIPowerManagerAcquireWakeLockAsync                      = "acquireWakeLockAsync"
+	MethodIPowerManagerReleaseWakeLockAsync                      = "releaseWakeLockAsync"
+	MethodIPowerManagerUpdateWakeLockUidsAsync                   = "updateWakeLockUidsAsync"
+	MethodIPowerManagerIsScreenBrightnessBoosted                 = "isScreenBrightnessBoosted"
+	MethodIPowerManagerSetAttentionLight                         = "setAttentionLight"
+	MethodIPowerManagerSetDozeAfterScreenOff                     = "setDozeAfterScreenOff"
+	MethodIPowerManagerIsAmbientDisplayAvailable                 = "isAmbientDisplayAvailable"
+	MethodIPowerManagerSuppressAmbientDisplay                    = "suppressAmbientDisplay"
+	MethodIPowerManagerIsAmbientDisplaySuppressedForToken        = "isAmbientDisplaySuppressedForToken"
+	MethodIPowerManagerIsAmbientDisplaySuppressed                = "isAmbientDisplaySuppressed"
+	MethodIPowerManagerIsAmbientDisplaySuppressedForTokenByApp   = "isAmbientDisplaySuppressedForTokenByApp"
+	MethodIPowerManagerForceSuspend                              = "forceSuspend"
 )
 
 type IPowerManager interface {
@@ -96,14 +164,12 @@ type IPowerManager interface {
 	UpdateWakeLockWorkSource(ctx context.Context, lock binder.IBinder, ws interface{}, historyTag string) error
 	UpdateWakeLockCallback(ctx context.Context, lock binder.IBinder, callback IWakeLockCallback) error
 	IsWakeLockLevelSupported(ctx context.Context, level int32) (bool, error)
-	IsWakeLockLevelSupportedWithDisplayId(ctx context.Context, level int32, displayId int32) (bool, error)
 	UserActivity(ctx context.Context, displayId int32, time int64, event int32, flags int32) error
 	WakeUp(ctx context.Context, time int64, reason int32, details string) error
-	WakeUpWithDisplayId(ctx context.Context, time int64, reason int32, details string, displayId int32) error
 	GoToSleep(ctx context.Context, time int64, reason int32, flags int32) error
 	GoToSleepWithDisplayId(ctx context.Context, displayId int32, time int64, reason int32, flags int32) error
 	Nap(ctx context.Context, time int64) error
-	GetBrightnessConstraint(ctx context.Context, displayId int32, constraint int32) (float32, error)
+	GetBrightnessConstraint(ctx context.Context, constraint int32) (float32, error)
 	IsInteractive(ctx context.Context) (bool, error)
 	IsDisplayInteractive(ctx context.Context, displayId int32) (bool, error)
 	AreAutoPowerSaveModesEnabled(ctx context.Context) (bool, error)
@@ -181,17 +247,17 @@ const (
 )
 
 type PowerManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPowerManagerProxy(
 	remote binder.IBinder,
 ) *PowerManagerProxy {
-	return &PowerManagerProxy{remote: remote}
+	return &PowerManagerProxy{Remote: remote}
 }
 
 func (p *PowerManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPowerManager = (*PowerManagerProxy)(nil)
@@ -209,20 +275,20 @@ func (p *PowerManagerProxy) AcquireWakeLock(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteString16(tag)
 	_data.WriteString16(packageName)
 	_data.WriteString16(historyTag)
 	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireWakeLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLock)
 	if _err != nil {
-		_code = TransactionIPowerManagerAcquireWakeLock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -247,20 +313,20 @@ func (p *PowerManagerProxy) AcquireWakeLockWithUid(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteString16(tag)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uidtoblame)
 	_data.WriteInt32(displayId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireWakeLockWithUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockWithUid)
 	if _err != nil {
-		_code = TransactionIPowerManagerAcquireWakeLockWithUid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockWithUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -280,15 +346,15 @@ func (p *PowerManagerProxy) ReleaseWakeLock(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "releaseWakeLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLock)
 	if _err != nil {
-		_code = TransactionIPowerManagerReleaseWakeLock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -308,7 +374,7 @@ func (p *PowerManagerProxy) UpdateWakeLockUids(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	if uids == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -318,12 +384,12 @@ func (p *PowerManagerProxy) UpdateWakeLockUids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockUids)
 	if _err != nil {
-		_code = TransactionIPowerManagerUpdateWakeLockUids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -346,12 +412,12 @@ func (p *PowerManagerProxy) SetPowerBoost(
 	_data.WriteInt32(boost)
 	_data.WriteInt32(durationMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerBoost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerBoost)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetPowerBoost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetPowerBoost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -365,12 +431,12 @@ func (p *PowerManagerProxy) SetPowerMode(
 	_data.WriteInt32(mode)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerMode)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetPowerMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetPowerMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -385,12 +451,12 @@ func (p *PowerManagerProxy) SetPowerModeChecked(
 	_data.WriteInt32(mode)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerModeChecked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerModeChecked)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetPowerModeChecked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetPowerModeChecked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -415,15 +481,15 @@ func (p *PowerManagerProxy) UpdateWakeLockWorkSource(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	_data.WriteString16(historyTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockWorkSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockWorkSource)
 	if _err != nil {
-		_code = TransactionIPowerManagerUpdateWakeLockWorkSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockWorkSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -443,15 +509,15 @@ func (p *PowerManagerProxy) UpdateWakeLockCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockCallback)
 	if _err != nil {
-		_code = TransactionIPowerManagerUpdateWakeLockCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -473,45 +539,12 @@ func (p *PowerManagerProxy) IsWakeLockLevelSupported(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt32(level)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isWakeLockLevelSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsWakeLockLevelSupported)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsWakeLockLevelSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsWakeLockLevelSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *PowerManagerProxy) IsWakeLockLevelSupportedWithDisplayId(
-	ctx context.Context,
-	level int32,
-	displayId int32,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(level)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isWakeLockLevelSupportedWithDisplayId")
-	if _err != nil {
-		_code = TransactionIPowerManagerIsWakeLockLevelSupportedWithDisplayId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -542,12 +575,12 @@ func (p *PowerManagerProxy) UserActivity(
 	_data.WriteInt32(event)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "userActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUserActivity)
 	if _err != nil {
-		_code = TransactionIPowerManagerUserActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerUserActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -566,7 +599,7 @@ func (p *PowerManagerProxy) WakeUp(
 	reason int32,
 	details string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt64(time)
@@ -574,46 +607,12 @@ func (p *PowerManagerProxy) WakeUp(
 	_data.WriteString16(details)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "wakeUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerWakeUp)
 	if _err != nil {
-		_code = TransactionIPowerManagerWakeUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerWakeUp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *PowerManagerProxy) WakeUpWithDisplayId(
-	ctx context.Context,
-	time int64,
-	reason int32,
-	details string,
-	displayId int32,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt64(time)
-	_data.WriteInt32(reason)
-	_data.WriteString16(details)
-	_data.WriteString16(_identity.PackageName)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "wakeUpWithDisplayId")
-	if _err != nil {
-		_code = TransactionIPowerManagerWakeUpWithDisplayId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -638,12 +637,12 @@ func (p *PowerManagerProxy) GoToSleep(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "goToSleep")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGoToSleep)
 	if _err != nil {
-		_code = TransactionIPowerManagerGoToSleep
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGoToSleep, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -670,12 +669,12 @@ func (p *PowerManagerProxy) GoToSleepWithDisplayId(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "goToSleepWithDisplayId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGoToSleepWithDisplayId)
 	if _err != nil {
-		_code = TransactionIPowerManagerGoToSleepWithDisplayId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGoToSleepWithDisplayId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -696,12 +695,12 @@ func (p *PowerManagerProxy) Nap(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt64(time)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "nap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerNap)
 	if _err != nil {
-		_code = TransactionIPowerManagerNap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerNap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -716,21 +715,19 @@ func (p *PowerManagerProxy) Nap(
 
 func (p *PowerManagerProxy) GetBrightnessConstraint(
 	ctx context.Context,
-	displayId int32,
 	constraint int32,
 ) (float32, error) {
 	var _result float32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	_data.WriteInt32(displayId)
 	_data.WriteInt32(constraint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getBrightnessConstraint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetBrightnessConstraint)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetBrightnessConstraint
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetBrightnessConstraint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -754,12 +751,12 @@ func (p *PowerManagerProxy) IsInteractive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isInteractive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsInteractive)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsInteractive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsInteractive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -785,12 +782,12 @@ func (p *PowerManagerProxy) IsDisplayInteractive(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isDisplayInteractive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsDisplayInteractive)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsDisplayInteractive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsDisplayInteractive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -814,12 +811,12 @@ func (p *PowerManagerProxy) AreAutoPowerSaveModesEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "areAutoPowerSaveModesEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAreAutoPowerSaveModesEnabled)
 	if _err != nil {
-		_code = TransactionIPowerManagerAreAutoPowerSaveModesEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerAreAutoPowerSaveModesEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -843,12 +840,12 @@ func (p *PowerManagerProxy) IsPowerSaveMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isPowerSaveMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsPowerSaveMode)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsPowerSaveMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsPowerSaveMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -874,12 +871,12 @@ func (p *PowerManagerProxy) GetPowerSaveState(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt32(serviceType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getPowerSaveState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetPowerSaveState)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetPowerSaveState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetPowerSaveState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -901,12 +898,12 @@ func (p *PowerManagerProxy) SetPowerSaveModeEnabled(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerSaveModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetPowerSaveModeEnabled)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetPowerSaveModeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetPowerSaveModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -930,12 +927,12 @@ func (p *PowerManagerProxy) IsBatterySaverSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isBatterySaverSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsBatterySaverSupported)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsBatterySaverSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsBatterySaverSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -959,12 +956,12 @@ func (p *PowerManagerProxy) GetFullPowerSavePolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getFullPowerSavePolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetFullPowerSavePolicy)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetFullPowerSavePolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetFullPowerSavePolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -985,12 +982,12 @@ func (p *PowerManagerProxy) SetFullPowerSavePolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setFullPowerSavePolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetFullPowerSavePolicy)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetFullPowerSavePolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetFullPowerSavePolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1018,12 +1015,12 @@ func (p *PowerManagerProxy) SetDynamicPowerSaveHint(
 	_data.WriteBool(powerSaveHint)
 	_data.WriteInt32(disableThreshold)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setDynamicPowerSaveHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetDynamicPowerSaveHint)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetDynamicPowerSaveHint
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetDynamicPowerSaveHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1048,12 +1045,12 @@ func (p *PowerManagerProxy) SetAdaptivePowerSavePolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setAdaptivePowerSavePolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSavePolicy)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetAdaptivePowerSavePolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSavePolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1079,12 +1076,12 @@ func (p *PowerManagerProxy) SetAdaptivePowerSaveEnabled(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setAdaptivePowerSaveEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSaveEnabled)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetAdaptivePowerSaveEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetAdaptivePowerSaveEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1108,12 +1105,12 @@ func (p *PowerManagerProxy) GetPowerSaveModeTrigger(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getPowerSaveModeTrigger")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetPowerSaveModeTrigger)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetPowerSaveModeTrigger
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetPowerSaveModeTrigger, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1139,12 +1136,12 @@ func (p *PowerManagerProxy) SetBatteryDischargePrediction(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(isCustomized)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setBatteryDischargePrediction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetBatteryDischargePrediction)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetBatteryDischargePrediction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetBatteryDischargePrediction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1164,12 +1161,12 @@ func (p *PowerManagerProxy) GetBatteryDischargePrediction(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getBatteryDischargePrediction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetBatteryDischargePrediction)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetBatteryDischargePrediction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetBatteryDischargePrediction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1189,12 +1186,12 @@ func (p *PowerManagerProxy) IsBatteryDischargePredictionPersonalized(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isBatteryDischargePredictionPersonalized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsBatteryDischargePredictionPersonalized)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsBatteryDischargePredictionPersonalized
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsBatteryDischargePredictionPersonalized, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1218,12 +1215,12 @@ func (p *PowerManagerProxy) IsDeviceIdleMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isDeviceIdleMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsDeviceIdleMode)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsDeviceIdleMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsDeviceIdleMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1247,12 +1244,12 @@ func (p *PowerManagerProxy) IsLightDeviceIdleMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isLightDeviceIdleMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsLightDeviceIdleMode)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsLightDeviceIdleMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsLightDeviceIdleMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1276,12 +1273,12 @@ func (p *PowerManagerProxy) IsLowPowerStandbySupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isLowPowerStandbySupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsLowPowerStandbySupported)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsLowPowerStandbySupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsLowPowerStandbySupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1305,12 +1302,12 @@ func (p *PowerManagerProxy) IsLowPowerStandbyEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isLowPowerStandbyEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsLowPowerStandbyEnabled)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsLowPowerStandbyEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsLowPowerStandbyEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1335,12 +1332,12 @@ func (p *PowerManagerProxy) SetLowPowerStandbyEnabled(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setLowPowerStandbyEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyEnabled)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetLowPowerStandbyEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1361,12 +1358,12 @@ func (p *PowerManagerProxy) SetLowPowerStandbyActiveDuringMaintenance(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(activeDuringMaintenance)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setLowPowerStandbyActiveDuringMaintenance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyActiveDuringMaintenance)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetLowPowerStandbyActiveDuringMaintenance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyActiveDuringMaintenance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1387,12 +1384,12 @@ func (p *PowerManagerProxy) ForceLowPowerStandbyActive(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(active)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "forceLowPowerStandbyActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerForceLowPowerStandbyActive)
 	if _err != nil {
-		_code = TransactionIPowerManagerForceLowPowerStandbyActive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerForceLowPowerStandbyActive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1419,12 +1416,12 @@ func (p *PowerManagerProxy) SetLowPowerStandbyPolicy(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setLowPowerStandbyPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyPolicy)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetLowPowerStandbyPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetLowPowerStandbyPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1444,12 +1441,12 @@ func (p *PowerManagerProxy) GetLowPowerStandbyPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getLowPowerStandbyPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetLowPowerStandbyPolicy)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetLowPowerStandbyPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetLowPowerStandbyPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1478,12 +1475,12 @@ func (p *PowerManagerProxy) IsExemptFromLowPowerStandby(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isExemptFromLowPowerStandby")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsExemptFromLowPowerStandby)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsExemptFromLowPowerStandby
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsExemptFromLowPowerStandby, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1509,12 +1506,12 @@ func (p *PowerManagerProxy) IsReasonAllowedInLowPowerStandby(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isReasonAllowedInLowPowerStandby")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsReasonAllowedInLowPowerStandby)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsReasonAllowedInLowPowerStandby
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsReasonAllowedInLowPowerStandby, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1540,12 +1537,12 @@ func (p *PowerManagerProxy) IsFeatureAllowedInLowPowerStandby(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteString16(feature)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isFeatureAllowedInLowPowerStandby")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsFeatureAllowedInLowPowerStandby)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsFeatureAllowedInLowPowerStandby
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsFeatureAllowedInLowPowerStandby, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1569,24 +1566,25 @@ func (p *PowerManagerProxy) AcquireLowPowerStandbyPorts(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	if ports == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(ports)))
 		for _, _item := range ports {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireLowPowerStandbyPorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireLowPowerStandbyPorts)
 	if _err != nil {
-		_code = TransactionIPowerManagerAcquireLowPowerStandbyPorts
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerAcquireLowPowerStandbyPorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1605,14 +1603,14 @@ func (p *PowerManagerProxy) ReleaseLowPowerStandbyPorts(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "releaseLowPowerStandbyPorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseLowPowerStandbyPorts)
 	if _err != nil {
-		_code = TransactionIPowerManagerReleaseLowPowerStandbyPorts
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerReleaseLowPowerStandbyPorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1632,12 +1630,12 @@ func (p *PowerManagerProxy) GetActiveLowPowerStandbyPorts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getActiveLowPowerStandbyPorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetActiveLowPowerStandbyPorts)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetActiveLowPowerStandbyPorts
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetActiveLowPowerStandbyPorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1655,6 +1653,9 @@ func (p *PowerManagerProxy) GetActiveLowPowerStandbyPorts(
 	if _count >= 0 {
 		_result = make([]osIPowerManager.LowPowerStandbyPortDescription, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1675,12 +1676,12 @@ func (p *PowerManagerProxy) Reboot(
 	_data.WriteString16(reason)
 	_data.WriteBool(wait)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "reboot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReboot)
 	if _err != nil {
-		_code = TransactionIPowerManagerReboot
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerReboot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1703,12 +1704,12 @@ func (p *PowerManagerProxy) RebootSafeMode(
 	_data.WriteBool(confirm)
 	_data.WriteBool(wait)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "rebootSafeMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerRebootSafeMode)
 	if _err != nil {
-		_code = TransactionIPowerManagerRebootSafeMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerRebootSafeMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1733,12 +1734,12 @@ func (p *PowerManagerProxy) Shutdown(
 	_data.WriteString16(reason)
 	_data.WriteBool(wait)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "shutdown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerShutdown)
 	if _err != nil {
-		_code = TransactionIPowerManagerShutdown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerShutdown, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1759,12 +1760,12 @@ func (p *PowerManagerProxy) Crash(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "crash")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerCrash)
 	if _err != nil {
-		_code = TransactionIPowerManagerCrash
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerCrash, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1784,12 +1785,12 @@ func (p *PowerManagerProxy) GetLastShutdownReason(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getLastShutdownReason")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetLastShutdownReason)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetLastShutdownReason
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetLastShutdownReason, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1813,12 +1814,12 @@ func (p *PowerManagerProxy) GetLastSleepReason(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getLastSleepReason")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerGetLastSleepReason)
 	if _err != nil {
-		_code = TransactionIPowerManagerGetLastSleepReason
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerGetLastSleepReason, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1843,12 +1844,12 @@ func (p *PowerManagerProxy) SetStayOnSetting(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt32(val)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setStayOnSetting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetStayOnSetting)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetStayOnSetting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetStayOnSetting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1869,12 +1870,12 @@ func (p *PowerManagerProxy) BoostScreenBrightness(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteInt64(time)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "boostScreenBrightness")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerBoostScreenBrightness)
 	if _err != nil {
-		_code = TransactionIPowerManagerBoostScreenBrightness
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerBoostScreenBrightness, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1898,18 +1899,18 @@ func (p *PowerManagerProxy) AcquireWakeLockAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteString16(tag)
 	_data.WriteString16(packageName)
 	_data.WriteString16(historyTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireWakeLockAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockAsync)
 	if _err != nil {
-		_code = TransactionIPowerManagerAcquireWakeLockAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerAcquireWakeLockAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1920,15 +1921,15 @@ func (p *PowerManagerProxy) ReleaseWakeLockAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "releaseWakeLockAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLockAsync)
 	if _err != nil {
-		_code = TransactionIPowerManagerReleaseWakeLockAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerReleaseWakeLockAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1939,7 +1940,7 @@ func (p *PowerManagerProxy) UpdateWakeLockUidsAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
-	binder.WriteBinderToParcel(ctx, _data, lock, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lock, p.Remote.Transport())
 	if uids == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -1949,12 +1950,12 @@ func (p *PowerManagerProxy) UpdateWakeLockUidsAsync(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockUidsAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockUidsAsync)
 	if _err != nil {
-		_code = TransactionIPowerManagerUpdateWakeLockUidsAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerUpdateWakeLockUidsAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1965,12 +1966,12 @@ func (p *PowerManagerProxy) IsScreenBrightnessBoosted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isScreenBrightnessBoosted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsScreenBrightnessBoosted)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsScreenBrightnessBoosted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsScreenBrightnessBoosted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1997,12 +1998,12 @@ func (p *PowerManagerProxy) SetAttentionLight(
 	_data.WriteBool(on)
 	_data.WriteInt32(color)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setAttentionLight")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetAttentionLight)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetAttentionLight
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetAttentionLight, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2023,12 +2024,12 @@ func (p *PowerManagerProxy) SetDozeAfterScreenOff(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteBool(on)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setDozeAfterScreenOff")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSetDozeAfterScreenOff)
 	if _err != nil {
-		_code = TransactionIPowerManagerSetDozeAfterScreenOff
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSetDozeAfterScreenOff, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2048,12 +2049,12 @@ func (p *PowerManagerProxy) IsAmbientDisplayAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplayAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplayAvailable)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsAmbientDisplayAvailable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplayAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2080,12 +2081,12 @@ func (p *PowerManagerProxy) SuppressAmbientDisplay(
 	_data.WriteString16(token)
 	_data.WriteBool(suppress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "suppressAmbientDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerSuppressAmbientDisplay)
 	if _err != nil {
-		_code = TransactionIPowerManagerSuppressAmbientDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerSuppressAmbientDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2107,12 +2108,12 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressedForToken(
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteString16(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplaySuppressedForToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForToken)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsAmbientDisplaySuppressedForToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2136,12 +2137,12 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplaySuppressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressed)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsAmbientDisplaySuppressed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2163,18 +2164,18 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressedForTokenByApp(
 	token string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 	_data.WriteString16(token)
 	_data.WriteInt32(_identity.UID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplaySuppressedForTokenByApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForTokenByApp)
 	if _err != nil {
-		_code = TransactionIPowerManagerIsAmbientDisplaySuppressedForTokenByApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerIsAmbientDisplaySuppressedForTokenByApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2198,12 +2199,12 @@ func (p *PowerManagerProxy) ForceSuspend(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "forceSuspend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerManager, MethodIPowerManagerForceSuspend)
 	if _err != nil {
-		_code = TransactionIPowerManagerForceSuspend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerManager, MethodIPowerManagerForceSuspend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2227,6 +2228,10 @@ type PowerManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PowerManagerStub)(nil)
+
+func (s *PowerManagerStub) Descriptor() string {
+	return DescriptorIPowerManager
+}
 
 func (s *PowerManagerStub) OnTransaction(
 	ctx context.Context,
@@ -2454,27 +2459,6 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIPowerManagerIsWakeLockLevelSupportedWithDisplayId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_level, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.IsWakeLockLevelSupportedWithDisplayId(ctx, _arg_level, _arg_displayId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
 	case TransactionIPowerManagerUserActivity:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2523,37 +2507,6 @@ func (s *PowerManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.WakeUp(ctx, _arg_time, _arg_reason, _arg_details)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIPowerManagerWakeUpWithDisplayId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_time, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reason, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_details, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.WakeUpWithDisplayId(ctx, _arg_time, _arg_reason, _arg_details, _arg_displayId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2633,15 +2586,11 @@ func (s *PowerManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
 		_arg_constraint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetBrightnessConstraint(ctx, _arg_displayId, _arg_constraint)
+		_result, _err := s.Impl.GetBrightnessConstraint(ctx, _arg_constraint)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -3482,14 +3431,12 @@ type IPowerManagerServer interface {
 	UpdateWakeLockWorkSource(ctx context.Context, lock binder.IBinder, ws interface{}, historyTag string) error
 	UpdateWakeLockCallback(ctx context.Context, lock binder.IBinder, callback IWakeLockCallback) error
 	IsWakeLockLevelSupported(ctx context.Context, level int32) (bool, error)
-	IsWakeLockLevelSupportedWithDisplayId(ctx context.Context, level int32, displayId int32) (bool, error)
 	UserActivity(ctx context.Context, displayId int32, time int64, event int32, flags int32) error
 	WakeUp(ctx context.Context, time int64, reason int32, details string) error
-	WakeUpWithDisplayId(ctx context.Context, time int64, reason int32, details string, displayId int32) error
 	GoToSleep(ctx context.Context, time int64, reason int32, flags int32) error
 	GoToSleepWithDisplayId(ctx context.Context, displayId int32, time int64, reason int32, flags int32) error
 	Nap(ctx context.Context, time int64) error
-	GetBrightnessConstraint(ctx context.Context, displayId int32, constraint int32) (float32, error)
+	GetBrightnessConstraint(ctx context.Context, constraint int32) (float32, error)
 	IsInteractive(ctx context.Context) (bool, error)
 	IsDisplayInteractive(ctx context.Context, displayId int32) (bool, error)
 	AreAutoPowerSaveModesEnabled(ctx context.Context) (bool, error)
@@ -3643,14 +3590,6 @@ func (w *powerManagerStubWrapper) IsWakeLockLevelSupported(
 	return w.impl.IsWakeLockLevelSupported(ctx, level)
 }
 
-func (w *powerManagerStubWrapper) IsWakeLockLevelSupportedWithDisplayId(
-	ctx context.Context,
-	level int32,
-	displayId int32,
-) (bool, error) {
-	return w.impl.IsWakeLockLevelSupportedWithDisplayId(ctx, level, displayId)
-}
-
 func (w *powerManagerStubWrapper) UserActivity(
 	ctx context.Context,
 	displayId int32,
@@ -3668,16 +3607,6 @@ func (w *powerManagerStubWrapper) WakeUp(
 	details string,
 ) error {
 	return w.impl.WakeUp(ctx, time, reason, details)
-}
-
-func (w *powerManagerStubWrapper) WakeUpWithDisplayId(
-	ctx context.Context,
-	time int64,
-	reason int32,
-	details string,
-	displayId int32,
-) error {
-	return w.impl.WakeUpWithDisplayId(ctx, time, reason, details, displayId)
 }
 
 func (w *powerManagerStubWrapper) GoToSleep(
@@ -3708,10 +3637,9 @@ func (w *powerManagerStubWrapper) Nap(
 
 func (w *powerManagerStubWrapper) GetBrightnessConstraint(
 	ctx context.Context,
-	displayId int32,
 	constraint int32,
 ) (float32, error) {
-	return w.impl.GetBrightnessConstraint(ctx, displayId, constraint)
+	return w.impl.GetBrightnessConstraint(ctx, constraint)
 }
 
 func (w *powerManagerStubWrapper) IsInteractive(

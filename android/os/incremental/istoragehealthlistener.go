@@ -15,6 +15,10 @@ const (
 	TransactionIStorageHealthListenerOnHealthStatus = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStorageHealthListenerOnHealthStatus = "onHealthStatus"
+)
+
 type IStorageHealthListener interface {
 	AsBinder() binder.IBinder
 	OnHealthStatus(ctx context.Context, storageId int32, status int32) error
@@ -28,17 +32,17 @@ const (
 )
 
 type StorageHealthListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageHealthListenerProxy(
 	remote binder.IBinder,
 ) *StorageHealthListenerProxy {
-	return &StorageHealthListenerProxy{remote: remote}
+	return &StorageHealthListenerProxy{Remote: remote}
 }
 
 func (p *StorageHealthListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorageHealthListener = (*StorageHealthListenerProxy)(nil)
@@ -53,12 +57,12 @@ func (p *StorageHealthListenerProxy) OnHealthStatus(
 	_data.WriteInt32(storageId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageHealthListener, "onHealthStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageHealthListener, MethodIStorageHealthListenerOnHealthStatus)
 	if _err != nil {
-		_code = TransactionIStorageHealthListenerOnHealthStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageHealthListener, MethodIStorageHealthListenerOnHealthStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type StorageHealthListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageHealthListenerStub)(nil)
+
+func (s *StorageHealthListenerStub) Descriptor() string {
+	return DescriptorIStorageHealthListener
+}
 
 func (s *StorageHealthListenerStub) OnTransaction(
 	ctx context.Context,

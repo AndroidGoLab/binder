@@ -18,6 +18,12 @@ const (
 	TransactionISipDelegateMessageCallbackOnMessageSendFailure = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISipDelegateMessageCallbackOnMessageReceived    = "onMessageReceived"
+	MethodISipDelegateMessageCallbackOnMessageSent        = "onMessageSent"
+	MethodISipDelegateMessageCallbackOnMessageSendFailure = "onMessageSendFailure"
+)
+
 type ISipDelegateMessageCallback interface {
 	AsBinder() binder.IBinder
 	OnMessageReceived(ctx context.Context, message ims.SipMessage) error
@@ -26,17 +32,17 @@ type ISipDelegateMessageCallback interface {
 }
 
 type SipDelegateMessageCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSipDelegateMessageCallbackProxy(
 	remote binder.IBinder,
 ) *SipDelegateMessageCallbackProxy {
-	return &SipDelegateMessageCallbackProxy{remote: remote}
+	return &SipDelegateMessageCallbackProxy{Remote: remote}
 }
 
 func (p *SipDelegateMessageCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISipDelegateMessageCallback = (*SipDelegateMessageCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageReceived)
 	if _err != nil {
-		_code = TransactionISipDelegateMessageCallbackOnMessageReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +75,12 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSent(
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
 	_data.WriteString16(viaTransactionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageSent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSent)
 	if _err != nil {
-		_code = TransactionISipDelegateMessageCallbackOnMessageSent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +94,12 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 	_data.WriteString16(viaTransactionId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageSendFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSendFailure)
 	if _err != nil {
-		_code = TransactionISipDelegateMessageCallbackOnMessageSendFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateMessageCallback, MethodISipDelegateMessageCallbackOnMessageSendFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,6 +110,10 @@ type SipDelegateMessageCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SipDelegateMessageCallbackStub)(nil)
+
+func (s *SipDelegateMessageCallbackStub) Descriptor() string {
+	return DescriptorISipDelegateMessageCallback
+}
 
 func (s *SipDelegateMessageCallbackStub) OnTransaction(
 	ctx context.Context,

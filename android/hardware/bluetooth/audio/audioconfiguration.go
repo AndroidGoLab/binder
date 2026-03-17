@@ -126,26 +126,32 @@ func (u *AudioConfiguration) MarshalParcel(
 
 	switch u.Tag {
 	case AudioConfigurationTagPcmConfig:
+		p.WriteInt32(1)
 		if _err := u.PcmConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagA2dpConfig:
+		p.WriteInt32(1)
 		if _err := u.A2dpConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagLeAudioConfig:
+		p.WriteInt32(1)
 		if _err := u.LeAudioConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagLeAudioBroadcastConfig:
+		p.WriteInt32(1)
 		if _err := u.LeAudioBroadcastConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagHfpConfig:
+		p.WriteInt32(1)
 		if _err := u.HfpConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagA2dp:
+		p.WriteInt32(1)
 		if _err := u.A2dp.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -172,26 +178,44 @@ func (u *AudioConfiguration) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioConfigurationTagPcmConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PcmConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagA2dpConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.A2dpConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagLeAudioConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.LeAudioConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagLeAudioBroadcastConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.LeAudioBroadcastConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagHfpConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.HfpConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioConfigurationTagA2dp:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.A2dp.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

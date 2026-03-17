@@ -19,6 +19,13 @@ const (
 	TransactionITranslationServiceOnTranslationCapabilitiesRequest = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodITranslationServiceOnConnected                      = "onConnected"
+	MethodITranslationServiceOnDisconnected                   = "onDisconnected"
+	MethodITranslationServiceOnCreateTranslationSession       = "onCreateTranslationSession"
+	MethodITranslationServiceOnTranslationCapabilitiesRequest = "onTranslationCapabilitiesRequest"
+)
+
 type ITranslationService interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context, callback binder.IBinder) error
@@ -28,17 +35,17 @@ type ITranslationService interface {
 }
 
 type TranslationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTranslationServiceProxy(
 	remote binder.IBinder,
 ) *TranslationServiceProxy {
-	return &TranslationServiceProxy{remote: remote}
+	return &TranslationServiceProxy{Remote: remote}
 }
 
 func (p *TranslationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITranslationService = (*TranslationServiceProxy)(nil)
@@ -49,14 +56,14 @@ func (p *TranslationServiceProxy) OnConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
-	binder.WriteBinderToParcel(ctx, _data, callback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationService, MethodITranslationServiceOnConnected)
 	if _err != nil {
-		_code = TransactionITranslationServiceOnConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationService, MethodITranslationServiceOnConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +73,12 @@ func (p *TranslationServiceProxy) OnDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationService, MethodITranslationServiceOnDisconnected)
 	if _err != nil {
-		_code = TransactionITranslationServiceOnDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationService, MethodITranslationServiceOnDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,14 +91,14 @@ func (p *TranslationServiceProxy) OnCreateTranslationSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
 	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onCreateTranslationSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationService, MethodITranslationServiceOnCreateTranslationSession)
 	if _err != nil {
-		_code = TransactionITranslationServiceOnCreateTranslationSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationService, MethodITranslationServiceOnCreateTranslationSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,12 +113,12 @@ func (p *TranslationServiceProxy) OnTranslationCapabilitiesRequest(
 	_data.WriteInt32(sourceFormat)
 	_data.WriteInt32(targetFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onTranslationCapabilitiesRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationService, MethodITranslationServiceOnTranslationCapabilitiesRequest)
 	if _err != nil {
-		_code = TransactionITranslationServiceOnTranslationCapabilitiesRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationService, MethodITranslationServiceOnTranslationCapabilitiesRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,6 +129,10 @@ type TranslationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TranslationServiceStub)(nil)
+
+func (s *TranslationServiceStub) Descriptor() string {
+	return DescriptorITranslationService
+}
 
 func (s *TranslationServiceStub) OnTransaction(
 	ctx context.Context,

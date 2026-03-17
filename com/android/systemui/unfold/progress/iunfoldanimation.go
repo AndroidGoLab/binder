@@ -15,23 +15,27 @@ const (
 	TransactionIUnfoldAnimationSetListener = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUnfoldAnimationSetListener = "setListener"
+)
+
 type IUnfoldAnimation interface {
 	AsBinder() binder.IBinder
 	SetListener(ctx context.Context, listener IUnfoldTransitionListener) error
 }
 
 type UnfoldAnimationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUnfoldAnimationProxy(
 	remote binder.IBinder,
 ) *UnfoldAnimationProxy {
-	return &UnfoldAnimationProxy{remote: remote}
+	return &UnfoldAnimationProxy{Remote: remote}
 }
 
 func (p *UnfoldAnimationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUnfoldAnimation = (*UnfoldAnimationProxy)(nil)
@@ -42,14 +46,14 @@ func (p *UnfoldAnimationProxy) SetListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnfoldAnimation)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldAnimation, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnfoldAnimation, MethodIUnfoldAnimationSetListener)
 	if _err != nil {
-		_code = TransactionIUnfoldAnimationSetListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUnfoldAnimation, MethodIUnfoldAnimationSetListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UnfoldAnimationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UnfoldAnimationStub)(nil)
+
+func (s *UnfoldAnimationStub) Descriptor() string {
+	return DescriptorIUnfoldAnimation
+}
 
 func (s *UnfoldAnimationStub) OnTransaction(
 	ctx context.Context,

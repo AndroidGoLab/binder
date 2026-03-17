@@ -16,6 +16,11 @@ const (
 	TransactionIFilterCallbackOnFilterStatus = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFilterCallbackOnFilterEvent  = "onFilterEvent"
+	MethodIFilterCallbackOnFilterStatus = "onFilterStatus"
+)
+
 type IFilterCallback interface {
 	AsBinder() binder.IBinder
 	OnFilterEvent(ctx context.Context, events []DemuxFilterEvent) error
@@ -23,17 +28,17 @@ type IFilterCallback interface {
 }
 
 type FilterCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFilterCallbackProxy(
 	remote binder.IBinder,
 ) *FilterCallbackProxy {
-	return &FilterCallbackProxy{remote: remote}
+	return &FilterCallbackProxy{Remote: remote}
 }
 
 func (p *FilterCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFilterCallback = (*FilterCallbackProxy)(nil)
@@ -49,18 +54,19 @@ func (p *FilterCallbackProxy) OnFilterEvent(
 	} else {
 		_data.WriteInt32(int32(len(events)))
 		for _, _item := range events {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilterCallback, "onFilterEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilterCallback, MethodIFilterCallbackOnFilterEvent)
 	if _err != nil {
-		_code = TransactionIFilterCallbackOnFilterEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilterCallback, MethodIFilterCallbackOnFilterEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +78,12 @@ func (p *FilterCallbackProxy) OnFilterStatus(
 	_data.WriteInterfaceToken(DescriptorIFilterCallback)
 	_data.WritePaddedByte(byte(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilterCallback, "onFilterStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilterCallback, MethodIFilterCallbackOnFilterStatus)
 	if _err != nil {
-		_code = TransactionIFilterCallbackOnFilterStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilterCallback, MethodIFilterCallbackOnFilterStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +94,10 @@ type FilterCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FilterCallbackStub)(nil)
+
+func (s *FilterCallbackStub) Descriptor() string {
+	return DescriptorIFilterCallback
+}
 
 func (s *FilterCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIRecommendationsChangeListenerOnRecommendationsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRecommendationsChangeListenerOnRecommendationsChanged = "onRecommendationsChanged"
+)
+
 type IRecommendationsChangeListener interface {
 	AsBinder() binder.IBinder
 	OnRecommendationsChanged(ctx context.Context) error
 }
 
 type RecommendationsChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecommendationsChangeListenerProxy(
 	remote binder.IBinder,
 ) *RecommendationsChangeListenerProxy {
-	return &RecommendationsChangeListenerProxy{remote: remote}
+	return &RecommendationsChangeListenerProxy{Remote: remote}
 }
 
 func (p *RecommendationsChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecommendationsChangeListener = (*RecommendationsChangeListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *RecommendationsChangeListenerProxy) OnRecommendationsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecommendationsChangeListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecommendationsChangeListener, "onRecommendationsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecommendationsChangeListener, MethodIRecommendationsChangeListenerOnRecommendationsChanged)
 	if _err != nil {
-		_code = TransactionIRecommendationsChangeListenerOnRecommendationsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecommendationsChangeListener, MethodIRecommendationsChangeListenerOnRecommendationsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type RecommendationsChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecommendationsChangeListenerStub)(nil)
+
+func (s *RecommendationsChangeListenerStub) Descriptor() string {
+	return DescriptorIRecommendationsChangeListener
+}
 
 func (s *RecommendationsChangeListenerStub) OnTransaction(
 	ctx context.Context,

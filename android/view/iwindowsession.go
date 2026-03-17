@@ -5,7 +5,7 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
+	util "github.com/xaionaro-go/binder/android/util"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -15,48 +15,95 @@ import (
 const DescriptorIWindowSession = "android.view.IWindowSession"
 
 const (
-	TransactionIWindowSessionAddToDisplay                               = binder.FirstCallTransaction + 0
-	TransactionIWindowSessionAddToDisplayAsUser                         = binder.FirstCallTransaction + 1
-	TransactionIWindowSessionAddToDisplayWithoutInputChannel            = binder.FirstCallTransaction + 2
-	TransactionIWindowSessionRemove                                     = binder.FirstCallTransaction + 3
-	TransactionIWindowSessionRelayout                                   = binder.FirstCallTransaction + 4
-	TransactionIWindowSessionRelayoutAsync                              = binder.FirstCallTransaction + 5
-	TransactionIWindowSessionOutOfMemory                                = binder.FirstCallTransaction + 6
-	TransactionIWindowSessionSetInsets                                  = binder.FirstCallTransaction + 7
-	TransactionIWindowSessionFinishDrawing                              = binder.FirstCallTransaction + 8
-	TransactionIWindowSessionPerformDrag                                = binder.FirstCallTransaction + 9
-	TransactionIWindowSessionDropForAccessibility                       = binder.FirstCallTransaction + 10
-	TransactionIWindowSessionReportDropResult                           = binder.FirstCallTransaction + 11
-	TransactionIWindowSessionCancelDragAndDrop                          = binder.FirstCallTransaction + 12
-	TransactionIWindowSessionDragRecipientEntered                       = binder.FirstCallTransaction + 13
-	TransactionIWindowSessionDragRecipientExited                        = binder.FirstCallTransaction + 14
-	TransactionIWindowSessionSetWallpaperPosition                       = binder.FirstCallTransaction + 15
-	TransactionIWindowSessionSetWallpaperZoomOut                        = binder.FirstCallTransaction + 16
-	TransactionIWindowSessionSetShouldZoomOutWallpaper                  = binder.FirstCallTransaction + 17
-	TransactionIWindowSessionWallpaperOffsetsComplete                   = binder.FirstCallTransaction + 18
-	TransactionIWindowSessionSetWallpaperDisplayOffset                  = binder.FirstCallTransaction + 19
-	TransactionIWindowSessionSendWallpaperCommand                       = binder.FirstCallTransaction + 20
-	TransactionIWindowSessionWallpaperCommandComplete                   = binder.FirstCallTransaction + 21
-	TransactionIWindowSessionOnRectangleOnScreenRequested               = binder.FirstCallTransaction + 22
-	TransactionIWindowSessionGetWindowId                                = binder.FirstCallTransaction + 23
-	TransactionIWindowSessionPokeDrawLock                               = binder.FirstCallTransaction + 24
-	TransactionIWindowSessionStartMovingTask                            = binder.FirstCallTransaction + 25
-	TransactionIWindowSessionFinishMovingTask                           = binder.FirstCallTransaction + 26
-	TransactionIWindowSessionUpdateTapExcludeRegion                     = binder.FirstCallTransaction + 27
-	TransactionIWindowSessionUpdateRequestedVisibleTypes                = binder.FirstCallTransaction + 28
-	TransactionIWindowSessionReportSystemGestureExclusionChanged        = binder.FirstCallTransaction + 29
-	TransactionIWindowSessionReportDecorViewGestureInterceptionChanged  = binder.FirstCallTransaction + 30
-	TransactionIWindowSessionReportKeepClearAreasChanged                = binder.FirstCallTransaction + 31
-	TransactionIWindowSessionGrantInputChannel                          = binder.FirstCallTransaction + 32
-	TransactionIWindowSessionUpdateInputChannel                         = binder.FirstCallTransaction + 33
-	TransactionIWindowSessionGrantEmbeddedWindowFocus                   = binder.FirstCallTransaction + 34
-	TransactionIWindowSessionGenerateDisplayHash                        = binder.FirstCallTransaction + 35
-	TransactionIWindowSessionSetOnBackInvokedCallbackInfo               = binder.FirstCallTransaction + 36
-	TransactionIWindowSessionClearTouchableRegion                       = binder.FirstCallTransaction + 37
-	TransactionIWindowSessionCancelDraw                                 = binder.FirstCallTransaction + 38
-	TransactionIWindowSessionMoveFocusToAdjacentWindow                  = binder.FirstCallTransaction + 39
-	TransactionIWindowSessionNotifyImeWindowVisibilityChangedFromClient = binder.FirstCallTransaction + 40
-	TransactionIWindowSessionNotifyInsetsAnimationRunningStateChanged   = binder.FirstCallTransaction + 41
+	TransactionIWindowSessionAddToDisplay                              = binder.FirstCallTransaction + 0
+	TransactionIWindowSessionAddToDisplayAsUser                        = binder.FirstCallTransaction + 1
+	TransactionIWindowSessionAddToDisplayWithoutInputChannel           = binder.FirstCallTransaction + 2
+	TransactionIWindowSessionRemove                                    = binder.FirstCallTransaction + 3
+	TransactionIWindowSessionRelayout                                  = binder.FirstCallTransaction + 4
+	TransactionIWindowSessionRelayoutAsync                             = binder.FirstCallTransaction + 5
+	TransactionIWindowSessionOutOfMemory                               = binder.FirstCallTransaction + 6
+	TransactionIWindowSessionSetInsets                                 = binder.FirstCallTransaction + 7
+	TransactionIWindowSessionFinishDrawing                             = binder.FirstCallTransaction + 8
+	TransactionIWindowSessionPerformHapticFeedback                     = binder.FirstCallTransaction + 9
+	TransactionIWindowSessionPerformHapticFeedbackAsync                = binder.FirstCallTransaction + 10
+	TransactionIWindowSessionPerformDrag                               = binder.FirstCallTransaction + 11
+	TransactionIWindowSessionDropForAccessibility                      = binder.FirstCallTransaction + 12
+	TransactionIWindowSessionReportDropResult                          = binder.FirstCallTransaction + 13
+	TransactionIWindowSessionCancelDragAndDrop                         = binder.FirstCallTransaction + 14
+	TransactionIWindowSessionDragRecipientEntered                      = binder.FirstCallTransaction + 15
+	TransactionIWindowSessionDragRecipientExited                       = binder.FirstCallTransaction + 16
+	TransactionIWindowSessionSetWallpaperPosition                      = binder.FirstCallTransaction + 17
+	TransactionIWindowSessionSetWallpaperZoomOut                       = binder.FirstCallTransaction + 18
+	TransactionIWindowSessionSetShouldZoomOutWallpaper                 = binder.FirstCallTransaction + 19
+	TransactionIWindowSessionWallpaperOffsetsComplete                  = binder.FirstCallTransaction + 20
+	TransactionIWindowSessionSetWallpaperDisplayOffset                 = binder.FirstCallTransaction + 21
+	TransactionIWindowSessionSendWallpaperCommand                      = binder.FirstCallTransaction + 22
+	TransactionIWindowSessionWallpaperCommandComplete                  = binder.FirstCallTransaction + 23
+	TransactionIWindowSessionOnRectangleOnScreenRequested              = binder.FirstCallTransaction + 24
+	TransactionIWindowSessionGetWindowId                               = binder.FirstCallTransaction + 25
+	TransactionIWindowSessionPokeDrawLock                              = binder.FirstCallTransaction + 26
+	TransactionIWindowSessionStartMovingTask                           = binder.FirstCallTransaction + 27
+	TransactionIWindowSessionFinishMovingTask                          = binder.FirstCallTransaction + 28
+	TransactionIWindowSessionUpdatePointerIcon                         = binder.FirstCallTransaction + 29
+	TransactionIWindowSessionUpdateTapExcludeRegion                    = binder.FirstCallTransaction + 30
+	TransactionIWindowSessionUpdateRequestedVisibleTypes               = binder.FirstCallTransaction + 31
+	TransactionIWindowSessionReportSystemGestureExclusionChanged       = binder.FirstCallTransaction + 32
+	TransactionIWindowSessionReportDecorViewGestureInterceptionChanged = binder.FirstCallTransaction + 33
+	TransactionIWindowSessionReportKeepClearAreasChanged               = binder.FirstCallTransaction + 34
+	TransactionIWindowSessionGrantInputChannel                         = binder.FirstCallTransaction + 35
+	TransactionIWindowSessionUpdateInputChannel                        = binder.FirstCallTransaction + 36
+	TransactionIWindowSessionGrantEmbeddedWindowFocus                  = binder.FirstCallTransaction + 37
+	TransactionIWindowSessionGenerateDisplayHash                       = binder.FirstCallTransaction + 38
+	TransactionIWindowSessionSetOnBackInvokedCallbackInfo              = binder.FirstCallTransaction + 39
+	TransactionIWindowSessionClearTouchableRegion                      = binder.FirstCallTransaction + 40
+	TransactionIWindowSessionCancelDraw                                = binder.FirstCallTransaction + 41
+	TransactionIWindowSessionMoveFocusToAdjacentWindow                 = binder.FirstCallTransaction + 42
+)
+
+const (
+	MethodIWindowSessionAddToDisplay                              = "addToDisplay"
+	MethodIWindowSessionAddToDisplayAsUser                        = "addToDisplayAsUser"
+	MethodIWindowSessionAddToDisplayWithoutInputChannel           = "addToDisplayWithoutInputChannel"
+	MethodIWindowSessionRemove                                    = "remove"
+	MethodIWindowSessionRelayout                                  = "relayout"
+	MethodIWindowSessionRelayoutAsync                             = "relayoutAsync"
+	MethodIWindowSessionOutOfMemory                               = "outOfMemory"
+	MethodIWindowSessionSetInsets                                 = "setInsets"
+	MethodIWindowSessionFinishDrawing                             = "finishDrawing"
+	MethodIWindowSessionPerformHapticFeedback                     = "performHapticFeedback"
+	MethodIWindowSessionPerformHapticFeedbackAsync                = "performHapticFeedbackAsync"
+	MethodIWindowSessionPerformDrag                               = "performDrag"
+	MethodIWindowSessionDropForAccessibility                      = "dropForAccessibility"
+	MethodIWindowSessionReportDropResult                          = "reportDropResult"
+	MethodIWindowSessionCancelDragAndDrop                         = "cancelDragAndDrop"
+	MethodIWindowSessionDragRecipientEntered                      = "dragRecipientEntered"
+	MethodIWindowSessionDragRecipientExited                       = "dragRecipientExited"
+	MethodIWindowSessionSetWallpaperPosition                      = "setWallpaperPosition"
+	MethodIWindowSessionSetWallpaperZoomOut                       = "setWallpaperZoomOut"
+	MethodIWindowSessionSetShouldZoomOutWallpaper                 = "setShouldZoomOutWallpaper"
+	MethodIWindowSessionWallpaperOffsetsComplete                  = "wallpaperOffsetsComplete"
+	MethodIWindowSessionSetWallpaperDisplayOffset                 = "setWallpaperDisplayOffset"
+	MethodIWindowSessionSendWallpaperCommand                      = "sendWallpaperCommand"
+	MethodIWindowSessionWallpaperCommandComplete                  = "wallpaperCommandComplete"
+	MethodIWindowSessionOnRectangleOnScreenRequested              = "onRectangleOnScreenRequested"
+	MethodIWindowSessionGetWindowId                               = "getWindowId"
+	MethodIWindowSessionPokeDrawLock                              = "pokeDrawLock"
+	MethodIWindowSessionStartMovingTask                           = "startMovingTask"
+	MethodIWindowSessionFinishMovingTask                          = "finishMovingTask"
+	MethodIWindowSessionUpdatePointerIcon                         = "updatePointerIcon"
+	MethodIWindowSessionUpdateTapExcludeRegion                    = "updateTapExcludeRegion"
+	MethodIWindowSessionUpdateRequestedVisibleTypes               = "updateRequestedVisibleTypes"
+	MethodIWindowSessionReportSystemGestureExclusionChanged       = "reportSystemGestureExclusionChanged"
+	MethodIWindowSessionReportDecorViewGestureInterceptionChanged = "reportDecorViewGestureInterceptionChanged"
+	MethodIWindowSessionReportKeepClearAreasChanged               = "reportKeepClearAreasChanged"
+	MethodIWindowSessionGrantInputChannel                         = "grantInputChannel"
+	MethodIWindowSessionUpdateInputChannel                        = "updateInputChannel"
+	MethodIWindowSessionGrantEmbeddedWindowFocus                  = "grantEmbeddedWindowFocus"
+	MethodIWindowSessionGenerateDisplayHash                       = "generateDisplayHash"
+	MethodIWindowSessionSetOnBackInvokedCallbackInfo              = "setOnBackInvokedCallbackInfo"
+	MethodIWindowSessionClearTouchableRegion                      = "clearTouchableRegion"
+	MethodIWindowSessionCancelDraw                                = "cancelDraw"
+	MethodIWindowSessionMoveFocusToAdjacentWindow                 = "moveFocusToAdjacentWindow"
 )
 
 type IWindowSession interface {
@@ -65,11 +112,13 @@ type IWindowSession interface {
 	AddToDisplayAsUser(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, viewVisibility int32, layerStackId int32, requestedVisibleTypes int32, outInputChannel InputChannel, insetsState InsetsState, activeControls InsetsSourceControlArray, attachedFrame graphics.Rect, sizeCompatScale []float32) (int32, error)
 	AddToDisplayWithoutInputChannel(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, viewVisibility int32, layerStackId int32, insetsState InsetsState, attachedFrame graphics.Rect, sizeCompatScale []float32) (int32, error)
 	Remove(ctx context.Context, clientToken binder.IBinder) error
-	Relayout(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, requestedWidth int32, requestedHeight int32, viewVisibility int32, flags int32, seq int32, lastSyncSeqId int32, outRelayoutResult *WindowRelayoutResult) (int32, error)
+	Relayout(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, requestedWidth int32, requestedHeight int32, viewVisibility int32, flags int32, seq int32, lastSyncSeqId int32, outFrames interface{}, outMergedConfiguration util.MergedConfiguration, outSurfaceControl SurfaceControl, insetsState InsetsState, activeControls InsetsSourceControlArray, bundle interface{}) (int32, error)
 	RelayoutAsync(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, requestedWidth int32, requestedHeight int32, viewVisibility int32, flags int32, seq int32, lastSyncSeqId int32) error
 	OutOfMemory(ctx context.Context, window IWindow) (bool, error)
 	SetInsets(ctx context.Context, window IWindow, touchableInsets int32, contentInsets graphics.Rect, visibleInsets graphics.Rect, touchableRegion graphics.Region) error
 	FinishDrawing(ctx context.Context, window IWindow, postDrawTransaction SurfaceControlTransaction, seqId int32) error
+	PerformHapticFeedback(ctx context.Context, effectId int32, always bool, fromIme bool) (bool, error)
+	PerformHapticFeedbackAsync(ctx context.Context, effectId int32, always bool, fromIme bool) error
 	PerformDrag(ctx context.Context, window IWindow, flags int32, surface SurfaceControl, touchSource int32, touchDeviceId int32, touchPointerId int32, touchX float32, touchY float32, thumbCenterX float32, thumbCenterY float32, data content.ClipData) (binder.IBinder, error)
 	DropForAccessibility(ctx context.Context, window IWindow, x int32, y int32) (bool, error)
 	ReportDropResult(ctx context.Context, window IWindow, consumed bool) error
@@ -88,8 +137,9 @@ type IWindowSession interface {
 	PokeDrawLock(ctx context.Context, window binder.IBinder) error
 	StartMovingTask(ctx context.Context, window IWindow, startX float32, startY float32) (bool, error)
 	FinishMovingTask(ctx context.Context, window IWindow) error
+	UpdatePointerIcon(ctx context.Context, window IWindow) error
 	UpdateTapExcludeRegion(ctx context.Context, window IWindow, region graphics.Region) error
-	UpdateRequestedVisibleTypes(ctx context.Context, window IWindow, requestedVisibleTypes int32, imeStatsToken *inputmethod.ImeTrackerToken) error
+	UpdateRequestedVisibleTypes(ctx context.Context, window IWindow, requestedVisibleTypes int32) error
 	ReportSystemGestureExclusionChanged(ctx context.Context, window IWindow, exclusionRects []graphics.Rect) error
 	ReportDecorViewGestureInterceptionChanged(ctx context.Context, window IWindow, intercepted bool) error
 	ReportKeepClearAreasChanged(ctx context.Context, window IWindow, restricted []graphics.Rect, unrestricted []graphics.Rect) error
@@ -101,22 +151,20 @@ type IWindowSession interface {
 	ClearTouchableRegion(ctx context.Context, window IWindow) error
 	CancelDraw(ctx context.Context, window IWindow) (bool, error)
 	MoveFocusToAdjacentWindow(ctx context.Context, fromWindow IWindow, direction int32) (bool, error)
-	NotifyImeWindowVisibilityChangedFromClient(ctx context.Context, window IWindow, visible bool, statsToken inputmethod.ImeTrackerToken) error
-	NotifyInsetsAnimationRunningStateChanged(ctx context.Context, window IWindow, running bool) error
 }
 
 type WindowSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowSessionProxy(
 	remote binder.IBinder,
 ) *WindowSessionProxy {
-	return &WindowSessionProxy{remote: remote}
+	return &WindowSessionProxy{Remote: remote}
 }
 
 func (p *WindowSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowSession = (*WindowSessionProxy)(nil)
@@ -137,7 +185,7 @@ func (p *WindowSessionProxy) AddToDisplay(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -146,12 +194,12 @@ func (p *WindowSessionProxy) AddToDisplay(
 	_data.WriteInt32(layerStackId)
 	_data.WriteInt32(requestedVisibleTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "addToDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplay)
 	if _err != nil {
-		_code = TransactionIWindowSessionAddToDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionAddToDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -207,10 +255,10 @@ func (p *WindowSessionProxy) AddToDisplayAsUser(
 	sizeCompatScale []float32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -220,12 +268,12 @@ func (p *WindowSessionProxy) AddToDisplayAsUser(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(requestedVisibleTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "addToDisplayAsUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplayAsUser)
 	if _err != nil {
-		_code = TransactionIWindowSessionAddToDisplayAsUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionAddToDisplayAsUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -280,7 +328,7 @@ func (p *WindowSessionProxy) AddToDisplayWithoutInputChannel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -288,12 +336,12 @@ func (p *WindowSessionProxy) AddToDisplayWithoutInputChannel(
 	_data.WriteInt32(viewVisibility)
 	_data.WriteInt32(layerStackId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "addToDisplayWithoutInputChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionAddToDisplayWithoutInputChannel)
 	if _err != nil {
-		_code = TransactionIWindowSessionAddToDisplayWithoutInputChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionAddToDisplayWithoutInputChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -335,14 +383,14 @@ func (p *WindowSessionProxy) Remove(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "remove")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionRemove)
 	if _err != nil {
-		_code = TransactionIWindowSessionRemove
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionRemove, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -365,12 +413,17 @@ func (p *WindowSessionProxy) Relayout(
 	flags int32,
 	seq int32,
 	lastSyncSeqId int32,
-	outRelayoutResult *WindowRelayoutResult,
+	outFrames interface{},
+	outMergedConfiguration util.MergedConfiguration,
+	outSurfaceControl SurfaceControl,
+	insetsState InsetsState,
+	activeControls InsetsSourceControlArray,
+	bundle interface{},
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -382,12 +435,12 @@ func (p *WindowSessionProxy) Relayout(
 	_data.WriteInt32(seq)
 	_data.WriteInt32(lastSyncSeqId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "relayout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionRelayout)
 	if _err != nil {
-		_code = TransactionIWindowSessionRelayout
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionRelayout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -396,7 +449,16 @@ func (p *WindowSessionProxy) Relayout(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
-	if _err = outRelayoutResult.UnmarshalParcel(_reply); _err != nil {
+	if _err = outMergedConfiguration.UnmarshalParcel(_reply); _err != nil {
+		return _result, _err
+	}
+	if _err = outSurfaceControl.UnmarshalParcel(_reply); _err != nil {
+		return _result, _err
+	}
+	if _err = insetsState.UnmarshalParcel(_reply); _err != nil {
+		return _result, _err
+	}
+	if _err = activeControls.UnmarshalParcel(_reply); _err != nil {
 		return _result, _err
 	}
 
@@ -420,7 +482,7 @@ func (p *WindowSessionProxy) RelayoutAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _err
@@ -432,12 +494,12 @@ func (p *WindowSessionProxy) RelayoutAsync(
 	_data.WriteInt32(seq)
 	_data.WriteInt32(lastSyncSeqId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "relayoutAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionRelayoutAsync)
 	if _err != nil {
-		_code = TransactionIWindowSessionRelayoutAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionRelayoutAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -448,14 +510,14 @@ func (p *WindowSessionProxy) OutOfMemory(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "outOfMemory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionOutOfMemory)
 	if _err != nil {
-		_code = TransactionIWindowSessionOutOfMemory
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionOutOfMemory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -482,7 +544,7 @@ func (p *WindowSessionProxy) SetInsets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(touchableInsets)
 	_data.WriteInt32(1)
 	if _err := contentInsets.MarshalParcel(_data); _err != nil {
@@ -497,12 +559,12 @@ func (p *WindowSessionProxy) SetInsets(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setInsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetInsets)
 	if _err != nil {
-		_code = TransactionIWindowSessionSetInsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSetInsets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -514,19 +576,75 @@ func (p *WindowSessionProxy) FinishDrawing(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := postDrawTransaction.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(seqId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "finishDrawing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionFinishDrawing)
 	if _err != nil {
-		_code = TransactionIWindowSessionFinishDrawing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionFinishDrawing, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *WindowSessionProxy) PerformHapticFeedback(
+	ctx context.Context,
+	effectId int32,
+	always bool,
+	fromIme bool,
+) (bool, error) {
+	var _result bool
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIWindowSession)
+	_data.WriteInt32(effectId)
+	_data.WriteBool(always)
+	_data.WriteBool(fromIme)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedback)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedback, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *WindowSessionProxy) PerformHapticFeedbackAsync(
+	ctx context.Context,
+	effectId int32,
+	always bool,
+	fromIme bool,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIWindowSession)
+	_data.WriteInt32(effectId)
+	_data.WriteBool(always)
+	_data.WriteBool(fromIme)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedbackAsync)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionPerformHapticFeedbackAsync, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -547,7 +665,7 @@ func (p *WindowSessionProxy) PerformDrag(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := surface.MarshalParcel(_data); _err != nil {
@@ -565,12 +683,12 @@ func (p *WindowSessionProxy) PerformDrag(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "performDrag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPerformDrag)
 	if _err != nil {
-		_code = TransactionIWindowSessionPerformDrag
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionPerformDrag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -584,7 +702,7 @@ func (p *WindowSessionProxy) PerformDrag(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -597,16 +715,16 @@ func (p *WindowSessionProxy) DropForAccessibility(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "dropForAccessibility")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionDropForAccessibility)
 	if _err != nil {
-		_code = TransactionIWindowSessionDropForAccessibility
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionDropForAccessibility, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -630,15 +748,15 @@ func (p *WindowSessionProxy) ReportDropResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(consumed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "reportDropResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionReportDropResult)
 	if _err != nil {
-		_code = TransactionIWindowSessionReportDropResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionReportDropResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -649,15 +767,15 @@ func (p *WindowSessionProxy) CancelDragAndDrop(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, dragToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, dragToken, p.Remote.Transport())
 	_data.WriteBool(skipAnimation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "cancelDragAndDrop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionCancelDragAndDrop)
 	if _err != nil {
-		_code = TransactionIWindowSessionCancelDragAndDrop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionCancelDragAndDrop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -667,14 +785,14 @@ func (p *WindowSessionProxy) DragRecipientEntered(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "dragRecipientEntered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionDragRecipientEntered)
 	if _err != nil {
-		_code = TransactionIWindowSessionDragRecipientEntered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionDragRecipientEntered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -684,14 +802,14 @@ func (p *WindowSessionProxy) DragRecipientExited(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "dragRecipientExited")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionDragRecipientExited)
 	if _err != nil {
-		_code = TransactionIWindowSessionDragRecipientExited
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionDragRecipientExited, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -705,18 +823,18 @@ func (p *WindowSessionProxy) SetWallpaperPosition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteFloat32(x)
 	_data.WriteFloat32(y)
 	_data.WriteFloat32(xstep)
 	_data.WriteFloat32(ystep)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setWallpaperPosition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperPosition)
 	if _err != nil {
-		_code = TransactionIWindowSessionSetWallpaperPosition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSetWallpaperPosition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -727,15 +845,15 @@ func (p *WindowSessionProxy) SetWallpaperZoomOut(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteFloat32(scale)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setWallpaperZoomOut")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperZoomOut)
 	if _err != nil {
-		_code = TransactionIWindowSessionSetWallpaperZoomOut
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSetWallpaperZoomOut, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -746,15 +864,15 @@ func (p *WindowSessionProxy) SetShouldZoomOutWallpaper(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteBool(shouldZoom)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setShouldZoomOutWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetShouldZoomOutWallpaper)
 	if _err != nil {
-		_code = TransactionIWindowSessionSetShouldZoomOutWallpaper
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSetShouldZoomOutWallpaper, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -764,14 +882,14 @@ func (p *WindowSessionProxy) WallpaperOffsetsComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "wallpaperOffsetsComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionWallpaperOffsetsComplete)
 	if _err != nil {
-		_code = TransactionIWindowSessionWallpaperOffsetsComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionWallpaperOffsetsComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -783,16 +901,16 @@ func (p *WindowSessionProxy) SetWallpaperDisplayOffset(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setWallpaperDisplayOffset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetWallpaperDisplayOffset)
 	if _err != nil {
-		_code = TransactionIWindowSessionSetWallpaperDisplayOffset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSetWallpaperDisplayOffset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -808,19 +926,19 @@ func (p *WindowSessionProxy) SendWallpaperCommand(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
 	_data.WriteString16(action)
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 	_data.WriteInt32(z)
 	_data.WriteBool(sync)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "sendWallpaperCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSendWallpaperCommand)
 	if _err != nil {
-		_code = TransactionIWindowSessionSendWallpaperCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSendWallpaperCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -831,14 +949,14 @@ func (p *WindowSessionProxy) WallpaperCommandComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "wallpaperCommandComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionWallpaperCommandComplete)
 	if _err != nil {
-		_code = TransactionIWindowSessionWallpaperCommandComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionWallpaperCommandComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -849,18 +967,18 @@ func (p *WindowSessionProxy) OnRectangleOnScreenRequested(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := rectangle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "onRectangleOnScreenRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionOnRectangleOnScreenRequested)
 	if _err != nil {
-		_code = TransactionIWindowSessionOnRectangleOnScreenRequested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionOnRectangleOnScreenRequested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -871,14 +989,14 @@ func (p *WindowSessionProxy) GetWindowId(
 	var _result IWindowId
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "getWindowId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGetWindowId)
 	if _err != nil {
-		_code = TransactionIWindowSessionGetWindowId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionGetWindowId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -892,7 +1010,7 @@ func (p *WindowSessionProxy) GetWindowId(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWindowIdProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewWindowIdProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -902,14 +1020,14 @@ func (p *WindowSessionProxy) PokeDrawLock(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "pokeDrawLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionPokeDrawLock)
 	if _err != nil {
-		_code = TransactionIWindowSessionPokeDrawLock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionPokeDrawLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -931,16 +1049,16 @@ func (p *WindowSessionProxy) StartMovingTask(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteFloat32(startX)
 	_data.WriteFloat32(startY)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "startMovingTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionStartMovingTask)
 	if _err != nil {
-		_code = TransactionIWindowSessionStartMovingTask
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionStartMovingTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -963,14 +1081,31 @@ func (p *WindowSessionProxy) FinishMovingTask(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "finishMovingTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionFinishMovingTask)
 	if _err != nil {
-		_code = TransactionIWindowSessionFinishMovingTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionFinishMovingTask, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *WindowSessionProxy) UpdatePointerIcon(
+	ctx context.Context,
+	window IWindow,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIWindowSession)
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdatePointerIcon)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionUpdatePointerIcon, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -981,18 +1116,18 @@ func (p *WindowSessionProxy) UpdateTapExcludeRegion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "updateTapExcludeRegion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateTapExcludeRegion)
 	if _err != nil {
-		_code = TransactionIWindowSessionUpdateTapExcludeRegion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionUpdateTapExcludeRegion, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1000,26 +1135,18 @@ func (p *WindowSessionProxy) UpdateRequestedVisibleTypes(
 	ctx context.Context,
 	window IWindow,
 	requestedVisibleTypes int32,
-	imeStatsToken *inputmethod.ImeTrackerToken,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(requestedVisibleTypes)
-	if imeStatsToken != nil {
-		if _err := (*imeStatsToken).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "updateRequestedVisibleTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateRequestedVisibleTypes)
 	if _err != nil {
-		_code = TransactionIWindowSessionUpdateRequestedVisibleTypes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionUpdateRequestedVisibleTypes, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1030,24 +1157,25 @@ func (p *WindowSessionProxy) ReportSystemGestureExclusionChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	if exclusionRects == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(exclusionRects)))
 		for _, _item := range exclusionRects {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "reportSystemGestureExclusionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionReportSystemGestureExclusionChanged)
 	if _err != nil {
-		_code = TransactionIWindowSessionReportSystemGestureExclusionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionReportSystemGestureExclusionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1058,15 +1186,15 @@ func (p *WindowSessionProxy) ReportDecorViewGestureInterceptionChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(intercepted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "reportDecorViewGestureInterceptionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionReportDecorViewGestureInterceptionChanged)
 	if _err != nil {
-		_code = TransactionIWindowSessionReportDecorViewGestureInterceptionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionReportDecorViewGestureInterceptionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1078,12 +1206,13 @@ func (p *WindowSessionProxy) ReportKeepClearAreasChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	if restricted == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(restricted)))
 		for _, _item := range restricted {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -1094,18 +1223,19 @@ func (p *WindowSessionProxy) ReportKeepClearAreasChanged(
 	} else {
 		_data.WriteInt32(int32(len(unrestricted)))
 		for _, _item := range unrestricted {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "reportKeepClearAreasChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionReportKeepClearAreasChanged)
 	if _err != nil {
-		_code = TransactionIWindowSessionReportKeepClearAreasChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionReportKeepClearAreasChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1131,20 +1261,20 @@ func (p *WindowSessionProxy) GrantInputChannel(
 	if _err := surface.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(privateFlags)
 	_data.WriteInt32(inputFeatures)
 	_data.WriteInt32(type_)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteString16(inputHandleName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "grantInputChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGrantInputChannel)
 	if _err != nil {
-		_code = TransactionIWindowSessionGrantInputChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionGrantInputChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1172,7 +1302,7 @@ func (p *WindowSessionProxy) UpdateInputChannel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, channelToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, channelToken, p.Remote.Transport())
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(1)
 	if _err := surface.MarshalParcel(_data); _err != nil {
@@ -1186,12 +1316,12 @@ func (p *WindowSessionProxy) UpdateInputChannel(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "updateInputChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionUpdateInputChannel)
 	if _err != nil {
-		_code = TransactionIWindowSessionUpdateInputChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionUpdateInputChannel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1203,15 +1333,15 @@ func (p *WindowSessionProxy) GrantEmbeddedWindowFocus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(grantFocus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "grantEmbeddedWindowFocus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGrantEmbeddedWindowFocus)
 	if _err != nil {
-		_code = TransactionIWindowSessionGrantEmbeddedWindowFocus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionGrantEmbeddedWindowFocus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1233,19 +1363,19 @@ func (p *WindowSessionProxy) GenerateDisplayHash(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := boundsInWindow.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(hashAlgorithm)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "generateDisplayHash")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionGenerateDisplayHash)
 	if _err != nil {
-		_code = TransactionIWindowSessionGenerateDisplayHash
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionGenerateDisplayHash, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1256,14 +1386,14 @@ func (p *WindowSessionProxy) SetOnBackInvokedCallbackInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setOnBackInvokedCallbackInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionSetOnBackInvokedCallbackInfo)
 	if _err != nil {
-		_code = TransactionIWindowSessionSetOnBackInvokedCallbackInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionSetOnBackInvokedCallbackInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1273,14 +1403,14 @@ func (p *WindowSessionProxy) ClearTouchableRegion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "clearTouchableRegion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionClearTouchableRegion)
 	if _err != nil {
-		_code = TransactionIWindowSessionClearTouchableRegion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionClearTouchableRegion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1300,14 +1430,14 @@ func (p *WindowSessionProxy) CancelDraw(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "cancelDraw")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionCancelDraw)
 	if _err != nil {
-		_code = TransactionIWindowSessionCancelDraw
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionCancelDraw, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1332,15 +1462,15 @@ func (p *WindowSessionProxy) MoveFocusToAdjacentWindow(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, fromWindow.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, fromWindow.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(direction)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "moveFocusToAdjacentWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSession, MethodIWindowSessionMoveFocusToAdjacentWindow)
 	if _err != nil {
-		_code = TransactionIWindowSessionMoveFocusToAdjacentWindow
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSession, MethodIWindowSessionMoveFocusToAdjacentWindow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1357,49 +1487,6 @@ func (p *WindowSessionProxy) MoveFocusToAdjacentWindow(
 	return _result, nil
 }
 
-func (p *WindowSessionProxy) NotifyImeWindowVisibilityChangedFromClient(
-	ctx context.Context,
-	window IWindow,
-	visible bool,
-	statsToken inputmethod.ImeTrackerToken,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
-	_data.WriteBool(visible)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "notifyImeWindowVisibilityChangedFromClient")
-	if _err != nil {
-		_code = TransactionIWindowSessionNotifyImeWindowVisibilityChangedFromClient
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *WindowSessionProxy) NotifyInsetsAnimationRunningStateChanged(
-	ctx context.Context,
-	window IWindow,
-	running bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWindowSession)
-	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
-	_data.WriteBool(running)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "notifyInsetsAnimationRunningStateChanged")
-	if _err != nil {
-		_code = TransactionIWindowSessionNotifyInsetsAnimationRunningStateChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
 // WindowSessionStub dispatches incoming binder transactions
 // to a typed IWindowSession implementation.
 type WindowSessionStub struct {
@@ -1407,6 +1494,10 @@ type WindowSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowSessionStub)(nil)
+
+func (s *WindowSessionStub) Descriptor() string {
+	return DescriptorIWindowSession
+}
 
 func (s *WindowSessionStub) OnTransaction(
 	ctx context.Context,
@@ -1604,8 +1695,13 @@ func (s *WindowSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outRelayoutResult *WindowRelayoutResult
-		_result, _err := s.Impl.Relayout(ctx, _arg_window, _arg_attrs, _arg_requestedWidth, _arg_requestedHeight, _arg_viewVisibility, _arg_flags, _arg_seq, _arg_lastSyncSeqId, _arg_outRelayoutResult)
+		var _arg_outFrames interface{}
+		var _arg_outMergedConfiguration util.MergedConfiguration
+		var _arg_outSurfaceControl SurfaceControl
+		var _arg_insetsState InsetsState
+		var _arg_activeControls InsetsSourceControlArray
+		var _arg_bundle interface{}
+		_result, _err := s.Impl.Relayout(ctx, _arg_window, _arg_attrs, _arg_requestedWidth, _arg_requestedHeight, _arg_viewVisibility, _arg_flags, _arg_seq, _arg_lastSyncSeqId, _arg_outFrames, _arg_outMergedConfiguration, _arg_outSurfaceControl, _arg_insetsState, _arg_activeControls, _arg_bundle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1750,6 +1846,50 @@ func (s *WindowSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.FinishDrawing(ctx, _arg_window, _arg_postDrawTransaction, _arg_seqId)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowSessionPerformHapticFeedback:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_effectId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_always, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromIme, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.PerformHapticFeedback(ctx, _arg_effectId, _arg_always, _arg_fromIme)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowSessionPerformHapticFeedbackAsync:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_effectId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_always, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromIme, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformHapticFeedbackAsync(ctx, _arg_effectId, _arg_always, _arg_fromIme)
 		_ = _err
 		return nil, nil
 	case TransactionIWindowSessionPerformDrag:
@@ -2109,6 +2249,16 @@ func (s *WindowSessionStub) OnTransaction(
 		_err := s.Impl.FinishMovingTask(ctx, _arg_window)
 		_ = _err
 		return nil, nil
+	case TransactionIWindowSessionUpdatePointerIcon:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_window IWindow
+		_ = _arg_window
+		_err := s.Impl.UpdatePointerIcon(ctx, _arg_window)
+		_ = _err
+		return nil, nil
 	case TransactionIWindowSessionUpdateTapExcludeRegion:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2142,19 +2292,7 @@ func (s *WindowSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_imeStatsToken *inputmethod.ImeTrackerToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_imeStatsToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.UpdateRequestedVisibleTypes(ctx, _arg_window, _arg_requestedVisibleTypes, _arg_imeStatsToken)
+		_err = s.Impl.UpdateRequestedVisibleTypes(ctx, _arg_window, _arg_requestedVisibleTypes)
 		_ = _err
 		return nil, nil
 	case TransactionIWindowSessionReportSystemGestureExclusionChanged:
@@ -2416,46 +2554,6 @@ func (s *WindowSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIWindowSessionNotifyImeWindowVisibilityChangedFromClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_window IWindow
-		_ = _arg_window
-		_arg_visible, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_statsToken inputmethod.ImeTrackerToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.NotifyImeWindowVisibilityChangedFromClient(ctx, _arg_window, _arg_visible, _arg_statsToken)
-		_ = _err
-		return nil, nil
-	case TransactionIWindowSessionNotifyInsetsAnimationRunningStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_window IWindow
-		_ = _arg_window
-		_arg_running, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.NotifyInsetsAnimationRunningStateChanged(ctx, _arg_window, _arg_running)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2469,11 +2567,13 @@ type IWindowSessionServer interface {
 	AddToDisplayAsUser(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, viewVisibility int32, layerStackId int32, requestedVisibleTypes int32, outInputChannel InputChannel, insetsState InsetsState, activeControls InsetsSourceControlArray, attachedFrame graphics.Rect, sizeCompatScale []float32) (int32, error)
 	AddToDisplayWithoutInputChannel(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, viewVisibility int32, layerStackId int32, insetsState InsetsState, attachedFrame graphics.Rect, sizeCompatScale []float32) (int32, error)
 	Remove(ctx context.Context, clientToken binder.IBinder) error
-	Relayout(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, requestedWidth int32, requestedHeight int32, viewVisibility int32, flags int32, seq int32, lastSyncSeqId int32, outRelayoutResult *WindowRelayoutResult) (int32, error)
+	Relayout(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, requestedWidth int32, requestedHeight int32, viewVisibility int32, flags int32, seq int32, lastSyncSeqId int32, outFrames interface{}, outMergedConfiguration util.MergedConfiguration, outSurfaceControl SurfaceControl, insetsState InsetsState, activeControls InsetsSourceControlArray, bundle interface{}) (int32, error)
 	RelayoutAsync(ctx context.Context, window IWindow, attrs WindowManagerLayoutParams, requestedWidth int32, requestedHeight int32, viewVisibility int32, flags int32, seq int32, lastSyncSeqId int32) error
 	OutOfMemory(ctx context.Context, window IWindow) (bool, error)
 	SetInsets(ctx context.Context, window IWindow, touchableInsets int32, contentInsets graphics.Rect, visibleInsets graphics.Rect, touchableRegion graphics.Region) error
 	FinishDrawing(ctx context.Context, window IWindow, postDrawTransaction SurfaceControlTransaction, seqId int32) error
+	PerformHapticFeedback(ctx context.Context, effectId int32, always bool, fromIme bool) (bool, error)
+	PerformHapticFeedbackAsync(ctx context.Context, effectId int32, always bool, fromIme bool) error
 	PerformDrag(ctx context.Context, window IWindow, flags int32, surface SurfaceControl, touchSource int32, touchDeviceId int32, touchPointerId int32, touchX float32, touchY float32, thumbCenterX float32, thumbCenterY float32, data content.ClipData) (binder.IBinder, error)
 	DropForAccessibility(ctx context.Context, window IWindow, x int32, y int32) (bool, error)
 	ReportDropResult(ctx context.Context, window IWindow, consumed bool) error
@@ -2492,8 +2592,9 @@ type IWindowSessionServer interface {
 	PokeDrawLock(ctx context.Context, window binder.IBinder) error
 	StartMovingTask(ctx context.Context, window IWindow, startX float32, startY float32) (bool, error)
 	FinishMovingTask(ctx context.Context, window IWindow) error
+	UpdatePointerIcon(ctx context.Context, window IWindow) error
 	UpdateTapExcludeRegion(ctx context.Context, window IWindow, region graphics.Region) error
-	UpdateRequestedVisibleTypes(ctx context.Context, window IWindow, requestedVisibleTypes int32, imeStatsToken *inputmethod.ImeTrackerToken) error
+	UpdateRequestedVisibleTypes(ctx context.Context, window IWindow, requestedVisibleTypes int32) error
 	ReportSystemGestureExclusionChanged(ctx context.Context, window IWindow, exclusionRects []graphics.Rect) error
 	ReportDecorViewGestureInterceptionChanged(ctx context.Context, window IWindow, intercepted bool) error
 	ReportKeepClearAreasChanged(ctx context.Context, window IWindow, restricted []graphics.Rect, unrestricted []graphics.Rect) error
@@ -2505,8 +2606,6 @@ type IWindowSessionServer interface {
 	ClearTouchableRegion(ctx context.Context, window IWindow) error
 	CancelDraw(ctx context.Context, window IWindow) (bool, error)
 	MoveFocusToAdjacentWindow(ctx context.Context, fromWindow IWindow, direction int32) (bool, error)
-	NotifyImeWindowVisibilityChangedFromClient(ctx context.Context, window IWindow, visible bool, statsToken inputmethod.ImeTrackerToken) error
-	NotifyInsetsAnimationRunningStateChanged(ctx context.Context, window IWindow, running bool) error
 }
 
 type windowSessionStubWrapper struct {
@@ -2580,9 +2679,14 @@ func (w *windowSessionStubWrapper) Relayout(
 	flags int32,
 	seq int32,
 	lastSyncSeqId int32,
-	outRelayoutResult *WindowRelayoutResult,
+	outFrames interface{},
+	outMergedConfiguration util.MergedConfiguration,
+	outSurfaceControl SurfaceControl,
+	insetsState InsetsState,
+	activeControls InsetsSourceControlArray,
+	bundle interface{},
 ) (int32, error) {
-	return w.impl.Relayout(ctx, window, attrs, requestedWidth, requestedHeight, viewVisibility, flags, seq, lastSyncSeqId, outRelayoutResult)
+	return w.impl.Relayout(ctx, window, attrs, requestedWidth, requestedHeight, viewVisibility, flags, seq, lastSyncSeqId, outFrames, outMergedConfiguration, outSurfaceControl, insetsState, activeControls, bundle)
 }
 
 func (w *windowSessionStubWrapper) RelayoutAsync(
@@ -2624,6 +2728,24 @@ func (w *windowSessionStubWrapper) FinishDrawing(
 	seqId int32,
 ) error {
 	return w.impl.FinishDrawing(ctx, window, postDrawTransaction, seqId)
+}
+
+func (w *windowSessionStubWrapper) PerformHapticFeedback(
+	ctx context.Context,
+	effectId int32,
+	always bool,
+	fromIme bool,
+) (bool, error) {
+	return w.impl.PerformHapticFeedback(ctx, effectId, always, fromIme)
+}
+
+func (w *windowSessionStubWrapper) PerformHapticFeedbackAsync(
+	ctx context.Context,
+	effectId int32,
+	always bool,
+	fromIme bool,
+) error {
+	return w.impl.PerformHapticFeedbackAsync(ctx, effectId, always, fromIme)
 }
 
 func (w *windowSessionStubWrapper) PerformDrag(
@@ -2784,6 +2906,13 @@ func (w *windowSessionStubWrapper) FinishMovingTask(
 	return w.impl.FinishMovingTask(ctx, window)
 }
 
+func (w *windowSessionStubWrapper) UpdatePointerIcon(
+	ctx context.Context,
+	window IWindow,
+) error {
+	return w.impl.UpdatePointerIcon(ctx, window)
+}
+
 func (w *windowSessionStubWrapper) UpdateTapExcludeRegion(
 	ctx context.Context,
 	window IWindow,
@@ -2796,9 +2925,8 @@ func (w *windowSessionStubWrapper) UpdateRequestedVisibleTypes(
 	ctx context.Context,
 	window IWindow,
 	requestedVisibleTypes int32,
-	imeStatsToken *inputmethod.ImeTrackerToken,
 ) error {
-	return w.impl.UpdateRequestedVisibleTypes(ctx, window, requestedVisibleTypes, imeStatsToken)
+	return w.impl.UpdateRequestedVisibleTypes(ctx, window, requestedVisibleTypes)
 }
 
 func (w *windowSessionStubWrapper) ReportSystemGestureExclusionChanged(
@@ -2904,23 +3032,6 @@ func (w *windowSessionStubWrapper) MoveFocusToAdjacentWindow(
 	direction int32,
 ) (bool, error) {
 	return w.impl.MoveFocusToAdjacentWindow(ctx, fromWindow, direction)
-}
-
-func (w *windowSessionStubWrapper) NotifyImeWindowVisibilityChangedFromClient(
-	ctx context.Context,
-	window IWindow,
-	visible bool,
-	statsToken inputmethod.ImeTrackerToken,
-) error {
-	return w.impl.NotifyImeWindowVisibilityChangedFromClient(ctx, window, visible, statsToken)
-}
-
-func (w *windowSessionStubWrapper) NotifyInsetsAnimationRunningStateChanged(
-	ctx context.Context,
-	window IWindow,
-	running bool,
-) error {
-	return w.impl.NotifyInsetsAnimationRunningStateChanged(ctx, window, running)
 }
 
 var _ IWindowSession = (*windowSessionStubWrapper)(nil)

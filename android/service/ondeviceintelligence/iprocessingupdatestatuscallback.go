@@ -16,6 +16,11 @@ const (
 	TransactionIProcessingUpdateStatusCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIProcessingUpdateStatusCallbackOnSuccess = "onSuccess"
+	MethodIProcessingUpdateStatusCallbackOnFailure = "onFailure"
+)
+
 type IProcessingUpdateStatusCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, statusParams interface{}) error
@@ -23,17 +28,17 @@ type IProcessingUpdateStatusCallback interface {
 }
 
 type ProcessingUpdateStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProcessingUpdateStatusCallbackProxy(
 	remote binder.IBinder,
 ) *ProcessingUpdateStatusCallbackProxy {
-	return &ProcessingUpdateStatusCallbackProxy{remote: remote}
+	return &ProcessingUpdateStatusCallbackProxy{Remote: remote}
 }
 
 func (p *ProcessingUpdateStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProcessingUpdateStatusCallback = (*ProcessingUpdateStatusCallbackProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessingUpdateStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessingUpdateStatusCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIProcessingUpdateStatusCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnSuccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,12 +78,12 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessingUpdateStatusCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIProcessingUpdateStatusCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessingUpdateStatusCallback, MethodIProcessingUpdateStatusCallbackOnFailure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,6 +103,10 @@ type ProcessingUpdateStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProcessingUpdateStatusCallbackStub)(nil)
+
+func (s *ProcessingUpdateStatusCallbackStub) Descriptor() string {
+	return DescriptorIProcessingUpdateStatusCallback
+}
 
 func (s *ProcessingUpdateStatusCallbackStub) OnTransaction(
 	ctx context.Context,

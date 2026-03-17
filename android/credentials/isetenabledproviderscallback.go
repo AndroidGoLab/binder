@@ -16,6 +16,11 @@ const (
 	TransactionISetEnabledProvidersCallbackOnError    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISetEnabledProvidersCallbackOnResponse = "onResponse"
+	MethodISetEnabledProvidersCallbackOnError    = "onError"
+)
+
 type ISetEnabledProvidersCallback interface {
 	AsBinder() binder.IBinder
 	OnResponse(ctx context.Context) error
@@ -23,17 +28,17 @@ type ISetEnabledProvidersCallback interface {
 }
 
 type SetEnabledProvidersCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSetEnabledProvidersCallbackProxy(
 	remote binder.IBinder,
 ) *SetEnabledProvidersCallbackProxy {
-	return &SetEnabledProvidersCallbackProxy{remote: remote}
+	return &SetEnabledProvidersCallbackProxy{Remote: remote}
 }
 
 func (p *SetEnabledProvidersCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISetEnabledProvidersCallback = (*SetEnabledProvidersCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *SetEnabledProvidersCallbackProxy) OnResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISetEnabledProvidersCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISetEnabledProvidersCallback, "onResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISetEnabledProvidersCallback, MethodISetEnabledProvidersCallbackOnResponse)
 	if _err != nil {
-		_code = TransactionISetEnabledProvidersCallbackOnResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISetEnabledProvidersCallback, MethodISetEnabledProvidersCallbackOnResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *SetEnabledProvidersCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISetEnabledProvidersCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISetEnabledProvidersCallback, MethodISetEnabledProvidersCallbackOnError)
 	if _err != nil {
-		_code = TransactionISetEnabledProvidersCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISetEnabledProvidersCallback, MethodISetEnabledProvidersCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type SetEnabledProvidersCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SetEnabledProvidersCallbackStub)(nil)
+
+func (s *SetEnabledProvidersCallbackStub) Descriptor() string {
+	return DescriptorISetEnabledProvidersCallback
+}
 
 func (s *SetEnabledProvidersCallbackStub) OnTransaction(
 	ctx context.Context,

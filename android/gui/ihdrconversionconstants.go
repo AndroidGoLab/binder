@@ -22,17 +22,17 @@ const (
 )
 
 type HdrConversionConstantsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdrConversionConstantsProxy(
 	remote binder.IBinder,
 ) *HdrConversionConstantsProxy {
-	return &HdrConversionConstantsProxy{remote: remote}
+	return &HdrConversionConstantsProxy{Remote: remote}
 }
 
 func (p *HdrConversionConstantsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdrConversionConstants = (*HdrConversionConstantsProxy)(nil)
@@ -44,6 +44,10 @@ type HdrConversionConstantsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdrConversionConstantsStub)(nil)
+
+func (s *HdrConversionConstantsStub) Descriptor() string {
+	return DescriptorIHdrConversionConstants
+}
 
 func (s *HdrConversionConstantsStub) OnTransaction(
 	ctx context.Context,

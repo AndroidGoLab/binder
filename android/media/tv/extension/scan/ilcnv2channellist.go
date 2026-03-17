@@ -18,6 +18,12 @@ const (
 	TransactionILcnV2ChannelListSetListener          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodILcnV2ChannelListGetLcnV2ChannelLists = "getLcnV2ChannelLists"
+	MethodILcnV2ChannelListSetLcnV2ChannelList  = "setLcnV2ChannelList"
+	MethodILcnV2ChannelListSetListener          = "setListener"
+)
+
 type ILcnV2ChannelList interface {
 	AsBinder() binder.IBinder
 	GetLcnV2ChannelLists(ctx context.Context) ([]os.Bundle, error)
@@ -26,17 +32,17 @@ type ILcnV2ChannelList interface {
 }
 
 type LcnV2ChannelListProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLcnV2ChannelListProxy(
 	remote binder.IBinder,
 ) *LcnV2ChannelListProxy {
-	return &LcnV2ChannelListProxy{remote: remote}
+	return &LcnV2ChannelListProxy{Remote: remote}
 }
 
 func (p *LcnV2ChannelListProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILcnV2ChannelList = (*LcnV2ChannelListProxy)(nil)
@@ -48,12 +54,12 @@ func (p *LcnV2ChannelListProxy) GetLcnV2ChannelLists(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnV2ChannelList)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelList, "getLcnV2ChannelLists")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnV2ChannelList, MethodILcnV2ChannelListGetLcnV2ChannelLists)
 	if _err != nil {
-		_code = TransactionILcnV2ChannelListGetLcnV2ChannelLists
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILcnV2ChannelList, MethodILcnV2ChannelListGetLcnV2ChannelLists, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -71,6 +77,9 @@ func (p *LcnV2ChannelListProxy) GetLcnV2ChannelLists(
 	if _count >= 0 {
 		_result = make([]os.Bundle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -91,12 +100,12 @@ func (p *LcnV2ChannelListProxy) SetLcnV2ChannelList(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelList, "setLcnV2ChannelList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnV2ChannelList, MethodILcnV2ChannelListSetLcnV2ChannelList)
 	if _err != nil {
-		_code = TransactionILcnV2ChannelListSetLcnV2ChannelList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILcnV2ChannelList, MethodILcnV2ChannelListSetLcnV2ChannelList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -120,14 +129,14 @@ func (p *LcnV2ChannelListProxy) SetListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnV2ChannelList)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelList, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnV2ChannelList, MethodILcnV2ChannelListSetListener)
 	if _err != nil {
-		_code = TransactionILcnV2ChannelListSetListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILcnV2ChannelList, MethodILcnV2ChannelListSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,6 +160,10 @@ type LcnV2ChannelListStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LcnV2ChannelListStub)(nil)
+
+func (s *LcnV2ChannelListStub) Descriptor() string {
+	return DescriptorILcnV2ChannelList
+}
 
 func (s *LcnV2ChannelListStub) OnTransaction(
 	ctx context.Context,

@@ -19,7 +19,15 @@ const (
 	TransactionISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged   = binder.FirstCallTransaction + 3
 	TransactionISharedConnectivityCallbackOnSharedConnectivitySettingsChanged     = binder.FirstCallTransaction + 4
 	TransactionISharedConnectivityCallbackOnServiceConnected                      = binder.FirstCallTransaction + 5
-	TransactionISharedConnectivityCallbackOnServiceDisconnected                   = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodISharedConnectivityCallbackOnHotspotNetworksUpdated                = "onHotspotNetworksUpdated"
+	MethodISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged = "onHotspotNetworkConnectionStatusChanged"
+	MethodISharedConnectivityCallbackOnKnownNetworksUpdated                  = "onKnownNetworksUpdated"
+	MethodISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged   = "onKnownNetworkConnectionStatusChanged"
+	MethodISharedConnectivityCallbackOnSharedConnectivitySettingsChanged     = "onSharedConnectivitySettingsChanged"
+	MethodISharedConnectivityCallbackOnServiceConnected                      = "onServiceConnected"
 )
 
 type ISharedConnectivityCallback interface {
@@ -30,21 +38,20 @@ type ISharedConnectivityCallback interface {
 	OnKnownNetworkConnectionStatusChanged(ctx context.Context, status app.KnownNetworkConnectionStatus) error
 	OnSharedConnectivitySettingsChanged(ctx context.Context, state app.SharedConnectivitySettingsState) error
 	OnServiceConnected(ctx context.Context) error
-	OnServiceDisconnected(ctx context.Context) error
 }
 
 type SharedConnectivityCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSharedConnectivityCallbackProxy(
 	remote binder.IBinder,
 ) *SharedConnectivityCallbackProxy {
-	return &SharedConnectivityCallbackProxy{remote: remote}
+	return &SharedConnectivityCallbackProxy{Remote: remote}
 }
 
 func (p *SharedConnectivityCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISharedConnectivityCallback = (*SharedConnectivityCallbackProxy)(nil)
@@ -60,18 +67,19 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworksUpdated(
 	} else {
 		_data.WriteInt32(int32(len(networks)))
 		for _, _item := range networks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onHotspotNetworksUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworksUpdated)
 	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnHotspotNetworksUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworksUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +94,12 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworkConnectionStatusChange
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onHotspotNetworkConnectionStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged)
 	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,18 +114,19 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworksUpdated(
 	} else {
 		_data.WriteInt32(int32(len(networks)))
 		for _, _item := range networks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onKnownNetworksUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworksUpdated)
 	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnKnownNetworksUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworksUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +141,12 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworkConnectionStatusChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onKnownNetworkConnectionStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged)
 	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,12 +161,12 @@ func (p *SharedConnectivityCallbackProxy) OnSharedConnectivitySettingsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onSharedConnectivitySettingsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnSharedConnectivitySettingsChanged)
 	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnSharedConnectivitySettingsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnSharedConnectivitySettingsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,27 +176,12 @@ func (p *SharedConnectivityCallbackProxy) OnServiceConnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onServiceConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnServiceConnected)
 	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnServiceConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISharedConnectivityCallback, MethodISharedConnectivityCallbackOnServiceConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SharedConnectivityCallbackProxy) OnServiceDisconnected(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onServiceDisconnected")
-	if _err != nil {
-		_code = TransactionISharedConnectivityCallbackOnServiceDisconnected
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,6 +192,10 @@ type SharedConnectivityCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SharedConnectivityCallbackStub)(nil)
+
+func (s *SharedConnectivityCallbackStub) Descriptor() string {
+	return DescriptorISharedConnectivityCallback
+}
 
 func (s *SharedConnectivityCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -289,13 +287,6 @@ func (s *SharedConnectivityCallbackStub) OnTransaction(
 		_err := s.Impl.OnServiceConnected(ctx)
 		_ = _err
 		return nil, nil
-	case TransactionISharedConnectivityCallbackOnServiceDisconnected:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.OnServiceDisconnected(ctx)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -311,7 +302,6 @@ type ISharedConnectivityCallbackServer interface {
 	OnKnownNetworkConnectionStatusChanged(ctx context.Context, status app.KnownNetworkConnectionStatus) error
 	OnSharedConnectivitySettingsChanged(ctx context.Context, state app.SharedConnectivitySettingsState) error
 	OnServiceConnected(ctx context.Context) error
-	OnServiceDisconnected(ctx context.Context) error
 }
 
 type sharedConnectivityCallbackStubWrapper struct {
@@ -362,12 +352,6 @@ func (w *sharedConnectivityCallbackStubWrapper) OnServiceConnected(
 	ctx context.Context,
 ) error {
 	return w.impl.OnServiceConnected(ctx)
-}
-
-func (w *sharedConnectivityCallbackStubWrapper) OnServiceDisconnected(
-	ctx context.Context,
-) error {
-	return w.impl.OnServiceDisconnected(ctx)
 }
 
 var _ ISharedConnectivityCallback = (*sharedConnectivityCallbackStubWrapper)(nil)

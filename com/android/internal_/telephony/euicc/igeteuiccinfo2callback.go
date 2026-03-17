@@ -15,23 +15,27 @@ const (
 	TransactionIGetEuiccInfo2CallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetEuiccInfo2CallbackOnComplete = "onComplete"
+)
+
 type IGetEuiccInfo2Callback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, info []byte) error
 }
 
 type GetEuiccInfo2CallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetEuiccInfo2CallbackProxy(
 	remote binder.IBinder,
 ) *GetEuiccInfo2CallbackProxy {
-	return &GetEuiccInfo2CallbackProxy{remote: remote}
+	return &GetEuiccInfo2CallbackProxy{Remote: remote}
 }
 
 func (p *GetEuiccInfo2CallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetEuiccInfo2Callback = (*GetEuiccInfo2CallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *GetEuiccInfo2CallbackProxy) OnComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetEuiccInfo2Callback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetEuiccInfo2Callback, MethodIGetEuiccInfo2CallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetEuiccInfo2CallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetEuiccInfo2Callback, MethodIGetEuiccInfo2CallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type GetEuiccInfo2CallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetEuiccInfo2CallbackStub)(nil)
+
+func (s *GetEuiccInfo2CallbackStub) Descriptor() string {
+	return DescriptorIGetEuiccInfo2Callback
+}
 
 func (s *GetEuiccInfo2CallbackStub) OnTransaction(
 	ctx context.Context,

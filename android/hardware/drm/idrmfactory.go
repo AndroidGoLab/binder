@@ -17,6 +17,12 @@ const (
 	TransactionIDrmFactoryGetSupportedCryptoSchemes = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDrmFactoryCreateDrmPlugin           = "createDrmPlugin"
+	MethodIDrmFactoryCreateCryptoPlugin        = "createCryptoPlugin"
+	MethodIDrmFactoryGetSupportedCryptoSchemes = "getSupportedCryptoSchemes"
+)
+
 type IDrmFactory interface {
 	AsBinder() binder.IBinder
 	CreateDrmPlugin(ctx context.Context, uuid Uuid, appPackageName string) (IDrmPlugin, error)
@@ -25,17 +31,17 @@ type IDrmFactory interface {
 }
 
 type DrmFactoryProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDrmFactoryProxy(
 	remote binder.IBinder,
 ) *DrmFactoryProxy {
-	return &DrmFactoryProxy{remote: remote}
+	return &DrmFactoryProxy{Remote: remote}
 }
 
 func (p *DrmFactoryProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDrmFactory = (*DrmFactoryProxy)(nil)
@@ -54,12 +60,12 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 	}
 	_data.WriteString16(appPackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmFactory, "createDrmPlugin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateDrmPlugin)
 	if _err != nil {
-		_code = TransactionIDrmFactoryCreateDrmPlugin
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmFactory, MethodIDrmFactoryCreateDrmPlugin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,7 +79,7 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDrmPluginProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDrmPluginProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -98,12 +104,12 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmFactory, "createCryptoPlugin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryCreateCryptoPlugin)
 	if _err != nil {
-		_code = TransactionIDrmFactoryCreateCryptoPlugin
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmFactory, MethodIDrmFactoryCreateCryptoPlugin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,7 +123,7 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCryptoPluginProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewCryptoPluginProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -128,12 +134,12 @@ func (p *DrmFactoryProxy) GetSupportedCryptoSchemes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmFactory, "getSupportedCryptoSchemes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmFactory, MethodIDrmFactoryGetSupportedCryptoSchemes)
 	if _err != nil {
-		_code = TransactionIDrmFactoryGetSupportedCryptoSchemes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmFactory, MethodIDrmFactoryGetSupportedCryptoSchemes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,6 +168,10 @@ type DrmFactoryStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DrmFactoryStub)(nil)
+
+func (s *DrmFactoryStub) Descriptor() string {
+	return DescriptorIDrmFactory
+}
 
 func (s *DrmFactoryStub) OnTransaction(
 	ctx context.Context,

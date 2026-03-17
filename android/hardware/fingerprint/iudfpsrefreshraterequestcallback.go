@@ -17,6 +17,12 @@ const (
 	TransactionIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIUdfpsRefreshRateRequestCallbackOnRequestEnabled         = "onRequestEnabled"
+	MethodIUdfpsRefreshRateRequestCallbackOnRequestDisabled        = "onRequestDisabled"
+	MethodIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible = "onAuthenticationPossible"
+)
+
 type IUdfpsRefreshRateRequestCallback interface {
 	AsBinder() binder.IBinder
 	OnRequestEnabled(ctx context.Context, displayId int32) error
@@ -25,17 +31,17 @@ type IUdfpsRefreshRateRequestCallback interface {
 }
 
 type UdfpsRefreshRateRequestCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUdfpsRefreshRateRequestCallbackProxy(
 	remote binder.IBinder,
 ) *UdfpsRefreshRateRequestCallbackProxy {
-	return &UdfpsRefreshRateRequestCallbackProxy{remote: remote}
+	return &UdfpsRefreshRateRequestCallbackProxy{Remote: remote}
 }
 
 func (p *UdfpsRefreshRateRequestCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUdfpsRefreshRateRequestCallback = (*UdfpsRefreshRateRequestCallbackProxy)(nil)
@@ -48,12 +54,12 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestEnabled(
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsRefreshRateRequestCallback, "onRequestEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestEnabled)
 	if _err != nil {
-		_code = TransactionIUdfpsRefreshRateRequestCallbackOnRequestEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestDisabled(
 	_data.WriteInterfaceToken(DescriptorIUdfpsRefreshRateRequestCallback)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsRefreshRateRequestCallback, "onRequestDisabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestDisabled)
 	if _err != nil {
-		_code = TransactionIUdfpsRefreshRateRequestCallbackOnRequestDisabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnRequestDisabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +90,12 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnAuthenticationPossible(
 	_data.WriteInt32(displayId)
 	_data.WriteBool(isPossible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsRefreshRateRequestCallback, "onAuthenticationPossible")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible)
 	if _err != nil {
-		_code = TransactionIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsRefreshRateRequestCallback, MethodIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +106,10 @@ type UdfpsRefreshRateRequestCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UdfpsRefreshRateRequestCallbackStub)(nil)
+
+func (s *UdfpsRefreshRateRequestCallbackStub) Descriptor() string {
+	return DescriptorIUdfpsRefreshRateRequestCallback
+}
 
 func (s *UdfpsRefreshRateRequestCallbackStub) OnTransaction(
 	ctx context.Context,

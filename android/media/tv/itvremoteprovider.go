@@ -16,6 +16,11 @@ const (
 	TransactionITvRemoteProviderOnInputBridgeConnected    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITvRemoteProviderSetRemoteServiceInputSink = "setRemoteServiceInputSink"
+	MethodITvRemoteProviderOnInputBridgeConnected    = "onInputBridgeConnected"
+)
+
 type ITvRemoteProvider interface {
 	AsBinder() binder.IBinder
 	SetRemoteServiceInputSink(ctx context.Context, tvServiceInput ITvRemoteServiceInput) error
@@ -23,17 +28,17 @@ type ITvRemoteProvider interface {
 }
 
 type TvRemoteProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvRemoteProviderProxy(
 	remote binder.IBinder,
 ) *TvRemoteProviderProxy {
-	return &TvRemoteProviderProxy{remote: remote}
+	return &TvRemoteProviderProxy{Remote: remote}
 }
 
 func (p *TvRemoteProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvRemoteProvider = (*TvRemoteProviderProxy)(nil)
@@ -44,14 +49,14 @@ func (p *TvRemoteProviderProxy) SetRemoteServiceInputSink(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
-	binder.WriteBinderToParcel(ctx, _data, tvServiceInput.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tvServiceInput.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvRemoteProvider, "setRemoteServiceInputSink")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvRemoteProvider, MethodITvRemoteProviderSetRemoteServiceInputSink)
 	if _err != nil {
-		_code = TransactionITvRemoteProviderSetRemoteServiceInputSink
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvRemoteProvider, MethodITvRemoteProviderSetRemoteServiceInputSink, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,14 +66,14 @@ func (p *TvRemoteProviderProxy) OnInputBridgeConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvRemoteProvider, "onInputBridgeConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvRemoteProvider, MethodITvRemoteProviderOnInputBridgeConnected)
 	if _err != nil {
-		_code = TransactionITvRemoteProviderOnInputBridgeConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvRemoteProvider, MethodITvRemoteProviderOnInputBridgeConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type TvRemoteProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvRemoteProviderStub)(nil)
+
+func (s *TvRemoteProviderStub) Descriptor() string {
+	return DescriptorITvRemoteProvider
+}
 
 func (s *TvRemoteProviderStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiSystemAudioModeChangeListenerOnStatusChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiSystemAudioModeChangeListenerOnStatusChanged = "onStatusChanged"
+)
+
 type IHdmiSystemAudioModeChangeListener interface {
 	AsBinder() binder.IBinder
 	OnStatusChanged(ctx context.Context, enabled bool) error
 }
 
 type HdmiSystemAudioModeChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiSystemAudioModeChangeListenerProxy(
 	remote binder.IBinder,
 ) *HdmiSystemAudioModeChangeListenerProxy {
-	return &HdmiSystemAudioModeChangeListenerProxy{remote: remote}
+	return &HdmiSystemAudioModeChangeListenerProxy{Remote: remote}
 }
 
 func (p *HdmiSystemAudioModeChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiSystemAudioModeChangeListener = (*HdmiSystemAudioModeChangeListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *HdmiSystemAudioModeChangeListenerProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIHdmiSystemAudioModeChangeListener)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSystemAudioModeChangeListener, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiSystemAudioModeChangeListener, MethodIHdmiSystemAudioModeChangeListenerOnStatusChanged)
 	if _err != nil {
-		_code = TransactionIHdmiSystemAudioModeChangeListenerOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiSystemAudioModeChangeListener, MethodIHdmiSystemAudioModeChangeListenerOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type HdmiSystemAudioModeChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiSystemAudioModeChangeListenerStub)(nil)
+
+func (s *HdmiSystemAudioModeChangeListenerStub) Descriptor() string {
+	return DescriptorIHdmiSystemAudioModeChangeListener
+}
 
 func (s *HdmiSystemAudioModeChangeListenerStub) OnTransaction(
 	ctx context.Context,

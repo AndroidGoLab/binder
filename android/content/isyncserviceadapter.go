@@ -16,6 +16,11 @@ const (
 	TransactionISyncServiceAdapterCancelSync = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISyncServiceAdapterStartSync  = "startSync"
+	MethodISyncServiceAdapterCancelSync = "cancelSync"
+)
+
 type ISyncServiceAdapter interface {
 	AsBinder() binder.IBinder
 	StartSync(ctx context.Context, syncContext ISyncContext, extras interface{}) error
@@ -23,17 +28,17 @@ type ISyncServiceAdapter interface {
 }
 
 type SyncServiceAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSyncServiceAdapterProxy(
 	remote binder.IBinder,
 ) *SyncServiceAdapterProxy {
-	return &SyncServiceAdapterProxy{remote: remote}
+	return &SyncServiceAdapterProxy{Remote: remote}
 }
 
 func (p *SyncServiceAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISyncServiceAdapter = (*SyncServiceAdapterProxy)(nil)
@@ -45,14 +50,14 @@ func (p *SyncServiceAdapterProxy) StartSync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncServiceAdapter)
-	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncServiceAdapter, "startSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncServiceAdapter, MethodISyncServiceAdapterStartSync)
 	if _err != nil {
-		_code = TransactionISyncServiceAdapterStartSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncServiceAdapter, MethodISyncServiceAdapterStartSync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,14 +67,14 @@ func (p *SyncServiceAdapterProxy) CancelSync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncServiceAdapter)
-	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncServiceAdapter, "cancelSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncServiceAdapter, MethodISyncServiceAdapterCancelSync)
 	if _err != nil {
-		_code = TransactionISyncServiceAdapterCancelSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncServiceAdapter, MethodISyncServiceAdapterCancelSync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,6 +85,10 @@ type SyncServiceAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SyncServiceAdapterStub)(nil)
+
+func (s *SyncServiceAdapterStub) Descriptor() string {
+	return DescriptorISyncServiceAdapter
+}
 
 func (s *SyncServiceAdapterStub) OnTransaction(
 	ctx context.Context,

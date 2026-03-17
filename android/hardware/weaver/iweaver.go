@@ -17,6 +17,12 @@ const (
 	TransactionIWeaverWrite     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIWeaverGetConfig = "getConfig"
+	MethodIWeaverRead      = "read"
+	MethodIWeaverWrite     = "write"
+)
+
 type IWeaver interface {
 	AsBinder() binder.IBinder
 	GetConfig(ctx context.Context) (WeaverConfig, error)
@@ -31,17 +37,17 @@ const (
 )
 
 type WeaverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWeaverProxy(
 	remote binder.IBinder,
 ) *WeaverProxy {
-	return &WeaverProxy{remote: remote}
+	return &WeaverProxy{Remote: remote}
 }
 
 func (p *WeaverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWeaver = (*WeaverProxy)(nil)
@@ -53,12 +59,12 @@ func (p *WeaverProxy) GetConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWeaver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWeaver, "getConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverGetConfig)
 	if _err != nil {
-		_code = TransactionIWeaverGetConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWeaver, MethodIWeaverGetConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,12 +104,12 @@ func (p *WeaverProxy) Read(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWeaver, "read")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverRead)
 	if _err != nil {
-		_code = TransactionIWeaverRead
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWeaver, MethodIWeaverRead, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,12 +157,12 @@ func (p *WeaverProxy) Write(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWeaver, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeaver, MethodIWeaverWrite)
 	if _err != nil {
-		_code = TransactionIWeaverWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWeaver, MethodIWeaverWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,6 +182,10 @@ type WeaverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WeaverStub)(nil)
+
+func (s *WeaverStub) Descriptor() string {
+	return DescriptorIWeaver
+}
 
 func (s *WeaverStub) OnTransaction(
 	ctx context.Context,

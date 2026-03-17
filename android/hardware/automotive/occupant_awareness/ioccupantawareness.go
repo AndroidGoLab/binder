@@ -20,6 +20,15 @@ const (
 	TransactionIOccupantAwarenessGetLatestDetection   = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIOccupantAwarenessStartDetection       = "startDetection"
+	MethodIOccupantAwarenessStopDetection        = "stopDetection"
+	MethodIOccupantAwarenessGetCapabilityForRole = "getCapabilityForRole"
+	MethodIOccupantAwarenessGetState             = "getState"
+	MethodIOccupantAwarenessSetCallback          = "setCallback"
+	MethodIOccupantAwarenessGetLatestDetection   = "getLatestDetection"
+)
+
 type IOccupantAwareness interface {
 	AsBinder() binder.IBinder
 	StartDetection(ctx context.Context) (OccupantAwarenessStatus, error)
@@ -38,17 +47,17 @@ const (
 )
 
 type OccupantAwarenessProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOccupantAwarenessProxy(
 	remote binder.IBinder,
 ) *OccupantAwarenessProxy {
-	return &OccupantAwarenessProxy{remote: remote}
+	return &OccupantAwarenessProxy{Remote: remote}
 }
 
 func (p *OccupantAwarenessProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOccupantAwareness = (*OccupantAwarenessProxy)(nil)
@@ -60,12 +69,12 @@ func (p *OccupantAwarenessProxy) StartDetection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "startDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessStartDetection)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessStartDetection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwareness, MethodIOccupantAwarenessStartDetection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,12 +99,12 @@ func (p *OccupantAwarenessProxy) StopDetection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "stopDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessStopDetection)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessStopDetection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwareness, MethodIOccupantAwarenessStopDetection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -122,12 +131,12 @@ func (p *OccupantAwarenessProxy) GetCapabilityForRole(
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 	_data.WriteInt32(int32(occupantRole))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "getCapabilityForRole")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetCapabilityForRole)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessGetCapabilityForRole
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetCapabilityForRole, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,12 +164,12 @@ func (p *OccupantAwarenessProxy) GetState(
 	_data.WriteInt32(int32(occupantRole))
 	_data.WriteInt32(detectionCapability)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "getState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetState)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessGetState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -184,14 +193,14 @@ func (p *OccupantAwarenessProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessSetCallback)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwareness, MethodIOccupantAwarenessSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -211,12 +220,12 @@ func (p *OccupantAwarenessProxy) GetLatestDetection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOccupantAwareness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "getLatestDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetLatestDetection)
 	if _err != nil {
-		_code = TransactionIOccupantAwarenessGetLatestDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOccupantAwareness, MethodIOccupantAwarenessGetLatestDetection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -239,6 +248,10 @@ type OccupantAwarenessStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OccupantAwarenessStub)(nil)
+
+func (s *OccupantAwarenessStub) Descriptor() string {
+	return DescriptorIOccupantAwareness
+}
 
 func (s *OccupantAwarenessStub) OnTransaction(
 	ctx context.Context,

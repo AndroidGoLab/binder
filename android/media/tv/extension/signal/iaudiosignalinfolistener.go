@@ -16,23 +16,27 @@ const (
 	TransactionIAudioSignalInfoListenerOnAudioSignalInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioSignalInfoListenerOnAudioSignalInfoChanged = "onAudioSignalInfoChanged"
+)
+
 type IAudioSignalInfoListener interface {
 	AsBinder() binder.IBinder
 	OnAudioSignalInfoChanged(ctx context.Context, sessionToken string, changedSignalInfo os.Bundle) error
 }
 
 type AudioSignalInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioSignalInfoListenerProxy(
 	remote binder.IBinder,
 ) *AudioSignalInfoListenerProxy {
-	return &AudioSignalInfoListenerProxy{remote: remote}
+	return &AudioSignalInfoListenerProxy{Remote: remote}
 }
 
 func (p *AudioSignalInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioSignalInfoListener = (*AudioSignalInfoListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *AudioSignalInfoListenerProxy) OnAudioSignalInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfoListener, "onAudioSignalInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioSignalInfoListener, MethodIAudioSignalInfoListenerOnAudioSignalInfoChanged)
 	if _err != nil {
-		_code = TransactionIAudioSignalInfoListenerOnAudioSignalInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioSignalInfoListener, MethodIAudioSignalInfoListenerOnAudioSignalInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type AudioSignalInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioSignalInfoListenerStub)(nil)
+
+func (s *AudioSignalInfoListenerStub) Descriptor() string {
+	return DescriptorIAudioSignalInfoListener
+}
 
 func (s *AudioSignalInfoListenerStub) OnTransaction(
 	ctx context.Context,

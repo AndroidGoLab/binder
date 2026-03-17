@@ -27,6 +27,19 @@ const (
 	TransactionIVoiceInteractionSessionNotifyVisibleActivityInfoChanged = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodIVoiceInteractionSessionShow                             = "show"
+	MethodIVoiceInteractionSessionHide                             = "hide"
+	MethodIVoiceInteractionSessionHandleAssist                     = "handleAssist"
+	MethodIVoiceInteractionSessionHandleScreenshot                 = "handleScreenshot"
+	MethodIVoiceInteractionSessionTaskStarted                      = "taskStarted"
+	MethodIVoiceInteractionSessionTaskFinished                     = "taskFinished"
+	MethodIVoiceInteractionSessionCloseSystemDialogs               = "closeSystemDialogs"
+	MethodIVoiceInteractionSessionOnLockscreenShown                = "onLockscreenShown"
+	MethodIVoiceInteractionSessionDestroy                          = "destroy"
+	MethodIVoiceInteractionSessionNotifyVisibleActivityInfoChanged = "notifyVisibleActivityInfoChanged"
+)
+
 type IVoiceInteractionSession interface {
 	AsBinder() binder.IBinder
 	Show(ctx context.Context, sessionArgs interface{}, flags int32, showCallback interface{}) error
@@ -42,17 +55,17 @@ type IVoiceInteractionSession interface {
 }
 
 type VoiceInteractionSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractionSessionProxy(
 	remote binder.IBinder,
 ) *VoiceInteractionSessionProxy {
-	return &VoiceInteractionSessionProxy{remote: remote}
+	return &VoiceInteractionSessionProxy{Remote: remote}
 }
 
 func (p *VoiceInteractionSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractionSession = (*VoiceInteractionSessionProxy)(nil)
@@ -67,12 +80,12 @@ func (p *VoiceInteractionSessionProxy) Show(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "show")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionShow)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionShow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionShow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +95,12 @@ func (p *VoiceInteractionSessionProxy) Hide(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "hide")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionHide)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionHide
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionHide, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,7 +117,7 @@ func (p *VoiceInteractionSessionProxy) HandleAssist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(taskId)
-	binder.WriteBinderToParcel(ctx, _data, activityId, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityId, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := structure.MarshalParcel(_data); _err != nil {
 		return _err
@@ -116,12 +129,12 @@ func (p *VoiceInteractionSessionProxy) HandleAssist(
 	_data.WriteInt32(index)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "handleAssist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionHandleAssist)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionHandleAssist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionHandleAssist, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,12 +149,12 @@ func (p *VoiceInteractionSessionProxy) HandleScreenshot(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "handleScreenshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionHandleScreenshot)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionHandleScreenshot
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionHandleScreenshot, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,12 +171,12 @@ func (p *VoiceInteractionSessionProxy) TaskStarted(
 	}
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "taskStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionTaskStarted)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionTaskStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionTaskStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -180,12 +193,12 @@ func (p *VoiceInteractionSessionProxy) TaskFinished(
 	}
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "taskFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionTaskFinished)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionTaskFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionTaskFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -195,12 +208,12 @@ func (p *VoiceInteractionSessionProxy) CloseSystemDialogs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "closeSystemDialogs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionCloseSystemDialogs)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionCloseSystemDialogs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionCloseSystemDialogs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -210,12 +223,12 @@ func (p *VoiceInteractionSessionProxy) OnLockscreenShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "onLockscreenShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionOnLockscreenShown)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionOnLockscreenShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionOnLockscreenShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,12 +238,12 @@ func (p *VoiceInteractionSessionProxy) Destroy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "destroy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionDestroy)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionDestroy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionDestroy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -247,12 +260,12 @@ func (p *VoiceInteractionSessionProxy) NotifyVisibleActivityInfoChanged(
 	}
 	_data.WriteInt32(type_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "notifyVisibleActivityInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionNotifyVisibleActivityInfoChanged)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionNotifyVisibleActivityInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSession, MethodIVoiceInteractionSessionNotifyVisibleActivityInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -263,6 +276,10 @@ type VoiceInteractionSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionSessionStub)(nil)
+
+func (s *VoiceInteractionSessionStub) Descriptor() string {
+	return DescriptorIVoiceInteractionSession
+}
 
 func (s *VoiceInteractionSessionStub) OnTransaction(
 	ctx context.Context,

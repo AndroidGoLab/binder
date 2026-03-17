@@ -24,6 +24,18 @@ const (
 	TransactionIDvrSetStatusCheckIntervalHint = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIDvrGetQueueDesc               = "getQueueDesc"
+	MethodIDvrConfigure                  = "configure"
+	MethodIDvrAttachFilter               = "attachFilter"
+	MethodIDvrDetachFilter               = "detachFilter"
+	MethodIDvrStart                      = "start"
+	MethodIDvrStop                       = "stop"
+	MethodIDvrFlush                      = "flush"
+	MethodIDvrClose                      = "close"
+	MethodIDvrSetStatusCheckIntervalHint = "setStatusCheckIntervalHint"
+)
+
 type IDvr interface {
 	AsBinder() binder.IBinder
 	GetQueueDesc(ctx context.Context, queue fmq.MQDescriptor) error
@@ -38,17 +50,17 @@ type IDvr interface {
 }
 
 type DvrProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDvrProxy(
 	remote binder.IBinder,
 ) *DvrProxy {
-	return &DvrProxy{remote: remote}
+	return &DvrProxy{Remote: remote}
 }
 
 func (p *DvrProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDvr = (*DvrProxy)(nil)
@@ -60,12 +72,12 @@ func (p *DvrProxy) GetQueueDesc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "getQueueDesc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrGetQueueDesc)
 	if _err != nil {
-		_code = TransactionIDvrGetQueueDesc
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrGetQueueDesc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +104,12 @@ func (p *DvrProxy) Configure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrConfigure)
 	if _err != nil {
-		_code = TransactionIDvrConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -116,14 +128,14 @@ func (p *DvrProxy) AttachFilter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "attachFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrAttachFilter)
 	if _err != nil {
-		_code = TransactionIDvrAttachFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrAttachFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -142,14 +154,14 @@ func (p *DvrProxy) DetachFilter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "detachFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrDetachFilter)
 	if _err != nil {
-		_code = TransactionIDvrDetachFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrDetachFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,12 +180,12 @@ func (p *DvrProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrStart)
 	if _err != nil {
-		_code = TransactionIDvrStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,12 +204,12 @@ func (p *DvrProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrStop)
 	if _err != nil {
-		_code = TransactionIDvrStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -216,12 +228,12 @@ func (p *DvrProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrFlush)
 	if _err != nil {
-		_code = TransactionIDvrFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -240,12 +252,12 @@ func (p *DvrProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrClose)
 	if _err != nil {
-		_code = TransactionIDvrClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -266,12 +278,12 @@ func (p *DvrProxy) SetStatusCheckIntervalHint(
 	_data.WriteInterfaceToken(DescriptorIDvr)
 	_data.WriteInt64(milliseconds)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "setStatusCheckIntervalHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDvr, MethodIDvrSetStatusCheckIntervalHint)
 	if _err != nil {
-		_code = TransactionIDvrSetStatusCheckIntervalHint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDvr, MethodIDvrSetStatusCheckIntervalHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -291,6 +303,10 @@ type DvrStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DvrStub)(nil)
+
+func (s *DvrStub) Descriptor() string {
+	return DescriptorIDvr
+}
 
 func (s *DvrStub) OnTransaction(
 	ctx context.Context,

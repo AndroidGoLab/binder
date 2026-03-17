@@ -12,5 +12,4 @@ const (
 	WpaDriverCapabilitiesMaskTrustOnFirstUse      WpaDriverCapabilitiesMask = (1 << 4)
 	WpaDriverCapabilitiesMaskSetTlsMinimumVersion WpaDriverCapabilitiesMask = (1 << 5)
 	WpaDriverCapabilitiesMaskTlsV13               WpaDriverCapabilitiesMask = (1 << 6)
-	WpaDriverCapabilitiesMaskRsnOverriding        WpaDriverCapabilitiesMask = (1 << 7)
 )

@@ -16,6 +16,11 @@ const (
 	TransactionIArtManagerIsRuntimeProfilingEnabled = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIArtManagerSnapshotRuntimeProfile    = "snapshotRuntimeProfile"
+	MethodIArtManagerIsRuntimeProfilingEnabled = "isRuntimeProfilingEnabled"
+)
+
 type IArtManager interface {
 	AsBinder() binder.IBinder
 	SnapshotRuntimeProfile(ctx context.Context, profileType int32, packageName string, codePath string, callback ISnapshotRuntimeProfileCallback) error
@@ -23,17 +28,17 @@ type IArtManager interface {
 }
 
 type ArtManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewArtManagerProxy(
 	remote binder.IBinder,
 ) *ArtManagerProxy {
-	return &ArtManagerProxy{remote: remote}
+	return &ArtManagerProxy{Remote: remote}
 }
 
 func (p *ArtManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IArtManager = (*ArtManagerProxy)(nil)
@@ -45,21 +50,21 @@ func (p *ArtManagerProxy) SnapshotRuntimeProfile(
 	codePath string,
 	callback ISnapshotRuntimeProfileCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIArtManager)
 	_data.WriteInt32(profileType)
 	_data.WriteString16(packageName)
 	_data.WriteString16(codePath)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIArtManager, "snapshotRuntimeProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIArtManager, MethodIArtManagerSnapshotRuntimeProfile)
 	if _err != nil {
-		_code = TransactionIArtManagerSnapshotRuntimeProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIArtManager, MethodIArtManagerSnapshotRuntimeProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,18 +82,18 @@ func (p *ArtManagerProxy) IsRuntimeProfilingEnabled(
 	profileType int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIArtManager)
 	_data.WriteInt32(profileType)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIArtManager, "isRuntimeProfilingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIArtManager, MethodIArtManagerIsRuntimeProfilingEnabled)
 	if _err != nil {
-		_code = TransactionIArtManagerIsRuntimeProfilingEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIArtManager, MethodIArtManagerIsRuntimeProfilingEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -112,6 +117,10 @@ type ArtManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ArtManagerStub)(nil)
+
+func (s *ArtManagerStub) Descriptor() string {
+	return DescriptorIArtManager
+}
 
 func (s *ArtManagerStub) OnTransaction(
 	ctx context.Context,

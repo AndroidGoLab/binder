@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,37 +16,41 @@ const (
 	TransactionIEphemeralResolverGetEphemeralIntentFilterList = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIEphemeralResolverGetEphemeralResolveInfoList  = "getEphemeralResolveInfoList"
+	MethodIEphemeralResolverGetEphemeralIntentFilterList = "getEphemeralIntentFilterList"
+)
+
 type IEphemeralResolver interface {
 	AsBinder() binder.IBinder
-	GetEphemeralResolveInfoList(ctx context.Context, callback ondeviceintelligence.IRemoteCallback, digestPrefix []int32, sequence int32) error
-	GetEphemeralIntentFilterList(ctx context.Context, callback ondeviceintelligence.IRemoteCallback, hostName string, sequence int32) error
+	GetEphemeralResolveInfoList(ctx context.Context, callback interface{}, digestPrefix []int32, sequence int32) error
+	GetEphemeralIntentFilterList(ctx context.Context, callback interface{}, hostName string, sequence int32) error
 }
 
 type EphemeralResolverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEphemeralResolverProxy(
 	remote binder.IBinder,
 ) *EphemeralResolverProxy {
-	return &EphemeralResolverProxy{remote: remote}
+	return &EphemeralResolverProxy{Remote: remote}
 }
 
 func (p *EphemeralResolverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEphemeralResolver = (*EphemeralResolverProxy)(nil)
 
 func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 	digestPrefix []int32,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	if digestPrefix == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -58,33 +61,32 @@ func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 	}
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEphemeralResolver, "getEphemeralResolveInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralResolveInfoList)
 	if _err != nil {
-		_code = TransactionIEphemeralResolverGetEphemeralResolveInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralResolveInfoList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 	hostName string,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteString16(hostName)
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEphemeralResolver, "getEphemeralIntentFilterList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralIntentFilterList)
 	if _err != nil {
-		_code = TransactionIEphemeralResolverGetEphemeralIntentFilterList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEphemeralResolver, MethodIEphemeralResolverGetEphemeralIntentFilterList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +98,10 @@ type EphemeralResolverStub struct {
 
 var _ binder.TransactionReceiver = (*EphemeralResolverStub)(nil)
 
+func (s *EphemeralResolverStub) Descriptor() string {
+	return DescriptorIEphemeralResolver
+}
+
 func (s *EphemeralResolverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -106,9 +112,7 @@ func (s *EphemeralResolverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_digestPrefix []int32
 		_ = _arg_digestPrefix
@@ -123,9 +127,7 @@ func (s *EphemeralResolverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_arg_hostName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -146,8 +148,8 @@ func (s *EphemeralResolverStub) OnTransaction(
 // provide to NewEphemeralResolverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IEphemeralResolverServer interface {
-	GetEphemeralResolveInfoList(ctx context.Context, callback ondeviceintelligence.IRemoteCallback, digestPrefix []int32, sequence int32) error
-	GetEphemeralIntentFilterList(ctx context.Context, callback ondeviceintelligence.IRemoteCallback, hostName string, sequence int32) error
+	GetEphemeralResolveInfoList(ctx context.Context, callback interface{}, digestPrefix []int32, sequence int32) error
+	GetEphemeralIntentFilterList(ctx context.Context, callback interface{}, hostName string, sequence int32) error
 }
 
 type ephemeralResolverStubWrapper struct {
@@ -161,7 +163,7 @@ func (w *ephemeralResolverStubWrapper) AsBinder() binder.IBinder {
 
 func (w *ephemeralResolverStubWrapper) GetEphemeralResolveInfoList(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 	digestPrefix []int32,
 	sequence int32,
 ) error {
@@ -170,7 +172,7 @@ func (w *ephemeralResolverStubWrapper) GetEphemeralResolveInfoList(
 
 func (w *ephemeralResolverStubWrapper) GetEphemeralIntentFilterList(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 	hostName string,
 	sequence int32,
 ) error {

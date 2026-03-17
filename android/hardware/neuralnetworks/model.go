@@ -29,24 +29,19 @@ func (s *Model) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Referenced)))
 		for _, _item := range s.Referenced {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.OperandValues == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OperandValues)))
-		for _, _item := range s.OperandValues {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.OperandValues)
 	if s.Pools == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Pools)))
 		for _, _item := range s.Pools {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -58,6 +53,7 @@ func (s *Model) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExtensionNameToPrefix)))
 		for _, _item := range s.ExtensionNameToPrefix {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -88,25 +84,18 @@ func (s *Model) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Referenced = make([]Subgraph, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Referenced[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.OperandValues, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.OperandValues = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.OperandValues[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count2 int32
@@ -117,6 +106,9 @@ func (s *Model) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Pools = make([]Memory, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Pools[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -136,6 +128,9 @@ func (s *Model) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.ExtensionNameToPrefix = make([]ExtensionNameAndPrefix, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExtensionNameToPrefix[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

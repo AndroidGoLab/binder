@@ -16,23 +16,27 @@ const (
 	TransactionITransactionReadyCallbackOnTransactionReady = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITransactionReadyCallbackOnTransactionReady = "onTransactionReady"
+)
+
 type ITransactionReadyCallback interface {
 	AsBinder() binder.IBinder
 	OnTransactionReady(ctx context.Context, t *view.SurfaceControlTransaction) error
 }
 
 type TransactionReadyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransactionReadyCallbackProxy(
 	remote binder.IBinder,
 ) *TransactionReadyCallbackProxy {
-	return &TransactionReadyCallbackProxy{remote: remote}
+	return &TransactionReadyCallbackProxy{Remote: remote}
 }
 
 func (p *TransactionReadyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransactionReadyCallback = (*TransactionReadyCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *TransactionReadyCallbackProxy) OnTransactionReady(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransactionReadyCallback, "onTransactionReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransactionReadyCallback, MethodITransactionReadyCallbackOnTransactionReady)
 	if _err != nil {
-		_code = TransactionITransactionReadyCallbackOnTransactionReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransactionReadyCallback, MethodITransactionReadyCallbackOnTransactionReady, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,6 +80,10 @@ type TransactionReadyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransactionReadyCallbackStub)(nil)
+
+func (s *TransactionReadyCallbackStub) Descriptor() string {
+	return DescriptorITransactionReadyCallback
+}
 
 func (s *TransactionReadyCallbackStub) OnTransaction(
 	ctx context.Context,

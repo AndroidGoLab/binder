@@ -17,6 +17,11 @@ const (
 	TransactionICallForwardingInfoCallbackOnError                       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICallForwardingInfoCallbackOnCallForwardingInfoAvailable = "onCallForwardingInfoAvailable"
+	MethodICallForwardingInfoCallbackOnError                       = "onError"
+)
+
 type ICallForwardingInfoCallback interface {
 	AsBinder() binder.IBinder
 	OnCallForwardingInfoAvailable(ctx context.Context, info androidTelephony.CallForwardingInfo) error
@@ -24,17 +29,17 @@ type ICallForwardingInfoCallback interface {
 }
 
 type CallForwardingInfoCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallForwardingInfoCallbackProxy(
 	remote binder.IBinder,
 ) *CallForwardingInfoCallbackProxy {
-	return &CallForwardingInfoCallbackProxy{remote: remote}
+	return &CallForwardingInfoCallbackProxy{Remote: remote}
 }
 
 func (p *CallForwardingInfoCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallForwardingInfoCallback = (*CallForwardingInfoCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *CallForwardingInfoCallbackProxy) OnCallForwardingInfoAvailable(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallForwardingInfoCallback, "onCallForwardingInfoAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallForwardingInfoCallback, MethodICallForwardingInfoCallbackOnCallForwardingInfoAvailable)
 	if _err != nil {
-		_code = TransactionICallForwardingInfoCallbackOnCallForwardingInfoAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallForwardingInfoCallback, MethodICallForwardingInfoCallbackOnCallForwardingInfoAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *CallForwardingInfoCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorICallForwardingInfoCallback)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallForwardingInfoCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallForwardingInfoCallback, MethodICallForwardingInfoCallbackOnError)
 	if _err != nil {
-		_code = TransactionICallForwardingInfoCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallForwardingInfoCallback, MethodICallForwardingInfoCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type CallForwardingInfoCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallForwardingInfoCallbackStub)(nil)
+
+func (s *CallForwardingInfoCallbackStub) Descriptor() string {
+	return DescriptorICallForwardingInfoCallback
+}
 
 func (s *CallForwardingInfoCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIAssistHandleServiceRequestAssistHandles = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAssistHandleServiceRequestAssistHandles = "requestAssistHandles"
+)
+
 type IAssistHandleService interface {
 	AsBinder() binder.IBinder
 	RequestAssistHandles(ctx context.Context) error
 }
 
 type AssistHandleServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAssistHandleServiceProxy(
 	remote binder.IBinder,
 ) *AssistHandleServiceProxy {
-	return &AssistHandleServiceProxy{remote: remote}
+	return &AssistHandleServiceProxy{Remote: remote}
 }
 
 func (p *AssistHandleServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAssistHandleService = (*AssistHandleServiceProxy)(nil)
@@ -42,12 +46,12 @@ func (p *AssistHandleServiceProxy) RequestAssistHandles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssistHandleService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAssistHandleService, "requestAssistHandles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAssistHandleService, MethodIAssistHandleServiceRequestAssistHandles)
 	if _err != nil {
-		_code = TransactionIAssistHandleServiceRequestAssistHandles
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAssistHandleService, MethodIAssistHandleServiceRequestAssistHandles, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type AssistHandleServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AssistHandleServiceStub)(nil)
+
+func (s *AssistHandleServiceStub) Descriptor() string {
+	return DescriptorIAssistHandleService
+}
 
 func (s *AssistHandleServiceStub) OnTransaction(
 	ctx context.Context,

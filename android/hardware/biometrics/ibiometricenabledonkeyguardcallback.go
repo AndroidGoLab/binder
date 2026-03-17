@@ -15,23 +15,27 @@ const (
 	TransactionIBiometricEnabledOnKeyguardCallbackOnChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBiometricEnabledOnKeyguardCallbackOnChanged = "onChanged"
+)
+
 type IBiometricEnabledOnKeyguardCallback interface {
 	AsBinder() binder.IBinder
 	OnChanged(ctx context.Context, enabled bool) error
 }
 
 type BiometricEnabledOnKeyguardCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricEnabledOnKeyguardCallbackProxy(
 	remote binder.IBinder,
 ) *BiometricEnabledOnKeyguardCallbackProxy {
-	return &BiometricEnabledOnKeyguardCallbackProxy{remote: remote}
+	return &BiometricEnabledOnKeyguardCallbackProxy{Remote: remote}
 }
 
 func (p *BiometricEnabledOnKeyguardCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricEnabledOnKeyguardCallback = (*BiometricEnabledOnKeyguardCallbackProxy)(nil)
@@ -40,18 +44,18 @@ func (p *BiometricEnabledOnKeyguardCallbackProxy) OnChanged(
 	ctx context.Context,
 	enabled bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricEnabledOnKeyguardCallback)
 	_data.WriteBool(enabled)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricEnabledOnKeyguardCallback, "onChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricEnabledOnKeyguardCallback, MethodIBiometricEnabledOnKeyguardCallbackOnChanged)
 	if _err != nil {
-		_code = TransactionIBiometricEnabledOnKeyguardCallbackOnChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricEnabledOnKeyguardCallback, MethodIBiometricEnabledOnKeyguardCallbackOnChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type BiometricEnabledOnKeyguardCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricEnabledOnKeyguardCallbackStub)(nil)
+
+func (s *BiometricEnabledOnKeyguardCallbackStub) Descriptor() string {
+	return DescriptorIBiometricEnabledOnKeyguardCallback
+}
 
 func (s *BiometricEnabledOnKeyguardCallbackStub) OnTransaction(
 	ctx context.Context,

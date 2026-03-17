@@ -17,6 +17,12 @@ const (
 	TransactionITestInterfaceBar       = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITestInterfaceFoo       = "foo"
+	MethodITestInterfaceOnewayFoo = "onewayFoo"
+	MethodITestInterfaceBar       = "bar"
+)
+
 type ITestInterface interface {
 	AsBinder() binder.IBinder
 	Foo(ctx context.Context, a int32) (int32, error)
@@ -25,17 +31,17 @@ type ITestInterface interface {
 }
 
 type TestInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestInterfaceProxy(
 	remote binder.IBinder,
 ) *TestInterfaceProxy {
-	return &TestInterfaceProxy{remote: remote}
+	return &TestInterfaceProxy{Remote: remote}
 }
 
 func (p *TestInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestInterface = (*TestInterfaceProxy)(nil)
@@ -49,12 +55,12 @@ func (p *TestInterfaceProxy) Foo(
 	_data.WriteInterfaceToken(DescriptorITestInterface)
 	_data.WriteInt32(a)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestInterface, "foo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestInterface, MethodITestInterfaceFoo)
 	if _err != nil {
-		_code = TransactionITestInterfaceFoo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITestInterface, MethodITestInterfaceFoo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,12 +85,12 @@ func (p *TestInterfaceProxy) OnewayFoo(
 	_data.WriteInterfaceToken(DescriptorITestInterface)
 	_data.WriteInt32(a)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestInterface, "onewayFoo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestInterface, MethodITestInterfaceOnewayFoo)
 	if _err != nil {
-		_code = TransactionITestInterfaceOnewayFoo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestInterface, MethodITestInterfaceOnewayFoo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +102,12 @@ func (p *TestInterfaceProxy) Bar(
 	_data.WriteInterfaceToken(DescriptorITestInterface)
 	_data.WriteInt32(a)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestInterface, "bar")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestInterface, MethodITestInterfaceBar)
 	if _err != nil {
-		_code = TransactionITestInterfaceBar
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestInterface, MethodITestInterfaceBar, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,6 +127,10 @@ type TestInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestInterfaceStub)(nil)
+
+func (s *TestInterfaceStub) Descriptor() string {
+	return DescriptorITestInterface
+}
 
 func (s *TestInterfaceStub) OnTransaction(
 	ctx context.Context,

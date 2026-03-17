@@ -25,6 +25,19 @@ const (
 	TransactionITunerDemuxClose                     = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodITunerDemuxSetFrontendDataSource     = "setFrontendDataSource"
+	MethodITunerDemuxSetFrontendDataSourceById = "setFrontendDataSourceById"
+	MethodITunerDemuxOpenFilter                = "openFilter"
+	MethodITunerDemuxOpenTimeFilter            = "openTimeFilter"
+	MethodITunerDemuxGetAvSyncHwId             = "getAvSyncHwId"
+	MethodITunerDemuxGetAvSyncTime             = "getAvSyncTime"
+	MethodITunerDemuxOpenDvr                   = "openDvr"
+	MethodITunerDemuxConnectCiCam              = "connectCiCam"
+	MethodITunerDemuxDisconnectCiCam           = "disconnectCiCam"
+	MethodITunerDemuxClose                     = "close"
+)
+
 type ITunerDemux interface {
 	AsBinder() binder.IBinder
 	SetFrontendDataSource(ctx context.Context, frontend ITunerFrontend) error
@@ -40,17 +53,17 @@ type ITunerDemux interface {
 }
 
 type TunerDemuxProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerDemuxProxy(
 	remote binder.IBinder,
 ) *TunerDemuxProxy {
-	return &TunerDemuxProxy{remote: remote}
+	return &TunerDemuxProxy{Remote: remote}
 }
 
 func (p *TunerDemuxProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerDemux = (*TunerDemuxProxy)(nil)
@@ -61,14 +74,14 @@ func (p *TunerDemuxProxy) SetFrontendDataSource(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	binder.WriteBinderToParcel(ctx, _data, frontend.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, frontend.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "setFrontendDataSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSource)
 	if _err != nil {
-		_code = TransactionITunerDemuxSetFrontendDataSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -89,12 +102,12 @@ func (p *TunerDemuxProxy) SetFrontendDataSourceById(
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 	_data.WriteInt32(frontendId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "setFrontendDataSourceById")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSourceById)
 	if _err != nil {
-		_code = TransactionITunerDemuxSetFrontendDataSourceById
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxSetFrontendDataSourceById, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,14 +134,14 @@ func (p *TunerDemuxProxy) OpenFilter(
 		return _result, _err
 	}
 	_data.WriteInt32(bufferSize)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "openFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxOpenFilter)
 	if _err != nil {
-		_code = TransactionITunerDemuxOpenFilter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxOpenFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,7 +155,7 @@ func (p *TunerDemuxProxy) OpenFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerFilterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -153,12 +166,12 @@ func (p *TunerDemuxProxy) OpenTimeFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "openTimeFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxOpenTimeFilter)
 	if _err != nil {
-		_code = TransactionITunerDemuxOpenTimeFilter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxOpenTimeFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,7 +185,7 @@ func (p *TunerDemuxProxy) OpenTimeFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerTimeFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerTimeFilterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -183,14 +196,14 @@ func (p *TunerDemuxProxy) GetAvSyncHwId(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
-	binder.WriteBinderToParcel(ctx, _data, tunerFilter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tunerFilter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "getAvSyncHwId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxGetAvSyncHwId)
 	if _err != nil {
-		_code = TransactionITunerDemuxGetAvSyncHwId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxGetAvSyncHwId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -216,12 +229,12 @@ func (p *TunerDemuxProxy) GetAvSyncTime(
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 	_data.WriteInt32(avSyncHwId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "getAvSyncTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxGetAvSyncTime)
 	if _err != nil {
-		_code = TransactionITunerDemuxGetAvSyncTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxGetAvSyncTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -249,14 +262,14 @@ func (p *TunerDemuxProxy) OpenDvr(
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 	_data.WritePaddedByte(byte(dvbType))
 	_data.WriteInt32(bufferSize)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "openDvr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxOpenDvr)
 	if _err != nil {
-		_code = TransactionITunerDemuxOpenDvr
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxOpenDvr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,7 +283,7 @@ func (p *TunerDemuxProxy) OpenDvr(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerDvrProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerDvrProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -282,12 +295,12 @@ func (p *TunerDemuxProxy) ConnectCiCam(
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 	_data.WriteInt32(ciCamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "connectCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxConnectCiCam)
 	if _err != nil {
-		_code = TransactionITunerDemuxConnectCiCam
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxConnectCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -306,12 +319,12 @@ func (p *TunerDemuxProxy) DisconnectCiCam(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "disconnectCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxDisconnectCiCam)
 	if _err != nil {
-		_code = TransactionITunerDemuxDisconnectCiCam
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxDisconnectCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -330,12 +343,12 @@ func (p *TunerDemuxProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDemux)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDemux, MethodITunerDemuxClose)
 	if _err != nil {
-		_code = TransactionITunerDemuxClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDemux, MethodITunerDemuxClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -355,6 +368,10 @@ type TunerDemuxStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerDemuxStub)(nil)
+
+func (s *TunerDemuxStub) Descriptor() string {
+	return DescriptorITunerDemux
+}
 
 func (s *TunerDemuxStub) OnTransaction(
 	ctx context.Context,

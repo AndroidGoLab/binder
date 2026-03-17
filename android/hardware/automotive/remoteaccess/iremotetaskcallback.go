@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteTaskCallbackOnRemoteTaskRequested = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteTaskCallbackOnRemoteTaskRequested = "onRemoteTaskRequested"
+)
+
 type IRemoteTaskCallback interface {
 	AsBinder() binder.IBinder
 	OnRemoteTaskRequested(ctx context.Context, clientId string, data []byte) error
 }
 
 type RemoteTaskCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteTaskCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteTaskCallbackProxy {
-	return &RemoteTaskCallbackProxy{remote: remote}
+	return &RemoteTaskCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteTaskCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteTaskCallback = (*RemoteTaskCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *RemoteTaskCallbackProxy) OnRemoteTaskRequested(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTaskCallback, "onRemoteTaskRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteTaskCallback, MethodIRemoteTaskCallbackOnRemoteTaskRequested)
 	if _err != nil {
-		_code = TransactionIRemoteTaskCallbackOnRemoteTaskRequested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteTaskCallback, MethodIRemoteTaskCallbackOnRemoteTaskRequested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type RemoteTaskCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteTaskCallbackStub)(nil)
+
+func (s *RemoteTaskCallbackStub) Descriptor() string {
+	return DescriptorIRemoteTaskCallback
+}
 
 func (s *RemoteTaskCallbackStub) OnTransaction(
 	ctx context.Context,

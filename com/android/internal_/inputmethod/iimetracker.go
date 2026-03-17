@@ -5,7 +5,6 @@ import (
 	"fmt"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
-	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,15 +13,23 @@ import (
 const DescriptorIImeTracker = "com.android.internal.inputmethod.IImeTracker"
 
 const (
-	TransactionIImeTrackerOnStart                                    = binder.FirstCallTransaction + 0
-	TransactionIImeTrackerOnProgress                                 = binder.FirstCallTransaction + 1
-	TransactionIImeTrackerOnFailed                                   = binder.FirstCallTransaction + 2
-	TransactionIImeTrackerOnCancelled                                = binder.FirstCallTransaction + 3
-	TransactionIImeTrackerOnShown                                    = binder.FirstCallTransaction + 4
-	TransactionIImeTrackerOnHidden                                   = binder.FirstCallTransaction + 5
-	TransactionIImeTrackerOnDispatched                               = binder.FirstCallTransaction + 6
-	TransactionIImeTrackerHasPendingImeVisibilityRequests            = binder.FirstCallTransaction + 7
-	TransactionIImeTrackerFinishTrackingPendingImeVisibilityRequests = binder.FirstCallTransaction + 8
+	TransactionIImeTrackerOnStart                         = binder.FirstCallTransaction + 0
+	TransactionIImeTrackerOnProgress                      = binder.FirstCallTransaction + 1
+	TransactionIImeTrackerOnFailed                        = binder.FirstCallTransaction + 2
+	TransactionIImeTrackerOnCancelled                     = binder.FirstCallTransaction + 3
+	TransactionIImeTrackerOnShown                         = binder.FirstCallTransaction + 4
+	TransactionIImeTrackerOnHidden                        = binder.FirstCallTransaction + 5
+	TransactionIImeTrackerHasPendingImeVisibilityRequests = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodIImeTrackerOnStart                         = "onStart"
+	MethodIImeTrackerOnProgress                      = "onProgress"
+	MethodIImeTrackerOnFailed                        = "onFailed"
+	MethodIImeTrackerOnCancelled                     = "onCancelled"
+	MethodIImeTrackerOnShown                         = "onShown"
+	MethodIImeTrackerOnHidden                        = "onHidden"
+	MethodIImeTrackerHasPendingImeVisibilityRequests = "hasPendingImeVisibilityRequests"
 )
 
 type IImeTracker interface {
@@ -33,23 +40,21 @@ type IImeTracker interface {
 	OnCancelled(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken, phase int32) error
 	OnShown(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken) error
 	OnHidden(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken) error
-	OnDispatched(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken) error
 	HasPendingImeVisibilityRequests(ctx context.Context) (bool, error)
-	FinishTrackingPendingImeVisibilityRequests(ctx context.Context, completionSignal infra.AndroidFuture) error
 }
 
 type ImeTrackerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImeTrackerProxy(
 	remote binder.IBinder,
 ) *ImeTrackerProxy {
-	return &ImeTrackerProxy{remote: remote}
+	return &ImeTrackerProxy{Remote: remote}
 }
 
 func (p *ImeTrackerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImeTracker = (*ImeTrackerProxy)(nil)
@@ -73,12 +78,12 @@ func (p *ImeTrackerProxy) OnStart(
 	_data.WriteInt32(reason)
 	_data.WriteBool(fromUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnStart)
 	if _err != nil {
-		_code = TransactionIImeTrackerOnStart
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerOnStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,15 +112,15 @@ func (p *ImeTrackerProxy) OnProgress(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 	_data.WriteInt32(phase)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnProgress)
 	if _err != nil {
-		_code = TransactionIImeTrackerOnProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerOnProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +137,12 @@ func (p *ImeTrackerProxy) OnFailed(
 	}
 	_data.WriteInt32(phase)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnFailed)
 	if _err != nil {
-		_code = TransactionIImeTrackerOnFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerOnFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,12 +159,12 @@ func (p *ImeTrackerProxy) OnCancelled(
 	}
 	_data.WriteInt32(phase)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onCancelled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnCancelled)
 	if _err != nil {
-		_code = TransactionIImeTrackerOnCancelled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerOnCancelled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,12 +179,12 @@ func (p *ImeTrackerProxy) OnShown(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnShown)
 	if _err != nil {
-		_code = TransactionIImeTrackerOnShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerOnShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,32 +199,12 @@ func (p *ImeTrackerProxy) OnHidden(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onHidden")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerOnHidden)
 	if _err != nil {
-		_code = TransactionIImeTrackerOnHidden
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerOnHidden, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *ImeTrackerProxy) OnDispatched(
-	ctx context.Context,
-	statsToken viewInputmethod.ImeTrackerToken,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "onDispatched")
-	if _err != nil {
-		_code = TransactionIImeTrackerOnDispatched
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -230,12 +215,12 @@ func (p *ImeTrackerProxy) HasPendingImeVisibilityRequests(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "hasPendingImeVisibilityRequests")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImeTracker, MethodIImeTrackerHasPendingImeVisibilityRequests)
 	if _err != nil {
-		_code = TransactionIImeTrackerHasPendingImeVisibilityRequests
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImeTracker, MethodIImeTrackerHasPendingImeVisibilityRequests, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -252,26 +237,6 @@ func (p *ImeTrackerProxy) HasPendingImeVisibilityRequests(
 	return _result, nil
 }
 
-func (p *ImeTrackerProxy) FinishTrackingPendingImeVisibilityRequests(
-	ctx context.Context,
-	completionSignal infra.AndroidFuture,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIImeTracker)
-	_data.WriteInt32(1)
-	if _err := completionSignal.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIImeTracker, "finishTrackingPendingImeVisibilityRequests")
-	if _err != nil {
-		_code = TransactionIImeTrackerFinishTrackingPendingImeVisibilityRequests
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
 // ImeTrackerStub dispatches incoming binder transactions
 // to a typed IImeTracker implementation.
 type ImeTrackerStub struct {
@@ -279,6 +244,10 @@ type ImeTrackerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImeTrackerStub)(nil)
+
+func (s *ImeTrackerStub) Descriptor() string {
+	return DescriptorIImeTracker
+}
 
 func (s *ImeTrackerStub) OnTransaction(
 	ctx context.Context,
@@ -424,25 +393,6 @@ func (s *ImeTrackerStub) OnTransaction(
 		_err := s.Impl.OnHidden(ctx, _arg_statsToken)
 		_ = _err
 		return nil, nil
-	case TransactionIImeTrackerOnDispatched:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_statsToken viewInputmethod.ImeTrackerToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnDispatched(ctx, _arg_statsToken)
-		_ = _err
-		return nil, nil
 	case TransactionIImeTrackerHasPendingImeVisibilityRequests:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -456,25 +406,6 @@ func (s *ImeTrackerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIImeTrackerFinishTrackingPendingImeVisibilityRequests:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_completionSignal infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_completionSignal.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.FinishTrackingPendingImeVisibilityRequests(ctx, _arg_completionSignal)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -490,9 +421,7 @@ type IImeTrackerServer interface {
 	OnCancelled(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken, phase int32) error
 	OnShown(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken) error
 	OnHidden(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken) error
-	OnDispatched(ctx context.Context, statsToken viewInputmethod.ImeTrackerToken) error
 	HasPendingImeVisibilityRequests(ctx context.Context) (bool, error)
-	FinishTrackingPendingImeVisibilityRequests(ctx context.Context, completionSignal infra.AndroidFuture) error
 }
 
 type imeTrackerStubWrapper struct {
@@ -554,24 +483,10 @@ func (w *imeTrackerStubWrapper) OnHidden(
 	return w.impl.OnHidden(ctx, statsToken)
 }
 
-func (w *imeTrackerStubWrapper) OnDispatched(
-	ctx context.Context,
-	statsToken viewInputmethod.ImeTrackerToken,
-) error {
-	return w.impl.OnDispatched(ctx, statsToken)
-}
-
 func (w *imeTrackerStubWrapper) HasPendingImeVisibilityRequests(
 	ctx context.Context,
 ) (bool, error) {
 	return w.impl.HasPendingImeVisibilityRequests(ctx)
-}
-
-func (w *imeTrackerStubWrapper) FinishTrackingPendingImeVisibilityRequests(
-	ctx context.Context,
-	completionSignal infra.AndroidFuture,
-) error {
-	return w.impl.FinishTrackingPendingImeVisibilityRequests(ctx, completionSignal)
 }
 
 var _ IImeTracker = (*imeTrackerStubWrapper)(nil)

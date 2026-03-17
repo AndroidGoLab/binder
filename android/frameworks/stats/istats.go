@@ -15,23 +15,27 @@ const (
 	TransactionIStatsReportVendorAtom = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStatsReportVendorAtom = "reportVendorAtom"
+)
+
 type IStats interface {
 	AsBinder() binder.IBinder
 	ReportVendorAtom(ctx context.Context, vendorAtom VendorAtom) error
 }
 
 type StatsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStatsProxy(
 	remote binder.IBinder,
 ) *StatsProxy {
-	return &StatsProxy{remote: remote}
+	return &StatsProxy{Remote: remote}
 }
 
 func (p *StatsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStats = (*StatsProxy)(nil)
@@ -47,12 +51,12 @@ func (p *StatsProxy) ReportVendorAtom(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStats, "reportVendorAtom")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStats, MethodIStatsReportVendorAtom)
 	if _err != nil {
-		_code = TransactionIStatsReportVendorAtom
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStats, MethodIStatsReportVendorAtom, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type StatsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StatsStub)(nil)
+
+func (s *StatsStub) Descriptor() string {
+	return DescriptorIStats
+}
 
 func (s *StatsStub) OnTransaction(
 	ctx context.Context,

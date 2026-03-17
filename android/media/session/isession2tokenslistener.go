@@ -15,23 +15,27 @@ const (
 	TransactionISession2TokensListenerOnSession2TokensChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISession2TokensListenerOnSession2TokensChanged = "onSession2TokensChanged"
+)
+
 type ISession2TokensListener interface {
 	AsBinder() binder.IBinder
 	OnSession2TokensChanged(ctx context.Context, tokens []interface{}) error
 }
 
 type Session2TokensListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSession2TokensListenerProxy(
 	remote binder.IBinder,
 ) *Session2TokensListenerProxy {
-	return &Session2TokensListenerProxy{remote: remote}
+	return &Session2TokensListenerProxy{Remote: remote}
 }
 
 func (p *Session2TokensListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISession2TokensListener = (*Session2TokensListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *Session2TokensListenerProxy) OnSession2TokensChanged(
 		_data.WriteInt32(int32(len(tokens)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession2TokensListener, "onSession2TokensChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession2TokensListener, MethodISession2TokensListenerOnSession2TokensChanged)
 	if _err != nil {
-		_code = TransactionISession2TokensListenerOnSession2TokensChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession2TokensListener, MethodISession2TokensListenerOnSession2TokensChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type Session2TokensListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*Session2TokensListenerStub)(nil)
+
+func (s *Session2TokensListenerStub) Descriptor() string {
+	return DescriptorISession2TokensListener
+}
 
 func (s *Session2TokensListenerStub) OnTransaction(
 	ctx context.Context,

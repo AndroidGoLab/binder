@@ -15,23 +15,27 @@ const (
 	TransactionIRegionSamplingListenerOnSampleCollected = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRegionSamplingListenerOnSampleCollected = "onSampleCollected"
+)
+
 type IRegionSamplingListener interface {
 	AsBinder() binder.IBinder
 	OnSampleCollected(ctx context.Context, medianLuma float32) error
 }
 
 type RegionSamplingListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRegionSamplingListenerProxy(
 	remote binder.IBinder,
 ) *RegionSamplingListenerProxy {
-	return &RegionSamplingListenerProxy{remote: remote}
+	return &RegionSamplingListenerProxy{Remote: remote}
 }
 
 func (p *RegionSamplingListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRegionSamplingListener = (*RegionSamplingListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *RegionSamplingListenerProxy) OnSampleCollected(
 	_data.WriteInterfaceToken(DescriptorIRegionSamplingListener)
 	_data.WriteFloat32(medianLuma)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegionSamplingListener, "onSampleCollected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegionSamplingListener, MethodIRegionSamplingListenerOnSampleCollected)
 	if _err != nil {
-		_code = TransactionIRegionSamplingListenerOnSampleCollected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRegionSamplingListener, MethodIRegionSamplingListenerOnSampleCollected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RegionSamplingListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RegionSamplingListenerStub)(nil)
+
+func (s *RegionSamplingListenerStub) Descriptor() string {
+	return DescriptorIRegionSamplingListener
+}
 
 func (s *RegionSamplingListenerStub) OnTransaction(
 	ctx context.Context,

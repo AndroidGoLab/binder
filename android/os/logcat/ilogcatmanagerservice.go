@@ -16,6 +16,11 @@ const (
 	TransactionILogcatManagerServiceFinishThread = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodILogcatManagerServiceStartThread  = "startThread"
+	MethodILogcatManagerServiceFinishThread = "finishThread"
+)
+
 type ILogcatManagerService interface {
 	AsBinder() binder.IBinder
 	StartThread(ctx context.Context, uid int32, gid int32, pid int32, fd int32) error
@@ -23,17 +28,17 @@ type ILogcatManagerService interface {
 }
 
 type LogcatManagerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLogcatManagerServiceProxy(
 	remote binder.IBinder,
 ) *LogcatManagerServiceProxy {
-	return &LogcatManagerServiceProxy{remote: remote}
+	return &LogcatManagerServiceProxy{Remote: remote}
 }
 
 func (p *LogcatManagerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILogcatManagerService = (*LogcatManagerServiceProxy)(nil)
@@ -52,12 +57,12 @@ func (p *LogcatManagerServiceProxy) StartThread(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILogcatManagerService, "startThread")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILogcatManagerService, MethodILogcatManagerServiceStartThread)
 	if _err != nil {
-		_code = TransactionILogcatManagerServiceStartThread
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILogcatManagerService, MethodILogcatManagerServiceStartThread, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +80,12 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILogcatManagerService, "finishThread")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILogcatManagerService, MethodILogcatManagerServiceFinishThread)
 	if _err != nil {
-		_code = TransactionILogcatManagerServiceFinishThread
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILogcatManagerService, MethodILogcatManagerServiceFinishThread, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +96,10 @@ type LogcatManagerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LogcatManagerServiceStub)(nil)
+
+func (s *LogcatManagerServiceStub) Descriptor() string {
+	return DescriptorILogcatManagerService
+}
 
 func (s *LogcatManagerServiceStub) OnTransaction(
 	ctx context.Context,

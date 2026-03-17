@@ -18,6 +18,13 @@ const (
 	TransactionIWifiEventCallbackOnSubsystemRestart = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIWifiEventCallbackOnFailure          = "onFailure"
+	MethodIWifiEventCallbackOnStart            = "onStart"
+	MethodIWifiEventCallbackOnStop             = "onStop"
+	MethodIWifiEventCallbackOnSubsystemRestart = "onSubsystemRestart"
+)
+
 type IWifiEventCallback interface {
 	AsBinder() binder.IBinder
 	OnFailure(ctx context.Context, status WifiStatusCode) error
@@ -27,17 +34,17 @@ type IWifiEventCallback interface {
 }
 
 type WifiEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWifiEventCallbackProxy(
 	remote binder.IBinder,
 ) *WifiEventCallbackProxy {
-	return &WifiEventCallbackProxy{remote: remote}
+	return &WifiEventCallbackProxy{Remote: remote}
 }
 
 func (p *WifiEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWifiEventCallback = (*WifiEventCallbackProxy)(nil)
@@ -50,12 +57,12 @@ func (p *WifiEventCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiEventCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIWifiEventCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +72,12 @@ func (p *WifiEventCallbackProxy) OnStart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiEventCallback, "onStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnStart)
 	if _err != nil {
-		_code = TransactionIWifiEventCallbackOnStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +87,12 @@ func (p *WifiEventCallbackProxy) OnStop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiEventCallback, "onStop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnStop)
 	if _err != nil {
-		_code = TransactionIWifiEventCallbackOnStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +104,12 @@ func (p *WifiEventCallbackProxy) OnSubsystemRestart(
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiEventCallback, "onSubsystemRestart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnSubsystemRestart)
 	if _err != nil {
-		_code = TransactionIWifiEventCallbackOnSubsystemRestart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiEventCallback, MethodIWifiEventCallbackOnSubsystemRestart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +120,10 @@ type WifiEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WifiEventCallbackStub)(nil)
+
+func (s *WifiEventCallbackStub) Descriptor() string {
+	return DescriptorIWifiEventCallback
+}
 
 func (s *WifiEventCallbackStub) OnTransaction(
 	ctx context.Context,

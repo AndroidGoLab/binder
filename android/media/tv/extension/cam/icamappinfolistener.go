@@ -16,23 +16,27 @@ const (
 	TransactionICamAppInfoListenerOnCamAppInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICamAppInfoListenerOnCamAppInfoChanged = "onCamAppInfoChanged"
+)
+
 type ICamAppInfoListener interface {
 	AsBinder() binder.IBinder
 	OnCamAppInfoChanged(ctx context.Context, slotId int32, appInfo os.Bundle) error
 }
 
 type CamAppInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamAppInfoListenerProxy(
 	remote binder.IBinder,
 ) *CamAppInfoListenerProxy {
-	return &CamAppInfoListenerProxy{remote: remote}
+	return &CamAppInfoListenerProxy{Remote: remote}
 }
 
 func (p *CamAppInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamAppInfoListener = (*CamAppInfoListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *CamAppInfoListenerProxy) OnCamAppInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoListener, "onCamAppInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamAppInfoListener, MethodICamAppInfoListenerOnCamAppInfoChanged)
 	if _err != nil {
-		_code = TransactionICamAppInfoListenerOnCamAppInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamAppInfoListener, MethodICamAppInfoListenerOnCamAppInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type CamAppInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamAppInfoListenerStub)(nil)
+
+func (s *CamAppInfoListenerStub) Descriptor() string {
+	return DescriptorICamAppInfoListener
+}
 
 func (s *CamAppInfoListenerStub) OnTransaction(
 	ctx context.Context,

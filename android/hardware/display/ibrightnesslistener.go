@@ -15,23 +15,27 @@ const (
 	TransactionIBrightnessListenerOnBrightnessChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBrightnessListenerOnBrightnessChanged = "onBrightnessChanged"
+)
+
 type IBrightnessListener interface {
 	AsBinder() binder.IBinder
 	OnBrightnessChanged(ctx context.Context, brightness float32) error
 }
 
 type BrightnessListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBrightnessListenerProxy(
 	remote binder.IBinder,
 ) *BrightnessListenerProxy {
-	return &BrightnessListenerProxy{remote: remote}
+	return &BrightnessListenerProxy{Remote: remote}
 }
 
 func (p *BrightnessListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBrightnessListener = (*BrightnessListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *BrightnessListenerProxy) OnBrightnessChanged(
 	_data.WriteInterfaceToken(DescriptorIBrightnessListener)
 	_data.WriteFloat32(brightness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBrightnessListener, "onBrightnessChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrightnessListener, MethodIBrightnessListenerOnBrightnessChanged)
 	if _err != nil {
-		_code = TransactionIBrightnessListenerOnBrightnessChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBrightnessListener, MethodIBrightnessListenerOnBrightnessChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type BrightnessListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BrightnessListenerStub)(nil)
+
+func (s *BrightnessListenerStub) Descriptor() string {
+	return DescriptorIBrightnessListener
+}
 
 func (s *BrightnessListenerStub) OnTransaction(
 	ctx context.Context,

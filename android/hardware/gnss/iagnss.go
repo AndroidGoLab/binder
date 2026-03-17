@@ -21,6 +21,14 @@ const (
 	TransactionIAGnssDataConnOpen   = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIAGnssSetCallback    = "setCallback"
+	MethodIAGnssDataConnClosed = "dataConnClosed"
+	MethodIAGnssDataConnFailed = "dataConnFailed"
+	MethodIAGnssSetServer      = "setServer"
+	MethodIAGnssDataConnOpen   = "dataConnOpen"
+)
+
 type IAGnss interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IAGnssCallback) error
@@ -31,17 +39,17 @@ type IAGnss interface {
 }
 
 type AGnssProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAGnssProxy(
 	remote binder.IBinder,
 ) *AGnssProxy {
-	return &AGnssProxy{remote: remote}
+	return &AGnssProxy{Remote: remote}
 }
 
 func (p *AGnssProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAGnss = (*AGnssProxy)(nil)
@@ -52,14 +60,14 @@ func (p *AGnssProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssSetCallback)
 	if _err != nil {
-		_code = TransactionIAGnssSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnss, MethodIAGnssSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +86,12 @@ func (p *AGnssProxy) DataConnClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "dataConnClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssDataConnClosed)
 	if _err != nil {
-		_code = TransactionIAGnssDataConnClosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnss, MethodIAGnssDataConnClosed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +110,12 @@ func (p *AGnssProxy) DataConnFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "dataConnFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssDataConnFailed)
 	if _err != nil {
-		_code = TransactionIAGnssDataConnFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnss, MethodIAGnssDataConnFailed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,12 +140,12 @@ func (p *AGnssProxy) SetServer(
 	_data.WriteString16(hostname)
 	_data.WriteInt32(port)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "setServer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssSetServer)
 	if _err != nil {
-		_code = TransactionIAGnssSetServer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnss, MethodIAGnssSetServer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,12 +170,12 @@ func (p *AGnssProxy) DataConnOpen(
 	_data.WriteString16(apn)
 	_data.WriteInt32(int32(apnIpType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "dataConnOpen")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnss, MethodIAGnssDataConnOpen)
 	if _err != nil {
-		_code = TransactionIAGnssDataConnOpen
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnss, MethodIAGnssDataConnOpen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -187,6 +195,10 @@ type AGnssStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AGnssStub)(nil)
+
+func (s *AGnssStub) Descriptor() string {
+	return DescriptorIAGnss
+}
 
 func (s *AGnssStub) OnTransaction(
 	ctx context.Context,

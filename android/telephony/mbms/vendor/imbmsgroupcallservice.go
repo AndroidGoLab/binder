@@ -20,6 +20,14 @@ const (
 	TransactionIMbmsGroupCallServiceDispose         = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIMbmsGroupCallServiceInitialize      = "initialize"
+	MethodIMbmsGroupCallServiceStopGroupCall   = "stopGroupCall"
+	MethodIMbmsGroupCallServiceUpdateGroupCall = "updateGroupCall"
+	MethodIMbmsGroupCallServiceStartGroupCall  = "startGroupCall"
+	MethodIMbmsGroupCallServiceDispose         = "dispose"
+)
+
 type IMbmsGroupCallService interface {
 	AsBinder() binder.IBinder
 	Initialize(ctx context.Context, callback mbms.IMbmsGroupCallSessionCallback, subId int32) (int32, error)
@@ -30,17 +38,17 @@ type IMbmsGroupCallService interface {
 }
 
 type MbmsGroupCallServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMbmsGroupCallServiceProxy(
 	remote binder.IBinder,
 ) *MbmsGroupCallServiceProxy {
-	return &MbmsGroupCallServiceProxy{remote: remote}
+	return &MbmsGroupCallServiceProxy{Remote: remote}
 }
 
 func (p *MbmsGroupCallServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMbmsGroupCallService = (*MbmsGroupCallServiceProxy)(nil)
@@ -53,15 +61,15 @@ func (p *MbmsGroupCallServiceProxy) Initialize(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "initialize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceInitialize)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallServiceInitialize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceInitialize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -88,12 +96,12 @@ func (p *MbmsGroupCallServiceProxy) StopGroupCall(
 	_data.WriteInt32(subId)
 	_data.WriteInt64(tmgi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "stopGroupCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStopGroupCall)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallServiceStopGroupCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStopGroupCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -128,12 +136,12 @@ func (p *MbmsGroupCallServiceProxy) UpdateGroupCall(
 		_data.WriteInt32(int32(len(frequencyList)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "updateGroupCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceUpdateGroupCall)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallServiceUpdateGroupCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceUpdateGroupCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,14 +177,14 @@ func (p *MbmsGroupCallServiceProxy) StartGroupCall(
 	} else {
 		_data.WriteInt32(int32(len(frequencyList)))
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "startGroupCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStartGroupCall)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallServiceStartGroupCall
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceStartGroupCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -201,12 +209,12 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "dispose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceDispose)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallServiceDispose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallService, MethodIMbmsGroupCallServiceDispose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,6 +234,10 @@ type MbmsGroupCallServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MbmsGroupCallServiceStub)(nil)
+
+func (s *MbmsGroupCallServiceStub) Descriptor() string {
+	return DescriptorIMbmsGroupCallService
+}
 
 func (s *MbmsGroupCallServiceStub) OnTransaction(
 	ctx context.Context,

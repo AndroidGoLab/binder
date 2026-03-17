@@ -16,6 +16,11 @@ const (
 	TransactionIDeviceIdentifiersPolicyServiceGetSerialForPackage = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDeviceIdentifiersPolicyServiceGetSerial           = "getSerial"
+	MethodIDeviceIdentifiersPolicyServiceGetSerialForPackage = "getSerialForPackage"
+)
+
 type IDeviceIdentifiersPolicyService interface {
 	AsBinder() binder.IBinder
 	GetSerial(ctx context.Context) (string, error)
@@ -23,17 +28,17 @@ type IDeviceIdentifiersPolicyService interface {
 }
 
 type DeviceIdentifiersPolicyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceIdentifiersPolicyServiceProxy(
 	remote binder.IBinder,
 ) *DeviceIdentifiersPolicyServiceProxy {
-	return &DeviceIdentifiersPolicyServiceProxy{remote: remote}
+	return &DeviceIdentifiersPolicyServiceProxy{Remote: remote}
 }
 
 func (p *DeviceIdentifiersPolicyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceIdentifiersPolicyService = (*DeviceIdentifiersPolicyServiceProxy)(nil)
@@ -45,12 +50,12 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerial(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdentifiersPolicyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceIdentifiersPolicyService, "getSerial")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerial)
 	if _err != nil {
-		_code = TransactionIDeviceIdentifiersPolicyServiceGetSerial
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerial, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -71,18 +76,18 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerialForPackage(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdentifiersPolicyService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceIdentifiersPolicyService, "getSerialForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerialForPackage)
 	if _err != nil {
-		_code = TransactionIDeviceIdentifiersPolicyServiceGetSerialForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceIdentifiersPolicyService, MethodIDeviceIdentifiersPolicyServiceGetSerialForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,6 +111,10 @@ type DeviceIdentifiersPolicyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceIdentifiersPolicyServiceStub)(nil)
+
+func (s *DeviceIdentifiersPolicyServiceStub) Descriptor() string {
+	return DescriptorIDeviceIdentifiersPolicyService
+}
 
 func (s *DeviceIdentifiersPolicyServiceStub) OnTransaction(
 	ctx context.Context,

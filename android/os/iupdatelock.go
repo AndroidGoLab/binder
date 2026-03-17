@@ -16,6 +16,11 @@ const (
 	TransactionIUpdateLockReleaseUpdateLock = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIUpdateLockAcquireUpdateLock = "acquireUpdateLock"
+	MethodIUpdateLockReleaseUpdateLock = "releaseUpdateLock"
+)
+
 type IUpdateLock interface {
 	AsBinder() binder.IBinder
 	AcquireUpdateLock(ctx context.Context, token binder.IBinder, tag string) error
@@ -23,17 +28,17 @@ type IUpdateLock interface {
 }
 
 type UpdateLockProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUpdateLockProxy(
 	remote binder.IBinder,
 ) *UpdateLockProxy {
-	return &UpdateLockProxy{remote: remote}
+	return &UpdateLockProxy{Remote: remote}
 }
 
 func (p *UpdateLockProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUpdateLock = (*UpdateLockProxy)(nil)
@@ -45,15 +50,15 @@ func (p *UpdateLockProxy) AcquireUpdateLock(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUpdateLock)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(tag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUpdateLock, "acquireUpdateLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUpdateLock, MethodIUpdateLockAcquireUpdateLock)
 	if _err != nil {
-		_code = TransactionIUpdateLockAcquireUpdateLock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUpdateLock, MethodIUpdateLockAcquireUpdateLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,14 +77,14 @@ func (p *UpdateLockProxy) ReleaseUpdateLock(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUpdateLock)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUpdateLock, "releaseUpdateLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUpdateLock, MethodIUpdateLockReleaseUpdateLock)
 	if _err != nil {
-		_code = TransactionIUpdateLockReleaseUpdateLock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUpdateLock, MethodIUpdateLockReleaseUpdateLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,6 +104,10 @@ type UpdateLockStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UpdateLockStub)(nil)
+
+func (s *UpdateLockStub) Descriptor() string {
+	return DescriptorIUpdateLock
+}
 
 func (s *UpdateLockStub) OnTransaction(
 	ctx context.Context,

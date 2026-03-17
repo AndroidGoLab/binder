@@ -17,6 +17,11 @@ const (
 	TransactionIBluetoothSetHfpConfig = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothSetScoConfig = "setScoConfig"
+	MethodIBluetoothSetHfpConfig = "setHfpConfig"
+)
+
 type IBluetooth interface {
 	AsBinder() binder.IBinder
 	SetScoConfig(ctx context.Context, config coreIBluetooth.ScoConfig) (coreIBluetooth.ScoConfig, error)
@@ -24,17 +29,17 @@ type IBluetooth interface {
 }
 
 type BluetoothProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothProxy(
 	remote binder.IBinder,
 ) *BluetoothProxy {
-	return &BluetoothProxy{remote: remote}
+	return &BluetoothProxy{Remote: remote}
 }
 
 func (p *BluetoothProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetooth = (*BluetoothProxy)(nil)
@@ -51,12 +56,12 @@ func (p *BluetoothProxy) SetScoConfig(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetooth, "setScoConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetooth, MethodIBluetoothSetScoConfig)
 	if _err != nil {
-		_code = TransactionIBluetoothSetScoConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetooth, MethodIBluetoothSetScoConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,12 +95,12 @@ func (p *BluetoothProxy) SetHfpConfig(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetooth, "setHfpConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetooth, MethodIBluetoothSetHfpConfig)
 	if _err != nil {
-		_code = TransactionIBluetoothSetHfpConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetooth, MethodIBluetoothSetHfpConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,6 +129,10 @@ type BluetoothStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothStub)(nil)
+
+func (s *BluetoothStub) Descriptor() string {
+	return DescriptorIBluetooth
+}
 
 func (s *BluetoothStub) OnTransaction(
 	ctx context.Context,

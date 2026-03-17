@@ -16,23 +16,27 @@ const (
 	TransactionIConfigureWidgetCallbackOnConfigureWidget = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIConfigureWidgetCallbackOnConfigureWidget = "onConfigureWidget"
+)
+
 type IConfigureWidgetCallback interface {
 	AsBinder() binder.IBinder
 	OnConfigureWidget(ctx context.Context, appWidgetId int32, resultReceiver os.IResultReceiver) error
 }
 
 type ConfigureWidgetCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConfigureWidgetCallbackProxy(
 	remote binder.IBinder,
 ) *ConfigureWidgetCallbackProxy {
-	return &ConfigureWidgetCallbackProxy{remote: remote}
+	return &ConfigureWidgetCallbackProxy{Remote: remote}
 }
 
 func (p *ConfigureWidgetCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConfigureWidgetCallback = (*ConfigureWidgetCallbackProxy)(nil)
@@ -45,14 +49,14 @@ func (p *ConfigureWidgetCallbackProxy) OnConfigureWidget(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigureWidgetCallback)
 	_data.WriteInt32(appWidgetId)
-	binder.WriteBinderToParcel(ctx, _data, resultReceiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultReceiver.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfigureWidgetCallback, "onConfigureWidget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfigureWidgetCallback, MethodIConfigureWidgetCallbackOnConfigureWidget)
 	if _err != nil {
-		_code = TransactionIConfigureWidgetCallbackOnConfigureWidget
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConfigureWidgetCallback, MethodIConfigureWidgetCallbackOnConfigureWidget, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type ConfigureWidgetCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConfigureWidgetCallbackStub)(nil)
+
+func (s *ConfigureWidgetCallbackStub) Descriptor() string {
+	return DescriptorIConfigureWidgetCallback
+}
 
 func (s *ConfigureWidgetCallbackStub) OnTransaction(
 	ctx context.Context,

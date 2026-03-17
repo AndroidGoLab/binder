@@ -15,23 +15,27 @@ const (
 	TransactionIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged = "onPackageLoadingProgressChanged"
+)
+
 type IPackageLoadingProgressCallback interface {
 	AsBinder() binder.IBinder
 	OnPackageLoadingProgressChanged(ctx context.Context, progress float32) error
 }
 
 type PackageLoadingProgressCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageLoadingProgressCallbackProxy(
 	remote binder.IBinder,
 ) *PackageLoadingProgressCallbackProxy {
-	return &PackageLoadingProgressCallbackProxy{remote: remote}
+	return &PackageLoadingProgressCallbackProxy{Remote: remote}
 }
 
 func (p *PackageLoadingProgressCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageLoadingProgressCallback = (*PackageLoadingProgressCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *PackageLoadingProgressCallbackProxy) OnPackageLoadingProgressChanged(
 	_data.WriteInterfaceToken(DescriptorIPackageLoadingProgressCallback)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageLoadingProgressCallback, "onPackageLoadingProgressChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageLoadingProgressCallback, MethodIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged)
 	if _err != nil {
-		_code = TransactionIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageLoadingProgressCallback, MethodIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type PackageLoadingProgressCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageLoadingProgressCallbackStub)(nil)
+
+func (s *PackageLoadingProgressCallbackStub) Descriptor() string {
+	return DescriptorIPackageLoadingProgressCallback
+}
 
 func (s *PackageLoadingProgressCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo = "onRecordedContentsGetInfo"
+)
+
 type IGetInfoRecordedContentsCallback interface {
 	AsBinder() binder.IBinder
 	OnRecordedContentsGetInfo(ctx context.Context, result int32) error
 }
 
 type GetInfoRecordedContentsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetInfoRecordedContentsCallbackProxy(
 	remote binder.IBinder,
 ) *GetInfoRecordedContentsCallbackProxy {
-	return &GetInfoRecordedContentsCallbackProxy{remote: remote}
+	return &GetInfoRecordedContentsCallbackProxy{Remote: remote}
 }
 
 func (p *GetInfoRecordedContentsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetInfoRecordedContentsCallback = (*GetInfoRecordedContentsCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *GetInfoRecordedContentsCallbackProxy) OnRecordedContentsGetInfo(
 	_data.WriteInterfaceToken(DescriptorIGetInfoRecordedContentsCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetInfoRecordedContentsCallback, "onRecordedContentsGetInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetInfoRecordedContentsCallback, MethodIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo)
 	if _err != nil {
-		_code = TransactionIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetInfoRecordedContentsCallback, MethodIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type GetInfoRecordedContentsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetInfoRecordedContentsCallbackStub)(nil)
+
+func (s *GetInfoRecordedContentsCallbackStub) Descriptor() string {
+	return DescriptorIGetInfoRecordedContentsCallback
+}
 
 func (s *GetInfoRecordedContentsCallbackStub) OnTransaction(
 	ctx context.Context,

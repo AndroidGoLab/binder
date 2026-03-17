@@ -22,6 +22,17 @@ const (
 	TransactionICameraExtensionsProxyServiceInitializeAdvancedExtension = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodICameraExtensionsProxyServiceRegisterClient              = "registerClient"
+	MethodICameraExtensionsProxyServiceUnregisterClient            = "unregisterClient"
+	MethodICameraExtensionsProxyServiceAdvancedExtensionsSupported = "advancedExtensionsSupported"
+	MethodICameraExtensionsProxyServiceInitializeSession           = "initializeSession"
+	MethodICameraExtensionsProxyServiceReleaseSession              = "releaseSession"
+	MethodICameraExtensionsProxyServiceInitializePreviewExtension  = "initializePreviewExtension"
+	MethodICameraExtensionsProxyServiceInitializeImageExtension    = "initializeImageExtension"
+	MethodICameraExtensionsProxyServiceInitializeAdvancedExtension = "initializeAdvancedExtension"
+)
+
 type ICameraExtensionsProxyService interface {
 	AsBinder() binder.IBinder
 	RegisterClient(ctx context.Context, token binder.IBinder) (bool, error)
@@ -35,17 +46,17 @@ type ICameraExtensionsProxyService interface {
 }
 
 type CameraExtensionsProxyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraExtensionsProxyServiceProxy(
 	remote binder.IBinder,
 ) *CameraExtensionsProxyServiceProxy {
-	return &CameraExtensionsProxyServiceProxy{remote: remote}
+	return &CameraExtensionsProxyServiceProxy{Remote: remote}
 }
 
 func (p *CameraExtensionsProxyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraExtensionsProxyService = (*CameraExtensionsProxyServiceProxy)(nil)
@@ -57,14 +68,14 @@ func (p *CameraExtensionsProxyServiceProxy) RegisterClient(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "registerClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceRegisterClient)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceRegisterClient
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceRegisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,14 +98,14 @@ func (p *CameraExtensionsProxyServiceProxy) UnregisterClient(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "unregisterClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceUnregisterClient)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceUnregisterClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceUnregisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,12 +125,12 @@ func (p *CameraExtensionsProxyServiceProxy) AdvancedExtensionsSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "advancedExtensionsSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceAdvancedExtensionsSupported)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceAdvancedExtensionsSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceAdvancedExtensionsSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,14 +153,14 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializeSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeSession)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceInitializeSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,12 +179,12 @@ func (p *CameraExtensionsProxyServiceProxy) ReleaseSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "releaseSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceReleaseSession)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceReleaseSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceReleaseSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -195,12 +206,12 @@ func (p *CameraExtensionsProxyServiceProxy) InitializePreviewExtension(
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	_data.WriteInt32(extensionType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializePreviewExtension")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializePreviewExtension)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceInitializePreviewExtension
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializePreviewExtension, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -214,7 +225,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializePreviewExtension(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPreviewExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewPreviewExtenderImplProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -227,12 +238,12 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeImageExtension(
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	_data.WriteInt32(extensionType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializeImageExtension")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeImageExtension)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceInitializeImageExtension
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeImageExtension, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,7 +257,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeImageExtension(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImageCaptureExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewImageCaptureExtenderImplProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -259,12 +270,12 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 	_data.WriteInterfaceToken(DescriptorICameraExtensionsProxyService)
 	_data.WriteInt32(extensionType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializeAdvancedExtension")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeAdvancedExtension)
 	if _err != nil {
-		_code = TransactionICameraExtensionsProxyServiceInitializeAdvancedExtension
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraExtensionsProxyService, MethodICameraExtensionsProxyServiceInitializeAdvancedExtension, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -278,7 +289,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewAdvancedExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewAdvancedExtenderImplProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -289,6 +300,10 @@ type CameraExtensionsProxyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraExtensionsProxyServiceStub)(nil)
+
+func (s *CameraExtensionsProxyServiceStub) Descriptor() string {
+	return DescriptorICameraExtensionsProxyService
+}
 
 func (s *CameraExtensionsProxyServiceStub) OnTransaction(
 	ctx context.Context,

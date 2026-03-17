@@ -20,14 +20,7 @@ func (s *CameraDesc) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Id)
 	p.WriteInt32(s.VendorFlags)
-	if s.Metadata == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Metadata)))
-		for _, _item := range s.Metadata {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Metadata)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -51,19 +44,9 @@ func (s *CameraDesc) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Metadata, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Metadata = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Metadata[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -15,23 +15,27 @@ const (
 	TransactionIAnnouncementListenerOnListUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAnnouncementListenerOnListUpdated = "onListUpdated"
+)
+
 type IAnnouncementListener interface {
 	AsBinder() binder.IBinder
 	OnListUpdated(ctx context.Context, activeAnnouncements []Announcement) error
 }
 
 type AnnouncementListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAnnouncementListenerProxy(
 	remote binder.IBinder,
 ) *AnnouncementListenerProxy {
-	return &AnnouncementListenerProxy{remote: remote}
+	return &AnnouncementListenerProxy{Remote: remote}
 }
 
 func (p *AnnouncementListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAnnouncementListener = (*AnnouncementListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *AnnouncementListenerProxy) OnListUpdated(
 	} else {
 		_data.WriteInt32(int32(len(activeAnnouncements)))
 		for _, _item := range activeAnnouncements {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAnnouncementListener, "onListUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAnnouncementListener, MethodIAnnouncementListenerOnListUpdated)
 	if _err != nil {
-		_code = TransactionIAnnouncementListenerOnListUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAnnouncementListener, MethodIAnnouncementListenerOnListUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type AnnouncementListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AnnouncementListenerStub)(nil)
+
+func (s *AnnouncementListenerStub) Descriptor() string {
+	return DescriptorIAnnouncementListener
+}
 
 func (s *AnnouncementListenerStub) OnTransaction(
 	ctx context.Context,

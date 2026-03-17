@@ -15,23 +15,27 @@ const (
 	TransactionIInputDevicesChangedListenerOnInputDevicesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputDevicesChangedListenerOnInputDevicesChanged = "onInputDevicesChanged"
+)
+
 type IInputDevicesChangedListener interface {
 	AsBinder() binder.IBinder
 	OnInputDevicesChanged(ctx context.Context, deviceIdAndGeneration []int32) error
 }
 
 type InputDevicesChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputDevicesChangedListenerProxy(
 	remote binder.IBinder,
 ) *InputDevicesChangedListenerProxy {
-	return &InputDevicesChangedListenerProxy{remote: remote}
+	return &InputDevicesChangedListenerProxy{Remote: remote}
 }
 
 func (p *InputDevicesChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputDevicesChangedListener = (*InputDevicesChangedListenerProxy)(nil)
@@ -51,12 +55,12 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputDevicesChangedListener, "onInputDevicesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputDevicesChangedListener, MethodIInputDevicesChangedListenerOnInputDevicesChanged)
 	if _err != nil {
-		_code = TransactionIInputDevicesChangedListenerOnInputDevicesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputDevicesChangedListener, MethodIInputDevicesChangedListenerOnInputDevicesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type InputDevicesChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputDevicesChangedListenerStub)(nil)
+
+func (s *InputDevicesChangedListenerStub) Descriptor() string {
+	return DescriptorIInputDevicesChangedListener
+}
 
 func (s *InputDevicesChangedListenerStub) OnTransaction(
 	ctx context.Context,

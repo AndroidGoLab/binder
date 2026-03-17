@@ -16,6 +16,11 @@ const (
 	TransactionISuspendControlServiceRegisterWakelockCallback = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISuspendControlServiceRegisterCallback         = "registerCallback"
+	MethodISuspendControlServiceRegisterWakelockCallback = "registerWakelockCallback"
+)
+
 type ISuspendControlService interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback ISuspendCallback) (bool, error)
@@ -23,17 +28,17 @@ type ISuspendControlService interface {
 }
 
 type SuspendControlServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSuspendControlServiceProxy(
 	remote binder.IBinder,
 ) *SuspendControlServiceProxy {
-	return &SuspendControlServiceProxy{remote: remote}
+	return &SuspendControlServiceProxy{Remote: remote}
 }
 
 func (p *SuspendControlServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISuspendControlService = (*SuspendControlServiceProxy)(nil)
@@ -45,14 +50,14 @@ func (p *SuspendControlServiceProxy) RegisterCallback(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlService, MethodISuspendControlServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceRegisterCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlService, MethodISuspendControlServiceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,15 +82,15 @@ func (p *SuspendControlServiceProxy) RegisterWakelockCallback(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlService, "registerWakelockCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlService, MethodISuspendControlServiceRegisterWakelockCallback)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceRegisterWakelockCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlService, MethodISuspendControlServiceRegisterWakelockCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -109,6 +114,10 @@ type SuspendControlServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SuspendControlServiceStub)(nil)
+
+func (s *SuspendControlServiceStub) Descriptor() string {
+	return DescriptorISuspendControlService
+}
 
 func (s *SuspendControlServiceStub) OnTransaction(
 	ctx context.Context,

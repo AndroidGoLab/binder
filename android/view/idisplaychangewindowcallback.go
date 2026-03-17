@@ -15,23 +15,27 @@ const (
 	TransactionIDisplayChangeWindowCallbackContinueDisplayChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDisplayChangeWindowCallbackContinueDisplayChange = "continueDisplayChange"
+)
+
 type IDisplayChangeWindowCallback interface {
 	AsBinder() binder.IBinder
 	ContinueDisplayChange(ctx context.Context, t interface{}) error
 }
 
 type DisplayChangeWindowCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayChangeWindowCallbackProxy(
 	remote binder.IBinder,
 ) *DisplayChangeWindowCallbackProxy {
-	return &DisplayChangeWindowCallbackProxy{remote: remote}
+	return &DisplayChangeWindowCallbackProxy{Remote: remote}
 }
 
 func (p *DisplayChangeWindowCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayChangeWindowCallback = (*DisplayChangeWindowCallbackProxy)(nil)
@@ -43,12 +47,12 @@ func (p *DisplayChangeWindowCallbackProxy) ContinueDisplayChange(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayChangeWindowCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayChangeWindowCallback, "continueDisplayChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayChangeWindowCallback, MethodIDisplayChangeWindowCallbackContinueDisplayChange)
 	if _err != nil {
-		_code = TransactionIDisplayChangeWindowCallbackContinueDisplayChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayChangeWindowCallback, MethodIDisplayChangeWindowCallbackContinueDisplayChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,6 +72,10 @@ type DisplayChangeWindowCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayChangeWindowCallbackStub)(nil)
+
+func (s *DisplayChangeWindowCallbackStub) Descriptor() string {
+	return DescriptorIDisplayChangeWindowCallback
+}
 
 func (s *DisplayChangeWindowCallbackStub) OnTransaction(
 	ctx context.Context,

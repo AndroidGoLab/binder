@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/xaionaro-go/binder/tools/pkg/codegen"
 	"github.com/xaionaro-go/binder/tools/pkg/servicemap"
 )
 
@@ -91,7 +92,7 @@ func generateGoConstants(
 
 	entries := make([]constEntry, 0, len(constants))
 	for javaName, value := range constants {
-		goName := screamingSnakeToPascal(javaName)
+		goName := codegen.ScreamingSnakeToPascal(javaName)
 		entries = append(entries, constEntry{
 			GoName: goName,
 			Value:  value,
@@ -118,21 +119,6 @@ func generateGoConstants(
 	}
 
 	return os.WriteFile(outputPath, formatted, 0o644)
-}
-
-// screamingSnakeToPascal converts a SCREAMING_SNAKE_CASE identifier to PascalCase.
-// For example, "ACTIVITY_TASK_SERVICE" becomes "ActivityTaskService".
-func screamingSnakeToPascal(s string) string {
-	parts := strings.Split(s, "_")
-	var buf strings.Builder
-	for _, part := range parts {
-		if part == "" {
-			continue
-		}
-		buf.WriteString(strings.ToUpper(part[:1]))
-		buf.WriteString(strings.ToLower(part[1:]))
-	}
-	return buf.String()
 }
 
 // mapEntry is one key-value pair in our ordered JSON object.

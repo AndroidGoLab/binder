@@ -16,23 +16,27 @@ const (
 	TransactionIImsExternalCallStateListenerOnImsExternalCallStateUpdate = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIImsExternalCallStateListenerOnImsExternalCallStateUpdate = "onImsExternalCallStateUpdate"
+)
+
 type IImsExternalCallStateListener interface {
 	AsBinder() binder.IBinder
 	OnImsExternalCallStateUpdate(ctx context.Context, externalCallDialogs []ims.ImsExternalCallState) error
 }
 
 type ImsExternalCallStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsExternalCallStateListenerProxy(
 	remote binder.IBinder,
 ) *ImsExternalCallStateListenerProxy {
-	return &ImsExternalCallStateListenerProxy{remote: remote}
+	return &ImsExternalCallStateListenerProxy{Remote: remote}
 }
 
 func (p *ImsExternalCallStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsExternalCallStateListener = (*ImsExternalCallStateListenerProxy)(nil)
@@ -48,18 +52,19 @@ func (p *ImsExternalCallStateListenerProxy) OnImsExternalCallStateUpdate(
 	} else {
 		_data.WriteInt32(int32(len(externalCallDialogs)))
 		for _, _item := range externalCallDialogs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsExternalCallStateListener, "onImsExternalCallStateUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsExternalCallStateListener, MethodIImsExternalCallStateListenerOnImsExternalCallStateUpdate)
 	if _err != nil {
-		_code = TransactionIImsExternalCallStateListenerOnImsExternalCallStateUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsExternalCallStateListener, MethodIImsExternalCallStateListenerOnImsExternalCallStateUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +75,10 @@ type ImsExternalCallStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsExternalCallStateListenerStub)(nil)
+
+func (s *ImsExternalCallStateListenerStub) Descriptor() string {
+	return DescriptorIImsExternalCallStateListener
+}
 
 func (s *ImsExternalCallStateListenerStub) OnTransaction(
 	ctx context.Context,

@@ -18,19 +18,13 @@ func (s *KeyCreationResult) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.KeyBlob == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.KeyBlob)))
-		for _, _item := range s.KeyBlob {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.KeyBlob)
 	if s.KeyCharacteristics == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.KeyCharacteristics)))
 		for _, _item := range s.KeyCharacteristics {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -41,6 +35,7 @@ func (s *KeyCreationResult) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.CertificateChain)))
 		for _, _item := range s.CertificateChain {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -59,19 +54,9 @@ func (s *KeyCreationResult) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.KeyBlob, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.KeyBlob = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.KeyBlob[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -82,6 +67,9 @@ func (s *KeyCreationResult) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.KeyCharacteristics = make([]KeyCharacteristics, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.KeyCharacteristics[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -96,6 +84,9 @@ func (s *KeyCreationResult) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.CertificateChain = make([]Certificate, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.CertificateChain[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

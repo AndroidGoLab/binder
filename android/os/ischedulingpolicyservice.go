@@ -16,6 +16,11 @@ const (
 	TransactionISchedulingPolicyServiceRequestCpusetBoost = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISchedulingPolicyServiceRequestPriority    = "requestPriority"
+	MethodISchedulingPolicyServiceRequestCpusetBoost = "requestCpusetBoost"
+)
+
 type ISchedulingPolicyService interface {
 	AsBinder() binder.IBinder
 	RequestPriority(ctx context.Context, pid int32, tid int32, prio int32, isForApp bool) (int32, error)
@@ -23,17 +28,17 @@ type ISchedulingPolicyService interface {
 }
 
 type SchedulingPolicyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSchedulingPolicyServiceProxy(
 	remote binder.IBinder,
 ) *SchedulingPolicyServiceProxy {
-	return &SchedulingPolicyServiceProxy{remote: remote}
+	return &SchedulingPolicyServiceProxy{Remote: remote}
 }
 
 func (p *SchedulingPolicyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISchedulingPolicyService = (*SchedulingPolicyServiceProxy)(nil)
@@ -53,12 +58,12 @@ func (p *SchedulingPolicyServiceProxy) RequestPriority(
 	_data.WriteInt32(prio)
 	_data.WriteBool(isForApp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISchedulingPolicyService, "requestPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestPriority)
 	if _err != nil {
-		_code = TransactionISchedulingPolicyServiceRequestPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,14 +89,14 @@ func (p *SchedulingPolicyServiceProxy) RequestCpusetBoost(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISchedulingPolicyService)
 	_data.WriteBool(enable)
-	binder.WriteBinderToParcel(ctx, _data, client, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISchedulingPolicyService, "requestCpusetBoost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestCpusetBoost)
 	if _err != nil {
-		_code = TransactionISchedulingPolicyServiceRequestCpusetBoost
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISchedulingPolicyService, MethodISchedulingPolicyServiceRequestCpusetBoost, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,6 +120,10 @@ type SchedulingPolicyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SchedulingPolicyServiceStub)(nil)
+
+func (s *SchedulingPolicyServiceStub) Descriptor() string {
+	return DescriptorISchedulingPolicyService
+}
 
 func (s *SchedulingPolicyServiceStub) OnTransaction(
 	ctx context.Context,

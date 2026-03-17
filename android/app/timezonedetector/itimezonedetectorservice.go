@@ -24,6 +24,18 @@ const (
 	TransactionITimeZoneDetectorServiceSuggestTelephonyTimeZone = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodITimeZoneDetectorServiceGetCapabilitiesAndConfig = "getCapabilitiesAndConfig"
+	MethodITimeZoneDetectorServiceAddListener              = "addListener"
+	MethodITimeZoneDetectorServiceRemoveListener           = "removeListener"
+	MethodITimeZoneDetectorServiceUpdateConfiguration      = "updateConfiguration"
+	MethodITimeZoneDetectorServiceGetTimeZoneState         = "getTimeZoneState"
+	MethodITimeZoneDetectorServiceConfirmTimeZone          = "confirmTimeZone"
+	MethodITimeZoneDetectorServiceSetManualTimeZone        = "setManualTimeZone"
+	MethodITimeZoneDetectorServiceSuggestManualTimeZone    = "suggestManualTimeZone"
+	MethodITimeZoneDetectorServiceSuggestTelephonyTimeZone = "suggestTelephonyTimeZone"
+)
+
 type ITimeZoneDetectorService interface {
 	AsBinder() binder.IBinder
 	GetCapabilitiesAndConfig(ctx context.Context) (time.TimeZoneCapabilitiesAndConfig, error)
@@ -38,17 +50,17 @@ type ITimeZoneDetectorService interface {
 }
 
 type TimeZoneDetectorServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTimeZoneDetectorServiceProxy(
 	remote binder.IBinder,
 ) *TimeZoneDetectorServiceProxy {
-	return &TimeZoneDetectorServiceProxy{remote: remote}
+	return &TimeZoneDetectorServiceProxy{Remote: remote}
 }
 
 func (p *TimeZoneDetectorServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITimeZoneDetectorService = (*TimeZoneDetectorServiceProxy)(nil)
@@ -60,12 +72,12 @@ func (p *TimeZoneDetectorServiceProxy) GetCapabilitiesAndConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "getCapabilitiesAndConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceGetCapabilitiesAndConfig)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceGetCapabilitiesAndConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceGetCapabilitiesAndConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,14 +105,14 @@ func (p *TimeZoneDetectorServiceProxy) AddListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "addListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceAddListener)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceAddListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceAddListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -119,14 +131,14 @@ func (p *TimeZoneDetectorServiceProxy) RemoveListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "removeListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceRemoveListener)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceRemoveListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceRemoveListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,12 +163,12 @@ func (p *TimeZoneDetectorServiceProxy) UpdateConfiguration(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "updateConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceUpdateConfiguration)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceUpdateConfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceUpdateConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,12 +192,12 @@ func (p *TimeZoneDetectorServiceProxy) GetTimeZoneState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "getTimeZoneState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceGetTimeZoneState)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceGetTimeZoneState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceGetTimeZoneState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -216,12 +228,12 @@ func (p *TimeZoneDetectorServiceProxy) ConfirmTimeZone(
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteString16(timeZoneId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "confirmTimeZone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceConfirmTimeZone)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceConfirmTimeZone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceConfirmTimeZone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,12 +262,12 @@ func (p *TimeZoneDetectorServiceProxy) SetManualTimeZone(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "setManualTimeZone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSetManualTimeZone)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceSetManualTimeZone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSetManualTimeZone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -284,12 +296,12 @@ func (p *TimeZoneDetectorServiceProxy) SuggestManualTimeZone(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "suggestManualTimeZone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestManualTimeZone)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceSuggestManualTimeZone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestManualTimeZone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -317,12 +329,12 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "suggestTelephonyTimeZone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestTelephonyTimeZone)
 	if _err != nil {
-		_code = TransactionITimeZoneDetectorServiceSuggestTelephonyTimeZone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneDetectorService, MethodITimeZoneDetectorServiceSuggestTelephonyTimeZone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -342,6 +354,10 @@ type TimeZoneDetectorServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TimeZoneDetectorServiceStub)(nil)
+
+func (s *TimeZoneDetectorServiceStub) Descriptor() string {
+	return DescriptorITimeZoneDetectorService
+}
 
 func (s *TimeZoneDetectorServiceStub) OnTransaction(
 	ctx context.Context,

@@ -75,14 +75,17 @@ func (u *AudioCapabilities) MarshalParcel(
 
 	switch u.Tag {
 	case AudioCapabilitiesTagPcmCapabilities:
+		p.WriteInt32(1)
 		if _err := u.PcmCapabilities.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioCapabilitiesTagA2dpCapabilities:
+		p.WriteInt32(1)
 		if _err := u.A2dpCapabilities.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioCapabilitiesTagLeAudioCapabilities:
+		p.WriteInt32(1)
 		if _err := u.LeAudioCapabilities.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -109,14 +112,23 @@ func (u *AudioCapabilities) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioCapabilitiesTagPcmCapabilities:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PcmCapabilities.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioCapabilitiesTagA2dpCapabilities:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.A2dpCapabilities.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioCapabilitiesTagLeAudioCapabilities:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.LeAudioCapabilities.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

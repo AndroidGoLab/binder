@@ -3,7 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
-	contexthub "github.com/xaionaro-go/binder/android/hardware/contexthub"
+	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,31 +13,45 @@ import (
 const DescriptorIContextHubService = "android.hardware.location.IContextHubService"
 
 const (
-	TransactionIContextHubServiceRegisterCallback                            = binder.FirstCallTransaction + 0
-	TransactionIContextHubServiceGetContextHubHandles                        = binder.FirstCallTransaction + 1
-	TransactionIContextHubServiceGetContextHubInfo                           = binder.FirstCallTransaction + 2
-	TransactionIContextHubServiceLoadNanoApp                                 = binder.FirstCallTransaction + 3
-	TransactionIContextHubServiceUnloadNanoApp                               = binder.FirstCallTransaction + 4
-	TransactionIContextHubServiceGetNanoAppInstanceInfo                      = binder.FirstCallTransaction + 5
-	TransactionIContextHubServiceFindNanoAppOnHub                            = binder.FirstCallTransaction + 6
-	TransactionIContextHubServiceSendMessage                                 = binder.FirstCallTransaction + 7
-	TransactionIContextHubServiceCreateClient                                = binder.FirstCallTransaction + 8
-	TransactionIContextHubServiceCreatePendingIntentClient                   = binder.FirstCallTransaction + 9
-	TransactionIContextHubServiceGetContextHubs                              = binder.FirstCallTransaction + 10
-	TransactionIContextHubServiceGetHubs                                     = binder.FirstCallTransaction + 11
-	TransactionIContextHubServiceLoadNanoAppOnHub                            = binder.FirstCallTransaction + 12
-	TransactionIContextHubServiceUnloadNanoAppFromHub                        = binder.FirstCallTransaction + 13
-	TransactionIContextHubServiceEnableNanoApp                               = binder.FirstCallTransaction + 14
-	TransactionIContextHubServiceDisableNanoApp                              = binder.FirstCallTransaction + 15
-	TransactionIContextHubServiceQueryNanoApps                               = binder.FirstCallTransaction + 16
-	TransactionIContextHubServiceGetPreloadedNanoAppIds                      = binder.FirstCallTransaction + 17
-	TransactionIContextHubServiceSetTestMode                                 = binder.FirstCallTransaction + 18
-	TransactionIContextHubServiceFindEndpoints                               = binder.FirstCallTransaction + 19
-	TransactionIContextHubServiceFindEndpointsWithService                    = binder.FirstCallTransaction + 20
-	TransactionIContextHubServiceRegisterEndpoint                            = binder.FirstCallTransaction + 21
-	TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackId         = binder.FirstCallTransaction + 22
-	TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackDescriptor = binder.FirstCallTransaction + 23
-	TransactionIContextHubServiceUnregisterEndpointDiscoveryCallback         = binder.FirstCallTransaction + 24
+	TransactionIContextHubServiceRegisterCallback          = binder.FirstCallTransaction + 0
+	TransactionIContextHubServiceGetContextHubHandles      = binder.FirstCallTransaction + 1
+	TransactionIContextHubServiceGetContextHubInfo         = binder.FirstCallTransaction + 2
+	TransactionIContextHubServiceLoadNanoApp               = binder.FirstCallTransaction + 3
+	TransactionIContextHubServiceUnloadNanoApp             = binder.FirstCallTransaction + 4
+	TransactionIContextHubServiceGetNanoAppInstanceInfo    = binder.FirstCallTransaction + 5
+	TransactionIContextHubServiceFindNanoAppOnHub          = binder.FirstCallTransaction + 6
+	TransactionIContextHubServiceSendMessage               = binder.FirstCallTransaction + 7
+	TransactionIContextHubServiceCreateClient              = binder.FirstCallTransaction + 8
+	TransactionIContextHubServiceCreatePendingIntentClient = binder.FirstCallTransaction + 9
+	TransactionIContextHubServiceGetContextHubs            = binder.FirstCallTransaction + 10
+	TransactionIContextHubServiceLoadNanoAppOnHub          = binder.FirstCallTransaction + 11
+	TransactionIContextHubServiceUnloadNanoAppFromHub      = binder.FirstCallTransaction + 12
+	TransactionIContextHubServiceEnableNanoApp             = binder.FirstCallTransaction + 13
+	TransactionIContextHubServiceDisableNanoApp            = binder.FirstCallTransaction + 14
+	TransactionIContextHubServiceQueryNanoApps             = binder.FirstCallTransaction + 15
+	TransactionIContextHubServiceGetPreloadedNanoAppIds    = binder.FirstCallTransaction + 16
+	TransactionIContextHubServiceSetTestMode               = binder.FirstCallTransaction + 17
+)
+
+const (
+	MethodIContextHubServiceRegisterCallback          = "registerCallback"
+	MethodIContextHubServiceGetContextHubHandles      = "getContextHubHandles"
+	MethodIContextHubServiceGetContextHubInfo         = "getContextHubInfo"
+	MethodIContextHubServiceLoadNanoApp               = "loadNanoApp"
+	MethodIContextHubServiceUnloadNanoApp             = "unloadNanoApp"
+	MethodIContextHubServiceGetNanoAppInstanceInfo    = "getNanoAppInstanceInfo"
+	MethodIContextHubServiceFindNanoAppOnHub          = "findNanoAppOnHub"
+	MethodIContextHubServiceSendMessage               = "sendMessage"
+	MethodIContextHubServiceCreateClient              = "createClient"
+	MethodIContextHubServiceCreatePendingIntentClient = "createPendingIntentClient"
+	MethodIContextHubServiceGetContextHubs            = "getContextHubs"
+	MethodIContextHubServiceLoadNanoAppOnHub          = "loadNanoAppOnHub"
+	MethodIContextHubServiceUnloadNanoAppFromHub      = "unloadNanoAppFromHub"
+	MethodIContextHubServiceEnableNanoApp             = "enableNanoApp"
+	MethodIContextHubServiceDisableNanoApp            = "disableNanoApp"
+	MethodIContextHubServiceQueryNanoApps             = "queryNanoApps"
+	MethodIContextHubServiceGetPreloadedNanoAppIds    = "getPreloadedNanoAppIds"
+	MethodIContextHubServiceSetTestMode               = "setTestMode"
 )
 
 type IContextHubService interface {
@@ -51,9 +65,8 @@ type IContextHubService interface {
 	FindNanoAppOnHub(ctx context.Context, contextHubHandle int32, filter NanoAppFilter) ([]int32, error)
 	SendMessage(ctx context.Context, contextHubHandle int32, nanoAppHandle int32, msg ContextHubMessage) (int32, error)
 	CreateClient(ctx context.Context, contextHubId int32, client IContextHubClientCallback, packageName string) (IContextHubClient, error)
-	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent interface{}, nanoAppId int64) (IContextHubClient, error)
+	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent app.PendingIntent, nanoAppId int64) (IContextHubClient, error)
 	GetContextHubs(ctx context.Context) ([]ContextHubInfo, error)
-	GetHubs(ctx context.Context) ([]HubInfo, error)
 	LoadNanoAppOnHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppBinary NanoAppBinary) error
 	UnloadNanoAppFromHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppId int64) error
 	EnableNanoApp(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppId int64) error
@@ -61,26 +74,20 @@ type IContextHubService interface {
 	QueryNanoApps(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback) error
 	GetPreloadedNanoAppIds(ctx context.Context, hubInfo ContextHubInfo) ([]int64, error)
 	SetTestMode(ctx context.Context, enable bool) (bool, error)
-	FindEndpoints(ctx context.Context, endpointId int64) ([]contexthub.HubEndpointInfo, error)
-	FindEndpointsWithService(ctx context.Context, service string) ([]contexthub.HubEndpointInfo, error)
-	RegisterEndpoint(ctx context.Context, pendingEndpointInfo contexthub.HubEndpointInfo, callback contexthub.IContextHubEndpointCallback) (contexthub.IContextHubEndpoint, error)
-	RegisterEndpointDiscoveryCallbackId(ctx context.Context, endpointId int64, callback contexthub.IContextHubEndpointDiscoveryCallback) error
-	RegisterEndpointDiscoveryCallbackDescriptor(ctx context.Context, serviceDescriptor string, callback contexthub.IContextHubEndpointDiscoveryCallback) error
-	UnregisterEndpointDiscoveryCallback(ctx context.Context, callback contexthub.IContextHubEndpointDiscoveryCallback) error
 }
 
 type ContextHubServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubServiceProxy(
 	remote binder.IBinder,
 ) *ContextHubServiceProxy {
-	return &ContextHubServiceProxy{remote: remote}
+	return &ContextHubServiceProxy{Remote: remote}
 }
 
 func (p *ContextHubServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubService = (*ContextHubServiceProxy)(nil)
@@ -92,14 +99,14 @@ func (p *ContextHubServiceProxy) RegisterCallback(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionIContextHubServiceRegisterCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,12 +130,12 @@ func (p *ContextHubServiceProxy) GetContextHubHandles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getContextHubHandles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetContextHubHandles)
 	if _err != nil {
-		_code = TransactionIContextHubServiceGetContextHubHandles
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceGetContextHubHandles, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,12 +171,12 @@ func (p *ContextHubServiceProxy) GetContextHubInfo(
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getContextHubInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetContextHubInfo)
 	if _err != nil {
-		_code = TransactionIContextHubServiceGetContextHubInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceGetContextHubInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,12 +212,12 @@ func (p *ContextHubServiceProxy) LoadNanoApp(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "loadNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceLoadNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubServiceLoadNanoApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceLoadNanoApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -236,12 +243,12 @@ func (p *ContextHubServiceProxy) UnloadNanoApp(
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(nanoAppHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unloadNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceUnloadNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubServiceUnloadNanoApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceUnloadNanoApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -267,12 +274,12 @@ func (p *ContextHubServiceProxy) GetNanoAppInstanceInfo(
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(nanoAppHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getNanoAppInstanceInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetNanoAppInstanceInfo)
 	if _err != nil {
-		_code = TransactionIContextHubServiceGetNanoAppInstanceInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceGetNanoAppInstanceInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -308,12 +315,12 @@ func (p *ContextHubServiceProxy) FindNanoAppOnHub(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "findNanoAppOnHub")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceFindNanoAppOnHub)
 	if _err != nil {
-		_code = TransactionIContextHubServiceFindNanoAppOnHub
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceFindNanoAppOnHub, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -356,12 +363,12 @@ func (p *ContextHubServiceProxy) SendMessage(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "sendMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceSendMessage)
 	if _err != nil {
-		_code = TransactionIContextHubServiceSendMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceSendMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -385,20 +392,20 @@ func (p *ContextHubServiceProxy) CreateClient(
 	packageName string,
 ) (IContextHubClient, error) {
 	var _result IContextHubClient
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "createClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceCreateClient)
 	if _err != nil {
-		_code = TransactionIContextHubServiceCreateClient
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceCreateClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -412,30 +419,34 @@ func (p *ContextHubServiceProxy) CreateClient(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewContextHubClientProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewContextHubClientProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 	ctx context.Context,
 	contextHubId int32,
-	pendingIntent interface{},
+	pendingIntent app.PendingIntent,
 	nanoAppId int64,
 ) (IContextHubClient, error) {
 	var _result IContextHubClient
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt64(nanoAppId)
 	_data.WriteString16(_identity.AttributionTag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "createPendingIntentClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceCreatePendingIntentClient)
 	if _err != nil {
-		_code = TransactionIContextHubServiceCreatePendingIntentClient
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceCreatePendingIntentClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -449,7 +460,7 @@ func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewContextHubClientProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewContextHubClientProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -460,12 +471,12 @@ func (p *ContextHubServiceProxy) GetContextHubs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getContextHubs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetContextHubs)
 	if _err != nil {
-		_code = TransactionIContextHubServiceGetContextHubs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceGetContextHubs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -483,44 +494,9 @@ func (p *ContextHubServiceProxy) GetContextHubs(
 	if _count >= 0 {
 		_result = make([]ContextHubInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *ContextHubServiceProxy) GetHubs(
-	ctx context.Context,
-) ([]HubInfo, error) {
-	var _result []HubInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getHubs")
-	if _err != nil {
-		_code = TransactionIContextHubServiceGetHubs
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]HubInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -538,18 +514,18 @@ func (p *ContextHubServiceProxy) LoadNanoAppOnHub(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := nanoAppBinary.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "loadNanoAppOnHub")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceLoadNanoAppOnHub)
 	if _err != nil {
-		_code = TransactionIContextHubServiceLoadNanoAppOnHub
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceLoadNanoAppOnHub, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -571,15 +547,15 @@ func (p *ContextHubServiceProxy) UnloadNanoAppFromHub(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unloadNanoAppFromHub")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceUnloadNanoAppFromHub)
 	if _err != nil {
-		_code = TransactionIContextHubServiceUnloadNanoAppFromHub
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceUnloadNanoAppFromHub, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -601,15 +577,15 @@ func (p *ContextHubServiceProxy) EnableNanoApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "enableNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceEnableNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubServiceEnableNanoApp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceEnableNanoApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -631,15 +607,15 @@ func (p *ContextHubServiceProxy) DisableNanoApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "disableNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceDisableNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubServiceDisableNanoApp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceDisableNanoApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -660,14 +636,14 @@ func (p *ContextHubServiceProxy) QueryNanoApps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
-	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "queryNanoApps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceQueryNanoApps)
 	if _err != nil {
-		_code = TransactionIContextHubServiceQueryNanoApps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceQueryNanoApps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -692,12 +668,12 @@ func (p *ContextHubServiceProxy) GetPreloadedNanoAppIds(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getPreloadedNanoAppIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceGetPreloadedNanoAppIds)
 	if _err != nil {
-		_code = TransactionIContextHubServiceGetPreloadedNanoAppIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceGetPreloadedNanoAppIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -733,12 +709,12 @@ func (p *ContextHubServiceProxy) SetTestMode(
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "setTestMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubService, MethodIContextHubServiceSetTestMode)
 	if _err != nil {
-		_code = TransactionIContextHubServiceSetTestMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubService, MethodIContextHubServiceSetTestMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -755,205 +731,6 @@ func (p *ContextHubServiceProxy) SetTestMode(
 	return _result, nil
 }
 
-func (p *ContextHubServiceProxy) FindEndpoints(
-	ctx context.Context,
-	endpointId int64,
-) ([]contexthub.HubEndpointInfo, error) {
-	var _result []contexthub.HubEndpointInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	_data.WriteInt64(endpointId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "findEndpoints")
-	if _err != nil {
-		_code = TransactionIContextHubServiceFindEndpoints
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]contexthub.HubEndpointInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *ContextHubServiceProxy) FindEndpointsWithService(
-	ctx context.Context,
-	service string,
-) ([]contexthub.HubEndpointInfo, error) {
-	var _result []contexthub.HubEndpointInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	_data.WriteString16(service)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "findEndpointsWithService")
-	if _err != nil {
-		_code = TransactionIContextHubServiceFindEndpointsWithService
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]contexthub.HubEndpointInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *ContextHubServiceProxy) RegisterEndpoint(
-	ctx context.Context,
-	pendingEndpointInfo contexthub.HubEndpointInfo,
-	callback contexthub.IContextHubEndpointCallback,
-) (contexthub.IContextHubEndpoint, error) {
-	var _result contexthub.IContextHubEndpoint
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	_data.WriteInt32(1)
-	if _err := pendingEndpointInfo.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpoint")
-	if _err != nil {
-		_code = TransactionIContextHubServiceRegisterEndpoint
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = contexthub.NewContextHubEndpointProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
-	return _result, nil
-}
-
-func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackId(
-	ctx context.Context,
-	endpointId int64,
-	callback contexthub.IContextHubEndpointDiscoveryCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	_data.WriteInt64(endpointId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpointDiscoveryCallbackId")
-	if _err != nil {
-		_code = TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackDescriptor(
-	ctx context.Context,
-	serviceDescriptor string,
-	callback contexthub.IContextHubEndpointDiscoveryCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	_data.WriteString16(serviceDescriptor)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpointDiscoveryCallbackDescriptor")
-	if _err != nil {
-		_code = TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackDescriptor
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ContextHubServiceProxy) UnregisterEndpointDiscoveryCallback(
-	ctx context.Context,
-	callback contexthub.IContextHubEndpointDiscoveryCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIContextHubService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unregisterEndpointDiscoveryCallback")
-	if _err != nil {
-		_code = TransactionIContextHubServiceUnregisterEndpointDiscoveryCallback
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
 // ContextHubServiceStub dispatches incoming binder transactions
 // to a typed IContextHubService implementation.
 type ContextHubServiceStub struct {
@@ -961,6 +738,10 @@ type ContextHubServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubServiceStub)(nil)
+
+func (s *ContextHubServiceStub) Descriptor() string {
+	return DescriptorIContextHubService
+}
 
 func (s *ContextHubServiceStub) OnTransaction(
 	ctx context.Context,
@@ -1183,7 +964,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingIntent interface{}
+		var _arg_pendingIntent app.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -1206,20 +998,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetContextHubs(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubServiceGetHubs:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetHubs(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1391,124 +1169,6 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIContextHubServiceFindEndpoints:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_endpointId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.FindEndpoints(ctx, _arg_endpointId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubServiceFindEndpointsWithService:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_service, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.FindEndpointsWithService(ctx, _arg_service)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubServiceRegisterEndpoint:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_pendingEndpointInfo contexthub.HubEndpointInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingEndpointInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback contexthub.IContextHubEndpointCallback
-		_ = _arg_callback
-		_result, _err := s.Impl.RegisterEndpoint(ctx, _arg_pendingEndpointInfo, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_endpointId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback contexthub.IContextHubEndpointDiscoveryCallback
-		_ = _arg_callback
-		_err = s.Impl.RegisterEndpointDiscoveryCallbackId(ctx, _arg_endpointId, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_serviceDescriptor, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback contexthub.IContextHubEndpointDiscoveryCallback
-		_ = _arg_callback
-		_err = s.Impl.RegisterEndpointDiscoveryCallbackDescriptor(ctx, _arg_serviceDescriptor, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIContextHubServiceUnregisterEndpointDiscoveryCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback contexthub.IContextHubEndpointDiscoveryCallback
-		_ = _arg_callback
-		_err := s.Impl.UnregisterEndpointDiscoveryCallback(ctx, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1527,9 +1187,8 @@ type IContextHubServiceServer interface {
 	FindNanoAppOnHub(ctx context.Context, contextHubHandle int32, filter NanoAppFilter) ([]int32, error)
 	SendMessage(ctx context.Context, contextHubHandle int32, nanoAppHandle int32, msg ContextHubMessage) (int32, error)
 	CreateClient(ctx context.Context, contextHubId int32, client IContextHubClientCallback, packageName string) (IContextHubClient, error)
-	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent interface{}, nanoAppId int64) (IContextHubClient, error)
+	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent app.PendingIntent, nanoAppId int64) (IContextHubClient, error)
 	GetContextHubs(ctx context.Context) ([]ContextHubInfo, error)
-	GetHubs(ctx context.Context) ([]HubInfo, error)
 	LoadNanoAppOnHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppBinary NanoAppBinary) error
 	UnloadNanoAppFromHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppId int64) error
 	EnableNanoApp(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppId int64) error
@@ -1537,12 +1196,6 @@ type IContextHubServiceServer interface {
 	QueryNanoApps(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback) error
 	GetPreloadedNanoAppIds(ctx context.Context, hubInfo ContextHubInfo) ([]int64, error)
 	SetTestMode(ctx context.Context, enable bool) (bool, error)
-	FindEndpoints(ctx context.Context, endpointId int64) ([]contexthub.HubEndpointInfo, error)
-	FindEndpointsWithService(ctx context.Context, service string) ([]contexthub.HubEndpointInfo, error)
-	RegisterEndpoint(ctx context.Context, pendingEndpointInfo contexthub.HubEndpointInfo, callback contexthub.IContextHubEndpointCallback) (contexthub.IContextHubEndpoint, error)
-	RegisterEndpointDiscoveryCallbackId(ctx context.Context, endpointId int64, callback contexthub.IContextHubEndpointDiscoveryCallback) error
-	RegisterEndpointDiscoveryCallbackDescriptor(ctx context.Context, serviceDescriptor string, callback contexthub.IContextHubEndpointDiscoveryCallback) error
-	UnregisterEndpointDiscoveryCallback(ctx context.Context, callback contexthub.IContextHubEndpointDiscoveryCallback) error
 }
 
 type contextHubServiceStubWrapper struct {
@@ -1625,7 +1278,7 @@ func (w *contextHubServiceStubWrapper) CreateClient(
 func (w *contextHubServiceStubWrapper) CreatePendingIntentClient(
 	ctx context.Context,
 	contextHubId int32,
-	pendingIntent interface{},
+	pendingIntent app.PendingIntent,
 	nanoAppId int64,
 ) (IContextHubClient, error) {
 	return w.impl.CreatePendingIntentClient(ctx, contextHubId, pendingIntent, nanoAppId)
@@ -1635,12 +1288,6 @@ func (w *contextHubServiceStubWrapper) GetContextHubs(
 	ctx context.Context,
 ) ([]ContextHubInfo, error) {
 	return w.impl.GetContextHubs(ctx)
-}
-
-func (w *contextHubServiceStubWrapper) GetHubs(
-	ctx context.Context,
-) ([]HubInfo, error) {
-	return w.impl.GetHubs(ctx)
 }
 
 func (w *contextHubServiceStubWrapper) LoadNanoAppOnHub(
@@ -1699,51 +1346,6 @@ func (w *contextHubServiceStubWrapper) SetTestMode(
 	enable bool,
 ) (bool, error) {
 	return w.impl.SetTestMode(ctx, enable)
-}
-
-func (w *contextHubServiceStubWrapper) FindEndpoints(
-	ctx context.Context,
-	endpointId int64,
-) ([]contexthub.HubEndpointInfo, error) {
-	return w.impl.FindEndpoints(ctx, endpointId)
-}
-
-func (w *contextHubServiceStubWrapper) FindEndpointsWithService(
-	ctx context.Context,
-	service string,
-) ([]contexthub.HubEndpointInfo, error) {
-	return w.impl.FindEndpointsWithService(ctx, service)
-}
-
-func (w *contextHubServiceStubWrapper) RegisterEndpoint(
-	ctx context.Context,
-	pendingEndpointInfo contexthub.HubEndpointInfo,
-	callback contexthub.IContextHubEndpointCallback,
-) (contexthub.IContextHubEndpoint, error) {
-	return w.impl.RegisterEndpoint(ctx, pendingEndpointInfo, callback)
-}
-
-func (w *contextHubServiceStubWrapper) RegisterEndpointDiscoveryCallbackId(
-	ctx context.Context,
-	endpointId int64,
-	callback contexthub.IContextHubEndpointDiscoveryCallback,
-) error {
-	return w.impl.RegisterEndpointDiscoveryCallbackId(ctx, endpointId, callback)
-}
-
-func (w *contextHubServiceStubWrapper) RegisterEndpointDiscoveryCallbackDescriptor(
-	ctx context.Context,
-	serviceDescriptor string,
-	callback contexthub.IContextHubEndpointDiscoveryCallback,
-) error {
-	return w.impl.RegisterEndpointDiscoveryCallbackDescriptor(ctx, serviceDescriptor, callback)
-}
-
-func (w *contextHubServiceStubWrapper) UnregisterEndpointDiscoveryCallback(
-	ctx context.Context,
-	callback contexthub.IContextHubEndpointDiscoveryCallback,
-) error {
-	return w.impl.UnregisterEndpointDiscoveryCallback(ctx, callback)
 }
 
 var _ IContextHubService = (*contextHubServiceStubWrapper)(nil)

@@ -16,23 +16,27 @@ const (
 	TransactionIGetRulesAuthTableCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetRulesAuthTableCallbackOnComplete = "onComplete"
+)
+
 type IGetRulesAuthTableCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, rat telephonyEuicc.EuiccRulesAuthTable) error
 }
 
 type GetRulesAuthTableCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetRulesAuthTableCallbackProxy(
 	remote binder.IBinder,
 ) *GetRulesAuthTableCallbackProxy {
-	return &GetRulesAuthTableCallbackProxy{remote: remote}
+	return &GetRulesAuthTableCallbackProxy{Remote: remote}
 }
 
 func (p *GetRulesAuthTableCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetRulesAuthTableCallback = (*GetRulesAuthTableCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *GetRulesAuthTableCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetRulesAuthTableCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRulesAuthTableCallback, MethodIGetRulesAuthTableCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetRulesAuthTableCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetRulesAuthTableCallback, MethodIGetRulesAuthTableCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type GetRulesAuthTableCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetRulesAuthTableCallbackStub)(nil)
+
+func (s *GetRulesAuthTableCallbackStub) Descriptor() string {
+	return DescriptorIGetRulesAuthTableCallback
+}
 
 func (s *GetRulesAuthTableCallbackStub) OnTransaction(
 	ctx context.Context,

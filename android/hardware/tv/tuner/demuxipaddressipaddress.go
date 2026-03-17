@@ -58,23 +58,9 @@ func (u *DemuxIpAddressIpAddress) MarshalParcel(
 
 	switch u.Tag {
 	case DemuxIpAddressIpAddressTagV4:
-		if u.V4 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.V4)))
-			for _, _item := range u.V4 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.V4)
 	case DemuxIpAddressIpAddressTagV6:
-		if u.V6 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.V6)))
-			for _, _item := range u.V6 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.V6)
 	default:
 		return fmt.Errorf("unknown union tag %d for DemuxIpAddressIpAddress", u.Tag)
 	}
@@ -99,35 +85,15 @@ func (u *DemuxIpAddressIpAddress) UnmarshalParcel(
 	switch u.Tag {
 	case DemuxIpAddressIpAddressTagV4:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.V4, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.V4 = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.V4[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case DemuxIpAddressIpAddressTagV6:
 
-		var _count1 int32
-		_count1, _err = p.ReadInt32()
+		u.V6, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count1 >= 0 {
-			u.V6 = make([]byte, _count1)
-			for _i := int32(0); _i < _count1; _i++ {
-				u.V6[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for DemuxIpAddressIpAddress", u.Tag)

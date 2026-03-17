@@ -18,6 +18,13 @@ const (
 	TransactionIMmiSessionClose             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIMmiSessionSetMenuListAnswer = "setMenuListAnswer"
+	MethodIMmiSessionSetEnquiryAnswer  = "setEnquiryAnswer"
+	MethodIMmiSessionCloseMmi          = "closeMmi"
+	MethodIMmiSessionClose             = "close"
+)
+
 type IMmiSession interface {
 	AsBinder() binder.IBinder
 	SetMenuListAnswer(ctx context.Context, response int32) error
@@ -27,17 +34,17 @@ type IMmiSession interface {
 }
 
 type MmiSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMmiSessionProxy(
 	remote binder.IBinder,
 ) *MmiSessionProxy {
-	return &MmiSessionProxy{remote: remote}
+	return &MmiSessionProxy{Remote: remote}
 }
 
 func (p *MmiSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMmiSession = (*MmiSessionProxy)(nil)
@@ -50,12 +57,12 @@ func (p *MmiSessionProxy) SetMenuListAnswer(
 	_data.WriteInterfaceToken(DescriptorIMmiSession)
 	_data.WriteInt32(response)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "setMenuListAnswer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiSession, MethodIMmiSessionSetMenuListAnswer)
 	if _err != nil {
-		_code = TransactionIMmiSessionSetMenuListAnswer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiSession, MethodIMmiSessionSetMenuListAnswer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +85,12 @@ func (p *MmiSessionProxy) SetEnquiryAnswer(
 	_data.WriteInt32(answerId)
 	_data.WriteString16(answer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "setEnquiryAnswer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiSession, MethodIMmiSessionSetEnquiryAnswer)
 	if _err != nil {
-		_code = TransactionIMmiSessionSetEnquiryAnswer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiSession, MethodIMmiSessionSetEnquiryAnswer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +109,12 @@ func (p *MmiSessionProxy) CloseMmi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "closeMmi")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiSession, MethodIMmiSessionCloseMmi)
 	if _err != nil {
-		_code = TransactionIMmiSessionCloseMmi
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiSession, MethodIMmiSessionCloseMmi, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,12 +133,12 @@ func (p *MmiSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiSession, MethodIMmiSessionClose)
 	if _err != nil {
-		_code = TransactionIMmiSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiSession, MethodIMmiSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,6 +158,10 @@ type MmiSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MmiSessionStub)(nil)
+
+func (s *MmiSessionStub) Descriptor() string {
+	return DescriptorIMmiSession
+}
 
 func (s *MmiSessionStub) OnTransaction(
 	ctx context.Context,

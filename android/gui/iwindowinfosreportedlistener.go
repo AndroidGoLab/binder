@@ -15,23 +15,27 @@ const (
 	TransactionIWindowInfosReportedListenerOnWindowInfosReported = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWindowInfosReportedListenerOnWindowInfosReported = "onWindowInfosReported"
+)
+
 type IWindowInfosReportedListener interface {
 	AsBinder() binder.IBinder
 	OnWindowInfosReported(ctx context.Context) error
 }
 
 type WindowInfosReportedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowInfosReportedListenerProxy(
 	remote binder.IBinder,
 ) *WindowInfosReportedListenerProxy {
-	return &WindowInfosReportedListenerProxy{remote: remote}
+	return &WindowInfosReportedListenerProxy{Remote: remote}
 }
 
 func (p *WindowInfosReportedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowInfosReportedListener = (*WindowInfosReportedListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *WindowInfosReportedListenerProxy) OnWindowInfosReported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowInfosReportedListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowInfosReportedListener, "onWindowInfosReported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowInfosReportedListener, MethodIWindowInfosReportedListenerOnWindowInfosReported)
 	if _err != nil {
-		_code = TransactionIWindowInfosReportedListenerOnWindowInfosReported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowInfosReportedListener, MethodIWindowInfosReportedListenerOnWindowInfosReported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type WindowInfosReportedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowInfosReportedListenerStub)(nil)
+
+func (s *WindowInfosReportedListenerStub) Descriptor() string {
+	return DescriptorIWindowInfosReportedListener
+}
 
 func (s *WindowInfosReportedListenerStub) OnTransaction(
 	ctx context.Context,

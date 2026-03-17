@@ -16,6 +16,11 @@ const (
 	TransactionIBinderProxyCountingServiceUnregisterCallback = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBinderProxyCountingServiceRegisterCallback   = "registerCallback"
+	MethodIBinderProxyCountingServiceUnregisterCallback = "unregisterCallback"
+)
+
 type IBinderProxyCountingService interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback ITestRemoteCallback) error
@@ -23,17 +28,17 @@ type IBinderProxyCountingService interface {
 }
 
 type BinderProxyCountingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderProxyCountingServiceProxy(
 	remote binder.IBinder,
 ) *BinderProxyCountingServiceProxy {
-	return &BinderProxyCountingServiceProxy{remote: remote}
+	return &BinderProxyCountingServiceProxy{Remote: remote}
 }
 
 func (p *BinderProxyCountingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderProxyCountingService = (*BinderProxyCountingServiceProxy)(nil)
@@ -44,14 +49,14 @@ func (p *BinderProxyCountingServiceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderProxyCountingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderProxyCountingService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionIBinderProxyCountingServiceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,14 +75,14 @@ func (p *BinderProxyCountingServiceProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderProxyCountingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderProxyCountingService, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceUnregisterCallback)
 	if _err != nil {
-		_code = TransactionIBinderProxyCountingServiceUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderProxyCountingService, MethodIBinderProxyCountingServiceUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,6 +102,10 @@ type BinderProxyCountingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderProxyCountingServiceStub)(nil)
+
+func (s *BinderProxyCountingServiceStub) Descriptor() string {
+	return DescriptorIBinderProxyCountingService
+}
 
 func (s *BinderProxyCountingServiceStub) OnTransaction(
 	ctx context.Context,

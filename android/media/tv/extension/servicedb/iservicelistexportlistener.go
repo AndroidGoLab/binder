@@ -15,23 +15,27 @@ const (
 	TransactionIServiceListExportListenerOnExported = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIServiceListExportListenerOnExported = "onExported"
+)
+
 type IServiceListExportListener interface {
 	AsBinder() binder.IBinder
 	OnExported(ctx context.Context, exportResult int32) error
 }
 
 type ServiceListExportListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListExportListenerProxy(
 	remote binder.IBinder,
 ) *ServiceListExportListenerProxy {
-	return &ServiceListExportListenerProxy{remote: remote}
+	return &ServiceListExportListenerProxy{Remote: remote}
 }
 
 func (p *ServiceListExportListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListExportListener = (*ServiceListExportListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ServiceListExportListenerProxy) OnExported(
 	_data.WriteInterfaceToken(DescriptorIServiceListExportListener)
 	_data.WriteInt32(exportResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListExportListener, "onExported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListExportListener, MethodIServiceListExportListenerOnExported)
 	if _err != nil {
-		_code = TransactionIServiceListExportListenerOnExported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListExportListener, MethodIServiceListExportListenerOnExported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ServiceListExportListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListExportListenerStub)(nil)
+
+func (s *ServiceListExportListenerStub) Descriptor() string {
+	return DescriptorIServiceListExportListener
+}
 
 func (s *ServiceListExportListenerStub) OnTransaction(
 	ctx context.Context,

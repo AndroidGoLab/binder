@@ -15,23 +15,27 @@ const (
 	TransactionIDreamOverlayGetClient = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDreamOverlayGetClient = "getClient"
+)
+
 type IDreamOverlay interface {
 	AsBinder() binder.IBinder
 	GetClient(ctx context.Context, callback IDreamOverlayClientCallback) error
 }
 
 type DreamOverlayProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDreamOverlayProxy(
 	remote binder.IBinder,
 ) *DreamOverlayProxy {
-	return &DreamOverlayProxy{remote: remote}
+	return &DreamOverlayProxy{Remote: remote}
 }
 
 func (p *DreamOverlayProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDreamOverlay = (*DreamOverlayProxy)(nil)
@@ -42,14 +46,14 @@ func (p *DreamOverlayProxy) GetClient(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlay)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlay, "getClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlay, MethodIDreamOverlayGetClient)
 	if _err != nil {
-		_code = TransactionIDreamOverlayGetClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamOverlay, MethodIDreamOverlayGetClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type DreamOverlayStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayStub)(nil)
+
+func (s *DreamOverlayStub) Descriptor() string {
+	return DescriptorIDreamOverlay
+}
 
 func (s *DreamOverlayStub) OnTransaction(
 	ctx context.Context,

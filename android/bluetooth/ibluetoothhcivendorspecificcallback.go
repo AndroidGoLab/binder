@@ -17,6 +17,12 @@ const (
 	TransactionIBluetoothHciVendorSpecificCallbackOnEvent           = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBluetoothHciVendorSpecificCallbackOnCommandStatus   = "onCommandStatus"
+	MethodIBluetoothHciVendorSpecificCallbackOnCommandComplete = "onCommandComplete"
+	MethodIBluetoothHciVendorSpecificCallbackOnEvent           = "onEvent"
+)
+
 type IBluetoothHciVendorSpecificCallback interface {
 	AsBinder() binder.IBinder
 	OnCommandStatus(ctx context.Context, ocf int32, status int32) error
@@ -25,17 +31,17 @@ type IBluetoothHciVendorSpecificCallback interface {
 }
 
 type BluetoothHciVendorSpecificCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothHciVendorSpecificCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothHciVendorSpecificCallbackProxy {
-	return &BluetoothHciVendorSpecificCallbackProxy{remote: remote}
+	return &BluetoothHciVendorSpecificCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothHciVendorSpecificCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothHciVendorSpecificCallback = (*BluetoothHciVendorSpecificCallbackProxy)(nil)
@@ -50,12 +56,12 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnCommandStatus(
 	_data.WriteInt32(ocf)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciVendorSpecificCallback, "onCommandStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandStatus)
 	if _err != nil {
-		_code = TransactionIBluetoothHciVendorSpecificCallbackOnCommandStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +82,12 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnCommandComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciVendorSpecificCallback, "onCommandComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandComplete)
 	if _err != nil {
-		_code = TransactionIBluetoothHciVendorSpecificCallbackOnCommandComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnCommandComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +108,12 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnEvent(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciVendorSpecificCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionIBluetoothHciVendorSpecificCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciVendorSpecificCallback, MethodIBluetoothHciVendorSpecificCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,6 +124,10 @@ type BluetoothHciVendorSpecificCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHciVendorSpecificCallbackStub)(nil)
+
+func (s *BluetoothHciVendorSpecificCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothHciVendorSpecificCallback
+}
 
 func (s *BluetoothHciVendorSpecificCallbackStub) OnTransaction(
 	ctx context.Context,

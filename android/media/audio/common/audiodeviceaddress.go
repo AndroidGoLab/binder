@@ -111,23 +111,9 @@ func (u *AudioDeviceAddress) MarshalParcel(
 	case AudioDeviceAddressTagId:
 		p.WriteString16(u.Id)
 	case AudioDeviceAddressTagMac:
-		if u.Mac == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Mac)))
-			for _, _item := range u.Mac {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.Mac)
 	case AudioDeviceAddressTagIpv4:
-		if u.Ipv4 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Ipv4)))
-			for _, _item := range u.Ipv4 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.Ipv4)
 	case AudioDeviceAddressTagIpv6:
 		if u.Ipv6 == nil {
 			p.WriteInt32(-1)
@@ -175,35 +161,15 @@ func (u *AudioDeviceAddress) UnmarshalParcel(
 		}
 	case AudioDeviceAddressTagMac:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.Mac, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.Mac = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.Mac[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case AudioDeviceAddressTagIpv4:
 
-		var _count1 int32
-		_count1, _err = p.ReadInt32()
+		u.Ipv4, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count1 >= 0 {
-			u.Ipv4 = make([]byte, _count1)
-			for _i := int32(0); _i < _count1; _i++ {
-				u.Ipv4[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case AudioDeviceAddressTagIpv6:
 

@@ -19,6 +19,14 @@ const (
 	TransactionIDataLoaderPrepareImage = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIDataLoaderCreate       = "create"
+	MethodIDataLoaderStart        = "start"
+	MethodIDataLoaderStop         = "stop"
+	MethodIDataLoaderDestroy      = "destroy"
+	MethodIDataLoaderPrepareImage = "prepareImage"
+)
+
 type IDataLoader interface {
 	AsBinder() binder.IBinder
 	Create(ctx context.Context, id int32, params DataLoaderParamsParcel, control FileSystemControlParcel, listener IDataLoaderStatusListener) error
@@ -29,17 +37,17 @@ type IDataLoader interface {
 }
 
 type DataLoaderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataLoaderProxy(
 	remote binder.IBinder,
 ) *DataLoaderProxy {
-	return &DataLoaderProxy{remote: remote}
+	return &DataLoaderProxy{Remote: remote}
 }
 
 func (p *DataLoaderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataLoader = (*DataLoaderProxy)(nil)
@@ -62,14 +70,14 @@ func (p *DataLoaderProxy) Create(
 	if _err := control.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "create")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoader, MethodIDataLoaderCreate)
 	if _err != nil {
-		_code = TransactionIDataLoaderCreate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataLoader, MethodIDataLoaderCreate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +89,12 @@ func (p *DataLoaderProxy) Start(
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoader, MethodIDataLoaderStart)
 	if _err != nil {
-		_code = TransactionIDataLoaderStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataLoader, MethodIDataLoaderStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +106,12 @@ func (p *DataLoaderProxy) Stop(
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoader, MethodIDataLoaderStop)
 	if _err != nil {
-		_code = TransactionIDataLoaderStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataLoader, MethodIDataLoaderStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +123,12 @@ func (p *DataLoaderProxy) Destroy(
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "destroy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoader, MethodIDataLoaderDestroy)
 	if _err != nil {
-		_code = TransactionIDataLoaderDestroy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataLoader, MethodIDataLoaderDestroy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,6 +146,7 @@ func (p *DataLoaderProxy) PrepareImage(
 	} else {
 		_data.WriteInt32(int32(len(addedFiles)))
 		for _, _item := range addedFiles {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -152,12 +161,12 @@ func (p *DataLoaderProxy) PrepareImage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "prepareImage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataLoader, MethodIDataLoaderPrepareImage)
 	if _err != nil {
-		_code = TransactionIDataLoaderPrepareImage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataLoader, MethodIDataLoaderPrepareImage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,6 +177,10 @@ type DataLoaderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataLoaderStub)(nil)
+
+func (s *DataLoaderStub) Descriptor() string {
+	return DescriptorIDataLoader
+}
 
 func (s *DataLoaderStub) OnTransaction(
 	ctx context.Context,

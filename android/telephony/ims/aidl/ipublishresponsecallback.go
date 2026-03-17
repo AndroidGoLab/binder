@@ -17,6 +17,11 @@ const (
 	TransactionIPublishResponseCallbackOnNetworkResponse = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPublishResponseCallbackOnCommandError    = "onCommandError"
+	MethodIPublishResponseCallbackOnNetworkResponse = "onNetworkResponse"
+)
+
 type IPublishResponseCallback interface {
 	AsBinder() binder.IBinder
 	OnCommandError(ctx context.Context, code int32) error
@@ -24,17 +29,17 @@ type IPublishResponseCallback interface {
 }
 
 type PublishResponseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPublishResponseCallbackProxy(
 	remote binder.IBinder,
 ) *PublishResponseCallbackProxy {
-	return &PublishResponseCallbackProxy{remote: remote}
+	return &PublishResponseCallbackProxy{Remote: remote}
 }
 
 func (p *PublishResponseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPublishResponseCallback = (*PublishResponseCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *PublishResponseCallbackProxy) OnCommandError(
 	_data.WriteInterfaceToken(DescriptorIPublishResponseCallback)
 	_data.WriteInt32(code)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPublishResponseCallback, "onCommandError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnCommandError)
 	if _err != nil {
-		_code = TransactionIPublishResponseCallbackOnCommandError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnCommandError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *PublishResponseCallbackProxy) OnNetworkResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPublishResponseCallback, "onNetworkResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnNetworkResponse)
 	if _err != nil {
-		_code = TransactionIPublishResponseCallbackOnNetworkResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPublishResponseCallback, MethodIPublishResponseCallbackOnNetworkResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type PublishResponseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PublishResponseCallbackStub)(nil)
+
+func (s *PublishResponseCallbackStub) Descriptor() string {
+	return DescriptorIPublishResponseCallback
+}
 
 func (s *PublishResponseCallbackStub) OnTransaction(
 	ctx context.Context,

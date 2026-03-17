@@ -19,6 +19,14 @@ const (
 	TransactionIJobServiceGetTransferredUploadBytes   = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIJobServiceStartJob                    = "startJob"
+	MethodIJobServiceStopJob                     = "stopJob"
+	MethodIJobServiceOnNetworkChanged            = "onNetworkChanged"
+	MethodIJobServiceGetTransferredDownloadBytes = "getTransferredDownloadBytes"
+	MethodIJobServiceGetTransferredUploadBytes   = "getTransferredUploadBytes"
+)
+
 type IJobService interface {
 	AsBinder() binder.IBinder
 	StartJob(ctx context.Context, jobParams JobParameters) error
@@ -29,17 +37,17 @@ type IJobService interface {
 }
 
 type JobServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewJobServiceProxy(
 	remote binder.IBinder,
 ) *JobServiceProxy {
-	return &JobServiceProxy{remote: remote}
+	return &JobServiceProxy{Remote: remote}
 }
 
 func (p *JobServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IJobService = (*JobServiceProxy)(nil)
@@ -55,12 +63,12 @@ func (p *JobServiceProxy) StartJob(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobService, "startJob")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobService, MethodIJobServiceStartJob)
 	if _err != nil {
-		_code = TransactionIJobServiceStartJob
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobService, MethodIJobServiceStartJob, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +83,12 @@ func (p *JobServiceProxy) StopJob(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobService, "stopJob")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobService, MethodIJobServiceStopJob)
 	if _err != nil {
-		_code = TransactionIJobServiceStopJob
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobService, MethodIJobServiceStopJob, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +103,12 @@ func (p *JobServiceProxy) OnNetworkChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobService, "onNetworkChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobService, MethodIJobServiceOnNetworkChanged)
 	if _err != nil {
-		_code = TransactionIJobServiceOnNetworkChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobService, MethodIJobServiceOnNetworkChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,12 +128,12 @@ func (p *JobServiceProxy) GetTransferredDownloadBytes(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobService, "getTransferredDownloadBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobService, MethodIJobServiceGetTransferredDownloadBytes)
 	if _err != nil {
-		_code = TransactionIJobServiceGetTransferredDownloadBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobService, MethodIJobServiceGetTransferredDownloadBytes, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,12 +153,12 @@ func (p *JobServiceProxy) GetTransferredUploadBytes(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobService, "getTransferredUploadBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobService, MethodIJobServiceGetTransferredUploadBytes)
 	if _err != nil {
-		_code = TransactionIJobServiceGetTransferredUploadBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobService, MethodIJobServiceGetTransferredUploadBytes, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,6 +169,10 @@ type JobServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*JobServiceStub)(nil)
+
+func (s *JobServiceStub) Descriptor() string {
+	return DescriptorIJobService
+}
 
 func (s *JobServiceStub) OnTransaction(
 	ctx context.Context,

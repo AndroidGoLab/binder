@@ -18,6 +18,13 @@ const (
 	TransactionImsConfigListenerOnSetVideoQuality    = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodImsConfigListenerOnGetFeatureResponse = "onGetFeatureResponse"
+	MethodImsConfigListenerOnSetFeatureResponse = "onSetFeatureResponse"
+	MethodImsConfigListenerOnGetVideoQuality    = "onGetVideoQuality"
+	MethodImsConfigListenerOnSetVideoQuality    = "onSetVideoQuality"
+)
+
 type ImsConfigListener interface {
 	AsBinder() binder.IBinder
 	OnGetFeatureResponse(ctx context.Context, feature int32, network int32, value int32, status int32) error
@@ -27,17 +34,17 @@ type ImsConfigListener interface {
 }
 
 type msConfigListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewmsConfigListenerProxy(
 	remote binder.IBinder,
 ) *msConfigListenerProxy {
-	return &msConfigListenerProxy{remote: remote}
+	return &msConfigListenerProxy{Remote: remote}
 }
 
 func (p *msConfigListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ImsConfigListener = (*msConfigListenerProxy)(nil)
@@ -56,12 +63,12 @@ func (p *msConfigListenerProxy) OnGetFeatureResponse(
 	_data.WriteInt32(value)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onGetFeatureResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnGetFeatureResponse)
 	if _err != nil {
-		_code = TransactionImsConfigListenerOnGetFeatureResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorImsConfigListener, MethodImsConfigListenerOnGetFeatureResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +86,12 @@ func (p *msConfigListenerProxy) OnSetFeatureResponse(
 	_data.WriteInt32(value)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onSetFeatureResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnSetFeatureResponse)
 	if _err != nil {
-		_code = TransactionImsConfigListenerOnSetFeatureResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorImsConfigListener, MethodImsConfigListenerOnSetFeatureResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +105,12 @@ func (p *msConfigListenerProxy) OnGetVideoQuality(
 	_data.WriteInt32(status)
 	_data.WriteInt32(quality)
 
-	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onGetVideoQuality")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnGetVideoQuality)
 	if _err != nil {
-		_code = TransactionImsConfigListenerOnGetVideoQuality
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorImsConfigListener, MethodImsConfigListenerOnGetVideoQuality, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +122,12 @@ func (p *msConfigListenerProxy) OnSetVideoQuality(
 	_data.WriteInterfaceToken(DescriptorImsConfigListener)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onSetVideoQuality")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorImsConfigListener, MethodImsConfigListenerOnSetVideoQuality)
 	if _err != nil {
-		_code = TransactionImsConfigListenerOnSetVideoQuality
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorImsConfigListener, MethodImsConfigListenerOnSetVideoQuality, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,6 +138,10 @@ type msConfigListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*msConfigListenerStub)(nil)
+
+func (s *msConfigListenerStub) Descriptor() string {
+	return DescriptorImsConfigListener
+}
 
 func (s *msConfigListenerStub) OnTransaction(
 	ctx context.Context,

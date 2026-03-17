@@ -18,6 +18,12 @@ const (
 	TransactionIMmiStatusCallbackOnMmiClose    = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMmiStatusCallbackOnMmiEnq      = "onMmiEnq"
+	MethodIMmiStatusCallbackOnMmiListMenu = "onMmiListMenu"
+	MethodIMmiStatusCallbackOnMmiClose    = "onMmiClose"
+)
+
 type IMmiStatusCallback interface {
 	AsBinder() binder.IBinder
 	OnMmiEnq(ctx context.Context, request os.Bundle) error
@@ -26,17 +32,17 @@ type IMmiStatusCallback interface {
 }
 
 type MmiStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMmiStatusCallbackProxy(
 	remote binder.IBinder,
 ) *MmiStatusCallbackProxy {
-	return &MmiStatusCallbackProxy{remote: remote}
+	return &MmiStatusCallbackProxy{Remote: remote}
 }
 
 func (p *MmiStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMmiStatusCallback = (*MmiStatusCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *MmiStatusCallbackProxy) OnMmiEnq(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiStatusCallback, "onMmiEnq")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiStatusCallback, MethodIMmiStatusCallbackOnMmiEnq)
 	if _err != nil {
-		_code = TransactionIMmiStatusCallbackOnMmiEnq
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiStatusCallback, MethodIMmiStatusCallbackOnMmiEnq, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +78,12 @@ func (p *MmiStatusCallbackProxy) OnMmiListMenu(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiStatusCallback, "onMmiListMenu")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiStatusCallback, MethodIMmiStatusCallbackOnMmiListMenu)
 	if _err != nil {
-		_code = TransactionIMmiStatusCallbackOnMmiListMenu
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiStatusCallback, MethodIMmiStatusCallbackOnMmiListMenu, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,12 +93,12 @@ func (p *MmiStatusCallbackProxy) OnMmiClose(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiStatusCallback, "onMmiClose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiStatusCallback, MethodIMmiStatusCallbackOnMmiClose)
 	if _err != nil {
-		_code = TransactionIMmiStatusCallbackOnMmiClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiStatusCallback, MethodIMmiStatusCallbackOnMmiClose, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +109,10 @@ type MmiStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MmiStatusCallbackStub)(nil)
+
+func (s *MmiStatusCallbackStub) Descriptor() string {
+	return DescriptorIMmiStatusCallback
+}
 
 func (s *MmiStatusCallbackStub) OnTransaction(
 	ctx context.Context,

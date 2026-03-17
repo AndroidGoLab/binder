@@ -3,7 +3,6 @@ package projection
 import (
 	"context"
 	"fmt"
-	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,28 +19,50 @@ const (
 	TransactionIMediaProjectionManagerRequestConsentForInvalidProjection                     = binder.FirstCallTransaction + 4
 	TransactionIMediaProjectionManagerGetActiveProjectionInfo                                = binder.FirstCallTransaction + 5
 	TransactionIMediaProjectionManagerStopActiveProjection                                   = binder.FirstCallTransaction + 6
-	TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged = binder.FirstCallTransaction + 7
-	TransactionIMediaProjectionManagerAddCallback                                            = binder.FirstCallTransaction + 8
-	TransactionIMediaProjectionManagerRemoveCallback                                         = binder.FirstCallTransaction + 9
-	TransactionIMediaProjectionManagerSetContentRecordingSession                             = binder.FirstCallTransaction + 10
-	TransactionIMediaProjectionManagerSetUserReviewGrantedConsentResult                      = binder.FirstCallTransaction + 11
-	TransactionIMediaProjectionManagerNotifyPermissionRequestInitiated                       = binder.FirstCallTransaction + 12
-	TransactionIMediaProjectionManagerNotifyPermissionRequestDisplayed                       = binder.FirstCallTransaction + 13
-	TransactionIMediaProjectionManagerNotifyPermissionRequestCancelled                       = binder.FirstCallTransaction + 14
-	TransactionIMediaProjectionManagerNotifyAppSelectorDisplayed                             = binder.FirstCallTransaction + 15
-	TransactionIMediaProjectionManagerNotifyWindowingModeChanged                             = binder.FirstCallTransaction + 16
-	TransactionIMediaProjectionManagerNotifyCaptureBoundsChanged                             = binder.FirstCallTransaction + 17
+	TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized           = binder.FirstCallTransaction + 7
+	TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged = binder.FirstCallTransaction + 8
+	TransactionIMediaProjectionManagerAddCallback                                            = binder.FirstCallTransaction + 9
+	TransactionIMediaProjectionManagerRemoveCallback                                         = binder.FirstCallTransaction + 10
+	TransactionIMediaProjectionManagerSetContentRecordingSession                             = binder.FirstCallTransaction + 11
+	TransactionIMediaProjectionManagerSetUserReviewGrantedConsentResult                      = binder.FirstCallTransaction + 12
+	TransactionIMediaProjectionManagerNotifyPermissionRequestInitiated                       = binder.FirstCallTransaction + 13
+	TransactionIMediaProjectionManagerNotifyPermissionRequestDisplayed                       = binder.FirstCallTransaction + 14
+	TransactionIMediaProjectionManagerNotifyPermissionRequestCancelled                       = binder.FirstCallTransaction + 15
+	TransactionIMediaProjectionManagerNotifyAppSelectorDisplayed                             = binder.FirstCallTransaction + 16
+	TransactionIMediaProjectionManagerNotifyWindowingModeChanged                             = binder.FirstCallTransaction + 17
+)
+
+const (
+	MethodIMediaProjectionManagerHasProjectionPermission                                = "hasProjectionPermission"
+	MethodIMediaProjectionManagerCreateProjection                                       = "createProjection"
+	MethodIMediaProjectionManagerGetProjection                                          = "getProjection"
+	MethodIMediaProjectionManagerIsCurrentProjection                                    = "isCurrentProjection"
+	MethodIMediaProjectionManagerRequestConsentForInvalidProjection                     = "requestConsentForInvalidProjection"
+	MethodIMediaProjectionManagerGetActiveProjectionInfo                                = "getActiveProjectionInfo"
+	MethodIMediaProjectionManagerStopActiveProjection                                   = "stopActiveProjection"
+	MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized           = "notifyActiveProjectionCapturedContentResized"
+	MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged = "notifyActiveProjectionCapturedContentVisibilityChanged"
+	MethodIMediaProjectionManagerAddCallback                                            = "addCallback"
+	MethodIMediaProjectionManagerRemoveCallback                                         = "removeCallback"
+	MethodIMediaProjectionManagerSetContentRecordingSession                             = "setContentRecordingSession"
+	MethodIMediaProjectionManagerSetUserReviewGrantedConsentResult                      = "setUserReviewGrantedConsentResult"
+	MethodIMediaProjectionManagerNotifyPermissionRequestInitiated                       = "notifyPermissionRequestInitiated"
+	MethodIMediaProjectionManagerNotifyPermissionRequestDisplayed                       = "notifyPermissionRequestDisplayed"
+	MethodIMediaProjectionManagerNotifyPermissionRequestCancelled                       = "notifyPermissionRequestCancelled"
+	MethodIMediaProjectionManagerNotifyAppSelectorDisplayed                             = "notifyAppSelectorDisplayed"
+	MethodIMediaProjectionManagerNotifyWindowingModeChanged                             = "notifyWindowingModeChanged"
 )
 
 type IMediaProjectionManager interface {
 	AsBinder() binder.IBinder
 	HasProjectionPermission(ctx context.Context, processUid int32, packageName string) (bool, error)
-	CreateProjection(ctx context.Context, processUid int32, packageName string, type_ int32, permanentGrant bool, displayId int32) (IMediaProjection, error)
+	CreateProjection(ctx context.Context, processUid int32, packageName string, type_ int32, permanentGrant bool) (IMediaProjection, error)
 	GetProjection(ctx context.Context, processUid int32, packageName string) (IMediaProjection, error)
 	IsCurrentProjection(ctx context.Context, projection IMediaProjection) (bool, error)
 	RequestConsentForInvalidProjection(ctx context.Context, projection IMediaProjection) error
 	GetActiveProjectionInfo(ctx context.Context) (MediaProjectionInfo, error)
-	StopActiveProjection(ctx context.Context, stopReason StopReason) error
+	StopActiveProjection(ctx context.Context) error
+	NotifyActiveProjectionCapturedContentResized(ctx context.Context, width int32, height int32) error
 	NotifyActiveProjectionCapturedContentVisibilityChanged(ctx context.Context, isVisible bool) error
 	AddCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) (MediaProjectionInfo, error)
 	RemoveCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) error
@@ -52,7 +73,6 @@ type IMediaProjectionManager interface {
 	NotifyPermissionRequestCancelled(ctx context.Context, hostProcessUid int32) error
 	NotifyAppSelectorDisplayed(ctx context.Context, hostProcessUid int32) error
 	NotifyWindowingModeChanged(ctx context.Context, contentToRecord int32, targetProcessUid int32, windowingMode int32) error
-	NotifyCaptureBoundsChanged(ctx context.Context, contentToRecord int32, targetProcessUid int32, captureBounds graphics.Rect) error
 }
 
 const (
@@ -61,17 +81,17 @@ const (
 )
 
 type MediaProjectionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaProjectionManagerProxy(
 	remote binder.IBinder,
 ) *MediaProjectionManagerProxy {
-	return &MediaProjectionManagerProxy{remote: remote}
+	return &MediaProjectionManagerProxy{Remote: remote}
 }
 
 func (p *MediaProjectionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaProjectionManager = (*MediaProjectionManagerProxy)(nil)
@@ -87,12 +107,12 @@ func (p *MediaProjectionManagerProxy) HasProjectionPermission(
 	_data.WriteInt32(processUid)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "hasProjectionPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerHasProjectionPermission)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerHasProjectionPermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerHasProjectionPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,7 +135,6 @@ func (p *MediaProjectionManagerProxy) CreateProjection(
 	packageName string,
 	type_ int32,
 	permanentGrant bool,
-	displayId int32,
 ) (IMediaProjection, error) {
 	var _result IMediaProjection
 	_data := parcel.New()
@@ -124,14 +143,13 @@ func (p *MediaProjectionManagerProxy) CreateProjection(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(type_)
 	_data.WriteBool(permanentGrant)
-	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "createProjection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerCreateProjection)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerCreateProjection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerCreateProjection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,7 +163,7 @@ func (p *MediaProjectionManagerProxy) CreateProjection(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMediaProjectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewMediaProjectionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -160,12 +178,12 @@ func (p *MediaProjectionManagerProxy) GetProjection(
 	_data.WriteInt32(processUid)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "getProjection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetProjection)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerGetProjection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetProjection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,7 +197,7 @@ func (p *MediaProjectionManagerProxy) GetProjection(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMediaProjectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewMediaProjectionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -190,14 +208,14 @@ func (p *MediaProjectionManagerProxy) IsCurrentProjection(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "isCurrentProjection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerIsCurrentProjection)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerIsCurrentProjection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerIsCurrentProjection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,14 +238,14 @@ func (p *MediaProjectionManagerProxy) RequestConsentForInvalidProjection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "requestConsentForInvalidProjection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRequestConsentForInvalidProjection)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerRequestConsentForInvalidProjection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRequestConsentForInvalidProjection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -247,12 +265,12 @@ func (p *MediaProjectionManagerProxy) GetActiveProjectionInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "getActiveProjectionInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetActiveProjectionInfo)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerGetActiveProjectionInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerGetActiveProjectionInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -276,18 +294,44 @@ func (p *MediaProjectionManagerProxy) GetActiveProjectionInfo(
 
 func (p *MediaProjectionManagerProxy) StopActiveProjection(
 	ctx context.Context,
-	stopReason StopReason,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(int32(stopReason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "stopActiveProjection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerStopActiveProjection)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerStopActiveProjection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerStopActiveProjection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentResized(
+	ctx context.Context,
+	width int32,
+	height int32,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
+	_data.WriteInt32(width)
+	_data.WriteInt32(height)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -308,12 +352,12 @@ func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentVisib
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteBool(isVisible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyActiveProjectionCapturedContentVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -333,14 +377,14 @@ func (p *MediaProjectionManagerProxy) AddCallback(
 	var _result MediaProjectionInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "addCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerAddCallback)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerAddCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerAddCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -368,14 +412,14 @@ func (p *MediaProjectionManagerProxy) RemoveCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "removeCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRemoveCallback)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerRemoveCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerRemoveCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -396,14 +440,14 @@ func (p *MediaProjectionManagerProxy) SetContentRecordingSession(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, projection.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "setContentRecordingSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetContentRecordingSession)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerSetContentRecordingSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetContentRecordingSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -434,12 +478,12 @@ func (p *MediaProjectionManagerProxy) SetUserReviewGrantedConsentResult(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "setUserReviewGrantedConsentResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetUserReviewGrantedConsentResult)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerSetUserReviewGrantedConsentResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerSetUserReviewGrantedConsentResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -462,12 +506,12 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestInitiated(
 	_data.WriteInt32(hostProcessUid)
 	_data.WriteInt32(sessionCreationSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyPermissionRequestInitiated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestInitiated)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyPermissionRequestInitiated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestInitiated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -479,12 +523,12 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestDisplayed(
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyPermissionRequestDisplayed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestDisplayed)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyPermissionRequestDisplayed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestDisplayed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -496,12 +540,12 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestCancelled(
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyPermissionRequestCancelled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestCancelled)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyPermissionRequestCancelled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyPermissionRequestCancelled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -513,12 +557,12 @@ func (p *MediaProjectionManagerProxy) NotifyAppSelectorDisplayed(
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(hostProcessUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyAppSelectorDisplayed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyAppSelectorDisplayed)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyAppSelectorDisplayed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyAppSelectorDisplayed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -534,37 +578,22 @@ func (p *MediaProjectionManagerProxy) NotifyWindowingModeChanged(
 	_data.WriteInt32(targetProcessUid)
 	_data.WriteInt32(windowingMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyWindowingModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyWindowingModeChanged)
 	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyWindowingModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionManager, MethodIMediaProjectionManagerNotifyWindowingModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
 
-func (p *MediaProjectionManagerProxy) NotifyCaptureBoundsChanged(
-	ctx context.Context,
-	contentToRecord int32,
-	targetProcessUid int32,
-	captureBounds graphics.Rect,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
-	_data.WriteInt32(contentToRecord)
-	_data.WriteInt32(targetProcessUid)
-	_data.WriteInt32(1)
-	if _err := captureBounds.MarshalParcel(_data); _err != nil {
+	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyCaptureBoundsChanged")
-	if _err != nil {
-		_code = TransactionIMediaProjectionManagerNotifyCaptureBoundsChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	return nil
 }
 
 // MediaProjectionManagerStub dispatches incoming binder transactions
@@ -574,6 +603,10 @@ type MediaProjectionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionManagerStub)(nil)
+
+func (s *MediaProjectionManagerStub) Descriptor() string {
+	return DescriptorIMediaProjectionManager
+}
 
 func (s *MediaProjectionManagerStub) OnTransaction(
 	ctx context.Context,
@@ -622,11 +655,7 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.CreateProjection(ctx, _arg_processUid, _arg_packageName, _arg_type_, _arg_permanentGrant, _arg_displayId)
+		_result, _err := s.Impl.CreateProjection(ctx, _arg_processUid, _arg_packageName, _arg_type_, _arg_permanentGrant)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -709,12 +738,27 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stopReason, _err := _data.ReadInt32()
+		_err := s.Impl.StopActiveProjection(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentResized:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stopReason := StopReason(_raw_stopReason)
-		_err = s.Impl.StopActiveProjection(ctx, _arg_stopReason)
+		_arg_height, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyActiveProjectionCapturedContentResized(ctx, _arg_width, _arg_height)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -874,35 +918,13 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.NotifyWindowingModeChanged(ctx, _arg_contentToRecord, _arg_targetProcessUid, _arg_windowingMode)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaProjectionManagerNotifyCaptureBoundsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_contentToRecord, _err := _data.ReadInt32()
+		_reply := parcel.New()
 		if _err != nil {
-			return nil, _err
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
-		_arg_targetProcessUid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_captureBounds graphics.Rect
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_captureBounds.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.NotifyCaptureBoundsChanged(ctx, _arg_contentToRecord, _arg_targetProcessUid, _arg_captureBounds)
-		_ = _err
-		return nil, nil
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -913,12 +935,13 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IMediaProjectionManagerServer interface {
 	HasProjectionPermission(ctx context.Context, processUid int32, packageName string) (bool, error)
-	CreateProjection(ctx context.Context, processUid int32, packageName string, type_ int32, permanentGrant bool, displayId int32) (IMediaProjection, error)
+	CreateProjection(ctx context.Context, processUid int32, packageName string, type_ int32, permanentGrant bool) (IMediaProjection, error)
 	GetProjection(ctx context.Context, processUid int32, packageName string) (IMediaProjection, error)
 	IsCurrentProjection(ctx context.Context, projection IMediaProjection) (bool, error)
 	RequestConsentForInvalidProjection(ctx context.Context, projection IMediaProjection) error
 	GetActiveProjectionInfo(ctx context.Context) (MediaProjectionInfo, error)
-	StopActiveProjection(ctx context.Context, stopReason StopReason) error
+	StopActiveProjection(ctx context.Context) error
+	NotifyActiveProjectionCapturedContentResized(ctx context.Context, width int32, height int32) error
 	NotifyActiveProjectionCapturedContentVisibilityChanged(ctx context.Context, isVisible bool) error
 	AddCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) (MediaProjectionInfo, error)
 	RemoveCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) error
@@ -929,7 +952,6 @@ type IMediaProjectionManagerServer interface {
 	NotifyPermissionRequestCancelled(ctx context.Context, hostProcessUid int32) error
 	NotifyAppSelectorDisplayed(ctx context.Context, hostProcessUid int32) error
 	NotifyWindowingModeChanged(ctx context.Context, contentToRecord int32, targetProcessUid int32, windowingMode int32) error
-	NotifyCaptureBoundsChanged(ctx context.Context, contentToRecord int32, targetProcessUid int32, captureBounds graphics.Rect) error
 }
 
 type mediaProjectionManagerStubWrapper struct {
@@ -955,9 +977,8 @@ func (w *mediaProjectionManagerStubWrapper) CreateProjection(
 	packageName string,
 	type_ int32,
 	permanentGrant bool,
-	displayId int32,
 ) (IMediaProjection, error) {
-	return w.impl.CreateProjection(ctx, processUid, packageName, type_, permanentGrant, displayId)
+	return w.impl.CreateProjection(ctx, processUid, packageName, type_, permanentGrant)
 }
 
 func (w *mediaProjectionManagerStubWrapper) GetProjection(
@@ -990,9 +1011,16 @@ func (w *mediaProjectionManagerStubWrapper) GetActiveProjectionInfo(
 
 func (w *mediaProjectionManagerStubWrapper) StopActiveProjection(
 	ctx context.Context,
-	stopReason StopReason,
 ) error {
-	return w.impl.StopActiveProjection(ctx, stopReason)
+	return w.impl.StopActiveProjection(ctx)
+}
+
+func (w *mediaProjectionManagerStubWrapper) NotifyActiveProjectionCapturedContentResized(
+	ctx context.Context,
+	width int32,
+	height int32,
+) error {
+	return w.impl.NotifyActiveProjectionCapturedContentResized(ctx, width, height)
 }
 
 func (w *mediaProjectionManagerStubWrapper) NotifyActiveProjectionCapturedContentVisibilityChanged(
@@ -1068,15 +1096,6 @@ func (w *mediaProjectionManagerStubWrapper) NotifyWindowingModeChanged(
 	windowingMode int32,
 ) error {
 	return w.impl.NotifyWindowingModeChanged(ctx, contentToRecord, targetProcessUid, windowingMode)
-}
-
-func (w *mediaProjectionManagerStubWrapper) NotifyCaptureBoundsChanged(
-	ctx context.Context,
-	contentToRecord int32,
-	targetProcessUid int32,
-	captureBounds graphics.Rect,
-) error {
-	return w.impl.NotifyCaptureBoundsChanged(ctx, contentToRecord, targetProcessUid, captureBounds)
 }
 
 var _ IMediaProjectionManager = (*mediaProjectionManagerStubWrapper)(nil)

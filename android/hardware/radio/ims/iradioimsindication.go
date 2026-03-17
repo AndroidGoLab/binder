@@ -18,6 +18,12 @@ const (
 	TransactionIRadioImsIndicationTriggerImsDeregistration = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRadioImsIndicationOnConnectionSetupFailure = "onConnectionSetupFailure"
+	MethodIRadioImsIndicationNotifyAnbr               = "notifyAnbr"
+	MethodIRadioImsIndicationTriggerImsDeregistration = "triggerImsDeregistration"
+)
+
 type IRadioImsIndication interface {
 	AsBinder() binder.IBinder
 	OnConnectionSetupFailure(ctx context.Context, type_ radio.RadioIndicationType, token int32, info ConnectionFailureInfo) error
@@ -26,17 +32,17 @@ type IRadioImsIndication interface {
 }
 
 type RadioImsIndicationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioImsIndicationProxy(
 	remote binder.IBinder,
 ) *RadioImsIndicationProxy {
-	return &RadioImsIndicationProxy{remote: remote}
+	return &RadioImsIndicationProxy{Remote: remote}
 }
 
 func (p *RadioImsIndicationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioImsIndication = (*RadioImsIndicationProxy)(nil)
@@ -56,12 +62,12 @@ func (p *RadioImsIndicationProxy) OnConnectionSetupFailure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsIndication, "onConnectionSetupFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsIndication, MethodIRadioImsIndicationOnConnectionSetupFailure)
 	if _err != nil {
-		_code = TransactionIRadioImsIndicationOnConnectionSetupFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsIndication, MethodIRadioImsIndicationOnConnectionSetupFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +85,12 @@ func (p *RadioImsIndicationProxy) NotifyAnbr(
 	_data.WriteInt32(int32(direction))
 	_data.WriteInt32(bitsPerSecond)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsIndication, "notifyAnbr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsIndication, MethodIRadioImsIndicationNotifyAnbr)
 	if _err != nil {
-		_code = TransactionIRadioImsIndicationNotifyAnbr
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsIndication, MethodIRadioImsIndicationNotifyAnbr, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +104,12 @@ func (p *RadioImsIndicationProxy) TriggerImsDeregistration(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(reason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsIndication, "triggerImsDeregistration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioImsIndication, MethodIRadioImsIndicationTriggerImsDeregistration)
 	if _err != nil {
-		_code = TransactionIRadioImsIndicationTriggerImsDeregistration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioImsIndication, MethodIRadioImsIndicationTriggerImsDeregistration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,6 +120,10 @@ type RadioImsIndicationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioImsIndicationStub)(nil)
+
+func (s *RadioImsIndicationStub) Descriptor() string {
+	return DescriptorIRadioImsIndication
+}
 
 func (s *RadioImsIndicationStub) OnTransaction(
 	ctx context.Context,

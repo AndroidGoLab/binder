@@ -5,7 +5,6 @@ import (
 	"fmt"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
-	inputflinger "github.com/xaionaro-go/binder/com/android/server/inputflinger"
 	IInputThread "github.com/xaionaro-go/binder/com/android/server/inputflinger/IInputThread"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,25 +19,31 @@ const (
 	TransactionIInputFilterCallbacksCreateInputFilterThread = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInputFilterCallbacksSendKeyEvent            = "sendKeyEvent"
+	MethodIInputFilterCallbacksOnModifierStateChanged  = "onModifierStateChanged"
+	MethodIInputFilterCallbacksCreateInputFilterThread = "createInputFilterThread"
+)
+
 type IInputFilterCallbacks interface {
 	AsBinder() binder.IBinder
 	SendKeyEvent(ctx context.Context, event view.KeyEvent) error
 	OnModifierStateChanged(ctx context.Context, modifierState int32, lockedModifierState int32) error
-	CreateInputFilterThread(ctx context.Context, callback IInputThread.IInputThreadCallback) (inputflinger.IInputThread, error)
+	CreateInputFilterThread(ctx context.Context, callback IInputThread.IInputThreadCallback) (interface{}, error)
 }
 
 type InputFilterCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFilterCallbacksProxy(
 	remote binder.IBinder,
 ) *InputFilterCallbacksProxy {
-	return &InputFilterCallbacksProxy{remote: remote}
+	return &InputFilterCallbacksProxy{Remote: remote}
 }
 
 func (p *InputFilterCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFilterCallbacks = (*InputFilterCallbacksProxy)(nil)
@@ -54,12 +59,12 @@ func (p *InputFilterCallbacksProxy) SendKeyEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterCallbacks, "sendKeyEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterCallbacks, MethodIInputFilterCallbacksSendKeyEvent)
 	if _err != nil {
-		_code = TransactionIInputFilterCallbacksSendKeyEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilterCallbacks, MethodIInputFilterCallbacksSendKeyEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +87,12 @@ func (p *InputFilterCallbacksProxy) OnModifierStateChanged(
 	_data.WriteInt32(modifierState)
 	_data.WriteInt32(lockedModifierState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterCallbacks, "onModifierStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterCallbacks, MethodIInputFilterCallbacksOnModifierStateChanged)
 	if _err != nil {
-		_code = TransactionIInputFilterCallbacksOnModifierStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilterCallbacks, MethodIInputFilterCallbacksOnModifierStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,18 +108,18 @@ func (p *InputFilterCallbacksProxy) OnModifierStateChanged(
 func (p *InputFilterCallbacksProxy) CreateInputFilterThread(
 	ctx context.Context,
 	callback IInputThread.IInputThreadCallback,
-) (inputflinger.IInputThread, error) {
-	var _result inputflinger.IInputThread
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilterCallbacks)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterCallbacks, "createInputFilterThread")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilterCallbacks, MethodIInputFilterCallbacksCreateInputFilterThread)
 	if _err != nil {
-		_code = TransactionIInputFilterCallbacksCreateInputFilterThread
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilterCallbacks, MethodIInputFilterCallbacksCreateInputFilterThread, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,11 +129,6 @@ func (p *InputFilterCallbacksProxy) CreateInputFilterThread(
 		return _result, _err
 	}
 
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = inputflinger.NewInputThreadProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -139,6 +139,10 @@ type InputFilterCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputFilterCallbacksStub)(nil)
+
+func (s *InputFilterCallbacksStub) Descriptor() string {
+	return DescriptorIInputFilterCallbacks
+}
 
 func (s *InputFilterCallbacksStub) OnTransaction(
 	ctx context.Context,
@@ -204,7 +208,6 @@ func (s *InputFilterCallbacksStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	default:
@@ -218,7 +221,7 @@ func (s *InputFilterCallbacksStub) OnTransaction(
 type IInputFilterCallbacksServer interface {
 	SendKeyEvent(ctx context.Context, event view.KeyEvent) error
 	OnModifierStateChanged(ctx context.Context, modifierState int32, lockedModifierState int32) error
-	CreateInputFilterThread(ctx context.Context, callback IInputThread.IInputThreadCallback) (inputflinger.IInputThread, error)
+	CreateInputFilterThread(ctx context.Context, callback IInputThread.IInputThreadCallback) (interface{}, error)
 }
 
 type inputFilterCallbacksStubWrapper struct {
@@ -248,7 +251,7 @@ func (w *inputFilterCallbacksStubWrapper) OnModifierStateChanged(
 func (w *inputFilterCallbacksStubWrapper) CreateInputFilterThread(
 	ctx context.Context,
 	callback IInputThread.IInputThreadCallback,
-) (inputflinger.IInputThread, error) {
+) (interface{}, error) {
 	return w.impl.CreateInputFilterThread(ctx, callback)
 }
 

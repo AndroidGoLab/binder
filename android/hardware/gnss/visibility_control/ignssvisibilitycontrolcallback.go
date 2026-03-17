@@ -17,6 +17,11 @@ const (
 	TransactionIGnssVisibilityControlCallbackIsInEmergencySession = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssVisibilityControlCallbackNfwNotifyCb          = "nfwNotifyCb"
+	MethodIGnssVisibilityControlCallbackIsInEmergencySession = "isInEmergencySession"
+)
+
 type IGnssVisibilityControlCallback interface {
 	AsBinder() binder.IBinder
 	NfwNotifyCb(ctx context.Context, notification visibility_controlIGnssVisibilityControlCallback.NfwNotification) error
@@ -24,17 +29,17 @@ type IGnssVisibilityControlCallback interface {
 }
 
 type GnssVisibilityControlCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssVisibilityControlCallbackProxy(
 	remote binder.IBinder,
 ) *GnssVisibilityControlCallbackProxy {
-	return &GnssVisibilityControlCallbackProxy{remote: remote}
+	return &GnssVisibilityControlCallbackProxy{Remote: remote}
 }
 
 func (p *GnssVisibilityControlCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssVisibilityControlCallback = (*GnssVisibilityControlCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *GnssVisibilityControlCallbackProxy) NfwNotifyCb(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControlCallback, "nfwNotifyCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssVisibilityControlCallback, MethodIGnssVisibilityControlCallbackNfwNotifyCb)
 	if _err != nil {
-		_code = TransactionIGnssVisibilityControlCallbackNfwNotifyCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssVisibilityControlCallback, MethodIGnssVisibilityControlCallbackNfwNotifyCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,12 +80,12 @@ func (p *GnssVisibilityControlCallbackProxy) IsInEmergencySession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControlCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControlCallback, "isInEmergencySession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssVisibilityControlCallback, MethodIGnssVisibilityControlCallbackIsInEmergencySession)
 	if _err != nil {
-		_code = TransactionIGnssVisibilityControlCallbackIsInEmergencySession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssVisibilityControlCallback, MethodIGnssVisibilityControlCallbackIsInEmergencySession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -104,6 +109,10 @@ type GnssVisibilityControlCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssVisibilityControlCallbackStub)(nil)
+
+func (s *GnssVisibilityControlCallbackStub) Descriptor() string {
+	return DescriptorIGnssVisibilityControlCallback
+}
 
 func (s *GnssVisibilityControlCallbackStub) OnTransaction(
 	ctx context.Context,

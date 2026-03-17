@@ -15,23 +15,27 @@ const (
 	TransactionIVrStateCallbacksOnVrStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVrStateCallbacksOnVrStateChanged = "onVrStateChanged"
+)
+
 type IVrStateCallbacks interface {
 	AsBinder() binder.IBinder
 	OnVrStateChanged(ctx context.Context, enabled bool) error
 }
 
 type VrStateCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVrStateCallbacksProxy(
 	remote binder.IBinder,
 ) *VrStateCallbacksProxy {
-	return &VrStateCallbacksProxy{remote: remote}
+	return &VrStateCallbacksProxy{Remote: remote}
 }
 
 func (p *VrStateCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVrStateCallbacks = (*VrStateCallbacksProxy)(nil)
@@ -44,12 +48,12 @@ func (p *VrStateCallbacksProxy) OnVrStateChanged(
 	_data.WriteInterfaceToken(DescriptorIVrStateCallbacks)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrStateCallbacks, "onVrStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrStateCallbacks, MethodIVrStateCallbacksOnVrStateChanged)
 	if _err != nil {
-		_code = TransactionIVrStateCallbacksOnVrStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrStateCallbacks, MethodIVrStateCallbacksOnVrStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type VrStateCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VrStateCallbacksStub)(nil)
+
+func (s *VrStateCallbacksStub) Descriptor() string {
+	return DescriptorIVrStateCallbacks
+}
 
 func (s *VrStateCallbacksStub) OnTransaction(
 	ctx context.Context,

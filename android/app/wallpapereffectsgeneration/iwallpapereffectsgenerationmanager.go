@@ -16,6 +16,11 @@ const (
 	TransactionIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIWallpaperEffectsGenerationManagerGenerateCinematicEffect       = "generateCinematicEffect"
+	MethodIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse = "returnCinematicEffectResponse"
+)
+
 type IWallpaperEffectsGenerationManager interface {
 	AsBinder() binder.IBinder
 	GenerateCinematicEffect(ctx context.Context, request CinematicEffectRequest, listener ICinematicEffectListener) error
@@ -23,17 +28,17 @@ type IWallpaperEffectsGenerationManager interface {
 }
 
 type WallpaperEffectsGenerationManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperEffectsGenerationManagerProxy(
 	remote binder.IBinder,
 ) *WallpaperEffectsGenerationManagerProxy {
-	return &WallpaperEffectsGenerationManagerProxy{remote: remote}
+	return &WallpaperEffectsGenerationManagerProxy{Remote: remote}
 }
 
 func (p *WallpaperEffectsGenerationManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperEffectsGenerationManager = (*WallpaperEffectsGenerationManagerProxy)(nil)
@@ -49,14 +54,14 @@ func (p *WallpaperEffectsGenerationManagerProxy) GenerateCinematicEffect(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEffectsGenerationManager, "generateCinematicEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerGenerateCinematicEffect)
 	if _err != nil {
-		_code = TransactionIWallpaperEffectsGenerationManagerGenerateCinematicEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerGenerateCinematicEffect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +76,12 @@ func (p *WallpaperEffectsGenerationManagerProxy) ReturnCinematicEffectResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEffectsGenerationManager, "returnCinematicEffectResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse)
 	if _err != nil {
-		_code = TransactionIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEffectsGenerationManager, MethodIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type WallpaperEffectsGenerationManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperEffectsGenerationManagerStub)(nil)
+
+func (s *WallpaperEffectsGenerationManagerStub) Descriptor() string {
+	return DescriptorIWallpaperEffectsGenerationManager
+}
 
 func (s *WallpaperEffectsGenerationManagerStub) OnTransaction(
 	ctx context.Context,

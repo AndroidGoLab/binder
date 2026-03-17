@@ -51,44 +51,11 @@ func TestSmoke_LocationProviderManagerProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_PopulationDensityProviderProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewPopulationDensityProviderProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("PopulationDensityProviderProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_ProviderRequestListenerProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewProviderRequestListenerProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ProviderRequestListenerProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
-func TestSmoke_S2CellIdsCallbackProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewS2CellIdsCallbackProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("S2CellIdsCallbackProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
-func TestSmoke_S2LevelCallbackProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewS2LevelCallbackProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("S2LevelCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)

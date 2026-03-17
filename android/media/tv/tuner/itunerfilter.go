@@ -35,6 +35,27 @@ const (
 	TransactionITunerFilterSetDelayHint               = binder.FirstCallTransaction + 17
 )
 
+const (
+	MethodITunerFilterGetId                      = "getId"
+	MethodITunerFilterGetId64Bit                 = "getId64Bit"
+	MethodITunerFilterGetQueueDesc               = "getQueueDesc"
+	MethodITunerFilterConfigure                  = "configure"
+	MethodITunerFilterConfigureMonitorEvent      = "configureMonitorEvent"
+	MethodITunerFilterConfigureIpFilterContextId = "configureIpFilterContextId"
+	MethodITunerFilterConfigureAvStreamType      = "configureAvStreamType"
+	MethodITunerFilterGetAvSharedHandle          = "getAvSharedHandle"
+	MethodITunerFilterReleaseAvHandle            = "releaseAvHandle"
+	MethodITunerFilterSetDataSource              = "setDataSource"
+	MethodITunerFilterStart                      = "start"
+	MethodITunerFilterStop                       = "stop"
+	MethodITunerFilterFlush                      = "flush"
+	MethodITunerFilterClose                      = "close"
+	MethodITunerFilterAcquireSharedFilterToken   = "acquireSharedFilterToken"
+	MethodITunerFilterFreeSharedFilterToken      = "freeSharedFilterToken"
+	MethodITunerFilterGetFilterType              = "getFilterType"
+	MethodITunerFilterSetDelayHint               = "setDelayHint"
+)
+
 type ITunerFilter interface {
 	AsBinder() binder.IBinder
 	GetId(ctx context.Context) (int32, error)
@@ -58,17 +79,17 @@ type ITunerFilter interface {
 }
 
 type TunerFilterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerFilterProxy(
 	remote binder.IBinder,
 ) *TunerFilterProxy {
-	return &TunerFilterProxy{remote: remote}
+	return &TunerFilterProxy{Remote: remote}
 }
 
 func (p *TunerFilterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerFilter = (*TunerFilterProxy)(nil)
@@ -80,12 +101,12 @@ func (p *TunerFilterProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetId)
 	if _err != nil {
-		_code = TransactionITunerFilterGetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterGetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -109,12 +130,12 @@ func (p *TunerFilterProxy) GetId64Bit(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getId64Bit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetId64Bit)
 	if _err != nil {
-		_code = TransactionITunerFilterGetId64Bit
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterGetId64Bit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,12 +159,12 @@ func (p *TunerFilterProxy) GetQueueDesc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getQueueDesc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetQueueDesc)
 	if _err != nil {
-		_code = TransactionITunerFilterGetQueueDesc
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterGetQueueDesc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -176,12 +197,12 @@ func (p *TunerFilterProxy) Configure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterConfigure)
 	if _err != nil {
-		_code = TransactionITunerFilterConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,12 +223,12 @@ func (p *TunerFilterProxy) ConfigureMonitorEvent(
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(monitorEventTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configureMonitorEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterConfigureMonitorEvent)
 	if _err != nil {
-		_code = TransactionITunerFilterConfigureMonitorEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterConfigureMonitorEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -228,12 +249,12 @@ func (p *TunerFilterProxy) ConfigureIpFilterContextId(
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteInt32(cid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configureIpFilterContextId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterConfigureIpFilterContextId)
 	if _err != nil {
-		_code = TransactionITunerFilterConfigureIpFilterContextId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterConfigureIpFilterContextId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -257,12 +278,12 @@ func (p *TunerFilterProxy) ConfigureAvStreamType(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configureAvStreamType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterConfigureAvStreamType)
 	if _err != nil {
-		_code = TransactionITunerFilterConfigureAvStreamType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterConfigureAvStreamType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -283,12 +304,12 @@ func (p *TunerFilterProxy) GetAvSharedHandle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getAvSharedHandle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetAvSharedHandle)
 	if _err != nil {
-		_code = TransactionITunerFilterGetAvSharedHandle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterGetAvSharedHandle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -321,12 +342,12 @@ func (p *TunerFilterProxy) ReleaseAvHandle(
 	}
 	_data.WriteInt64(avDataId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "releaseAvHandle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterReleaseAvHandle)
 	if _err != nil {
-		_code = TransactionITunerFilterReleaseAvHandle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterReleaseAvHandle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -345,14 +366,14 @@ func (p *TunerFilterProxy) SetDataSource(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "setDataSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterSetDataSource)
 	if _err != nil {
-		_code = TransactionITunerFilterSetDataSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterSetDataSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -371,12 +392,12 @@ func (p *TunerFilterProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterStart)
 	if _err != nil {
-		_code = TransactionITunerFilterStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -395,12 +416,12 @@ func (p *TunerFilterProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterStop)
 	if _err != nil {
-		_code = TransactionITunerFilterStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -419,12 +440,12 @@ func (p *TunerFilterProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterFlush)
 	if _err != nil {
-		_code = TransactionITunerFilterFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -443,12 +464,12 @@ func (p *TunerFilterProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterClose)
 	if _err != nil {
-		_code = TransactionITunerFilterClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -468,12 +489,12 @@ func (p *TunerFilterProxy) AcquireSharedFilterToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "acquireSharedFilterToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterAcquireSharedFilterToken)
 	if _err != nil {
-		_code = TransactionITunerFilterAcquireSharedFilterToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterAcquireSharedFilterToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -498,12 +519,12 @@ func (p *TunerFilterProxy) FreeSharedFilterToken(
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 	_data.WriteString16(filterToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "freeSharedFilterToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterFreeSharedFilterToken)
 	if _err != nil {
-		_code = TransactionITunerFilterFreeSharedFilterToken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterFreeSharedFilterToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -523,12 +544,12 @@ func (p *TunerFilterProxy) GetFilterType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getFilterType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterGetFilterType)
 	if _err != nil {
-		_code = TransactionITunerFilterGetFilterType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterGetFilterType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -561,12 +582,12 @@ func (p *TunerFilterProxy) SetDelayHint(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "setDelayHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilter, MethodITunerFilterSetDelayHint)
 	if _err != nil {
-		_code = TransactionITunerFilterSetDelayHint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilter, MethodITunerFilterSetDelayHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -586,6 +607,10 @@ type TunerFilterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerFilterStub)(nil)
+
+func (s *TunerFilterStub) Descriptor() string {
+	return DescriptorITunerFilter
+}
 
 func (s *TunerFilterStub) OnTransaction(
 	ctx context.Context,

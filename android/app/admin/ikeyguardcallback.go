@@ -17,6 +17,11 @@ const (
 	TransactionIKeyguardCallbackOnDismiss            = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIKeyguardCallbackOnRemoteContentReady = "onRemoteContentReady"
+	MethodIKeyguardCallbackOnDismiss            = "onDismiss"
+)
+
 type IKeyguardCallback interface {
 	AsBinder() binder.IBinder
 	OnRemoteContentReady(ctx context.Context, surfacePackage view.SurfaceControlViewHostSurfacePackage) error
@@ -24,17 +29,17 @@ type IKeyguardCallback interface {
 }
 
 type KeyguardCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyguardCallbackProxy(
 	remote binder.IBinder,
 ) *KeyguardCallbackProxy {
-	return &KeyguardCallbackProxy{remote: remote}
+	return &KeyguardCallbackProxy{Remote: remote}
 }
 
 func (p *KeyguardCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyguardCallback = (*KeyguardCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *KeyguardCallbackProxy) OnRemoteContentReady(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardCallback, "onRemoteContentReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardCallback, MethodIKeyguardCallbackOnRemoteContentReady)
 	if _err != nil {
-		_code = TransactionIKeyguardCallbackOnRemoteContentReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardCallback, MethodIKeyguardCallbackOnRemoteContentReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *KeyguardCallbackProxy) OnDismiss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardCallback, "onDismiss")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardCallback, MethodIKeyguardCallbackOnDismiss)
 	if _err != nil {
-		_code = TransactionIKeyguardCallbackOnDismiss
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardCallback, MethodIKeyguardCallbackOnDismiss, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type KeyguardCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyguardCallbackStub)(nil)
+
+func (s *KeyguardCallbackStub) Descriptor() string {
+	return DescriptorIKeyguardCallback
+}
 
 func (s *KeyguardCallbackStub) OnTransaction(
 	ctx context.Context,

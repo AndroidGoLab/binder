@@ -15,23 +15,27 @@ const (
 	TransactionIBluetoothCsipSetCoordinatorCallbackOnCsisSetMemberAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothCsipSetCoordinatorCallbackOnCsisSetMemberAvailable = "onCsisSetMemberAvailable"
+)
+
 type IBluetoothCsipSetCoordinatorCallback interface {
 	AsBinder() binder.IBinder
 	OnCsisSetMemberAvailable(ctx context.Context, device BluetoothDevice, groupId int32) error
 }
 
 type BluetoothCsipSetCoordinatorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothCsipSetCoordinatorCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothCsipSetCoordinatorCallbackProxy {
-	return &BluetoothCsipSetCoordinatorCallbackProxy{remote: remote}
+	return &BluetoothCsipSetCoordinatorCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothCsipSetCoordinatorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothCsipSetCoordinatorCallback = (*BluetoothCsipSetCoordinatorCallbackProxy)(nil)
@@ -49,12 +53,12 @@ func (p *BluetoothCsipSetCoordinatorCallbackProxy) OnCsisSetMemberAvailable(
 	}
 	_data.WriteInt32(groupId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinatorCallback, "onCsisSetMemberAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinatorCallback, MethodIBluetoothCsipSetCoordinatorCallbackOnCsisSetMemberAvailable)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorCallbackOnCsisSetMemberAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinatorCallback, MethodIBluetoothCsipSetCoordinatorCallbackOnCsisSetMemberAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type BluetoothCsipSetCoordinatorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothCsipSetCoordinatorCallbackStub)(nil)
+
+func (s *BluetoothCsipSetCoordinatorCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothCsipSetCoordinatorCallback
+}
 
 func (s *BluetoothCsipSetCoordinatorCallbackStub) OnTransaction(
 	ctx context.Context,

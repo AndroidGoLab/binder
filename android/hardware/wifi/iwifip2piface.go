@@ -15,23 +15,27 @@ const (
 	TransactionIWifiP2pIfaceGetName = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWifiP2pIfaceGetName = "getName"
+)
+
 type IWifiP2pIface interface {
 	AsBinder() binder.IBinder
 	GetName(ctx context.Context) (string, error)
 }
 
 type WifiP2pIfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWifiP2pIfaceProxy(
 	remote binder.IBinder,
 ) *WifiP2pIfaceProxy {
-	return &WifiP2pIfaceProxy{remote: remote}
+	return &WifiP2pIfaceProxy{Remote: remote}
 }
 
 func (p *WifiP2pIfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWifiP2pIface = (*WifiP2pIfaceProxy)(nil)
@@ -43,12 +47,12 @@ func (p *WifiP2pIfaceProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiP2pIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiP2pIface, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiP2pIface, MethodIWifiP2pIfaceGetName)
 	if _err != nil {
-		_code = TransactionIWifiP2pIfaceGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiP2pIface, MethodIWifiP2pIfaceGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type WifiP2pIfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WifiP2pIfaceStub)(nil)
+
+func (s *WifiP2pIfaceStub) Descriptor() string {
+	return DescriptorIWifiP2pIface
+}
 
 func (s *WifiP2pIfaceStub) OnTransaction(
 	ctx context.Context,

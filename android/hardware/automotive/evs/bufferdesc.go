@@ -29,19 +29,13 @@ func (s *BufferDesc) MarshalParcel(
 	p.WriteInt32(s.BufferId)
 	p.WriteString16(s.DeviceId)
 	p.WriteInt64(s.Timestamp)
-	if s.Metadata == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Metadata)))
-		for _, _item := range s.Metadata {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Metadata)
 	if s.ExposureSettings == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.ExposureSettings)))
 		for _, _item := range s.ExposureSettings {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -52,6 +46,7 @@ func (s *BufferDesc) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Histograms)))
 		for _, _item := range s.Histograms {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -62,6 +57,7 @@ func (s *BufferDesc) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Grids)))
 		for _, _item := range s.Grids {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -103,19 +99,9 @@ func (s *BufferDesc) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Metadata, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Metadata = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Metadata[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -126,6 +112,9 @@ func (s *BufferDesc) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.ExposureSettings = make([]ExposureParameters, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExposureSettings[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -140,6 +129,9 @@ func (s *BufferDesc) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Histograms = make([]Histogram, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Histograms[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -154,6 +146,9 @@ func (s *BufferDesc) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.Grids = make([]GridStatistics, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Grids[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

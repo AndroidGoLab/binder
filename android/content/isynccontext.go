@@ -16,6 +16,11 @@ const (
 	TransactionISyncContextOnFinished    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISyncContextSendHeartbeat = "sendHeartbeat"
+	MethodISyncContextOnFinished    = "onFinished"
+)
+
 type ISyncContext interface {
 	AsBinder() binder.IBinder
 	SendHeartbeat(ctx context.Context) error
@@ -23,17 +28,17 @@ type ISyncContext interface {
 }
 
 type SyncContextProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSyncContextProxy(
 	remote binder.IBinder,
 ) *SyncContextProxy {
-	return &SyncContextProxy{remote: remote}
+	return &SyncContextProxy{Remote: remote}
 }
 
 func (p *SyncContextProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISyncContext = (*SyncContextProxy)(nil)
@@ -44,12 +49,12 @@ func (p *SyncContextProxy) SendHeartbeat(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncContext)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncContext, "sendHeartbeat")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncContext, MethodISyncContextSendHeartbeat)
 	if _err != nil {
-		_code = TransactionISyncContextSendHeartbeat
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncContext, MethodISyncContextSendHeartbeat, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,12 +78,12 @@ func (p *SyncContextProxy) OnFinished(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncContext, "onFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncContext, MethodISyncContextOnFinished)
 	if _err != nil {
-		_code = TransactionISyncContextOnFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncContext, MethodISyncContextOnFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,6 +103,10 @@ type SyncContextStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SyncContextStub)(nil)
+
+func (s *SyncContextStub) Descriptor() string {
+	return DescriptorISyncContext
+}
 
 func (s *SyncContextStub) OnTransaction(
 	ctx context.Context,

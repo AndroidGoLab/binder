@@ -20,10 +20,22 @@ const (
 	TransactionIJobCallbackDequeueWork                                   = binder.FirstCallTransaction + 4
 	TransactionIJobCallbackCompleteWork                                  = binder.FirstCallTransaction + 5
 	TransactionIJobCallbackJobFinished                                   = binder.FirstCallTransaction + 6
-	TransactionIJobCallbackHandleAbandonedJob                            = binder.FirstCallTransaction + 7
-	TransactionIJobCallbackUpdateEstimatedNetworkBytes                   = binder.FirstCallTransaction + 8
-	TransactionIJobCallbackUpdateTransferredNetworkBytes                 = binder.FirstCallTransaction + 9
-	TransactionIJobCallbackSetNotification                               = binder.FirstCallTransaction + 10
+	TransactionIJobCallbackUpdateEstimatedNetworkBytes                   = binder.FirstCallTransaction + 7
+	TransactionIJobCallbackUpdateTransferredNetworkBytes                 = binder.FirstCallTransaction + 8
+	TransactionIJobCallbackSetNotification                               = binder.FirstCallTransaction + 9
+)
+
+const (
+	MethodIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage = "acknowledgeGetTransferredDownloadBytesMessage"
+	MethodIJobCallbackAcknowledgeGetTransferredUploadBytesMessage   = "acknowledgeGetTransferredUploadBytesMessage"
+	MethodIJobCallbackAcknowledgeStartMessage                       = "acknowledgeStartMessage"
+	MethodIJobCallbackAcknowledgeStopMessage                        = "acknowledgeStopMessage"
+	MethodIJobCallbackDequeueWork                                   = "dequeueWork"
+	MethodIJobCallbackCompleteWork                                  = "completeWork"
+	MethodIJobCallbackJobFinished                                   = "jobFinished"
+	MethodIJobCallbackUpdateEstimatedNetworkBytes                   = "updateEstimatedNetworkBytes"
+	MethodIJobCallbackUpdateTransferredNetworkBytes                 = "updateTransferredNetworkBytes"
+	MethodIJobCallbackSetNotification                               = "setNotification"
 )
 
 type IJobCallback interface {
@@ -35,24 +47,23 @@ type IJobCallback interface {
 	DequeueWork(ctx context.Context, jobId int32) (JobWorkItem, error)
 	CompleteWork(ctx context.Context, jobId int32, workId int32) (bool, error)
 	JobFinished(ctx context.Context, jobId int32, reschedule bool) error
-	HandleAbandonedJob(ctx context.Context, jobId int32) error
 	UpdateEstimatedNetworkBytes(ctx context.Context, jobId int32, item JobWorkItem, downloadBytes int64, uploadBytes int64) error
 	UpdateTransferredNetworkBytes(ctx context.Context, jobId int32, item JobWorkItem, transferredDownloadBytes int64, transferredUploadBytes int64) error
 	SetNotification(ctx context.Context, jobId int32, notificationId int32, notification app.Notification, jobEndNotificationPolicy int32) error
 }
 
 type JobCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewJobCallbackProxy(
 	remote binder.IBinder,
 ) *JobCallbackProxy {
-	return &JobCallbackProxy{remote: remote}
+	return &JobCallbackProxy{Remote: remote}
 }
 
 func (p *JobCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IJobCallback = (*JobCallbackProxy)(nil)
@@ -69,12 +80,12 @@ func (p *JobCallbackProxy) AcknowledgeGetTransferredDownloadBytesMessage(
 	_data.WriteInt32(workId)
 	_data.WriteInt64(transferredBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeGetTransferredDownloadBytesMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage)
 	if _err != nil {
-		_code = TransactionIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,12 +110,12 @@ func (p *JobCallbackProxy) AcknowledgeGetTransferredUploadBytesMessage(
 	_data.WriteInt32(workId)
 	_data.WriteInt64(transferredBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeGetTransferredUploadBytesMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredUploadBytesMessage)
 	if _err != nil {
-		_code = TransactionIJobCallbackAcknowledgeGetTransferredUploadBytesMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackAcknowledgeGetTransferredUploadBytesMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,12 +138,12 @@ func (p *JobCallbackProxy) AcknowledgeStartMessage(
 	_data.WriteInt32(jobId)
 	_data.WriteBool(ongoing)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeStartMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStartMessage)
 	if _err != nil {
-		_code = TransactionIJobCallbackAcknowledgeStartMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStartMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,12 +166,12 @@ func (p *JobCallbackProxy) AcknowledgeStopMessage(
 	_data.WriteInt32(jobId)
 	_data.WriteBool(reschedule)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeStopMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStopMessage)
 	if _err != nil {
-		_code = TransactionIJobCallbackAcknowledgeStopMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackAcknowledgeStopMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -182,12 +193,12 @@ func (p *JobCallbackProxy) DequeueWork(
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
 	_data.WriteInt32(jobId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "dequeueWork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackDequeueWork)
 	if _err != nil {
-		_code = TransactionIJobCallbackDequeueWork
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackDequeueWork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,12 +231,12 @@ func (p *JobCallbackProxy) CompleteWork(
 	_data.WriteInt32(jobId)
 	_data.WriteInt32(workId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "completeWork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackCompleteWork)
 	if _err != nil {
-		_code = TransactionIJobCallbackCompleteWork
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackCompleteWork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -252,38 +263,12 @@ func (p *JobCallbackProxy) JobFinished(
 	_data.WriteInt32(jobId)
 	_data.WriteBool(reschedule)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "jobFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackJobFinished)
 	if _err != nil {
-		_code = TransactionIJobCallbackJobFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackJobFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *JobCallbackProxy) HandleAbandonedJob(
-	ctx context.Context,
-	jobId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIJobCallback)
-	_data.WriteInt32(jobId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "handleAbandonedJob")
-	if _err != nil {
-		_code = TransactionIJobCallbackHandleAbandonedJob
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,12 +298,12 @@ func (p *JobCallbackProxy) UpdateEstimatedNetworkBytes(
 	_data.WriteInt64(downloadBytes)
 	_data.WriteInt64(uploadBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "updateEstimatedNetworkBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackUpdateEstimatedNetworkBytes)
 	if _err != nil {
-		_code = TransactionIJobCallbackUpdateEstimatedNetworkBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackUpdateEstimatedNetworkBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -348,12 +333,12 @@ func (p *JobCallbackProxy) UpdateTransferredNetworkBytes(
 	_data.WriteInt64(transferredDownloadBytes)
 	_data.WriteInt64(transferredUploadBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "updateTransferredNetworkBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackUpdateTransferredNetworkBytes)
 	if _err != nil {
-		_code = TransactionIJobCallbackUpdateTransferredNetworkBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackUpdateTransferredNetworkBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -383,12 +368,12 @@ func (p *JobCallbackProxy) SetNotification(
 	}
 	_data.WriteInt32(jobEndNotificationPolicy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "setNotification")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJobCallback, MethodIJobCallbackSetNotification)
 	if _err != nil {
-		_code = TransactionIJobCallbackSetNotification
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJobCallback, MethodIJobCallbackSetNotification, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -408,6 +393,10 @@ type JobCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*JobCallbackStub)(nil)
+
+func (s *JobCallbackStub) Descriptor() string {
+	return DescriptorIJobCallback
+}
 
 func (s *JobCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -564,22 +553,6 @@ func (s *JobCallbackStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIJobCallbackHandleAbandonedJob:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_jobId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.HandleAbandonedJob(ctx, _arg_jobId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	case TransactionIJobCallbackUpdateEstimatedNetworkBytes:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -704,7 +677,6 @@ type IJobCallbackServer interface {
 	DequeueWork(ctx context.Context, jobId int32) (JobWorkItem, error)
 	CompleteWork(ctx context.Context, jobId int32, workId int32) (bool, error)
 	JobFinished(ctx context.Context, jobId int32, reschedule bool) error
-	HandleAbandonedJob(ctx context.Context, jobId int32) error
 	UpdateEstimatedNetworkBytes(ctx context.Context, jobId int32, item JobWorkItem, downloadBytes int64, uploadBytes int64) error
 	UpdateTransferredNetworkBytes(ctx context.Context, jobId int32, item JobWorkItem, transferredDownloadBytes int64, transferredUploadBytes int64) error
 	SetNotification(ctx context.Context, jobId int32, notificationId int32, notification app.Notification, jobEndNotificationPolicy int32) error
@@ -774,13 +746,6 @@ func (w *jobCallbackStubWrapper) JobFinished(
 	reschedule bool,
 ) error {
 	return w.impl.JobFinished(ctx, jobId, reschedule)
-}
-
-func (w *jobCallbackStubWrapper) HandleAbandonedJob(
-	ctx context.Context,
-	jobId int32,
-) error {
-	return w.impl.HandleAbandonedJob(ctx, jobId)
 }
 
 func (w *jobCallbackStubWrapper) UpdateEstimatedNetworkBytes(

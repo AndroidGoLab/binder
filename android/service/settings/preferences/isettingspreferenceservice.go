@@ -17,6 +17,12 @@ const (
 	TransactionISettingsPreferenceServiceSetPreferenceValue       = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISettingsPreferenceServiceGetAllPreferenceMetadata = "getAllPreferenceMetadata"
+	MethodISettingsPreferenceServiceGetPreferenceValue       = "getPreferenceValue"
+	MethodISettingsPreferenceServiceSetPreferenceValue       = "setPreferenceValue"
+)
+
 type ISettingsPreferenceService interface {
 	AsBinder() binder.IBinder
 	GetAllPreferenceMetadata(ctx context.Context, request MetadataRequest, callback IMetadataCallback) error
@@ -25,17 +31,17 @@ type ISettingsPreferenceService interface {
 }
 
 type SettingsPreferenceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSettingsPreferenceServiceProxy(
 	remote binder.IBinder,
 ) *SettingsPreferenceServiceProxy {
-	return &SettingsPreferenceServiceProxy{remote: remote}
+	return &SettingsPreferenceServiceProxy{Remote: remote}
 }
 
 func (p *SettingsPreferenceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISettingsPreferenceService = (*SettingsPreferenceServiceProxy)(nil)
@@ -51,14 +57,14 @@ func (p *SettingsPreferenceServiceProxy) GetAllPreferenceMetadata(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISettingsPreferenceService, "getAllPreferenceMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISettingsPreferenceService, MethodISettingsPreferenceServiceGetAllPreferenceMetadata)
 	if _err != nil {
-		_code = TransactionISettingsPreferenceServiceGetAllPreferenceMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISettingsPreferenceService, MethodISettingsPreferenceServiceGetAllPreferenceMetadata, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,14 +79,14 @@ func (p *SettingsPreferenceServiceProxy) GetPreferenceValue(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISettingsPreferenceService, "getPreferenceValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISettingsPreferenceService, MethodISettingsPreferenceServiceGetPreferenceValue)
 	if _err != nil {
-		_code = TransactionISettingsPreferenceServiceGetPreferenceValue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISettingsPreferenceService, MethodISettingsPreferenceServiceGetPreferenceValue, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,14 +101,14 @@ func (p *SettingsPreferenceServiceProxy) SetPreferenceValue(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISettingsPreferenceService, "setPreferenceValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISettingsPreferenceService, MethodISettingsPreferenceServiceSetPreferenceValue)
 	if _err != nil {
-		_code = TransactionISettingsPreferenceServiceSetPreferenceValue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISettingsPreferenceService, MethodISettingsPreferenceServiceSetPreferenceValue, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +119,10 @@ type SettingsPreferenceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SettingsPreferenceServiceStub)(nil)
+
+func (s *SettingsPreferenceServiceStub) Descriptor() string {
+	return DescriptorISettingsPreferenceService
+}
 
 func (s *SettingsPreferenceServiceStub) OnTransaction(
 	ctx context.Context,

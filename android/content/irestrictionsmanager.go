@@ -20,6 +20,15 @@ const (
 	TransactionIRestrictionsManagerCreateLocalApprovalIntent                 = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIRestrictionsManagerGetApplicationRestrictions                = "getApplicationRestrictions"
+	MethodIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser = "getApplicationRestrictionsPerAdminForUser"
+	MethodIRestrictionsManagerHasRestrictionsProvider                   = "hasRestrictionsProvider"
+	MethodIRestrictionsManagerRequestPermission                         = "requestPermission"
+	MethodIRestrictionsManagerNotifyPermissionResponse                  = "notifyPermissionResponse"
+	MethodIRestrictionsManagerCreateLocalApprovalIntent                 = "createLocalApprovalIntent"
+)
+
 type IRestrictionsManager interface {
 	AsBinder() binder.IBinder
 	GetApplicationRestrictions(ctx context.Context, packageName string) (interface{}, error)
@@ -31,17 +40,17 @@ type IRestrictionsManager interface {
 }
 
 type RestrictionsManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRestrictionsManagerProxy(
 	remote binder.IBinder,
 ) *RestrictionsManagerProxy {
-	return &RestrictionsManagerProxy{remote: remote}
+	return &RestrictionsManagerProxy{Remote: remote}
 }
 
 func (p *RestrictionsManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRestrictionsManager = (*RestrictionsManagerProxy)(nil)
@@ -55,12 +64,12 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictions(
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "getApplicationRestrictions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictions)
 	if _err != nil {
-		_code = TransactionIRestrictionsManagerGetApplicationRestrictions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,18 +87,18 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictionsPerAdminForUser(
 	packageName string,
 ) ([]interface{}, error) {
 	var _result []interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "getApplicationRestrictionsPerAdminForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser)
 	if _err != nil {
-		_code = TransactionIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestrictionsManager, MethodIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,12 +128,12 @@ func (p *RestrictionsManagerProxy) HasRestrictionsProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "hasRestrictionsProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerHasRestrictionsProvider)
 	if _err != nil {
-		_code = TransactionIRestrictionsManagerHasRestrictionsProvider
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestrictionsManager, MethodIRestrictionsManagerHasRestrictionsProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -154,12 +163,12 @@ func (p *RestrictionsManagerProxy) RequestPermission(
 	_data.WriteString16(requestType)
 	_data.WriteString16(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "requestPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerRequestPermission)
 	if _err != nil {
-		_code = TransactionIRestrictionsManagerRequestPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestrictionsManager, MethodIRestrictionsManagerRequestPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -181,12 +190,12 @@ func (p *RestrictionsManagerProxy) NotifyPermissionResponse(
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "notifyPermissionResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerNotifyPermissionResponse)
 	if _err != nil {
-		_code = TransactionIRestrictionsManagerNotifyPermissionResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestrictionsManager, MethodIRestrictionsManagerNotifyPermissionResponse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -206,12 +215,12 @@ func (p *RestrictionsManagerProxy) CreateLocalApprovalIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestrictionsManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "createLocalApprovalIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestrictionsManager, MethodIRestrictionsManagerCreateLocalApprovalIntent)
 	if _err != nil {
-		_code = TransactionIRestrictionsManagerCreateLocalApprovalIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestrictionsManager, MethodIRestrictionsManagerCreateLocalApprovalIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -240,6 +249,10 @@ type RestrictionsManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RestrictionsManagerStub)(nil)
+
+func (s *RestrictionsManagerStub) Descriptor() string {
+	return DescriptorIRestrictionsManager
+}
 
 func (s *RestrictionsManagerStub) OnTransaction(
 	ctx context.Context,

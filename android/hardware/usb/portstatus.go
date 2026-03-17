@@ -87,6 +87,7 @@ func (s *PortStatus) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SupportedAltModes)))
 		for _, _item := range s.SupportedAltModes {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -259,6 +260,9 @@ func (s *PortStatus) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.SupportedAltModes = make([]AltModeData, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SupportedAltModes[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -17,6 +17,12 @@ const (
 	TransactionIMediaExtractorServiceGetSupportedTypes = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMediaExtractorServiceMakeExtractor     = "makeExtractor"
+	MethodIMediaExtractorServiceMakeIDataSource   = "makeIDataSource"
+	MethodIMediaExtractorServiceGetSupportedTypes = "getSupportedTypes"
+)
+
 type IMediaExtractorService interface {
 	AsBinder() binder.IBinder
 	MakeExtractor(ctx context.Context, source IDataSource, mime string) (IMediaExtractor, error)
@@ -25,17 +31,17 @@ type IMediaExtractorService interface {
 }
 
 type MediaExtractorServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaExtractorServiceProxy(
 	remote binder.IBinder,
 ) *MediaExtractorServiceProxy {
-	return &MediaExtractorServiceProxy{remote: remote}
+	return &MediaExtractorServiceProxy{Remote: remote}
 }
 
 func (p *MediaExtractorServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaExtractorService = (*MediaExtractorServiceProxy)(nil)
@@ -48,15 +54,15 @@ func (p *MediaExtractorServiceProxy) MakeExtractor(
 	var _result IMediaExtractor
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
-	binder.WriteBinderToParcel(ctx, _data, source.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, source.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(mime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaExtractorService, "makeExtractor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeExtractor)
 	if _err != nil {
-		_code = TransactionIMediaExtractorServiceMakeExtractor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeExtractor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,7 +76,7 @@ func (p *MediaExtractorServiceProxy) MakeExtractor(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMediaExtractorProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewMediaExtractorProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -86,12 +92,12 @@ func (p *MediaExtractorServiceProxy) MakeIDataSource(
 	_data.WriteInt64(offset)
 	_data.WriteInt64(length)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaExtractorService, "makeIDataSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeIDataSource)
 	if _err != nil {
-		_code = TransactionIMediaExtractorServiceMakeIDataSource
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaExtractorService, MethodIMediaExtractorServiceMakeIDataSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,7 +111,7 @@ func (p *MediaExtractorServiceProxy) MakeIDataSource(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDataSourceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDataSourceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -116,12 +122,12 @@ func (p *MediaExtractorServiceProxy) GetSupportedTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaExtractorService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaExtractorService, "getSupportedTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaExtractorService, MethodIMediaExtractorServiceGetSupportedTypes)
 	if _err != nil {
-		_code = TransactionIMediaExtractorServiceGetSupportedTypes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaExtractorService, MethodIMediaExtractorServiceGetSupportedTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,6 +161,10 @@ type MediaExtractorServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaExtractorServiceStub)(nil)
+
+func (s *MediaExtractorServiceStub) Descriptor() string {
+	return DescriptorIMediaExtractorService
+}
 
 func (s *MediaExtractorServiceStub) OnTransaction(
 	ctx context.Context,

@@ -17,6 +17,11 @@ const (
 	TransactionISipTransportDestroySipDelegate = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISipTransportCreateSipDelegate  = "createSipDelegate"
+	MethodISipTransportDestroySipDelegate = "destroySipDelegate"
+)
+
 type ISipTransport interface {
 	AsBinder() binder.IBinder
 	CreateSipDelegate(ctx context.Context, subId int32, request ims.DelegateRequest, dc ISipDelegateStateCallback, mc ISipDelegateMessageCallback) error
@@ -24,17 +29,17 @@ type ISipTransport interface {
 }
 
 type SipTransportProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSipTransportProxy(
 	remote binder.IBinder,
 ) *SipTransportProxy {
-	return &SipTransportProxy{remote: remote}
+	return &SipTransportProxy{Remote: remote}
 }
 
 func (p *SipTransportProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISipTransport = (*SipTransportProxy)(nil)
@@ -53,15 +58,15 @@ func (p *SipTransportProxy) CreateSipDelegate(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, dc.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, mc.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, dc.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, mc.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipTransport, "createSipDelegate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipTransport, MethodISipTransportCreateSipDelegate)
 	if _err != nil {
-		_code = TransactionISipTransportCreateSipDelegate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipTransport, MethodISipTransportCreateSipDelegate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,15 +77,15 @@ func (p *SipTransportProxy) DestroySipDelegate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipTransport)
-	binder.WriteBinderToParcel(ctx, _data, delegate.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, delegate.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipTransport, "destroySipDelegate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipTransport, MethodISipTransportDestroySipDelegate)
 	if _err != nil {
-		_code = TransactionISipTransportDestroySipDelegate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipTransport, MethodISipTransportDestroySipDelegate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +96,10 @@ type SipTransportStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SipTransportStub)(nil)
+
+func (s *SipTransportStub) Descriptor() string {
+	return DescriptorISipTransport
+}
 
 func (s *SipTransportStub) OnTransaction(
 	ctx context.Context,

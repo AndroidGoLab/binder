@@ -15,23 +15,27 @@ const (
 	TransactionIAccessibilityInputMethodSessionCallbackSessionCreated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAccessibilityInputMethodSessionCallbackSessionCreated = "sessionCreated"
+)
+
 type IAccessibilityInputMethodSessionCallback interface {
 	AsBinder() binder.IBinder
 	SessionCreated(ctx context.Context, session IAccessibilityInputMethodSession, id int32) error
 }
 
 type AccessibilityInputMethodSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessibilityInputMethodSessionCallbackProxy(
 	remote binder.IBinder,
 ) *AccessibilityInputMethodSessionCallbackProxy {
-	return &AccessibilityInputMethodSessionCallbackProxy{remote: remote}
+	return &AccessibilityInputMethodSessionCallbackProxy{Remote: remote}
 }
 
 func (p *AccessibilityInputMethodSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessibilityInputMethodSessionCallback = (*AccessibilityInputMethodSessionCallbackProxy)(nil)
@@ -43,15 +47,15 @@ func (p *AccessibilityInputMethodSessionCallbackProxy) SessionCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSessionCallback)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSessionCallback, "sessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSessionCallback, MethodIAccessibilityInputMethodSessionCallbackSessionCreated)
 	if _err != nil {
-		_code = TransactionIAccessibilityInputMethodSessionCallbackSessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInputMethodSessionCallback, MethodIAccessibilityInputMethodSessionCallbackSessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type AccessibilityInputMethodSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityInputMethodSessionCallbackStub)(nil)
+
+func (s *AccessibilityInputMethodSessionCallbackStub) Descriptor() string {
+	return DescriptorIAccessibilityInputMethodSessionCallback
+}
 
 func (s *AccessibilityInputMethodSessionCallbackStub) OnTransaction(
 	ctx context.Context,

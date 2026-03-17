@@ -31,12 +31,16 @@ func NewProxyBinder(
 }
 
 // Transact sends a transaction to the remote Binder object.
+// FlagAcceptFDs is always set, matching Android's IPCThreadState::transact()
+// behavior, so that replies containing file descriptors are not rejected by
+// the kernel.
 func (b *ProxyBinder) Transact(
 	ctx context.Context,
 	code TransactionCode,
 	flags TransactionFlags,
 	data *parcel.Parcel,
 ) (_reply *parcel.Parcel, _err error) {
+	flags |= FlagAcceptFDs
 	logger.Tracef(ctx, "Transact(handle=%d, code=%d, flags=%d)", b.handle, code, flags)
 	defer func() { logger.Tracef(ctx, "/Transact: %v", _err) }()
 
@@ -45,10 +49,11 @@ func (b *ProxyBinder) Transact(
 
 // ResolveCode delegates to the underlying Transport.
 func (b *ProxyBinder) ResolveCode(
+	ctx context.Context,
 	descriptor string,
 	method string,
 ) (TransactionCode, error) {
-	return b.transport.ResolveCode(descriptor, method)
+	return b.transport.ResolveCode(ctx, descriptor, method)
 }
 
 // LinkToDeath registers a DeathRecipient for this Binder object.

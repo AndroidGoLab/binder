@@ -16,6 +16,11 @@ const (
 	TransactionIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIWalletContextualLocationsServiceAddWalletCardsUpdatedListener           = "addWalletCardsUpdatedListener"
+	MethodIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated = "onWalletContextualLocationsStateUpdated"
+)
+
 type IWalletContextualLocationsService interface {
 	AsBinder() binder.IBinder
 	AddWalletCardsUpdatedListener(ctx context.Context, listener IWalletCardsUpdatedListener) error
@@ -23,17 +28,17 @@ type IWalletContextualLocationsService interface {
 }
 
 type WalletContextualLocationsServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWalletContextualLocationsServiceProxy(
 	remote binder.IBinder,
 ) *WalletContextualLocationsServiceProxy {
-	return &WalletContextualLocationsServiceProxy{remote: remote}
+	return &WalletContextualLocationsServiceProxy{Remote: remote}
 }
 
 func (p *WalletContextualLocationsServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWalletContextualLocationsService = (*WalletContextualLocationsServiceProxy)(nil)
@@ -44,14 +49,14 @@ func (p *WalletContextualLocationsServiceProxy) AddWalletCardsUpdatedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWalletContextualLocationsService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWalletContextualLocationsService, "addWalletCardsUpdatedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceAddWalletCardsUpdatedListener)
 	if _err != nil {
-		_code = TransactionIWalletContextualLocationsServiceAddWalletCardsUpdatedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceAddWalletCardsUpdatedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,12 +84,12 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWalletContextualLocationsService, "onWalletContextualLocationsStateUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated)
 	if _err != nil {
-		_code = TransactionIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWalletContextualLocationsService, MethodIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,6 +109,10 @@ type WalletContextualLocationsServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WalletContextualLocationsServiceStub)(nil)
+
+func (s *WalletContextualLocationsServiceStub) Descriptor() string {
+	return DescriptorIWalletContextualLocationsService
+}
 
 func (s *WalletContextualLocationsServiceStub) OnTransaction(
 	ctx context.Context,

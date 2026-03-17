@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,26 +15,34 @@ const DescriptorIPinnedTaskListener = "android.view.IPinnedTaskListener"
 const (
 	TransactionIPinnedTaskListenerOnMovementBoundsChanged = binder.FirstCallTransaction + 0
 	TransactionIPinnedTaskListenerOnImeVisibilityChanged  = binder.FirstCallTransaction + 1
+	TransactionIPinnedTaskListenerOnActivityHidden        = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIPinnedTaskListenerOnMovementBoundsChanged = "onMovementBoundsChanged"
+	MethodIPinnedTaskListenerOnImeVisibilityChanged  = "onImeVisibilityChanged"
+	MethodIPinnedTaskListenerOnActivityHidden        = "onActivityHidden"
 )
 
 type IPinnedTaskListener interface {
 	AsBinder() binder.IBinder
 	OnMovementBoundsChanged(ctx context.Context, fromImeAdjustment bool) error
 	OnImeVisibilityChanged(ctx context.Context, imeVisible bool, imeHeight int32) error
+	OnActivityHidden(ctx context.Context, componentName content.ComponentName) error
 }
 
 type PinnedTaskListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPinnedTaskListenerProxy(
 	remote binder.IBinder,
 ) *PinnedTaskListenerProxy {
-	return &PinnedTaskListenerProxy{remote: remote}
+	return &PinnedTaskListenerProxy{Remote: remote}
 }
 
 func (p *PinnedTaskListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPinnedTaskListener = (*PinnedTaskListenerProxy)(nil)
@@ -46,12 +55,12 @@ func (p *PinnedTaskListenerProxy) OnMovementBoundsChanged(
 	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
 	_data.WriteBool(fromImeAdjustment)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinnedTaskListener, "onMovementBoundsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnMovementBoundsChanged)
 	if _err != nil {
-		_code = TransactionIPinnedTaskListenerOnMovementBoundsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnMovementBoundsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +74,32 @@ func (p *PinnedTaskListenerProxy) OnImeVisibilityChanged(
 	_data.WriteBool(imeVisible)
 	_data.WriteInt32(imeHeight)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinnedTaskListener, "onImeVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnImeVisibilityChanged)
 	if _err != nil {
-		_code = TransactionIPinnedTaskListenerOnImeVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnImeVisibilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *PinnedTaskListenerProxy) OnActivityHidden(
+	ctx context.Context,
+	componentName content.ComponentName,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIPinnedTaskListener)
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnActivityHidden)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPinnedTaskListener, MethodIPinnedTaskListenerOnActivityHidden, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +110,10 @@ type PinnedTaskListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PinnedTaskListenerStub)(nil)
+
+func (s *PinnedTaskListenerStub) Descriptor() string {
+	return DescriptorIPinnedTaskListener
+}
 
 func (s *PinnedTaskListenerStub) OnTransaction(
 	ctx context.Context,
@@ -114,6 +147,25 @@ func (s *PinnedTaskListenerStub) OnTransaction(
 		_err = s.Impl.OnImeVisibilityChanged(ctx, _arg_imeVisible, _arg_imeHeight)
 		_ = _err
 		return nil, nil
+	case TransactionIPinnedTaskListenerOnActivityHidden:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnActivityHidden(ctx, _arg_componentName)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -125,6 +177,7 @@ func (s *PinnedTaskListenerStub) OnTransaction(
 type IPinnedTaskListenerServer interface {
 	OnMovementBoundsChanged(ctx context.Context, fromImeAdjustment bool) error
 	OnImeVisibilityChanged(ctx context.Context, imeVisible bool, imeHeight int32) error
+	OnActivityHidden(ctx context.Context, componentName content.ComponentName) error
 }
 
 type pinnedTaskListenerStubWrapper struct {
@@ -149,6 +202,13 @@ func (w *pinnedTaskListenerStubWrapper) OnImeVisibilityChanged(
 	imeHeight int32,
 ) error {
 	return w.impl.OnImeVisibilityChanged(ctx, imeVisible, imeHeight)
+}
+
+func (w *pinnedTaskListenerStubWrapper) OnActivityHidden(
+	ctx context.Context,
+	componentName content.ComponentName,
+) error {
+	return w.impl.OnActivityHidden(ctx, componentName)
 }
 
 var _ IPinnedTaskListener = (*pinnedTaskListenerStubWrapper)(nil)

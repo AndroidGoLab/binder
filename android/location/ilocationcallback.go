@@ -15,23 +15,27 @@ const (
 	TransactionILocationCallbackOnLocation = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILocationCallbackOnLocation = "onLocation"
+)
+
 type ILocationCallback interface {
 	AsBinder() binder.IBinder
 	OnLocation(ctx context.Context, location *Location) error
 }
 
 type LocationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLocationCallbackProxy(
 	remote binder.IBinder,
 ) *LocationCallbackProxy {
-	return &LocationCallbackProxy{remote: remote}
+	return &LocationCallbackProxy{Remote: remote}
 }
 
 func (p *LocationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILocationCallback = (*LocationCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *LocationCallbackProxy) OnLocation(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationCallback, "onLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationCallback, MethodILocationCallbackOnLocation)
 	if _err != nil {
-		_code = TransactionILocationCallbackOnLocation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationCallback, MethodILocationCallbackOnLocation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type LocationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LocationCallbackStub)(nil)
+
+func (s *LocationCallbackStub) Descriptor() string {
+	return DescriptorILocationCallback
+}
 
 func (s *LocationCallbackStub) OnTransaction(
 	ctx context.Context,

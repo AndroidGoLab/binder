@@ -18,7 +18,15 @@ const (
 	TransactionIAudioRecordSetPreferredMicrophoneDirection      = binder.FirstCallTransaction + 3
 	TransactionIAudioRecordSetPreferredMicrophoneFieldDimension = binder.FirstCallTransaction + 4
 	TransactionIAudioRecordShareAudioHistory                    = binder.FirstCallTransaction + 5
-	TransactionIAudioRecordSetParameters                        = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodIAudioRecordStart                                = "start"
+	MethodIAudioRecordStop                                 = "stop"
+	MethodIAudioRecordGetActiveMicrophones                 = "getActiveMicrophones"
+	MethodIAudioRecordSetPreferredMicrophoneDirection      = "setPreferredMicrophoneDirection"
+	MethodIAudioRecordSetPreferredMicrophoneFieldDimension = "setPreferredMicrophoneFieldDimension"
+	MethodIAudioRecordShareAudioHistory                    = "shareAudioHistory"
 )
 
 type IAudioRecord interface {
@@ -29,21 +37,20 @@ type IAudioRecord interface {
 	SetPreferredMicrophoneDirection(ctx context.Context, direction int32) error
 	SetPreferredMicrophoneFieldDimension(ctx context.Context, zoom float32) error
 	ShareAudioHistory(ctx context.Context, sharedAudioPackageName string, sharedAudioStartMs int64) error
-	SetParameters(ctx context.Context, keyValuePairs string) error
 }
 
 type AudioRecordProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioRecordProxy(
 	remote binder.IBinder,
 ) *AudioRecordProxy {
-	return &AudioRecordProxy{remote: remote}
+	return &AudioRecordProxy{Remote: remote}
 }
 
 func (p *AudioRecordProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioRecord = (*AudioRecordProxy)(nil)
@@ -58,12 +65,12 @@ func (p *AudioRecordProxy) Start(
 	_data.WriteInt32(event)
 	_data.WriteInt32(triggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordStart)
 	if _err != nil {
-		_code = TransactionIAudioRecordStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRecord, MethodIAudioRecordStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +89,12 @@ func (p *AudioRecordProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordStop)
 	if _err != nil {
-		_code = TransactionIAudioRecordStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRecord, MethodIAudioRecordStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,12 +114,12 @@ func (p *AudioRecordProxy) GetActiveMicrophones(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "getActiveMicrophones")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordGetActiveMicrophones)
 	if _err != nil {
-		_code = TransactionIAudioRecordGetActiveMicrophones
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRecord, MethodIAudioRecordGetActiveMicrophones, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -128,6 +135,9 @@ func (p *AudioRecordProxy) GetActiveMicrophones(
 	if _outCount0 >= 0 {
 		activeMicrophones = make([]MicrophoneInfoFw, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = activeMicrophones[_i].UnmarshalParcel(_reply); _err != nil {
 				return _err
 			}
@@ -145,12 +155,12 @@ func (p *AudioRecordProxy) SetPreferredMicrophoneDirection(
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
 	_data.WriteInt32(direction)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "setPreferredMicrophoneDirection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneDirection)
 	if _err != nil {
-		_code = TransactionIAudioRecordSetPreferredMicrophoneDirection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneDirection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,12 +181,12 @@ func (p *AudioRecordProxy) SetPreferredMicrophoneFieldDimension(
 	_data.WriteInterfaceToken(DescriptorIAudioRecord)
 	_data.WriteFloat32(zoom)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "setPreferredMicrophoneFieldDimension")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneFieldDimension)
 	if _err != nil {
-		_code = TransactionIAudioRecordSetPreferredMicrophoneFieldDimension
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRecord, MethodIAudioRecordSetPreferredMicrophoneFieldDimension, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -199,38 +209,12 @@ func (p *AudioRecordProxy) ShareAudioHistory(
 	_data.WriteString16(sharedAudioPackageName)
 	_data.WriteInt64(sharedAudioStartMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "shareAudioHistory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRecord, MethodIAudioRecordShareAudioHistory)
 	if _err != nil {
-		_code = TransactionIAudioRecordShareAudioHistory
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRecord, MethodIAudioRecordShareAudioHistory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *AudioRecordProxy) SetParameters(
-	ctx context.Context,
-	keyValuePairs string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioRecord)
-	_data.WriteString16(keyValuePairs)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "setParameters")
-	if _err != nil {
-		_code = TransactionIAudioRecordSetParameters
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -250,6 +234,10 @@ type AudioRecordStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioRecordStub)(nil)
+
+func (s *AudioRecordStub) Descriptor() string {
+	return DescriptorIAudioRecord
+}
 
 func (s *AudioRecordStub) OnTransaction(
 	ctx context.Context,
@@ -354,22 +342,6 @@ func (s *AudioRecordStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIAudioRecordSetParameters:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_keyValuePairs, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetParameters(ctx, _arg_keyValuePairs)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -385,7 +357,6 @@ type IAudioRecordServer interface {
 	SetPreferredMicrophoneDirection(ctx context.Context, direction int32) error
 	SetPreferredMicrophoneFieldDimension(ctx context.Context, zoom float32) error
 	ShareAudioHistory(ctx context.Context, sharedAudioPackageName string, sharedAudioStartMs int64) error
-	SetParameters(ctx context.Context, keyValuePairs string) error
 }
 
 type audioRecordStubWrapper struct {
@@ -438,13 +409,6 @@ func (w *audioRecordStubWrapper) ShareAudioHistory(
 	sharedAudioStartMs int64,
 ) error {
 	return w.impl.ShareAudioHistory(ctx, sharedAudioPackageName, sharedAudioStartMs)
-}
-
-func (w *audioRecordStubWrapper) SetParameters(
-	ctx context.Context,
-	keyValuePairs string,
-) error {
-	return w.impl.SetParameters(ctx, keyValuePairs)
 }
 
 var _ IAudioRecord = (*audioRecordStubWrapper)(nil)

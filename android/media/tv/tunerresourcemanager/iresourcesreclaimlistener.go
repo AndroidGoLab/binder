@@ -15,23 +15,27 @@ const (
 	TransactionIResourcesReclaimListenerOnReclaimResources = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIResourcesReclaimListenerOnReclaimResources = "onReclaimResources"
+)
+
 type IResourcesReclaimListener interface {
 	AsBinder() binder.IBinder
 	OnReclaimResources(ctx context.Context) error
 }
 
 type ResourcesReclaimListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResourcesReclaimListenerProxy(
 	remote binder.IBinder,
 ) *ResourcesReclaimListenerProxy {
-	return &ResourcesReclaimListenerProxy{remote: remote}
+	return &ResourcesReclaimListenerProxy{Remote: remote}
 }
 
 func (p *ResourcesReclaimListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResourcesReclaimListener = (*ResourcesReclaimListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *ResourcesReclaimListenerProxy) OnReclaimResources(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourcesReclaimListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourcesReclaimListener, "onReclaimResources")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourcesReclaimListener, MethodIResourcesReclaimListenerOnReclaimResources)
 	if _err != nil {
-		_code = TransactionIResourcesReclaimListenerOnReclaimResources
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourcesReclaimListener, MethodIResourcesReclaimListenerOnReclaimResources, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type ResourcesReclaimListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResourcesReclaimListenerStub)(nil)
+
+func (s *ResourcesReclaimListenerStub) Descriptor() string {
+	return DescriptorIResourcesReclaimListener
+}
 
 func (s *ResourcesReclaimListenerStub) OnTransaction(
 	ctx context.Context,

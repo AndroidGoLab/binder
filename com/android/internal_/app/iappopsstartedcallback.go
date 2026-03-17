@@ -15,23 +15,27 @@ const (
 	TransactionIAppOpsStartedCallbackOpStarted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppOpsStartedCallbackOpStarted = "opStarted"
+)
+
 type IAppOpsStartedCallback interface {
 	AsBinder() binder.IBinder
 	OpStarted(ctx context.Context, op int32, uid int32, packageName string, virtualDeviceId int32, flags int32, mode int32, startedType int32, attributionFlags int32, attributionChainId int32) error
 }
 
 type AppOpsStartedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppOpsStartedCallbackProxy(
 	remote binder.IBinder,
 ) *AppOpsStartedCallbackProxy {
-	return &AppOpsStartedCallbackProxy{remote: remote}
+	return &AppOpsStartedCallbackProxy{Remote: remote}
 }
 
 func (p *AppOpsStartedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppOpsStartedCallback = (*AppOpsStartedCallbackProxy)(nil)
@@ -48,7 +52,7 @@ func (p *AppOpsStartedCallbackProxy) OpStarted(
 	attributionFlags int32,
 	attributionChainId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsStartedCallback)
 	_data.WriteInt32(op)
@@ -62,12 +66,12 @@ func (p *AppOpsStartedCallbackProxy) OpStarted(
 	_data.WriteInt32(attributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsStartedCallback, "opStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsStartedCallback, MethodIAppOpsStartedCallbackOpStarted)
 	if _err != nil {
-		_code = TransactionIAppOpsStartedCallbackOpStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsStartedCallback, MethodIAppOpsStartedCallbackOpStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +82,10 @@ type AppOpsStartedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppOpsStartedCallbackStub)(nil)
+
+func (s *AppOpsStartedCallbackStub) Descriptor() string {
+	return DescriptorIAppOpsStartedCallback
+}
 
 func (s *AppOpsStartedCallbackStub) OnTransaction(
 	ctx context.Context,

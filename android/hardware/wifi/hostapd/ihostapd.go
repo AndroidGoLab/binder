@@ -12,13 +12,21 @@ import (
 const DescriptorIHostapd = "android.hardware.wifi.hostapd.IHostapd"
 
 const (
-	TransactionIHostapdAddAccessPoint                           = binder.FirstCallTransaction + 0
-	TransactionIHostapdForceClientDisconnect                    = binder.FirstCallTransaction + 1
-	TransactionIHostapdRegisterCallback                         = binder.FirstCallTransaction + 2
-	TransactionIHostapdRemoveAccessPoint                        = binder.FirstCallTransaction + 3
-	TransactionIHostapdSetDebugParams                           = binder.FirstCallTransaction + 4
-	TransactionIHostapdTerminate                                = binder.FirstCallTransaction + 5
-	TransactionIHostapdRemoveLinkFromMultipleLinkBridgedApIface = binder.FirstCallTransaction + 6
+	TransactionIHostapdAddAccessPoint        = binder.FirstCallTransaction + 0
+	TransactionIHostapdForceClientDisconnect = binder.FirstCallTransaction + 1
+	TransactionIHostapdRegisterCallback      = binder.FirstCallTransaction + 2
+	TransactionIHostapdRemoveAccessPoint     = binder.FirstCallTransaction + 3
+	TransactionIHostapdSetDebugParams        = binder.FirstCallTransaction + 4
+	TransactionIHostapdTerminate             = binder.FirstCallTransaction + 5
+)
+
+const (
+	MethodIHostapdAddAccessPoint        = "addAccessPoint"
+	MethodIHostapdForceClientDisconnect = "forceClientDisconnect"
+	MethodIHostapdRegisterCallback      = "registerCallback"
+	MethodIHostapdRemoveAccessPoint     = "removeAccessPoint"
+	MethodIHostapdSetDebugParams        = "setDebugParams"
+	MethodIHostapdTerminate             = "terminate"
 )
 
 type IHostapd interface {
@@ -29,21 +37,20 @@ type IHostapd interface {
 	RemoveAccessPoint(ctx context.Context, ifaceName string) error
 	SetDebugParams(ctx context.Context, level DebugLevel) error
 	Terminate(ctx context.Context) error
-	RemoveLinkFromMultipleLinkBridgedApIface(ctx context.Context, ifaceName string, linkIdentity string) error
 }
 
 type HostapdProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHostapdProxy(
 	remote binder.IBinder,
 ) *HostapdProxy {
-	return &HostapdProxy{remote: remote}
+	return &HostapdProxy{Remote: remote}
 }
 
 func (p *HostapdProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHostapd = (*HostapdProxy)(nil)
@@ -64,12 +71,12 @@ func (p *HostapdProxy) AddAccessPoint(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "addAccessPoint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdAddAccessPoint)
 	if _err != nil {
-		_code = TransactionIHostapdAddAccessPoint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapd, MethodIHostapdAddAccessPoint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,12 +108,12 @@ func (p *HostapdProxy) ForceClientDisconnect(
 	}
 	_data.WriteInt32(int32(reasonCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "forceClientDisconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdForceClientDisconnect)
 	if _err != nil {
-		_code = TransactionIHostapdForceClientDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapd, MethodIHostapdForceClientDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -125,14 +132,14 @@ func (p *HostapdProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdRegisterCallback)
 	if _err != nil {
-		_code = TransactionIHostapdRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapd, MethodIHostapdRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,12 +160,12 @@ func (p *HostapdProxy) RemoveAccessPoint(
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteString16(ifaceName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "removeAccessPoint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdRemoveAccessPoint)
 	if _err != nil {
-		_code = TransactionIHostapdRemoveAccessPoint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapd, MethodIHostapdRemoveAccessPoint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,12 +186,12 @@ func (p *HostapdProxy) SetDebugParams(
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteInt32(int32(level))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "setDebugParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdSetDebugParams)
 	if _err != nil {
-		_code = TransactionIHostapdSetDebugParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapd, MethodIHostapdSetDebugParams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -203,41 +210,13 @@ func (p *HostapdProxy) Terminate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "terminate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapd, MethodIHostapdTerminate)
 	if _err != nil {
-		_code = TransactionIHostapdTerminate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapd, MethodIHostapdTerminate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
-}
-
-func (p *HostapdProxy) RemoveLinkFromMultipleLinkBridgedApIface(
-	ctx context.Context,
-	ifaceName string,
-	linkIdentity string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHostapd)
-	_data.WriteString16(ifaceName)
-	_data.WriteString16(linkIdentity)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "removeLinkFromMultipleLinkBridgedApIface")
-	if _err != nil {
-		_code = TransactionIHostapdRemoveLinkFromMultipleLinkBridgedApIface
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
 }
 
 // HostapdStub dispatches incoming binder transactions
@@ -247,6 +226,10 @@ type HostapdStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HostapdStub)(nil)
+
+func (s *HostapdStub) Descriptor() string {
+	return DescriptorIHostapd
+}
 
 func (s *HostapdStub) OnTransaction(
 	ctx context.Context,
@@ -369,26 +352,6 @@ func (s *HostapdStub) OnTransaction(
 		_err := s.Impl.Terminate(ctx)
 		_ = _err
 		return nil, nil
-	case TransactionIHostapdRemoveLinkFromMultipleLinkBridgedApIface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_ifaceName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_linkIdentity, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.RemoveLinkFromMultipleLinkBridgedApIface(ctx, _arg_ifaceName, _arg_linkIdentity)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -404,7 +367,6 @@ type IHostapdServer interface {
 	RemoveAccessPoint(ctx context.Context, ifaceName string) error
 	SetDebugParams(ctx context.Context, level DebugLevel) error
 	Terminate(ctx context.Context) error
-	RemoveLinkFromMultipleLinkBridgedApIface(ctx context.Context, ifaceName string, linkIdentity string) error
 }
 
 type hostapdStubWrapper struct {
@@ -458,14 +420,6 @@ func (w *hostapdStubWrapper) Terminate(
 	ctx context.Context,
 ) error {
 	return w.impl.Terminate(ctx)
-}
-
-func (w *hostapdStubWrapper) RemoveLinkFromMultipleLinkBridgedApIface(
-	ctx context.Context,
-	ifaceName string,
-	linkIdentity string,
-) error {
-	return w.impl.RemoveLinkFromMultipleLinkBridgedApIface(ctx, ifaceName, linkIdentity)
 }
 
 var _ IHostapd = (*hostapdStubWrapper)(nil)

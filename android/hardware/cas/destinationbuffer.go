@@ -59,10 +59,12 @@ func (u *DestinationBuffer) MarshalParcel(
 
 	switch u.Tag {
 	case DestinationBufferTagNonsecureMemory:
+		p.WriteInt32(1)
 		if _err := u.NonsecureMemory.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DestinationBufferTagSecureMemory:
+		p.WriteInt32(1)
 		if _err := u.SecureMemory.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -89,10 +91,16 @@ func (u *DestinationBuffer) UnmarshalParcel(
 
 	switch u.Tag {
 	case DestinationBufferTagNonsecureMemory:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.NonsecureMemory.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DestinationBufferTagSecureMemory:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SecureMemory.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

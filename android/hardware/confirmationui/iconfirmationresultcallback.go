@@ -15,23 +15,27 @@ const (
 	TransactionIConfirmationResultCallbackResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIConfirmationResultCallbackResult = "result"
+)
+
 type IConfirmationResultCallback interface {
 	AsBinder() binder.IBinder
 	Result(ctx context.Context, error_ int32, formattedMessage []byte, confirmationToken []byte) error
 }
 
 type ConfirmationResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConfirmationResultCallbackProxy(
 	remote binder.IBinder,
 ) *ConfirmationResultCallbackProxy {
-	return &ConfirmationResultCallbackProxy{remote: remote}
+	return &ConfirmationResultCallbackProxy{Remote: remote}
 }
 
 func (p *ConfirmationResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConfirmationResultCallback = (*ConfirmationResultCallbackProxy)(nil)
@@ -62,12 +66,12 @@ func (p *ConfirmationResultCallbackProxy) Result(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationResultCallback, "result")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationResultCallback, MethodIConfirmationResultCallbackResult)
 	if _err != nil {
-		_code = TransactionIConfirmationResultCallbackResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConfirmationResultCallback, MethodIConfirmationResultCallbackResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -87,6 +91,10 @@ type ConfirmationResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConfirmationResultCallbackStub)(nil)
+
+func (s *ConfirmationResultCallbackStub) Descriptor() string {
+	return DescriptorIConfirmationResultCallback
+}
 
 func (s *ConfirmationResultCallbackStub) OnTransaction(
 	ctx context.Context,

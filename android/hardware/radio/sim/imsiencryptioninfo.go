@@ -28,14 +28,7 @@ func (s *ImsiEncryptionInfo) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Mcc)
 	p.WriteString16(s.Mnc)
-	if s.CarrierKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CarrierKey)))
-		for _, _item := range s.CarrierKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.CarrierKey)
 	p.WriteString16(s.KeyIdentifier)
 	p.WriteInt64(s.ExpirationTime)
 	p.WritePaddedByte(s.KeyType)
@@ -62,19 +55,9 @@ func (s *ImsiEncryptionInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.CarrierKey, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.CarrierKey = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.CarrierKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.KeyIdentifier, _err = p.ReadString16()

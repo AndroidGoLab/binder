@@ -12,7 +12,6 @@ const (
 	LeAudioCodecConfigurationTagLc3Config            int32 = 0
 	LeAudioCodecConfigurationTagVendorConfig         int32 = 1
 	LeAudioCodecConfigurationTagAptxAdaptiveLeConfig int32 = 2
-	LeAudioCodecConfigurationTagOpusConfig           int32 = 3
 )
 
 type LeAudioCodecConfiguration struct {
@@ -20,7 +19,6 @@ type LeAudioCodecConfiguration struct {
 	Lc3Config            Lc3Configuration
 	VendorConfig         audioCodecConfiguration.VendorConfiguration
 	AptxAdaptiveLeConfig AptxAdaptiveLeConfiguration
-	OpusConfig           OpusConfiguration
 }
 
 var _ parcel.Parcelable = (*LeAudioCodecConfiguration)(nil)
@@ -70,21 +68,6 @@ func (u *LeAudioCodecConfiguration) SetAptxAdaptiveLeConfig(
 	u.AptxAdaptiveLeConfig = v
 }
 
-func (u *LeAudioCodecConfiguration) GetOpusConfig() (OpusConfiguration, bool) {
-	if u.Tag != LeAudioCodecConfigurationTagOpusConfig {
-		var _zero OpusConfiguration
-		return _zero, false
-	}
-	return u.OpusConfig, true
-}
-
-func (u *LeAudioCodecConfiguration) SetOpusConfig(
-	v OpusConfiguration,
-) {
-	u.Tag = LeAudioCodecConfigurationTagOpusConfig
-	u.OpusConfig = v
-}
-
 func (u *LeAudioCodecConfiguration) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -93,19 +76,18 @@ func (u *LeAudioCodecConfiguration) MarshalParcel(
 
 	switch u.Tag {
 	case LeAudioCodecConfigurationTagLc3Config:
+		p.WriteInt32(1)
 		if _err := u.Lc3Config.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecConfigurationTagVendorConfig:
+		p.WriteInt32(1)
 		if _err := u.VendorConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecConfigurationTagAptxAdaptiveLeConfig:
+		p.WriteInt32(1)
 		if _err := u.AptxAdaptiveLeConfig.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	case LeAudioCodecConfigurationTagOpusConfig:
-		if _err := u.OpusConfig.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:
@@ -131,19 +113,24 @@ func (u *LeAudioCodecConfiguration) UnmarshalParcel(
 
 	switch u.Tag {
 	case LeAudioCodecConfigurationTagLc3Config:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Lc3Config.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecConfigurationTagVendorConfig:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VendorConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecConfigurationTagAptxAdaptiveLeConfig:
-		if _err = u.AptxAdaptiveLeConfig.UnmarshalParcel(p); _err != nil {
+		if _, _err = p.ReadInt32(); _err != nil {
 			return _err
 		}
-	case LeAudioCodecConfigurationTagOpusConfig:
-		if _err = u.OpusConfig.UnmarshalParcel(p); _err != nil {
+		if _err = u.AptxAdaptiveLeConfig.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:

@@ -15,23 +15,27 @@ const (
 	TransactionISomeServiceReadDisk = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISomeServiceReadDisk = "readDisk"
+)
+
 type ISomeService interface {
 	AsBinder() binder.IBinder
 	ReadDisk(ctx context.Context, times int32) error
 }
 
 type SomeServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSomeServiceProxy(
 	remote binder.IBinder,
 ) *SomeServiceProxy {
-	return &SomeServiceProxy{remote: remote}
+	return &SomeServiceProxy{Remote: remote}
 }
 
 func (p *SomeServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISomeService = (*SomeServiceProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SomeServiceProxy) ReadDisk(
 	_data.WriteInterfaceToken(DescriptorISomeService)
 	_data.WriteInt32(times)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISomeService, "readDisk")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISomeService, MethodISomeServiceReadDisk)
 	if _err != nil {
-		_code = TransactionISomeServiceReadDisk
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISomeService, MethodISomeServiceReadDisk, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type SomeServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SomeServiceStub)(nil)
+
+func (s *SomeServiceStub) Descriptor() string {
+	return DescriptorISomeService
+}
 
 func (s *SomeServiceStub) OnTransaction(
 	ctx context.Context,

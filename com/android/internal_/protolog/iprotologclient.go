@@ -15,23 +15,27 @@ const (
 	TransactionIProtoLogClientToggleLogcat = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProtoLogClientToggleLogcat = "toggleLogcat"
+)
+
 type IProtoLogClient interface {
 	AsBinder() binder.IBinder
 	ToggleLogcat(ctx context.Context, enabled bool, groups []string) error
 }
 
 type ProtoLogClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProtoLogClientProxy(
 	remote binder.IBinder,
 ) *ProtoLogClientProxy {
-	return &ProtoLogClientProxy{remote: remote}
+	return &ProtoLogClientProxy{Remote: remote}
 }
 
 func (p *ProtoLogClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProtoLogClient = (*ProtoLogClientProxy)(nil)
@@ -53,12 +57,12 @@ func (p *ProtoLogClientProxy) ToggleLogcat(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtoLogClient, "toggleLogcat")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtoLogClient, MethodIProtoLogClientToggleLogcat)
 	if _err != nil {
-		_code = TransactionIProtoLogClientToggleLogcat
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtoLogClient, MethodIProtoLogClientToggleLogcat, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +82,10 @@ type ProtoLogClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProtoLogClientStub)(nil)
+
+func (s *ProtoLogClientStub) Descriptor() string {
+	return DescriptorIProtoLogClient
+}
 
 func (s *ProtoLogClientStub) OnTransaction(
 	ctx context.Context,

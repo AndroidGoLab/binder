@@ -17,6 +17,12 @@ const (
 	TransactionIVirtualCameraCallbackOnStreamClosed          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIVirtualCameraCallbackOnStreamConfigured      = "onStreamConfigured"
+	MethodIVirtualCameraCallbackOnProcessCaptureRequest = "onProcessCaptureRequest"
+	MethodIVirtualCameraCallbackOnStreamClosed          = "onStreamClosed"
+)
+
 type IVirtualCameraCallback interface {
 	AsBinder() binder.IBinder
 	OnStreamConfigured(ctx context.Context, streamId int32, surface interface{}, width int32, height int32, pixelFormat Format) error
@@ -25,17 +31,17 @@ type IVirtualCameraCallback interface {
 }
 
 type VirtualCameraCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualCameraCallbackProxy(
 	remote binder.IBinder,
 ) *VirtualCameraCallbackProxy {
-	return &VirtualCameraCallbackProxy{remote: remote}
+	return &VirtualCameraCallbackProxy{Remote: remote}
 }
 
 func (p *VirtualCameraCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualCameraCallback = (*VirtualCameraCallbackProxy)(nil)
@@ -55,12 +61,12 @@ func (p *VirtualCameraCallbackProxy) OnStreamConfigured(
 	_data.WriteInt32(height)
 	_data.WriteInt32(int32(pixelFormat))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraCallback, "onStreamConfigured")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamConfigured)
 	if _err != nil {
-		_code = TransactionIVirtualCameraCallbackOnStreamConfigured
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamConfigured, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +80,12 @@ func (p *VirtualCameraCallbackProxy) OnProcessCaptureRequest(
 	_data.WriteInt32(streamId)
 	_data.WriteInt32(frameId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraCallback, "onProcessCaptureRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnProcessCaptureRequest)
 	if _err != nil {
-		_code = TransactionIVirtualCameraCallbackOnProcessCaptureRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnProcessCaptureRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,12 +97,12 @@ func (p *VirtualCameraCallbackProxy) OnStreamClosed(
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraCallback)
 	_data.WriteInt32(streamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraCallback, "onStreamClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamClosed)
 	if _err != nil {
-		_code = TransactionIVirtualCameraCallbackOnStreamClosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualCameraCallback, MethodIVirtualCameraCallbackOnStreamClosed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +113,10 @@ type VirtualCameraCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualCameraCallbackStub)(nil)
+
+func (s *VirtualCameraCallbackStub) Descriptor() string {
+	return DescriptorIVirtualCameraCallback
+}
 
 func (s *VirtualCameraCallbackStub) OnTransaction(
 	ctx context.Context,

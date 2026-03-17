@@ -15,23 +15,27 @@ const (
 	TransactionIPrintJobStateChangeListenerOnPrintJobStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPrintJobStateChangeListenerOnPrintJobStateChanged = "onPrintJobStateChanged"
+)
+
 type IPrintJobStateChangeListener interface {
 	AsBinder() binder.IBinder
 	OnPrintJobStateChanged(ctx context.Context, printJobId PrintJobId) error
 }
 
 type PrintJobStateChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrintJobStateChangeListenerProxy(
 	remote binder.IBinder,
 ) *PrintJobStateChangeListenerProxy {
-	return &PrintJobStateChangeListenerProxy{remote: remote}
+	return &PrintJobStateChangeListenerProxy{Remote: remote}
 }
 
 func (p *PrintJobStateChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrintJobStateChangeListener = (*PrintJobStateChangeListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *PrintJobStateChangeListenerProxy) OnPrintJobStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintJobStateChangeListener, "onPrintJobStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintJobStateChangeListener, MethodIPrintJobStateChangeListenerOnPrintJobStateChanged)
 	if _err != nil {
-		_code = TransactionIPrintJobStateChangeListenerOnPrintJobStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintJobStateChangeListener, MethodIPrintJobStateChangeListenerOnPrintJobStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type PrintJobStateChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrintJobStateChangeListenerStub)(nil)
+
+func (s *PrintJobStateChangeListenerStub) Descriptor() string {
+	return DescriptorIPrintJobStateChangeListener
+}
 
 func (s *PrintJobStateChangeListenerStub) OnTransaction(
 	ctx context.Context,

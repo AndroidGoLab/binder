@@ -2,7 +2,6 @@ package media
 
 import (
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,14 +12,14 @@ type CreateTrackResponse struct {
 	Flags                  int32
 	FrameCount             int64
 	NotificationFrameCount int64
-	SelectedDeviceIds      []int32
+	SelectedDeviceId       int32
 	SessionId              int32
 	SampleRate             int32
 	StreamType             tuner.AudioStreamType
 	AfFrameCount           int64
 	AfSampleRate           int32
-	AfChannelMask          common.AudioChannelLayout
-	AfFormat               common.AudioFormatDescription
+	AfChannelMask          interface{}
+	AfFormat               interface{}
 	AfLatencyMs            int32
 	AfTrackFlags           int32
 	OutputId               int32
@@ -37,25 +36,12 @@ func (s *CreateTrackResponse) MarshalParcel(
 	p.WriteInt32(s.Flags)
 	p.WriteInt64(s.FrameCount)
 	p.WriteInt64(s.NotificationFrameCount)
-	if s.SelectedDeviceIds == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SelectedDeviceIds)))
-		for _, _item := range s.SelectedDeviceIds {
-			p.WriteInt32(_item)
-		}
-	}
+	p.WriteInt32(s.SelectedDeviceId)
 	p.WriteInt32(s.SessionId)
 	p.WriteInt32(s.SampleRate)
 	p.WriteInt32(int32(s.StreamType))
 	p.WriteInt64(s.AfFrameCount)
 	p.WriteInt32(s.AfSampleRate)
-	if _err := s.AfChannelMask.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _err := s.AfFormat.MarshalParcel(p); _err != nil {
-		return _err
-	}
 	p.WriteInt32(s.AfLatencyMs)
 	p.WriteInt32(s.AfTrackFlags)
 	p.WriteInt32(s.OutputId)
@@ -93,19 +79,9 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.SelectedDeviceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.SelectedDeviceIds = make([]int32, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.SelectedDeviceIds[_i], _err = p.ReadInt32()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.SessionId, _err = p.ReadInt32()
@@ -131,14 +107,6 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 
 	s.AfSampleRate, _err = p.ReadInt32()
 	if _err != nil {
-		return _err
-	}
-
-	if _err = s.AfChannelMask.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	if _err = s.AfFormat.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

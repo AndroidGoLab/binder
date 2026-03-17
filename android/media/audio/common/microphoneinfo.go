@@ -1,7 +1,6 @@
 package common
 
 import (
-	broadcastradio "github.com/xaionaro-go/binder/android/hardware/broadcastradio"
 	vibrator "github.com/xaionaro-go/binder/android/hardware/tests/extension/vibrator"
 	location "github.com/xaionaro-go/binder/android/location"
 	commonMicrophoneInfo "github.com/xaionaro-go/binder/android/media/audio/common/MicrophoneInfo"
@@ -19,8 +18,8 @@ type MicrophoneInfo struct {
 	Sensitivity       commonMicrophoneInfo.Sensitivity
 	Directionality    vibrator.Directionality
 	FrequencyResponse []commonMicrophoneInfo.FrequencyResponsePoint
-	Position          broadcastradio.Coordinate
-	Orientation       broadcastradio.Coordinate
+	Position          commonMicrophoneInfo.Coordinate
+	Orientation       commonMicrophoneInfo.Coordinate
 }
 
 const (
@@ -52,6 +51,7 @@ func (s *MicrophoneInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.FrequencyResponse)))
 		for _, _item := range s.FrequencyResponse {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -117,6 +117,9 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.FrequencyResponse = make([]commonMicrophoneInfo.FrequencyResponsePoint, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.FrequencyResponse[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -20,6 +20,15 @@ const (
 	TransactionICryptoPluginSetSharedBufferBase            = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodICryptoPluginDecrypt                        = "decrypt"
+	MethodICryptoPluginGetLogMessages                 = "getLogMessages"
+	MethodICryptoPluginNotifyResolution               = "notifyResolution"
+	MethodICryptoPluginRequiresSecureDecoderComponent = "requiresSecureDecoderComponent"
+	MethodICryptoPluginSetMediaDrmSession             = "setMediaDrmSession"
+	MethodICryptoPluginSetSharedBufferBase            = "setSharedBufferBase"
+)
+
 type ICryptoPlugin interface {
 	AsBinder() binder.IBinder
 	Decrypt(ctx context.Context, args DecryptArgs) (int32, error)
@@ -31,17 +40,17 @@ type ICryptoPlugin interface {
 }
 
 type CryptoPluginProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCryptoPluginProxy(
 	remote binder.IBinder,
 ) *CryptoPluginProxy {
-	return &CryptoPluginProxy{remote: remote}
+	return &CryptoPluginProxy{Remote: remote}
 }
 
 func (p *CryptoPluginProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICryptoPlugin = (*CryptoPluginProxy)(nil)
@@ -58,12 +67,12 @@ func (p *CryptoPluginProxy) Decrypt(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "decrypt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginDecrypt)
 	if _err != nil {
-		_code = TransactionICryptoPluginDecrypt
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICryptoPlugin, MethodICryptoPluginDecrypt, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,12 +96,12 @@ func (p *CryptoPluginProxy) GetLogMessages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "getLogMessages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginGetLogMessages)
 	if _err != nil {
-		_code = TransactionICryptoPluginGetLogMessages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICryptoPlugin, MethodICryptoPluginGetLogMessages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,6 +119,9 @@ func (p *CryptoPluginProxy) GetLogMessages(
 	if _count >= 0 {
 		_result = make([]LogMessage, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -128,12 +140,12 @@ func (p *CryptoPluginProxy) NotifyResolution(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "notifyResolution")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginNotifyResolution)
 	if _err != nil {
-		_code = TransactionICryptoPluginNotifyResolution
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICryptoPlugin, MethodICryptoPluginNotifyResolution, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,12 +167,12 @@ func (p *CryptoPluginProxy) RequiresSecureDecoderComponent(
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 	_data.WriteString16(mime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "requiresSecureDecoderComponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginRequiresSecureDecoderComponent)
 	if _err != nil {
-		_code = TransactionICryptoPluginRequiresSecureDecoderComponent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICryptoPlugin, MethodICryptoPluginRequiresSecureDecoderComponent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -192,12 +204,12 @@ func (p *CryptoPluginProxy) SetMediaDrmSession(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "setMediaDrmSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetMediaDrmSession)
 	if _err != nil {
-		_code = TransactionICryptoPluginSetMediaDrmSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICryptoPlugin, MethodICryptoPluginSetMediaDrmSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,12 +233,12 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "setSharedBufferBase")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICryptoPlugin, MethodICryptoPluginSetSharedBufferBase)
 	if _err != nil {
-		_code = TransactionICryptoPluginSetSharedBufferBase
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICryptoPlugin, MethodICryptoPluginSetSharedBufferBase, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -246,6 +258,10 @@ type CryptoPluginStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CryptoPluginStub)(nil)
+
+func (s *CryptoPluginStub) Descriptor() string {
+	return DescriptorICryptoPlugin
+}
 
 func (s *CryptoPluginStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIKeyGestureEventListenerOnKeyGestureEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyGestureEventListenerOnKeyGestureEvent = "onKeyGestureEvent"
+)
+
 type IKeyGestureEventListener interface {
 	AsBinder() binder.IBinder
 	OnKeyGestureEvent(ctx context.Context, event AidlKeyGestureEvent) error
 }
 
 type KeyGestureEventListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyGestureEventListenerProxy(
 	remote binder.IBinder,
 ) *KeyGestureEventListenerProxy {
-	return &KeyGestureEventListenerProxy{remote: remote}
+	return &KeyGestureEventListenerProxy{Remote: remote}
 }
 
 func (p *KeyGestureEventListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyGestureEventListener = (*KeyGestureEventListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *KeyGestureEventListenerProxy) OnKeyGestureEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyGestureEventListener, "onKeyGestureEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyGestureEventListener, MethodIKeyGestureEventListenerOnKeyGestureEvent)
 	if _err != nil {
-		_code = TransactionIKeyGestureEventListenerOnKeyGestureEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyGestureEventListener, MethodIKeyGestureEventListenerOnKeyGestureEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type KeyGestureEventListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyGestureEventListenerStub)(nil)
+
+func (s *KeyGestureEventListenerStub) Descriptor() string {
+	return DescriptorIKeyGestureEventListener
+}
 
 func (s *KeyGestureEventListenerStub) OnTransaction(
 	ctx context.Context,

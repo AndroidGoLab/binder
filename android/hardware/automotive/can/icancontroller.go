@@ -18,6 +18,13 @@ const (
 	TransactionICanControllerDownBus                    = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICanControllerGetSupportedInterfaceTypes = "getSupportedInterfaceTypes"
+	MethodICanControllerGetInterfaceName           = "getInterfaceName"
+	MethodICanControllerUpBus                      = "upBus"
+	MethodICanControllerDownBus                    = "downBus"
+)
+
 type ICanController interface {
 	AsBinder() binder.IBinder
 	GetSupportedInterfaceTypes(ctx context.Context) ([]InterfaceType, error)
@@ -27,17 +34,17 @@ type ICanController interface {
 }
 
 type CanControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCanControllerProxy(
 	remote binder.IBinder,
 ) *CanControllerProxy {
-	return &CanControllerProxy{remote: remote}
+	return &CanControllerProxy{Remote: remote}
 }
 
 func (p *CanControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICanController = (*CanControllerProxy)(nil)
@@ -49,12 +56,12 @@ func (p *CanControllerProxy) GetSupportedInterfaceTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICanController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICanController, "getSupportedInterfaceTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICanController, MethodICanControllerGetSupportedInterfaceTypes)
 	if _err != nil {
-		_code = TransactionICanControllerGetSupportedInterfaceTypes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICanController, MethodICanControllerGetSupportedInterfaceTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,12 +98,12 @@ func (p *CanControllerProxy) GetInterfaceName(
 	_data.WriteInterfaceToken(DescriptorICanController)
 	_data.WriteString16(busName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICanController, "getInterfaceName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICanController, MethodICanControllerGetInterfaceName)
 	if _err != nil {
-		_code = TransactionICanControllerGetInterfaceName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICanController, MethodICanControllerGetInterfaceName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,12 +132,12 @@ func (p *CanControllerProxy) UpBus(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICanController, "upBus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICanController, MethodICanControllerUpBus)
 	if _err != nil {
-		_code = TransactionICanControllerUpBus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICanController, MethodICanControllerUpBus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,12 +162,12 @@ func (p *CanControllerProxy) DownBus(
 	_data.WriteInterfaceToken(DescriptorICanController)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICanController, "downBus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICanController, MethodICanControllerDownBus)
 	if _err != nil {
-		_code = TransactionICanControllerDownBus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICanController, MethodICanControllerDownBus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,6 +187,10 @@ type CanControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CanControllerStub)(nil)
+
+func (s *CanControllerStub) Descriptor() string {
+	return DescriptorICanController
+}
 
 func (s *CanControllerStub) OnTransaction(
 	ctx context.Context,

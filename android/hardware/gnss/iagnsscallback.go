@@ -16,23 +16,27 @@ const (
 	TransactionIAGnssCallbackAgnssStatusCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAGnssCallbackAgnssStatusCb = "agnssStatusCb"
+)
+
 type IAGnssCallback interface {
 	AsBinder() binder.IBinder
 	AgnssStatusCb(ctx context.Context, type_ gnssIAGnssCallback.AGnssType, status gnssIAGnssCallback.AGnssStatusValue) error
 }
 
 type AGnssCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAGnssCallbackProxy(
 	remote binder.IBinder,
 ) *AGnssCallbackProxy {
-	return &AGnssCallbackProxy{remote: remote}
+	return &AGnssCallbackProxy{Remote: remote}
 }
 
 func (p *AGnssCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAGnssCallback = (*AGnssCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *AGnssCallbackProxy) AgnssStatusCb(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssCallback, "agnssStatusCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssCallback, MethodIAGnssCallbackAgnssStatusCb)
 	if _err != nil {
-		_code = TransactionIAGnssCallbackAgnssStatusCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssCallback, MethodIAGnssCallbackAgnssStatusCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,6 +76,10 @@ type AGnssCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AGnssCallbackStub)(nil)
+
+func (s *AGnssCallbackStub) Descriptor() string {
+	return DescriptorIAGnssCallback
+}
 
 func (s *AGnssCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -22,6 +22,4 @@ const (
 	ApnTypesBIP        ApnTypes = (1 << 13)
 	ApnTypesENTERPRISE ApnTypes = (1 << 14)
 	ApnTypesRCS        ApnTypes = (1 << 15)
-	ApnTypesOemPaid    ApnTypes = (1 << 16)
-	ApnTypesOemPrivate ApnTypes = (1 << 17)
 )

@@ -16,23 +16,27 @@ const (
 	TransactionIProgramRatingInfoListenerOnProgramInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProgramRatingInfoListenerOnProgramInfoChanged = "onProgramInfoChanged"
+)
+
 type IProgramRatingInfoListener interface {
 	AsBinder() binder.IBinder
 	OnProgramInfoChanged(ctx context.Context, sessionToken string, changedProgramInfo os.Bundle) error
 }
 
 type ProgramRatingInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProgramRatingInfoListenerProxy(
 	remote binder.IBinder,
 ) *ProgramRatingInfoListenerProxy {
-	return &ProgramRatingInfoListenerProxy{remote: remote}
+	return &ProgramRatingInfoListenerProxy{Remote: remote}
 }
 
 func (p *ProgramRatingInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProgramRatingInfoListener = (*ProgramRatingInfoListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *ProgramRatingInfoListenerProxy) OnProgramInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfoListener, "onProgramInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgramRatingInfoListener, MethodIProgramRatingInfoListenerOnProgramInfoChanged)
 	if _err != nil {
-		_code = TransactionIProgramRatingInfoListenerOnProgramInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProgramRatingInfoListener, MethodIProgramRatingInfoListenerOnProgramInfoChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,6 +79,10 @@ type ProgramRatingInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProgramRatingInfoListenerStub)(nil)
+
+func (s *ProgramRatingInfoListenerStub) Descriptor() string {
+	return DescriptorIProgramRatingInfoListener
+}
 
 func (s *ProgramRatingInfoListenerStub) OnTransaction(
 	ctx context.Context,

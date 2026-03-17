@@ -19,6 +19,12 @@ const (
 	TransactionICallRedirectionAdapterRedirectCall        = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICallRedirectionAdapterCancelCall          = "cancelCall"
+	MethodICallRedirectionAdapterPlaceCallUnmodified = "placeCallUnmodified"
+	MethodICallRedirectionAdapterRedirectCall        = "redirectCall"
+)
+
 type ICallRedirectionAdapter interface {
 	AsBinder() binder.IBinder
 	CancelCall(ctx context.Context) error
@@ -27,17 +33,17 @@ type ICallRedirectionAdapter interface {
 }
 
 type CallRedirectionAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallRedirectionAdapterProxy(
 	remote binder.IBinder,
 ) *CallRedirectionAdapterProxy {
-	return &CallRedirectionAdapterProxy{remote: remote}
+	return &CallRedirectionAdapterProxy{Remote: remote}
 }
 
 func (p *CallRedirectionAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallRedirectionAdapter = (*CallRedirectionAdapterProxy)(nil)
@@ -48,12 +54,12 @@ func (p *CallRedirectionAdapterProxy) CancelCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionAdapter, "cancelCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterCancelCall)
 	if _err != nil {
-		_code = TransactionICallRedirectionAdapterCancelCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterCancelCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *CallRedirectionAdapterProxy) PlaceCallUnmodified(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionAdapter, "placeCallUnmodified")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterPlaceCallUnmodified)
 	if _err != nil {
-		_code = TransactionICallRedirectionAdapterPlaceCallUnmodified
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterPlaceCallUnmodified, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +96,12 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 	}
 	_data.WriteBool(confirmFirst)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionAdapter, "redirectCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterRedirectCall)
 	if _err != nil {
-		_code = TransactionICallRedirectionAdapterRedirectCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallRedirectionAdapter, MethodICallRedirectionAdapterRedirectCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +112,10 @@ type CallRedirectionAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallRedirectionAdapterStub)(nil)
+
+func (s *CallRedirectionAdapterStub) Descriptor() string {
+	return DescriptorICallRedirectionAdapter
+}
 
 func (s *CallRedirectionAdapterStub) OnTransaction(
 	ctx context.Context,

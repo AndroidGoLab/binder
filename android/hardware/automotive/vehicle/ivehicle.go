@@ -12,17 +12,23 @@ import (
 const DescriptorIVehicle = "android.hardware.automotive.vehicle.IVehicle"
 
 const (
-	TransactionIVehicleGetAllPropConfigs                      = binder.FirstCallTransaction + 0
-	TransactionIVehicleGetPropConfigs                         = binder.FirstCallTransaction + 1
-	TransactionIVehicleGetValues                              = binder.FirstCallTransaction + 2
-	TransactionIVehicleSetValues                              = binder.FirstCallTransaction + 3
-	TransactionIVehicleSubscribe                              = binder.FirstCallTransaction + 4
-	TransactionIVehicleUnsubscribe                            = binder.FirstCallTransaction + 5
-	TransactionIVehicleReturnSharedMemory                     = binder.FirstCallTransaction + 6
-	TransactionIVehicleGetSupportedValuesLists                = binder.FirstCallTransaction + 7
-	TransactionIVehicleGetMinMaxSupportedValue                = binder.FirstCallTransaction + 8
-	TransactionIVehicleRegisterSupportedValueChangeCallback   = binder.FirstCallTransaction + 9
-	TransactionIVehicleUnregisterSupportedValueChangeCallback = binder.FirstCallTransaction + 10
+	TransactionIVehicleGetAllPropConfigs  = binder.FirstCallTransaction + 0
+	TransactionIVehicleGetPropConfigs     = binder.FirstCallTransaction + 1
+	TransactionIVehicleGetValues          = binder.FirstCallTransaction + 2
+	TransactionIVehicleSetValues          = binder.FirstCallTransaction + 3
+	TransactionIVehicleSubscribe          = binder.FirstCallTransaction + 4
+	TransactionIVehicleUnsubscribe        = binder.FirstCallTransaction + 5
+	TransactionIVehicleReturnSharedMemory = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodIVehicleGetAllPropConfigs  = "getAllPropConfigs"
+	MethodIVehicleGetPropConfigs     = "getPropConfigs"
+	MethodIVehicleGetValues          = "getValues"
+	MethodIVehicleSetValues          = "setValues"
+	MethodIVehicleSubscribe          = "subscribe"
+	MethodIVehicleUnsubscribe        = "unsubscribe"
+	MethodIVehicleReturnSharedMemory = "returnSharedMemory"
 )
 
 type IVehicle interface {
@@ -34,10 +40,6 @@ type IVehicle interface {
 	Subscribe(ctx context.Context, callback IVehicleCallback, options []SubscribeOptions, maxSharedMemoryFileCount int32) error
 	Unsubscribe(ctx context.Context, callback IVehicleCallback, propIds []int32) error
 	ReturnSharedMemory(ctx context.Context, callback IVehicleCallback, sharedMemoryId int64) error
-	GetSupportedValuesLists(ctx context.Context, propIdAreaIds []PropIdAreaId) (SupportedValuesListResults, error)
-	GetMinMaxSupportedValue(ctx context.Context, propIdAreaIds []PropIdAreaId) (MinMaxSupportedValueResults, error)
-	RegisterSupportedValueChangeCallback(ctx context.Context, callback IVehicleCallback, propIdAreaIds []PropIdAreaId) error
-	UnregisterSupportedValueChangeCallback(ctx context.Context, callback IVehicleCallback, propIdAreaIds []PropIdAreaId) error
 }
 
 const (
@@ -46,17 +48,17 @@ const (
 )
 
 type VehicleProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVehicleProxy(
 	remote binder.IBinder,
 ) *VehicleProxy {
-	return &VehicleProxy{remote: remote}
+	return &VehicleProxy{Remote: remote}
 }
 
 func (p *VehicleProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVehicle = (*VehicleProxy)(nil)
@@ -68,12 +70,12 @@ func (p *VehicleProxy) GetAllPropConfigs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getAllPropConfigs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleGetAllPropConfigs)
 	if _err != nil {
-		_code = TransactionIVehicleGetAllPropConfigs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleGetAllPropConfigs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,12 +113,12 @@ func (p *VehicleProxy) GetPropConfigs(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getPropConfigs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleGetPropConfigs)
 	if _err != nil {
-		_code = TransactionIVehicleGetPropConfigs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleGetPropConfigs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,18 +147,18 @@ func (p *VehicleProxy) GetValues(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := requests.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getValues")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleGetValues)
 	if _err != nil {
-		_code = TransactionIVehicleGetValues
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleGetValues, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,18 +178,18 @@ func (p *VehicleProxy) SetValues(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := requests.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "setValues")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleSetValues)
 	if _err != nil {
-		_code = TransactionIVehicleSetValues
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleSetValues, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -208,12 +210,13 @@ func (p *VehicleProxy) Subscribe(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if options == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(options)))
 		for _, _item := range options {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -221,12 +224,12 @@ func (p *VehicleProxy) Subscribe(
 	}
 	_data.WriteInt32(maxSharedMemoryFileCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "subscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleSubscribe)
 	if _err != nil {
-		_code = TransactionIVehicleSubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleSubscribe, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -246,7 +249,7 @@ func (p *VehicleProxy) Unsubscribe(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if propIds == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -256,12 +259,12 @@ func (p *VehicleProxy) Unsubscribe(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "unsubscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleUnsubscribe)
 	if _err != nil {
-		_code = TransactionIVehicleUnsubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleUnsubscribe, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -281,179 +284,15 @@ func (p *VehicleProxy) ReturnSharedMemory(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(sharedMemoryId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "returnSharedMemory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicle, MethodIVehicleReturnSharedMemory)
 	if _err != nil {
-		_code = TransactionIVehicleReturnSharedMemory
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicle, MethodIVehicleReturnSharedMemory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *VehicleProxy) GetSupportedValuesLists(
-	ctx context.Context,
-	propIdAreaIds []PropIdAreaId,
-) (SupportedValuesListResults, error) {
-	var _result SupportedValuesListResults
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVehicle)
-	if propIdAreaIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(propIdAreaIds)))
-		for _, _item := range propIdAreaIds {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getSupportedValuesLists")
-	if _err != nil {
-		_code = TransactionIVehicleGetSupportedValuesLists
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *VehicleProxy) GetMinMaxSupportedValue(
-	ctx context.Context,
-	propIdAreaIds []PropIdAreaId,
-) (MinMaxSupportedValueResults, error) {
-	var _result MinMaxSupportedValueResults
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVehicle)
-	if propIdAreaIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(propIdAreaIds)))
-		for _, _item := range propIdAreaIds {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getMinMaxSupportedValue")
-	if _err != nil {
-		_code = TransactionIVehicleGetMinMaxSupportedValue
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *VehicleProxy) RegisterSupportedValueChangeCallback(
-	ctx context.Context,
-	callback IVehicleCallback,
-	propIdAreaIds []PropIdAreaId,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	if propIdAreaIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(propIdAreaIds)))
-		for _, _item := range propIdAreaIds {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "registerSupportedValueChangeCallback")
-	if _err != nil {
-		_code = TransactionIVehicleRegisterSupportedValueChangeCallback
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *VehicleProxy) UnregisterSupportedValueChangeCallback(
-	ctx context.Context,
-	callback IVehicleCallback,
-	propIdAreaIds []PropIdAreaId,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVehicle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	if propIdAreaIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(propIdAreaIds)))
-		for _, _item := range propIdAreaIds {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "unregisterSupportedValueChangeCallback")
-	if _err != nil {
-		_code = TransactionIVehicleUnregisterSupportedValueChangeCallback
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -473,6 +312,10 @@ type VehicleStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VehicleStub)(nil)
+
+func (s *VehicleStub) Descriptor() string {
+	return DescriptorIVehicle
+}
 
 func (s *VehicleStub) OnTransaction(
 	ctx context.Context,
@@ -628,80 +471,6 @@ func (s *VehicleStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIVehicleGetSupportedValuesLists:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_propIdAreaIds []PropIdAreaId
-		_ = _arg_propIdAreaIds
-		_result, _err := s.Impl.GetSupportedValuesLists(ctx, _arg_propIdAreaIds)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIVehicleGetMinMaxSupportedValue:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_propIdAreaIds []PropIdAreaId
-		_ = _arg_propIdAreaIds
-		_result, _err := s.Impl.GetMinMaxSupportedValue(ctx, _arg_propIdAreaIds)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIVehicleRegisterSupportedValueChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IVehicleCallback
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_propIdAreaIds []PropIdAreaId
-		_ = _arg_propIdAreaIds
-		_err := s.Impl.RegisterSupportedValueChangeCallback(ctx, _arg_callback, _arg_propIdAreaIds)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIVehicleUnregisterSupportedValueChangeCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IVehicleCallback
-		_ = _arg_callback
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_propIdAreaIds []PropIdAreaId
-		_ = _arg_propIdAreaIds
-		_err := s.Impl.UnregisterSupportedValueChangeCallback(ctx, _arg_callback, _arg_propIdAreaIds)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -718,10 +487,6 @@ type IVehicleServer interface {
 	Subscribe(ctx context.Context, callback IVehicleCallback, options []SubscribeOptions, maxSharedMemoryFileCount int32) error
 	Unsubscribe(ctx context.Context, callback IVehicleCallback, propIds []int32) error
 	ReturnSharedMemory(ctx context.Context, callback IVehicleCallback, sharedMemoryId int64) error
-	GetSupportedValuesLists(ctx context.Context, propIdAreaIds []PropIdAreaId) (SupportedValuesListResults, error)
-	GetMinMaxSupportedValue(ctx context.Context, propIdAreaIds []PropIdAreaId) (MinMaxSupportedValueResults, error)
-	RegisterSupportedValueChangeCallback(ctx context.Context, callback IVehicleCallback, propIdAreaIds []PropIdAreaId) error
-	UnregisterSupportedValueChangeCallback(ctx context.Context, callback IVehicleCallback, propIdAreaIds []PropIdAreaId) error
 }
 
 type vehicleStubWrapper struct {
@@ -785,36 +550,6 @@ func (w *vehicleStubWrapper) ReturnSharedMemory(
 	sharedMemoryId int64,
 ) error {
 	return w.impl.ReturnSharedMemory(ctx, callback, sharedMemoryId)
-}
-
-func (w *vehicleStubWrapper) GetSupportedValuesLists(
-	ctx context.Context,
-	propIdAreaIds []PropIdAreaId,
-) (SupportedValuesListResults, error) {
-	return w.impl.GetSupportedValuesLists(ctx, propIdAreaIds)
-}
-
-func (w *vehicleStubWrapper) GetMinMaxSupportedValue(
-	ctx context.Context,
-	propIdAreaIds []PropIdAreaId,
-) (MinMaxSupportedValueResults, error) {
-	return w.impl.GetMinMaxSupportedValue(ctx, propIdAreaIds)
-}
-
-func (w *vehicleStubWrapper) RegisterSupportedValueChangeCallback(
-	ctx context.Context,
-	callback IVehicleCallback,
-	propIdAreaIds []PropIdAreaId,
-) error {
-	return w.impl.RegisterSupportedValueChangeCallback(ctx, callback, propIdAreaIds)
-}
-
-func (w *vehicleStubWrapper) UnregisterSupportedValueChangeCallback(
-	ctx context.Context,
-	callback IVehicleCallback,
-	propIdAreaIds []PropIdAreaId,
-) error {
-	return w.impl.UnregisterSupportedValueChangeCallback(ctx, callback, propIdAreaIds)
 }
 
 var _ IVehicle = (*vehicleStubWrapper)(nil)

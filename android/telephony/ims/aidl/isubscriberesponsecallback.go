@@ -20,6 +20,14 @@ const (
 	TransactionISubscribeResponseCallbackOnTerminated               = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodISubscribeResponseCallbackOnCommandError             = "onCommandError"
+	MethodISubscribeResponseCallbackOnNetworkResponse          = "onNetworkResponse"
+	MethodISubscribeResponseCallbackOnNotifyCapabilitiesUpdate = "onNotifyCapabilitiesUpdate"
+	MethodISubscribeResponseCallbackOnResourceTerminated       = "onResourceTerminated"
+	MethodISubscribeResponseCallbackOnTerminated               = "onTerminated"
+)
+
 type ISubscribeResponseCallback interface {
 	AsBinder() binder.IBinder
 	OnCommandError(ctx context.Context, code int32) error
@@ -30,17 +38,17 @@ type ISubscribeResponseCallback interface {
 }
 
 type SubscribeResponseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSubscribeResponseCallbackProxy(
 	remote binder.IBinder,
 ) *SubscribeResponseCallbackProxy {
-	return &SubscribeResponseCallbackProxy{remote: remote}
+	return &SubscribeResponseCallbackProxy{Remote: remote}
 }
 
 func (p *SubscribeResponseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISubscribeResponseCallback = (*SubscribeResponseCallbackProxy)(nil)
@@ -53,12 +61,12 @@ func (p *SubscribeResponseCallbackProxy) OnCommandError(
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	_data.WriteInt32(code)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onCommandError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnCommandError)
 	if _err != nil {
-		_code = TransactionISubscribeResponseCallbackOnCommandError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnCommandError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +81,12 @@ func (p *SubscribeResponseCallbackProxy) OnNetworkResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onNetworkResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNetworkResponse)
 	if _err != nil {
-		_code = TransactionISubscribeResponseCallbackOnNetworkResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNetworkResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +105,12 @@ func (p *SubscribeResponseCallbackProxy) OnNotifyCapabilitiesUpdate(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onNotifyCapabilitiesUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNotifyCapabilitiesUpdate)
 	if _err != nil {
-		_code = TransactionISubscribeResponseCallbackOnNotifyCapabilitiesUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnNotifyCapabilitiesUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,18 +125,19 @@ func (p *SubscribeResponseCallbackProxy) OnResourceTerminated(
 	} else {
 		_data.WriteInt32(int32(len(uriTerminatedReason)))
 		for _, _item := range uriTerminatedReason {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onResourceTerminated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnResourceTerminated)
 	if _err != nil {
-		_code = TransactionISubscribeResponseCallbackOnResourceTerminated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnResourceTerminated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,12 +151,12 @@ func (p *SubscribeResponseCallbackProxy) OnTerminated(
 	_data.WriteString16(reason)
 	_data.WriteInt64(retryAfterMilliseconds)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onTerminated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnTerminated)
 	if _err != nil {
-		_code = TransactionISubscribeResponseCallbackOnTerminated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISubscribeResponseCallback, MethodISubscribeResponseCallbackOnTerminated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,6 +167,10 @@ type SubscribeResponseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SubscribeResponseCallbackStub)(nil)
+
+func (s *SubscribeResponseCallbackStub) Descriptor() string {
+	return DescriptorISubscribeResponseCallback
+}
 
 func (s *SubscribeResponseCallbackStub) OnTransaction(
 	ctx context.Context,

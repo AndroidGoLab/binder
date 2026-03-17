@@ -60,14 +60,7 @@ func (u *DerivedKey) MarshalParcel(
 
 	switch u.Tag {
 	case DerivedKeyTagExplicitKey:
-		if u.ExplicitKey == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.ExplicitKey)))
-			for _, _item := range u.ExplicitKey {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.ExplicitKey)
 	case DerivedKeyTagOpaque:
 		p.WriteStrongBinder(u.Opaque.AsBinder().Handle())
 	default:
@@ -94,19 +87,9 @@ func (u *DerivedKey) UnmarshalParcel(
 	switch u.Tag {
 	case DerivedKeyTagExplicitKey:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.ExplicitKey, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.ExplicitKey = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.ExplicitKey[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case DerivedKeyTagOpaque:
 		_handle, _err := p.ReadStrongBinder()

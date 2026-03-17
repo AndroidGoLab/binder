@@ -16,14 +16,7 @@ func (s *Identity) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Identity == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Identity)))
-		for _, _item := range s.Identity {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Identity)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -37,19 +30,9 @@ func (s *Identity) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Identity, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Identity = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Identity[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -18,20 +18,28 @@ const (
 	TransactionICameraServiceListenerOnTorchStrengthLevelChanged     = binder.FirstCallTransaction + 3
 	TransactionICameraServiceListenerOnCameraAccessPrioritiesChanged = binder.FirstCallTransaction + 4
 	TransactionICameraServiceListenerOnCameraOpened                  = binder.FirstCallTransaction + 5
-	TransactionICameraServiceListenerOnCameraOpenedInSharedMode      = binder.FirstCallTransaction + 6
-	TransactionICameraServiceListenerOnCameraClosed                  = binder.FirstCallTransaction + 7
+	TransactionICameraServiceListenerOnCameraClosed                  = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodICameraServiceListenerOnStatusChanged                 = "onStatusChanged"
+	MethodICameraServiceListenerOnPhysicalCameraStatusChanged   = "onPhysicalCameraStatusChanged"
+	MethodICameraServiceListenerOnTorchStatusChanged            = "onTorchStatusChanged"
+	MethodICameraServiceListenerOnTorchStrengthLevelChanged     = "onTorchStrengthLevelChanged"
+	MethodICameraServiceListenerOnCameraAccessPrioritiesChanged = "onCameraAccessPrioritiesChanged"
+	MethodICameraServiceListenerOnCameraOpened                  = "onCameraOpened"
+	MethodICameraServiceListenerOnCameraClosed                  = "onCameraClosed"
 )
 
 type ICameraServiceListener interface {
 	AsBinder() binder.IBinder
-	OnStatusChanged(ctx context.Context, status int32, cameraId string, deviceId int32) error
-	OnPhysicalCameraStatusChanged(ctx context.Context, status int32, cameraId string, physicalCameraId string, deviceId int32) error
-	OnTorchStatusChanged(ctx context.Context, status int32, cameraId string, deviceId int32) error
-	OnTorchStrengthLevelChanged(ctx context.Context, cameraId string, newTorchStrength int32, deviceId int32) error
+	OnStatusChanged(ctx context.Context, status int32, cameraId string) error
+	OnPhysicalCameraStatusChanged(ctx context.Context, status int32, cameraId string, physicalCameraId string) error
+	OnTorchStatusChanged(ctx context.Context, status int32, cameraId string) error
+	OnTorchStrengthLevelChanged(ctx context.Context, cameraId string, newTorchStrength int32) error
 	OnCameraAccessPrioritiesChanged(ctx context.Context) error
-	OnCameraOpened(ctx context.Context, cameraId string, clientPackageId string, deviceId int32) error
-	OnCameraOpenedInSharedMode(ctx context.Context, cameraId string, clientPackageId string, deviceId int32, primaryClient bool) error
-	OnCameraClosed(ctx context.Context, cameraId string, deviceId int32) error
+	OnCameraOpened(ctx context.Context, cameraId string, clientPackageId string) error
+	OnCameraClosed(ctx context.Context, cameraId string) error
 }
 
 const (
@@ -47,17 +55,17 @@ const (
 )
 
 type CameraServiceListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraServiceListenerProxy(
 	remote binder.IBinder,
 ) *CameraServiceListenerProxy {
-	return &CameraServiceListenerProxy{remote: remote}
+	return &CameraServiceListenerProxy{Remote: remote}
 }
 
 func (p *CameraServiceListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraServiceListener = (*CameraServiceListenerProxy)(nil)
@@ -66,20 +74,18 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 	ctx context.Context,
 	status int32,
 	cameraId string,
-	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteInt32(status)
 	_data.WriteString16(cameraId)
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,21 +94,19 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 	status int32,
 	cameraId string,
 	physicalCameraId string,
-	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteInt32(status)
 	_data.WriteString16(cameraId)
 	_data.WriteString16(physicalCameraId)
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onPhysicalCameraStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnPhysicalCameraStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,20 +114,18 @@ func (p *CameraServiceListenerProxy) OnTorchStatusChanged(
 	ctx context.Context,
 	status int32,
 	cameraId string,
-	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteInt32(status)
 	_data.WriteString16(cameraId)
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onTorchStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStatusChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnTorchStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,20 +133,18 @@ func (p *CameraServiceListenerProxy) OnTorchStrengthLevelChanged(
 	ctx context.Context,
 	cameraId string,
 	newTorchStrength int32,
-	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteString16(cameraId)
 	_data.WriteInt32(newTorchStrength)
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onTorchStrengthLevelChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStrengthLevelChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnTorchStrengthLevelChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnTorchStrengthLevelChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,12 +154,12 @@ func (p *CameraServiceListenerProxy) OnCameraAccessPrioritiesChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraAccessPrioritiesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraAccessPrioritiesChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnCameraAccessPrioritiesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraAccessPrioritiesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,62 +167,35 @@ func (p *CameraServiceListenerProxy) OnCameraOpened(
 	ctx context.Context,
 	cameraId string,
 	clientPackageId string,
-	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteString16(cameraId)
 	_data.WriteString16(clientPackageId)
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraOpened")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraOpened)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnCameraOpened
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraOpened, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *CameraServiceListenerProxy) OnCameraOpenedInSharedMode(
-	ctx context.Context,
-	cameraId string,
-	clientPackageId string,
-	deviceId int32,
-	primaryClient bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
-	_data.WriteString16(cameraId)
-	_data.WriteString16(clientPackageId)
-	_data.WriteInt32(deviceId)
-	_data.WriteBool(primaryClient)
-
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraOpenedInSharedMode")
-	if _err != nil {
-		_code = TransactionICameraServiceListenerOnCameraOpenedInSharedMode
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *CameraServiceListenerProxy) OnCameraClosed(
 	ctx context.Context,
 	cameraId string,
-	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceListener)
 	_data.WriteString16(cameraId)
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraClosed)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnCameraClosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnCameraClosed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -233,6 +206,10 @@ type CameraServiceListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraServiceListenerStub)(nil)
+
+func (s *CameraServiceListenerStub) Descriptor() string {
+	return DescriptorICameraServiceListener
+}
 
 func (s *CameraServiceListenerStub) OnTransaction(
 	ctx context.Context,
@@ -252,11 +229,7 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnStatusChanged(ctx, _arg_status, _arg_cameraId, _arg_deviceId)
+		_err = s.Impl.OnStatusChanged(ctx, _arg_status, _arg_cameraId)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnPhysicalCameraStatusChanged:
@@ -275,11 +248,7 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnPhysicalCameraStatusChanged(ctx, _arg_status, _arg_cameraId, _arg_physicalCameraId, _arg_deviceId)
+		_err = s.Impl.OnPhysicalCameraStatusChanged(ctx, _arg_status, _arg_cameraId, _arg_physicalCameraId)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnTorchStatusChanged:
@@ -294,11 +263,7 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnTorchStatusChanged(ctx, _arg_status, _arg_cameraId, _arg_deviceId)
+		_err = s.Impl.OnTorchStatusChanged(ctx, _arg_status, _arg_cameraId)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnTorchStrengthLevelChanged:
@@ -313,11 +278,7 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnTorchStrengthLevelChanged(ctx, _arg_cameraId, _arg_newTorchStrength, _arg_deviceId)
+		_err = s.Impl.OnTorchStrengthLevelChanged(ctx, _arg_cameraId, _arg_newTorchStrength)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnCameraAccessPrioritiesChanged:
@@ -339,34 +300,7 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnCameraOpened(ctx, _arg_cameraId, _arg_clientPackageId, _arg_deviceId)
-		_ = _err
-		return nil, nil
-	case TransactionICameraServiceListenerOnCameraOpenedInSharedMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cameraId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_clientPackageId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_primaryClient, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnCameraOpenedInSharedMode(ctx, _arg_cameraId, _arg_clientPackageId, _arg_deviceId, _arg_primaryClient)
+		_err = s.Impl.OnCameraOpened(ctx, _arg_cameraId, _arg_clientPackageId)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnCameraClosed:
@@ -377,11 +311,7 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnCameraClosed(ctx, _arg_cameraId, _arg_deviceId)
+		_err = s.Impl.OnCameraClosed(ctx, _arg_cameraId)
 		_ = _err
 		return nil, nil
 	default:
@@ -393,14 +323,13 @@ func (s *CameraServiceListenerStub) OnTransaction(
 // provide to NewCameraServiceListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICameraServiceListenerServer interface {
-	OnStatusChanged(ctx context.Context, status int32, cameraId string, deviceId int32) error
-	OnPhysicalCameraStatusChanged(ctx context.Context, status int32, cameraId string, physicalCameraId string, deviceId int32) error
-	OnTorchStatusChanged(ctx context.Context, status int32, cameraId string, deviceId int32) error
-	OnTorchStrengthLevelChanged(ctx context.Context, cameraId string, newTorchStrength int32, deviceId int32) error
+	OnStatusChanged(ctx context.Context, status int32, cameraId string) error
+	OnPhysicalCameraStatusChanged(ctx context.Context, status int32, cameraId string, physicalCameraId string) error
+	OnTorchStatusChanged(ctx context.Context, status int32, cameraId string) error
+	OnTorchStrengthLevelChanged(ctx context.Context, cameraId string, newTorchStrength int32) error
 	OnCameraAccessPrioritiesChanged(ctx context.Context) error
-	OnCameraOpened(ctx context.Context, cameraId string, clientPackageId string, deviceId int32) error
-	OnCameraOpenedInSharedMode(ctx context.Context, cameraId string, clientPackageId string, deviceId int32, primaryClient bool) error
-	OnCameraClosed(ctx context.Context, cameraId string, deviceId int32) error
+	OnCameraOpened(ctx context.Context, cameraId string, clientPackageId string) error
+	OnCameraClosed(ctx context.Context, cameraId string) error
 }
 
 type cameraServiceListenerStubWrapper struct {
@@ -416,9 +345,8 @@ func (w *cameraServiceListenerStubWrapper) OnStatusChanged(
 	ctx context.Context,
 	status int32,
 	cameraId string,
-	deviceId int32,
 ) error {
-	return w.impl.OnStatusChanged(ctx, status, cameraId, deviceId)
+	return w.impl.OnStatusChanged(ctx, status, cameraId)
 }
 
 func (w *cameraServiceListenerStubWrapper) OnPhysicalCameraStatusChanged(
@@ -426,27 +354,24 @@ func (w *cameraServiceListenerStubWrapper) OnPhysicalCameraStatusChanged(
 	status int32,
 	cameraId string,
 	physicalCameraId string,
-	deviceId int32,
 ) error {
-	return w.impl.OnPhysicalCameraStatusChanged(ctx, status, cameraId, physicalCameraId, deviceId)
+	return w.impl.OnPhysicalCameraStatusChanged(ctx, status, cameraId, physicalCameraId)
 }
 
 func (w *cameraServiceListenerStubWrapper) OnTorchStatusChanged(
 	ctx context.Context,
 	status int32,
 	cameraId string,
-	deviceId int32,
 ) error {
-	return w.impl.OnTorchStatusChanged(ctx, status, cameraId, deviceId)
+	return w.impl.OnTorchStatusChanged(ctx, status, cameraId)
 }
 
 func (w *cameraServiceListenerStubWrapper) OnTorchStrengthLevelChanged(
 	ctx context.Context,
 	cameraId string,
 	newTorchStrength int32,
-	deviceId int32,
 ) error {
-	return w.impl.OnTorchStrengthLevelChanged(ctx, cameraId, newTorchStrength, deviceId)
+	return w.impl.OnTorchStrengthLevelChanged(ctx, cameraId, newTorchStrength)
 }
 
 func (w *cameraServiceListenerStubWrapper) OnCameraAccessPrioritiesChanged(
@@ -459,27 +384,15 @@ func (w *cameraServiceListenerStubWrapper) OnCameraOpened(
 	ctx context.Context,
 	cameraId string,
 	clientPackageId string,
-	deviceId int32,
 ) error {
-	return w.impl.OnCameraOpened(ctx, cameraId, clientPackageId, deviceId)
-}
-
-func (w *cameraServiceListenerStubWrapper) OnCameraOpenedInSharedMode(
-	ctx context.Context,
-	cameraId string,
-	clientPackageId string,
-	deviceId int32,
-	primaryClient bool,
-) error {
-	return w.impl.OnCameraOpenedInSharedMode(ctx, cameraId, clientPackageId, deviceId, primaryClient)
+	return w.impl.OnCameraOpened(ctx, cameraId, clientPackageId)
 }
 
 func (w *cameraServiceListenerStubWrapper) OnCameraClosed(
 	ctx context.Context,
 	cameraId string,
-	deviceId int32,
 ) error {
-	return w.impl.OnCameraClosed(ctx, cameraId, deviceId)
+	return w.impl.OnCameraClosed(ctx, cameraId)
 }
 
 var _ ICameraServiceListener = (*cameraServiceListenerStubWrapper)(nil)

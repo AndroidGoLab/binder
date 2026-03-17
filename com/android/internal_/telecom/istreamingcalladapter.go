@@ -15,23 +15,27 @@ const (
 	TransactionIStreamingCallAdapterSetStreamingState = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStreamingCallAdapterSetStreamingState = "setStreamingState"
+)
+
 type IStreamingCallAdapter interface {
 	AsBinder() binder.IBinder
 	SetStreamingState(ctx context.Context, state int32) error
 }
 
 type StreamingCallAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamingCallAdapterProxy(
 	remote binder.IBinder,
 ) *StreamingCallAdapterProxy {
-	return &StreamingCallAdapterProxy{remote: remote}
+	return &StreamingCallAdapterProxy{Remote: remote}
 }
 
 func (p *StreamingCallAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamingCallAdapter = (*StreamingCallAdapterProxy)(nil)
@@ -44,12 +48,12 @@ func (p *StreamingCallAdapterProxy) SetStreamingState(
 	_data.WriteInterfaceToken(DescriptorIStreamingCallAdapter)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingCallAdapter, "setStreamingState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingCallAdapter, MethodIStreamingCallAdapterSetStreamingState)
 	if _err != nil {
-		_code = TransactionIStreamingCallAdapterSetStreamingState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingCallAdapter, MethodIStreamingCallAdapterSetStreamingState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type StreamingCallAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamingCallAdapterStub)(nil)
+
+func (s *StreamingCallAdapterStub) Descriptor() string {
+	return DescriptorIStreamingCallAdapter
+}
 
 func (s *StreamingCallAdapterStub) OnTransaction(
 	ctx context.Context,

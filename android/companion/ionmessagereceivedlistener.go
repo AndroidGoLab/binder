@@ -15,23 +15,27 @@ const (
 	TransactionIOnMessageReceivedListenerOnMessageReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnMessageReceivedListenerOnMessageReceived = "onMessageReceived"
+)
+
 type IOnMessageReceivedListener interface {
 	AsBinder() binder.IBinder
 	OnMessageReceived(ctx context.Context, associationId int32, data []byte) error
 }
 
 type OnMessageReceivedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnMessageReceivedListenerProxy(
 	remote binder.IBinder,
 ) *OnMessageReceivedListenerProxy {
-	return &OnMessageReceivedListenerProxy{remote: remote}
+	return &OnMessageReceivedListenerProxy{Remote: remote}
 }
 
 func (p *OnMessageReceivedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnMessageReceivedListener = (*OnMessageReceivedListenerProxy)(nil)
@@ -53,12 +57,12 @@ func (p *OnMessageReceivedListenerProxy) OnMessageReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnMessageReceivedListener, "onMessageReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnMessageReceivedListener, MethodIOnMessageReceivedListenerOnMessageReceived)
 	if _err != nil {
-		_code = TransactionIOnMessageReceivedListenerOnMessageReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnMessageReceivedListener, MethodIOnMessageReceivedListenerOnMessageReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type OnMessageReceivedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnMessageReceivedListenerStub)(nil)
+
+func (s *OnMessageReceivedListenerStub) Descriptor() string {
+	return DescriptorIOnMessageReceivedListener
+}
 
 func (s *OnMessageReceivedListenerStub) OnTransaction(
 	ctx context.Context,

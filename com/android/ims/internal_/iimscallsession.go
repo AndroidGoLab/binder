@@ -3,8 +3,8 @@ package internal
 import (
 	"context"
 	"fmt"
-	contexthub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
+	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -53,6 +53,45 @@ const (
 	TransactionIImsCallSessionCallSessionNotifyAnbr   = binder.FirstCallTransaction + 35
 )
 
+const (
+	MethodIImsCallSessionClose                   = "close"
+	MethodIImsCallSessionGetCallId               = "getCallId"
+	MethodIImsCallSessionGetCallProfile          = "getCallProfile"
+	MethodIImsCallSessionGetLocalCallProfile     = "getLocalCallProfile"
+	MethodIImsCallSessionGetRemoteCallProfile    = "getRemoteCallProfile"
+	MethodIImsCallSessionGetProperty             = "getProperty"
+	MethodIImsCallSessionGetState                = "getState"
+	MethodIImsCallSessionIsInCall                = "isInCall"
+	MethodIImsCallSessionSetListener             = "setListener"
+	MethodIImsCallSessionSetMute                 = "setMute"
+	MethodIImsCallSessionStart                   = "start"
+	MethodIImsCallSessionStartConference         = "startConference"
+	MethodIImsCallSessionAccept                  = "accept"
+	MethodIImsCallSessionDeflect                 = "deflect"
+	MethodIImsCallSessionReject                  = "reject"
+	MethodIImsCallSessionTransfer                = "transfer"
+	MethodIImsCallSessionConsultativeTransfer    = "consultativeTransfer"
+	MethodIImsCallSessionTerminate               = "terminate"
+	MethodIImsCallSessionHold                    = "hold"
+	MethodIImsCallSessionResume                  = "resume"
+	MethodIImsCallSessionMerge                   = "merge"
+	MethodIImsCallSessionUpdate                  = "update"
+	MethodIImsCallSessionExtendToConference      = "extendToConference"
+	MethodIImsCallSessionInviteParticipants      = "inviteParticipants"
+	MethodIImsCallSessionRemoveParticipants      = "removeParticipants"
+	MethodIImsCallSessionSendDtmf                = "sendDtmf"
+	MethodIImsCallSessionStartDtmf               = "startDtmf"
+	MethodIImsCallSessionStopDtmf                = "stopDtmf"
+	MethodIImsCallSessionSendUssd                = "sendUssd"
+	MethodIImsCallSessionGetVideoCallProvider    = "getVideoCallProvider"
+	MethodIImsCallSessionIsMultiparty            = "isMultiparty"
+	MethodIImsCallSessionSendRttModifyRequest    = "sendRttModifyRequest"
+	MethodIImsCallSessionSendRttModifyResponse   = "sendRttModifyResponse"
+	MethodIImsCallSessionSendRttMessage          = "sendRttMessage"
+	MethodIImsCallSessionSendRtpHeaderExtensions = "sendRtpHeaderExtensions"
+	MethodIImsCallSessionCallSessionNotifyAnbr   = "callSessionNotifyAnbr"
+)
+
 type IImsCallSession interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
@@ -80,7 +119,7 @@ type IImsCallSession interface {
 	ExtendToConference(ctx context.Context, participants []string) error
 	InviteParticipants(ctx context.Context, participants []string) error
 	RemoveParticipants(ctx context.Context, participants []string) error
-	SendDtmf(ctx context.Context, c uint16, result contexthub.Message) error
+	SendDtmf(ctx context.Context, c uint16, result os.Message) error
 	StartDtmf(ctx context.Context, c uint16) error
 	StopDtmf(ctx context.Context) error
 	SendUssd(ctx context.Context, ussdMessage string) error
@@ -94,17 +133,17 @@ type IImsCallSession interface {
 }
 
 type ImsCallSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsCallSessionProxy(
 	remote binder.IBinder,
 ) *ImsCallSessionProxy {
-	return &ImsCallSessionProxy{remote: remote}
+	return &ImsCallSessionProxy{Remote: remote}
 }
 
 func (p *ImsCallSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsCallSession = (*ImsCallSessionProxy)(nil)
@@ -115,12 +154,12 @@ func (p *ImsCallSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionClose)
 	if _err != nil {
-		_code = TransactionIImsCallSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -140,12 +179,12 @@ func (p *ImsCallSessionProxy) GetCallId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getCallId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetCallId)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetCallId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetCallId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,12 +208,12 @@ func (p *ImsCallSessionProxy) GetCallProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getCallProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetCallProfile)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetCallProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetCallProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,12 +242,12 @@ func (p *ImsCallSessionProxy) GetLocalCallProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getLocalCallProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetLocalCallProfile)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetLocalCallProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetLocalCallProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -237,12 +276,12 @@ func (p *ImsCallSessionProxy) GetRemoteCallProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getRemoteCallProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetRemoteCallProfile)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetRemoteCallProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetRemoteCallProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -273,12 +312,12 @@ func (p *ImsCallSessionProxy) GetProperty(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getProperty")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetProperty)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetProperty
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetProperty, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -302,12 +341,12 @@ func (p *ImsCallSessionProxy) GetState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetState)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -331,12 +370,12 @@ func (p *ImsCallSessionProxy) IsInCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "isInCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionIsInCall)
 	if _err != nil {
-		_code = TransactionIImsCallSessionIsInCall
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionIsInCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -359,14 +398,14 @@ func (p *ImsCallSessionProxy) SetListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSetListener)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSetListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -387,12 +426,12 @@ func (p *ImsCallSessionProxy) SetMute(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteBool(muted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "setMute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSetMute)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSetMute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSetMute, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -418,12 +457,12 @@ func (p *ImsCallSessionProxy) Start(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionStart)
 	if _err != nil {
-		_code = TransactionIImsCallSessionStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -456,12 +495,12 @@ func (p *ImsCallSessionProxy) StartConference(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "startConference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionStartConference)
 	if _err != nil {
-		_code = TransactionIImsCallSessionStartConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionStartConference, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -487,12 +526,12 @@ func (p *ImsCallSessionProxy) Accept(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionAccept)
 	if _err != nil {
-		_code = TransactionIImsCallSessionAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionAccept, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -513,12 +552,12 @@ func (p *ImsCallSessionProxy) Deflect(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(deflectNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "deflect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionDeflect)
 	if _err != nil {
-		_code = TransactionIImsCallSessionDeflect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionDeflect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -539,12 +578,12 @@ func (p *ImsCallSessionProxy) Reject(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "reject")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionReject)
 	if _err != nil {
-		_code = TransactionIImsCallSessionReject
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionReject, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -567,12 +606,12 @@ func (p *ImsCallSessionProxy) Transfer(
 	_data.WriteString16(number)
 	_data.WriteBool(isConfirmationRequired)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "transfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionTransfer)
 	if _err != nil {
-		_code = TransactionIImsCallSessionTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionTransfer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -591,14 +630,14 @@ func (p *ImsCallSessionProxy) ConsultativeTransfer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
-	binder.WriteBinderToParcel(ctx, _data, transferToSession.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transferToSession.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "consultativeTransfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionConsultativeTransfer)
 	if _err != nil {
-		_code = TransactionIImsCallSessionConsultativeTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionConsultativeTransfer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -619,12 +658,12 @@ func (p *ImsCallSessionProxy) Terminate(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "terminate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionTerminate)
 	if _err != nil {
-		_code = TransactionIImsCallSessionTerminate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionTerminate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -648,12 +687,12 @@ func (p *ImsCallSessionProxy) Hold(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "hold")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionHold)
 	if _err != nil {
-		_code = TransactionIImsCallSessionHold
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionHold, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -677,12 +716,12 @@ func (p *ImsCallSessionProxy) Resume(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "resume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionResume)
 	if _err != nil {
-		_code = TransactionIImsCallSessionResume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionResume, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -701,12 +740,12 @@ func (p *ImsCallSessionProxy) Merge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "merge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionMerge)
 	if _err != nil {
-		_code = TransactionIImsCallSessionMerge
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionMerge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -732,12 +771,12 @@ func (p *ImsCallSessionProxy) Update(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "update")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionUpdate)
 	if _err != nil {
-		_code = TransactionIImsCallSessionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -765,12 +804,12 @@ func (p *ImsCallSessionProxy) ExtendToConference(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "extendToConference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionExtendToConference)
 	if _err != nil {
-		_code = TransactionIImsCallSessionExtendToConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionExtendToConference, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -798,12 +837,12 @@ func (p *ImsCallSessionProxy) InviteParticipants(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "inviteParticipants")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionInviteParticipants)
 	if _err != nil {
-		_code = TransactionIImsCallSessionInviteParticipants
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionInviteParticipants, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -831,12 +870,12 @@ func (p *ImsCallSessionProxy) RemoveParticipants(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "removeParticipants")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionRemoveParticipants)
 	if _err != nil {
-		_code = TransactionIImsCallSessionRemoveParticipants
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionRemoveParticipants, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -852,7 +891,7 @@ func (p *ImsCallSessionProxy) RemoveParticipants(
 func (p *ImsCallSessionProxy) SendDtmf(
 	ctx context.Context,
 	c uint16,
-	result contexthub.Message,
+	result os.Message,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
@@ -862,12 +901,12 @@ func (p *ImsCallSessionProxy) SendDtmf(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "sendDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSendDtmf)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSendDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSendDtmf, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -888,12 +927,12 @@ func (p *ImsCallSessionProxy) StartDtmf(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(int32(c))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "startDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionStartDtmf)
 	if _err != nil {
-		_code = TransactionIImsCallSessionStartDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionStartDtmf, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -912,12 +951,12 @@ func (p *ImsCallSessionProxy) StopDtmf(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "stopDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionStopDtmf)
 	if _err != nil {
-		_code = TransactionIImsCallSessionStopDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionStopDtmf, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -938,12 +977,12 @@ func (p *ImsCallSessionProxy) SendUssd(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(ussdMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "sendUssd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSendUssd)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSendUssd
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSendUssd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -963,12 +1002,12 @@ func (p *ImsCallSessionProxy) GetVideoCallProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "getVideoCallProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionGetVideoCallProvider)
 	if _err != nil {
-		_code = TransactionIImsCallSessionGetVideoCallProvider
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionGetVideoCallProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -982,7 +1021,7 @@ func (p *ImsCallSessionProxy) GetVideoCallProvider(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsVideoCallProviderProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewImsVideoCallProviderProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -993,12 +1032,12 @@ func (p *ImsCallSessionProxy) IsMultiparty(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "isMultiparty")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionIsMultiparty)
 	if _err != nil {
-		_code = TransactionIImsCallSessionIsMultiparty
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionIsMultiparty, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1026,12 +1065,12 @@ func (p *ImsCallSessionProxy) SendRttModifyRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "sendRttModifyRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSendRttModifyRequest)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSendRttModifyRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSendRttModifyRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1052,12 +1091,12 @@ func (p *ImsCallSessionProxy) SendRttModifyResponse(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteBool(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "sendRttModifyResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSendRttModifyResponse)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSendRttModifyResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSendRttModifyResponse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1078,12 +1117,12 @@ func (p *ImsCallSessionProxy) SendRttMessage(
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(rttMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "sendRttMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSendRttMessage)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSendRttMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSendRttMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1107,18 +1146,19 @@ func (p *ImsCallSessionProxy) SendRtpHeaderExtensions(
 	} else {
 		_data.WriteInt32(int32(len(extensions)))
 		for _, _item := range extensions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "sendRtpHeaderExtensions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionSendRtpHeaderExtensions)
 	if _err != nil {
-		_code = TransactionIImsCallSessionSendRtpHeaderExtensions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionSendRtpHeaderExtensions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1143,12 +1183,12 @@ func (p *ImsCallSessionProxy) CallSessionNotifyAnbr(
 	_data.WriteInt32(direction)
 	_data.WriteInt32(bitsPerSecond)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsCallSession, "callSessionNotifyAnbr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsCallSession, MethodIImsCallSessionCallSessionNotifyAnbr)
 	if _err != nil {
-		_code = TransactionIImsCallSessionCallSessionNotifyAnbr
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsCallSession, MethodIImsCallSessionCallSessionNotifyAnbr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1168,6 +1208,10 @@ type ImsCallSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsCallSessionStub)(nil)
+
+func (s *ImsCallSessionStub) Descriptor() string {
+	return DescriptorIImsCallSession
+}
 
 func (s *ImsCallSessionStub) OnTransaction(
 	ctx context.Context,
@@ -1630,7 +1674,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_c := uint16(_raw_c)
-		var _arg_result contexthub.Message
+		var _arg_result os.Message
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1851,7 +1895,7 @@ type IImsCallSessionServer interface {
 	ExtendToConference(ctx context.Context, participants []string) error
 	InviteParticipants(ctx context.Context, participants []string) error
 	RemoveParticipants(ctx context.Context, participants []string) error
-	SendDtmf(ctx context.Context, c uint16, result contexthub.Message) error
+	SendDtmf(ctx context.Context, c uint16, result os.Message) error
 	StartDtmf(ctx context.Context, c uint16) error
 	StopDtmf(ctx context.Context) error
 	SendUssd(ctx context.Context, ussdMessage string) error
@@ -2048,7 +2092,7 @@ func (w *imsCallSessionStubWrapper) RemoveParticipants(
 func (w *imsCallSessionStubWrapper) SendDtmf(
 	ctx context.Context,
 	c uint16,
-	result contexthub.Message,
+	result os.Message,
 ) error {
 	return w.impl.SendDtmf(ctx, c, result)
 }

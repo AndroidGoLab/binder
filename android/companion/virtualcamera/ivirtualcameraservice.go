@@ -17,25 +17,31 @@ const (
 	TransactionIVirtualCameraServiceGetCameraId      = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIVirtualCameraServiceRegisterCamera   = "registerCamera"
+	MethodIVirtualCameraServiceUnregisterCamera = "unregisterCamera"
+	MethodIVirtualCameraServiceGetCameraId      = "getCameraId"
+)
+
 type IVirtualCameraService interface {
 	AsBinder() binder.IBinder
-	RegisterCamera(ctx context.Context, token binder.IBinder, configuration VirtualCameraConfiguration, deviceId int32) (bool, error)
+	RegisterCamera(ctx context.Context, token binder.IBinder, configuration VirtualCameraConfiguration) (bool, error)
 	UnregisterCamera(ctx context.Context, token binder.IBinder) error
-	GetCameraId(ctx context.Context, token binder.IBinder) (string, error)
+	GetCameraId(ctx context.Context, token binder.IBinder) (int32, error)
 }
 
 type VirtualCameraServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualCameraServiceProxy(
 	remote binder.IBinder,
 ) *VirtualCameraServiceProxy {
-	return &VirtualCameraServiceProxy{remote: remote}
+	return &VirtualCameraServiceProxy{Remote: remote}
 }
 
 func (p *VirtualCameraServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualCameraService = (*VirtualCameraServiceProxy)(nil)
@@ -44,24 +50,22 @@ func (p *VirtualCameraServiceProxy) RegisterCamera(
 	ctx context.Context,
 	token binder.IBinder,
 	configuration VirtualCameraConfiguration,
-	deviceId int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := configuration.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraService, "registerCamera")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceRegisterCamera)
 	if _err != nil {
-		_code = TransactionIVirtualCameraServiceRegisterCamera
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualCameraService, MethodIVirtualCameraServiceRegisterCamera, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,14 +88,14 @@ func (p *VirtualCameraServiceProxy) UnregisterCamera(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraService, "unregisterCamera")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceUnregisterCamera)
 	if _err != nil {
-		_code = TransactionIVirtualCameraServiceUnregisterCamera
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualCameraService, MethodIVirtualCameraServiceUnregisterCamera, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,18 +111,18 @@ func (p *VirtualCameraServiceProxy) UnregisterCamera(
 func (p *VirtualCameraServiceProxy) GetCameraId(
 	ctx context.Context,
 	token binder.IBinder,
-) (string, error) {
-	var _result string
+) (int32, error) {
+	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualCameraService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraService, "getCameraId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualCameraService, MethodIVirtualCameraServiceGetCameraId)
 	if _err != nil {
-		_code = TransactionIVirtualCameraServiceGetCameraId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualCameraService, MethodIVirtualCameraServiceGetCameraId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -128,7 +132,7 @@ func (p *VirtualCameraServiceProxy) GetCameraId(
 		return _result, _err
 	}
 
-	_result, _err = _reply.ReadString16()
+	_result, _err = _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,6 +146,10 @@ type VirtualCameraServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualCameraServiceStub)(nil)
+
+func (s *VirtualCameraServiceStub) Descriptor() string {
+	return DescriptorIVirtualCameraService
+}
 
 func (s *VirtualCameraServiceStub) OnTransaction(
 	ctx context.Context,
@@ -168,11 +176,7 @@ func (s *VirtualCameraServiceStub) OnTransaction(
 				}
 			}
 		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.RegisterCamera(ctx, _arg_token, _arg_configuration, _arg_deviceId)
+		_result, _err := s.Impl.RegisterCamera(ctx, _arg_token, _arg_configuration)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -210,7 +214,7 @@ func (s *VirtualCameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteString16(_result)
+		_reply.WriteInt32(_result)
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -221,9 +225,9 @@ func (s *VirtualCameraServiceStub) OnTransaction(
 // provide to NewVirtualCameraServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVirtualCameraServiceServer interface {
-	RegisterCamera(ctx context.Context, token binder.IBinder, configuration VirtualCameraConfiguration, deviceId int32) (bool, error)
+	RegisterCamera(ctx context.Context, token binder.IBinder, configuration VirtualCameraConfiguration) (bool, error)
 	UnregisterCamera(ctx context.Context, token binder.IBinder) error
-	GetCameraId(ctx context.Context, token binder.IBinder) (string, error)
+	GetCameraId(ctx context.Context, token binder.IBinder) (int32, error)
 }
 
 type virtualCameraServiceStubWrapper struct {
@@ -239,9 +243,8 @@ func (w *virtualCameraServiceStubWrapper) RegisterCamera(
 	ctx context.Context,
 	token binder.IBinder,
 	configuration VirtualCameraConfiguration,
-	deviceId int32,
 ) (bool, error) {
-	return w.impl.RegisterCamera(ctx, token, configuration, deviceId)
+	return w.impl.RegisterCamera(ctx, token, configuration)
 }
 
 func (w *virtualCameraServiceStubWrapper) UnregisterCamera(
@@ -254,7 +257,7 @@ func (w *virtualCameraServiceStubWrapper) UnregisterCamera(
 func (w *virtualCameraServiceStubWrapper) GetCameraId(
 	ctx context.Context,
 	token binder.IBinder,
-) (string, error) {
+) (int32, error) {
 	return w.impl.GetCameraId(ctx, token)
 }
 

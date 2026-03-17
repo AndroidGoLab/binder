@@ -15,23 +15,27 @@ const (
 	TransactionIGameStateListenerOnGameStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGameStateListenerOnGameStateChanged = "onGameStateChanged"
+)
+
 type IGameStateListener interface {
 	AsBinder() binder.IBinder
 	OnGameStateChanged(ctx context.Context, packageName string, state GameState) error
 }
 
 type GameStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameStateListenerProxy(
 	remote binder.IBinder,
 ) *GameStateListenerProxy {
-	return &GameStateListenerProxy{remote: remote}
+	return &GameStateListenerProxy{Remote: remote}
 }
 
 func (p *GameStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameStateListener = (*GameStateListenerProxy)(nil)
@@ -41,7 +45,7 @@ func (p *GameStateListenerProxy) OnGameStateChanged(
 	packageName string,
 	state GameState,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameStateListener)
 	_data.WriteString16(packageName)
@@ -51,12 +55,12 @@ func (p *GameStateListenerProxy) OnGameStateChanged(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameStateListener, "onGameStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameStateListener, MethodIGameStateListenerOnGameStateChanged)
 	if _err != nil {
-		_code = TransactionIGameStateListenerOnGameStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameStateListener, MethodIGameStateListenerOnGameStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type GameStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameStateListenerStub)(nil)
+
+func (s *GameStateListenerStub) Descriptor() string {
+	return DescriptorIGameStateListener
+}
 
 func (s *GameStateListenerStub) OnTransaction(
 	ctx context.Context,

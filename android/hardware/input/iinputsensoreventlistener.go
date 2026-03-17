@@ -16,6 +16,11 @@ const (
 	TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInputSensorEventListenerOnInputSensorChanged         = "onInputSensorChanged"
+	MethodIInputSensorEventListenerOnInputSensorAccuracyChanged = "onInputSensorAccuracyChanged"
+)
+
 type IInputSensorEventListener interface {
 	AsBinder() binder.IBinder
 	OnInputSensorChanged(ctx context.Context, deviceId int32, sensorId int32, accuracy int32, timestamp int64, values []float32) error
@@ -23,17 +28,17 @@ type IInputSensorEventListener interface {
 }
 
 type InputSensorEventListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputSensorEventListenerProxy(
 	remote binder.IBinder,
 ) *InputSensorEventListenerProxy {
-	return &InputSensorEventListenerProxy{remote: remote}
+	return &InputSensorEventListenerProxy{Remote: remote}
 }
 
 func (p *InputSensorEventListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputSensorEventListener = (*InputSensorEventListenerProxy)(nil)
@@ -61,12 +66,12 @@ func (p *InputSensorEventListenerProxy) OnInputSensorChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSensorEventListener, "onInputSensorChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorChanged)
 	if _err != nil {
-		_code = TransactionIInputSensorEventListenerOnInputSensorChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +87,12 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(accuracy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSensorEventListener, "onInputSensorAccuracyChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorAccuracyChanged)
 	if _err != nil {
-		_code = TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSensorEventListener, MethodIInputSensorEventListenerOnInputSensorAccuracyChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +103,10 @@ type InputSensorEventListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputSensorEventListenerStub)(nil)
+
+func (s *InputSensorEventListenerStub) Descriptor() string {
+	return DescriptorIInputSensorEventListener
+}
 
 func (s *InputSensorEventListenerStub) OnTransaction(
 	ctx context.Context,

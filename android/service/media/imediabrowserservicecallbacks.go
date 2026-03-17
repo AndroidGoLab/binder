@@ -21,6 +21,13 @@ const (
 	TransactionIMediaBrowserServiceCallbacksOnDisconnect    = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIMediaBrowserServiceCallbacksOnConnect       = "onConnect"
+	MethodIMediaBrowserServiceCallbacksOnConnectFailed = "onConnectFailed"
+	MethodIMediaBrowserServiceCallbacksOnLoadChildren  = "onLoadChildren"
+	MethodIMediaBrowserServiceCallbacksOnDisconnect    = "onDisconnect"
+)
+
 type IMediaBrowserServiceCallbacks interface {
 	AsBinder() binder.IBinder
 	OnConnect(ctx context.Context, root string, session mediaSession.MediaSessionToken, extras os.Bundle) error
@@ -30,17 +37,17 @@ type IMediaBrowserServiceCallbacks interface {
 }
 
 type MediaBrowserServiceCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaBrowserServiceCallbacksProxy(
 	remote binder.IBinder,
 ) *MediaBrowserServiceCallbacksProxy {
-	return &MediaBrowserServiceCallbacksProxy{remote: remote}
+	return &MediaBrowserServiceCallbacksProxy{Remote: remote}
 }
 
 func (p *MediaBrowserServiceCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaBrowserServiceCallbacks = (*MediaBrowserServiceCallbacksProxy)(nil)
@@ -63,12 +70,12 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onConnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnect)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceCallbacksOnConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +85,12 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnectFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onConnectFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnectFailed)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceCallbacksOnConnectFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnConnectFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +112,12 @@ func (p *MediaBrowserServiceCallbacksProxy) OnLoadChildren(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onLoadChildren")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnLoadChildren)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceCallbacksOnLoadChildren
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnLoadChildren, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,12 +127,12 @@ func (p *MediaBrowserServiceCallbacksProxy) OnDisconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onDisconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnDisconnect)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceCallbacksOnDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserServiceCallbacks, MethodIMediaBrowserServiceCallbacksOnDisconnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,6 +143,10 @@ type MediaBrowserServiceCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaBrowserServiceCallbacksStub)(nil)
+
+func (s *MediaBrowserServiceCallbacksStub) Descriptor() string {
+	return DescriptorIMediaBrowserServiceCallbacks
+}
 
 func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 	ctx context.Context,

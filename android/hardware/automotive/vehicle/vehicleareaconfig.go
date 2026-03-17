@@ -17,7 +17,6 @@ type VehicleAreaConfig struct {
 	SupportedEnumValues       []int64
 	Access                    VehiclePropertyAccess
 	SupportVariableUpdateRate bool
-	HasSupportedValueInfo     HasSupportedValueInfo
 }
 
 var _ parcel.Parcelable = (*VehicleAreaConfig)(nil)
@@ -43,9 +42,6 @@ func (s *VehicleAreaConfig) MarshalParcel(
 	}
 	p.WriteInt32(int32(s.Access))
 	p.WriteBool(s.SupportVariableUpdateRate)
-	if _err := s.HasSupportedValueInfo.MarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -117,10 +113,6 @@ func (s *VehicleAreaConfig) UnmarshalParcel(
 
 	s.SupportVariableUpdateRate, _err = p.ReadBool()
 	if _err != nil {
-		return _err
-	}
-
-	if _err = s.HasSupportedValueInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

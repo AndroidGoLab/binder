@@ -38,7 +38,7 @@ func AIDLToGoName(name string) string {
 	}
 
 	if isScreamingSnake(name) {
-		return screamingSnakeToPascal(name)
+		return ScreamingSnakeToPascal(name)
 	}
 
 	// camelCase or PascalCase: ensure first letter is uppercase.
@@ -159,8 +159,8 @@ func isScreamingSnake(name string) bool {
 	return hasUnderscore
 }
 
-// screamingSnakeToPascal converts "FIRST_CALL_TRANSACTION" to "FirstCallTransaction".
-func screamingSnakeToPascal(name string) string {
+// ScreamingSnakeToPascal converts "FIRST_CALL_TRANSACTION" to "FirstCallTransaction".
+func ScreamingSnakeToPascal(name string) string {
 	parts := strings.Split(name, "_")
 	var b strings.Builder
 	for _, part := range parts {

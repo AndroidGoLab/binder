@@ -13,25 +13,41 @@ const DescriptorIPackageManagerNative = "android.content.pm.IPackageManagerNativ
 
 const (
 	TransactionIPackageManagerNativeGetNamesForUids               = binder.FirstCallTransaction + 0
-	TransactionIPackageManagerNativeGetPackageUid                 = binder.FirstCallTransaction + 1
-	TransactionIPackageManagerNativeGetInstallerForPackage        = binder.FirstCallTransaction + 2
-	TransactionIPackageManagerNativeGetVersionCodeForPackage      = binder.FirstCallTransaction + 3
-	TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed = binder.FirstCallTransaction + 4
-	TransactionIPackageManagerNativeGetLocationFlags              = binder.FirstCallTransaction + 5
-	TransactionIPackageManagerNativeGetTargetSdkVersionForPackage = binder.FirstCallTransaction + 6
-	TransactionIPackageManagerNativeGetModuleMetadataPackageName  = binder.FirstCallTransaction + 7
-	TransactionIPackageManagerNativeHasSha256SigningCertificate   = binder.FirstCallTransaction + 8
-	TransactionIPackageManagerNativeIsPackageDebuggable           = binder.FirstCallTransaction + 9
-	TransactionIPackageManagerNativeHasSystemFeature              = binder.FirstCallTransaction + 10
-	TransactionIPackageManagerNativeRegisterStagedApexObserver    = binder.FirstCallTransaction + 11
-	TransactionIPackageManagerNativeUnregisterStagedApexObserver  = binder.FirstCallTransaction + 12
-	TransactionIPackageManagerNativeGetStagedApexInfos            = binder.FirstCallTransaction + 13
+	TransactionIPackageManagerNativeGetInstallerForPackage        = binder.FirstCallTransaction + 1
+	TransactionIPackageManagerNativeGetVersionCodeForPackage      = binder.FirstCallTransaction + 2
+	TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed = binder.FirstCallTransaction + 3
+	TransactionIPackageManagerNativeGetLocationFlags              = binder.FirstCallTransaction + 4
+	TransactionIPackageManagerNativeGetTargetSdkVersionForPackage = binder.FirstCallTransaction + 5
+	TransactionIPackageManagerNativeGetModuleMetadataPackageName  = binder.FirstCallTransaction + 6
+	TransactionIPackageManagerNativeHasSha256SigningCertificate   = binder.FirstCallTransaction + 7
+	TransactionIPackageManagerNativeIsPackageDebuggable           = binder.FirstCallTransaction + 8
+	TransactionIPackageManagerNativeHasSystemFeature              = binder.FirstCallTransaction + 9
+	TransactionIPackageManagerNativeRegisterStagedApexObserver    = binder.FirstCallTransaction + 10
+	TransactionIPackageManagerNativeUnregisterStagedApexObserver  = binder.FirstCallTransaction + 11
+	TransactionIPackageManagerNativeGetStagedApexModuleNames      = binder.FirstCallTransaction + 12
+	TransactionIPackageManagerNativeGetStagedApexInfo             = binder.FirstCallTransaction + 13
+)
+
+const (
+	MethodIPackageManagerNativeGetNamesForUids               = "getNamesForUids"
+	MethodIPackageManagerNativeGetInstallerForPackage        = "getInstallerForPackage"
+	MethodIPackageManagerNativeGetVersionCodeForPackage      = "getVersionCodeForPackage"
+	MethodIPackageManagerNativeIsAudioPlaybackCaptureAllowed = "isAudioPlaybackCaptureAllowed"
+	MethodIPackageManagerNativeGetLocationFlags              = "getLocationFlags"
+	MethodIPackageManagerNativeGetTargetSdkVersionForPackage = "getTargetSdkVersionForPackage"
+	MethodIPackageManagerNativeGetModuleMetadataPackageName  = "getModuleMetadataPackageName"
+	MethodIPackageManagerNativeHasSha256SigningCertificate   = "hasSha256SigningCertificate"
+	MethodIPackageManagerNativeIsPackageDebuggable           = "isPackageDebuggable"
+	MethodIPackageManagerNativeHasSystemFeature              = "hasSystemFeature"
+	MethodIPackageManagerNativeRegisterStagedApexObserver    = "registerStagedApexObserver"
+	MethodIPackageManagerNativeUnregisterStagedApexObserver  = "unregisterStagedApexObserver"
+	MethodIPackageManagerNativeGetStagedApexModuleNames      = "getStagedApexModuleNames"
+	MethodIPackageManagerNativeGetStagedApexInfo             = "getStagedApexInfo"
 )
 
 type IPackageManagerNative interface {
 	AsBinder() binder.IBinder
 	GetNamesForUids(ctx context.Context, uids []int32) ([]string, error)
-	GetPackageUid(ctx context.Context, packageName string, flags int64) (int32, error)
 	GetInstallerForPackage(ctx context.Context, packageName string) (string, error)
 	GetVersionCodeForPackage(ctx context.Context, packageName string) (int64, error)
 	IsAudioPlaybackCaptureAllowed(ctx context.Context, packageNames []string) ([]bool, error)
@@ -43,7 +59,8 @@ type IPackageManagerNative interface {
 	HasSystemFeature(ctx context.Context, featureName string, version int32) (bool, error)
 	RegisterStagedApexObserver(ctx context.Context, observer IStagedApexObserver) error
 	UnregisterStagedApexObserver(ctx context.Context, observer IStagedApexObserver) error
-	GetStagedApexInfos(ctx context.Context) ([]StagedApexInfo, error)
+	GetStagedApexModuleNames(ctx context.Context) ([]string, error)
+	GetStagedApexInfo(ctx context.Context, moduleName string) (StagedApexInfo, error)
 }
 
 const (
@@ -53,17 +70,17 @@ const (
 )
 
 type PackageManagerNativeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageManagerNativeProxy(
 	remote binder.IBinder,
 ) *PackageManagerNativeProxy {
-	return &PackageManagerNativeProxy{remote: remote}
+	return &PackageManagerNativeProxy{Remote: remote}
 }
 
 func (p *PackageManagerNativeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageManagerNative = (*PackageManagerNativeProxy)(nil)
@@ -84,12 +101,12 @@ func (p *PackageManagerNativeProxy) GetNamesForUids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getNamesForUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetNamesForUids)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetNamesForUids
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetNamesForUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,41 +133,6 @@ func (p *PackageManagerNativeProxy) GetNamesForUids(
 	return _result, nil
 }
 
-func (p *PackageManagerNativeProxy) GetPackageUid(
-	ctx context.Context,
-	packageName string,
-	flags int64,
-) (int32, error) {
-	var _result int32
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
-	_data.WriteString16(packageName)
-	_data.WriteInt64(flags)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getPackageUid")
-	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetPackageUid
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 func (p *PackageManagerNativeProxy) GetInstallerForPackage(
 	ctx context.Context,
 	packageName string,
@@ -160,12 +142,12 @@ func (p *PackageManagerNativeProxy) GetInstallerForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getInstallerForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetInstallerForPackage)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetInstallerForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetInstallerForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -191,12 +173,12 @@ func (p *PackageManagerNativeProxy) GetVersionCodeForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getVersionCodeForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetVersionCodeForPackage)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetVersionCodeForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetVersionCodeForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -229,12 +211,12 @@ func (p *PackageManagerNativeProxy) IsAudioPlaybackCaptureAllowed(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "isAudioPlaybackCaptureAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeIsAudioPlaybackCaptureAllowed)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeIsAudioPlaybackCaptureAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,12 +252,12 @@ func (p *PackageManagerNativeProxy) GetLocationFlags(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getLocationFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetLocationFlags)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetLocationFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetLocationFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -301,12 +283,12 @@ func (p *PackageManagerNativeProxy) GetTargetSdkVersionForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getTargetSdkVersionForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetTargetSdkVersionForPackage)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetTargetSdkVersionForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetTargetSdkVersionForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -330,12 +312,12 @@ func (p *PackageManagerNativeProxy) GetModuleMetadataPackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getModuleMetadataPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetModuleMetadataPackageName)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetModuleMetadataPackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetModuleMetadataPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -370,12 +352,12 @@ func (p *PackageManagerNativeProxy) HasSha256SigningCertificate(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "hasSha256SigningCertificate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeHasSha256SigningCertificate)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeHasSha256SigningCertificate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeHasSha256SigningCertificate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -401,12 +383,12 @@ func (p *PackageManagerNativeProxy) IsPackageDebuggable(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "isPackageDebuggable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeIsPackageDebuggable)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeIsPackageDebuggable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeIsPackageDebuggable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -434,12 +416,12 @@ func (p *PackageManagerNativeProxy) HasSystemFeature(
 	_data.WriteString16(featureName)
 	_data.WriteInt32(version)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "hasSystemFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeHasSystemFeature)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeHasSystemFeature
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeHasSystemFeature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -462,14 +444,14 @@ func (p *PackageManagerNativeProxy) RegisterStagedApexObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "registerStagedApexObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeRegisterStagedApexObserver)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeRegisterStagedApexObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeRegisterStagedApexObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -488,14 +470,14 @@ func (p *PackageManagerNativeProxy) UnregisterStagedApexObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "unregisterStagedApexObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeUnregisterStagedApexObserver)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeUnregisterStagedApexObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeUnregisterStagedApexObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -508,19 +490,19 @@ func (p *PackageManagerNativeProxy) UnregisterStagedApexObserver(
 	return nil
 }
 
-func (p *PackageManagerNativeProxy) GetStagedApexInfos(
+func (p *PackageManagerNativeProxy) GetStagedApexModuleNames(
 	ctx context.Context,
-) ([]StagedApexInfo, error) {
-	var _result []StagedApexInfo
+) ([]string, error) {
+	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getStagedApexInfos")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetStagedApexModuleNames)
 	if _err != nil {
-		_code = TransactionIPackageManagerNativeGetStagedApexInfos
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetStagedApexModuleNames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -536,11 +518,48 @@ func (p *PackageManagerNativeProxy) GetStagedApexInfos(
 	}
 
 	if _count >= 0 {
-		_result = make([]StagedApexInfo, _count)
+		_result = make([]string, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			_result[_i], _err = _reply.ReadString16()
+			if _err != nil {
 				return _result, _err
 			}
+		}
+	}
+	return _result, nil
+}
+
+func (p *PackageManagerNativeProxy) GetStagedApexInfo(
+	ctx context.Context,
+	moduleName string,
+) (StagedApexInfo, error) {
+	var _result StagedApexInfo
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
+	_data.WriteString16(moduleName)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetStagedApexInfo)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerNative, MethodIPackageManagerNativeGetStagedApexInfo, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
 		}
 	}
 	return _result, nil
@@ -553,6 +572,10 @@ type PackageManagerNativeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageManagerNativeStub)(nil)
+
+func (s *PackageManagerNativeStub) Descriptor() string {
+	return DescriptorIPackageManagerNative
+}
 
 func (s *PackageManagerNativeStub) OnTransaction(
 	ctx context.Context,
@@ -576,30 +599,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
-		return _reply, nil
-	case TransactionIPackageManagerNativeGetPackageUid:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_packageName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_flags, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetPackageUid(ctx, _arg_packageName, _arg_flags)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetInstallerForPackage:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -787,11 +786,11 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIPackageManagerNativeGetStagedApexInfos:
+	case TransactionIPackageManagerNativeGetStagedApexModuleNames:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetStagedApexInfos(ctx)
+		_result, _err := s.Impl.GetStagedApexModuleNames(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -800,6 +799,26 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
+		return _reply, nil
+	case TransactionIPackageManagerNativeGetStagedApexInfo:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_moduleName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetStagedApexInfo(ctx, _arg_moduleName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -811,7 +830,6 @@ func (s *PackageManagerNativeStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IPackageManagerNativeServer interface {
 	GetNamesForUids(ctx context.Context, uids []int32) ([]string, error)
-	GetPackageUid(ctx context.Context, packageName string, flags int64) (int32, error)
 	GetInstallerForPackage(ctx context.Context, packageName string) (string, error)
 	GetVersionCodeForPackage(ctx context.Context, packageName string) (int64, error)
 	IsAudioPlaybackCaptureAllowed(ctx context.Context, packageNames []string) ([]bool, error)
@@ -823,7 +841,8 @@ type IPackageManagerNativeServer interface {
 	HasSystemFeature(ctx context.Context, featureName string, version int32) (bool, error)
 	RegisterStagedApexObserver(ctx context.Context, observer IStagedApexObserver) error
 	UnregisterStagedApexObserver(ctx context.Context, observer IStagedApexObserver) error
-	GetStagedApexInfos(ctx context.Context) ([]StagedApexInfo, error)
+	GetStagedApexModuleNames(ctx context.Context) ([]string, error)
+	GetStagedApexInfo(ctx context.Context, moduleName string) (StagedApexInfo, error)
 }
 
 type packageManagerNativeStubWrapper struct {
@@ -840,14 +859,6 @@ func (w *packageManagerNativeStubWrapper) GetNamesForUids(
 	uids []int32,
 ) ([]string, error) {
 	return w.impl.GetNamesForUids(ctx, uids)
-}
-
-func (w *packageManagerNativeStubWrapper) GetPackageUid(
-	ctx context.Context,
-	packageName string,
-	flags int64,
-) (int32, error) {
-	return w.impl.GetPackageUid(ctx, packageName, flags)
 }
 
 func (w *packageManagerNativeStubWrapper) GetInstallerForPackage(
@@ -928,10 +939,17 @@ func (w *packageManagerNativeStubWrapper) UnregisterStagedApexObserver(
 	return w.impl.UnregisterStagedApexObserver(ctx, observer)
 }
 
-func (w *packageManagerNativeStubWrapper) GetStagedApexInfos(
+func (w *packageManagerNativeStubWrapper) GetStagedApexModuleNames(
 	ctx context.Context,
-) ([]StagedApexInfo, error) {
-	return w.impl.GetStagedApexInfos(ctx)
+) ([]string, error) {
+	return w.impl.GetStagedApexModuleNames(ctx)
+}
+
+func (w *packageManagerNativeStubWrapper) GetStagedApexInfo(
+	ctx context.Context,
+	moduleName string,
+) (StagedApexInfo, error) {
+	return w.impl.GetStagedApexInfo(ctx, moduleName)
 }
 
 var _ IPackageManagerNative = (*packageManagerNativeStubWrapper)(nil)

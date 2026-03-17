@@ -16,23 +16,27 @@ const (
 	TransactionIServiceConnectionConnected = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIServiceConnectionConnected = "connected"
+)
+
 type IServiceConnection interface {
 	AsBinder() binder.IBinder
 	Connected(ctx context.Context, name content.ComponentName, service binder.IBinder, dead bool) error
 }
 
 type ServiceConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceConnectionProxy(
 	remote binder.IBinder,
 ) *ServiceConnectionProxy {
-	return &ServiceConnectionProxy{remote: remote}
+	return &ServiceConnectionProxy{Remote: remote}
 }
 
 func (p *ServiceConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceConnection = (*ServiceConnectionProxy)(nil)
@@ -49,15 +53,15 @@ func (p *ServiceConnectionProxy) Connected(
 	if _err := name.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, service, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
 	_data.WriteBool(dead)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceConnection, "connected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceConnection, MethodIServiceConnectionConnected)
 	if _err != nil {
-		_code = TransactionIServiceConnectionConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceConnection, MethodIServiceConnectionConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +72,10 @@ type ServiceConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceConnectionStub)(nil)
+
+func (s *ServiceConnectionStub) Descriptor() string {
+	return DescriptorIServiceConnection
+}
 
 func (s *ServiceConnectionStub) OnTransaction(
 	ctx context.Context,

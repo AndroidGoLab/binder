@@ -19,6 +19,12 @@ const (
 	TransactionIHdcpAuthControlGetPendingHdcpLevel = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIHdcpAuthControlGetHdcpLevels       = "getHdcpLevels"
+	MethodIHdcpAuthControlTrySetHdcpLevel     = "trySetHdcpLevel"
+	MethodIHdcpAuthControlGetPendingHdcpLevel = "getPendingHdcpLevel"
+)
+
 type IHdcpAuthControl interface {
 	AsBinder() binder.IBinder
 	GetHdcpLevels(ctx context.Context) (drm.HdcpLevels, error)
@@ -27,17 +33,17 @@ type IHdcpAuthControl interface {
 }
 
 type HdcpAuthControlProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdcpAuthControlProxy(
 	remote binder.IBinder,
 ) *HdcpAuthControlProxy {
-	return &HdcpAuthControlProxy{remote: remote}
+	return &HdcpAuthControlProxy{Remote: remote}
 }
 
 func (p *HdcpAuthControlProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdcpAuthControl = (*HdcpAuthControlProxy)(nil)
@@ -49,12 +55,12 @@ func (p *HdcpAuthControlProxy) GetHdcpLevels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdcpAuthControl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdcpAuthControl, "getHdcpLevels")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdcpAuthControl, MethodIHdcpAuthControlGetHdcpLevels)
 	if _err != nil {
-		_code = TransactionIHdcpAuthControlGetHdcpLevels
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdcpAuthControl, MethodIHdcpAuthControlGetHdcpLevels, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,12 +90,12 @@ func (p *HdcpAuthControlProxy) TrySetHdcpLevel(
 	_data.WriteInterfaceToken(DescriptorIHdcpAuthControl)
 	_data.WriteInt32(int32(level))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdcpAuthControl, "trySetHdcpLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdcpAuthControl, MethodIHdcpAuthControlTrySetHdcpLevel)
 	if _err != nil {
-		_code = TransactionIHdcpAuthControlTrySetHdcpLevel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdcpAuthControl, MethodIHdcpAuthControlTrySetHdcpLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +115,12 @@ func (p *HdcpAuthControlProxy) GetPendingHdcpLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdcpAuthControl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdcpAuthControl, "getPendingHdcpLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdcpAuthControl, MethodIHdcpAuthControlGetPendingHdcpLevel)
 	if _err != nil {
-		_code = TransactionIHdcpAuthControlGetPendingHdcpLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdcpAuthControl, MethodIHdcpAuthControlGetPendingHdcpLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,6 +149,10 @@ type HdcpAuthControlStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdcpAuthControlStub)(nil)
+
+func (s *HdcpAuthControlStub) Descriptor() string {
+	return DescriptorIHdcpAuthControl
+}
 
 func (s *HdcpAuthControlStub) OnTransaction(
 	ctx context.Context,

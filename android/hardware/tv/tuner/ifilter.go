@@ -31,6 +31,24 @@ const (
 	TransactionIFilterSetDelayHint          = binder.FirstCallTransaction + 14
 )
 
+const (
+	MethodIFilterGetQueueDesc          = "getQueueDesc"
+	MethodIFilterClose                 = "close"
+	MethodIFilterConfigure             = "configure"
+	MethodIFilterConfigureAvStreamType = "configureAvStreamType"
+	MethodIFilterConfigureIpCid        = "configureIpCid"
+	MethodIFilterConfigureMonitorEvent = "configureMonitorEvent"
+	MethodIFilterStart                 = "start"
+	MethodIFilterStop                  = "stop"
+	MethodIFilterFlush                 = "flush"
+	MethodIFilterGetAvSharedHandle     = "getAvSharedHandle"
+	MethodIFilterGetId                 = "getId"
+	MethodIFilterGetId64Bit            = "getId64Bit"
+	MethodIFilterReleaseAvHandle       = "releaseAvHandle"
+	MethodIFilterSetDataSource         = "setDataSource"
+	MethodIFilterSetDelayHint          = "setDelayHint"
+)
+
 type IFilter interface {
 	AsBinder() binder.IBinder
 	GetQueueDesc(ctx context.Context, queue fmq.MQDescriptor) error
@@ -51,17 +69,17 @@ type IFilter interface {
 }
 
 type FilterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFilterProxy(
 	remote binder.IBinder,
 ) *FilterProxy {
-	return &FilterProxy{remote: remote}
+	return &FilterProxy{Remote: remote}
 }
 
 func (p *FilterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFilter = (*FilterProxy)(nil)
@@ -73,12 +91,12 @@ func (p *FilterProxy) GetQueueDesc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getQueueDesc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetQueueDesc)
 	if _err != nil {
-		_code = TransactionIFilterGetQueueDesc
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterGetQueueDesc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,12 +118,12 @@ func (p *FilterProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterClose)
 	if _err != nil {
-		_code = TransactionIFilterClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -129,12 +147,12 @@ func (p *FilterProxy) Configure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigure)
 	if _err != nil {
-		_code = TransactionIFilterConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -158,12 +176,12 @@ func (p *FilterProxy) ConfigureAvStreamType(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configureAvStreamType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigureAvStreamType)
 	if _err != nil {
-		_code = TransactionIFilterConfigureAvStreamType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterConfigureAvStreamType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -184,12 +202,12 @@ func (p *FilterProxy) ConfigureIpCid(
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(ipCid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configureIpCid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigureIpCid)
 	if _err != nil {
-		_code = TransactionIFilterConfigureIpCid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterConfigureIpCid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -210,12 +228,12 @@ func (p *FilterProxy) ConfigureMonitorEvent(
 	_data.WriteInterfaceToken(DescriptorIFilter)
 	_data.WriteInt32(monitorEventTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configureMonitorEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterConfigureMonitorEvent)
 	if _err != nil {
-		_code = TransactionIFilterConfigureMonitorEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterConfigureMonitorEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -234,12 +252,12 @@ func (p *FilterProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterStart)
 	if _err != nil {
-		_code = TransactionIFilterStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -258,12 +276,12 @@ func (p *FilterProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterStop)
 	if _err != nil {
-		_code = TransactionIFilterStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -282,12 +300,12 @@ func (p *FilterProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterFlush)
 	if _err != nil {
-		_code = TransactionIFilterFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -308,12 +326,12 @@ func (p *FilterProxy) GetAvSharedHandle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getAvSharedHandle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetAvSharedHandle)
 	if _err != nil {
-		_code = TransactionIFilterGetAvSharedHandle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterGetAvSharedHandle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -340,12 +358,12 @@ func (p *FilterProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetId)
 	if _err != nil {
-		_code = TransactionIFilterGetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterGetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -369,12 +387,12 @@ func (p *FilterProxy) GetId64Bit(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getId64Bit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterGetId64Bit)
 	if _err != nil {
-		_code = TransactionIFilterGetId64Bit
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterGetId64Bit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -404,12 +422,12 @@ func (p *FilterProxy) ReleaseAvHandle(
 	}
 	_data.WriteInt64(avDataId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "releaseAvHandle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterReleaseAvHandle)
 	if _err != nil {
-		_code = TransactionIFilterReleaseAvHandle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterReleaseAvHandle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -428,14 +446,14 @@ func (p *FilterProxy) SetDataSource(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "setDataSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterSetDataSource)
 	if _err != nil {
-		_code = TransactionIFilterSetDataSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterSetDataSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -459,12 +477,12 @@ func (p *FilterProxy) SetDelayHint(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "setDelayHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFilter, MethodIFilterSetDelayHint)
 	if _err != nil {
-		_code = TransactionIFilterSetDelayHint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFilter, MethodIFilterSetDelayHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -484,6 +502,10 @@ type FilterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FilterStub)(nil)
+
+func (s *FilterStub) Descriptor() string {
+	return DescriptorIFilter
+}
 
 func (s *FilterStub) OnTransaction(
 	ctx context.Context,

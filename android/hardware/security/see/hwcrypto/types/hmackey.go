@@ -58,23 +58,9 @@ func (u *HmacKey) MarshalParcel(
 
 	switch u.Tag {
 	case HmacKeyTagSha256:
-		if u.Sha256 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Sha256)))
-			for _, _item := range u.Sha256 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteFixedByteArray(u.Sha256, 32)
 	case HmacKeyTagSha512:
-		if u.Sha512 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Sha512)))
-			for _, _item := range u.Sha512 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteFixedByteArray(u.Sha512, 64)
 	default:
 		return fmt.Errorf("unknown union tag %d for HmacKey", u.Tag)
 	}
@@ -99,35 +85,15 @@ func (u *HmacKey) UnmarshalParcel(
 	switch u.Tag {
 	case HmacKeyTagSha256:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.Sha256, _err = p.ReadFixedByteArray(32)
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.Sha256 = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.Sha256[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case HmacKeyTagSha512:
 
-		var _count1 int32
-		_count1, _err = p.ReadInt32()
+		u.Sha512, _err = p.ReadFixedByteArray(64)
 		if _err != nil {
 			return _err
-		}
-		if _count1 >= 0 {
-			u.Sha512 = make([]byte, _count1)
-			for _i := int32(0); _i < _count1; _i++ {
-				u.Sha512[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for HmacKey", u.Tag)

@@ -15,23 +15,27 @@ const (
 	TransactionIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered = "onAllAuthenticatorsRegistered"
+)
+
 type IFaceAuthenticatorsRegisteredCallback interface {
 	AsBinder() binder.IBinder
 	OnAllAuthenticatorsRegistered(ctx context.Context, sensors []FaceSensorPropertiesInternal) error
 }
 
 type FaceAuthenticatorsRegisteredCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFaceAuthenticatorsRegisteredCallbackProxy(
 	remote binder.IBinder,
 ) *FaceAuthenticatorsRegisteredCallbackProxy {
-	return &FaceAuthenticatorsRegisteredCallbackProxy{remote: remote}
+	return &FaceAuthenticatorsRegisteredCallbackProxy{Remote: remote}
 }
 
 func (p *FaceAuthenticatorsRegisteredCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFaceAuthenticatorsRegisteredCallback = (*FaceAuthenticatorsRegisteredCallbackProxy)(nil)
@@ -47,18 +51,19 @@ func (p *FaceAuthenticatorsRegisteredCallbackProxy) OnAllAuthenticatorsRegistere
 	} else {
 		_data.WriteInt32(int32(len(sensors)))
 		for _, _item := range sensors {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFaceAuthenticatorsRegisteredCallback, "onAllAuthenticatorsRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFaceAuthenticatorsRegisteredCallback, MethodIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered)
 	if _err != nil {
-		_code = TransactionIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFaceAuthenticatorsRegisteredCallback, MethodIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type FaceAuthenticatorsRegisteredCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FaceAuthenticatorsRegisteredCallbackStub)(nil)
+
+func (s *FaceAuthenticatorsRegisteredCallbackStub) Descriptor() string {
+	return DescriptorIFaceAuthenticatorsRegisteredCallback
+}
 
 func (s *FaceAuthenticatorsRegisteredCallbackStub) OnTransaction(
 	ctx context.Context,

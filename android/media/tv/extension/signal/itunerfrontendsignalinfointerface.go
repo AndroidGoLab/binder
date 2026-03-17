@@ -17,6 +17,11 @@ const (
 	TransactionITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo         = "getFrontendSignalInfo"
+	MethodITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener = "setFrontendSignalInfoListener"
+)
+
 type ITunerFrontendSignalInfoInterface interface {
 	AsBinder() binder.IBinder
 	GetFrontendSignalInfo(ctx context.Context, sessionToken string) (os.Bundle, error)
@@ -24,17 +29,17 @@ type ITunerFrontendSignalInfoInterface interface {
 }
 
 type TunerFrontendSignalInfoInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerFrontendSignalInfoInterfaceProxy(
 	remote binder.IBinder,
 ) *TunerFrontendSignalInfoInterfaceProxy {
-	return &TunerFrontendSignalInfoInterfaceProxy{remote: remote}
+	return &TunerFrontendSignalInfoInterfaceProxy{Remote: remote}
 }
 
 func (p *TunerFrontendSignalInfoInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerFrontendSignalInfoInterface = (*TunerFrontendSignalInfoInterfaceProxy)(nil)
@@ -48,12 +53,12 @@ func (p *TunerFrontendSignalInfoInterfaceProxy) GetFrontendSignalInfo(
 	_data.WriteInterfaceToken(DescriptorITunerFrontendSignalInfoInterface)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoInterface, "getFrontendSignalInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontendSignalInfoInterface, MethodITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo)
 	if _err != nil {
-		_code = TransactionITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontendSignalInfoInterface, MethodITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,14 +86,14 @@ func (p *TunerFrontendSignalInfoInterfaceProxy) SetFrontendSignalInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontendSignalInfoInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoInterface, "setFrontendSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontendSignalInfoInterface, MethodITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener)
 	if _err != nil {
-		_code = TransactionITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontendSignalInfoInterface, MethodITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,6 +113,10 @@ type TunerFrontendSignalInfoInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerFrontendSignalInfoInterfaceStub)(nil)
+
+func (s *TunerFrontendSignalInfoInterfaceStub) Descriptor() string {
+	return DescriptorITunerFrontendSignalInfoInterface
+}
 
 func (s *TunerFrontendSignalInfoInterfaceStub) OnTransaction(
 	ctx context.Context,

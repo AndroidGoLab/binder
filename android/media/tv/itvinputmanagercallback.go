@@ -20,6 +20,15 @@ const (
 	TransactionITvInputManagerCallbackOnCurrentTunedInfosUpdated = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodITvInputManagerCallbackOnInputAdded               = "onInputAdded"
+	MethodITvInputManagerCallbackOnInputRemoved             = "onInputRemoved"
+	MethodITvInputManagerCallbackOnInputUpdated             = "onInputUpdated"
+	MethodITvInputManagerCallbackOnInputStateChanged        = "onInputStateChanged"
+	MethodITvInputManagerCallbackOnTvInputInfoUpdated       = "onTvInputInfoUpdated"
+	MethodITvInputManagerCallbackOnCurrentTunedInfosUpdated = "onCurrentTunedInfosUpdated"
+)
+
 type ITvInputManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnInputAdded(ctx context.Context, inputId string) error
@@ -31,17 +40,17 @@ type ITvInputManagerCallback interface {
 }
 
 type TvInputManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInputManagerCallbackProxy(
 	remote binder.IBinder,
 ) *TvInputManagerCallbackProxy {
-	return &TvInputManagerCallbackProxy{remote: remote}
+	return &TvInputManagerCallbackProxy{Remote: remote}
 }
 
 func (p *TvInputManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInputManagerCallback = (*TvInputManagerCallbackProxy)(nil)
@@ -54,12 +63,12 @@ func (p *TvInputManagerCallbackProxy) OnInputAdded(
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputAdded)
 	if _err != nil {
-		_code = TransactionITvInputManagerCallbackOnInputAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +80,12 @@ func (p *TvInputManagerCallbackProxy) OnInputRemoved(
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputRemoved)
 	if _err != nil {
-		_code = TransactionITvInputManagerCallbackOnInputRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +97,12 @@ func (p *TvInputManagerCallbackProxy) OnInputUpdated(
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputUpdated)
 	if _err != nil {
-		_code = TransactionITvInputManagerCallbackOnInputUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +116,12 @@ func (p *TvInputManagerCallbackProxy) OnInputStateChanged(
 	_data.WriteString16(inputId)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputStateChanged)
 	if _err != nil {
-		_code = TransactionITvInputManagerCallbackOnInputStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnInputStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,12 +136,12 @@ func (p *TvInputManagerCallbackProxy) OnTvInputInfoUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onTvInputInfoUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnTvInputInfoUpdated)
 	if _err != nil {
-		_code = TransactionITvInputManagerCallbackOnTvInputInfoUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnTvInputInfoUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,18 +156,19 @@ func (p *TvInputManagerCallbackProxy) OnCurrentTunedInfosUpdated(
 	} else {
 		_data.WriteInt32(int32(len(currentTunedInfos)))
 		for _, _item := range currentTunedInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onCurrentTunedInfosUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnCurrentTunedInfosUpdated)
 	if _err != nil {
-		_code = TransactionITvInputManagerCallbackOnCurrentTunedInfosUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputManagerCallback, MethodITvInputManagerCallbackOnCurrentTunedInfosUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -169,6 +179,10 @@ type TvInputManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInputManagerCallbackStub)(nil)
+
+func (s *TvInputManagerCallbackStub) Descriptor() string {
+	return DescriptorITvInputManagerCallback
+}
 
 func (s *TvInputManagerCallbackStub) OnTransaction(
 	ctx context.Context,

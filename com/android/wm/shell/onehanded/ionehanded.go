@@ -16,6 +16,11 @@ const (
 	TransactionIOneHandedStopOneHanded  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIOneHandedStartOneHanded = "startOneHanded"
+	MethodIOneHandedStopOneHanded  = "stopOneHanded"
+)
+
 type IOneHanded interface {
 	AsBinder() binder.IBinder
 	StartOneHanded(ctx context.Context) error
@@ -23,17 +28,17 @@ type IOneHanded interface {
 }
 
 type OneHandedProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOneHandedProxy(
 	remote binder.IBinder,
 ) *OneHandedProxy {
-	return &OneHandedProxy{remote: remote}
+	return &OneHandedProxy{Remote: remote}
 }
 
 func (p *OneHandedProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOneHanded = (*OneHandedProxy)(nil)
@@ -44,12 +49,12 @@ func (p *OneHandedProxy) StartOneHanded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOneHanded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOneHanded, "startOneHanded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOneHanded, MethodIOneHandedStartOneHanded)
 	if _err != nil {
-		_code = TransactionIOneHandedStartOneHanded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOneHanded, MethodIOneHandedStartOneHanded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *OneHandedProxy) StopOneHanded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOneHanded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOneHanded, "stopOneHanded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOneHanded, MethodIOneHandedStopOneHanded)
 	if _err != nil {
-		_code = TransactionIOneHandedStopOneHanded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOneHanded, MethodIOneHandedStopOneHanded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type OneHandedStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OneHandedStub)(nil)
+
+func (s *OneHandedStub) Descriptor() string {
+	return DescriptorIOneHanded
+}
 
 func (s *OneHandedStub) OnTransaction(
 	ctx context.Context,

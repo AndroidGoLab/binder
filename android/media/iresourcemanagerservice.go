@@ -14,26 +14,39 @@ const DescriptorIResourceManagerService = "android.media.IResourceManagerService
 const (
 	TransactionIResourceManagerServiceConfig                                    = binder.FirstCallTransaction + 0
 	TransactionIResourceManagerServiceAddResource                               = binder.FirstCallTransaction + 1
-	TransactionIResourceManagerServiceUpdateResource                            = binder.FirstCallTransaction + 2
-	TransactionIResourceManagerServiceRemoveResource                            = binder.FirstCallTransaction + 3
-	TransactionIResourceManagerServiceRemoveClient                              = binder.FirstCallTransaction + 4
-	TransactionIResourceManagerServiceReclaimResource                           = binder.FirstCallTransaction + 5
-	TransactionIResourceManagerServiceOverridePid                               = binder.FirstCallTransaction + 6
-	TransactionIResourceManagerServiceOverrideProcessInfo                       = binder.FirstCallTransaction + 7
-	TransactionIResourceManagerServiceMarkClientForPendingRemoval               = binder.FirstCallTransaction + 8
-	TransactionIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval = binder.FirstCallTransaction + 9
-	TransactionIResourceManagerServiceNotifyClientCreated                       = binder.FirstCallTransaction + 10
-	TransactionIResourceManagerServiceNotifyClientStarted                       = binder.FirstCallTransaction + 11
-	TransactionIResourceManagerServiceNotifyClientStopped                       = binder.FirstCallTransaction + 12
-	TransactionIResourceManagerServiceNotifyClientConfigChanged                 = binder.FirstCallTransaction + 13
-	TransactionIResourceManagerServiceGetMediaResourceUsageReport               = binder.FirstCallTransaction + 14
+	TransactionIResourceManagerServiceRemoveResource                            = binder.FirstCallTransaction + 2
+	TransactionIResourceManagerServiceRemoveClient                              = binder.FirstCallTransaction + 3
+	TransactionIResourceManagerServiceReclaimResource                           = binder.FirstCallTransaction + 4
+	TransactionIResourceManagerServiceOverridePid                               = binder.FirstCallTransaction + 5
+	TransactionIResourceManagerServiceOverrideProcessInfo                       = binder.FirstCallTransaction + 6
+	TransactionIResourceManagerServiceMarkClientForPendingRemoval               = binder.FirstCallTransaction + 7
+	TransactionIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval = binder.FirstCallTransaction + 8
+	TransactionIResourceManagerServiceNotifyClientCreated                       = binder.FirstCallTransaction + 9
+	TransactionIResourceManagerServiceNotifyClientStarted                       = binder.FirstCallTransaction + 10
+	TransactionIResourceManagerServiceNotifyClientStopped                       = binder.FirstCallTransaction + 11
+	TransactionIResourceManagerServiceNotifyClientConfigChanged                 = binder.FirstCallTransaction + 12
+)
+
+const (
+	MethodIResourceManagerServiceConfig                                    = "config"
+	MethodIResourceManagerServiceAddResource                               = "addResource"
+	MethodIResourceManagerServiceRemoveResource                            = "removeResource"
+	MethodIResourceManagerServiceRemoveClient                              = "removeClient"
+	MethodIResourceManagerServiceReclaimResource                           = "reclaimResource"
+	MethodIResourceManagerServiceOverridePid                               = "overridePid"
+	MethodIResourceManagerServiceOverrideProcessInfo                       = "overrideProcessInfo"
+	MethodIResourceManagerServiceMarkClientForPendingRemoval               = "markClientForPendingRemoval"
+	MethodIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval = "reclaimResourcesFromClientsPendingRemoval"
+	MethodIResourceManagerServiceNotifyClientCreated                       = "notifyClientCreated"
+	MethodIResourceManagerServiceNotifyClientStarted                       = "notifyClientStarted"
+	MethodIResourceManagerServiceNotifyClientStopped                       = "notifyClientStopped"
+	MethodIResourceManagerServiceNotifyClientConfigChanged                 = "notifyClientConfigChanged"
 )
 
 type IResourceManagerService interface {
 	AsBinder() binder.IBinder
 	Config(ctx context.Context, policies []MediaResourcePolicyParcel) error
 	AddResource(ctx context.Context, clientInfo ClientInfoParcel, client IResourceManagerClient, resources []MediaResourceParcel) error
-	UpdateResource(ctx context.Context, clientInfo ClientInfoParcel, resources []MediaResourceParcel) error
 	RemoveResource(ctx context.Context, clientInfo ClientInfoParcel, resources []MediaResourceParcel) error
 	RemoveClient(ctx context.Context, clientInfo ClientInfoParcel) error
 	ReclaimResource(ctx context.Context, clientInfo ClientInfoParcel, resources []MediaResourceParcel) (bool, error)
@@ -45,7 +58,6 @@ type IResourceManagerService interface {
 	NotifyClientStarted(ctx context.Context, clientConfig ClientConfigParcel) error
 	NotifyClientStopped(ctx context.Context, clientConfig ClientConfigParcel) error
 	NotifyClientConfigChanged(ctx context.Context, clientConfig ClientConfigParcel) error
-	GetMediaResourceUsageReport(ctx context.Context, resources []MediaResourceParcel) error
 }
 
 const (
@@ -54,17 +66,17 @@ const (
 )
 
 type ResourceManagerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResourceManagerServiceProxy(
 	remote binder.IBinder,
 ) *ResourceManagerServiceProxy {
-	return &ResourceManagerServiceProxy{remote: remote}
+	return &ResourceManagerServiceProxy{Remote: remote}
 }
 
 func (p *ResourceManagerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResourceManagerService = (*ResourceManagerServiceProxy)(nil)
@@ -80,18 +92,19 @@ func (p *ResourceManagerServiceProxy) Config(
 	} else {
 		_data.WriteInt32(int32(len(policies)))
 		for _, _item := range policies {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "config")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceConfig)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -116,64 +129,25 @@ func (p *ResourceManagerServiceProxy) AddResource(
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	if resources == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(resources)))
 		for _, _item := range resources {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "addResource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceAddResource)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceAddResource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceAddResource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ResourceManagerServiceProxy) UpdateResource(
-	ctx context.Context,
-	clientInfo ClientInfoParcel,
-	resources []MediaResourceParcel,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	_data.WriteInt32(1)
-	if _err := clientInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if resources == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(resources)))
-		for _, _item := range resources {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "updateResource")
-	if _err != nil {
-		_code = TransactionIResourceManagerServiceUpdateResource
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,18 +176,19 @@ func (p *ResourceManagerServiceProxy) RemoveResource(
 	} else {
 		_data.WriteInt32(int32(len(resources)))
 		for _, _item := range resources {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "removeResource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveResource)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceRemoveResource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveResource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -237,12 +212,12 @@ func (p *ResourceManagerServiceProxy) RemoveClient(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "removeClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveClient)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceRemoveClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceRemoveClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -272,18 +247,19 @@ func (p *ResourceManagerServiceProxy) ReclaimResource(
 	} else {
 		_data.WriteInt32(int32(len(resources)))
 		for _, _item := range resources {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "reclaimResource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResource)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceReclaimResource
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -310,12 +286,12 @@ func (p *ResourceManagerServiceProxy) OverridePid(
 	_data.WriteInt32(originalPid)
 	_data.WriteInt32(newPid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "overridePid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceOverridePid)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceOverridePid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceOverridePid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -337,17 +313,17 @@ func (p *ResourceManagerServiceProxy) OverrideProcessInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(pid)
 	_data.WriteInt32(procState)
 	_data.WriteInt32(oomScore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "overrideProcessInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceOverrideProcessInfo)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceOverrideProcessInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceOverrideProcessInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -371,12 +347,12 @@ func (p *ResourceManagerServiceProxy) MarkClientForPendingRemoval(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "markClientForPendingRemoval")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceMarkClientForPendingRemoval)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceMarkClientForPendingRemoval
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceMarkClientForPendingRemoval, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -397,12 +373,12 @@ func (p *ResourceManagerServiceProxy) ReclaimResourcesFromClientsPendingRemoval(
 	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "reclaimResourcesFromClientsPendingRemoval")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -426,12 +402,12 @@ func (p *ResourceManagerServiceProxy) NotifyClientCreated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientCreated)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceNotifyClientCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientCreated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -455,12 +431,12 @@ func (p *ResourceManagerServiceProxy) NotifyClientStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStarted)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceNotifyClientStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStarted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -484,12 +460,12 @@ func (p *ResourceManagerServiceProxy) NotifyClientStopped(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStopped)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceNotifyClientStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientStopped, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -513,37 +489,12 @@ func (p *ResourceManagerServiceProxy) NotifyClientConfigChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientConfigChanged)
 	if _err != nil {
-		_code = TransactionIResourceManagerServiceNotifyClientConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerService, MethodIResourceManagerServiceNotifyClientConfigChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *ResourceManagerServiceProxy) GetMediaResourceUsageReport(
-	ctx context.Context,
-	resources []MediaResourceParcel,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIResourceManagerService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "getMediaResourceUsageReport")
-	if _err != nil {
-		_code = TransactionIResourceManagerServiceGetMediaResourceUsageReport
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -551,18 +502,6 @@ func (p *ResourceManagerServiceProxy) GetMediaResourceUsageReport(
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _err
-	}
-	_outCount0, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _outCount0 >= 0 {
-		resources = make([]MediaResourceParcel, _outCount0)
-		for _i := int32(0); _i < _outCount0; _i++ {
-			if _err = resources[_i].UnmarshalParcel(_reply); _err != nil {
-				return _err
-			}
-		}
 	}
 
 	return nil
@@ -575,6 +514,10 @@ type ResourceManagerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResourceManagerServiceStub)(nil)
+
+func (s *ResourceManagerServiceStub) Descriptor() string {
+	return DescriptorIResourceManagerService
+}
 
 func (s *ResourceManagerServiceStub) OnTransaction(
 	ctx context.Context,
@@ -620,33 +563,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		var _arg_resources []MediaResourceParcel
 		_ = _arg_resources
 		_err := s.Impl.AddResource(ctx, _arg_clientInfo, _arg_client, _arg_resources)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIResourceManagerServiceUpdateResource:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_clientInfo ClientInfoParcel
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_clientInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_resources []MediaResourceParcel
-		_ = _arg_resources
-		_err := s.Impl.UpdateResource(ctx, _arg_clientInfo, _arg_resources)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -916,19 +832,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIResourceManagerServiceGetMediaResourceUsageReport:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_resources []MediaResourceParcel
-		_err := s.Impl.GetMediaResourceUsageReport(ctx, _arg_resources)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -940,7 +843,6 @@ func (s *ResourceManagerServiceStub) OnTransaction(
 type IResourceManagerServiceServer interface {
 	Config(ctx context.Context, policies []MediaResourcePolicyParcel) error
 	AddResource(ctx context.Context, clientInfo ClientInfoParcel, client IResourceManagerClient, resources []MediaResourceParcel) error
-	UpdateResource(ctx context.Context, clientInfo ClientInfoParcel, resources []MediaResourceParcel) error
 	RemoveResource(ctx context.Context, clientInfo ClientInfoParcel, resources []MediaResourceParcel) error
 	RemoveClient(ctx context.Context, clientInfo ClientInfoParcel) error
 	ReclaimResource(ctx context.Context, clientInfo ClientInfoParcel, resources []MediaResourceParcel) (bool, error)
@@ -952,7 +854,6 @@ type IResourceManagerServiceServer interface {
 	NotifyClientStarted(ctx context.Context, clientConfig ClientConfigParcel) error
 	NotifyClientStopped(ctx context.Context, clientConfig ClientConfigParcel) error
 	NotifyClientConfigChanged(ctx context.Context, clientConfig ClientConfigParcel) error
-	GetMediaResourceUsageReport(ctx context.Context, resources []MediaResourceParcel) error
 }
 
 type resourceManagerServiceStubWrapper struct {
@@ -978,14 +879,6 @@ func (w *resourceManagerServiceStubWrapper) AddResource(
 	resources []MediaResourceParcel,
 ) error {
 	return w.impl.AddResource(ctx, clientInfo, client, resources)
-}
-
-func (w *resourceManagerServiceStubWrapper) UpdateResource(
-	ctx context.Context,
-	clientInfo ClientInfoParcel,
-	resources []MediaResourceParcel,
-) error {
-	return w.impl.UpdateResource(ctx, clientInfo, resources)
 }
 
 func (w *resourceManagerServiceStubWrapper) RemoveResource(
@@ -1069,13 +962,6 @@ func (w *resourceManagerServiceStubWrapper) NotifyClientConfigChanged(
 	clientConfig ClientConfigParcel,
 ) error {
 	return w.impl.NotifyClientConfigChanged(ctx, clientConfig)
-}
-
-func (w *resourceManagerServiceStubWrapper) GetMediaResourceUsageReport(
-	ctx context.Context,
-	resources []MediaResourceParcel,
-) error {
-	return w.impl.GetMediaResourceUsageReport(ctx, resources)
 }
 
 var _ IResourceManagerService = (*resourceManagerServiceStubWrapper)(nil)

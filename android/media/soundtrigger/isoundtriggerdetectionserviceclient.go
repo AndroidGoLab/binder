@@ -15,23 +15,27 @@ const (
 	TransactionISoundTriggerDetectionServiceClientOnOpFinished = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISoundTriggerDetectionServiceClientOnOpFinished = "onOpFinished"
+)
+
 type ISoundTriggerDetectionServiceClient interface {
 	AsBinder() binder.IBinder
 	OnOpFinished(ctx context.Context, opId int32) error
 }
 
 type SoundTriggerDetectionServiceClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundTriggerDetectionServiceClientProxy(
 	remote binder.IBinder,
 ) *SoundTriggerDetectionServiceClientProxy {
-	return &SoundTriggerDetectionServiceClientProxy{remote: remote}
+	return &SoundTriggerDetectionServiceClientProxy{Remote: remote}
 }
 
 func (p *SoundTriggerDetectionServiceClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundTriggerDetectionServiceClient = (*SoundTriggerDetectionServiceClientProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SoundTriggerDetectionServiceClientProxy) OnOpFinished(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionServiceClient)
 	_data.WriteInt32(opId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerDetectionServiceClient, "onOpFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerDetectionServiceClient, MethodISoundTriggerDetectionServiceClientOnOpFinished)
 	if _err != nil {
-		_code = TransactionISoundTriggerDetectionServiceClientOnOpFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerDetectionServiceClient, MethodISoundTriggerDetectionServiceClientOnOpFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SoundTriggerDetectionServiceClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerDetectionServiceClientStub)(nil)
+
+func (s *SoundTriggerDetectionServiceClientStub) Descriptor() string {
+	return DescriptorISoundTriggerDetectionServiceClient
+}
 
 func (s *SoundTriggerDetectionServiceClientStub) OnTransaction(
 	ctx context.Context,

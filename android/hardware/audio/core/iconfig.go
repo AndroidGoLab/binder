@@ -17,6 +17,11 @@ const (
 	TransactionIConfigGetEngineConfig        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIConfigGetSurroundSoundConfig = "getSurroundSoundConfig"
+	MethodIConfigGetEngineConfig        = "getEngineConfig"
+)
+
 type IConfig interface {
 	AsBinder() binder.IBinder
 	GetSurroundSoundConfig(ctx context.Context) (SurroundSoundConfig, error)
@@ -24,17 +29,17 @@ type IConfig interface {
 }
 
 type ConfigProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConfigProxy(
 	remote binder.IBinder,
 ) *ConfigProxy {
-	return &ConfigProxy{remote: remote}
+	return &ConfigProxy{Remote: remote}
 }
 
 func (p *ConfigProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConfig = (*ConfigProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ConfigProxy) GetSurroundSoundConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfig, "getSurroundSoundConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfig, MethodIConfigGetSurroundSoundConfig)
 	if _err != nil {
-		_code = TransactionIConfigGetSurroundSoundConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfig, MethodIConfigGetSurroundSoundConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,12 +85,12 @@ func (p *ConfigProxy) GetEngineConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfig, "getEngineConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfig, MethodIConfigGetEngineConfig)
 	if _err != nil {
-		_code = TransactionIConfigGetEngineConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConfig, MethodIConfigGetEngineConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,6 +119,10 @@ type ConfigStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConfigStub)(nil)
+
+func (s *ConfigStub) Descriptor() string {
+	return DescriptorIConfig
+}
 
 func (s *ConfigStub) OnTransaction(
 	ctx context.Context,

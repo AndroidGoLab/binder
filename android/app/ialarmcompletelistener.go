@@ -15,23 +15,27 @@ const (
 	TransactionIAlarmCompleteListenerAlarmComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAlarmCompleteListenerAlarmComplete = "alarmComplete"
+)
+
 type IAlarmCompleteListener interface {
 	AsBinder() binder.IBinder
 	AlarmComplete(ctx context.Context, who binder.IBinder) error
 }
 
 type AlarmCompleteListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAlarmCompleteListenerProxy(
 	remote binder.IBinder,
 ) *AlarmCompleteListenerProxy {
-	return &AlarmCompleteListenerProxy{remote: remote}
+	return &AlarmCompleteListenerProxy{Remote: remote}
 }
 
 func (p *AlarmCompleteListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAlarmCompleteListener = (*AlarmCompleteListenerProxy)(nil)
@@ -42,14 +46,14 @@ func (p *AlarmCompleteListenerProxy) AlarmComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAlarmCompleteListener)
-	binder.WriteBinderToParcel(ctx, _data, who, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, who, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAlarmCompleteListener, "alarmComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAlarmCompleteListener, MethodIAlarmCompleteListenerAlarmComplete)
 	if _err != nil {
-		_code = TransactionIAlarmCompleteListenerAlarmComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAlarmCompleteListener, MethodIAlarmCompleteListenerAlarmComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type AlarmCompleteListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AlarmCompleteListenerStub)(nil)
+
+func (s *AlarmCompleteListenerStub) Descriptor() string {
+	return DescriptorIAlarmCompleteListener
+}
 
 func (s *AlarmCompleteListenerStub) OnTransaction(
 	ctx context.Context,

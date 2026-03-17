@@ -16,17 +16,17 @@ type ICameraClient interface {
 }
 
 type CameraClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraClientProxy(
 	remote binder.IBinder,
 ) *CameraClientProxy {
-	return &CameraClientProxy{remote: remote}
+	return &CameraClientProxy{Remote: remote}
 }
 
 func (p *CameraClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraClient = (*CameraClientProxy)(nil)
@@ -38,6 +38,10 @@ type CameraClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraClientStub)(nil)
+
+func (s *CameraClientStub) Descriptor() string {
+	return DescriptorICameraClient
+}
 
 func (s *CameraClientStub) OnTransaction(
 	ctx context.Context,

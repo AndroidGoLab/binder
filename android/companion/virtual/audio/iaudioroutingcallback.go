@@ -15,23 +15,27 @@ const (
 	TransactionIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged = "onAppsNeedingAudioRoutingChanged"
+)
+
 type IAudioRoutingCallback interface {
 	AsBinder() binder.IBinder
 	OnAppsNeedingAudioRoutingChanged(ctx context.Context, appUids []int32) error
 }
 
 type AudioRoutingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioRoutingCallbackProxy(
 	remote binder.IBinder,
 ) *AudioRoutingCallbackProxy {
-	return &AudioRoutingCallbackProxy{remote: remote}
+	return &AudioRoutingCallbackProxy{Remote: remote}
 }
 
 func (p *AudioRoutingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioRoutingCallback = (*AudioRoutingCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *AudioRoutingCallbackProxy) OnAppsNeedingAudioRoutingChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioRoutingCallback, "onAppsNeedingAudioRoutingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioRoutingCallback, MethodIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged)
 	if _err != nil {
-		_code = TransactionIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioRoutingCallback, MethodIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type AudioRoutingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioRoutingCallbackStub)(nil)
+
+func (s *AudioRoutingCallbackStub) Descriptor() string {
+	return DescriptorIAudioRoutingCallback
+}
 
 func (s *AudioRoutingCallbackStub) OnTransaction(
 	ctx context.Context,

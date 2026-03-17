@@ -15,23 +15,27 @@ const (
 	TransactionIGetEidCallbackOnSuccess = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetEidCallbackOnSuccess = "onSuccess"
+)
+
 type IGetEidCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, eid string) error
 }
 
 type GetEidCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetEidCallbackProxy(
 	remote binder.IBinder,
 ) *GetEidCallbackProxy {
-	return &GetEidCallbackProxy{remote: remote}
+	return &GetEidCallbackProxy{Remote: remote}
 }
 
 func (p *GetEidCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetEidCallback = (*GetEidCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *GetEidCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIGetEidCallback)
 	_data.WriteString16(eid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetEidCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetEidCallback, MethodIGetEidCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIGetEidCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetEidCallback, MethodIGetEidCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type GetEidCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetEidCallbackStub)(nil)
+
+func (s *GetEidCallbackStub) Descriptor() string {
+	return DescriptorIGetEidCallback
+}
 
 func (s *GetEidCallbackStub) OnTransaction(
 	ctx context.Context,

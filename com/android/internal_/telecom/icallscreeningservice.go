@@ -16,23 +16,27 @@ const (
 	TransactionICallScreeningServiceScreenCall = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICallScreeningServiceScreenCall = "screenCall"
+)
+
 type ICallScreeningService interface {
 	AsBinder() binder.IBinder
 	ScreenCall(ctx context.Context, adapter ICallScreeningAdapter, call androidTelecom.ParcelableCall) error
 }
 
 type CallScreeningServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallScreeningServiceProxy(
 	remote binder.IBinder,
 ) *CallScreeningServiceProxy {
-	return &CallScreeningServiceProxy{remote: remote}
+	return &CallScreeningServiceProxy{Remote: remote}
 }
 
 func (p *CallScreeningServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallScreeningService = (*CallScreeningServiceProxy)(nil)
@@ -44,18 +48,18 @@ func (p *CallScreeningServiceProxy) ScreenCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallScreeningService)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallScreeningService, "screenCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallScreeningService, MethodICallScreeningServiceScreenCall)
 	if _err != nil {
-		_code = TransactionICallScreeningServiceScreenCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallScreeningService, MethodICallScreeningServiceScreenCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type CallScreeningServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallScreeningServiceStub)(nil)
+
+func (s *CallScreeningServiceStub) Descriptor() string {
+	return DescriptorICallScreeningService
+}
 
 func (s *CallScreeningServiceStub) OnTransaction(
 	ctx context.Context,

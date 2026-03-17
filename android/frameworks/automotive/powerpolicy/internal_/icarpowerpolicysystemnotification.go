@@ -17,6 +17,12 @@ const (
 	TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICarPowerPolicySystemNotificationNotifyCarServiceReady       = "notifyCarServiceReady"
+	MethodICarPowerPolicySystemNotificationNotifyPowerPolicyChange     = "notifyPowerPolicyChange"
+	MethodICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition = "notifyPowerPolicyDefinition"
+)
+
 type ICarPowerPolicySystemNotification interface {
 	AsBinder() binder.IBinder
 	NotifyCarServiceReady(ctx context.Context) (PolicyState, error)
@@ -25,17 +31,17 @@ type ICarPowerPolicySystemNotification interface {
 }
 
 type CarPowerPolicySystemNotificationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarPowerPolicySystemNotificationProxy(
 	remote binder.IBinder,
 ) *CarPowerPolicySystemNotificationProxy {
-	return &CarPowerPolicySystemNotificationProxy{remote: remote}
+	return &CarPowerPolicySystemNotificationProxy{Remote: remote}
 }
 
 func (p *CarPowerPolicySystemNotificationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarPowerPolicySystemNotification = (*CarPowerPolicySystemNotificationProxy)(nil)
@@ -47,12 +53,12 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyCarServiceReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarPowerPolicySystemNotification)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicySystemNotification, "notifyCarServiceReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyCarServiceReady)
 	if _err != nil {
-		_code = TransactionICarPowerPolicySystemNotificationNotifyCarServiceReady
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyCarServiceReady, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,12 +90,12 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyChange(
 	_data.WriteString16(policyId)
 	_data.WriteBool(force)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicySystemNotification, "notifyPowerPolicyChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyChange)
 	if _err != nil {
-		_code = TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -128,12 +134,12 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyDefinition(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicySystemNotification, "notifyPowerPolicyDefinition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition)
 	if _err != nil {
-		_code = TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicySystemNotification, MethodICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,6 +159,10 @@ type CarPowerPolicySystemNotificationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarPowerPolicySystemNotificationStub)(nil)
+
+func (s *CarPowerPolicySystemNotificationStub) Descriptor() string {
+	return DescriptorICarPowerPolicySystemNotification
+}
 
 func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 	ctx context.Context,

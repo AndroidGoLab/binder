@@ -58,10 +58,12 @@ func (u *Trigger) MarshalParcel(
 
 	switch u.Tag {
 	case TriggerTagKey:
+		p.WriteInt32(1)
 		if _err := u.Key.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case TriggerTagTouchpadGesture:
+		p.WriteInt32(1)
 		if _err := u.TouchpadGesture.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *Trigger) UnmarshalParcel(
 
 	switch u.Tag {
 	case TriggerTagKey:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Key.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case TriggerTagTouchpadGesture:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.TouchpadGesture.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

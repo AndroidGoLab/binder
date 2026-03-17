@@ -24,25 +24,11 @@ func (s *P2pAddGroupConfigurationParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Ssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Ssid)))
-		for _, _item := range s.Ssid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Ssid)
 	p.WriteString16(s.Passphrase)
 	p.WriteBool(s.IsPersistent)
 	p.WriteInt32(s.FrequencyMHzOrBand)
-	if s.GoInterfaceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.GoInterfaceAddress)))
-		for _, _item := range s.GoInterfaceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.GoInterfaceAddress, 6)
 	p.WriteBool(s.JoinExistingGroup)
 	p.WriteInt32(s.KeyMgmtMask)
 	if s.VendorData == nil {
@@ -50,6 +36,7 @@ func (s *P2pAddGroupConfigurationParams) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -68,19 +55,9 @@ func (s *P2pAddGroupConfigurationParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Ssid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Ssid = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Ssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Passphrase, _err = p.ReadString16()
@@ -98,19 +75,9 @@ func (s *P2pAddGroupConfigurationParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.GoInterfaceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.GoInterfaceAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.GoInterfaceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.JoinExistingGroup, _err = p.ReadBool()
@@ -131,6 +98,9 @@ func (s *P2pAddGroupConfigurationParams) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/xaionaro-go/binder/binder"
+	inputflingerIInputFilter "github.com/xaionaro-go/binder/com/android/server/inputflinger/IInputFilter"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,41 +16,46 @@ const (
 	TransactionIInputFlingerRustCreateInputFilter = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputFlingerRustCreateInputFilter = "createInputFilter"
+)
+
 type IInputFlingerRust interface {
 	AsBinder() binder.IBinder
-	CreateInputFilter(ctx context.Context, callbacks interface{}) (IInputFilter, error)
+	CreateInputFilter(ctx context.Context, callbacks inputflingerIInputFilter.IInputFilterCallbacks) (IInputFilter, error)
 }
 
 type InputFlingerRustProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFlingerRustProxy(
 	remote binder.IBinder,
 ) *InputFlingerRustProxy {
-	return &InputFlingerRustProxy{remote: remote}
+	return &InputFlingerRustProxy{Remote: remote}
 }
 
 func (p *InputFlingerRustProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFlingerRust = (*InputFlingerRustProxy)(nil)
 
 func (p *InputFlingerRustProxy) CreateInputFilter(
 	ctx context.Context,
-	callbacks interface{},
+	callbacks inputflingerIInputFilter.IInputFilterCallbacks,
 ) (IInputFilter, error) {
 	var _result IInputFilter
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFlingerRust)
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFlingerRust, "createInputFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFlingerRust, MethodIInputFlingerRustCreateInputFilter)
 	if _err != nil {
-		_code = TransactionIInputFlingerRustCreateInputFilter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFlingerRust, MethodIInputFlingerRustCreateInputFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -63,7 +69,7 @@ func (p *InputFlingerRustProxy) CreateInputFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewInputFilterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -75,6 +81,10 @@ type InputFlingerRustStub struct {
 
 var _ binder.TransactionReceiver = (*InputFlingerRustStub)(nil)
 
+func (s *InputFlingerRustStub) Descriptor() string {
+	return DescriptorIInputFlingerRust
+}
+
 func (s *InputFlingerRustStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -85,7 +95,9 @@ func (s *InputFlingerRustStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callbacks interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks inputflingerIInputFilter.IInputFilterCallbacks
+		_ = _arg_callbacks
 		_result, _err := s.Impl.CreateInputFilter(ctx, _arg_callbacks)
 		_reply := parcel.New()
 		if _err != nil {
@@ -105,7 +117,7 @@ func (s *InputFlingerRustStub) OnTransaction(
 // provide to NewInputFlingerRustStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IInputFlingerRustServer interface {
-	CreateInputFilter(ctx context.Context, callbacks interface{}) (IInputFilter, error)
+	CreateInputFilter(ctx context.Context, callbacks inputflingerIInputFilter.IInputFilterCallbacks) (IInputFilter, error)
 }
 
 type inputFlingerRustStubWrapper struct {
@@ -119,7 +131,7 @@ func (w *inputFlingerRustStubWrapper) AsBinder() binder.IBinder {
 
 func (w *inputFlingerRustStubWrapper) CreateInputFilter(
 	ctx context.Context,
-	callbacks interface{},
+	callbacks inputflingerIInputFilter.IInputFilterCallbacks,
 ) (IInputFilter, error) {
 	return w.impl.CreateInputFilter(ctx, callbacks)
 }

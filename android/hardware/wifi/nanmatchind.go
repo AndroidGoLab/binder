@@ -36,38 +36,10 @@ func (s *NanMatchInd) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(s.DiscoverySessionId)
 	p.WriteInt32(s.PeerId)
-	if s.Addr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Addr)))
-		for _, _item := range s.Addr {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ExtendedServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ExtendedServiceSpecificInfo)))
-		for _, _item := range s.ExtendedServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.MatchFilter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.MatchFilter)))
-		for _, _item := range s.MatchFilter {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Addr, 6)
+	p.WriteByteArray(s.ServiceSpecificInfo)
+	p.WriteByteArray(s.ExtendedServiceSpecificInfo)
+	p.WriteByteArray(s.MatchFilter)
 	p.WriteBool(s.MatchOccurredInBeaconFlag)
 	p.WriteBool(s.OutOfResourceFlag)
 	p.WritePaddedByte(s.RssiValue)
@@ -76,14 +48,7 @@ func (s *NanMatchInd) MarshalParcel(
 	p.WriteBool(s.PeerRequiresRanging)
 	p.WriteInt32(s.RangingMeasurementInMm)
 	p.WriteInt32(s.RangingIndicationType)
-	if s.Scid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Scid)))
-		for _, _item := range s.Scid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Scid)
 	if _err := s.PeerPairingConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -95,6 +60,7 @@ func (s *NanMatchInd) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -123,64 +89,24 @@ func (s *NanMatchInd) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Addr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Addr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Addr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.ExtendedServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.ExtendedServiceSpecificInfo = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.ExtendedServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.MatchFilter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.MatchFilter = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.MatchFilter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.MatchOccurredInBeaconFlag, _err = p.ReadBool()
@@ -224,19 +150,9 @@ func (s *NanMatchInd) UnmarshalParcel(
 		return _err
 	}
 
-	var _count4 int32
-	_count4, _err = p.ReadInt32()
+	s.Scid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count4 >= 0 {
-		s.Scid = make([]byte, _count4)
-		for _i := int32(0); _i < _count4; _i++ {
-			s.Scid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	if _err = s.PeerPairingConfig.UnmarshalParcel(p); _err != nil {
@@ -255,6 +171,9 @@ func (s *NanMatchInd) UnmarshalParcel(
 	if _count5 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count5)
 		for _i := int32(0); _i < _count5; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

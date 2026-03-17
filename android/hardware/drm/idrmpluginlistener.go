@@ -18,6 +18,13 @@ const (
 	TransactionIDrmPluginListenerOnSessionLostState = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDrmPluginListenerOnEvent            = "onEvent"
+	MethodIDrmPluginListenerOnExpirationUpdate = "onExpirationUpdate"
+	MethodIDrmPluginListenerOnKeysChange       = "onKeysChange"
+	MethodIDrmPluginListenerOnSessionLostState = "onSessionLostState"
+)
+
 type IDrmPluginListener interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, eventType EventType, sessionId []byte, data []byte) error
@@ -27,17 +34,17 @@ type IDrmPluginListener interface {
 }
 
 type DrmPluginListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDrmPluginListenerProxy(
 	remote binder.IBinder,
 ) *DrmPluginListenerProxy {
-	return &DrmPluginListenerProxy{remote: remote}
+	return &DrmPluginListenerProxy{Remote: remote}
 }
 
 func (p *DrmPluginListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDrmPluginListener = (*DrmPluginListenerProxy)(nil)
@@ -68,12 +75,12 @@ func (p *DrmPluginListenerProxy) OnEvent(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnEvent)
 	if _err != nil {
-		_code = TransactionIDrmPluginListenerOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,12 +101,12 @@ func (p *DrmPluginListenerProxy) OnExpirationUpdate(
 	}
 	_data.WriteInt64(expiryTimeInMS)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onExpirationUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnExpirationUpdate)
 	if _err != nil {
-		_code = TransactionIDrmPluginListenerOnExpirationUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnExpirationUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,6 +131,7 @@ func (p *DrmPluginListenerProxy) OnKeysChange(
 	} else {
 		_data.WriteInt32(int32(len(keyStatusList)))
 		for _, _item := range keyStatusList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -131,12 +139,12 @@ func (p *DrmPluginListenerProxy) OnKeysChange(
 	}
 	_data.WriteBool(hasNewUsableKey)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onKeysChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnKeysChange)
 	if _err != nil {
-		_code = TransactionIDrmPluginListenerOnKeysChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnKeysChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,12 +163,12 @@ func (p *DrmPluginListenerProxy) OnSessionLostState(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onSessionLostState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnSessionLostState)
 	if _err != nil {
-		_code = TransactionIDrmPluginListenerOnSessionLostState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDrmPluginListener, MethodIDrmPluginListenerOnSessionLostState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,6 +179,10 @@ type DrmPluginListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DrmPluginListenerStub)(nil)
+
+func (s *DrmPluginListenerStub) Descriptor() string {
+	return DescriptorIDrmPluginListener
+}
 
 func (s *DrmPluginListenerStub) OnTransaction(
 	ctx context.Context,

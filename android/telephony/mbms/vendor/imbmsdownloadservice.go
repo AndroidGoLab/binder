@@ -29,6 +29,23 @@ const (
 	TransactionIMbmsDownloadServiceDispose                   = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodIMbmsDownloadServiceInitialize                = "initialize"
+	MethodIMbmsDownloadServiceRequestUpdateFileServices = "requestUpdateFileServices"
+	MethodIMbmsDownloadServiceSetTempFileRootDirectory  = "setTempFileRootDirectory"
+	MethodIMbmsDownloadServiceAddServiceAnnouncement    = "addServiceAnnouncement"
+	MethodIMbmsDownloadServiceDownload                  = "download"
+	MethodIMbmsDownloadServiceAddStatusListener         = "addStatusListener"
+	MethodIMbmsDownloadServiceRemoveStatusListener      = "removeStatusListener"
+	MethodIMbmsDownloadServiceAddProgressListener       = "addProgressListener"
+	MethodIMbmsDownloadServiceRemoveProgressListener    = "removeProgressListener"
+	MethodIMbmsDownloadServiceListPendingDownloads      = "listPendingDownloads"
+	MethodIMbmsDownloadServiceCancelDownload            = "cancelDownload"
+	MethodIMbmsDownloadServiceRequestDownloadState      = "requestDownloadState"
+	MethodIMbmsDownloadServiceResetDownloadKnowledge    = "resetDownloadKnowledge"
+	MethodIMbmsDownloadServiceDispose                   = "dispose"
+)
+
 type IMbmsDownloadService interface {
 	AsBinder() binder.IBinder
 	Initialize(ctx context.Context, subId int32, listener mbms.IMbmsDownloadSessionCallback) (int32, error)
@@ -48,17 +65,17 @@ type IMbmsDownloadService interface {
 }
 
 type MbmsDownloadServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMbmsDownloadServiceProxy(
 	remote binder.IBinder,
 ) *MbmsDownloadServiceProxy {
-	return &MbmsDownloadServiceProxy{remote: remote}
+	return &MbmsDownloadServiceProxy{Remote: remote}
 }
 
 func (p *MbmsDownloadServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMbmsDownloadService = (*MbmsDownloadServiceProxy)(nil)
@@ -72,14 +89,14 @@ func (p *MbmsDownloadServiceProxy) Initialize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "initialize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceInitialize)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceInitialize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceInitialize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,12 +131,12 @@ func (p *MbmsDownloadServiceProxy) RequestUpdateFileServices(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "requestUpdateFileServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestUpdateFileServices)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceRequestUpdateFileServices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestUpdateFileServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,12 +164,12 @@ func (p *MbmsDownloadServiceProxy) SetTempFileRootDirectory(
 	_data.WriteInt32(subId)
 	_data.WriteString16(rootDirectoryPath)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "setTempFileRootDirectory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceSetTempFileRootDirectory)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceSetTempFileRootDirectory
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceSetTempFileRootDirectory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -187,12 +204,12 @@ func (p *MbmsDownloadServiceProxy) AddServiceAnnouncement(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "addServiceAnnouncement")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddServiceAnnouncement)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceAddServiceAnnouncement
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddServiceAnnouncement, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -221,12 +238,12 @@ func (p *MbmsDownloadServiceProxy) Download(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "download")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDownload)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceDownload
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDownload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -255,14 +272,14 @@ func (p *MbmsDownloadServiceProxy) AddStatusListener(
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "addStatusListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddStatusListener)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceAddStatusListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddStatusListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -291,14 +308,14 @@ func (p *MbmsDownloadServiceProxy) RemoveStatusListener(
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "removeStatusListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveStatusListener)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceRemoveStatusListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveStatusListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -327,14 +344,14 @@ func (p *MbmsDownloadServiceProxy) AddProgressListener(
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "addProgressListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddProgressListener)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceAddProgressListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceAddProgressListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -363,14 +380,14 @@ func (p *MbmsDownloadServiceProxy) RemoveProgressListener(
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "removeProgressListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveProgressListener)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceRemoveProgressListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRemoveProgressListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -396,12 +413,12 @@ func (p *MbmsDownloadServiceProxy) ListPendingDownloads(
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subscriptionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "listPendingDownloads")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceListPendingDownloads)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceListPendingDownloads
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceListPendingDownloads, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -419,6 +436,9 @@ func (p *MbmsDownloadServiceProxy) ListPendingDownloads(
 	if _count >= 0 {
 		_result = make([]mbms.DownloadRequest, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -439,12 +459,12 @@ func (p *MbmsDownloadServiceProxy) CancelDownload(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "cancelDownload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceCancelDownload)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceCancelDownload
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceCancelDownload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -478,12 +498,12 @@ func (p *MbmsDownloadServiceProxy) RequestDownloadState(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "requestDownloadState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestDownloadState)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceRequestDownloadState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceRequestDownloadState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -512,12 +532,12 @@ func (p *MbmsDownloadServiceProxy) ResetDownloadKnowledge(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "resetDownloadKnowledge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceResetDownloadKnowledge)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceResetDownloadKnowledge
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceResetDownloadKnowledge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -542,12 +562,12 @@ func (p *MbmsDownloadServiceProxy) Dispose(
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsDownloadService, "dispose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDispose)
 	if _err != nil {
-		_code = TransactionIMbmsDownloadServiceDispose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsDownloadService, MethodIMbmsDownloadServiceDispose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -567,6 +587,10 @@ type MbmsDownloadServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MbmsDownloadServiceStub)(nil)
+
+func (s *MbmsDownloadServiceStub) Descriptor() string {
+	return DescriptorIMbmsDownloadService
+}
 
 func (s *MbmsDownloadServiceStub) OnTransaction(
 	ctx context.Context,

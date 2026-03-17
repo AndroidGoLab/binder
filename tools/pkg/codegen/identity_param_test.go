@@ -219,7 +219,7 @@ func TestGenerateInterface_IdentityParamAutoFilled(t *testing.T) {
 	assert.Contains(t, srcStr, "func (p *LocationManagerProxy) RegisterListener(\n\tctx context.Context,\n\tprovider string,\n\tlistenerId string,\n) error {")
 
 	// Identity should be fetched from the binder.
-	assert.Contains(t, srcStr, "_identity := p.remote.Identity()")
+	assert.Contains(t, srcStr, "_identity := p.Remote.Identity()")
 
 	// Identity fields should be used in parcel writing.
 	assert.Contains(t, srcStr, "_identity.PackageName")
@@ -278,7 +278,7 @@ func TestGenerateInterface_NoIdentityParams(t *testing.T) {
 
 	// No identity usage when there are no identity params.
 	assert.NotContains(t, srcStr, "_identity")
-	assert.NotContains(t, srcStr, "p.remote.Identity()")
+	assert.NotContains(t, srcStr, "p.Remote.Identity()")
 
 	// All params should be in the proxy signature.
 	assert.Contains(t, srcStr, "name string")

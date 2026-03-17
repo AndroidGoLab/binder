@@ -15,23 +15,27 @@ const (
 	TransactionIProxyPortListenerSetProxyPort = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProxyPortListenerSetProxyPort = "setProxyPort"
+)
+
 type IProxyPortListener interface {
 	AsBinder() binder.IBinder
 	SetProxyPort(ctx context.Context, port int32) error
 }
 
 type ProxyPortListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProxyPortListenerProxy(
 	remote binder.IBinder,
 ) *ProxyPortListenerProxy {
-	return &ProxyPortListenerProxy{remote: remote}
+	return &ProxyPortListenerProxy{Remote: remote}
 }
 
 func (p *ProxyPortListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProxyPortListener = (*ProxyPortListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ProxyPortListenerProxy) SetProxyPort(
 	_data.WriteInterfaceToken(DescriptorIProxyPortListener)
 	_data.WriteInt32(port)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProxyPortListener, "setProxyPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProxyPortListener, MethodIProxyPortListenerSetProxyPort)
 	if _err != nil {
-		_code = TransactionIProxyPortListenerSetProxyPort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProxyPortListener, MethodIProxyPortListenerSetProxyPort, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ProxyPortListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProxyPortListenerStub)(nil)
+
+func (s *ProxyPortListenerStub) Descriptor() string {
+	return DescriptorIProxyPortListener
+}
 
 func (s *ProxyPortListenerStub) OnTransaction(
 	ctx context.Context,

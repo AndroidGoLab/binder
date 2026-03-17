@@ -19,6 +19,14 @@ const (
 	TransactionIPackageInstallerCallbackOnSessionFinished        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPackageInstallerCallbackOnSessionCreated         = "onSessionCreated"
+	MethodIPackageInstallerCallbackOnSessionBadgingChanged  = "onSessionBadgingChanged"
+	MethodIPackageInstallerCallbackOnSessionActiveChanged   = "onSessionActiveChanged"
+	MethodIPackageInstallerCallbackOnSessionProgressChanged = "onSessionProgressChanged"
+	MethodIPackageInstallerCallbackOnSessionFinished        = "onSessionFinished"
+)
+
 type IPackageInstallerCallback interface {
 	AsBinder() binder.IBinder
 	OnSessionCreated(ctx context.Context, sessionId int32) error
@@ -29,17 +37,17 @@ type IPackageInstallerCallback interface {
 }
 
 type PackageInstallerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageInstallerCallbackProxy(
 	remote binder.IBinder,
 ) *PackageInstallerCallbackProxy {
-	return &PackageInstallerCallbackProxy{remote: remote}
+	return &PackageInstallerCallbackProxy{Remote: remote}
 }
 
 func (p *PackageInstallerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageInstallerCallback = (*PackageInstallerCallbackProxy)(nil)
@@ -52,12 +60,12 @@ func (p *PackageInstallerCallbackProxy) OnSessionCreated(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionCreated)
 	if _err != nil {
-		_code = TransactionIPackageInstallerCallbackOnSessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +77,12 @@ func (p *PackageInstallerCallbackProxy) OnSessionBadgingChanged(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionBadgingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionBadgingChanged)
 	if _err != nil {
-		_code = TransactionIPackageInstallerCallbackOnSessionBadgingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionBadgingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +96,12 @@ func (p *PackageInstallerCallbackProxy) OnSessionActiveChanged(
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(active)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionActiveChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionActiveChanged)
 	if _err != nil {
-		_code = TransactionIPackageInstallerCallbackOnSessionActiveChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionActiveChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +115,12 @@ func (p *PackageInstallerCallbackProxy) OnSessionProgressChanged(
 	_data.WriteInt32(sessionId)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionProgressChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionProgressChanged)
 	if _err != nil {
-		_code = TransactionIPackageInstallerCallbackOnSessionProgressChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionProgressChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +134,12 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionFinished)
 	if _err != nil {
-		_code = TransactionIPackageInstallerCallbackOnSessionFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerCallback, MethodIPackageInstallerCallbackOnSessionFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,6 +150,10 @@ type PackageInstallerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerCallbackStub)(nil)
+
+func (s *PackageInstallerCallbackStub) Descriptor() string {
+	return DescriptorIPackageInstallerCallback
+}
 
 func (s *PackageInstallerCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionISecureElementCallbackOnStateChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISecureElementCallbackOnStateChange = "onStateChange"
+)
+
 type ISecureElementCallback interface {
 	AsBinder() binder.IBinder
 	OnStateChange(ctx context.Context, connected bool, debugReason string) error
 }
 
 type SecureElementCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureElementCallbackProxy(
 	remote binder.IBinder,
 ) *SecureElementCallbackProxy {
-	return &SecureElementCallbackProxy{remote: remote}
+	return &SecureElementCallbackProxy{Remote: remote}
 }
 
 func (p *SecureElementCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureElementCallback = (*SecureElementCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 	_data.WriteBool(connected)
 	_data.WriteString16(debugReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementCallback, "onStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementCallback, MethodISecureElementCallbackOnStateChange)
 	if _err != nil {
-		_code = TransactionISecureElementCallbackOnStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementCallback, MethodISecureElementCallbackOnStateChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,6 +75,10 @@ type SecureElementCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureElementCallbackStub)(nil)
+
+func (s *SecureElementCallbackStub) Descriptor() string {
+	return DescriptorISecureElementCallback
+}
 
 func (s *SecureElementCallbackStub) OnTransaction(
 	ctx context.Context,

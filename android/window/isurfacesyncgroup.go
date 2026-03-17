@@ -16,6 +16,11 @@ const (
 	TransactionISurfaceSyncGroupAddToSync          = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISurfaceSyncGroupOnAddedToSyncGroup = "onAddedToSyncGroup"
+	MethodISurfaceSyncGroupAddToSync          = "addToSync"
+)
+
 type ISurfaceSyncGroup interface {
 	AsBinder() binder.IBinder
 	OnAddedToSyncGroup(ctx context.Context, parentSyncGroupToken binder.IBinder, parentSyncGroupMerge bool) (bool, error)
@@ -23,17 +28,17 @@ type ISurfaceSyncGroup interface {
 }
 
 type SurfaceSyncGroupProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSurfaceSyncGroupProxy(
 	remote binder.IBinder,
 ) *SurfaceSyncGroupProxy {
-	return &SurfaceSyncGroupProxy{remote: remote}
+	return &SurfaceSyncGroupProxy{Remote: remote}
 }
 
 func (p *SurfaceSyncGroupProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISurfaceSyncGroup = (*SurfaceSyncGroupProxy)(nil)
@@ -46,15 +51,15 @@ func (p *SurfaceSyncGroupProxy) OnAddedToSyncGroup(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroup)
-	binder.WriteBinderToParcel(ctx, _data, parentSyncGroupToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, parentSyncGroupToken, p.Remote.Transport())
 	_data.WriteBool(parentSyncGroupMerge)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceSyncGroup, "onAddedToSyncGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupOnAddedToSyncGroup)
 	if _err != nil {
-		_code = TransactionISurfaceSyncGroupOnAddedToSyncGroup
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupOnAddedToSyncGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,15 +84,15 @@ func (p *SurfaceSyncGroupProxy) AddToSync(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroup)
-	binder.WriteBinderToParcel(ctx, _data, surfaceSyncGroup.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, surfaceSyncGroup.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(parentSyncGroupMerge)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceSyncGroup, "addToSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupAddToSync)
 	if _err != nil {
-		_code = TransactionISurfaceSyncGroupAddToSync
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceSyncGroup, MethodISurfaceSyncGroupAddToSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,6 +116,10 @@ type SurfaceSyncGroupStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SurfaceSyncGroupStub)(nil)
+
+func (s *SurfaceSyncGroupStub) Descriptor() string {
+	return DescriptorISurfaceSyncGroup
+}
 
 func (s *SurfaceSyncGroupStub) OnTransaction(
 	ctx context.Context,

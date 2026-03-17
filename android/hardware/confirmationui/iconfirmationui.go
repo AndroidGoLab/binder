@@ -18,6 +18,12 @@ const (
 	TransactionIConfirmationUIPromptUserConfirmation  = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIConfirmationUIAbort                   = "abort"
+	MethodIConfirmationUIDeliverSecureInputEvent = "deliverSecureInputEvent"
+	MethodIConfirmationUIPromptUserConfirmation  = "promptUserConfirmation"
+)
+
 type IConfirmationUI interface {
 	AsBinder() binder.IBinder
 	Abort(ctx context.Context) error
@@ -43,17 +49,17 @@ const (
 )
 
 type ConfirmationUIProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConfirmationUIProxy(
 	remote binder.IBinder,
 ) *ConfirmationUIProxy {
-	return &ConfirmationUIProxy{remote: remote}
+	return &ConfirmationUIProxy{Remote: remote}
 }
 
 func (p *ConfirmationUIProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConfirmationUI = (*ConfirmationUIProxy)(nil)
@@ -64,12 +70,12 @@ func (p *ConfirmationUIProxy) Abort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationUI, "abort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationUI, MethodIConfirmationUIAbort)
 	if _err != nil {
-		_code = TransactionIConfirmationUIAbort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConfirmationUI, MethodIConfirmationUIAbort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,12 +99,12 @@ func (p *ConfirmationUIProxy) DeliverSecureInputEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationUI, "deliverSecureInputEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationUI, MethodIConfirmationUIDeliverSecureInputEvent)
 	if _err != nil {
-		_code = TransactionIConfirmationUIDeliverSecureInputEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConfirmationUI, MethodIConfirmationUIDeliverSecureInputEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,7 +127,7 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
-	binder.WriteBinderToParcel(ctx, _data, resultCB.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCB.AsBinder(), p.Remote.Transport())
 	if promptText == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -148,12 +154,12 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationUI, "promptUserConfirmation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConfirmationUI, MethodIConfirmationUIPromptUserConfirmation)
 	if _err != nil {
-		_code = TransactionIConfirmationUIPromptUserConfirmation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConfirmationUI, MethodIConfirmationUIPromptUserConfirmation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -173,6 +179,10 @@ type ConfirmationUIStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConfirmationUIStub)(nil)
+
+func (s *ConfirmationUIStub) Descriptor() string {
+	return DescriptorIConfirmationUI
+}
 
 func (s *ConfirmationUIStub) OnTransaction(
 	ctx context.Context,

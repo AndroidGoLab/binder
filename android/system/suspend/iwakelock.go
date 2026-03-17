@@ -15,23 +15,27 @@ const (
 	TransactionIWakeLockRelease = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWakeLockRelease = "release"
+)
+
 type IWakeLock interface {
 	AsBinder() binder.IBinder
 	Release(ctx context.Context) error
 }
 
 type WakeLockProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWakeLockProxy(
 	remote binder.IBinder,
 ) *WakeLockProxy {
-	return &WakeLockProxy{remote: remote}
+	return &WakeLockProxy{Remote: remote}
 }
 
 func (p *WakeLockProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWakeLock = (*WakeLockProxy)(nil)
@@ -42,12 +46,12 @@ func (p *WakeLockProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWakeLock)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWakeLock, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWakeLock, MethodIWakeLockRelease)
 	if _err != nil {
-		_code = TransactionIWakeLockRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWakeLock, MethodIWakeLockRelease, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type WakeLockStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WakeLockStub)(nil)
+
+func (s *WakeLockStub) Descriptor() string {
+	return DescriptorIWakeLock
+}
 
 func (s *WakeLockStub) OnTransaction(
 	ctx context.Context,

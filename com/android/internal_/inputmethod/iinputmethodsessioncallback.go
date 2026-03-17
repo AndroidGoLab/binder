@@ -15,23 +15,27 @@ const (
 	TransactionIInputMethodSessionCallbackSessionCreated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputMethodSessionCallbackSessionCreated = "sessionCreated"
+)
+
 type IInputMethodSessionCallback interface {
 	AsBinder() binder.IBinder
 	SessionCreated(ctx context.Context, session IInputMethodSession) error
 }
 
 type InputMethodSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputMethodSessionCallbackProxy(
 	remote binder.IBinder,
 ) *InputMethodSessionCallbackProxy {
-	return &InputMethodSessionCallbackProxy{remote: remote}
+	return &InputMethodSessionCallbackProxy{Remote: remote}
 }
 
 func (p *InputMethodSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputMethodSessionCallback = (*InputMethodSessionCallbackProxy)(nil)
@@ -42,14 +46,14 @@ func (p *InputMethodSessionCallbackProxy) SessionCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSessionCallback)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSessionCallback, "sessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSessionCallback, MethodIInputMethodSessionCallbackSessionCreated)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionCallbackSessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSessionCallback, MethodIInputMethodSessionCallbackSessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type InputMethodSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputMethodSessionCallbackStub)(nil)
+
+func (s *InputMethodSessionCallbackStub) Descriptor() string {
+	return DescriptorIInputMethodSessionCallback
+}
 
 func (s *InputMethodSessionCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -21,6 +21,16 @@ const (
 	TransactionIFullBackupRestoreObserverOnTimeout        = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIFullBackupRestoreObserverOnStartBackup    = "onStartBackup"
+	MethodIFullBackupRestoreObserverOnBackupPackage  = "onBackupPackage"
+	MethodIFullBackupRestoreObserverOnEndBackup      = "onEndBackup"
+	MethodIFullBackupRestoreObserverOnStartRestore   = "onStartRestore"
+	MethodIFullBackupRestoreObserverOnRestorePackage = "onRestorePackage"
+	MethodIFullBackupRestoreObserverOnEndRestore     = "onEndRestore"
+	MethodIFullBackupRestoreObserverOnTimeout        = "onTimeout"
+)
+
 type IFullBackupRestoreObserver interface {
 	AsBinder() binder.IBinder
 	OnStartBackup(ctx context.Context) error
@@ -33,17 +43,17 @@ type IFullBackupRestoreObserver interface {
 }
 
 type FullBackupRestoreObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFullBackupRestoreObserverProxy(
 	remote binder.IBinder,
 ) *FullBackupRestoreObserverProxy {
-	return &FullBackupRestoreObserverProxy{remote: remote}
+	return &FullBackupRestoreObserverProxy{Remote: remote}
 }
 
 func (p *FullBackupRestoreObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFullBackupRestoreObserver = (*FullBackupRestoreObserverProxy)(nil)
@@ -54,12 +64,12 @@ func (p *FullBackupRestoreObserverProxy) OnStartBackup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onStartBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnStartBackup)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnStartBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnStartBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +81,12 @@ func (p *FullBackupRestoreObserverProxy) OnBackupPackage(
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onBackupPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnBackupPackage)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnBackupPackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnBackupPackage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +96,12 @@ func (p *FullBackupRestoreObserverProxy) OnEndBackup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onEndBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnEndBackup)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnEndBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnEndBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +111,12 @@ func (p *FullBackupRestoreObserverProxy) OnStartRestore(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onStartRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnStartRestore)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnStartRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnStartRestore, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,12 +128,12 @@ func (p *FullBackupRestoreObserverProxy) OnRestorePackage(
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onRestorePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnRestorePackage)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnRestorePackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnRestorePackage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,12 +143,12 @@ func (p *FullBackupRestoreObserverProxy) OnEndRestore(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onEndRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnEndRestore)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnEndRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnEndRestore, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,12 +158,12 @@ func (p *FullBackupRestoreObserverProxy) OnTimeout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onTimeout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnTimeout)
 	if _err != nil {
-		_code = TransactionIFullBackupRestoreObserverOnTimeout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFullBackupRestoreObserver, MethodIFullBackupRestoreObserverOnTimeout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -164,6 +174,10 @@ type FullBackupRestoreObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FullBackupRestoreObserverStub)(nil)
+
+func (s *FullBackupRestoreObserverStub) Descriptor() string {
+	return DescriptorIFullBackupRestoreObserver
+}
 
 func (s *FullBackupRestoreObserverStub) OnTransaction(
 	ctx context.Context,

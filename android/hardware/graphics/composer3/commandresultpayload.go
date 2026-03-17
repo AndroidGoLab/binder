@@ -15,7 +15,6 @@ const (
 	CommandResultPayloadTagReleaseFences           int32 = 4
 	CommandResultPayloadTagPresentOrValidateResult int32 = 5
 	CommandResultPayloadTagClientTargetProperty    int32 = 6
-	CommandResultPayloadTagDisplayLuts             int32 = 7
 )
 
 type CommandResultPayload struct {
@@ -27,7 +26,6 @@ type CommandResultPayload struct {
 	ReleaseFences           ReleaseFences
 	PresentOrValidateResult PresentOrValidate
 	ClientTargetProperty    ClientTargetPropertyWithBrightness
-	DisplayLuts             DisplayLuts
 }
 
 var _ parcel.Parcelable = (*CommandResultPayload)(nil)
@@ -137,21 +135,6 @@ func (u *CommandResultPayload) SetClientTargetProperty(
 	u.ClientTargetProperty = v
 }
 
-func (u *CommandResultPayload) GetDisplayLuts() (DisplayLuts, bool) {
-	if u.Tag != CommandResultPayloadTagDisplayLuts {
-		var _zero DisplayLuts
-		return _zero, false
-	}
-	return u.DisplayLuts, true
-}
-
-func (u *CommandResultPayload) SetDisplayLuts(
-	v DisplayLuts,
-) {
-	u.Tag = CommandResultPayloadTagDisplayLuts
-	u.DisplayLuts = v
-}
-
 func (u *CommandResultPayload) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -160,35 +143,38 @@ func (u *CommandResultPayload) MarshalParcel(
 
 	switch u.Tag {
 	case CommandResultPayloadTagError:
+		p.WriteInt32(1)
 		if _err := u.Error.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagChangedCompositionTypes:
+		p.WriteInt32(1)
 		if _err := u.ChangedCompositionTypes.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagDisplayRequest:
+		p.WriteInt32(1)
 		if _err := u.DisplayRequest.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagPresentFence:
+		p.WriteInt32(1)
 		if _err := u.PresentFence.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagReleaseFences:
+		p.WriteInt32(1)
 		if _err := u.ReleaseFences.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagPresentOrValidateResult:
+		p.WriteInt32(1)
 		if _err := u.PresentOrValidateResult.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagClientTargetProperty:
+		p.WriteInt32(1)
 		if _err := u.ClientTargetProperty.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	case CommandResultPayloadTagDisplayLuts:
-		if _err := u.DisplayLuts.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:
@@ -214,35 +200,52 @@ func (u *CommandResultPayload) UnmarshalParcel(
 
 	switch u.Tag {
 	case CommandResultPayloadTagError:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Error.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagChangedCompositionTypes:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ChangedCompositionTypes.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagDisplayRequest:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DisplayRequest.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagPresentFence:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PresentFence.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagReleaseFences:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ReleaseFences.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagPresentOrValidateResult:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PresentOrValidateResult.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandResultPayloadTagClientTargetProperty:
-		if _err = u.ClientTargetProperty.UnmarshalParcel(p); _err != nil {
+		if _, _err = p.ReadInt32(); _err != nil {
 			return _err
 		}
-	case CommandResultPayloadTagDisplayLuts:
-		if _err = u.DisplayLuts.UnmarshalParcel(p); _err != nil {
+		if _err = u.ClientTargetProperty.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:

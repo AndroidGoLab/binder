@@ -25,7 +25,6 @@ type RttConfig struct {
 	NtbMinMeasurementTime int64
 	NtbMaxMeasurementTime int64
 	VendorData            []common.OuiKeyedData
-	SecureConfig          RttSecureConfig
 }
 
 var _ parcel.Parcelable = (*RttConfig)(nil)
@@ -34,14 +33,7 @@ func (s *RttConfig) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Addr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Addr)))
-		for _, _item := range s.Addr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Addr, 6)
 	p.WriteInt32(int32(s.Type))
 	p.WriteInt32(int32(s.Peer))
 	if _err := s.Channel.MarshalParcel(p); _err != nil {
@@ -64,13 +56,11 @@ func (s *RttConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-	if _err := s.SecureConfig.MarshalParcel(p); _err != nil {
-		return _err
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -85,19 +75,9 @@ func (s *RttConfig) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Addr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Addr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Addr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_typeRaw, _err := p.ReadInt32()
@@ -186,14 +166,13 @@ func (s *RttConfig) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	if _err = s.SecureConfig.UnmarshalParcel(p); _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

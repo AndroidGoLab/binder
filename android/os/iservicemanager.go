@@ -13,29 +13,42 @@ const DescriptorIServiceManager = "android.os.IServiceManager"
 
 const (
 	TransactionIServiceManagerGetService                 = binder.FirstCallTransaction + 0
-	TransactionIServiceManagerGetService2                = binder.FirstCallTransaction + 1
-	TransactionIServiceManagerCheckService               = binder.FirstCallTransaction + 2
-	TransactionIServiceManagerCheckService2              = binder.FirstCallTransaction + 3
-	TransactionIServiceManagerAddService                 = binder.FirstCallTransaction + 4
-	TransactionIServiceManagerListServices               = binder.FirstCallTransaction + 5
-	TransactionIServiceManagerRegisterForNotifications   = binder.FirstCallTransaction + 6
-	TransactionIServiceManagerUnregisterForNotifications = binder.FirstCallTransaction + 7
-	TransactionIServiceManagerIsDeclared                 = binder.FirstCallTransaction + 8
-	TransactionIServiceManagerGetDeclaredInstances       = binder.FirstCallTransaction + 9
-	TransactionIServiceManagerUpdatableViaApex           = binder.FirstCallTransaction + 10
-	TransactionIServiceManagerGetUpdatableNames          = binder.FirstCallTransaction + 11
-	TransactionIServiceManagerGetConnectionInfo          = binder.FirstCallTransaction + 12
-	TransactionIServiceManagerRegisterClientCallback     = binder.FirstCallTransaction + 13
-	TransactionIServiceManagerTryUnregisterService       = binder.FirstCallTransaction + 14
-	TransactionIServiceManagerGetServiceDebugInfo        = binder.FirstCallTransaction + 15
+	TransactionIServiceManagerCheckService               = binder.FirstCallTransaction + 1
+	TransactionIServiceManagerAddService                 = binder.FirstCallTransaction + 2
+	TransactionIServiceManagerListServices               = binder.FirstCallTransaction + 3
+	TransactionIServiceManagerRegisterForNotifications   = binder.FirstCallTransaction + 4
+	TransactionIServiceManagerUnregisterForNotifications = binder.FirstCallTransaction + 5
+	TransactionIServiceManagerIsDeclared                 = binder.FirstCallTransaction + 6
+	TransactionIServiceManagerGetDeclaredInstances       = binder.FirstCallTransaction + 7
+	TransactionIServiceManagerUpdatableViaApex           = binder.FirstCallTransaction + 8
+	TransactionIServiceManagerGetUpdatableNames          = binder.FirstCallTransaction + 9
+	TransactionIServiceManagerGetConnectionInfo          = binder.FirstCallTransaction + 10
+	TransactionIServiceManagerRegisterClientCallback     = binder.FirstCallTransaction + 11
+	TransactionIServiceManagerTryUnregisterService       = binder.FirstCallTransaction + 12
+	TransactionIServiceManagerGetServiceDebugInfo        = binder.FirstCallTransaction + 13
+)
+
+const (
+	MethodIServiceManagerGetService                 = "getService"
+	MethodIServiceManagerCheckService               = "checkService"
+	MethodIServiceManagerAddService                 = "addService"
+	MethodIServiceManagerListServices               = "listServices"
+	MethodIServiceManagerRegisterForNotifications   = "registerForNotifications"
+	MethodIServiceManagerUnregisterForNotifications = "unregisterForNotifications"
+	MethodIServiceManagerIsDeclared                 = "isDeclared"
+	MethodIServiceManagerGetDeclaredInstances       = "getDeclaredInstances"
+	MethodIServiceManagerUpdatableViaApex           = "updatableViaApex"
+	MethodIServiceManagerGetUpdatableNames          = "getUpdatableNames"
+	MethodIServiceManagerGetConnectionInfo          = "getConnectionInfo"
+	MethodIServiceManagerRegisterClientCallback     = "registerClientCallback"
+	MethodIServiceManagerTryUnregisterService       = "tryUnregisterService"
+	MethodIServiceManagerGetServiceDebugInfo        = "getServiceDebugInfo"
 )
 
 type IServiceManager interface {
 	AsBinder() binder.IBinder
 	GetService(ctx context.Context, name string) (binder.IBinder, error)
-	GetService2(ctx context.Context, name string) (Service, error)
 	CheckService(ctx context.Context, name string) (binder.IBinder, error)
-	CheckService2(ctx context.Context, name string) (Service, error)
 	AddService(ctx context.Context, name string, service binder.IBinder, allowIsolated bool, dumpPriority int32) error
 	ListServices(ctx context.Context, dumpPriority int32) ([]string, error)
 	RegisterForNotifications(ctx context.Context, name string, callback IServiceCallback) error
@@ -56,22 +69,21 @@ const (
 	IServiceManagerDumpFlagPriorityNormal   int32 = (1 << 2)
 	IServiceManagerDumpFlagPriorityDefault  int32 = (1 << 3)
 	IServiceManagerDumpFlagPriorityAll      int32 = (((IServiceManagerDumpFlagPriorityCritical | IServiceManagerDumpFlagPriorityHigh) | IServiceManagerDumpFlagPriorityNormal) | IServiceManagerDumpFlagPriorityDefault)
-	IServiceManagerFlagIsLazyService        int32 = (1 << 30)
 	IServiceManagerDumpFlagProto            int32 = (1 << 4)
 )
 
 type ServiceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceManagerProxy(
 	remote binder.IBinder,
 ) *ServiceManagerProxy {
-	return &ServiceManagerProxy{remote: remote}
+	return &ServiceManagerProxy{Remote: remote}
 }
 
 func (p *ServiceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceManager = (*ServiceManagerProxy)(nil)
@@ -85,12 +97,12 @@ func (p *ServiceManagerProxy) GetService(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "getService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetService)
 	if _err != nil {
-		_code = TransactionIServiceManagerGetService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerGetService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -104,43 +116,7 @@ func (p *ServiceManagerProxy) GetService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
-	return _result, nil
-}
-
-func (p *ServiceManagerProxy) GetService2(
-	ctx context.Context,
-	name string,
-) (Service, error) {
-	var _result Service
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "getService2")
-	if _err != nil {
-		_code = TransactionIServiceManagerGetService2
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -153,12 +129,12 @@ func (p *ServiceManagerProxy) CheckService(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "checkService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerCheckService)
 	if _err != nil {
-		_code = TransactionIServiceManagerCheckService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerCheckService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,43 +148,7 @@ func (p *ServiceManagerProxy) CheckService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
-	return _result, nil
-}
-
-func (p *ServiceManagerProxy) CheckService2(
-	ctx context.Context,
-	name string,
-) (Service, error) {
-	var _result Service
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIServiceManager)
-	_data.WriteString16(name)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "checkService2")
-	if _err != nil {
-		_code = TransactionIServiceManagerCheckService2
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -222,16 +162,16 @@ func (p *ServiceManagerProxy) AddService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, service, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
 	_data.WriteBool(allowIsolated)
 	_data.WriteInt32(dumpPriority)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "addService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerAddService)
 	if _err != nil {
-		_code = TransactionIServiceManagerAddService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerAddService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -253,12 +193,12 @@ func (p *ServiceManagerProxy) ListServices(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteInt32(dumpPriority)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "listServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerListServices)
 	if _err != nil {
-		_code = TransactionIServiceManagerListServices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerListServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -293,14 +233,14 @@ func (p *ServiceManagerProxy) RegisterForNotifications(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "registerForNotifications")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerRegisterForNotifications)
 	if _err != nil {
-		_code = TransactionIServiceManagerRegisterForNotifications
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerRegisterForNotifications, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -321,14 +261,14 @@ func (p *ServiceManagerProxy) UnregisterForNotifications(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "unregisterForNotifications")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerUnregisterForNotifications)
 	if _err != nil {
-		_code = TransactionIServiceManagerUnregisterForNotifications
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerUnregisterForNotifications, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -350,12 +290,12 @@ func (p *ServiceManagerProxy) IsDeclared(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "isDeclared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerIsDeclared)
 	if _err != nil {
-		_code = TransactionIServiceManagerIsDeclared
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerIsDeclared, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -381,12 +321,12 @@ func (p *ServiceManagerProxy) GetDeclaredInstances(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(iface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "getDeclaredInstances")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetDeclaredInstances)
 	if _err != nil {
-		_code = TransactionIServiceManagerGetDeclaredInstances
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerGetDeclaredInstances, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -422,12 +362,12 @@ func (p *ServiceManagerProxy) UpdatableViaApex(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "updatableViaApex")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerUpdatableViaApex)
 	if _err != nil {
-		_code = TransactionIServiceManagerUpdatableViaApex
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerUpdatableViaApex, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -453,12 +393,12 @@ func (p *ServiceManagerProxy) GetUpdatableNames(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(apexName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "getUpdatableNames")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetUpdatableNames)
 	if _err != nil {
-		_code = TransactionIServiceManagerGetUpdatableNames
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerGetUpdatableNames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -494,12 +434,12 @@ func (p *ServiceManagerProxy) GetConnectionInfo(
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "getConnectionInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetConnectionInfo)
 	if _err != nil {
-		_code = TransactionIServiceManagerGetConnectionInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerGetConnectionInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -530,15 +470,15 @@ func (p *ServiceManagerProxy) RegisterClientCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, service, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "registerClientCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerRegisterClientCallback)
 	if _err != nil {
-		_code = TransactionIServiceManagerRegisterClientCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerRegisterClientCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -559,14 +499,14 @@ func (p *ServiceManagerProxy) TryUnregisterService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 	_data.WriteString16(name)
-	binder.WriteBinderToParcel(ctx, _data, service, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "tryUnregisterService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerTryUnregisterService)
 	if _err != nil {
-		_code = TransactionIServiceManagerTryUnregisterService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerTryUnregisterService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -586,12 +526,12 @@ func (p *ServiceManagerProxy) GetServiceDebugInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceManager, "getServiceDebugInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceManager, MethodIServiceManagerGetServiceDebugInfo)
 	if _err != nil {
-		_code = TransactionIServiceManagerGetServiceDebugInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceManager, MethodIServiceManagerGetServiceDebugInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -609,6 +549,9 @@ func (p *ServiceManagerProxy) GetServiceDebugInfo(
 	if _count >= 0 {
 		_result = make([]ServiceDebugInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -624,6 +567,10 @@ type ServiceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceManagerStub)(nil)
+
+func (s *ServiceManagerStub) Descriptor() string {
+	return DescriptorIServiceManager
+}
 
 func (s *ServiceManagerStub) OnTransaction(
 	ctx context.Context,
@@ -649,26 +596,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
-	case TransactionIServiceManagerGetService2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetService2(ctx, _arg_name)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
 	case TransactionIServiceManagerCheckService:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -686,26 +613,6 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
-		return _reply, nil
-	case TransactionIServiceManagerCheckService2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.CheckService2(ctx, _arg_name)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
 		return _reply, nil
 	case TransactionIServiceManagerAddService:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -945,9 +852,7 @@ func (s *ServiceManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IServiceManagerServer interface {
 	GetService(ctx context.Context, name string) (binder.IBinder, error)
-	GetService2(ctx context.Context, name string) (Service, error)
 	CheckService(ctx context.Context, name string) (binder.IBinder, error)
-	CheckService2(ctx context.Context, name string) (Service, error)
 	AddService(ctx context.Context, name string, service binder.IBinder, allowIsolated bool, dumpPriority int32) error
 	ListServices(ctx context.Context, dumpPriority int32) ([]string, error)
 	RegisterForNotifications(ctx context.Context, name string, callback IServiceCallback) error
@@ -978,25 +883,11 @@ func (w *serviceManagerStubWrapper) GetService(
 	return w.impl.GetService(ctx, name)
 }
 
-func (w *serviceManagerStubWrapper) GetService2(
-	ctx context.Context,
-	name string,
-) (Service, error) {
-	return w.impl.GetService2(ctx, name)
-}
-
 func (w *serviceManagerStubWrapper) CheckService(
 	ctx context.Context,
 	name string,
 ) (binder.IBinder, error) {
 	return w.impl.CheckService(ctx, name)
-}
-
-func (w *serviceManagerStubWrapper) CheckService2(
-	ctx context.Context,
-	name string,
-) (Service, error) {
-	return w.impl.CheckService2(ctx, name)
 }
 
 func (w *serviceManagerStubWrapper) AddService(

@@ -27,6 +27,21 @@ const (
 	TransactionIPeopleManagerUnregisterConversationListener = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodIPeopleManagerGetConversation                = "getConversation"
+	MethodIPeopleManagerGetRecentConversations         = "getRecentConversations"
+	MethodIPeopleManagerRemoveRecentConversation       = "removeRecentConversation"
+	MethodIPeopleManagerRemoveAllRecentConversations   = "removeAllRecentConversations"
+	MethodIPeopleManagerIsConversation                 = "isConversation"
+	MethodIPeopleManagerGetLastInteraction             = "getLastInteraction"
+	MethodIPeopleManagerAddOrUpdateStatus              = "addOrUpdateStatus"
+	MethodIPeopleManagerClearStatus                    = "clearStatus"
+	MethodIPeopleManagerClearStatuses                  = "clearStatuses"
+	MethodIPeopleManagerGetStatuses                    = "getStatuses"
+	MethodIPeopleManagerRegisterConversationListener   = "registerConversationListener"
+	MethodIPeopleManagerUnregisterConversationListener = "unregisterConversationListener"
+)
+
 type IPeopleManager interface {
 	AsBinder() binder.IBinder
 	GetConversation(ctx context.Context, packageName string, shortcutId string) (ConversationChannel, error)
@@ -44,17 +59,17 @@ type IPeopleManager interface {
 }
 
 type PeopleManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPeopleManagerProxy(
 	remote binder.IBinder,
 ) *PeopleManagerProxy {
-	return &PeopleManagerProxy{remote: remote}
+	return &PeopleManagerProxy{Remote: remote}
 }
 
 func (p *PeopleManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPeopleManager = (*PeopleManagerProxy)(nil)
@@ -65,19 +80,19 @@ func (p *PeopleManagerProxy) GetConversation(
 	shortcutId string,
 ) (ConversationChannel, error) {
 	var _result ConversationChannel
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(shortcutId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "getConversation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerGetConversation)
 	if _err != nil {
-		_code = TransactionIPeopleManagerGetConversation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerGetConversation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,12 +121,12 @@ func (p *PeopleManagerProxy) GetRecentConversations(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "getRecentConversations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerGetRecentConversations)
 	if _err != nil {
-		_code = TransactionIPeopleManagerGetRecentConversations
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerGetRecentConversations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,19 +153,19 @@ func (p *PeopleManagerProxy) RemoveRecentConversation(
 	packageName string,
 	shortcutId string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(shortcutId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "removeRecentConversation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerRemoveRecentConversation)
 	if _err != nil {
-		_code = TransactionIPeopleManagerRemoveRecentConversation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerRemoveRecentConversation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,12 +184,12 @@ func (p *PeopleManagerProxy) RemoveAllRecentConversations(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "removeAllRecentConversations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerRemoveAllRecentConversations)
 	if _err != nil {
-		_code = TransactionIPeopleManagerRemoveAllRecentConversations
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerRemoveAllRecentConversations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,19 +208,19 @@ func (p *PeopleManagerProxy) IsConversation(
 	shortcutId string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(shortcutId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "isConversation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerIsConversation)
 	if _err != nil {
-		_code = TransactionIPeopleManagerIsConversation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerIsConversation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,19 +243,19 @@ func (p *PeopleManagerProxy) GetLastInteraction(
 	shortcutId string,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(shortcutId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "getLastInteraction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerGetLastInteraction)
 	if _err != nil {
-		_code = TransactionIPeopleManagerGetLastInteraction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerGetLastInteraction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -263,7 +278,7 @@ func (p *PeopleManagerProxy) AddOrUpdateStatus(
 	conversationId string,
 	status ConversationStatus,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
@@ -274,12 +289,12 @@ func (p *PeopleManagerProxy) AddOrUpdateStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "addOrUpdateStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerAddOrUpdateStatus)
 	if _err != nil {
-		_code = TransactionIPeopleManagerAddOrUpdateStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerAddOrUpdateStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -298,7 +313,7 @@ func (p *PeopleManagerProxy) ClearStatus(
 	conversationId string,
 	statusId string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
@@ -306,12 +321,12 @@ func (p *PeopleManagerProxy) ClearStatus(
 	_data.WriteString16(conversationId)
 	_data.WriteString16(statusId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "clearStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerClearStatus)
 	if _err != nil {
-		_code = TransactionIPeopleManagerClearStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerClearStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -329,19 +344,19 @@ func (p *PeopleManagerProxy) ClearStatuses(
 	packageName string,
 	conversationId string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(conversationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "clearStatuses")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerClearStatuses)
 	if _err != nil {
-		_code = TransactionIPeopleManagerClearStatuses
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerClearStatuses, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -360,19 +375,19 @@ func (p *PeopleManagerProxy) GetStatuses(
 	conversationId string,
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(conversationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "getStatuses")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerGetStatuses)
 	if _err != nil {
-		_code = TransactionIPeopleManagerGetStatuses
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerGetStatuses, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -400,20 +415,20 @@ func (p *PeopleManagerProxy) RegisterConversationListener(
 	shortcutId string,
 	callback IConversationListener,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(shortcutId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "registerConversationListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerRegisterConversationListener)
 	if _err != nil {
-		_code = TransactionIPeopleManagerRegisterConversationListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerRegisterConversationListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -432,14 +447,14 @@ func (p *PeopleManagerProxy) UnregisterConversationListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPeopleManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPeopleManager, "unregisterConversationListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPeopleManager, MethodIPeopleManagerUnregisterConversationListener)
 	if _err != nil {
-		_code = TransactionIPeopleManagerUnregisterConversationListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPeopleManager, MethodIPeopleManagerUnregisterConversationListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -459,6 +474,10 @@ type PeopleManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PeopleManagerStub)(nil)
+
+func (s *PeopleManagerStub) Descriptor() string {
+	return DescriptorIPeopleManager
+}
 
 func (s *PeopleManagerStub) OnTransaction(
 	ctx context.Context,

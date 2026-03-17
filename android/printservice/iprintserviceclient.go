@@ -27,6 +27,20 @@ const (
 	TransactionIPrintServiceClientOnCustomPrinterIconLoaded = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIPrintServiceClientGetPrintJobInfos          = "getPrintJobInfos"
+	MethodIPrintServiceClientGetPrintJobInfo           = "getPrintJobInfo"
+	MethodIPrintServiceClientSetPrintJobState          = "setPrintJobState"
+	MethodIPrintServiceClientSetPrintJobTag            = "setPrintJobTag"
+	MethodIPrintServiceClientWritePrintJobData         = "writePrintJobData"
+	MethodIPrintServiceClientSetProgress               = "setProgress"
+	MethodIPrintServiceClientSetStatus                 = "setStatus"
+	MethodIPrintServiceClientSetStatusRes              = "setStatusRes"
+	MethodIPrintServiceClientOnPrintersAdded           = "onPrintersAdded"
+	MethodIPrintServiceClientOnPrintersRemoved         = "onPrintersRemoved"
+	MethodIPrintServiceClientOnCustomPrinterIconLoaded = "onCustomPrinterIconLoaded"
+)
+
 type IPrintServiceClient interface {
 	AsBinder() binder.IBinder
 	GetPrintJobInfos(ctx context.Context) ([]interface{}, error)
@@ -43,17 +57,17 @@ type IPrintServiceClient interface {
 }
 
 type PrintServiceClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrintServiceClientProxy(
 	remote binder.IBinder,
 ) *PrintServiceClientProxy {
-	return &PrintServiceClientProxy{remote: remote}
+	return &PrintServiceClientProxy{Remote: remote}
 }
 
 func (p *PrintServiceClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrintServiceClient = (*PrintServiceClientProxy)(nil)
@@ -65,12 +79,12 @@ func (p *PrintServiceClientProxy) GetPrintJobInfos(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "getPrintJobInfos")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfos)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientGetPrintJobInfos
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfos, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -101,12 +115,12 @@ func (p *PrintServiceClientProxy) GetPrintJobInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "getPrintJobInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfo)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientGetPrintJobInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientGetPrintJobInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -131,12 +145,12 @@ func (p *PrintServiceClientProxy) SetPrintJobState(
 	_data.WriteInt32(state)
 	_data.WriteString16(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "setPrintJobState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetPrintJobState)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientSetPrintJobState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientSetPrintJobState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -163,12 +177,12 @@ func (p *PrintServiceClientProxy) SetPrintJobTag(
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteString16(tag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "setPrintJobTag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetPrintJobTag)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientSetPrintJobTag
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientSetPrintJobTag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -194,12 +208,12 @@ func (p *PrintServiceClientProxy) WritePrintJobData(
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "writePrintJobData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientWritePrintJobData)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientWritePrintJobData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientWritePrintJobData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,12 +226,12 @@ func (p *PrintServiceClientProxy) SetProgress(
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "setProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetProgress)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientSetProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientSetProgress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -238,12 +252,12 @@ func (p *PrintServiceClientProxy) SetStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "setStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatus)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientSetStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -266,12 +280,12 @@ func (p *PrintServiceClientProxy) SetStatusRes(
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "setStatusRes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatusRes)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientSetStatusRes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientSetStatusRes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -295,12 +309,12 @@ func (p *PrintServiceClientProxy) OnPrintersAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "onPrintersAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientOnPrintersAdded)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientOnPrintersAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientOnPrintersAdded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -324,12 +338,12 @@ func (p *PrintServiceClientProxy) OnPrintersRemoved(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "onPrintersRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientOnPrintersRemoved)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientOnPrintersRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientOnPrintersRemoved, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -354,12 +368,12 @@ func (p *PrintServiceClientProxy) OnCustomPrinterIconLoaded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServiceClient, "onCustomPrinterIconLoaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServiceClient, MethodIPrintServiceClientOnCustomPrinterIconLoaded)
 	if _err != nil {
-		_code = TransactionIPrintServiceClientOnCustomPrinterIconLoaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServiceClient, MethodIPrintServiceClientOnCustomPrinterIconLoaded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -379,6 +393,10 @@ type PrintServiceClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrintServiceClientStub)(nil)
+
+func (s *PrintServiceClientStub) Descriptor() string {
+	return DescriptorIPrintServiceClient
+}
 
 func (s *PrintServiceClientStub) OnTransaction(
 	ctx context.Context,

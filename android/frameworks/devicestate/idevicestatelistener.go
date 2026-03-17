@@ -15,23 +15,27 @@ const (
 	TransactionIDeviceStateListenerOnDeviceStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeviceStateListenerOnDeviceStateChanged = "onDeviceStateChanged"
+)
+
 type IDeviceStateListener interface {
 	AsBinder() binder.IBinder
 	OnDeviceStateChanged(ctx context.Context, deviceState DeviceStateConfiguration) error
 }
 
 type DeviceStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceStateListenerProxy(
 	remote binder.IBinder,
 ) *DeviceStateListenerProxy {
-	return &DeviceStateListenerProxy{remote: remote}
+	return &DeviceStateListenerProxy{Remote: remote}
 }
 
 func (p *DeviceStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceStateListener = (*DeviceStateListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *DeviceStateListenerProxy) OnDeviceStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateListener, "onDeviceStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateListener, MethodIDeviceStateListenerOnDeviceStateChanged)
 	if _err != nil {
-		_code = TransactionIDeviceStateListenerOnDeviceStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateListener, MethodIDeviceStateListenerOnDeviceStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type DeviceStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceStateListenerStub)(nil)
+
+func (s *DeviceStateListenerStub) Descriptor() string {
+	return DescriptorIDeviceStateListener
+}
 
 func (s *DeviceStateListenerStub) OnTransaction(
 	ctx context.Context,

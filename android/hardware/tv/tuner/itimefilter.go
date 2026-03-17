@@ -19,6 +19,14 @@ const (
 	TransactionITimeFilterClose          = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodITimeFilterSetTimeStamp   = "setTimeStamp"
+	MethodITimeFilterClearTimeStamp = "clearTimeStamp"
+	MethodITimeFilterGetTimeStamp   = "getTimeStamp"
+	MethodITimeFilterGetSourceTime  = "getSourceTime"
+	MethodITimeFilterClose          = "close"
+)
+
 type ITimeFilter interface {
 	AsBinder() binder.IBinder
 	SetTimeStamp(ctx context.Context, timeStamp int64) error
@@ -29,17 +37,17 @@ type ITimeFilter interface {
 }
 
 type TimeFilterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTimeFilterProxy(
 	remote binder.IBinder,
 ) *TimeFilterProxy {
-	return &TimeFilterProxy{remote: remote}
+	return &TimeFilterProxy{Remote: remote}
 }
 
 func (p *TimeFilterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITimeFilter = (*TimeFilterProxy)(nil)
@@ -52,12 +60,12 @@ func (p *TimeFilterProxy) SetTimeStamp(
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 	_data.WriteInt64(timeStamp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeFilter, "setTimeStamp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterSetTimeStamp)
 	if _err != nil {
-		_code = TransactionITimeFilterSetTimeStamp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeFilter, MethodITimeFilterSetTimeStamp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,12 +84,12 @@ func (p *TimeFilterProxy) ClearTimeStamp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeFilter, "clearTimeStamp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterClearTimeStamp)
 	if _err != nil {
-		_code = TransactionITimeFilterClearTimeStamp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeFilter, MethodITimeFilterClearTimeStamp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,12 +109,12 @@ func (p *TimeFilterProxy) GetTimeStamp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeFilter, "getTimeStamp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterGetTimeStamp)
 	if _err != nil {
-		_code = TransactionITimeFilterGetTimeStamp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeFilter, MethodITimeFilterGetTimeStamp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,12 +138,12 @@ func (p *TimeFilterProxy) GetSourceTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeFilter, "getSourceTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterGetSourceTime)
 	if _err != nil {
-		_code = TransactionITimeFilterGetSourceTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITimeFilter, MethodITimeFilterGetSourceTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -158,12 +166,12 @@ func (p *TimeFilterProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeFilter, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeFilter, MethodITimeFilterClose)
 	if _err != nil {
-		_code = TransactionITimeFilterClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeFilter, MethodITimeFilterClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,6 +191,10 @@ type TimeFilterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TimeFilterStub)(nil)
+
+func (s *TimeFilterStub) Descriptor() string {
+	return DescriptorITimeFilter
+}
 
 func (s *TimeFilterStub) OnTransaction(
 	ctx context.Context,

@@ -18,44 +18,51 @@ const (
 	TransactionIBluetoothManagerCallbackOnBluetoothOff         = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBluetoothManagerCallbackOnBluetoothServiceUp   = "onBluetoothServiceUp"
+	MethodIBluetoothManagerCallbackOnBluetoothServiceDown = "onBluetoothServiceDown"
+	MethodIBluetoothManagerCallbackOnBluetoothOn          = "onBluetoothOn"
+	MethodIBluetoothManagerCallbackOnBluetoothOff         = "onBluetoothOff"
+)
+
 type IBluetoothManagerCallback interface {
 	AsBinder() binder.IBinder
-	OnBluetoothServiceUp(ctx context.Context, bluetoothService binder.IBinder) error
+	OnBluetoothServiceUp(ctx context.Context, bluetoothService IBluetooth) error
 	OnBluetoothServiceDown(ctx context.Context) error
 	OnBluetoothOn(ctx context.Context) error
 	OnBluetoothOff(ctx context.Context) error
 }
 
 type BluetoothManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothManagerCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothManagerCallbackProxy {
-	return &BluetoothManagerCallbackProxy{remote: remote}
+	return &BluetoothManagerCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothManagerCallback = (*BluetoothManagerCallbackProxy)(nil)
 
 func (p *BluetoothManagerCallbackProxy) OnBluetoothServiceUp(
 	ctx context.Context,
-	bluetoothService binder.IBinder,
+	bluetoothService IBluetooth,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
-	binder.WriteBinderToParcel(ctx, _data, bluetoothService, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, bluetoothService.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothServiceUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothServiceUp)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerCallbackOnBluetoothServiceUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothServiceUp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +72,12 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothServiceDown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothServiceDown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothServiceDown)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerCallbackOnBluetoothServiceDown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothServiceDown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +87,12 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothOn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothOn)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerCallbackOnBluetoothOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothOn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +102,12 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOff(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManagerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothOff")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothOff)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerCallbackOnBluetoothOff
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManagerCallback, MethodIBluetoothManagerCallbackOnBluetoothOff, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,6 +118,10 @@ type BluetoothManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothManagerCallbackStub)(nil)
+
+func (s *BluetoothManagerCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothManagerCallback
+}
 
 func (s *BluetoothManagerCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -123,7 +134,7 @@ func (s *BluetoothManagerCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_bluetoothService binder.IBinder
+		var _arg_bluetoothService IBluetooth
 		_ = _arg_bluetoothService
 		_err := s.Impl.OnBluetoothServiceUp(ctx, _arg_bluetoothService)
 		_ = _err
@@ -158,7 +169,7 @@ func (s *BluetoothManagerCallbackStub) OnTransaction(
 // provide to NewBluetoothManagerCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothManagerCallbackServer interface {
-	OnBluetoothServiceUp(ctx context.Context, bluetoothService binder.IBinder) error
+	OnBluetoothServiceUp(ctx context.Context, bluetoothService IBluetooth) error
 	OnBluetoothServiceDown(ctx context.Context) error
 	OnBluetoothOn(ctx context.Context) error
 	OnBluetoothOff(ctx context.Context) error
@@ -175,7 +186,7 @@ func (w *bluetoothManagerCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *bluetoothManagerCallbackStubWrapper) OnBluetoothServiceUp(
 	ctx context.Context,
-	bluetoothService binder.IBinder,
+	bluetoothService IBluetooth,
 ) error {
 	return w.impl.OnBluetoothServiceUp(ctx, bluetoothService)
 }

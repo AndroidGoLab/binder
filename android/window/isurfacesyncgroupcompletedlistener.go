@@ -15,23 +15,27 @@ const (
 	TransactionISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete = "onSurfaceSyncGroupComplete"
+)
+
 type ISurfaceSyncGroupCompletedListener interface {
 	AsBinder() binder.IBinder
 	OnSurfaceSyncGroupComplete(ctx context.Context) error
 }
 
 type SurfaceSyncGroupCompletedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSurfaceSyncGroupCompletedListenerProxy(
 	remote binder.IBinder,
 ) *SurfaceSyncGroupCompletedListenerProxy {
-	return &SurfaceSyncGroupCompletedListenerProxy{remote: remote}
+	return &SurfaceSyncGroupCompletedListenerProxy{Remote: remote}
 }
 
 func (p *SurfaceSyncGroupCompletedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISurfaceSyncGroupCompletedListener = (*SurfaceSyncGroupCompletedListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *SurfaceSyncGroupCompletedListenerProxy) OnSurfaceSyncGroupComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroupCompletedListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceSyncGroupCompletedListener, "onSurfaceSyncGroupComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceSyncGroupCompletedListener, MethodISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete)
 	if _err != nil {
-		_code = TransactionISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceSyncGroupCompletedListener, MethodISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type SurfaceSyncGroupCompletedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SurfaceSyncGroupCompletedListenerStub)(nil)
+
+func (s *SurfaceSyncGroupCompletedListenerStub) Descriptor() string {
+	return DescriptorISurfaceSyncGroupCompletedListener
+}
 
 func (s *SurfaceSyncGroupCompletedListenerStub) OnTransaction(
 	ctx context.Context,

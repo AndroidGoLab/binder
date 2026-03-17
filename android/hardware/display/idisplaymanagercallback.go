@@ -12,28 +12,30 @@ import (
 const DescriptorIDisplayManagerCallback = "android.hardware.display.IDisplayManagerCallback"
 
 const (
-	TransactionIDisplayManagerCallbackOnDisplayEvent    = binder.FirstCallTransaction + 0
-	TransactionIDisplayManagerCallbackOnTopologyChanged = binder.FirstCallTransaction + 1
+	TransactionIDisplayManagerCallbackOnDisplayEvent = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIDisplayManagerCallbackOnDisplayEvent = "onDisplayEvent"
 )
 
 type IDisplayManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnDisplayEvent(ctx context.Context, displayId int32, event int32) error
-	OnTopologyChanged(ctx context.Context, topology DisplayTopology) error
 }
 
 type DisplayManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayManagerCallbackProxy(
 	remote binder.IBinder,
 ) *DisplayManagerCallbackProxy {
-	return &DisplayManagerCallbackProxy{remote: remote}
+	return &DisplayManagerCallbackProxy{Remote: remote}
 }
 
 func (p *DisplayManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayManagerCallback = (*DisplayManagerCallbackProxy)(nil)
@@ -48,32 +50,12 @@ func (p *DisplayManagerCallbackProxy) OnDisplayEvent(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(event)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManagerCallback, "onDisplayEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManagerCallback, MethodIDisplayManagerCallbackOnDisplayEvent)
 	if _err != nil {
-		_code = TransactionIDisplayManagerCallbackOnDisplayEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManagerCallback, MethodIDisplayManagerCallbackOnDisplayEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DisplayManagerCallbackProxy) OnTopologyChanged(
-	ctx context.Context,
-	topology DisplayTopology,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManagerCallback)
-	_data.WriteInt32(1)
-	if _err := topology.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManagerCallback, "onTopologyChanged")
-	if _err != nil {
-		_code = TransactionIDisplayManagerCallbackOnTopologyChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +66,10 @@ type DisplayManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayManagerCallbackStub)(nil)
+
+func (s *DisplayManagerCallbackStub) Descriptor() string {
+	return DescriptorIDisplayManagerCallback
+}
 
 func (s *DisplayManagerCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -106,25 +92,6 @@ func (s *DisplayManagerCallbackStub) OnTransaction(
 		_err = s.Impl.OnDisplayEvent(ctx, _arg_displayId, _arg_event)
 		_ = _err
 		return nil, nil
-	case TransactionIDisplayManagerCallbackOnTopologyChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_topology DisplayTopology
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_topology.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnTopologyChanged(ctx, _arg_topology)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -135,7 +102,6 @@ func (s *DisplayManagerCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IDisplayManagerCallbackServer interface {
 	OnDisplayEvent(ctx context.Context, displayId int32, event int32) error
-	OnTopologyChanged(ctx context.Context, topology DisplayTopology) error
 }
 
 type displayManagerCallbackStubWrapper struct {
@@ -153,13 +119,6 @@ func (w *displayManagerCallbackStubWrapper) OnDisplayEvent(
 	event int32,
 ) error {
 	return w.impl.OnDisplayEvent(ctx, displayId, event)
-}
-
-func (w *displayManagerCallbackStubWrapper) OnTopologyChanged(
-	ctx context.Context,
-	topology DisplayTopology,
-) error {
-	return w.impl.OnTopologyChanged(ctx, topology)
 }
 
 var _ IDisplayManagerCallback = (*displayManagerCallbackStubWrapper)(nil)

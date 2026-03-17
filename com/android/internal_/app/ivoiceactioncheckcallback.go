@@ -15,23 +15,27 @@ const (
 	TransactionIVoiceActionCheckCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVoiceActionCheckCallbackOnComplete = "onComplete"
+)
+
 type IVoiceActionCheckCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, voiceActions []string) error
 }
 
 type VoiceActionCheckCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceActionCheckCallbackProxy(
 	remote binder.IBinder,
 ) *VoiceActionCheckCallbackProxy {
-	return &VoiceActionCheckCallbackProxy{remote: remote}
+	return &VoiceActionCheckCallbackProxy{Remote: remote}
 }
 
 func (p *VoiceActionCheckCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceActionCheckCallback = (*VoiceActionCheckCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *VoiceActionCheckCallbackProxy) OnComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceActionCheckCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceActionCheckCallback, MethodIVoiceActionCheckCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIVoiceActionCheckCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceActionCheckCallback, MethodIVoiceActionCheckCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type VoiceActionCheckCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceActionCheckCallbackStub)(nil)
+
+func (s *VoiceActionCheckCallbackStub) Descriptor() string {
+	return DescriptorIVoiceActionCheckCallback
+}
 
 func (s *VoiceActionCheckCallbackStub) OnTransaction(
 	ctx context.Context,

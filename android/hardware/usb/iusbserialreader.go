@@ -15,23 +15,27 @@ const (
 	TransactionIUsbSerialReaderGetSerial = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUsbSerialReaderGetSerial = "getSerial"
+)
+
 type IUsbSerialReader interface {
 	AsBinder() binder.IBinder
 	GetSerial(ctx context.Context, packageName string) (string, error)
 }
 
 type UsbSerialReaderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUsbSerialReaderProxy(
 	remote binder.IBinder,
 ) *UsbSerialReaderProxy {
-	return &UsbSerialReaderProxy{remote: remote}
+	return &UsbSerialReaderProxy{Remote: remote}
 }
 
 func (p *UsbSerialReaderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUsbSerialReader = (*UsbSerialReaderProxy)(nil)
@@ -45,12 +49,12 @@ func (p *UsbSerialReaderProxy) GetSerial(
 	_data.WriteInterfaceToken(DescriptorIUsbSerialReader)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbSerialReader, "getSerial")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbSerialReader, MethodIUsbSerialReaderGetSerial)
 	if _err != nil {
-		_code = TransactionIUsbSerialReaderGetSerial
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbSerialReader, MethodIUsbSerialReaderGetSerial, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type UsbSerialReaderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UsbSerialReaderStub)(nil)
+
+func (s *UsbSerialReaderStub) Descriptor() string {
+	return DescriptorIUsbSerialReader
+}
 
 func (s *UsbSerialReaderStub) OnTransaction(
 	ctx context.Context,

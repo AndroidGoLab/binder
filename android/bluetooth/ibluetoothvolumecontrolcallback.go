@@ -18,6 +18,13 @@ const (
 	TransactionIBluetoothVolumeControlCallbackOnDeviceVolumeChanged                 = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBluetoothVolumeControlCallbackOnVolumeOffsetChanged                 = "onVolumeOffsetChanged"
+	MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged    = "onVolumeOffsetAudioLocationChanged"
+	MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged = "onVolumeOffsetAudioDescriptionChanged"
+	MethodIBluetoothVolumeControlCallbackOnDeviceVolumeChanged                 = "onDeviceVolumeChanged"
+)
+
 type IBluetoothVolumeControlCallback interface {
 	AsBinder() binder.IBinder
 	OnVolumeOffsetChanged(ctx context.Context, device BluetoothDevice, instanceId int32, volumeOffset int32) error
@@ -27,17 +34,17 @@ type IBluetoothVolumeControlCallback interface {
 }
 
 type BluetoothVolumeControlCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothVolumeControlCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothVolumeControlCallbackProxy {
-	return &BluetoothVolumeControlCallbackProxy{remote: remote}
+	return &BluetoothVolumeControlCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothVolumeControlCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothVolumeControlCallback = (*BluetoothVolumeControlCallbackProxy)(nil)
@@ -57,12 +64,12 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetChanged(
 	_data.WriteInt32(instanceId)
 	_data.WriteInt32(volumeOffset)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onVolumeOffsetChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +88,12 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioLocationChanged
 	_data.WriteInt32(instanceId)
 	_data.WriteInt32(audioLocation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onVolumeOffsetAudioLocationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +112,12 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioDescriptionChan
 	_data.WriteInt32(instanceId)
 	_data.WriteString16(audioDescription)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onVolumeOffsetAudioDescriptionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,12 +134,12 @@ func (p *BluetoothVolumeControlCallbackProxy) OnDeviceVolumeChanged(
 	}
 	_data.WriteInt32(volume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onDeviceVolumeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnDeviceVolumeChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothVolumeControlCallbackOnDeviceVolumeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothVolumeControlCallback, MethodIBluetoothVolumeControlCallbackOnDeviceVolumeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,6 +150,10 @@ type BluetoothVolumeControlCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothVolumeControlCallbackStub)(nil)
+
+func (s *BluetoothVolumeControlCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothVolumeControlCallback
+}
 
 func (s *BluetoothVolumeControlCallbackStub) OnTransaction(
 	ctx context.Context,

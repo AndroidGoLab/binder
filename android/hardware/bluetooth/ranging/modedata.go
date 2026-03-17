@@ -92,18 +92,22 @@ func (u *ModeData) MarshalParcel(
 
 	switch u.Tag {
 	case ModeDataTagModeZeroData:
+		p.WriteInt32(1)
 		if _err := u.ModeZeroData.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ModeDataTagModeOneData:
+		p.WriteInt32(1)
 		if _err := u.ModeOneData.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ModeDataTagModeTwoData:
+		p.WriteInt32(1)
 		if _err := u.ModeTwoData.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ModeDataTagModeThreeData:
+		p.WriteInt32(1)
 		if _err := u.ModeThreeData.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -130,18 +134,30 @@ func (u *ModeData) UnmarshalParcel(
 
 	switch u.Tag {
 	case ModeDataTagModeZeroData:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ModeZeroData.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ModeDataTagModeOneData:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ModeOneData.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ModeDataTagModeTwoData:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ModeTwoData.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ModeDataTagModeThreeData:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ModeThreeData.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

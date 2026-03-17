@@ -17,6 +17,11 @@ const (
 	TransactionIContentProtectionServiceOnUpdateAllowlistRequest = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIContentProtectionServiceOnLoginDetected          = "onLoginDetected"
+	MethodIContentProtectionServiceOnUpdateAllowlistRequest = "onUpdateAllowlistRequest"
+)
+
 type IContentProtectionService interface {
 	AsBinder() binder.IBinder
 	OnLoginDetected(ctx context.Context, events pm.ParceledListSlice) error
@@ -24,17 +29,17 @@ type IContentProtectionService interface {
 }
 
 type ContentProtectionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentProtectionServiceProxy(
 	remote binder.IBinder,
 ) *ContentProtectionServiceProxy {
-	return &ContentProtectionServiceProxy{remote: remote}
+	return &ContentProtectionServiceProxy{Remote: remote}
 }
 
 func (p *ContentProtectionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentProtectionService = (*ContentProtectionServiceProxy)(nil)
@@ -50,12 +55,12 @@ func (p *ContentProtectionServiceProxy) OnLoginDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentProtectionService, "onLoginDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentProtectionService, MethodIContentProtectionServiceOnLoginDetected)
 	if _err != nil {
-		_code = TransactionIContentProtectionServiceOnLoginDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentProtectionService, MethodIContentProtectionServiceOnLoginDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,14 +70,14 @@ func (p *ContentProtectionServiceProxy) OnUpdateAllowlistRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentProtectionService, "onUpdateAllowlistRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentProtectionService, MethodIContentProtectionServiceOnUpdateAllowlistRequest)
 	if _err != nil {
-		_code = TransactionIContentProtectionServiceOnUpdateAllowlistRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentProtectionService, MethodIContentProtectionServiceOnUpdateAllowlistRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type ContentProtectionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentProtectionServiceStub)(nil)
+
+func (s *ContentProtectionServiceStub) Descriptor() string {
+	return DescriptorIContentProtectionService
+}
 
 func (s *ContentProtectionServiceStub) OnTransaction(
 	ctx context.Context,

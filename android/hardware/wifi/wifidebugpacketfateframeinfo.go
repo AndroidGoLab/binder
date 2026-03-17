@@ -24,14 +24,7 @@ func (s *WifiDebugPacketFateFrameInfo) MarshalParcel(
 	p.WriteInt64(s.FrameLen)
 	p.WriteInt64(s.DriverTimestampUsec)
 	p.WriteInt64(s.FirmwareTimestampUsec)
-	if s.FrameContent == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.FrameContent)))
-		for _, _item := range s.FrameContent {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.FrameContent)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -66,19 +59,9 @@ func (s *WifiDebugPacketFateFrameInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.FrameContent, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.FrameContent = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.FrameContent[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

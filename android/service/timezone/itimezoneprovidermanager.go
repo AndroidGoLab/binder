@@ -15,23 +15,27 @@ const (
 	TransactionITimeZoneProviderManagerOnTimeZoneProviderEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITimeZoneProviderManagerOnTimeZoneProviderEvent = "onTimeZoneProviderEvent"
+)
+
 type ITimeZoneProviderManager interface {
 	AsBinder() binder.IBinder
 	OnTimeZoneProviderEvent(ctx context.Context, timeZoneProviderEvent TimeZoneProviderEvent) error
 }
 
 type TimeZoneProviderManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTimeZoneProviderManagerProxy(
 	remote binder.IBinder,
 ) *TimeZoneProviderManagerProxy {
-	return &TimeZoneProviderManagerProxy{remote: remote}
+	return &TimeZoneProviderManagerProxy{Remote: remote}
 }
 
 func (p *TimeZoneProviderManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITimeZoneProviderManager = (*TimeZoneProviderManagerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *TimeZoneProviderManagerProxy) OnTimeZoneProviderEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneProviderManager, "onTimeZoneProviderEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneProviderManager, MethodITimeZoneProviderManagerOnTimeZoneProviderEvent)
 	if _err != nil {
-		_code = TransactionITimeZoneProviderManagerOnTimeZoneProviderEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneProviderManager, MethodITimeZoneProviderManagerOnTimeZoneProviderEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type TimeZoneProviderManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TimeZoneProviderManagerStub)(nil)
+
+func (s *TimeZoneProviderManagerStub) Descriptor() string {
+	return DescriptorITimeZoneProviderManager
+}
 
 func (s *TimeZoneProviderManagerStub) OnTransaction(
 	ctx context.Context,

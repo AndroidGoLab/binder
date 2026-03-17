@@ -16,6 +16,11 @@ const (
 	TransactionIExternalVibratorServiceOnExternalVibrationStop  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIExternalVibratorServiceOnExternalVibrationStart = "onExternalVibrationStart"
+	MethodIExternalVibratorServiceOnExternalVibrationStop  = "onExternalVibrationStop"
+)
+
 type IExternalVibratorService interface {
 	AsBinder() binder.IBinder
 	OnExternalVibrationStart(ctx context.Context, vib interface{}) (ExternalVibrationScale, error)
@@ -23,17 +28,17 @@ type IExternalVibratorService interface {
 }
 
 type ExternalVibratorServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewExternalVibratorServiceProxy(
 	remote binder.IBinder,
 ) *ExternalVibratorServiceProxy {
-	return &ExternalVibratorServiceProxy{remote: remote}
+	return &ExternalVibratorServiceProxy{Remote: remote}
 }
 
 func (p *ExternalVibratorServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IExternalVibratorService = (*ExternalVibratorServiceProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExternalVibratorService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibratorService, "onExternalVibrationStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStart)
 	if _err != nil {
-		_code = TransactionIExternalVibratorServiceOnExternalVibrationStart
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,12 +85,12 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExternalVibratorService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibratorService, "onExternalVibrationStop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStop)
 	if _err != nil {
-		_code = TransactionIExternalVibratorServiceOnExternalVibrationStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalVibratorService, MethodIExternalVibratorServiceOnExternalVibrationStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,6 +110,10 @@ type ExternalVibratorServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ExternalVibratorServiceStub)(nil)
+
+func (s *ExternalVibratorServiceStub) Descriptor() string {
+	return DescriptorIExternalVibratorService
+}
 
 func (s *ExternalVibratorServiceStub) OnTransaction(
 	ctx context.Context,

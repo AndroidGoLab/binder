@@ -16,6 +16,11 @@ const (
 	TransactionIGnssVisibilityControlSetCallback             = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssVisibilityControlEnableNfwLocationAccess = "enableNfwLocationAccess"
+	MethodIGnssVisibilityControlSetCallback             = "setCallback"
+)
+
 type IGnssVisibilityControl interface {
 	AsBinder() binder.IBinder
 	EnableNfwLocationAccess(ctx context.Context, proxyApps []string) error
@@ -23,17 +28,17 @@ type IGnssVisibilityControl interface {
 }
 
 type GnssVisibilityControlProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssVisibilityControlProxy(
 	remote binder.IBinder,
 ) *GnssVisibilityControlProxy {
-	return &GnssVisibilityControlProxy{remote: remote}
+	return &GnssVisibilityControlProxy{Remote: remote}
 }
 
 func (p *GnssVisibilityControlProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssVisibilityControl = (*GnssVisibilityControlProxy)(nil)
@@ -53,12 +58,12 @@ func (p *GnssVisibilityControlProxy) EnableNfwLocationAccess(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControl, "enableNfwLocationAccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlEnableNfwLocationAccess)
 	if _err != nil {
-		_code = TransactionIGnssVisibilityControlEnableNfwLocationAccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlEnableNfwLocationAccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,14 +82,14 @@ func (p *GnssVisibilityControlProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControl)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControl, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssVisibilityControlSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssVisibilityControl, MethodIGnssVisibilityControlSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,6 +109,10 @@ type GnssVisibilityControlStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssVisibilityControlStub)(nil)
+
+func (s *GnssVisibilityControlStub) Descriptor() string {
+	return DescriptorIGnssVisibilityControl
+}
 
 func (s *GnssVisibilityControlStub) OnTransaction(
 	ctx context.Context,

@@ -78,13 +78,75 @@ const (
 	TransactionISupplicantStaIfaceRemoveQosPolicyForScs                = binder.FirstCallTransaction + 63
 	TransactionISupplicantStaIfaceConfigureMscs                        = binder.FirstCallTransaction + 64
 	TransactionISupplicantStaIfaceDisableMscs                          = binder.FirstCallTransaction + 65
-	TransactionISupplicantStaIfaceGetUsdCapabilities                   = binder.FirstCallTransaction + 66
-	TransactionISupplicantStaIfaceStartUsdPublish                      = binder.FirstCallTransaction + 67
-	TransactionISupplicantStaIfaceStartUsdSubscribe                    = binder.FirstCallTransaction + 68
-	TransactionISupplicantStaIfaceUpdateUsdPublish                     = binder.FirstCallTransaction + 69
-	TransactionISupplicantStaIfaceCancelUsdPublish                     = binder.FirstCallTransaction + 70
-	TransactionISupplicantStaIfaceCancelUsdSubscribe                   = binder.FirstCallTransaction + 71
-	TransactionISupplicantStaIfaceSendUsdMessage                       = binder.FirstCallTransaction + 72
+)
+
+const (
+	MethodISupplicantStaIfaceAddDppPeerUri                        = "addDppPeerUri"
+	MethodISupplicantStaIfaceAddExtRadioWork                      = "addExtRadioWork"
+	MethodISupplicantStaIfaceAddNetwork                           = "addNetwork"
+	MethodISupplicantStaIfaceAddRxFilter                          = "addRxFilter"
+	MethodISupplicantStaIfaceCancelWps                            = "cancelWps"
+	MethodISupplicantStaIfaceDisconnect                           = "disconnect"
+	MethodISupplicantStaIfaceEnableAutoReconnect                  = "enableAutoReconnect"
+	MethodISupplicantStaIfaceFilsHlpAddRequest                    = "filsHlpAddRequest"
+	MethodISupplicantStaIfaceFilsHlpFlushRequest                  = "filsHlpFlushRequest"
+	MethodISupplicantStaIfaceGenerateDppBootstrapInfoForResponder = "generateDppBootstrapInfoForResponder"
+	MethodISupplicantStaIfaceGenerateSelfDppConfiguration         = "generateSelfDppConfiguration"
+	MethodISupplicantStaIfaceGetConnectionCapabilities            = "getConnectionCapabilities"
+	MethodISupplicantStaIfaceGetConnectionMloLinksInfo            = "getConnectionMloLinksInfo"
+	MethodISupplicantStaIfaceGetKeyMgmtCapabilities               = "getKeyMgmtCapabilities"
+	MethodISupplicantStaIfaceGetMacAddress                        = "getMacAddress"
+	MethodISupplicantStaIfaceGetName                              = "getName"
+	MethodISupplicantStaIfaceGetNetwork                           = "getNetwork"
+	MethodISupplicantStaIfaceGetType                              = "getType"
+	MethodISupplicantStaIfaceGetWpaDriverCapabilities             = "getWpaDriverCapabilities"
+	MethodISupplicantStaIfaceInitiateAnqpQuery                    = "initiateAnqpQuery"
+	MethodISupplicantStaIfaceInitiateHs20IconQuery                = "initiateHs20IconQuery"
+	MethodISupplicantStaIfaceInitiateTdlsDiscover                 = "initiateTdlsDiscover"
+	MethodISupplicantStaIfaceInitiateTdlsSetup                    = "initiateTdlsSetup"
+	MethodISupplicantStaIfaceInitiateTdlsTeardown                 = "initiateTdlsTeardown"
+	MethodISupplicantStaIfaceInitiateVenueUrlAnqpQuery            = "initiateVenueUrlAnqpQuery"
+	MethodISupplicantStaIfaceListNetworks                         = "listNetworks"
+	MethodISupplicantStaIfaceReassociate                          = "reassociate"
+	MethodISupplicantStaIfaceReconnect                            = "reconnect"
+	MethodISupplicantStaIfaceRegisterCallback                     = "registerCallback"
+	MethodISupplicantStaIfaceSetQosPolicyFeatureEnabled           = "setQosPolicyFeatureEnabled"
+	MethodISupplicantStaIfaceSendQosPolicyResponse                = "sendQosPolicyResponse"
+	MethodISupplicantStaIfaceRemoveAllQosPolicies                 = "removeAllQosPolicies"
+	MethodISupplicantStaIfaceRemoveDppUri                         = "removeDppUri"
+	MethodISupplicantStaIfaceRemoveExtRadioWork                   = "removeExtRadioWork"
+	MethodISupplicantStaIfaceRemoveNetwork                        = "removeNetwork"
+	MethodISupplicantStaIfaceRemoveRxFilter                       = "removeRxFilter"
+	MethodISupplicantStaIfaceSetBtCoexistenceMode                 = "setBtCoexistenceMode"
+	MethodISupplicantStaIfaceSetBtCoexistenceScanModeEnabled      = "setBtCoexistenceScanModeEnabled"
+	MethodISupplicantStaIfaceSetCountryCode                       = "setCountryCode"
+	MethodISupplicantStaIfaceSetExternalSim                       = "setExternalSim"
+	MethodISupplicantStaIfaceSetMboCellularDataStatus             = "setMboCellularDataStatus"
+	MethodISupplicantStaIfaceSetPowerSave                         = "setPowerSave"
+	MethodISupplicantStaIfaceSetSuspendModeEnabled                = "setSuspendModeEnabled"
+	MethodISupplicantStaIfaceSetWpsConfigMethods                  = "setWpsConfigMethods"
+	MethodISupplicantStaIfaceSetWpsDeviceName                     = "setWpsDeviceName"
+	MethodISupplicantStaIfaceSetWpsDeviceType                     = "setWpsDeviceType"
+	MethodISupplicantStaIfaceSetWpsManufacturer                   = "setWpsManufacturer"
+	MethodISupplicantStaIfaceSetWpsModelName                      = "setWpsModelName"
+	MethodISupplicantStaIfaceSetWpsModelNumber                    = "setWpsModelNumber"
+	MethodISupplicantStaIfaceSetWpsSerialNumber                   = "setWpsSerialNumber"
+	MethodISupplicantStaIfaceStartDppConfiguratorInitiator        = "startDppConfiguratorInitiator"
+	MethodISupplicantStaIfaceStartDppEnrolleeInitiator            = "startDppEnrolleeInitiator"
+	MethodISupplicantStaIfaceStartDppEnrolleeResponder            = "startDppEnrolleeResponder"
+	MethodISupplicantStaIfaceStartRxFilter                        = "startRxFilter"
+	MethodISupplicantStaIfaceStartWpsPbc                          = "startWpsPbc"
+	MethodISupplicantStaIfaceStartWpsPinDisplay                   = "startWpsPinDisplay"
+	MethodISupplicantStaIfaceStartWpsPinKeypad                    = "startWpsPinKeypad"
+	MethodISupplicantStaIfaceStartWpsRegistrar                    = "startWpsRegistrar"
+	MethodISupplicantStaIfaceStopDppInitiator                     = "stopDppInitiator"
+	MethodISupplicantStaIfaceStopDppResponder                     = "stopDppResponder"
+	MethodISupplicantStaIfaceStopRxFilter                         = "stopRxFilter"
+	MethodISupplicantStaIfaceGetSignalPollResults                 = "getSignalPollResults"
+	MethodISupplicantStaIfaceAddQosPolicyRequestForScs            = "addQosPolicyRequestForScs"
+	MethodISupplicantStaIfaceRemoveQosPolicyForScs                = "removeQosPolicyForScs"
+	MethodISupplicantStaIfaceConfigureMscs                        = "configureMscs"
+	MethodISupplicantStaIfaceDisableMscs                          = "disableMscs"
 )
 
 type ISupplicantStaIface interface {
@@ -155,13 +217,6 @@ type ISupplicantStaIface interface {
 	RemoveQosPolicyForScs(ctx context.Context, scsPolicyIds []byte) ([]QosPolicyScsRequestStatus, error)
 	ConfigureMscs(ctx context.Context, params MscsParams) error
 	DisableMscs(ctx context.Context) error
-	GetUsdCapabilities(ctx context.Context) (UsdCapabilities, error)
-	StartUsdPublish(ctx context.Context, cmdId int32, usdPublishConfig UsdPublishConfig) error
-	StartUsdSubscribe(ctx context.Context, cmdId int32, usdSubscribeConfig UsdSubscribeConfig) error
-	UpdateUsdPublish(ctx context.Context, publishId int32, serviceSpecificInfo []byte) error
-	CancelUsdPublish(ctx context.Context, publishId int32) error
-	CancelUsdSubscribe(ctx context.Context, subscribeId int32) error
-	SendUsdMessage(ctx context.Context, messageInfo UsdMessageInfo) error
 }
 
 const (
@@ -169,17 +224,17 @@ const (
 )
 
 type SupplicantStaIfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantStaIfaceProxy(
 	remote binder.IBinder,
 ) *SupplicantStaIfaceProxy {
-	return &SupplicantStaIfaceProxy{remote: remote}
+	return &SupplicantStaIfaceProxy{Remote: remote}
 }
 
 func (p *SupplicantStaIfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicantStaIface = (*SupplicantStaIfaceProxy)(nil)
@@ -193,12 +248,12 @@ func (p *SupplicantStaIfaceProxy) AddDppPeerUri(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(uri)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addDppPeerUri")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddDppPeerUri)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceAddDppPeerUri
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddDppPeerUri, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,12 +283,12 @@ func (p *SupplicantStaIfaceProxy) AddExtRadioWork(
 	_data.WriteInt32(freqInMhz)
 	_data.WriteInt32(timeoutInSec)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addExtRadioWork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddExtRadioWork)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceAddExtRadioWork
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddExtRadioWork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -257,12 +312,12 @@ func (p *SupplicantStaIfaceProxy) AddNetwork(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddNetwork)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceAddNetwork
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -276,7 +331,7 @@ func (p *SupplicantStaIfaceProxy) AddNetwork(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantStaNetworkProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSupplicantStaNetworkProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -288,12 +343,12 @@ func (p *SupplicantStaIfaceProxy) AddRxFilter(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WritePaddedByte(byte(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addRxFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddRxFilter)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceAddRxFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddRxFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -312,12 +367,12 @@ func (p *SupplicantStaIfaceProxy) CancelWps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "cancelWps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceCancelWps)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCancelWps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceCancelWps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -336,12 +391,12 @@ func (p *SupplicantStaIfaceProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceDisconnect)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -362,12 +417,12 @@ func (p *SupplicantStaIfaceProxy) EnableAutoReconnect(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "enableAutoReconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceEnableAutoReconnect)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceEnableAutoReconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceEnableAutoReconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -404,12 +459,12 @@ func (p *SupplicantStaIfaceProxy) FilsHlpAddRequest(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "filsHlpAddRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceFilsHlpAddRequest)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceFilsHlpAddRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceFilsHlpAddRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -428,12 +483,12 @@ func (p *SupplicantStaIfaceProxy) FilsHlpFlushRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "filsHlpFlushRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceFilsHlpFlushRequest)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceFilsHlpFlushRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceFilsHlpFlushRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -466,12 +521,12 @@ func (p *SupplicantStaIfaceProxy) GenerateDppBootstrapInfoForResponder(
 	_data.WriteString16(deviceInfo)
 	_data.WriteInt32(int32(curve))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "generateDppBootstrapInfoForResponder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGenerateDppBootstrapInfoForResponder)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGenerateDppBootstrapInfoForResponder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGenerateDppBootstrapInfoForResponder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -510,12 +565,12 @@ func (p *SupplicantStaIfaceProxy) GenerateSelfDppConfiguration(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "generateSelfDppConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGenerateSelfDppConfiguration)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGenerateSelfDppConfiguration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGenerateSelfDppConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -535,12 +590,12 @@ func (p *SupplicantStaIfaceProxy) GetConnectionCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getConnectionCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetConnectionCapabilities)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetConnectionCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetConnectionCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -569,12 +624,12 @@ func (p *SupplicantStaIfaceProxy) GetConnectionMloLinksInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getConnectionMloLinksInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetConnectionMloLinksInfo)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetConnectionMloLinksInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetConnectionMloLinksInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -603,12 +658,12 @@ func (p *SupplicantStaIfaceProxy) GetKeyMgmtCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getKeyMgmtCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetKeyMgmtCapabilities)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetKeyMgmtCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetKeyMgmtCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -633,12 +688,12 @@ func (p *SupplicantStaIfaceProxy) GetMacAddress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getMacAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetMacAddress)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetMacAddress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetMacAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -672,12 +727,12 @@ func (p *SupplicantStaIfaceProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetName)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -703,12 +758,12 @@ func (p *SupplicantStaIfaceProxy) GetNetwork(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetNetwork)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetNetwork
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -722,7 +777,7 @@ func (p *SupplicantStaIfaceProxy) GetNetwork(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantStaNetworkProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSupplicantStaNetworkProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -733,12 +788,12 @@ func (p *SupplicantStaIfaceProxy) GetType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetType)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -763,12 +818,12 @@ func (p *SupplicantStaIfaceProxy) GetWpaDriverCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getWpaDriverCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetWpaDriverCapabilities)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetWpaDriverCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetWpaDriverCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -819,12 +874,12 @@ func (p *SupplicantStaIfaceProxy) InitiateAnqpQuery(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateAnqpQuery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateAnqpQuery)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceInitiateAnqpQuery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateAnqpQuery, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -854,12 +909,12 @@ func (p *SupplicantStaIfaceProxy) InitiateHs20IconQuery(
 	}
 	_data.WriteString16(fileName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateHs20IconQuery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateHs20IconQuery)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceInitiateHs20IconQuery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateHs20IconQuery, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -887,12 +942,12 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsDiscover(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateTdlsDiscover")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsDiscover)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceInitiateTdlsDiscover
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsDiscover, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -920,12 +975,12 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsSetup(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateTdlsSetup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsSetup)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceInitiateTdlsSetup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsSetup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -953,12 +1008,12 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsTeardown(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateTdlsTeardown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsTeardown)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceInitiateTdlsTeardown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateTdlsTeardown, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -986,12 +1041,12 @@ func (p *SupplicantStaIfaceProxy) InitiateVenueUrlAnqpQuery(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateVenueUrlAnqpQuery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateVenueUrlAnqpQuery)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceInitiateVenueUrlAnqpQuery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceInitiateVenueUrlAnqpQuery, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1011,12 +1066,12 @@ func (p *SupplicantStaIfaceProxy) ListNetworks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "listNetworks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceListNetworks)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceListNetworks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceListNetworks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1049,12 +1104,12 @@ func (p *SupplicantStaIfaceProxy) Reassociate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "reassociate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceReassociate)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceReassociate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceReassociate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1073,12 +1128,12 @@ func (p *SupplicantStaIfaceProxy) Reconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "reconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceReconnect)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceReconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceReconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1097,14 +1152,14 @@ func (p *SupplicantStaIfaceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRegisterCallback)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1125,12 +1180,12 @@ func (p *SupplicantStaIfaceProxy) SetQosPolicyFeatureEnabled(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setQosPolicyFeatureEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetQosPolicyFeatureEnabled)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetQosPolicyFeatureEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetQosPolicyFeatureEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1158,18 +1213,19 @@ func (p *SupplicantStaIfaceProxy) SendQosPolicyResponse(
 	} else {
 		_data.WriteInt32(int32(len(qosPolicyStatusList)))
 		for _, _item := range qosPolicyStatusList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "sendQosPolicyResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSendQosPolicyResponse)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSendQosPolicyResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSendQosPolicyResponse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1188,12 +1244,12 @@ func (p *SupplicantStaIfaceProxy) RemoveAllQosPolicies(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeAllQosPolicies")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveAllQosPolicies)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRemoveAllQosPolicies
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveAllQosPolicies, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1214,12 +1270,12 @@ func (p *SupplicantStaIfaceProxy) RemoveDppUri(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeDppUri")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveDppUri)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRemoveDppUri
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveDppUri, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1240,12 +1296,12 @@ func (p *SupplicantStaIfaceProxy) RemoveExtRadioWork(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeExtRadioWork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveExtRadioWork)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRemoveExtRadioWork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveExtRadioWork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1266,12 +1322,12 @@ func (p *SupplicantStaIfaceProxy) RemoveNetwork(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveNetwork)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRemoveNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveNetwork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1292,12 +1348,12 @@ func (p *SupplicantStaIfaceProxy) RemoveRxFilter(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WritePaddedByte(byte(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeRxFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveRxFilter)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRemoveRxFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveRxFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1318,12 +1374,12 @@ func (p *SupplicantStaIfaceProxy) SetBtCoexistenceMode(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WritePaddedByte(byte(mode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setBtCoexistenceMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetBtCoexistenceMode)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetBtCoexistenceMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetBtCoexistenceMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1344,12 +1400,12 @@ func (p *SupplicantStaIfaceProxy) SetBtCoexistenceScanModeEnabled(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setBtCoexistenceScanModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetBtCoexistenceScanModeEnabled)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetBtCoexistenceScanModeEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetBtCoexistenceScanModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1377,12 +1433,12 @@ func (p *SupplicantStaIfaceProxy) SetCountryCode(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setCountryCode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetCountryCode)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetCountryCode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetCountryCode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1403,12 +1459,12 @@ func (p *SupplicantStaIfaceProxy) SetExternalSim(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(useExternalSim)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setExternalSim")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetExternalSim)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetExternalSim
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetExternalSim, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1429,12 +1485,12 @@ func (p *SupplicantStaIfaceProxy) SetMboCellularDataStatus(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(available)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setMboCellularDataStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetMboCellularDataStatus)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetMboCellularDataStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetMboCellularDataStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1455,12 +1511,12 @@ func (p *SupplicantStaIfaceProxy) SetPowerSave(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setPowerSave")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetPowerSave)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetPowerSave
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetPowerSave, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1481,12 +1537,12 @@ func (p *SupplicantStaIfaceProxy) SetSuspendModeEnabled(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setSuspendModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetSuspendModeEnabled)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetSuspendModeEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetSuspendModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1507,12 +1563,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsConfigMethods(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(int32(configMethods))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsConfigMethods")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsConfigMethods)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsConfigMethods
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsConfigMethods, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1533,12 +1589,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsDeviceName(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsDeviceName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsDeviceName)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsDeviceName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsDeviceName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1566,12 +1622,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsDeviceType(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsDeviceType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsDeviceType)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsDeviceType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsDeviceType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1592,12 +1648,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsManufacturer(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(manufacturer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsManufacturer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsManufacturer)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsManufacturer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsManufacturer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1618,12 +1674,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsModelName(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(modelName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsModelName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsModelName)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsModelName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsModelName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1644,12 +1700,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsModelNumber(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(modelNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsModelNumber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsModelNumber)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsModelNumber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsModelNumber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1670,12 +1726,12 @@ func (p *SupplicantStaIfaceProxy) SetWpsSerialNumber(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(serialNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsSerialNumber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsSerialNumber)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSetWpsSerialNumber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceSetWpsSerialNumber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1718,12 +1774,12 @@ func (p *SupplicantStaIfaceProxy) StartDppConfiguratorInitiator(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startDppConfiguratorInitiator")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppConfiguratorInitiator)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartDppConfiguratorInitiator
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppConfiguratorInitiator, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1760,12 +1816,12 @@ func (p *SupplicantStaIfaceProxy) StartDppEnrolleeInitiator(
 	_data.WriteInt32(peerBootstrapId)
 	_data.WriteInt32(ownBootstrapId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startDppEnrolleeInitiator")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppEnrolleeInitiator)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartDppEnrolleeInitiator
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppEnrolleeInitiator, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1786,12 +1842,12 @@ func (p *SupplicantStaIfaceProxy) StartDppEnrolleeResponder(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(listenChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startDppEnrolleeResponder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppEnrolleeResponder)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartDppEnrolleeResponder
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartDppEnrolleeResponder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1810,12 +1866,12 @@ func (p *SupplicantStaIfaceProxy) StartRxFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startRxFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartRxFilter)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartRxFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartRxFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1843,12 +1899,12 @@ func (p *SupplicantStaIfaceProxy) StartWpsPbc(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsPbc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPbc)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartWpsPbc
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPbc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1877,12 +1933,12 @@ func (p *SupplicantStaIfaceProxy) StartWpsPinDisplay(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsPinDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPinDisplay)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartWpsPinDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPinDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1907,12 +1963,12 @@ func (p *SupplicantStaIfaceProxy) StartWpsPinKeypad(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteString16(pin)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsPinKeypad")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPinKeypad)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartWpsPinKeypad
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsPinKeypad, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1942,12 +1998,12 @@ func (p *SupplicantStaIfaceProxy) StartWpsRegistrar(
 	}
 	_data.WriteString16(pin)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsRegistrar")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsRegistrar)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartWpsRegistrar
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStartWpsRegistrar, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1966,12 +2022,12 @@ func (p *SupplicantStaIfaceProxy) StopDppInitiator(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "stopDppInitiator")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopDppInitiator)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStopDppInitiator
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopDppInitiator, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1992,12 +2048,12 @@ func (p *SupplicantStaIfaceProxy) StopDppResponder(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(ownBootstrapId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "stopDppResponder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopDppResponder)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStopDppResponder
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopDppResponder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2016,12 +2072,12 @@ func (p *SupplicantStaIfaceProxy) StopRxFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "stopRxFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopRxFilter)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStopRxFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceStopRxFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2041,12 +2097,12 @@ func (p *SupplicantStaIfaceProxy) GetSignalPollResults(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getSignalPollResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetSignalPollResults)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetSignalPollResults
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceGetSignalPollResults, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2064,6 +2120,9 @@ func (p *SupplicantStaIfaceProxy) GetSignalPollResults(
 	if _count >= 0 {
 		_result = make([]SignalPollResult, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2084,18 +2143,19 @@ func (p *SupplicantStaIfaceProxy) AddQosPolicyRequestForScs(
 	} else {
 		_data.WriteInt32(int32(len(qosPolicyData)))
 		for _, _item := range qosPolicyData {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addQosPolicyRequestForScs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddQosPolicyRequestForScs)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceAddQosPolicyRequestForScs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceAddQosPolicyRequestForScs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2113,6 +2173,9 @@ func (p *SupplicantStaIfaceProxy) AddQosPolicyRequestForScs(
 	if _count >= 0 {
 		_result = make([]QosPolicyScsRequestStatus, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2137,12 +2200,12 @@ func (p *SupplicantStaIfaceProxy) RemoveQosPolicyForScs(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeQosPolicyForScs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveQosPolicyForScs)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceRemoveQosPolicyForScs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceRemoveQosPolicyForScs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2160,6 +2223,9 @@ func (p *SupplicantStaIfaceProxy) RemoveQosPolicyForScs(
 	if _count >= 0 {
 		_result = make([]QosPolicyScsRequestStatus, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2179,12 +2245,12 @@ func (p *SupplicantStaIfaceProxy) ConfigureMscs(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "configureMscs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceConfigureMscs)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceConfigureMscs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceConfigureMscs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2203,224 +2269,12 @@ func (p *SupplicantStaIfaceProxy) DisableMscs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "disableMscs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIface, MethodISupplicantStaIfaceDisableMscs)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceDisableMscs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIface, MethodISupplicantStaIfaceDisableMscs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *SupplicantStaIfaceProxy) GetUsdCapabilities(
-	ctx context.Context,
-) (UsdCapabilities, error) {
-	var _result UsdCapabilities
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getUsdCapabilities")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceGetUsdCapabilities
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *SupplicantStaIfaceProxy) StartUsdPublish(
-	ctx context.Context,
-	cmdId int32,
-	usdPublishConfig UsdPublishConfig,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := usdPublishConfig.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startUsdPublish")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartUsdPublish
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *SupplicantStaIfaceProxy) StartUsdSubscribe(
-	ctx context.Context,
-	cmdId int32,
-	usdSubscribeConfig UsdSubscribeConfig,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(1)
-	if _err := usdSubscribeConfig.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startUsdSubscribe")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceStartUsdSubscribe
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *SupplicantStaIfaceProxy) UpdateUsdPublish(
-	ctx context.Context,
-	publishId int32,
-	serviceSpecificInfo []byte,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	_data.WriteInt32(publishId)
-	if serviceSpecificInfo == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(serviceSpecificInfo)))
-		for _, _item := range serviceSpecificInfo {
-			_data.WritePaddedByte(_item)
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "updateUsdPublish")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceUpdateUsdPublish
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *SupplicantStaIfaceProxy) CancelUsdPublish(
-	ctx context.Context,
-	publishId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	_data.WriteInt32(publishId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "cancelUsdPublish")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCancelUsdPublish
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *SupplicantStaIfaceProxy) CancelUsdSubscribe(
-	ctx context.Context,
-	subscribeId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	_data.WriteInt32(subscribeId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "cancelUsdSubscribe")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCancelUsdSubscribe
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *SupplicantStaIfaceProxy) SendUsdMessage(
-	ctx context.Context,
-	messageInfo UsdMessageInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
-	_data.WriteInt32(1)
-	if _err := messageInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "sendUsdMessage")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceSendUsdMessage
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2440,6 +2294,10 @@ type SupplicantStaIfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStaIfaceStub)(nil)
+
+func (s *SupplicantStaIfaceStub) Descriptor() string {
+	return DescriptorISupplicantStaIface
+}
 
 func (s *SupplicantStaIfaceStub) OnTransaction(
 	ctx context.Context,
@@ -3531,153 +3389,6 @@ func (s *SupplicantStaIfaceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionISupplicantStaIfaceGetUsdCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetUsdCapabilities(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionISupplicantStaIfaceStartUsdPublish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cmdId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_usdPublishConfig UsdPublishConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_usdPublishConfig.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.StartUsdPublish(ctx, _arg_cmdId, _arg_usdPublishConfig)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionISupplicantStaIfaceStartUsdSubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cmdId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_usdSubscribeConfig UsdSubscribeConfig
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_usdSubscribeConfig.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.StartUsdSubscribe(ctx, _arg_cmdId, _arg_usdSubscribeConfig)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionISupplicantStaIfaceUpdateUsdPublish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_publishId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_serviceSpecificInfo []byte
-		_ = _arg_serviceSpecificInfo
-		_err = s.Impl.UpdateUsdPublish(ctx, _arg_publishId, _arg_serviceSpecificInfo)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionISupplicantStaIfaceCancelUsdPublish:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_publishId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.CancelUsdPublish(ctx, _arg_publishId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionISupplicantStaIfaceCancelUsdSubscribe:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_subscribeId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.CancelUsdSubscribe(ctx, _arg_subscribeId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionISupplicantStaIfaceSendUsdMessage:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_messageInfo UsdMessageInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_messageInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.SendUsdMessage(ctx, _arg_messageInfo)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -3753,13 +3464,6 @@ type ISupplicantStaIfaceServer interface {
 	RemoveQosPolicyForScs(ctx context.Context, scsPolicyIds []byte) ([]QosPolicyScsRequestStatus, error)
 	ConfigureMscs(ctx context.Context, params MscsParams) error
 	DisableMscs(ctx context.Context) error
-	GetUsdCapabilities(ctx context.Context) (UsdCapabilities, error)
-	StartUsdPublish(ctx context.Context, cmdId int32, usdPublishConfig UsdPublishConfig) error
-	StartUsdSubscribe(ctx context.Context, cmdId int32, usdSubscribeConfig UsdSubscribeConfig) error
-	UpdateUsdPublish(ctx context.Context, publishId int32, serviceSpecificInfo []byte) error
-	CancelUsdPublish(ctx context.Context, publishId int32) error
-	CancelUsdSubscribe(ctx context.Context, subscribeId int32) error
-	SendUsdMessage(ctx context.Context, messageInfo UsdMessageInfo) error
 }
 
 type supplicantStaIfaceStubWrapper struct {
@@ -4231,57 +3935,6 @@ func (w *supplicantStaIfaceStubWrapper) DisableMscs(
 	ctx context.Context,
 ) error {
 	return w.impl.DisableMscs(ctx)
-}
-
-func (w *supplicantStaIfaceStubWrapper) GetUsdCapabilities(
-	ctx context.Context,
-) (UsdCapabilities, error) {
-	return w.impl.GetUsdCapabilities(ctx)
-}
-
-func (w *supplicantStaIfaceStubWrapper) StartUsdPublish(
-	ctx context.Context,
-	cmdId int32,
-	usdPublishConfig UsdPublishConfig,
-) error {
-	return w.impl.StartUsdPublish(ctx, cmdId, usdPublishConfig)
-}
-
-func (w *supplicantStaIfaceStubWrapper) StartUsdSubscribe(
-	ctx context.Context,
-	cmdId int32,
-	usdSubscribeConfig UsdSubscribeConfig,
-) error {
-	return w.impl.StartUsdSubscribe(ctx, cmdId, usdSubscribeConfig)
-}
-
-func (w *supplicantStaIfaceStubWrapper) UpdateUsdPublish(
-	ctx context.Context,
-	publishId int32,
-	serviceSpecificInfo []byte,
-) error {
-	return w.impl.UpdateUsdPublish(ctx, publishId, serviceSpecificInfo)
-}
-
-func (w *supplicantStaIfaceStubWrapper) CancelUsdPublish(
-	ctx context.Context,
-	publishId int32,
-) error {
-	return w.impl.CancelUsdPublish(ctx, publishId)
-}
-
-func (w *supplicantStaIfaceStubWrapper) CancelUsdSubscribe(
-	ctx context.Context,
-	subscribeId int32,
-) error {
-	return w.impl.CancelUsdSubscribe(ctx, subscribeId)
-}
-
-func (w *supplicantStaIfaceStubWrapper) SendUsdMessage(
-	ctx context.Context,
-	messageInfo UsdMessageInfo,
-) error {
-	return w.impl.SendUsdMessage(ctx, messageInfo)
 }
 
 var _ ISupplicantStaIface = (*supplicantStaIfaceStubWrapper)(nil)

@@ -19,6 +19,14 @@ const (
 	TransactionIHdmiConnectionGetHpdSignal = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIHdmiConnectionGetPortInfo  = "getPortInfo"
+	MethodIHdmiConnectionIsConnected  = "isConnected"
+	MethodIHdmiConnectionSetCallback  = "setCallback"
+	MethodIHdmiConnectionSetHpdSignal = "setHpdSignal"
+	MethodIHdmiConnectionGetHpdSignal = "getHpdSignal"
+)
+
 type IHdmiConnection interface {
 	AsBinder() binder.IBinder
 	GetPortInfo(ctx context.Context) ([]HdmiPortInfo, error)
@@ -29,17 +37,17 @@ type IHdmiConnection interface {
 }
 
 type HdmiConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiConnectionProxy(
 	remote binder.IBinder,
 ) *HdmiConnectionProxy {
-	return &HdmiConnectionProxy{remote: remote}
+	return &HdmiConnectionProxy{Remote: remote}
 }
 
 func (p *HdmiConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiConnection = (*HdmiConnectionProxy)(nil)
@@ -51,12 +59,12 @@ func (p *HdmiConnectionProxy) GetPortInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "getPortInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionGetPortInfo)
 	if _err != nil {
-		_code = TransactionIHdmiConnectionGetPortInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiConnection, MethodIHdmiConnectionGetPortInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +82,9 @@ func (p *HdmiConnectionProxy) GetPortInfo(
 	if _count >= 0 {
 		_result = make([]HdmiPortInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -91,12 +102,12 @@ func (p *HdmiConnectionProxy) IsConnected(
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "isConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionIsConnected)
 	if _err != nil {
-		_code = TransactionIHdmiConnectionIsConnected
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiConnection, MethodIHdmiConnectionIsConnected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,14 +130,14 @@ func (p *HdmiConnectionProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionSetCallback)
 	if _err != nil {
-		_code = TransactionIHdmiConnectionSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiConnection, MethodIHdmiConnectionSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,12 +160,12 @@ func (p *HdmiConnectionProxy) SetHpdSignal(
 	_data.WritePaddedByte(byte(signal))
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "setHpdSignal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionSetHpdSignal)
 	if _err != nil {
-		_code = TransactionIHdmiConnectionSetHpdSignal
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiConnection, MethodIHdmiConnectionSetHpdSignal, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,12 +187,12 @@ func (p *HdmiConnectionProxy) GetHpdSignal(
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "getHpdSignal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnection, MethodIHdmiConnectionGetHpdSignal)
 	if _err != nil {
-		_code = TransactionIHdmiConnectionGetHpdSignal
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiConnection, MethodIHdmiConnectionGetHpdSignal, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,6 +217,10 @@ type HdmiConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiConnectionStub)(nil)
+
+func (s *HdmiConnectionStub) Descriptor() string {
+	return DescriptorIHdmiConnection
+}
 
 func (s *HdmiConnectionStub) OnTransaction(
 	ctx context.Context,

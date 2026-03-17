@@ -24,22 +24,8 @@ func (s *UltrasonicsDataFrameDesc) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.TimestampNs)
 	p.WriteInt32(s.Id)
-	if s.TransmittersIdList == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.TransmittersIdList)))
-		for _, _item := range s.TransmittersIdList {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ReceiversIdList == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ReceiversIdList)))
-		for _, _item := range s.ReceiversIdList {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.TransmittersIdList)
+	p.WriteByteArray(s.ReceiversIdList)
 	if s.ReceiversReadingsCountList == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -74,34 +60,14 @@ func (s *UltrasonicsDataFrameDesc) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.TransmittersIdList, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.TransmittersIdList = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.TransmittersIdList[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ReceiversIdList, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ReceiversIdList = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ReceiversIdList[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count2 int32

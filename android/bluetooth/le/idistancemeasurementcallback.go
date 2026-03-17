@@ -18,6 +18,13 @@ const (
 	TransactionIDistanceMeasurementCallbackOnResult    = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDistanceMeasurementCallbackOnStarted   = "onStarted"
+	MethodIDistanceMeasurementCallbackOnStartFail = "onStartFail"
+	MethodIDistanceMeasurementCallbackOnStopped   = "onStopped"
+	MethodIDistanceMeasurementCallbackOnResult    = "onResult"
+)
+
 type IDistanceMeasurementCallback interface {
 	AsBinder() binder.IBinder
 	OnStarted(ctx context.Context, device interface{}) error
@@ -27,17 +34,17 @@ type IDistanceMeasurementCallback interface {
 }
 
 type DistanceMeasurementCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDistanceMeasurementCallbackProxy(
 	remote binder.IBinder,
 ) *DistanceMeasurementCallbackProxy {
-	return &DistanceMeasurementCallbackProxy{remote: remote}
+	return &DistanceMeasurementCallbackProxy{Remote: remote}
 }
 
 func (p *DistanceMeasurementCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDistanceMeasurementCallback = (*DistanceMeasurementCallbackProxy)(nil)
@@ -49,12 +56,12 @@ func (p *DistanceMeasurementCallbackProxy) OnStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStarted)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementCallbackOnStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *DistanceMeasurementCallbackProxy) OnStartFail(
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onStartFail")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStartFail)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementCallbackOnStartFail
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStartFail, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,12 +92,12 @@ func (p *DistanceMeasurementCallbackProxy) OnStopped(
 	_data.WriteInterfaceToken(DescriptorIDistanceMeasurementCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStopped)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementCallbackOnStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,12 +113,12 @@ func (p *DistanceMeasurementCallbackProxy) OnResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurementCallback, MethodIDistanceMeasurementCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,6 +129,10 @@ type DistanceMeasurementCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DistanceMeasurementCallbackStub)(nil)
+
+func (s *DistanceMeasurementCallbackStub) Descriptor() string {
+	return DescriptorIDistanceMeasurementCallback
+}
 
 func (s *DistanceMeasurementCallbackStub) OnTransaction(
 	ctx context.Context,

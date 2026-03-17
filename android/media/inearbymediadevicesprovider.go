@@ -16,6 +16,11 @@ const (
 	TransactionINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodINearbyMediaDevicesProviderRegisterNearbyDevicesCallback   = "registerNearbyDevicesCallback"
+	MethodINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback = "unregisterNearbyDevicesCallback"
+)
+
 type INearbyMediaDevicesProvider interface {
 	AsBinder() binder.IBinder
 	RegisterNearbyDevicesCallback(ctx context.Context, callback INearbyMediaDevicesUpdateCallback) error
@@ -23,17 +28,17 @@ type INearbyMediaDevicesProvider interface {
 }
 
 type NearbyMediaDevicesProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNearbyMediaDevicesProviderProxy(
 	remote binder.IBinder,
 ) *NearbyMediaDevicesProviderProxy {
-	return &NearbyMediaDevicesProviderProxy{remote: remote}
+	return &NearbyMediaDevicesProviderProxy{Remote: remote}
 }
 
 func (p *NearbyMediaDevicesProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INearbyMediaDevicesProvider = (*NearbyMediaDevicesProviderProxy)(nil)
@@ -44,14 +49,14 @@ func (p *NearbyMediaDevicesProviderProxy) RegisterNearbyDevicesCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINearbyMediaDevicesProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorINearbyMediaDevicesProvider, "registerNearbyDevicesCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderRegisterNearbyDevicesCallback)
 	if _err != nil {
-		_code = TransactionINearbyMediaDevicesProviderRegisterNearbyDevicesCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderRegisterNearbyDevicesCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,14 +66,14 @@ func (p *NearbyMediaDevicesProviderProxy) UnregisterNearbyDevicesCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINearbyMediaDevicesProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorINearbyMediaDevicesProvider, "unregisterNearbyDevicesCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback)
 	if _err != nil {
-		_code = TransactionINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINearbyMediaDevicesProvider, MethodINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type NearbyMediaDevicesProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NearbyMediaDevicesProviderStub)(nil)
+
+func (s *NearbyMediaDevicesProviderStub) Descriptor() string {
+	return DescriptorINearbyMediaDevicesProvider
+}
 
 func (s *NearbyMediaDevicesProviderStub) OnTransaction(
 	ctx context.Context,

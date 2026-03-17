@@ -17,6 +17,12 @@ const (
 	TransactionIDataShareReadAdapterFinish = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDataShareReadAdapterStart  = "start"
+	MethodIDataShareReadAdapterError  = "error"
+	MethodIDataShareReadAdapterFinish = "finish"
+)
+
 type IDataShareReadAdapter interface {
 	AsBinder() binder.IBinder
 	Start(ctx context.Context, fd int32) error
@@ -25,17 +31,17 @@ type IDataShareReadAdapter interface {
 }
 
 type DataShareReadAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataShareReadAdapterProxy(
 	remote binder.IBinder,
 ) *DataShareReadAdapterProxy {
-	return &DataShareReadAdapterProxy{remote: remote}
+	return &DataShareReadAdapterProxy{Remote: remote}
 }
 
 func (p *DataShareReadAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataShareReadAdapter = (*DataShareReadAdapterProxy)(nil)
@@ -48,12 +54,12 @@ func (p *DataShareReadAdapterProxy) Start(
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterStart)
 	if _err != nil {
-		_code = TransactionIDataShareReadAdapterStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *DataShareReadAdapterProxy) Error(
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "error")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterError)
 	if _err != nil {
-		_code = TransactionIDataShareReadAdapterError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *DataShareReadAdapterProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterFinish)
 	if _err != nil {
-		_code = TransactionIDataShareReadAdapterFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareReadAdapter, MethodIDataShareReadAdapterFinish, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +102,10 @@ type DataShareReadAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataShareReadAdapterStub)(nil)
+
+func (s *DataShareReadAdapterStub) Descriptor() string {
+	return DescriptorIDataShareReadAdapter
+}
 
 func (s *DataShareReadAdapterStub) OnTransaction(
 	ctx context.Context,

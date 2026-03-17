@@ -15,23 +15,27 @@ const (
 	TransactionICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged = "onHcTuneQuietlyFlagChanged"
+)
+
 type ICamHostControlTuneQuietlyFlagListener interface {
 	AsBinder() binder.IBinder
 	OnHcTuneQuietlyFlagChanged(ctx context.Context, sessionToken string, tuneQuietlyFlag int32) error
 }
 
 type CamHostControlTuneQuietlyFlagListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamHostControlTuneQuietlyFlagListenerProxy(
 	remote binder.IBinder,
 ) *CamHostControlTuneQuietlyFlagListenerProxy {
-	return &CamHostControlTuneQuietlyFlagListenerProxy{remote: remote}
+	return &CamHostControlTuneQuietlyFlagListenerProxy{Remote: remote}
 }
 
 func (p *CamHostControlTuneQuietlyFlagListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamHostControlTuneQuietlyFlagListener = (*CamHostControlTuneQuietlyFlagListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *CamHostControlTuneQuietlyFlagListenerProxy) OnHcTuneQuietlyFlagChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(tuneQuietlyFlag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlagListener, "onHcTuneQuietlyFlagChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamHostControlTuneQuietlyFlagListener, MethodICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged)
 	if _err != nil {
-		_code = TransactionICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamHostControlTuneQuietlyFlagListener, MethodICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type CamHostControlTuneQuietlyFlagListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamHostControlTuneQuietlyFlagListenerStub)(nil)
+
+func (s *CamHostControlTuneQuietlyFlagListenerStub) Descriptor() string {
+	return DescriptorICamHostControlTuneQuietlyFlagListener
+}
 
 func (s *CamHostControlTuneQuietlyFlagListenerStub) OnTransaction(
 	ctx context.Context,

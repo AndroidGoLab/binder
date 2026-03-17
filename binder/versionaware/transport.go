@@ -1,14 +1,16 @@
 package versionaware
 
 import (
+	"bytes"
 	"context"
 	"debug/elf"
-	"encoding/json"
+	"encoding/gob"
 	"fmt"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
+	"sync"
 
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/binder/binder"
@@ -23,10 +25,24 @@ import (
 // eagerly in NewTransport. If the device version cannot be
 // determined or is unsupported, NewTransport returns an error.
 type Transport struct {
-	inner    binder.Transport
-	apiLevel int
-	table    VersionTable
-	version  string
+	inner     binder.Transport
+	apiLevel  int
+	table     VersionTable
+	version   string
+	cachePath string
+	// Revision is the detected AOSP firmware revision (e.g. "36.r4").
+	// Set during NewTransport when libbinder.so symbol inspection
+	// narrows the candidates to exactly one. Empty if ambiguous.
+	Revision Revision
+	// ScannedJARs tracks which framework JARs have been fully scanned
+	// for $Stub classes. Keyed by JAR filename (e.g. "framework.jar").
+	// Persisted in the cache to avoid re-scanning across runs.
+	ScannedJARs map[string]bool
+	// mu protects table and ScannedJARs from concurrent read+write
+	// during lazy descriptor extraction. RLock for reads (ResolveCode
+	// fast path), Lock for writes (lazyExtractDescriptor). Required
+	// because Go maps are not safe for concurrent access.
+	mu sync.RWMutex
 }
 
 // DetectAPILevel returns the Android API level of the running device.
@@ -64,20 +80,58 @@ func NewTransport(
 		return nil, fmt.Errorf("versionaware: unable to detect Android API level; pass --target-api explicitly or ensure /etc/build_flags.json is readable; supported API levels: %v", supportedAPILevels())
 	}
 
+	// Detect revision from libbinder.so symbols (cheap: single file
+	// read, no binder transactions). Done before cache loading so
+	// the revision is available for compiled-table lookups.
+	var revision Revision
+	revisions := filterRevisionsBySOMethodSet(Revisions[targetAPI])
+	if len(revisions) == 1 {
+		revision = revisions[0]
+		logger.Debugf(ctx, "versionaware: detected revision %s from libbinder.so symbols", revision)
+	}
+
 	// Try loading from cache if configured.
 	if cfg.CachePath != "" {
 		fingerprint := resolvedTableFingerprint(targetAPI)
-		if table := loadCachedTable(cfg.CachePath, fingerprint); table != nil {
-			logger.Debugf(ctx, "versionaware: loaded cached transaction codes from %s (%d interfaces)", cfg.CachePath, len(table))
+		cached := loadCachedTable(cfg.CachePath, fingerprint)
+		if cached != nil {
+			logger.Debugf(ctx, "versionaware: loaded cached transaction codes from %s (%d interfaces, %d scanned JARs)", cfg.CachePath, len(cached.ResolvedTable), len(cached.ScannedJARs))
+			scannedJARs := make(map[string]bool, len(cached.ScannedJARs))
+			for _, jar := range cached.ScannedJARs {
+				scannedJARs[jar] = true
+			}
 			return &Transport{
-				inner:    inner,
-				apiLevel: targetAPI,
-				table:    table,
-				version:  fmt.Sprintf("%d.cached", targetAPI),
+				inner:       inner,
+				apiLevel:    targetAPI,
+				table:       cached.ResolvedTable,
+				version:     fmt.Sprintf("%d.cached", targetAPI),
+				cachePath:   cfg.CachePath,
+				Revision:    revision,
+				ScannedJARs: scannedJARs,
 			}, nil
 		}
 	}
 
+	// If framework JARs are readable, skip upfront extraction entirely.
+	// Individual interfaces are extracted on demand by ResolveCode's lazy
+	// path: framework interfaces from DEX, HAL interfaces from compiled
+	// tables. This avoids the 90ms cold-run cost of scanning all 38 JARs.
+	if frameworkJARsAvailable() {
+		version := fmt.Sprintf("%d.device", targetAPI)
+		logger.Debugf(ctx, "versionaware: framework JARs available; interfaces will be extracted on demand")
+		return &Transport{
+			inner:       inner,
+			apiLevel:    targetAPI,
+			table:       VersionTable{},
+			version:     version,
+			cachePath:   cfg.CachePath,
+			Revision:    revision,
+			ScannedJARs: map[string]bool{},
+		}, nil
+	}
+
+	// Framework JARs not available — resolve a full table from compiled
+	// version tables with revision detection.
 	table, version, err := resolveTable(ctx, inner, targetAPI)
 	if err != nil {
 		return nil, err
@@ -86,55 +140,30 @@ func NewTransport(
 	// Save to cache if configured.
 	if cfg.CachePath != "" {
 		fingerprint := resolvedTableFingerprint(targetAPI)
-		saveCachedTable(cfg.CachePath, fingerprint, table)
+		saveCachedTable(cfg.CachePath, fingerprint, table, nil)
 		logger.Debugf(ctx, "versionaware: cached resolved transaction codes to %s", cfg.CachePath)
 	}
 
 	return &Transport{
-		inner:    inner,
-		apiLevel: targetAPI,
-		table:    table,
-		version:  version,
+		inner:       inner,
+		apiLevel:    targetAPI,
+		table:       table,
+		version:     version,
+		cachePath:   cfg.CachePath,
+		Revision:    revision,
+		ScannedJARs: map[string]bool{},
 	}, nil
 }
 
-// resolveTable performs the full transaction code resolution:
-// DEX extraction first, then compiled tables with revision detection.
+// resolveTable builds a version table from compiled AIDL snapshots.
+// Used when framework JARs are not available (e.g., non-Android host).
+// Determines the correct revision via libbinder.so symbol inspection
+// and/or binder transaction probing.
 func resolveTable(
 	ctx context.Context,
 	inner binder.Transport,
 	targetAPI int,
 ) (VersionTable, string, error) {
-	// Primary: extract transaction codes directly from the device's
-	// framework JAR files. This is definitive — no version guessing.
-	table := extractTransactionCodesFromDevice()
-	if table != nil {
-		// DEX extraction only covers framework JARs. HAL and other
-		// stable AIDL interfaces aren't in the JARs, so merge their
-		// compiled tables for interfaces not found in the DEX table.
-		merged := 0
-		for _, rev := range Revisions[targetAPI] {
-			compiled, ok := Tables[rev]
-			if !ok {
-				continue
-			}
-			for descriptor, methods := range compiled {
-				if table[descriptor] != nil {
-					continue // DEX table takes precedence
-				}
-				table[descriptor] = methods
-				merged++
-			}
-			break // only need one revision's HAL entries
-		}
-		version := fmt.Sprintf("%d.device", targetAPI)
-		logger.Debugf(ctx, "versionaware: extracted transaction codes from device framework JARs (%d interfaces, %d merged from compiled tables)", len(table), merged)
-		return table, version, nil
-	}
-
-	// Fallback: use compiled version tables with revision detection.
-	// This is less reliable than DEX extraction — log at Error level
-	// so users know the primary method failed.
 	logger.Errorf(ctx, "versionaware: framework JARs not available or unreadable at %s; falling back to compiled version tables (transaction codes may be inaccurate)", frameworkJARDir)
 
 	revisions := Revisions[targetAPI]
@@ -148,7 +177,7 @@ func resolveTable(
 	// without any binder transactions.
 	revisions = filterRevisionsBySOMethodSet(revisions)
 
-	var version string
+	var version Revision
 	switch len(revisions) {
 	case 1:
 		version = revisions[0]
@@ -166,7 +195,7 @@ func resolveTable(
 	}
 
 	logger.Debugf(ctx, "versionaware: using compiled version table %s (%d interfaces)", version, len(table))
-	return table, version, nil
+	return table, string(version), nil
 }
 
 // resolvedTableFingerprint returns a fingerprint that changes when
@@ -184,6 +213,9 @@ func resolvedTableFingerprint(apiLevel int) string {
 func (t *Transport) MergeTable(
 	extra VersionTable,
 ) {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+
 	for descriptor, methods := range extra {
 		if t.table[descriptor] == nil {
 			t.table[descriptor] = make(map[string]binder.TransactionCode)
@@ -199,17 +231,155 @@ func (t *Transport) MergeTable(
 // ResolveCode resolves an AIDL method name to the correct transaction code
 // for the detected device version.
 //
+// If the descriptor is not in the pre-loaded table, ResolveCode attempts
+// on-demand extraction from the device's framework JARs. This handles
+// cases where the cache is stale or a new interface is needed that wasn't
+// in the initial extraction.
+//
 // Returns an error if the method is not found in the version table
 // (e.g., calling a method that does not exist on the device's API level).
 func (t *Transport) ResolveCode(
+	ctx context.Context,
 	descriptor string,
 	method string,
 ) (binder.TransactionCode, error) {
+	// Fast path: descriptor already in table.
+	t.mu.RLock()
 	code := t.table.Resolve(descriptor, method)
-	if code == 0 {
-		return 0, fmt.Errorf("versionaware: method %s.%s not found in version %s", descriptor, method, t.version)
+	needsLazy := code == 0 && t.table[descriptor] == nil
+	t.mu.RUnlock()
+
+	if code != 0 {
+		return code, nil
 	}
-	return code, nil
+
+	// If the entire descriptor is missing (not just the method),
+	// try lazy extraction from device JARs.
+	if needsLazy {
+		code = t.lazyExtractDescriptor(ctx, descriptor, method)
+		if code != 0 {
+			return code, nil
+		}
+	}
+
+	return 0, fmt.Errorf("versionaware: method %s.%s not found in version %s", descriptor, method, t.version)
+}
+
+// lazyExtractDescriptor attempts on-demand extraction of a single
+// interface descriptor. Uses a two-phase procedure:
+//
+// Phase 1 scans ALL unscanned JARs in /system/framework/, merging
+// every discovered $Stub class into the table. This is done in full
+// (no early stop) so that subsequent lookups for other descriptors
+// hit the fast path. After scanning, checks if the descriptor is now
+// in the table.
+//
+// Phase 2 falls back to compiled version tables, using t.Revision
+// if available for an exact match, otherwise iterating all revisions.
+func (t *Transport) lazyExtractDescriptor(
+	ctx context.Context,
+	descriptor string,
+	method string,
+) binder.TransactionCode {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+
+	// Double-check after acquiring write lock: another goroutine may
+	// have already extracted this descriptor.
+	if code := t.table.Resolve(descriptor, method); code != 0 {
+		return code
+	}
+	if t.table[descriptor] != nil {
+		return 0 // descriptor present but method missing — no retry
+	}
+
+	modified := false
+
+	// Phase 1: scan all unscanned JARs in /system/framework/.
+	entries, readErr := os.ReadDir(frameworkJARDir)
+	if readErr == nil {
+		for _, entry := range entries {
+			if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".jar") {
+				continue
+			}
+			if t.ScannedJARs[entry.Name()] {
+				continue
+			}
+
+			jarPath := frameworkJARDir + "/" + entry.Name()
+			allCodes, err := dex.ExtractFromJAR(jarPath)
+			if err != nil {
+				logger.Debugf(ctx, "versionaware: extracting from %s: %v", entry.Name(), err)
+				t.ScannedJARs[entry.Name()] = true
+				modified = true
+				continue
+			}
+
+			for iface, codes := range allCodes {
+				if t.table[iface] == nil {
+					t.table[iface] = make(map[string]binder.TransactionCode, len(codes))
+				}
+				for m, c := range codes {
+					t.table[iface][m] = binder.TransactionCode(c)
+				}
+			}
+			t.ScannedJARs[entry.Name()] = true
+			modified = true
+		}
+	}
+
+	// Check if Phase 1 found the descriptor.
+	if code := t.table.Resolve(descriptor, method); code != 0 {
+		if modified {
+			t.saveCache(ctx)
+		}
+		return code
+	}
+	if t.table[descriptor] != nil {
+		// Descriptor found but method missing — save and return.
+		if modified {
+			t.saveCache(ctx)
+		}
+		return 0
+	}
+
+	// Phase 2: fall back to compiled version tables.
+	logger.Debugf(ctx, "versionaware: %s not in JARs, trying compiled tables", descriptor)
+	codes := t.lookupCompiledDescriptor(descriptor)
+	if codes != nil {
+		logger.Debugf(ctx, "versionaware: lazy extracted %s from compiled tables (%d methods)", descriptor, len(codes))
+		t.table[descriptor] = make(map[string]binder.TransactionCode, len(codes))
+		for m, c := range codes {
+			t.table[descriptor][m] = binder.TransactionCode(c)
+		}
+		t.saveCache(ctx)
+		return t.table.Resolve(descriptor, method)
+	}
+
+	// Not found in any source. Cache negative result so subsequent
+	// calls skip the expensive lookup and fall back to the hardcoded
+	// transaction code in the generated proxy.
+	logger.Debugf(ctx, "versionaware: %s not found in any source", descriptor)
+	t.table[descriptor] = make(map[string]binder.TransactionCode)
+	if modified {
+		t.saveCache(ctx)
+	}
+	return 0
+}
+
+// saveCache persists the current table and scanned JAR list to disk.
+// Must be called with t.mu held.
+func (t *Transport) saveCache(ctx context.Context) {
+	if t.cachePath == "" {
+		return
+	}
+	fingerprint := resolvedTableFingerprint(t.apiLevel)
+	scannedJARs := make([]string, 0, len(t.ScannedJARs))
+	for jar := range t.ScannedJARs {
+		scannedJARs = append(scannedJARs, jar)
+	}
+	saveCachedTable(t.cachePath, fingerprint, t.table, scannedJARs)
+	logger.Debugf(ctx, "versionaware: cache updated (%d interfaces, %d scanned JARs)", len(t.table), len(t.ScannedJARs))
 }
 
 // supportedAPILevels returns the list of API levels that have version tables.
@@ -232,40 +402,69 @@ const (
 // with AIDL $Stub classes and TRANSACTION_* constants.
 const frameworkJARDir = "/system/framework"
 
-// extractTransactionCodesFromDevice scans all JARs in /system/framework/
-// and extracts definitive transaction codes from DEX bytecode.
-// Returns nil if the directory is not readable or no codes are found.
-func extractTransactionCodesFromDevice() VersionTable {
+// lookupCompiledDescriptor searches compiled version tables for a single
+// descriptor. If t.Revision is set, only that revision is checked;
+// otherwise all revisions for the API level are tried (first match wins).
+// Used as a fallback for interfaces not found in framework JARs
+// (e.g., HAL interfaces).
+func (t *Transport) lookupCompiledDescriptor(
+	descriptor string,
+) dex.TransactionCodes {
+	// Fast path: exact revision known.
+	if t.Revision != "" {
+		compiled, ok := Tables[t.Revision]
+		if !ok {
+			return nil
+		}
+		methods := compiled[descriptor]
+		if methods == nil {
+			return nil
+		}
+		codes := make(dex.TransactionCodes, len(methods))
+		for m, c := range methods {
+			codes[m] = uint32(c)
+		}
+		return codes
+	}
+
+	// Slow path: iterate all revisions for the API level.
+	// If the detected API level has no tables, fall back to
+	// DefaultAPILevel's tables (the codes were generated from
+	// the same AIDL sources as the proxy code).
+	for _, level := range []int{t.apiLevel, DefaultAPILevel} {
+		for _, rev := range Revisions[level] {
+			compiled, ok := Tables[rev]
+			if !ok {
+				continue
+			}
+			methods := compiled[descriptor]
+			if methods == nil {
+				continue
+			}
+			codes := make(dex.TransactionCodes, len(methods))
+			for m, c := range methods {
+				codes[m] = uint32(c)
+			}
+			return codes
+		}
+	}
+	return nil
+}
+
+// frameworkJARsAvailable returns true if /system/framework/ is readable
+// and contains at least one .jar file. This is a cheap check (readdir only,
+// no ZIP parsing) to decide whether lazy DEX extraction is possible.
+func frameworkJARsAvailable() bool {
 	entries, err := os.ReadDir(frameworkJARDir)
 	if err != nil {
-		return nil
+		return false
 	}
-
-	table := VersionTable{}
 	for _, entry := range entries {
-		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".jar") {
-			continue
-		}
-		jarPath := frameworkJARDir + "/" + entry.Name()
-		codes, err := dex.ExtractFromJAR(jarPath)
-		if err != nil {
-			continue
-		}
-		for descriptor, methods := range codes {
-			if table[descriptor] == nil {
-				table[descriptor] = make(map[string]binder.TransactionCode)
-			}
-			for method, code := range methods {
-				table[descriptor][method] = binder.TransactionCode(code)
-			}
+		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".jar") {
+			return true
 		}
 	}
-
-	if len(table) == 0 {
-		return nil
-	}
-
-	return table
+	return false
 }
 
 // frameworkFingerprint returns a string identifying the current set of
@@ -290,22 +489,21 @@ func frameworkFingerprint() string {
 	return b.String()
 }
 
-// loadCachedTable reads a cached VersionTable from the given path.
+// loadCachedTable reads a cached table from the given path.
 // Returns nil if cache is missing, corrupted, or fingerprint doesn't match.
+// The returned cachedTable contains both the VersionTable and the list
+// of previously scanned JARs.
 func loadCachedTable(
 	cachePath string,
 	fingerprint string,
-) VersionTable {
+) *cachedTable {
 	data, err := os.ReadFile(cachePath)
 	if err != nil {
 		return nil
 	}
 
-	var cached struct {
-		Fingerprint string                       `json:"fingerprint"`
-		Table       map[string]map[string]uint32 `json:"table"`
-	}
-	if err := json.Unmarshal(data, &cached); err != nil {
+	var cached cachedTable
+	if err := gob.NewDecoder(bytes.NewReader(data)).Decode(&cached); err != nil {
 		return nil
 	}
 	if cached.Fingerprint != fingerprint {
@@ -319,14 +517,20 @@ func loadCachedTable(
 			table[desc][method] = binder.TransactionCode(code)
 		}
 	}
-	return table
+	return &cachedTable{
+		Fingerprint:   cached.Fingerprint,
+		ResolvedTable: table,
+		ScannedJARs:   cached.ScannedJARs,
+	}
 }
 
-// saveCachedTable writes a VersionTable to the given path.
+// saveCachedTable writes a VersionTable and scanned JAR list to the given path.
+// Uses atomic write (temp file + rename) to avoid corrupted reads.
 func saveCachedTable(
 	cachePath string,
 	fingerprint string,
 	table VersionTable,
+	scannedJARs []string,
 ) {
 	dir := filepath.Dir(cachePath)
 	_ = os.MkdirAll(dir, 0o755)
@@ -339,32 +543,35 @@ func saveCachedTable(
 		}
 	}
 
-	cached := struct {
-		Fingerprint string                       `json:"fingerprint"`
-		Table       map[string]map[string]uint32 `json:"table"`
-	}{
+	cached := cachedTable{
 		Fingerprint: fingerprint,
 		Table:       raw,
+		ScannedJARs: scannedJARs,
 	}
 
-	data, err := json.Marshal(cached)
-	if err != nil {
+	var buf bytes.Buffer
+	if err := gob.NewEncoder(&buf).Encode(cached); err != nil {
 		return
 	}
-	_ = os.WriteFile(cachePath, data, 0o644)
+
+	tmpPath := cachePath + ".tmp"
+	if err := os.WriteFile(tmpPath, buf.Bytes(), 0o644); err != nil {
+		return
+	}
+	_ = os.Rename(tmpPath, cachePath)
 }
 
 // filterRevisionsBySOMethodSet reads BpServiceManager symbols from
 // /system/lib64/libbinder.so to determine which methods exist on
 // the device, then filters revision candidates to those whose method
 // set matches.
-func filterRevisionsBySOMethodSet(revisions []string) []string {
+func filterRevisionsBySOMethodSet(revisions []Revision) []Revision {
 	deviceMethods := readBpServiceManagerMethods()
 	if len(deviceMethods) == 0 {
 		return revisions // can't read .so, don't filter
 	}
 
-	var filtered []string
+	var filtered []Revision
 	for _, rev := range revisions {
 		table, ok := Tables[rev]
 		if !ok {
@@ -519,7 +726,7 @@ func probeRevision(
 	ctx context.Context,
 	inner binder.Transport,
 	apiLevel int,
-) (string, error) {
+) (Revision, error) {
 	logger.Debugf(ctx, "probing revision for API %d", apiLevel)
 
 	revisions := Revisions[apiLevel]

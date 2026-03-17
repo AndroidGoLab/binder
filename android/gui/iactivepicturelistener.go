@@ -15,23 +15,27 @@ const (
 	TransactionIActivePictureListenerOnActivePicturesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIActivePictureListenerOnActivePicturesChanged = "onActivePicturesChanged"
+)
+
 type IActivePictureListener interface {
 	AsBinder() binder.IBinder
 	OnActivePicturesChanged(ctx context.Context, activePictures []ActivePicture) error
 }
 
 type ActivePictureListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivePictureListenerProxy(
 	remote binder.IBinder,
 ) *ActivePictureListenerProxy {
-	return &ActivePictureListenerProxy{remote: remote}
+	return &ActivePictureListenerProxy{Remote: remote}
 }
 
 func (p *ActivePictureListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivePictureListener = (*ActivePictureListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *ActivePictureListenerProxy) OnActivePicturesChanged(
 	} else {
 		_data.WriteInt32(int32(len(activePictures)))
 		for _, _item := range activePictures {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivePictureListener, "onActivePicturesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivePictureListener, MethodIActivePictureListenerOnActivePicturesChanged)
 	if _err != nil {
-		_code = TransactionIActivePictureListenerOnActivePicturesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivePictureListener, MethodIActivePictureListenerOnActivePicturesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type ActivePictureListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivePictureListenerStub)(nil)
+
+func (s *ActivePictureListenerStub) Descriptor() string {
+	return DescriptorIActivePictureListener
+}
 
 func (s *ActivePictureListenerStub) OnTransaction(
 	ctx context.Context,

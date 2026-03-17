@@ -19,6 +19,14 @@ const (
 	TransactionIVibratorControlServiceOnRequestVibrationParamsComplete = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIVibratorControlServiceRegisterVibratorController       = "registerVibratorController"
+	MethodIVibratorControlServiceUnregisterVibratorController     = "unregisterVibratorController"
+	MethodIVibratorControlServiceSetVibrationParams               = "setVibrationParams"
+	MethodIVibratorControlServiceClearVibrationParams             = "clearVibrationParams"
+	MethodIVibratorControlServiceOnRequestVibrationParamsComplete = "onRequestVibrationParamsComplete"
+)
+
 type IVibratorControlService interface {
 	AsBinder() binder.IBinder
 	RegisterVibratorController(ctx context.Context, controller IVibratorController) error
@@ -29,17 +37,17 @@ type IVibratorControlService interface {
 }
 
 type VibratorControlServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorControlServiceProxy(
 	remote binder.IBinder,
 ) *VibratorControlServiceProxy {
-	return &VibratorControlServiceProxy{remote: remote}
+	return &VibratorControlServiceProxy{Remote: remote}
 }
 
 func (p *VibratorControlServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibratorControlService = (*VibratorControlServiceProxy)(nil)
@@ -50,14 +58,14 @@ func (p *VibratorControlServiceProxy) RegisterVibratorController(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "registerVibratorController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceRegisterVibratorController)
 	if _err != nil {
-		_code = TransactionIVibratorControlServiceRegisterVibratorController
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorControlService, MethodIVibratorControlServiceRegisterVibratorController, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,14 +75,14 @@ func (p *VibratorControlServiceProxy) UnregisterVibratorController(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "unregisterVibratorController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceUnregisterVibratorController)
 	if _err != nil {
-		_code = TransactionIVibratorControlServiceUnregisterVibratorController
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorControlService, MethodIVibratorControlServiceUnregisterVibratorController, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,19 +98,20 @@ func (p *VibratorControlServiceProxy) SetVibrationParams(
 	} else {
 		_data.WriteInt32(int32(len(params)))
 		for _, _item := range params {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "setVibrationParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceSetVibrationParams)
 	if _err != nil {
-		_code = TransactionIVibratorControlServiceSetVibrationParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorControlService, MethodIVibratorControlServiceSetVibrationParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,14 +123,14 @@ func (p *VibratorControlServiceProxy) ClearVibrationParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
 	_data.WriteInt32(typesMask)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "clearVibrationParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceClearVibrationParams)
 	if _err != nil {
-		_code = TransactionIVibratorControlServiceClearVibrationParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorControlService, MethodIVibratorControlServiceClearVibrationParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,24 +141,25 @@ func (p *VibratorControlServiceProxy) OnRequestVibrationParamsComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorControlService)
-	binder.WriteBinderToParcel(ctx, _data, requestToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
 	if result == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(result)))
 		for _, _item := range result {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "onRequestVibrationParamsComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorControlService, MethodIVibratorControlServiceOnRequestVibrationParamsComplete)
 	if _err != nil {
-		_code = TransactionIVibratorControlServiceOnRequestVibrationParamsComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorControlService, MethodIVibratorControlServiceOnRequestVibrationParamsComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,6 +170,10 @@ type VibratorControlServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorControlServiceStub)(nil)
+
+func (s *VibratorControlServiceStub) Descriptor() string {
+	return DescriptorIVibratorControlService
+}
 
 func (s *VibratorControlServiceStub) OnTransaction(
 	ctx context.Context,

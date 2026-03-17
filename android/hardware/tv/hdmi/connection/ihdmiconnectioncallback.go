@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiConnectionCallbackOnHotplugEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiConnectionCallbackOnHotplugEvent = "onHotplugEvent"
+)
+
 type IHdmiConnectionCallback interface {
 	AsBinder() binder.IBinder
 	OnHotplugEvent(ctx context.Context, connected bool, portId int32) error
 }
 
 type HdmiConnectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiConnectionCallbackProxy(
 	remote binder.IBinder,
 ) *HdmiConnectionCallbackProxy {
-	return &HdmiConnectionCallbackProxy{remote: remote}
+	return &HdmiConnectionCallbackProxy{Remote: remote}
 }
 
 func (p *HdmiConnectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiConnectionCallback = (*HdmiConnectionCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 	_data.WriteBool(connected)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnectionCallback, "onHotplugEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiConnectionCallback, MethodIHdmiConnectionCallbackOnHotplugEvent)
 	if _err != nil {
-		_code = TransactionIHdmiConnectionCallbackOnHotplugEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiConnectionCallback, MethodIHdmiConnectionCallbackOnHotplugEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type HdmiConnectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiConnectionCallbackStub)(nil)
+
+func (s *HdmiConnectionCallbackStub) Descriptor() string {
+	return DescriptorIHdmiConnectionCallback
+}
 
 func (s *HdmiConnectionCallbackStub) OnTransaction(
 	ctx context.Context,

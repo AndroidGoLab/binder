@@ -58,10 +58,12 @@ func (u *DemuxFilterSectionSettingsCondition) MarshalParcel(
 
 	switch u.Tag {
 	case DemuxFilterSectionSettingsConditionTagSectionBits:
+		p.WriteInt32(1)
 		if _err := u.SectionBits.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSectionSettingsConditionTagTableInfo:
+		p.WriteInt32(1)
 		if _err := u.TableInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *DemuxFilterSectionSettingsCondition) UnmarshalParcel(
 
 	switch u.Tag {
 	case DemuxFilterSectionSettingsConditionTagSectionBits:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SectionBits.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSectionSettingsConditionTagTableInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.TableInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

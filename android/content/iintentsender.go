@@ -15,23 +15,27 @@ const (
 	TransactionIIntentSenderSend = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIntentSenderSend = "send"
+)
+
 type IIntentSender interface {
 	AsBinder() binder.IBinder
 	Send(ctx context.Context, code int32, intent Intent, resolvedType string, whitelistToken binder.IBinder, finishedReceiver IIntentReceiver, requiredPermission string, options interface{}) error
 }
 
 type IntentSenderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntentSenderProxy(
 	remote binder.IBinder,
 ) *IntentSenderProxy {
-	return &IntentSenderProxy{remote: remote}
+	return &IntentSenderProxy{Remote: remote}
 }
 
 func (p *IntentSenderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntentSender = (*IntentSenderProxy)(nil)
@@ -54,16 +58,16 @@ func (p *IntentSenderProxy) Send(
 		return _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, whitelistToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, finishedReceiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, whitelistToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, finishedReceiver.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(requiredPermission)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntentSender, "send")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntentSender, MethodIIntentSenderSend)
 	if _err != nil {
-		_code = TransactionIIntentSenderSend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntentSender, MethodIIntentSenderSend, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +78,10 @@ type IntentSenderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntentSenderStub)(nil)
+
+func (s *IntentSenderStub) Descriptor() string {
+	return DescriptorIIntentSender
+}
 
 func (s *IntentSenderStub) OnTransaction(
 	ctx context.Context,

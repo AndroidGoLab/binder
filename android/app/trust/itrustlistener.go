@@ -19,6 +19,14 @@ const (
 	TransactionITrustListenerOnIsActiveUnlockRunningChanged = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodITrustListenerOnEnabledTrustAgentsChanged    = "onEnabledTrustAgentsChanged"
+	MethodITrustListenerOnTrustChanged                 = "onTrustChanged"
+	MethodITrustListenerOnTrustManagedChanged          = "onTrustManagedChanged"
+	MethodITrustListenerOnTrustError                   = "onTrustError"
+	MethodITrustListenerOnIsActiveUnlockRunningChanged = "onIsActiveUnlockRunningChanged"
+)
+
 type ITrustListener interface {
 	AsBinder() binder.IBinder
 	OnEnabledTrustAgentsChanged(ctx context.Context) error
@@ -29,17 +37,17 @@ type ITrustListener interface {
 }
 
 type TrustListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTrustListenerProxy(
 	remote binder.IBinder,
 ) *TrustListenerProxy {
-	return &TrustListenerProxy{remote: remote}
+	return &TrustListenerProxy{Remote: remote}
 }
 
 func (p *TrustListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITrustListener = (*TrustListenerProxy)(nil)
@@ -47,17 +55,17 @@ var _ ITrustListener = (*TrustListenerProxy)(nil)
 func (p *TrustListenerProxy) OnEnabledTrustAgentsChanged(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onEnabledTrustAgentsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnEnabledTrustAgentsChanged)
 	if _err != nil {
-		_code = TransactionITrustListenerOnEnabledTrustAgentsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustListener, MethodITrustListenerOnEnabledTrustAgentsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,7 +76,7 @@ func (p *TrustListenerProxy) OnTrustChanged(
 	flags int32,
 	trustGrantedMessages []string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteBool(enabled)
@@ -84,12 +92,12 @@ func (p *TrustListenerProxy) OnTrustChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onTrustChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnTrustChanged)
 	if _err != nil {
-		_code = TransactionITrustListenerOnTrustChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustListener, MethodITrustListenerOnTrustChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,18 +105,18 @@ func (p *TrustListenerProxy) OnTrustManagedChanged(
 	ctx context.Context,
 	managed bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteBool(managed)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onTrustManagedChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnTrustManagedChanged)
 	if _err != nil {
-		_code = TransactionITrustListenerOnTrustManagedChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustListener, MethodITrustListenerOnTrustManagedChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +127,12 @@ func (p *TrustListenerProxy) OnTrustError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onTrustError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnTrustError)
 	if _err != nil {
-		_code = TransactionITrustListenerOnTrustError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustListener, MethodITrustListenerOnTrustError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,18 +140,18 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 	ctx context.Context,
 	isRunning bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteBool(isRunning)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onIsActiveUnlockRunningChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustListener, MethodITrustListenerOnIsActiveUnlockRunningChanged)
 	if _err != nil {
-		_code = TransactionITrustListenerOnIsActiveUnlockRunningChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustListener, MethodITrustListenerOnIsActiveUnlockRunningChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,6 +162,10 @@ type TrustListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TrustListenerStub)(nil)
+
+func (s *TrustListenerStub) Descriptor() string {
+	return DescriptorITrustListener
+}
 
 func (s *TrustListenerStub) OnTransaction(
 	ctx context.Context,

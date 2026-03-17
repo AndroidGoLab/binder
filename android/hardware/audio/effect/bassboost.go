@@ -58,6 +58,7 @@ func (u *BassBoost) MarshalParcel(
 
 	switch u.Tag {
 	case BassBoostTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -86,6 +87,9 @@ func (u *BassBoost) UnmarshalParcel(
 
 	switch u.Tag {
 	case BassBoostTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

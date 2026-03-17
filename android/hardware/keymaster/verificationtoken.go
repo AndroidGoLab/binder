@@ -24,14 +24,7 @@ func (s *VerificationToken) MarshalParcel(
 		return _err
 	}
 	p.WriteInt32(int32(s.SecurityLevel))
-	if s.Mac == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Mac)))
-		for _, _item := range s.Mac {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Mac)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -60,19 +53,9 @@ func (s *VerificationToken) UnmarshalParcel(
 	}
 	s.SecurityLevel = SecurityLevel(_securityLevelRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Mac, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Mac = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Mac[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

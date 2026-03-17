@@ -15,9 +15,13 @@ const (
 	TransactionISecureStorageStartSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISecureStorageStartSession = "startSession"
+)
+
 type ISecureStorage interface {
 	AsBinder() binder.IBinder
-	StartSession(ctx context.Context, filesystem Filesystem) (IStorageSession, error)
+	StartSession(ctx context.Context, properties FileProperties) (IStorageSession, error)
 }
 
 const (
@@ -25,44 +29,45 @@ const (
 	ISecureStorageErrNotFound              int32 = 2
 	ISecureStorageErrAlreadyExists         int32 = 3
 	ISecureStorageErrBadTransaction        int32 = 4
-	ISecureStorageErrAbUpdateInProgress    int32 = 5
-	ISecureStorageErrFsTampered            int32 = 6
+	ISecureStorageErrFsReset               int32 = 5
+	ISecureStorageErrFsRolledBack          int32 = 6
+	ISecureStorageErrFsTampered            int32 = 7
 )
 
 type SecureStorageProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureStorageProxy(
 	remote binder.IBinder,
 ) *SecureStorageProxy {
-	return &SecureStorageProxy{remote: remote}
+	return &SecureStorageProxy{Remote: remote}
 }
 
 func (p *SecureStorageProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureStorage = (*SecureStorageProxy)(nil)
 
 func (p *SecureStorageProxy) StartSession(
 	ctx context.Context,
-	filesystem Filesystem,
+	properties FileProperties,
 ) (IStorageSession, error) {
 	var _result IStorageSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureStorage)
 	_data.WriteInt32(1)
-	if _err := filesystem.MarshalParcel(_data); _err != nil {
+	if _err := properties.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureStorage, "startSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureStorage, MethodISecureStorageStartSession)
 	if _err != nil {
-		_code = TransactionISecureStorageStartSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureStorage, MethodISecureStorageStartSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,7 +81,7 @@ func (p *SecureStorageProxy) StartSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewStorageSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewStorageSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -88,6 +93,10 @@ type SecureStorageStub struct {
 
 var _ binder.TransactionReceiver = (*SecureStorageStub)(nil)
 
+func (s *SecureStorageStub) Descriptor() string {
+	return DescriptorISecureStorage
+}
+
 func (s *SecureStorageStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -98,19 +107,19 @@ func (s *SecureStorageStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_filesystem Filesystem
+		var _arg_properties FileProperties
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filesystem.UnmarshalParcel(_data); _err != nil {
+				if _err = _arg_properties.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.StartSession(ctx, _arg_filesystem)
+		_result, _err := s.Impl.StartSession(ctx, _arg_properties)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -129,7 +138,7 @@ func (s *SecureStorageStub) OnTransaction(
 // provide to NewSecureStorageStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISecureStorageServer interface {
-	StartSession(ctx context.Context, filesystem Filesystem) (IStorageSession, error)
+	StartSession(ctx context.Context, properties FileProperties) (IStorageSession, error)
 }
 
 type secureStorageStubWrapper struct {
@@ -143,9 +152,9 @@ func (w *secureStorageStubWrapper) AsBinder() binder.IBinder {
 
 func (w *secureStorageStubWrapper) StartSession(
 	ctx context.Context,
-	filesystem Filesystem,
+	properties FileProperties,
 ) (IStorageSession, error) {
-	return w.impl.StartSession(ctx, filesystem)
+	return w.impl.StartSession(ctx, properties)
 }
 
 var _ ISecureStorage = (*secureStorageStubWrapper)(nil)

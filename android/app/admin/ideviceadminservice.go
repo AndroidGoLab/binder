@@ -16,17 +16,17 @@ type IDeviceAdminService interface {
 }
 
 type DeviceAdminServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceAdminServiceProxy(
 	remote binder.IBinder,
 ) *DeviceAdminServiceProxy {
-	return &DeviceAdminServiceProxy{remote: remote}
+	return &DeviceAdminServiceProxy{Remote: remote}
 }
 
 func (p *DeviceAdminServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceAdminService = (*DeviceAdminServiceProxy)(nil)
@@ -38,6 +38,10 @@ type DeviceAdminServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceAdminServiceStub)(nil)
+
+func (s *DeviceAdminServiceStub) Descriptor() string {
+	return DescriptorIDeviceAdminService
+}
 
 func (s *DeviceAdminServiceStub) OnTransaction(
 	ctx context.Context,

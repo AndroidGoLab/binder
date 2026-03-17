@@ -15,23 +15,27 @@ const (
 	TransactionIHwCryptoOperationsProcessCommandList = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHwCryptoOperationsProcessCommandList = "processCommandList"
+)
+
 type IHwCryptoOperations interface {
 	AsBinder() binder.IBinder
 	ProcessCommandList(ctx context.Context, operations []CryptoOperationSet) ([]CryptoOperationResult, error)
 }
 
 type HwCryptoOperationsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHwCryptoOperationsProxy(
 	remote binder.IBinder,
 ) *HwCryptoOperationsProxy {
-	return &HwCryptoOperationsProxy{remote: remote}
+	return &HwCryptoOperationsProxy{Remote: remote}
 }
 
 func (p *HwCryptoOperationsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHwCryptoOperations = (*HwCryptoOperationsProxy)(nil)
@@ -48,18 +52,19 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 	} else {
 		_data.WriteInt32(int32(len(operations)))
 		for _, _item := range operations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoOperations, "processCommandList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHwCryptoOperations, MethodIHwCryptoOperationsProcessCommandList)
 	if _err != nil {
-		_code = TransactionIHwCryptoOperationsProcessCommandList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHwCryptoOperations, MethodIHwCryptoOperationsProcessCommandList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,6 +80,9 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 	if _outCount0 >= 0 {
 		operations = make([]CryptoOperationSet, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = operations[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -89,6 +97,9 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 	if _count >= 0 {
 		_result = make([]CryptoOperationResult, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -104,6 +115,10 @@ type HwCryptoOperationsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HwCryptoOperationsStub)(nil)
+
+func (s *HwCryptoOperationsStub) Descriptor() string {
+	return DescriptorIHwCryptoOperations
+}
 
 func (s *HwCryptoOperationsStub) OnTransaction(
 	ctx context.Context,

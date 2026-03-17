@@ -16,6 +16,11 @@ const (
 	TransactionITimeZoneProviderStopUpdates  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITimeZoneProviderStartUpdates = "startUpdates"
+	MethodITimeZoneProviderStopUpdates  = "stopUpdates"
+)
+
 type ITimeZoneProvider interface {
 	AsBinder() binder.IBinder
 	StartUpdates(ctx context.Context, manager ITimeZoneProviderManager, initializationTimeoutMillis int64, eventFilteringAgeThresholdMillis int64) error
@@ -23,17 +28,17 @@ type ITimeZoneProvider interface {
 }
 
 type TimeZoneProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTimeZoneProviderProxy(
 	remote binder.IBinder,
 ) *TimeZoneProviderProxy {
-	return &TimeZoneProviderProxy{remote: remote}
+	return &TimeZoneProviderProxy{Remote: remote}
 }
 
 func (p *TimeZoneProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITimeZoneProvider = (*TimeZoneProviderProxy)(nil)
@@ -46,16 +51,16 @@ func (p *TimeZoneProviderProxy) StartUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneProvider)
-	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(initializationTimeoutMillis)
 	_data.WriteInt64(eventFilteringAgeThresholdMillis)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneProvider, "startUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneProvider, MethodITimeZoneProviderStartUpdates)
 	if _err != nil {
-		_code = TransactionITimeZoneProviderStartUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneProvider, MethodITimeZoneProviderStartUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *TimeZoneProviderProxy) StopUpdates(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneProvider, "stopUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITimeZoneProvider, MethodITimeZoneProviderStopUpdates)
 	if _err != nil {
-		_code = TransactionITimeZoneProviderStopUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITimeZoneProvider, MethodITimeZoneProviderStopUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type TimeZoneProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TimeZoneProviderStub)(nil)
+
+func (s *TimeZoneProviderStub) Descriptor() string {
+	return DescriptorITimeZoneProvider
+}
 
 func (s *TimeZoneProviderStub) OnTransaction(
 	ctx context.Context,

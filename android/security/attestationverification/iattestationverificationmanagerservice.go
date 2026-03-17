@@ -18,6 +18,11 @@ const (
 	TransactionIAttestationVerificationManagerServiceVerifyToken       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAttestationVerificationManagerServiceVerifyAttestation = "verifyAttestation"
+	MethodIAttestationVerificationManagerServiceVerifyToken       = "verifyToken"
+)
+
 type IAttestationVerificationManagerService interface {
 	AsBinder() binder.IBinder
 	VerifyAttestation(ctx context.Context, profile AttestationProfile, localBindingType int32, requirements os.Bundle, attestation []byte, resultCallback infra.AndroidFuture) error
@@ -25,17 +30,17 @@ type IAttestationVerificationManagerService interface {
 }
 
 type AttestationVerificationManagerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAttestationVerificationManagerServiceProxy(
 	remote binder.IBinder,
 ) *AttestationVerificationManagerServiceProxy {
-	return &AttestationVerificationManagerServiceProxy{remote: remote}
+	return &AttestationVerificationManagerServiceProxy{Remote: remote}
 }
 
 func (p *AttestationVerificationManagerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAttestationVerificationManagerService = (*AttestationVerificationManagerServiceProxy)(nil)
@@ -72,12 +77,12 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttestationVerificationManagerService, "verifyAttestation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyAttestation)
 	if _err != nil {
-		_code = TransactionIAttestationVerificationManagerServiceVerifyAttestation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyAttestation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +103,12 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttestationVerificationManagerService, "verifyToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyToken)
 	if _err != nil {
-		_code = TransactionIAttestationVerificationManagerServiceVerifyToken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttestationVerificationManagerService, MethodIAttestationVerificationManagerServiceVerifyToken, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,6 +119,10 @@ type AttestationVerificationManagerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AttestationVerificationManagerServiceStub)(nil)
+
+func (s *AttestationVerificationManagerServiceStub) Descriptor() string {
+	return DescriptorIAttestationVerificationManagerService
+}
 
 func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 	ctx context.Context,

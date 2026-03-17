@@ -53,3 +53,62 @@ func (p *Parcel) ReadFileDescriptor() (int32, error) {
 	fd := int32(binary.LittleEndian.Uint32(b[8:]))
 	return fd, nil
 }
+
+// WriteParcelFileDescriptor writes a ParcelFileDescriptor (AIDL type) to
+// the parcel. The wire format matches Android's NDK serialization:
+//
+//	int32(1)   - non-null indicator (from AParcel_writeParcelFileDescriptor)
+//	int32(0)   - hasComm flag (from Parcel::writeParcelFileDescriptor)
+//	FD object  - flat_binder_object with BINDER_TYPE_FD
+//
+// A negative fd writes int32(0) as the null indicator (no further data).
+func (p *Parcel) WriteParcelFileDescriptor(
+	fd int32,
+) {
+	if fd < 0 {
+		p.WriteInt32(0) // null ParcelFileDescriptor
+		return
+	}
+	p.WriteInt32(1) // non-null indicator
+	p.WriteInt32(0) // hasComm = 0 (no communication channel)
+	p.WriteFileDescriptor(fd)
+}
+
+// ReadParcelFileDescriptor reads a ParcelFileDescriptor (AIDL type) from
+// the parcel. The wire format matches Android's NDK deserialization:
+//
+//	int32      - null indicator (0 = null, non-zero = non-null)
+//	int32      - hasComm flag (from Parcel::readParcelFileDescriptor)
+//	FD object  - flat_binder_object with BINDER_TYPE_FD
+//
+// Returns -1 for a null ParcelFileDescriptor.
+func (p *Parcel) ReadParcelFileDescriptor() (int32, error) {
+	nullInd, err := p.ReadInt32()
+	if err != nil {
+		return -1, fmt.Errorf("parcel: reading ParcelFileDescriptor null indicator: %w", err)
+	}
+	if nullInd == 0 {
+		return -1, nil
+	}
+
+	// Read the hasComm flag (Parcel::readParcelFileDescriptor reads an
+	// int32 that indicates whether a communication channel FD follows).
+	hasComm, err := p.ReadInt32()
+	if err != nil {
+		return -1, fmt.Errorf("parcel: reading ParcelFileDescriptor hasComm: %w", err)
+	}
+
+	fd, err := p.ReadFileDescriptor()
+	if err != nil {
+		return -1, err
+	}
+
+	if hasComm != 0 {
+		// Skip the communication channel FD (not used in our case).
+		if _, err := p.ReadFileDescriptor(); err != nil {
+			return -1, fmt.Errorf("parcel: reading ParcelFileDescriptor comm FD: %w", err)
+		}
+	}
+
+	return fd, nil
+}

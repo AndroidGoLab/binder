@@ -16,6 +16,11 @@ const (
 	TransactionIInlineSuggestionUiReleaseSurfaceControlViewHost = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInlineSuggestionUiGetSurfacePackage             = "getSurfacePackage"
+	MethodIInlineSuggestionUiReleaseSurfaceControlViewHost = "releaseSurfaceControlViewHost"
+)
+
 type IInlineSuggestionUi interface {
 	AsBinder() binder.IBinder
 	GetSurfacePackage(ctx context.Context, callback ISurfacePackageResultCallback) error
@@ -23,17 +28,17 @@ type IInlineSuggestionUi interface {
 }
 
 type InlineSuggestionUiProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInlineSuggestionUiProxy(
 	remote binder.IBinder,
 ) *InlineSuggestionUiProxy {
-	return &InlineSuggestionUiProxy{remote: remote}
+	return &InlineSuggestionUiProxy{Remote: remote}
 }
 
 func (p *InlineSuggestionUiProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInlineSuggestionUi = (*InlineSuggestionUiProxy)(nil)
@@ -44,14 +49,14 @@ func (p *InlineSuggestionUiProxy) GetSurfacePackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUi)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUi, "getSurfacePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUi, MethodIInlineSuggestionUiGetSurfacePackage)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiGetSurfacePackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUi, MethodIInlineSuggestionUiGetSurfacePackage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *InlineSuggestionUiProxy) ReleaseSurfaceControlViewHost(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUi, "releaseSurfaceControlViewHost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionUi, MethodIInlineSuggestionUiReleaseSurfaceControlViewHost)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionUiReleaseSurfaceControlViewHost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionUi, MethodIInlineSuggestionUiReleaseSurfaceControlViewHost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type InlineSuggestionUiStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionUiStub)(nil)
+
+func (s *InlineSuggestionUiStub) Descriptor() string {
+	return DescriptorIInlineSuggestionUi
+}
 
 func (s *InlineSuggestionUiStub) OnTransaction(
 	ctx context.Context,

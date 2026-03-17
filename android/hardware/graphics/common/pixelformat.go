@@ -38,5 +38,4 @@ const (
 	PixelFormatR16Uint               PixelFormat = 57
 	PixelFormatRg1616Uint            PixelFormat = 58
 	PixelFormatRgba10101010          PixelFormat = 59
-	PixelFormatYcbcrP210             PixelFormat = 60
 )

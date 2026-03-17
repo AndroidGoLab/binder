@@ -52,6 +52,9 @@ func requireOrSkip(t *testing.T, err error) {
 	if strings.Contains(errStr, "unknown union tag") {
 		t.Skipf("AIDL version mismatch (union tag not in generated code): %v", err)
 	}
+	if strings.Contains(errStr, "not found in version") {
+		t.Skipf("method not available on this API level: %v", err)
+	}
 	require.NoError(t, err)
 }
 

@@ -15,23 +15,27 @@ const (
 	TransactionIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange = "onMonitoringSystemChange"
+)
+
 type IGeofenceHardwareMonitorCallback interface {
 	AsBinder() binder.IBinder
 	OnMonitoringSystemChange(ctx context.Context, event GeofenceHardwareMonitorEvent) error
 }
 
 type GeofenceHardwareMonitorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGeofenceHardwareMonitorCallbackProxy(
 	remote binder.IBinder,
 ) *GeofenceHardwareMonitorCallbackProxy {
-	return &GeofenceHardwareMonitorCallbackProxy{remote: remote}
+	return &GeofenceHardwareMonitorCallbackProxy{Remote: remote}
 }
 
 func (p *GeofenceHardwareMonitorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGeofenceHardwareMonitorCallback = (*GeofenceHardwareMonitorCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *GeofenceHardwareMonitorCallbackProxy) OnMonitoringSystemChange(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareMonitorCallback, "onMonitoringSystemChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceHardwareMonitorCallback, MethodIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange)
 	if _err != nil {
-		_code = TransactionIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGeofenceHardwareMonitorCallback, MethodIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type GeofenceHardwareMonitorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GeofenceHardwareMonitorCallbackStub)(nil)
+
+func (s *GeofenceHardwareMonitorCallbackStub) Descriptor() string {
+	return DescriptorIGeofenceHardwareMonitorCallback
+}
 
 func (s *GeofenceHardwareMonitorCallbackStub) OnTransaction(
 	ctx context.Context,

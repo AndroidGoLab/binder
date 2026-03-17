@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	display "github.com/xaionaro-go/binder/android/hardware/display"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,11 +23,30 @@ const (
 	TransactionIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId = binder.FirstCallTransaction + 6
 	TransactionIVirtualDeviceManagerIsValidVirtualDeviceId              = binder.FirstCallTransaction + 7
 	TransactionIVirtualDeviceManagerGetDevicePolicy                     = binder.FirstCallTransaction + 8
-	TransactionIVirtualDeviceManagerGetAudioPlaybackSessionId           = binder.FirstCallTransaction + 9
-	TransactionIVirtualDeviceManagerGetAudioRecordingSessionId          = binder.FirstCallTransaction + 10
-	TransactionIVirtualDeviceManagerPlaySoundEffect                     = binder.FirstCallTransaction + 11
-	TransactionIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay   = binder.FirstCallTransaction + 12
-	TransactionIVirtualDeviceManagerGetAllPersistentDeviceIds           = binder.FirstCallTransaction + 13
+	TransactionIVirtualDeviceManagerCreateVirtualDisplay                = binder.FirstCallTransaction + 9
+	TransactionIVirtualDeviceManagerGetAudioPlaybackSessionId           = binder.FirstCallTransaction + 10
+	TransactionIVirtualDeviceManagerGetAudioRecordingSessionId          = binder.FirstCallTransaction + 11
+	TransactionIVirtualDeviceManagerPlaySoundEffect                     = binder.FirstCallTransaction + 12
+	TransactionIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay   = binder.FirstCallTransaction + 13
+	TransactionIVirtualDeviceManagerGetAllPersistentDeviceIds           = binder.FirstCallTransaction + 14
+)
+
+const (
+	MethodIVirtualDeviceManagerCreateVirtualDevice                 = "createVirtualDevice"
+	MethodIVirtualDeviceManagerGetVirtualDevices                   = "getVirtualDevices"
+	MethodIVirtualDeviceManagerGetVirtualDevice                    = "getVirtualDevice"
+	MethodIVirtualDeviceManagerRegisterVirtualDeviceListener       = "registerVirtualDeviceListener"
+	MethodIVirtualDeviceManagerUnregisterVirtualDeviceListener     = "unregisterVirtualDeviceListener"
+	MethodIVirtualDeviceManagerGetDeviceIdForDisplayId             = "getDeviceIdForDisplayId"
+	MethodIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId = "getDisplayNameForPersistentDeviceId"
+	MethodIVirtualDeviceManagerIsValidVirtualDeviceId              = "isValidVirtualDeviceId"
+	MethodIVirtualDeviceManagerGetDevicePolicy                     = "getDevicePolicy"
+	MethodIVirtualDeviceManagerCreateVirtualDisplay                = "createVirtualDisplay"
+	MethodIVirtualDeviceManagerGetAudioPlaybackSessionId           = "getAudioPlaybackSessionId"
+	MethodIVirtualDeviceManagerGetAudioRecordingSessionId          = "getAudioRecordingSessionId"
+	MethodIVirtualDeviceManagerPlaySoundEffect                     = "playSoundEffect"
+	MethodIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay   = "isVirtualDeviceOwnedMirrorDisplay"
+	MethodIVirtualDeviceManagerGetAllPersistentDeviceIds           = "getAllPersistentDeviceIds"
 )
 
 type IVirtualDeviceManager interface {
@@ -40,6 +60,7 @@ type IVirtualDeviceManager interface {
 	GetDisplayNameForPersistentDeviceId(ctx context.Context, persistentDeviceId string) (interface{}, error)
 	IsValidVirtualDeviceId(ctx context.Context, deviceId int32) (bool, error)
 	GetDevicePolicy(ctx context.Context, deviceId int32, policyType int32) (int32, error)
+	CreateVirtualDisplay(ctx context.Context, virtualDisplayConfig display.VirtualDisplayConfig, callback display.IVirtualDisplayCallback, virtualDevice IVirtualDevice, packageName string) (int32, error)
 	GetAudioPlaybackSessionId(ctx context.Context, deviceId int32) (int32, error)
 	GetAudioRecordingSessionId(ctx context.Context, deviceId int32) (int32, error)
 	PlaySoundEffect(ctx context.Context, deviceId int32, effectType int32) error
@@ -48,17 +69,17 @@ type IVirtualDeviceManager interface {
 }
 
 type VirtualDeviceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDeviceManagerProxy(
 	remote binder.IBinder,
 ) *VirtualDeviceManagerProxy {
-	return &VirtualDeviceManagerProxy{remote: remote}
+	return &VirtualDeviceManagerProxy{Remote: remote}
 }
 
 func (p *VirtualDeviceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDeviceManager = (*VirtualDeviceManagerProxy)(nil)
@@ -75,7 +96,7 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDevice(
 	var _result IVirtualDevice
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -85,15 +106,15 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDevice(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, activityListener.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, soundEffectListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityListener.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, soundEffectListener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "createVirtualDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDevice)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerCreateVirtualDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,7 +128,7 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDevice(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVirtualDeviceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewVirtualDeviceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -118,12 +139,12 @@ func (p *VirtualDeviceManagerProxy) GetVirtualDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getVirtualDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetVirtualDevices)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetVirtualDevices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetVirtualDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,6 +162,9 @@ func (p *VirtualDeviceManagerProxy) GetVirtualDevices(
 	if _count >= 0 {
 		_result = make([]VirtualDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -158,12 +182,12 @@ func (p *VirtualDeviceManagerProxy) GetVirtualDevice(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getVirtualDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetVirtualDevice)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetVirtualDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetVirtualDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -191,14 +215,14 @@ func (p *VirtualDeviceManagerProxy) RegisterVirtualDeviceListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "registerVirtualDeviceListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerRegisterVirtualDeviceListener)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerRegisterVirtualDeviceListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerRegisterVirtualDeviceListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -217,14 +241,14 @@ func (p *VirtualDeviceManagerProxy) UnregisterVirtualDeviceListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "unregisterVirtualDeviceListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerUnregisterVirtualDeviceListener)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerUnregisterVirtualDeviceListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerUnregisterVirtualDeviceListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -246,12 +270,12 @@ func (p *VirtualDeviceManagerProxy) GetDeviceIdForDisplayId(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getDeviceIdForDisplayId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDeviceIdForDisplayId)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetDeviceIdForDisplayId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDeviceIdForDisplayId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -277,12 +301,12 @@ func (p *VirtualDeviceManagerProxy) GetDisplayNameForPersistentDeviceId(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteString16(persistentDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getDisplayNameForPersistentDeviceId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -304,12 +328,12 @@ func (p *VirtualDeviceManagerProxy) IsValidVirtualDeviceId(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "isValidVirtualDeviceId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsValidVirtualDeviceId)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerIsValidVirtualDeviceId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsValidVirtualDeviceId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -337,12 +361,52 @@ func (p *VirtualDeviceManagerProxy) GetDevicePolicy(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(policyType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getDevicePolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDevicePolicy)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetDevicePolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetDevicePolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *VirtualDeviceManagerProxy) CreateVirtualDisplay(
+	ctx context.Context,
+	virtualDisplayConfig display.VirtualDisplayConfig,
+	callback display.IVirtualDisplayCallback,
+	virtualDevice IVirtualDevice,
+	packageName string,
+) (int32, error) {
+	var _result int32
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
+	_data.WriteInt32(1)
+	if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, virtualDevice.AsBinder(), p.Remote.Transport())
+	_data.WriteString16(packageName)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDisplay)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerCreateVirtualDisplay, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -368,12 +432,12 @@ func (p *VirtualDeviceManagerProxy) GetAudioPlaybackSessionId(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getAudioPlaybackSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioPlaybackSessionId)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetAudioPlaybackSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioPlaybackSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -399,12 +463,12 @@ func (p *VirtualDeviceManagerProxy) GetAudioRecordingSessionId(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getAudioRecordingSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioRecordingSessionId)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetAudioRecordingSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAudioRecordingSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -431,12 +495,12 @@ func (p *VirtualDeviceManagerProxy) PlaySoundEffect(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(effectType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "playSoundEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerPlaySoundEffect)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerPlaySoundEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerPlaySoundEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -458,12 +522,12 @@ func (p *VirtualDeviceManagerProxy) IsVirtualDeviceOwnedMirrorDisplay(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "isVirtualDeviceOwnedMirrorDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -487,12 +551,12 @@ func (p *VirtualDeviceManagerProxy) GetAllPersistentDeviceIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getAllPersistentDeviceIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAllPersistentDeviceIds)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceManagerGetAllPersistentDeviceIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceManager, MethodIVirtualDeviceManagerGetAllPersistentDeviceIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -526,6 +590,10 @@ type VirtualDeviceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceManagerStub)(nil)
+
+func (s *VirtualDeviceManagerStub) Descriptor() string {
+	return DescriptorIVirtualDeviceManager
+}
 
 func (s *VirtualDeviceManagerStub) OnTransaction(
 	ctx context.Context,
@@ -720,6 +788,41 @@ func (s *VirtualDeviceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
 		return _reply, nil
+	case TransactionIVirtualDeviceManagerCreateVirtualDisplay:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_virtualDisplayConfig display.VirtualDisplayConfig
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_virtualDisplayConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback display.IVirtualDisplayCallback
+		_ = _arg_callback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_virtualDevice IVirtualDevice
+		_ = _arg_virtualDevice
+		_arg_packageName, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateVirtualDisplay(ctx, _arg_virtualDisplayConfig, _arg_callback, _arg_virtualDevice, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
 	case TransactionIVirtualDeviceManagerGetAudioPlaybackSessionId:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -823,6 +926,7 @@ type IVirtualDeviceManagerServer interface {
 	GetDisplayNameForPersistentDeviceId(ctx context.Context, persistentDeviceId string) (interface{}, error)
 	IsValidVirtualDeviceId(ctx context.Context, deviceId int32) (bool, error)
 	GetDevicePolicy(ctx context.Context, deviceId int32, policyType int32) (int32, error)
+	CreateVirtualDisplay(ctx context.Context, virtualDisplayConfig display.VirtualDisplayConfig, callback display.IVirtualDisplayCallback, virtualDevice IVirtualDevice, packageName string) (int32, error)
 	GetAudioPlaybackSessionId(ctx context.Context, deviceId int32) (int32, error)
 	GetAudioRecordingSessionId(ctx context.Context, deviceId int32) (int32, error)
 	PlaySoundEffect(ctx context.Context, deviceId int32, effectType int32) error
@@ -905,6 +1009,16 @@ func (w *virtualDeviceManagerStubWrapper) GetDevicePolicy(
 	policyType int32,
 ) (int32, error) {
 	return w.impl.GetDevicePolicy(ctx, deviceId, policyType)
+}
+
+func (w *virtualDeviceManagerStubWrapper) CreateVirtualDisplay(
+	ctx context.Context,
+	virtualDisplayConfig display.VirtualDisplayConfig,
+	callback display.IVirtualDisplayCallback,
+	virtualDevice IVirtualDevice,
+	packageName string,
+) (int32, error) {
+	return w.impl.CreateVirtualDisplay(ctx, virtualDisplayConfig, callback, virtualDevice, packageName)
 }
 
 func (w *virtualDeviceManagerStubWrapper) GetAudioPlaybackSessionId(

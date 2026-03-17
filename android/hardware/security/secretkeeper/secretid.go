@@ -16,14 +16,7 @@ func (s *SecretId) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Id == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Id)))
-		for _, _item := range s.Id {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Id, 64)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -37,19 +30,9 @@ func (s *SecretId) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Id, _err = p.ReadFixedByteArray(64)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Id = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Id[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

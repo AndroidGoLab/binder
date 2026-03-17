@@ -15,23 +15,27 @@ const (
 	TransactionIControlsActionCallbackAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIControlsActionCallbackAccept = "accept"
+)
+
 type IControlsActionCallback interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, token binder.IBinder, controlId string, response int32) error
 }
 
 type ControlsActionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewControlsActionCallbackProxy(
 	remote binder.IBinder,
 ) *ControlsActionCallbackProxy {
-	return &ControlsActionCallbackProxy{remote: remote}
+	return &ControlsActionCallbackProxy{Remote: remote}
 }
 
 func (p *ControlsActionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IControlsActionCallback = (*ControlsActionCallbackProxy)(nil)
@@ -44,16 +48,16 @@ func (p *ControlsActionCallbackProxy) Accept(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsActionCallback)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(controlId)
 	_data.WriteInt32(response)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsActionCallback, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsActionCallback, MethodIControlsActionCallbackAccept)
 	if _err != nil {
-		_code = TransactionIControlsActionCallbackAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsActionCallback, MethodIControlsActionCallbackAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type ControlsActionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ControlsActionCallbackStub)(nil)
+
+func (s *ControlsActionCallbackStub) Descriptor() string {
+	return DescriptorIControlsActionCallback
+}
 
 func (s *ControlsActionCallbackStub) OnTransaction(
 	ctx context.Context,

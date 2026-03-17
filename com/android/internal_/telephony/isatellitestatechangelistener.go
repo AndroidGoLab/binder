@@ -15,23 +15,27 @@ const (
 	TransactionISatelliteStateChangeListenerOnSatelliteEnabledStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISatelliteStateChangeListenerOnSatelliteEnabledStateChanged = "onSatelliteEnabledStateChanged"
+)
+
 type ISatelliteStateChangeListener interface {
 	AsBinder() binder.IBinder
 	OnSatelliteEnabledStateChanged(ctx context.Context, isEnabled bool) error
 }
 
 type SatelliteStateChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteStateChangeListenerProxy(
 	remote binder.IBinder,
 ) *SatelliteStateChangeListenerProxy {
-	return &SatelliteStateChangeListenerProxy{remote: remote}
+	return &SatelliteStateChangeListenerProxy{Remote: remote}
 }
 
 func (p *SatelliteStateChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteStateChangeListener = (*SatelliteStateChangeListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SatelliteStateChangeListenerProxy) OnSatelliteEnabledStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteStateChangeListener)
 	_data.WriteBool(isEnabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteStateChangeListener, "onSatelliteEnabledStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteStateChangeListener, MethodISatelliteStateChangeListenerOnSatelliteEnabledStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteStateChangeListenerOnSatelliteEnabledStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteStateChangeListener, MethodISatelliteStateChangeListenerOnSatelliteEnabledStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SatelliteStateChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteStateChangeListenerStub)(nil)
+
+func (s *SatelliteStateChangeListenerStub) Descriptor() string {
+	return DescriptorISatelliteStateChangeListener
+}
 
 func (s *SatelliteStateChangeListenerStub) OnTransaction(
 	ctx context.Context,

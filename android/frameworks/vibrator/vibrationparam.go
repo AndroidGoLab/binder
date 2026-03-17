@@ -41,6 +41,7 @@ func (u *VibrationParam) MarshalParcel(
 
 	switch u.Tag {
 	case VibrationParamTagScale:
+		p.WriteInt32(1)
 		if _err := u.Scale.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -67,6 +68,9 @@ func (u *VibrationParam) UnmarshalParcel(
 
 	switch u.Tag {
 	case VibrationParamTagScale:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Scale.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -15,23 +15,27 @@ const (
 	TransactionIDisplayFoldListenerOnDisplayFoldChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDisplayFoldListenerOnDisplayFoldChanged = "onDisplayFoldChanged"
+)
+
 type IDisplayFoldListener interface {
 	AsBinder() binder.IBinder
 	OnDisplayFoldChanged(ctx context.Context, displayId int32, folded bool) error
 }
 
 type DisplayFoldListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayFoldListenerProxy(
 	remote binder.IBinder,
 ) *DisplayFoldListenerProxy {
-	return &DisplayFoldListenerProxy{remote: remote}
+	return &DisplayFoldListenerProxy{Remote: remote}
 }
 
 func (p *DisplayFoldListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayFoldListener = (*DisplayFoldListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *DisplayFoldListenerProxy) OnDisplayFoldChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteBool(folded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayFoldListener, "onDisplayFoldChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayFoldListener, MethodIDisplayFoldListenerOnDisplayFoldChanged)
 	if _err != nil {
-		_code = TransactionIDisplayFoldListenerOnDisplayFoldChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayFoldListener, MethodIDisplayFoldListenerOnDisplayFoldChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type DisplayFoldListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayFoldListenerStub)(nil)
+
+func (s *DisplayFoldListenerStub) Descriptor() string {
+	return DescriptorIDisplayFoldListener
+}
 
 func (s *DisplayFoldListenerStub) OnTransaction(
 	ctx context.Context,

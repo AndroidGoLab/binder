@@ -16,23 +16,27 @@ const (
 	TransactionICancellationCallbackSendCancellationTransport = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICancellationCallbackSendCancellationTransport = "sendCancellationTransport"
+)
+
 type ICancellationCallback interface {
 	AsBinder() binder.IBinder
 	SendCancellationTransport(ctx context.Context, cancellationTransport ondeviceintelligence.ICancellationSignal) error
 }
 
 type CancellationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCancellationCallbackProxy(
 	remote binder.IBinder,
 ) *CancellationCallbackProxy {
-	return &CancellationCallbackProxy{remote: remote}
+	return &CancellationCallbackProxy{Remote: remote}
 }
 
 func (p *CancellationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICancellationCallback = (*CancellationCallbackProxy)(nil)
@@ -43,14 +47,14 @@ func (p *CancellationCallbackProxy) SendCancellationTransport(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICancellationCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellationTransport.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellationTransport.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICancellationCallback, "sendCancellationTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICancellationCallback, MethodICancellationCallbackSendCancellationTransport)
 	if _err != nil {
-		_code = TransactionICancellationCallbackSendCancellationTransport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICancellationCallback, MethodICancellationCallbackSendCancellationTransport, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +65,10 @@ type CancellationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CancellationCallbackStub)(nil)
+
+func (s *CancellationCallbackStub) Descriptor() string {
+	return DescriptorICancellationCallback
+}
 
 func (s *CancellationCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -17,5 +17,4 @@ const (
 	UwbVendorSessionAppConfigTlvTypesNbOfElevationMeasurements  UwbVendorSessionAppConfigTlvTypes = 229
 	UwbVendorSessionAppConfigTlvTypesEnableDiagnostics          UwbVendorSessionAppConfigTlvTypes = 232
 	UwbVendorSessionAppConfigTlvTypesDiagramsFrameReportsFields UwbVendorSessionAppConfigTlvTypes = 233
-	UwbVendorSessionAppConfigTlvTypesAntennaMode                UwbVendorSessionAppConfigTlvTypes = 234
 )

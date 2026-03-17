@@ -16,23 +16,27 @@ const (
 	TransactionIEventMonitorListenerOnInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEventMonitorListenerOnInfoChanged = "onInfoChanged"
+)
+
 type IEventMonitorListener interface {
 	AsBinder() binder.IBinder
 	OnInfoChanged(ctx context.Context, channelDbId int64, eventinfo os.Bundle) error
 }
 
 type EventMonitorListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventMonitorListenerProxy(
 	remote binder.IBinder,
 ) *EventMonitorListenerProxy {
-	return &EventMonitorListenerProxy{remote: remote}
+	return &EventMonitorListenerProxy{Remote: remote}
 }
 
 func (p *EventMonitorListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventMonitorListener = (*EventMonitorListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *EventMonitorListenerProxy) OnInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitorListener, "onInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitorListener, MethodIEventMonitorListenerOnInfoChanged)
 	if _err != nil {
-		_code = TransactionIEventMonitorListenerOnInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitorListener, MethodIEventMonitorListenerOnInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type EventMonitorListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventMonitorListenerStub)(nil)
+
+func (s *EventMonitorListenerStub) Descriptor() string {
+	return DescriptorIEventMonitorListener
+}
 
 func (s *EventMonitorListenerStub) OnTransaction(
 	ctx context.Context,

@@ -3,7 +3,6 @@ package bluetooth
 import (
 	"context"
 	"fmt"
-	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,38 +12,36 @@ import (
 const DescriptorIBluetoothSocketManager = "android.bluetooth.IBluetoothSocketManager"
 
 const (
-	TransactionIBluetoothSocketManagerConnectSocket                  = binder.FirstCallTransaction + 0
-	TransactionIBluetoothSocketManagerConnectSocketWithOffload       = binder.FirstCallTransaction + 1
-	TransactionIBluetoothSocketManagerCreateSocketChannel            = binder.FirstCallTransaction + 2
-	TransactionIBluetoothSocketManagerCreateSocketChannelWithOffload = binder.FirstCallTransaction + 3
-	TransactionIBluetoothSocketManagerRequestMaximumTxDataLength     = binder.FirstCallTransaction + 4
-	TransactionIBluetoothSocketManagerGetL2capLocalChannelId         = binder.FirstCallTransaction + 5
-	TransactionIBluetoothSocketManagerGetL2capRemoteChannelId        = binder.FirstCallTransaction + 6
+	TransactionIBluetoothSocketManagerConnectSocket              = binder.FirstCallTransaction + 0
+	TransactionIBluetoothSocketManagerCreateSocketChannel        = binder.FirstCallTransaction + 1
+	TransactionIBluetoothSocketManagerRequestMaximumTxDataLength = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIBluetoothSocketManagerConnectSocket              = "connectSocket"
+	MethodIBluetoothSocketManagerCreateSocketChannel        = "createSocketChannel"
+	MethodIBluetoothSocketManagerRequestMaximumTxDataLength = "requestMaximumTxDataLength"
 )
 
 type IBluetoothSocketManager interface {
 	AsBinder() binder.IBinder
 	ConnectSocket(ctx context.Context, device BluetoothDevice, type_ int32, uuid *interface{}, port int32, flag int32) (int32, error)
-	ConnectSocketWithOffload(ctx context.Context, device BluetoothDevice, type_ int32, uuid *interface{}, port int32, flag int32, dataPath int32, socketName string, hubId int64, endpointId int64, maximumPacketSize int32) (int32, error)
 	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32) (int32, error)
-	CreateSocketChannelWithOffload(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32, dataPath int32, socketName string, hubId int64, endpointId int64, maximumPacketSize int32) (int32, error)
 	RequestMaximumTxDataLength(ctx context.Context, device BluetoothDevice) error
-	GetL2capLocalChannelId(ctx context.Context, connectionUuid interface{}, attributionSource content.AttributionSource) (int32, error)
-	GetL2capRemoteChannelId(ctx context.Context, connectionUuid interface{}, attributionSource content.AttributionSource) (int32, error)
 }
 
 type BluetoothSocketManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothSocketManagerProxy(
 	remote binder.IBinder,
 ) *BluetoothSocketManagerProxy {
-	return &BluetoothSocketManagerProxy{remote: remote}
+	return &BluetoothSocketManagerProxy{Remote: remote}
 }
 
 func (p *BluetoothSocketManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothSocketManager = (*BluetoothSocketManagerProxy)(nil)
@@ -68,63 +65,12 @@ func (p *BluetoothSocketManagerProxy) ConnectSocket(
 	_data.WriteInt32(port)
 	_data.WriteInt32(flag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "connectSocket")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerConnectSocket)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerConnectSocket
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerConnectSocket, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadFileDescriptor()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *BluetoothSocketManagerProxy) ConnectSocketWithOffload(
-	ctx context.Context,
-	device BluetoothDevice,
-	type_ int32,
-	uuid *interface{},
-	port int32,
-	flag int32,
-	dataPath int32,
-	socketName string,
-	hubId int64,
-	endpointId int64,
-	maximumPacketSize int32,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(type_)
-	_data.WriteInt32(port)
-	_data.WriteInt32(flag)
-	_data.WriteInt32(dataPath)
-	_data.WriteString16(socketName)
-	_data.WriteInt64(hubId)
-	_data.WriteInt64(endpointId)
-	_data.WriteInt32(maximumPacketSize)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "connectSocketWithOffload")
-	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerConnectSocketWithOffload
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -157,60 +103,12 @@ func (p *BluetoothSocketManagerProxy) CreateSocketChannel(
 	_data.WriteInt32(port)
 	_data.WriteInt32(flag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "createSocketChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerCreateSocketChannel)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerCreateSocketChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerCreateSocketChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadFileDescriptor()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *BluetoothSocketManagerProxy) CreateSocketChannelWithOffload(
-	ctx context.Context,
-	type_ int32,
-	serviceName string,
-	uuid *interface{},
-	port int32,
-	flag int32,
-	dataPath int32,
-	socketName string,
-	hubId int64,
-	endpointId int64,
-	maximumPacketSize int32,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(type_)
-	_data.WriteString16(serviceName)
-	_data.WriteInt32(port)
-	_data.WriteInt32(flag)
-	_data.WriteInt32(dataPath)
-	_data.WriteString16(socketName)
-	_data.WriteInt64(hubId)
-	_data.WriteInt64(endpointId)
-	_data.WriteInt32(maximumPacketSize)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "createSocketChannelWithOffload")
-	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerCreateSocketChannelWithOffload
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -238,12 +136,12 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "requestMaximumTxDataLength")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerRequestMaximumTxDataLength)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerRequestMaximumTxDataLength
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocketManager, MethodIBluetoothSocketManagerRequestMaximumTxDataLength, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -256,76 +154,6 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 	return nil
 }
 
-func (p *BluetoothSocketManagerProxy) GetL2capLocalChannelId(
-	ctx context.Context,
-	connectionUuid interface{},
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "getL2capLocalChannelId")
-	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerGetL2capLocalChannelId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *BluetoothSocketManagerProxy) GetL2capRemoteChannelId(
-	ctx context.Context,
-	connectionUuid interface{},
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "getL2capRemoteChannelId")
-	if _err != nil {
-		_code = TransactionIBluetoothSocketManagerGetL2capRemoteChannelId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 // BluetoothSocketManagerStub dispatches incoming binder transactions
 // to a typed IBluetoothSocketManager implementation.
 type BluetoothSocketManagerStub struct {
@@ -333,6 +161,10 @@ type BluetoothSocketManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothSocketManagerStub)(nil)
+
+func (s *BluetoothSocketManagerStub) Descriptor() string {
+	return DescriptorIBluetoothSocketManager
+}
 
 func (s *BluetoothSocketManagerStub) OnTransaction(
 	ctx context.Context,
@@ -378,64 +210,6 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
-	case TransactionIBluetoothSocketManagerConnectSocketWithOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_device BluetoothDevice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_type_, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_uuid *interface{}
-		_arg_port, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_flag, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_dataPath, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_socketName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_hubId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_endpointId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_maximumPacketSize, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.ConnectSocketWithOffload(ctx, _arg_device, _arg_type_, _arg_uuid, _arg_port, _arg_flag, _arg_dataPath, _arg_socketName, _arg_hubId, _arg_endpointId, _arg_maximumPacketSize)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteFileDescriptor(_result)
-		return _reply, nil
 	case TransactionIBluetoothSocketManagerCreateSocketChannel:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -458,56 +232,6 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateSocketChannel(ctx, _arg_type_, _arg_serviceName, _arg_uuid, _arg_port, _arg_flag)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteFileDescriptor(_result)
-		return _reply, nil
-	case TransactionIBluetoothSocketManagerCreateSocketChannelWithOffload:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_type_, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_serviceName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_uuid *interface{}
-		_arg_port, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_flag, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_dataPath, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_socketName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_hubId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_endpointId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_maximumPacketSize, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.CreateSocketChannelWithOffload(ctx, _arg_type_, _arg_serviceName, _arg_uuid, _arg_port, _arg_flag, _arg_dataPath, _arg_socketName, _arg_hubId, _arg_endpointId, _arg_maximumPacketSize)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -540,58 +264,6 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIBluetoothSocketManagerGetL2capLocalChannelId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_connectionUuid interface{}
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.GetL2capLocalChannelId(ctx, _arg_connectionUuid, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIBluetoothSocketManagerGetL2capRemoteChannelId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_connectionUuid interface{}
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.GetL2capRemoteChannelId(ctx, _arg_connectionUuid, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -602,12 +274,8 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothSocketManagerServer interface {
 	ConnectSocket(ctx context.Context, device BluetoothDevice, type_ int32, uuid *interface{}, port int32, flag int32) (int32, error)
-	ConnectSocketWithOffload(ctx context.Context, device BluetoothDevice, type_ int32, uuid *interface{}, port int32, flag int32, dataPath int32, socketName string, hubId int64, endpointId int64, maximumPacketSize int32) (int32, error)
 	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32) (int32, error)
-	CreateSocketChannelWithOffload(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32, dataPath int32, socketName string, hubId int64, endpointId int64, maximumPacketSize int32) (int32, error)
 	RequestMaximumTxDataLength(ctx context.Context, device BluetoothDevice) error
-	GetL2capLocalChannelId(ctx context.Context, connectionUuid interface{}, attributionSource content.AttributionSource) (int32, error)
-	GetL2capRemoteChannelId(ctx context.Context, connectionUuid interface{}, attributionSource content.AttributionSource) (int32, error)
 }
 
 type bluetoothSocketManagerStubWrapper struct {
@@ -630,22 +298,6 @@ func (w *bluetoothSocketManagerStubWrapper) ConnectSocket(
 	return w.impl.ConnectSocket(ctx, device, type_, uuid, port, flag)
 }
 
-func (w *bluetoothSocketManagerStubWrapper) ConnectSocketWithOffload(
-	ctx context.Context,
-	device BluetoothDevice,
-	type_ int32,
-	uuid *interface{},
-	port int32,
-	flag int32,
-	dataPath int32,
-	socketName string,
-	hubId int64,
-	endpointId int64,
-	maximumPacketSize int32,
-) (int32, error) {
-	return w.impl.ConnectSocketWithOffload(ctx, device, type_, uuid, port, flag, dataPath, socketName, hubId, endpointId, maximumPacketSize)
-}
-
 func (w *bluetoothSocketManagerStubWrapper) CreateSocketChannel(
 	ctx context.Context,
 	type_ int32,
@@ -657,43 +309,11 @@ func (w *bluetoothSocketManagerStubWrapper) CreateSocketChannel(
 	return w.impl.CreateSocketChannel(ctx, type_, serviceName, uuid, port, flag)
 }
 
-func (w *bluetoothSocketManagerStubWrapper) CreateSocketChannelWithOffload(
-	ctx context.Context,
-	type_ int32,
-	serviceName string,
-	uuid *interface{},
-	port int32,
-	flag int32,
-	dataPath int32,
-	socketName string,
-	hubId int64,
-	endpointId int64,
-	maximumPacketSize int32,
-) (int32, error) {
-	return w.impl.CreateSocketChannelWithOffload(ctx, type_, serviceName, uuid, port, flag, dataPath, socketName, hubId, endpointId, maximumPacketSize)
-}
-
 func (w *bluetoothSocketManagerStubWrapper) RequestMaximumTxDataLength(
 	ctx context.Context,
 	device BluetoothDevice,
 ) error {
 	return w.impl.RequestMaximumTxDataLength(ctx, device)
-}
-
-func (w *bluetoothSocketManagerStubWrapper) GetL2capLocalChannelId(
-	ctx context.Context,
-	connectionUuid interface{},
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetL2capLocalChannelId(ctx, connectionUuid, attributionSource)
-}
-
-func (w *bluetoothSocketManagerStubWrapper) GetL2capRemoteChannelId(
-	ctx context.Context,
-	connectionUuid interface{},
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetL2capRemoteChannelId(ctx, connectionUuid, attributionSource)
 }
 
 var _ IBluetoothSocketManager = (*bluetoothSocketManagerStubWrapper)(nil)

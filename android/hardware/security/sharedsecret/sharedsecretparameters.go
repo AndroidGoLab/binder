@@ -17,22 +17,8 @@ func (s *SharedSecretParameters) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Seed == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Seed)))
-		for _, _item := range s.Seed {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Nonce == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Nonce)))
-		for _, _item := range s.Nonce {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Seed)
+	p.WriteByteArray(s.Nonce)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *SharedSecretParameters) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Seed, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Seed = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Seed[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Nonce, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Nonce = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Nonce[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

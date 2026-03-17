@@ -17,6 +17,12 @@ const (
 	TransactionIHostapdCallbackOnFailure                 = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIHostapdCallbackOnApInstanceInfoChanged   = "onApInstanceInfoChanged"
+	MethodIHostapdCallbackOnConnectedClientsChanged = "onConnectedClientsChanged"
+	MethodIHostapdCallbackOnFailure                 = "onFailure"
+)
+
 type IHostapdCallback interface {
 	AsBinder() binder.IBinder
 	OnApInstanceInfoChanged(ctx context.Context, apInfo ApInfo) error
@@ -25,17 +31,17 @@ type IHostapdCallback interface {
 }
 
 type HostapdCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHostapdCallbackProxy(
 	remote binder.IBinder,
 ) *HostapdCallbackProxy {
-	return &HostapdCallbackProxy{remote: remote}
+	return &HostapdCallbackProxy{Remote: remote}
 }
 
 func (p *HostapdCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHostapdCallback = (*HostapdCallbackProxy)(nil)
@@ -51,12 +57,12 @@ func (p *HostapdCallbackProxy) OnApInstanceInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapdCallback, "onApInstanceInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnApInstanceInfoChanged)
 	if _err != nil {
-		_code = TransactionIHostapdCallbackOnApInstanceInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapdCallback, MethodIHostapdCallbackOnApInstanceInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +77,12 @@ func (p *HostapdCallbackProxy) OnConnectedClientsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapdCallback, "onConnectedClientsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnConnectedClientsChanged)
 	if _err != nil {
-		_code = TransactionIHostapdCallbackOnConnectedClientsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapdCallback, MethodIHostapdCallbackOnConnectedClientsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +96,12 @@ func (p *HostapdCallbackProxy) OnFailure(
 	_data.WriteString16(ifaceName)
 	_data.WriteString16(instanceName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHostapdCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHostapdCallback, MethodIHostapdCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIHostapdCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHostapdCallback, MethodIHostapdCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +112,10 @@ type HostapdCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HostapdCallbackStub)(nil)
+
+func (s *HostapdCallbackStub) Descriptor() string {
+	return DescriptorIHostapdCallback
+}
 
 func (s *HostapdCallbackStub) OnTransaction(
 	ctx context.Context,

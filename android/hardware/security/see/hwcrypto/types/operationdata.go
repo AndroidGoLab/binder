@@ -58,18 +58,12 @@ func (u *OperationData) MarshalParcel(
 
 	switch u.Tag {
 	case OperationDataTagMemoryBufferReference:
+		p.WriteInt32(1)
 		if _err := u.MemoryBufferReference.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationDataTagDataBuffer:
-		if u.DataBuffer == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.DataBuffer)))
-			for _, _item := range u.DataBuffer {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.DataBuffer)
 	default:
 		return fmt.Errorf("unknown union tag %d for OperationData", u.Tag)
 	}
@@ -93,24 +87,17 @@ func (u *OperationData) UnmarshalParcel(
 
 	switch u.Tag {
 	case OperationDataTagMemoryBufferReference:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.MemoryBufferReference.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationDataTagDataBuffer:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.DataBuffer, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.DataBuffer = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.DataBuffer[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for OperationData", u.Tag)

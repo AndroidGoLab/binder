@@ -16,23 +16,27 @@ const (
 	TransactionICacheQuotaServiceComputeCacheQuotaHints = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICacheQuotaServiceComputeCacheQuotaHints = "computeCacheQuotaHints"
+)
+
 type ICacheQuotaService interface {
 	AsBinder() binder.IBinder
 	ComputeCacheQuotaHints(ctx context.Context, callback os.RemoteCallback, requests []CacheQuotaHint) error
 }
 
 type CacheQuotaServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCacheQuotaServiceProxy(
 	remote binder.IBinder,
 ) *CacheQuotaServiceProxy {
-	return &CacheQuotaServiceProxy{remote: remote}
+	return &CacheQuotaServiceProxy{Remote: remote}
 }
 
 func (p *CacheQuotaServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICacheQuotaService = (*CacheQuotaServiceProxy)(nil)
@@ -53,18 +57,19 @@ func (p *CacheQuotaServiceProxy) ComputeCacheQuotaHints(
 	} else {
 		_data.WriteInt32(int32(len(requests)))
 		for _, _item := range requests {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICacheQuotaService, "computeCacheQuotaHints")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICacheQuotaService, MethodICacheQuotaServiceComputeCacheQuotaHints)
 	if _err != nil {
-		_code = TransactionICacheQuotaServiceComputeCacheQuotaHints
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICacheQuotaService, MethodICacheQuotaServiceComputeCacheQuotaHints, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type CacheQuotaServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CacheQuotaServiceStub)(nil)
+
+func (s *CacheQuotaServiceStub) Descriptor() string {
+	return DescriptorICacheQuotaService
+}
 
 func (s *CacheQuotaServiceStub) OnTransaction(
 	ctx context.Context,

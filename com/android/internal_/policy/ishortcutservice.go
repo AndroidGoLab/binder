@@ -15,23 +15,27 @@ const (
 	TransactionIShortcutServiceNotifyShortcutKeyPressed = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIShortcutServiceNotifyShortcutKeyPressed = "notifyShortcutKeyPressed"
+)
+
 type IShortcutService interface {
 	AsBinder() binder.IBinder
 	NotifyShortcutKeyPressed(ctx context.Context, shortcutCode int64) error
 }
 
 type ShortcutServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewShortcutServiceProxy(
 	remote binder.IBinder,
 ) *ShortcutServiceProxy {
-	return &ShortcutServiceProxy{remote: remote}
+	return &ShortcutServiceProxy{Remote: remote}
 }
 
 func (p *ShortcutServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IShortcutService = (*ShortcutServiceProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ShortcutServiceProxy) NotifyShortcutKeyPressed(
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteInt64(shortcutCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShortcutService, "notifyShortcutKeyPressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShortcutService, MethodIShortcutServiceNotifyShortcutKeyPressed)
 	if _err != nil {
-		_code = TransactionIShortcutServiceNotifyShortcutKeyPressed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShortcutService, MethodIShortcutServiceNotifyShortcutKeyPressed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ShortcutServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ShortcutServiceStub)(nil)
+
+func (s *ShortcutServiceStub) Descriptor() string {
+	return DescriptorIShortcutService
+}
 
 func (s *ShortcutServiceStub) OnTransaction(
 	ctx context.Context,

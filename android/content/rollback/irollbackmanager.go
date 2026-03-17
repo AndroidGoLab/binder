@@ -24,6 +24,17 @@ const (
 	TransactionIRollbackManagerBlockRollbackManager          = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIRollbackManagerGetAvailableRollbacks         = "getAvailableRollbacks"
+	MethodIRollbackManagerGetRecentlyCommittedRollbacks = "getRecentlyCommittedRollbacks"
+	MethodIRollbackManagerCommitRollback                = "commitRollback"
+	MethodIRollbackManagerSnapshotAndRestoreUserData    = "snapshotAndRestoreUserData"
+	MethodIRollbackManagerReloadPersistedData           = "reloadPersistedData"
+	MethodIRollbackManagerExpireRollbackForPackage      = "expireRollbackForPackage"
+	MethodIRollbackManagerNotifyStagedSession           = "notifyStagedSession"
+	MethodIRollbackManagerBlockRollbackManager          = "blockRollbackManager"
+)
+
 type IRollbackManager interface {
 	AsBinder() binder.IBinder
 	GetAvailableRollbacks(ctx context.Context) (pm.ParceledListSlice, error)
@@ -37,17 +48,17 @@ type IRollbackManager interface {
 }
 
 type RollbackManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRollbackManagerProxy(
 	remote binder.IBinder,
 ) *RollbackManagerProxy {
-	return &RollbackManagerProxy{remote: remote}
+	return &RollbackManagerProxy{Remote: remote}
 }
 
 func (p *RollbackManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRollbackManager = (*RollbackManagerProxy)(nil)
@@ -59,12 +70,12 @@ func (p *RollbackManagerProxy) GetAvailableRollbacks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "getAvailableRollbacks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerGetAvailableRollbacks)
 	if _err != nil {
-		_code = TransactionIRollbackManagerGetAvailableRollbacks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerGetAvailableRollbacks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +104,12 @@ func (p *RollbackManagerProxy) GetRecentlyCommittedRollbacks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "getRecentlyCommittedRollbacks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerGetRecentlyCommittedRollbacks)
 	if _err != nil {
-		_code = TransactionIRollbackManagerGetRecentlyCommittedRollbacks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerGetRecentlyCommittedRollbacks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,12 +151,12 @@ func (p *RollbackManagerProxy) CommitRollback(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "commitRollback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerCommitRollback)
 	if _err != nil {
-		_code = TransactionIRollbackManagerCommitRollback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerCommitRollback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,12 +194,12 @@ func (p *RollbackManagerProxy) SnapshotAndRestoreUserData(
 	_data.WriteString16(seInfo)
 	_data.WriteInt32(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "snapshotAndRestoreUserData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerSnapshotAndRestoreUserData)
 	if _err != nil {
-		_code = TransactionIRollbackManagerSnapshotAndRestoreUserData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerSnapshotAndRestoreUserData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -207,12 +218,12 @@ func (p *RollbackManagerProxy) ReloadPersistedData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "reloadPersistedData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerReloadPersistedData)
 	if _err != nil {
-		_code = TransactionIRollbackManagerReloadPersistedData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerReloadPersistedData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -233,12 +244,12 @@ func (p *RollbackManagerProxy) ExpireRollbackForPackage(
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "expireRollbackForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerExpireRollbackForPackage)
 	if _err != nil {
-		_code = TransactionIRollbackManagerExpireRollbackForPackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerExpireRollbackForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -260,12 +271,12 @@ func (p *RollbackManagerProxy) NotifyStagedSession(
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "notifyStagedSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerNotifyStagedSession)
 	if _err != nil {
-		_code = TransactionIRollbackManagerNotifyStagedSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerNotifyStagedSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -290,12 +301,12 @@ func (p *RollbackManagerProxy) BlockRollbackManager(
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt64(millis)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "blockRollbackManager")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRollbackManager, MethodIRollbackManagerBlockRollbackManager)
 	if _err != nil {
-		_code = TransactionIRollbackManagerBlockRollbackManager
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRollbackManager, MethodIRollbackManagerBlockRollbackManager, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -315,6 +326,10 @@ type RollbackManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RollbackManagerStub)(nil)
+
+func (s *RollbackManagerStub) Descriptor() string {
+	return DescriptorIRollbackManager
+}
 
 func (s *RollbackManagerStub) OnTransaction(
 	ctx context.Context,

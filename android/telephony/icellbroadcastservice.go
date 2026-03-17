@@ -19,6 +19,13 @@ const (
 	TransactionICellBroadcastServiceGetCellBroadcastAreaInfo   = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICellBroadcastServiceHandleGsmCellBroadcastSms  = "handleGsmCellBroadcastSms"
+	MethodICellBroadcastServiceHandleCdmaCellBroadcastSms = "handleCdmaCellBroadcastSms"
+	MethodICellBroadcastServiceHandleCdmaScpMessage       = "handleCdmaScpMessage"
+	MethodICellBroadcastServiceGetCellBroadcastAreaInfo   = "getCellBroadcastAreaInfo"
+)
+
 type ICellBroadcastService interface {
 	AsBinder() binder.IBinder
 	HandleGsmCellBroadcastSms(ctx context.Context, slotId int32, message []byte) error
@@ -28,17 +35,17 @@ type ICellBroadcastService interface {
 }
 
 type CellBroadcastServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCellBroadcastServiceProxy(
 	remote binder.IBinder,
 ) *CellBroadcastServiceProxy {
-	return &CellBroadcastServiceProxy{remote: remote}
+	return &CellBroadcastServiceProxy{Remote: remote}
 }
 
 func (p *CellBroadcastServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICellBroadcastService = (*CellBroadcastServiceProxy)(nil)
@@ -60,12 +67,12 @@ func (p *CellBroadcastServiceProxy) HandleGsmCellBroadcastSms(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "handleGsmCellBroadcastSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleGsmCellBroadcastSms)
 	if _err != nil {
-		_code = TransactionICellBroadcastServiceHandleGsmCellBroadcastSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleGsmCellBroadcastSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +95,12 @@ func (p *CellBroadcastServiceProxy) HandleCdmaCellBroadcastSms(
 	}
 	_data.WriteInt32(serviceCategory)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "handleCdmaCellBroadcastSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaCellBroadcastSms)
 	if _err != nil {
-		_code = TransactionICellBroadcastServiceHandleCdmaCellBroadcastSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaCellBroadcastSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,6 +119,7 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 	} else {
 		_data.WriteInt32(int32(len(programData)))
 		for _, _item := range programData {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -119,12 +127,12 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 	}
 	_data.WriteString16(originatingAddress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "handleCdmaScpMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaScpMessage)
 	if _err != nil {
-		_code = TransactionICellBroadcastServiceHandleCdmaScpMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICellBroadcastService, MethodICellBroadcastServiceHandleCdmaScpMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,12 +145,12 @@ func (p *CellBroadcastServiceProxy) GetCellBroadcastAreaInfo(
 	_data.WriteInterfaceToken(DescriptorICellBroadcastService)
 	_data.WriteInt32(slotIndex)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "getCellBroadcastAreaInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellBroadcastService, MethodICellBroadcastServiceGetCellBroadcastAreaInfo)
 	if _err != nil {
-		_code = TransactionICellBroadcastServiceGetCellBroadcastAreaInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICellBroadcastService, MethodICellBroadcastServiceGetCellBroadcastAreaInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,6 +170,10 @@ type CellBroadcastServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CellBroadcastServiceStub)(nil)
+
+func (s *CellBroadcastServiceStub) Descriptor() string {
+	return DescriptorICellBroadcastService
+}
 
 func (s *CellBroadcastServiceStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIUnhandledDragCallbackNotifyUnhandledDropComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUnhandledDragCallbackNotifyUnhandledDropComplete = "notifyUnhandledDropComplete"
+)
+
 type IUnhandledDragCallback interface {
 	AsBinder() binder.IBinder
 	NotifyUnhandledDropComplete(ctx context.Context, handled bool) error
 }
 
 type UnhandledDragCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUnhandledDragCallbackProxy(
 	remote binder.IBinder,
 ) *UnhandledDragCallbackProxy {
-	return &UnhandledDragCallbackProxy{remote: remote}
+	return &UnhandledDragCallbackProxy{Remote: remote}
 }
 
 func (p *UnhandledDragCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUnhandledDragCallback = (*UnhandledDragCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *UnhandledDragCallbackProxy) NotifyUnhandledDropComplete(
 	_data.WriteInterfaceToken(DescriptorIUnhandledDragCallback)
 	_data.WriteBool(handled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUnhandledDragCallback, "notifyUnhandledDropComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnhandledDragCallback, MethodIUnhandledDragCallbackNotifyUnhandledDropComplete)
 	if _err != nil {
-		_code = TransactionIUnhandledDragCallbackNotifyUnhandledDropComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUnhandledDragCallback, MethodIUnhandledDragCallbackNotifyUnhandledDropComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UnhandledDragCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UnhandledDragCallbackStub)(nil)
+
+func (s *UnhandledDragCallbackStub) Descriptor() string {
+	return DescriptorIUnhandledDragCallback
+}
 
 func (s *UnhandledDragCallbackStub) OnTransaction(
 	ctx context.Context,

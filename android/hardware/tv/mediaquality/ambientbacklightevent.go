@@ -60,6 +60,7 @@ func (u *AmbientBacklightEvent) MarshalParcel(
 	case AmbientBacklightEventTagEnabled:
 		p.WriteBool(u.Enabled)
 	case AmbientBacklightEventTagMetadata:
+		p.WriteInt32(1)
 		if _err := u.Metadata.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -91,6 +92,9 @@ func (u *AmbientBacklightEvent) UnmarshalParcel(
 			return _err
 		}
 	case AmbientBacklightEventTagMetadata:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Metadata.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

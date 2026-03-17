@@ -16,14 +16,7 @@ func (s *Certificate) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.EncodedCertificate == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.EncodedCertificate)))
-		for _, _item := range s.EncodedCertificate {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.EncodedCertificate)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -37,19 +30,9 @@ func (s *Certificate) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.EncodedCertificate, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.EncodedCertificate = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.EncodedCertificate[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

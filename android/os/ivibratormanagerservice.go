@@ -3,7 +3,6 @@ package os
 import (
 	"context"
 	"fmt"
-	vibrator "github.com/xaionaro-go/binder/android/os/vibrator"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,24 +12,32 @@ import (
 const DescriptorIVibratorManagerService = "android.os.IVibratorManagerService"
 
 const (
-	TransactionIVibratorManagerServiceGetVibratorIds                      = binder.FirstCallTransaction + 0
-	TransactionIVibratorManagerServiceGetCapabilities                     = binder.FirstCallTransaction + 1
-	TransactionIVibratorManagerServiceGetVibratorInfo                     = binder.FirstCallTransaction + 2
-	TransactionIVibratorManagerServiceIsVibrating                         = binder.FirstCallTransaction + 3
-	TransactionIVibratorManagerServiceRegisterVibratorStateListener       = binder.FirstCallTransaction + 4
-	TransactionIVibratorManagerServiceUnregisterVibratorStateListener     = binder.FirstCallTransaction + 5
-	TransactionIVibratorManagerServiceSetAlwaysOnEffect                   = binder.FirstCallTransaction + 6
-	TransactionIVibratorManagerServiceVibrate                             = binder.FirstCallTransaction + 7
-	TransactionIVibratorManagerServiceCancelVibrate                       = binder.FirstCallTransaction + 8
-	TransactionIVibratorManagerServicePerformHapticFeedback               = binder.FirstCallTransaction + 9
-	TransactionIVibratorManagerServicePerformHapticFeedbackForInputDevice = binder.FirstCallTransaction + 10
-	TransactionIVibratorManagerServiceStartVendorVibrationSession         = binder.FirstCallTransaction + 11
+	TransactionIVibratorManagerServiceGetVibratorIds                  = binder.FirstCallTransaction + 0
+	TransactionIVibratorManagerServiceGetVibratorInfo                 = binder.FirstCallTransaction + 1
+	TransactionIVibratorManagerServiceIsVibrating                     = binder.FirstCallTransaction + 2
+	TransactionIVibratorManagerServiceRegisterVibratorStateListener   = binder.FirstCallTransaction + 3
+	TransactionIVibratorManagerServiceUnregisterVibratorStateListener = binder.FirstCallTransaction + 4
+	TransactionIVibratorManagerServiceSetAlwaysOnEffect               = binder.FirstCallTransaction + 5
+	TransactionIVibratorManagerServiceVibrate                         = binder.FirstCallTransaction + 6
+	TransactionIVibratorManagerServiceCancelVibrate                   = binder.FirstCallTransaction + 7
+	TransactionIVibratorManagerServicePerformHapticFeedback           = binder.FirstCallTransaction + 8
+)
+
+const (
+	MethodIVibratorManagerServiceGetVibratorIds                  = "getVibratorIds"
+	MethodIVibratorManagerServiceGetVibratorInfo                 = "getVibratorInfo"
+	MethodIVibratorManagerServiceIsVibrating                     = "isVibrating"
+	MethodIVibratorManagerServiceRegisterVibratorStateListener   = "registerVibratorStateListener"
+	MethodIVibratorManagerServiceUnregisterVibratorStateListener = "unregisterVibratorStateListener"
+	MethodIVibratorManagerServiceSetAlwaysOnEffect               = "setAlwaysOnEffect"
+	MethodIVibratorManagerServiceVibrate                         = "vibrate"
+	MethodIVibratorManagerServiceCancelVibrate                   = "cancelVibrate"
+	MethodIVibratorManagerServicePerformHapticFeedback           = "performHapticFeedback"
 )
 
 type IVibratorManagerService interface {
 	AsBinder() binder.IBinder
 	GetVibratorIds(ctx context.Context) ([]int32, error)
-	GetCapabilities(ctx context.Context) (int32, error)
 	GetVibratorInfo(ctx context.Context, vibratorId int32) (VibratorInfo, error)
 	IsVibrating(ctx context.Context, vibratorId int32) (bool, error)
 	RegisterVibratorStateListener(ctx context.Context, vibratorId int32, listener IVibratorStateListener) (bool, error)
@@ -38,23 +45,21 @@ type IVibratorManagerService interface {
 	SetAlwaysOnEffect(ctx context.Context, uid int32, opPkg string, alwaysOnId int32, vibration CombinedVibration, attributes VibrationAttributes) (bool, error)
 	Vibrate(ctx context.Context, uid int32, deviceId int32, opPkg string, vibration CombinedVibration, attributes VibrationAttributes, reason string, token binder.IBinder) error
 	CancelVibrate(ctx context.Context, usageFilter int32, token binder.IBinder) error
-	PerformHapticFeedback(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, reason string, flags int32, privFlags int32) error
-	PerformHapticFeedbackForInputDevice(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, inputDeviceId int32, inputSource int32, reason string, flags int32, privFlags int32) error
-	StartVendorVibrationSession(ctx context.Context, uid int32, deviceId int32, opPkg string, vibratorIds []int32, attributes VibrationAttributes, reason string, callback vibrator.IVibrationSessionCallback) (ICancellationSignal, error)
+	PerformHapticFeedback(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, always bool, reason string, fromIme bool) error
 }
 
 type VibratorManagerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorManagerServiceProxy(
 	remote binder.IBinder,
 ) *VibratorManagerServiceProxy {
-	return &VibratorManagerServiceProxy{remote: remote}
+	return &VibratorManagerServiceProxy{Remote: remote}
 }
 
 func (p *VibratorManagerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibratorManagerService = (*VibratorManagerServiceProxy)(nil)
@@ -66,12 +71,12 @@ func (p *VibratorManagerServiceProxy) GetVibratorIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "getVibratorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceGetVibratorIds)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceGetVibratorIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceGetVibratorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,35 +103,6 @@ func (p *VibratorManagerServiceProxy) GetVibratorIds(
 	return _result, nil
 }
 
-func (p *VibratorManagerServiceProxy) GetCapabilities(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "getCapabilities")
-	if _err != nil {
-		_code = TransactionIVibratorManagerServiceGetCapabilities
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 func (p *VibratorManagerServiceProxy) GetVibratorInfo(
 	ctx context.Context,
 	vibratorId int32,
@@ -136,12 +112,12 @@ func (p *VibratorManagerServiceProxy) GetVibratorInfo(
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
 	_data.WriteInt32(vibratorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "getVibratorInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceGetVibratorInfo)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceGetVibratorInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceGetVibratorInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,12 +148,12 @@ func (p *VibratorManagerServiceProxy) IsVibrating(
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
 	_data.WriteInt32(vibratorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "isVibrating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceIsVibrating)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceIsVibrating
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceIsVibrating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,14 +179,14 @@ func (p *VibratorManagerServiceProxy) RegisterVibratorStateListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
 	_data.WriteInt32(vibratorId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "registerVibratorStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceRegisterVibratorStateListener)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceRegisterVibratorStateListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceRegisterVibratorStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -236,14 +212,14 @@ func (p *VibratorManagerServiceProxy) UnregisterVibratorStateListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
 	_data.WriteInt32(vibratorId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "unregisterVibratorStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceUnregisterVibratorStateListener)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceUnregisterVibratorStateListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceUnregisterVibratorStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -283,12 +259,12 @@ func (p *VibratorManagerServiceProxy) SetAlwaysOnEffect(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "setAlwaysOnEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceSetAlwaysOnEffect)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceSetAlwaysOnEffect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceSetAlwaysOnEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -329,14 +305,14 @@ func (p *VibratorManagerServiceProxy) Vibrate(
 		return _err
 	}
 	_data.WriteString16(reason)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "vibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceVibrate)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -357,14 +333,14 @@ func (p *VibratorManagerServiceProxy) CancelVibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
 	_data.WriteInt32(usageFilter)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "cancelVibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServiceCancelVibrate)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServiceCancelVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServiceCancelVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -383,9 +359,9 @@ func (p *VibratorManagerServiceProxy) PerformHapticFeedback(
 	deviceId int32,
 	opPkg string,
 	constant int32,
+	always bool,
 	reason string,
-	flags int32,
-	privFlags int32,
+	fromIme bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
@@ -393,104 +369,17 @@ func (p *VibratorManagerServiceProxy) PerformHapticFeedback(
 	_data.WriteInt32(deviceId)
 	_data.WriteString16(opPkg)
 	_data.WriteInt32(constant)
+	_data.WriteBool(always)
 	_data.WriteString16(reason)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(privFlags)
+	_data.WriteBool(fromIme)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "performHapticFeedback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorManagerService, MethodIVibratorManagerServicePerformHapticFeedback)
 	if _err != nil {
-		_code = TransactionIVibratorManagerServicePerformHapticFeedback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorManagerService, MethodIVibratorManagerServicePerformHapticFeedback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
-}
-
-func (p *VibratorManagerServiceProxy) PerformHapticFeedbackForInputDevice(
-	ctx context.Context,
-	uid int32,
-	deviceId int32,
-	opPkg string,
-	constant int32,
-	inputDeviceId int32,
-	inputSource int32,
-	reason string,
-	flags int32,
-	privFlags int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(deviceId)
-	_data.WriteString16(opPkg)
-	_data.WriteInt32(constant)
-	_data.WriteInt32(inputDeviceId)
-	_data.WriteInt32(inputSource)
-	_data.WriteString16(reason)
-	_data.WriteInt32(flags)
-	_data.WriteInt32(privFlags)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "performHapticFeedbackForInputDevice")
-	if _err != nil {
-		_code = TransactionIVibratorManagerServicePerformHapticFeedbackForInputDevice
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *VibratorManagerServiceProxy) StartVendorVibrationSession(
-	ctx context.Context,
-	uid int32,
-	deviceId int32,
-	opPkg string,
-	vibratorIds []int32,
-	attributes VibrationAttributes,
-	reason string,
-	callback vibrator.IVibrationSessionCallback,
-) (ICancellationSignal, error) {
-	var _result ICancellationSignal
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibratorManagerService)
-	_data.WriteInt32(uid)
-	_data.WriteInt32(deviceId)
-	_data.WriteString16(opPkg)
-	if vibratorIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(vibratorIds)))
-		for _, _item := range vibratorIds {
-			_data.WriteInt32(_item)
-		}
-	}
-	_data.WriteInt32(1)
-	if _err := attributes.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteString16(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "startVendorVibrationSession")
-	if _err != nil {
-		_code = TransactionIVibratorManagerServiceStartVendorVibrationSession
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
-	return _result, nil
 }
 
 // VibratorManagerServiceStub dispatches incoming binder transactions
@@ -500,6 +389,10 @@ type VibratorManagerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorManagerServiceStub)(nil)
+
+func (s *VibratorManagerServiceStub) Descriptor() string {
+	return DescriptorIVibratorManagerService
+}
 
 func (s *VibratorManagerServiceStub) OnTransaction(
 	ctx context.Context,
@@ -520,19 +413,6 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
-		return _reply, nil
-	case TransactionIVibratorManagerServiceGetCapabilities:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetCapabilities(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceGetVibratorInfo:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -754,112 +634,21 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_always, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := _data.ReadInt32()
+		_arg_fromIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_privFlags, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.PerformHapticFeedback(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_constant, _arg_reason, _arg_flags, _arg_privFlags)
+		_err = s.Impl.PerformHapticFeedback(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_constant, _arg_always, _arg_reason, _arg_fromIme)
 		_ = _err
 		return nil, nil
-	case TransactionIVibratorManagerServicePerformHapticFeedbackForInputDevice:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_opPkg, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_constant, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_inputDeviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_inputSource, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reason, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_flags, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_privFlags, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.PerformHapticFeedbackForInputDevice(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_constant, _arg_inputDeviceId, _arg_inputSource, _arg_reason, _arg_flags, _arg_privFlags)
-		_ = _err
-		return nil, nil
-	case TransactionIVibratorManagerServiceStartVendorVibrationSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_opPkg, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_vibratorIds []int32
-		_ = _arg_vibratorIds
-		var _arg_attributes VibrationAttributes
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_arg_reason, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback vibrator.IVibrationSessionCallback
-		_ = _arg_callback
-		_result, _err := s.Impl.StartVendorVibrationSession(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_vibratorIds, _arg_attributes, _arg_reason, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -870,7 +659,6 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IVibratorManagerServiceServer interface {
 	GetVibratorIds(ctx context.Context) ([]int32, error)
-	GetCapabilities(ctx context.Context) (int32, error)
 	GetVibratorInfo(ctx context.Context, vibratorId int32) (VibratorInfo, error)
 	IsVibrating(ctx context.Context, vibratorId int32) (bool, error)
 	RegisterVibratorStateListener(ctx context.Context, vibratorId int32, listener IVibratorStateListener) (bool, error)
@@ -878,9 +666,7 @@ type IVibratorManagerServiceServer interface {
 	SetAlwaysOnEffect(ctx context.Context, uid int32, opPkg string, alwaysOnId int32, vibration CombinedVibration, attributes VibrationAttributes) (bool, error)
 	Vibrate(ctx context.Context, uid int32, deviceId int32, opPkg string, vibration CombinedVibration, attributes VibrationAttributes, reason string, token binder.IBinder) error
 	CancelVibrate(ctx context.Context, usageFilter int32, token binder.IBinder) error
-	PerformHapticFeedback(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, reason string, flags int32, privFlags int32) error
-	PerformHapticFeedbackForInputDevice(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, inputDeviceId int32, inputSource int32, reason string, flags int32, privFlags int32) error
-	StartVendorVibrationSession(ctx context.Context, uid int32, deviceId int32, opPkg string, vibratorIds []int32, attributes VibrationAttributes, reason string, callback vibrator.IVibrationSessionCallback) (ICancellationSignal, error)
+	PerformHapticFeedback(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, always bool, reason string, fromIme bool) error
 }
 
 type vibratorManagerServiceStubWrapper struct {
@@ -896,12 +682,6 @@ func (w *vibratorManagerServiceStubWrapper) GetVibratorIds(
 	ctx context.Context,
 ) ([]int32, error) {
 	return w.impl.GetVibratorIds(ctx)
-}
-
-func (w *vibratorManagerServiceStubWrapper) GetCapabilities(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetCapabilities(ctx)
 }
 
 func (w *vibratorManagerServiceStubWrapper) GetVibratorInfo(
@@ -972,39 +752,11 @@ func (w *vibratorManagerServiceStubWrapper) PerformHapticFeedback(
 	deviceId int32,
 	opPkg string,
 	constant int32,
+	always bool,
 	reason string,
-	flags int32,
-	privFlags int32,
+	fromIme bool,
 ) error {
-	return w.impl.PerformHapticFeedback(ctx, uid, deviceId, opPkg, constant, reason, flags, privFlags)
-}
-
-func (w *vibratorManagerServiceStubWrapper) PerformHapticFeedbackForInputDevice(
-	ctx context.Context,
-	uid int32,
-	deviceId int32,
-	opPkg string,
-	constant int32,
-	inputDeviceId int32,
-	inputSource int32,
-	reason string,
-	flags int32,
-	privFlags int32,
-) error {
-	return w.impl.PerformHapticFeedbackForInputDevice(ctx, uid, deviceId, opPkg, constant, inputDeviceId, inputSource, reason, flags, privFlags)
-}
-
-func (w *vibratorManagerServiceStubWrapper) StartVendorVibrationSession(
-	ctx context.Context,
-	uid int32,
-	deviceId int32,
-	opPkg string,
-	vibratorIds []int32,
-	attributes VibrationAttributes,
-	reason string,
-	callback vibrator.IVibrationSessionCallback,
-) (ICancellationSignal, error) {
-	return w.impl.StartVendorVibrationSession(ctx, uid, deviceId, opPkg, vibratorIds, attributes, reason, callback)
+	return w.impl.PerformHapticFeedback(ctx, uid, deviceId, opPkg, constant, always, reason, fromIme)
 }
 
 var _ IVibratorManagerService = (*vibratorManagerServiceStubWrapper)(nil)

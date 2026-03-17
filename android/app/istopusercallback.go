@@ -16,6 +16,11 @@ const (
 	TransactionIStopUserCallbackUserStopAborted = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIStopUserCallbackUserStopped     = "userStopped"
+	MethodIStopUserCallbackUserStopAborted = "userStopAborted"
+)
+
 type IStopUserCallback interface {
 	AsBinder() binder.IBinder
 	UserStopped(ctx context.Context) error
@@ -23,17 +28,17 @@ type IStopUserCallback interface {
 }
 
 type StopUserCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStopUserCallbackProxy(
 	remote binder.IBinder,
 ) *StopUserCallbackProxy {
-	return &StopUserCallbackProxy{remote: remote}
+	return &StopUserCallbackProxy{Remote: remote}
 }
 
 func (p *StopUserCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStopUserCallback = (*StopUserCallbackProxy)(nil)
@@ -41,17 +46,17 @@ var _ IStopUserCallback = (*StopUserCallbackProxy)(nil)
 func (p *StopUserCallbackProxy) UserStopped(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStopUserCallback)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStopUserCallback, "userStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStopUserCallback, MethodIStopUserCallbackUserStopped)
 	if _err != nil {
-		_code = TransactionIStopUserCallbackUserStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStopUserCallback, MethodIStopUserCallbackUserStopped, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,17 +72,17 @@ func (p *StopUserCallbackProxy) UserStopped(
 func (p *StopUserCallbackProxy) UserStopAborted(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStopUserCallback)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStopUserCallback, "userStopAborted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStopUserCallback, MethodIStopUserCallbackUserStopAborted)
 	if _err != nil {
-		_code = TransactionIStopUserCallbackUserStopAborted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStopUserCallback, MethodIStopUserCallbackUserStopAborted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,6 +102,10 @@ type StopUserCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StopUserCallbackStub)(nil)
+
+func (s *StopUserCallbackStub) Descriptor() string {
+	return DescriptorIStopUserCallback
+}
 
 func (s *StopUserCallbackStub) OnTransaction(
 	ctx context.Context,

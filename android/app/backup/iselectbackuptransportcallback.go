@@ -16,6 +16,11 @@ const (
 	TransactionISelectBackupTransportCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISelectBackupTransportCallbackOnSuccess = "onSuccess"
+	MethodISelectBackupTransportCallbackOnFailure = "onFailure"
+)
+
 type ISelectBackupTransportCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, transportName string) error
@@ -23,17 +28,17 @@ type ISelectBackupTransportCallback interface {
 }
 
 type SelectBackupTransportCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSelectBackupTransportCallbackProxy(
 	remote binder.IBinder,
 ) *SelectBackupTransportCallbackProxy {
-	return &SelectBackupTransportCallbackProxy{remote: remote}
+	return &SelectBackupTransportCallbackProxy{Remote: remote}
 }
 
 func (p *SelectBackupTransportCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISelectBackupTransportCallback = (*SelectBackupTransportCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *SelectBackupTransportCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorISelectBackupTransportCallback)
 	_data.WriteString16(transportName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISelectBackupTransportCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionISelectBackupTransportCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *SelectBackupTransportCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorISelectBackupTransportCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISelectBackupTransportCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionISelectBackupTransportCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISelectBackupTransportCallback, MethodISelectBackupTransportCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type SelectBackupTransportCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SelectBackupTransportCallbackStub)(nil)
+
+func (s *SelectBackupTransportCallbackStub) Descriptor() string {
+	return DescriptorISelectBackupTransportCallback
+}
 
 func (s *SelectBackupTransportCallbackStub) OnTransaction(
 	ctx context.Context,

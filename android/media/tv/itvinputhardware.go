@@ -17,6 +17,12 @@ const (
 	TransactionITvInputHardwareOverrideAudioSink = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITvInputHardwareSetSurface        = "setSurface"
+	MethodITvInputHardwareSetStreamVolume   = "setStreamVolume"
+	MethodITvInputHardwareOverrideAudioSink = "overrideAudioSink"
+)
+
 type ITvInputHardware interface {
 	AsBinder() binder.IBinder
 	SetSurface(ctx context.Context, surface interface{}, config TvStreamConfig) (bool, error)
@@ -25,17 +31,17 @@ type ITvInputHardware interface {
 }
 
 type TvInputHardwareProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInputHardwareProxy(
 	remote binder.IBinder,
 ) *TvInputHardwareProxy {
-	return &TvInputHardwareProxy{remote: remote}
+	return &TvInputHardwareProxy{Remote: remote}
 }
 
 func (p *TvInputHardwareProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInputHardware = (*TvInputHardwareProxy)(nil)
@@ -53,12 +59,12 @@ func (p *TvInputHardwareProxy) SetSurface(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardware, "setSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputHardware, MethodITvInputHardwareSetSurface)
 	if _err != nil {
-		_code = TransactionITvInputHardwareSetSurface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputHardware, MethodITvInputHardwareSetSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,12 +89,12 @@ func (p *TvInputHardwareProxy) SetStreamVolume(
 	_data.WriteInterfaceToken(DescriptorITvInputHardware)
 	_data.WriteFloat32(volume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardware, "setStreamVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputHardware, MethodITvInputHardwareSetStreamVolume)
 	if _err != nil {
-		_code = TransactionITvInputHardwareSetStreamVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputHardware, MethodITvInputHardwareSetStreamVolume, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,12 +123,12 @@ func (p *TvInputHardwareProxy) OverrideAudioSink(
 	_data.WriteInt32(channelMask)
 	_data.WriteInt32(format)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardware, "overrideAudioSink")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputHardware, MethodITvInputHardwareOverrideAudioSink)
 	if _err != nil {
-		_code = TransactionITvInputHardwareOverrideAudioSink
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputHardware, MethodITvInputHardwareOverrideAudioSink, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -142,6 +148,10 @@ type TvInputHardwareStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInputHardwareStub)(nil)
+
+func (s *TvInputHardwareStub) Descriptor() string {
+	return DescriptorITvInputHardware
+}
 
 func (s *TvInputHardwareStub) OnTransaction(
 	ctx context.Context,

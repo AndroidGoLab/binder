@@ -17,6 +17,12 @@ const (
 	TransactionIWindowIdIsFocused               = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIWindowIdRegisterFocusObserver   = "registerFocusObserver"
+	MethodIWindowIdUnregisterFocusObserver = "unregisterFocusObserver"
+	MethodIWindowIdIsFocused               = "isFocused"
+)
+
 type IWindowId interface {
 	AsBinder() binder.IBinder
 	RegisterFocusObserver(ctx context.Context, observer IWindowFocusObserver) error
@@ -25,17 +31,17 @@ type IWindowId interface {
 }
 
 type WindowIdProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowIdProxy(
 	remote binder.IBinder,
 ) *WindowIdProxy {
-	return &WindowIdProxy{remote: remote}
+	return &WindowIdProxy{Remote: remote}
 }
 
 func (p *WindowIdProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowId = (*WindowIdProxy)(nil)
@@ -46,14 +52,14 @@ func (p *WindowIdProxy) RegisterFocusObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowId)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowId, "registerFocusObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowId, MethodIWindowIdRegisterFocusObserver)
 	if _err != nil {
-		_code = TransactionIWindowIdRegisterFocusObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowId, MethodIWindowIdRegisterFocusObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,14 +78,14 @@ func (p *WindowIdProxy) UnregisterFocusObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowId)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowId, "unregisterFocusObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowId, MethodIWindowIdUnregisterFocusObserver)
 	if _err != nil {
-		_code = TransactionIWindowIdUnregisterFocusObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowId, MethodIWindowIdUnregisterFocusObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,12 +105,12 @@ func (p *WindowIdProxy) IsFocused(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowId, "isFocused")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowId, MethodIWindowIdIsFocused)
 	if _err != nil {
-		_code = TransactionIWindowIdIsFocused
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowId, MethodIWindowIdIsFocused, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -128,6 +134,10 @@ type WindowIdStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowIdStub)(nil)
+
+func (s *WindowIdStub) Descriptor() string {
+	return DescriptorIWindowId
+}
 
 func (s *WindowIdStub) OnTransaction(
 	ctx context.Context,

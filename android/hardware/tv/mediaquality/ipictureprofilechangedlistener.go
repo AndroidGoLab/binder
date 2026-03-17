@@ -15,23 +15,27 @@ const (
 	TransactionIPictureProfileChangedListenerOnPictureProfileChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPictureProfileChangedListenerOnPictureProfileChanged = "onPictureProfileChanged"
+)
+
 type IPictureProfileChangedListener interface {
 	AsBinder() binder.IBinder
 	OnPictureProfileChanged(ctx context.Context, pictureProfile PictureProfile) error
 }
 
 type PictureProfileChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPictureProfileChangedListenerProxy(
 	remote binder.IBinder,
 ) *PictureProfileChangedListenerProxy {
-	return &PictureProfileChangedListenerProxy{remote: remote}
+	return &PictureProfileChangedListenerProxy{Remote: remote}
 }
 
 func (p *PictureProfileChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPictureProfileChangedListener = (*PictureProfileChangedListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *PictureProfileChangedListenerProxy) OnPictureProfileChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileChangedListener, "onPictureProfileChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileChangedListener, MethodIPictureProfileChangedListenerOnPictureProfileChanged)
 	if _err != nil {
-		_code = TransactionIPictureProfileChangedListenerOnPictureProfileChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileChangedListener, MethodIPictureProfileChangedListenerOnPictureProfileChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type PictureProfileChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PictureProfileChangedListenerStub)(nil)
+
+func (s *PictureProfileChangedListenerStub) Descriptor() string {
+	return DescriptorIPictureProfileChangedListener
+}
 
 func (s *PictureProfileChangedListenerStub) OnTransaction(
 	ctx context.Context,

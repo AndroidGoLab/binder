@@ -16,23 +16,27 @@ const (
 	TransactionIBluetoothMcpServiceManagerSetDeviceAuthorized = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothMcpServiceManagerSetDeviceAuthorized = "setDeviceAuthorized"
+)
+
 type IBluetoothMcpServiceManager interface {
 	AsBinder() binder.IBinder
 	SetDeviceAuthorized(ctx context.Context, device BluetoothDevice, isAuthorized bool, source content.AttributionSource) error
 }
 
 type BluetoothMcpServiceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothMcpServiceManagerProxy(
 	remote binder.IBinder,
 ) *BluetoothMcpServiceManagerProxy {
-	return &BluetoothMcpServiceManagerProxy{remote: remote}
+	return &BluetoothMcpServiceManagerProxy{Remote: remote}
 }
 
 func (p *BluetoothMcpServiceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothMcpServiceManager = (*BluetoothMcpServiceManagerProxy)(nil)
@@ -55,12 +59,12 @@ func (p *BluetoothMcpServiceManagerProxy) SetDeviceAuthorized(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMcpServiceManager, "setDeviceAuthorized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMcpServiceManager, MethodIBluetoothMcpServiceManagerSetDeviceAuthorized)
 	if _err != nil {
-		_code = TransactionIBluetoothMcpServiceManagerSetDeviceAuthorized
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMcpServiceManager, MethodIBluetoothMcpServiceManagerSetDeviceAuthorized, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,6 +84,10 @@ type BluetoothMcpServiceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothMcpServiceManagerStub)(nil)
+
+func (s *BluetoothMcpServiceManagerStub) Descriptor() string {
+	return DescriptorIBluetoothMcpServiceManager
+}
 
 func (s *BluetoothMcpServiceManagerStub) OnTransaction(
 	ctx context.Context,

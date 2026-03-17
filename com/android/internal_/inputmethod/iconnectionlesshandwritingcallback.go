@@ -16,6 +16,11 @@ const (
 	TransactionIConnectionlessHandwritingCallbackOnError  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIConnectionlessHandwritingCallbackOnResult = "onResult"
+	MethodIConnectionlessHandwritingCallbackOnError  = "onError"
+)
+
 type IConnectionlessHandwritingCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, text interface{}) error
@@ -23,17 +28,17 @@ type IConnectionlessHandwritingCallback interface {
 }
 
 type ConnectionlessHandwritingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConnectionlessHandwritingCallbackProxy(
 	remote binder.IBinder,
 ) *ConnectionlessHandwritingCallbackProxy {
-	return &ConnectionlessHandwritingCallbackProxy{remote: remote}
+	return &ConnectionlessHandwritingCallbackProxy{Remote: remote}
 }
 
 func (p *ConnectionlessHandwritingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConnectionlessHandwritingCallback = (*ConnectionlessHandwritingCallbackProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ConnectionlessHandwritingCallbackProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionlessHandwritingCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConnectionlessHandwritingCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIConnectionlessHandwritingCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,12 +67,12 @@ func (p *ConnectionlessHandwritingCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIConnectionlessHandwritingCallback)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConnectionlessHandwritingCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnError)
 	if _err != nil {
-		_code = TransactionIConnectionlessHandwritingCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConnectionlessHandwritingCallback, MethodIConnectionlessHandwritingCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +83,10 @@ type ConnectionlessHandwritingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConnectionlessHandwritingCallbackStub)(nil)
+
+func (s *ConnectionlessHandwritingCallbackStub) Descriptor() string {
+	return DescriptorIConnectionlessHandwritingCallback
+}
 
 func (s *ConnectionlessHandwritingCallbackStub) OnTransaction(
 	ctx context.Context,

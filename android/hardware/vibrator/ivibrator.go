@@ -12,36 +12,57 @@ import (
 const DescriptorIVibrator = "android.hardware.vibrator.IVibrator"
 
 const (
-	TransactionIVibratorGetCapabilities                     = binder.FirstCallTransaction + 0
-	TransactionIVibratorOff                                 = binder.FirstCallTransaction + 1
-	TransactionIVibratorOn                                  = binder.FirstCallTransaction + 2
-	TransactionIVibratorPerform                             = binder.FirstCallTransaction + 3
-	TransactionIVibratorGetSupportedEffects                 = binder.FirstCallTransaction + 4
-	TransactionIVibratorSetAmplitude                        = binder.FirstCallTransaction + 5
-	TransactionIVibratorSetExternalControl                  = binder.FirstCallTransaction + 6
-	TransactionIVibratorGetCompositionDelayMax              = binder.FirstCallTransaction + 7
-	TransactionIVibratorGetCompositionSizeMax               = binder.FirstCallTransaction + 8
-	TransactionIVibratorGetSupportedPrimitives              = binder.FirstCallTransaction + 9
-	TransactionIVibratorGetPrimitiveDuration                = binder.FirstCallTransaction + 10
-	TransactionIVibratorCompose                             = binder.FirstCallTransaction + 11
-	TransactionIVibratorGetSupportedAlwaysOnEffects         = binder.FirstCallTransaction + 12
-	TransactionIVibratorAlwaysOnEnable                      = binder.FirstCallTransaction + 13
-	TransactionIVibratorAlwaysOnDisable                     = binder.FirstCallTransaction + 14
-	TransactionIVibratorGetResonantFrequency                = binder.FirstCallTransaction + 15
-	TransactionIVibratorGetQFactor                          = binder.FirstCallTransaction + 16
-	TransactionIVibratorGetFrequencyResolution              = binder.FirstCallTransaction + 17
-	TransactionIVibratorGetFrequencyMinimum                 = binder.FirstCallTransaction + 18
-	TransactionIVibratorGetBandwidthAmplitudeMap            = binder.FirstCallTransaction + 19
-	TransactionIVibratorGetPwlePrimitiveDurationMax         = binder.FirstCallTransaction + 20
-	TransactionIVibratorGetPwleCompositionSizeMax           = binder.FirstCallTransaction + 21
-	TransactionIVibratorGetSupportedBraking                 = binder.FirstCallTransaction + 22
-	TransactionIVibratorComposePwle                         = binder.FirstCallTransaction + 23
-	TransactionIVibratorPerformVendorEffect                 = binder.FirstCallTransaction + 24
-	TransactionIVibratorGetFrequencyToOutputAccelerationMap = binder.FirstCallTransaction + 25
-	TransactionIVibratorGetPwleV2PrimitiveDurationMaxMillis = binder.FirstCallTransaction + 26
-	TransactionIVibratorGetPwleV2CompositionSizeMax         = binder.FirstCallTransaction + 27
-	TransactionIVibratorGetPwleV2PrimitiveDurationMinMillis = binder.FirstCallTransaction + 28
-	TransactionIVibratorComposePwleV2                       = binder.FirstCallTransaction + 29
+	TransactionIVibratorGetCapabilities             = binder.FirstCallTransaction + 0
+	TransactionIVibratorOff                         = binder.FirstCallTransaction + 1
+	TransactionIVibratorOn                          = binder.FirstCallTransaction + 2
+	TransactionIVibratorPerform                     = binder.FirstCallTransaction + 3
+	TransactionIVibratorGetSupportedEffects         = binder.FirstCallTransaction + 4
+	TransactionIVibratorSetAmplitude                = binder.FirstCallTransaction + 5
+	TransactionIVibratorSetExternalControl          = binder.FirstCallTransaction + 6
+	TransactionIVibratorGetCompositionDelayMax      = binder.FirstCallTransaction + 7
+	TransactionIVibratorGetCompositionSizeMax       = binder.FirstCallTransaction + 8
+	TransactionIVibratorGetSupportedPrimitives      = binder.FirstCallTransaction + 9
+	TransactionIVibratorGetPrimitiveDuration        = binder.FirstCallTransaction + 10
+	TransactionIVibratorCompose                     = binder.FirstCallTransaction + 11
+	TransactionIVibratorGetSupportedAlwaysOnEffects = binder.FirstCallTransaction + 12
+	TransactionIVibratorAlwaysOnEnable              = binder.FirstCallTransaction + 13
+	TransactionIVibratorAlwaysOnDisable             = binder.FirstCallTransaction + 14
+	TransactionIVibratorGetResonantFrequency        = binder.FirstCallTransaction + 15
+	TransactionIVibratorGetQFactor                  = binder.FirstCallTransaction + 16
+	TransactionIVibratorGetFrequencyResolution      = binder.FirstCallTransaction + 17
+	TransactionIVibratorGetFrequencyMinimum         = binder.FirstCallTransaction + 18
+	TransactionIVibratorGetBandwidthAmplitudeMap    = binder.FirstCallTransaction + 19
+	TransactionIVibratorGetPwlePrimitiveDurationMax = binder.FirstCallTransaction + 20
+	TransactionIVibratorGetPwleCompositionSizeMax   = binder.FirstCallTransaction + 21
+	TransactionIVibratorGetSupportedBraking         = binder.FirstCallTransaction + 22
+	TransactionIVibratorComposePwle                 = binder.FirstCallTransaction + 23
+)
+
+const (
+	MethodIVibratorGetCapabilities             = "getCapabilities"
+	MethodIVibratorOff                         = "off"
+	MethodIVibratorOn                          = "on"
+	MethodIVibratorPerform                     = "perform"
+	MethodIVibratorGetSupportedEffects         = "getSupportedEffects"
+	MethodIVibratorSetAmplitude                = "setAmplitude"
+	MethodIVibratorSetExternalControl          = "setExternalControl"
+	MethodIVibratorGetCompositionDelayMax      = "getCompositionDelayMax"
+	MethodIVibratorGetCompositionSizeMax       = "getCompositionSizeMax"
+	MethodIVibratorGetSupportedPrimitives      = "getSupportedPrimitives"
+	MethodIVibratorGetPrimitiveDuration        = "getPrimitiveDuration"
+	MethodIVibratorCompose                     = "compose"
+	MethodIVibratorGetSupportedAlwaysOnEffects = "getSupportedAlwaysOnEffects"
+	MethodIVibratorAlwaysOnEnable              = "alwaysOnEnable"
+	MethodIVibratorAlwaysOnDisable             = "alwaysOnDisable"
+	MethodIVibratorGetResonantFrequency        = "getResonantFrequency"
+	MethodIVibratorGetQFactor                  = "getQFactor"
+	MethodIVibratorGetFrequencyResolution      = "getFrequencyResolution"
+	MethodIVibratorGetFrequencyMinimum         = "getFrequencyMinimum"
+	MethodIVibratorGetBandwidthAmplitudeMap    = "getBandwidthAmplitudeMap"
+	MethodIVibratorGetPwlePrimitiveDurationMax = "getPwlePrimitiveDurationMax"
+	MethodIVibratorGetPwleCompositionSizeMax   = "getPwleCompositionSizeMax"
+	MethodIVibratorGetSupportedBraking         = "getSupportedBraking"
+	MethodIVibratorComposePwle                 = "composePwle"
 )
 
 type IVibrator interface {
@@ -70,12 +91,6 @@ type IVibrator interface {
 	GetPwleCompositionSizeMax(ctx context.Context) (int32, error)
 	GetSupportedBraking(ctx context.Context) ([]Braking, error)
 	ComposePwle(ctx context.Context, composite []PrimitivePwle, callback IVibratorCallback) error
-	PerformVendorEffect(ctx context.Context, vendorEffect VendorEffect, callback IVibratorCallback) error
-	GetFrequencyToOutputAccelerationMap(ctx context.Context) ([]FrequencyAccelerationMapEntry, error)
-	GetPwleV2PrimitiveDurationMaxMillis(ctx context.Context) (int32, error)
-	GetPwleV2CompositionSizeMax(ctx context.Context) (int32, error)
-	GetPwleV2PrimitiveDurationMinMillis(ctx context.Context) (int32, error)
-	ComposePwleV2(ctx context.Context, composite CompositePwleV2, callback IVibratorCallback) error
 }
 
 const (
@@ -90,22 +105,20 @@ const (
 	IVibratorCapGetQFactor               int32 = (1 << 8)
 	IVibratorCapFrequencyControl         int32 = (1 << 9)
 	IVibratorCapComposePwleEffects       int32 = (1 << 10)
-	IVibratorCapPerformVendorEffects     int32 = (1 << 11)
-	IVibratorCapComposePwleEffectsV2     int32 = (1 << 12)
 )
 
 type VibratorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorProxy(
 	remote binder.IBinder,
 ) *VibratorProxy {
-	return &VibratorProxy{remote: remote}
+	return &VibratorProxy{Remote: remote}
 }
 
 func (p *VibratorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibrator = (*VibratorProxy)(nil)
@@ -117,12 +130,12 @@ func (p *VibratorProxy) GetCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetCapabilities)
 	if _err != nil {
-		_code = TransactionIVibratorGetCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,12 +158,12 @@ func (p *VibratorProxy) Off(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "off")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorOff)
 	if _err != nil {
-		_code = TransactionIVibratorOff
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorOff, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,14 +184,14 @@ func (p *VibratorProxy) On(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(timeoutMs)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "on")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorOn)
 	if _err != nil {
-		_code = TransactionIVibratorOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorOn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,14 +215,14 @@ func (p *VibratorProxy) Perform(
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(int32(effect))
 	_data.WritePaddedByte(byte(strength))
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "perform")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorPerform)
 	if _err != nil {
-		_code = TransactionIVibratorPerform
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorPerform, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -233,12 +246,12 @@ func (p *VibratorProxy) GetSupportedEffects(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getSupportedEffects")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedEffects)
 	if _err != nil {
-		_code = TransactionIVibratorGetSupportedEffects
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetSupportedEffects, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -274,12 +287,12 @@ func (p *VibratorProxy) SetAmplitude(
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteFloat32(amplitude)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "setAmplitude")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorSetAmplitude)
 	if _err != nil {
-		_code = TransactionIVibratorSetAmplitude
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorSetAmplitude, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -300,12 +313,12 @@ func (p *VibratorProxy) SetExternalControl(
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "setExternalControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorSetExternalControl)
 	if _err != nil {
-		_code = TransactionIVibratorSetExternalControl
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorSetExternalControl, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -325,12 +338,12 @@ func (p *VibratorProxy) GetCompositionDelayMax(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getCompositionDelayMax")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetCompositionDelayMax)
 	if _err != nil {
-		_code = TransactionIVibratorGetCompositionDelayMax
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetCompositionDelayMax, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -354,12 +367,12 @@ func (p *VibratorProxy) GetCompositionSizeMax(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getCompositionSizeMax")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetCompositionSizeMax)
 	if _err != nil {
-		_code = TransactionIVibratorGetCompositionSizeMax
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetCompositionSizeMax, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -383,12 +396,12 @@ func (p *VibratorProxy) GetSupportedPrimitives(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getSupportedPrimitives")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedPrimitives)
 	if _err != nil {
-		_code = TransactionIVibratorGetSupportedPrimitives
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetSupportedPrimitives, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -425,12 +438,12 @@ func (p *VibratorProxy) GetPrimitiveDuration(
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(int32(primitive))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getPrimitiveDuration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetPrimitiveDuration)
 	if _err != nil {
-		_code = TransactionIVibratorGetPrimitiveDuration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetPrimitiveDuration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -459,19 +472,20 @@ func (p *VibratorProxy) Compose(
 	} else {
 		_data.WriteInt32(int32(len(composite)))
 		for _, _item := range composite {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "compose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorCompose)
 	if _err != nil {
-		_code = TransactionIVibratorCompose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorCompose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -491,12 +505,12 @@ func (p *VibratorProxy) GetSupportedAlwaysOnEffects(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getSupportedAlwaysOnEffects")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedAlwaysOnEffects)
 	if _err != nil {
-		_code = TransactionIVibratorGetSupportedAlwaysOnEffects
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetSupportedAlwaysOnEffects, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -536,12 +550,12 @@ func (p *VibratorProxy) AlwaysOnEnable(
 	_data.WriteInt32(int32(effect))
 	_data.WritePaddedByte(byte(strength))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "alwaysOnEnable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorAlwaysOnEnable)
 	if _err != nil {
-		_code = TransactionIVibratorAlwaysOnEnable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorAlwaysOnEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -562,12 +576,12 @@ func (p *VibratorProxy) AlwaysOnDisable(
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "alwaysOnDisable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorAlwaysOnDisable)
 	if _err != nil {
-		_code = TransactionIVibratorAlwaysOnDisable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorAlwaysOnDisable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -587,12 +601,12 @@ func (p *VibratorProxy) GetResonantFrequency(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getResonantFrequency")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetResonantFrequency)
 	if _err != nil {
-		_code = TransactionIVibratorGetResonantFrequency
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetResonantFrequency, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -616,12 +630,12 @@ func (p *VibratorProxy) GetQFactor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getQFactor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetQFactor)
 	if _err != nil {
-		_code = TransactionIVibratorGetQFactor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetQFactor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -645,12 +659,12 @@ func (p *VibratorProxy) GetFrequencyResolution(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getFrequencyResolution")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetFrequencyResolution)
 	if _err != nil {
-		_code = TransactionIVibratorGetFrequencyResolution
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetFrequencyResolution, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -674,12 +688,12 @@ func (p *VibratorProxy) GetFrequencyMinimum(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getFrequencyMinimum")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetFrequencyMinimum)
 	if _err != nil {
-		_code = TransactionIVibratorGetFrequencyMinimum
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetFrequencyMinimum, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -703,12 +717,12 @@ func (p *VibratorProxy) GetBandwidthAmplitudeMap(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getBandwidthAmplitudeMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetBandwidthAmplitudeMap)
 	if _err != nil {
-		_code = TransactionIVibratorGetBandwidthAmplitudeMap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetBandwidthAmplitudeMap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -742,12 +756,12 @@ func (p *VibratorProxy) GetPwlePrimitiveDurationMax(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getPwlePrimitiveDurationMax")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetPwlePrimitiveDurationMax)
 	if _err != nil {
-		_code = TransactionIVibratorGetPwlePrimitiveDurationMax
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetPwlePrimitiveDurationMax, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -771,12 +785,12 @@ func (p *VibratorProxy) GetPwleCompositionSizeMax(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getPwleCompositionSizeMax")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetPwleCompositionSizeMax)
 	if _err != nil {
-		_code = TransactionIVibratorGetPwleCompositionSizeMax
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetPwleCompositionSizeMax, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -800,12 +814,12 @@ func (p *VibratorProxy) GetSupportedBraking(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getSupportedBraking")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorGetSupportedBraking)
 	if _err != nil {
-		_code = TransactionIVibratorGetSupportedBraking
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorGetSupportedBraking, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -845,206 +859,20 @@ func (p *VibratorProxy) ComposePwle(
 	} else {
 		_data.WriteInt32(int32(len(composite)))
 		for _, _item := range composite {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "composePwle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrator, MethodIVibratorComposePwle)
 	if _err != nil {
-		_code = TransactionIVibratorComposePwle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrator, MethodIVibratorComposePwle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *VibratorProxy) PerformVendorEffect(
-	ctx context.Context,
-	vendorEffect VendorEffect,
-	callback IVibratorCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibrator)
-	_data.WriteInt32(1)
-	if _err := vendorEffect.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "performVendorEffect")
-	if _err != nil {
-		_code = TransactionIVibratorPerformVendorEffect
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *VibratorProxy) GetFrequencyToOutputAccelerationMap(
-	ctx context.Context,
-) ([]FrequencyAccelerationMapEntry, error) {
-	var _result []FrequencyAccelerationMapEntry
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibrator)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getFrequencyToOutputAccelerationMap")
-	if _err != nil {
-		_code = TransactionIVibratorGetFrequencyToOutputAccelerationMap
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]FrequencyAccelerationMapEntry, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *VibratorProxy) GetPwleV2PrimitiveDurationMaxMillis(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibrator)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getPwleV2PrimitiveDurationMaxMillis")
-	if _err != nil {
-		_code = TransactionIVibratorGetPwleV2PrimitiveDurationMaxMillis
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *VibratorProxy) GetPwleV2CompositionSizeMax(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibrator)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getPwleV2CompositionSizeMax")
-	if _err != nil {
-		_code = TransactionIVibratorGetPwleV2CompositionSizeMax
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *VibratorProxy) GetPwleV2PrimitiveDurationMinMillis(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibrator)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "getPwleV2PrimitiveDurationMinMillis")
-	if _err != nil {
-		_code = TransactionIVibratorGetPwleV2PrimitiveDurationMinMillis
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *VibratorProxy) ComposePwleV2(
-	ctx context.Context,
-	composite CompositePwleV2,
-	callback IVibratorCallback,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVibrator)
-	_data.WriteInt32(1)
-	if _err := composite.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrator, "composePwleV2")
-	if _err != nil {
-		_code = TransactionIVibratorComposePwleV2
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1064,6 +892,10 @@ type VibratorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorStub)(nil)
+
+func (s *VibratorStub) Descriptor() string {
+	return DescriptorIVibrator
+}
 
 func (s *VibratorStub) OnTransaction(
 	ctx context.Context,
@@ -1443,113 +1275,6 @@ func (s *VibratorStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIVibratorPerformVendorEffect:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_vendorEffect VendorEffect
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_vendorEffect.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IVibratorCallback
-		_ = _arg_callback
-		_err := s.Impl.PerformVendorEffect(ctx, _arg_vendorEffect, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIVibratorGetFrequencyToOutputAccelerationMap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetFrequencyToOutputAccelerationMap(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIVibratorGetPwleV2PrimitiveDurationMaxMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetPwleV2PrimitiveDurationMaxMillis(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIVibratorGetPwleV2CompositionSizeMax:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetPwleV2CompositionSizeMax(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIVibratorGetPwleV2PrimitiveDurationMinMillis:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetPwleV2PrimitiveDurationMinMillis(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIVibratorComposePwleV2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_composite CompositePwleV2
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_composite.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback IVibratorCallback
-		_ = _arg_callback
-		_err := s.Impl.ComposePwleV2(ctx, _arg_composite, _arg_callback)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1583,12 +1308,6 @@ type IVibratorServer interface {
 	GetPwleCompositionSizeMax(ctx context.Context) (int32, error)
 	GetSupportedBraking(ctx context.Context) ([]Braking, error)
 	ComposePwle(ctx context.Context, composite []PrimitivePwle, callback IVibratorCallback) error
-	PerformVendorEffect(ctx context.Context, vendorEffect VendorEffect, callback IVibratorCallback) error
-	GetFrequencyToOutputAccelerationMap(ctx context.Context) ([]FrequencyAccelerationMapEntry, error)
-	GetPwleV2PrimitiveDurationMaxMillis(ctx context.Context) (int32, error)
-	GetPwleV2CompositionSizeMax(ctx context.Context) (int32, error)
-	GetPwleV2PrimitiveDurationMinMillis(ctx context.Context) (int32, error)
-	ComposePwleV2(ctx context.Context, composite CompositePwleV2, callback IVibratorCallback) error
 }
 
 type vibratorStubWrapper struct {
@@ -1758,46 +1477,6 @@ func (w *vibratorStubWrapper) ComposePwle(
 	callback IVibratorCallback,
 ) error {
 	return w.impl.ComposePwle(ctx, composite, callback)
-}
-
-func (w *vibratorStubWrapper) PerformVendorEffect(
-	ctx context.Context,
-	vendorEffect VendorEffect,
-	callback IVibratorCallback,
-) error {
-	return w.impl.PerformVendorEffect(ctx, vendorEffect, callback)
-}
-
-func (w *vibratorStubWrapper) GetFrequencyToOutputAccelerationMap(
-	ctx context.Context,
-) ([]FrequencyAccelerationMapEntry, error) {
-	return w.impl.GetFrequencyToOutputAccelerationMap(ctx)
-}
-
-func (w *vibratorStubWrapper) GetPwleV2PrimitiveDurationMaxMillis(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetPwleV2PrimitiveDurationMaxMillis(ctx)
-}
-
-func (w *vibratorStubWrapper) GetPwleV2CompositionSizeMax(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetPwleV2CompositionSizeMax(ctx)
-}
-
-func (w *vibratorStubWrapper) GetPwleV2PrimitiveDurationMinMillis(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetPwleV2PrimitiveDurationMinMillis(ctx)
-}
-
-func (w *vibratorStubWrapper) ComposePwleV2(
-	ctx context.Context,
-	composite CompositePwleV2,
-	callback IVibratorCallback,
-) error {
-	return w.impl.ComposePwleV2(ctx, composite, callback)
 }
 
 var _ IVibrator = (*vibratorStubWrapper)(nil)

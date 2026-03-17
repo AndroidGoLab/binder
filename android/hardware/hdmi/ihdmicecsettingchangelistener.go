@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiCecSettingChangeListenerOnChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiCecSettingChangeListenerOnChange = "onChange"
+)
+
 type IHdmiCecSettingChangeListener interface {
 	AsBinder() binder.IBinder
 	OnChange(ctx context.Context, setting string) error
 }
 
 type HdmiCecSettingChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiCecSettingChangeListenerProxy(
 	remote binder.IBinder,
 ) *HdmiCecSettingChangeListenerProxy {
-	return &HdmiCecSettingChangeListenerProxy{remote: remote}
+	return &HdmiCecSettingChangeListenerProxy{Remote: remote}
 }
 
 func (p *HdmiCecSettingChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiCecSettingChangeListener = (*HdmiCecSettingChangeListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *HdmiCecSettingChangeListenerProxy) OnChange(
 	_data.WriteInterfaceToken(DescriptorIHdmiCecSettingChangeListener)
 	_data.WriteString16(setting)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCecSettingChangeListener, "onChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCecSettingChangeListener, MethodIHdmiCecSettingChangeListenerOnChange)
 	if _err != nil {
-		_code = TransactionIHdmiCecSettingChangeListenerOnChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiCecSettingChangeListener, MethodIHdmiCecSettingChangeListenerOnChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type HdmiCecSettingChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiCecSettingChangeListenerStub)(nil)
+
+func (s *HdmiCecSettingChangeListenerStub) Descriptor() string {
+	return DescriptorIHdmiCecSettingChangeListener
+}
 
 func (s *HdmiCecSettingChangeListenerStub) OnTransaction(
 	ctx context.Context,

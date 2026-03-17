@@ -15,23 +15,27 @@ const (
 	TransactionIFingerprintClientActiveCallbackOnClientActiveChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFingerprintClientActiveCallbackOnClientActiveChanged = "onClientActiveChanged"
+)
+
 type IFingerprintClientActiveCallback interface {
 	AsBinder() binder.IBinder
 	OnClientActiveChanged(ctx context.Context, isActive bool) error
 }
 
 type FingerprintClientActiveCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFingerprintClientActiveCallbackProxy(
 	remote binder.IBinder,
 ) *FingerprintClientActiveCallbackProxy {
-	return &FingerprintClientActiveCallbackProxy{remote: remote}
+	return &FingerprintClientActiveCallbackProxy{Remote: remote}
 }
 
 func (p *FingerprintClientActiveCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFingerprintClientActiveCallback = (*FingerprintClientActiveCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *FingerprintClientActiveCallbackProxy) OnClientActiveChanged(
 	_data.WriteInterfaceToken(DescriptorIFingerprintClientActiveCallback)
 	_data.WriteBool(isActive)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintClientActiveCallback, "onClientActiveChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprintClientActiveCallback, MethodIFingerprintClientActiveCallbackOnClientActiveChanged)
 	if _err != nil {
-		_code = TransactionIFingerprintClientActiveCallbackOnClientActiveChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprintClientActiveCallback, MethodIFingerprintClientActiveCallbackOnClientActiveChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type FingerprintClientActiveCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FingerprintClientActiveCallbackStub)(nil)
+
+func (s *FingerprintClientActiveCallbackStub) Descriptor() string {
+	return DescriptorIFingerprintClientActiveCallback
+}
 
 func (s *FingerprintClientActiveCallbackStub) OnTransaction(
 	ctx context.Context,

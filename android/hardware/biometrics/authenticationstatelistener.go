@@ -3,7 +3,6 @@ package biometrics
 import (
 	"context"
 	"fmt"
-	events "github.com/xaionaro-go/binder/android/hardware/biometrics/events"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,179 +12,137 @@ import (
 const DescriptorAuthenticationStateListener = "android.hardware.biometrics.AuthenticationStateListener"
 
 const (
-	TransactionAuthenticationStateListenerOnAuthenticationAcquired  = binder.FirstCallTransaction + 0
-	TransactionAuthenticationStateListenerOnAuthenticationError     = binder.FirstCallTransaction + 1
-	TransactionAuthenticationStateListenerOnAuthenticationFailed    = binder.FirstCallTransaction + 2
-	TransactionAuthenticationStateListenerOnAuthenticationHelp      = binder.FirstCallTransaction + 3
-	TransactionAuthenticationStateListenerOnAuthenticationStarted   = binder.FirstCallTransaction + 4
-	TransactionAuthenticationStateListenerOnAuthenticationStopped   = binder.FirstCallTransaction + 5
-	TransactionAuthenticationStateListenerOnAuthenticationSucceeded = binder.FirstCallTransaction + 6
+	TransactionAuthenticationStateListenerOnAuthenticationStarted   = binder.FirstCallTransaction + 0
+	TransactionAuthenticationStateListenerOnAuthenticationStopped   = binder.FirstCallTransaction + 1
+	TransactionAuthenticationStateListenerOnAuthenticationSucceeded = binder.FirstCallTransaction + 2
+	TransactionAuthenticationStateListenerOnAuthenticationFailed    = binder.FirstCallTransaction + 3
+	TransactionAuthenticationStateListenerOnAuthenticationAcquired  = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodAuthenticationStateListenerOnAuthenticationStarted   = "onAuthenticationStarted"
+	MethodAuthenticationStateListenerOnAuthenticationStopped   = "onAuthenticationStopped"
+	MethodAuthenticationStateListenerOnAuthenticationSucceeded = "onAuthenticationSucceeded"
+	MethodAuthenticationStateListenerOnAuthenticationFailed    = "onAuthenticationFailed"
+	MethodAuthenticationStateListenerOnAuthenticationAcquired  = "onAuthenticationAcquired"
 )
 
 type AuthenticationStateListener interface {
 	AsBinder() binder.IBinder
-	OnAuthenticationAcquired(ctx context.Context, authInfo events.AuthenticationAcquiredInfo) error
-	OnAuthenticationError(ctx context.Context, authInfo events.AuthenticationErrorInfo) error
-	OnAuthenticationFailed(ctx context.Context, authInfo events.AuthenticationFailedInfo) error
-	OnAuthenticationHelp(ctx context.Context, authInfo events.AuthenticationHelpInfo) error
-	OnAuthenticationStarted(ctx context.Context, authInfo events.AuthenticationStartedInfo) error
-	OnAuthenticationStopped(ctx context.Context, authInfo events.AuthenticationStoppedInfo) error
-	OnAuthenticationSucceeded(ctx context.Context, authInfo events.AuthenticationSucceededInfo) error
+	OnAuthenticationStarted(ctx context.Context, requestReason int32) error
+	OnAuthenticationStopped(ctx context.Context) error
+	OnAuthenticationSucceeded(ctx context.Context, requestReason int32) error
+	OnAuthenticationFailed(ctx context.Context, requestReason int32) error
+	OnAuthenticationAcquired(ctx context.Context, biometricSourceType BiometricSourceType, requestReason int32, acquiredInfo int32) error
 }
 
 type AuthenticationStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthenticationStateListenerProxy(
 	remote binder.IBinder,
 ) *AuthenticationStateListenerProxy {
-	return &AuthenticationStateListenerProxy{remote: remote}
+	return &AuthenticationStateListenerProxy{Remote: remote}
 }
 
 func (p *AuthenticationStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ AuthenticationStateListener = (*AuthenticationStateListenerProxy)(nil)
 
-func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
-	ctx context.Context,
-	authInfo events.AuthenticationAcquiredInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationAcquired")
-	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationAcquired
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AuthenticationStateListenerProxy) OnAuthenticationError(
-	ctx context.Context,
-	authInfo events.AuthenticationErrorInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationError")
-	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationError
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AuthenticationStateListenerProxy) OnAuthenticationFailed(
-	ctx context.Context,
-	authInfo events.AuthenticationFailedInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationFailed")
-	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationFailed
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AuthenticationStateListenerProxy) OnAuthenticationHelp(
-	ctx context.Context,
-	authInfo events.AuthenticationHelpInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationHelp")
-	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationHelp
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
 func (p *AuthenticationStateListenerProxy) OnAuthenticationStarted(
 	ctx context.Context,
-	authInfo events.AuthenticationStartedInfo,
+	requestReason int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	_data.WriteInt32(requestReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStarted)
 	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *AuthenticationStateListenerProxy) OnAuthenticationStopped(
 	ctx context.Context,
-	authInfo events.AuthenticationStoppedInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
-	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStopped)
 	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *AuthenticationStateListenerProxy) OnAuthenticationSucceeded(
 	ctx context.Context,
-	authInfo events.AuthenticationSucceededInfo,
+	requestReason int32,
+) error {
+	_identity := p.Remote.Identity()
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(requestReason)
+	_data.WriteInt32(_identity.UserID)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationSucceeded)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationSucceeded, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *AuthenticationStateListenerProxy) OnAuthenticationFailed(
+	ctx context.Context,
+	requestReason int32,
+) error {
+	_identity := p.Remote.Identity()
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(requestReason)
+	_data.WriteInt32(_identity.UserID)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationFailed)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationFailed, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
+	ctx context.Context,
+	biometricSourceType BiometricSourceType,
+	requestReason int32,
+	acquiredInfo int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
 	_data.WriteInt32(1)
-	if _err := authInfo.MarshalParcel(_data); _err != nil {
+	if _err := biometricSourceType.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(requestReason)
+	_data.WriteInt32(acquiredInfo)
 
-	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationSucceeded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationAcquired)
 	if _err != nil {
-		_code = TransactionAuthenticationStateListenerOnAuthenticationSucceeded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorAuthenticationStateListener, MethodAuthenticationStateListenerOnAuthenticationAcquired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -197,143 +154,87 @@ type AuthenticationStateListenerStub struct {
 
 var _ binder.TransactionReceiver = (*AuthenticationStateListenerStub)(nil)
 
+func (s *AuthenticationStateListenerStub) Descriptor() string {
+	return DescriptorAuthenticationStateListener
+}
+
 func (s *AuthenticationStateListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
-	case TransactionAuthenticationStateListenerOnAuthenticationAcquired:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_authInfo events.AuthenticationAcquiredInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnAuthenticationAcquired(ctx, _arg_authInfo)
-		_ = _err
-		return nil, nil
-	case TransactionAuthenticationStateListenerOnAuthenticationError:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_authInfo events.AuthenticationErrorInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnAuthenticationError(ctx, _arg_authInfo)
-		_ = _err
-		return nil, nil
-	case TransactionAuthenticationStateListenerOnAuthenticationFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_authInfo events.AuthenticationFailedInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnAuthenticationFailed(ctx, _arg_authInfo)
-		_ = _err
-		return nil, nil
-	case TransactionAuthenticationStateListenerOnAuthenticationHelp:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_authInfo events.AuthenticationHelpInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnAuthenticationHelp(ctx, _arg_authInfo)
-		_ = _err
-		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationStarted:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_authInfo events.AuthenticationStartedInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+		_arg_requestReason, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
 		}
-		_err := s.Impl.OnAuthenticationStarted(ctx, _arg_authInfo)
+		_err = s.Impl.OnAuthenticationStarted(ctx, _arg_requestReason)
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationStopped:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_authInfo events.AuthenticationStoppedInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnAuthenticationStopped(ctx, _arg_authInfo)
+		_err := s.Impl.OnAuthenticationStopped(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationSucceeded:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_authInfo events.AuthenticationSucceededInfo
+		_arg_requestReason, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := _data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_requestReason)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationFailed:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestReason, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := _data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationFailed(ctx, _arg_requestReason)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationAcquired:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_biometricSourceType BiometricSourceType
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
+				if _err = _arg_biometricSourceType.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_err := s.Impl.OnAuthenticationSucceeded(ctx, _arg_authInfo)
+		_arg_requestReason, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_acquiredInfo, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationAcquired(ctx, _arg_biometricSourceType, _arg_requestReason, _arg_acquiredInfo)
 		_ = _err
 		return nil, nil
 	default:
@@ -345,13 +246,11 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 // provide to NewAuthenticationStateListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type AuthenticationStateListenerServer interface {
-	OnAuthenticationAcquired(ctx context.Context, authInfo events.AuthenticationAcquiredInfo) error
-	OnAuthenticationError(ctx context.Context, authInfo events.AuthenticationErrorInfo) error
-	OnAuthenticationFailed(ctx context.Context, authInfo events.AuthenticationFailedInfo) error
-	OnAuthenticationHelp(ctx context.Context, authInfo events.AuthenticationHelpInfo) error
-	OnAuthenticationStarted(ctx context.Context, authInfo events.AuthenticationStartedInfo) error
-	OnAuthenticationStopped(ctx context.Context, authInfo events.AuthenticationStoppedInfo) error
-	OnAuthenticationSucceeded(ctx context.Context, authInfo events.AuthenticationSucceededInfo) error
+	OnAuthenticationStarted(ctx context.Context, requestReason int32) error
+	OnAuthenticationStopped(ctx context.Context) error
+	OnAuthenticationSucceeded(ctx context.Context, requestReason int32) error
+	OnAuthenticationFailed(ctx context.Context, requestReason int32) error
+	OnAuthenticationAcquired(ctx context.Context, biometricSourceType BiometricSourceType, requestReason int32, acquiredInfo int32) error
 }
 
 type authenticationStateListenerStubWrapper struct {
@@ -363,53 +262,40 @@ func (w *authenticationStateListenerStubWrapper) AsBinder() binder.IBinder {
 	return w.stubBinder
 }
 
-func (w *authenticationStateListenerStubWrapper) OnAuthenticationAcquired(
-	ctx context.Context,
-	authInfo events.AuthenticationAcquiredInfo,
-) error {
-	return w.impl.OnAuthenticationAcquired(ctx, authInfo)
-}
-
-func (w *authenticationStateListenerStubWrapper) OnAuthenticationError(
-	ctx context.Context,
-	authInfo events.AuthenticationErrorInfo,
-) error {
-	return w.impl.OnAuthenticationError(ctx, authInfo)
-}
-
-func (w *authenticationStateListenerStubWrapper) OnAuthenticationFailed(
-	ctx context.Context,
-	authInfo events.AuthenticationFailedInfo,
-) error {
-	return w.impl.OnAuthenticationFailed(ctx, authInfo)
-}
-
-func (w *authenticationStateListenerStubWrapper) OnAuthenticationHelp(
-	ctx context.Context,
-	authInfo events.AuthenticationHelpInfo,
-) error {
-	return w.impl.OnAuthenticationHelp(ctx, authInfo)
-}
-
 func (w *authenticationStateListenerStubWrapper) OnAuthenticationStarted(
 	ctx context.Context,
-	authInfo events.AuthenticationStartedInfo,
+	requestReason int32,
 ) error {
-	return w.impl.OnAuthenticationStarted(ctx, authInfo)
+	return w.impl.OnAuthenticationStarted(ctx, requestReason)
 }
 
 func (w *authenticationStateListenerStubWrapper) OnAuthenticationStopped(
 	ctx context.Context,
-	authInfo events.AuthenticationStoppedInfo,
 ) error {
-	return w.impl.OnAuthenticationStopped(ctx, authInfo)
+	return w.impl.OnAuthenticationStopped(ctx)
 }
 
 func (w *authenticationStateListenerStubWrapper) OnAuthenticationSucceeded(
 	ctx context.Context,
-	authInfo events.AuthenticationSucceededInfo,
+	requestReason int32,
 ) error {
-	return w.impl.OnAuthenticationSucceeded(ctx, authInfo)
+	return w.impl.OnAuthenticationSucceeded(ctx, requestReason)
+}
+
+func (w *authenticationStateListenerStubWrapper) OnAuthenticationFailed(
+	ctx context.Context,
+	requestReason int32,
+) error {
+	return w.impl.OnAuthenticationFailed(ctx, requestReason)
+}
+
+func (w *authenticationStateListenerStubWrapper) OnAuthenticationAcquired(
+	ctx context.Context,
+	biometricSourceType BiometricSourceType,
+	requestReason int32,
+	acquiredInfo int32,
+) error {
+	return w.impl.OnAuthenticationAcquired(ctx, biometricSourceType, requestReason, acquiredInfo)
 }
 
 var _ AuthenticationStateListener = (*authenticationStateListenerStubWrapper)(nil)

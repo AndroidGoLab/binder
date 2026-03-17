@@ -17,6 +17,12 @@ const (
 	TransactionIMbmsStreamingSessionCallbackOnMiddlewareReady          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMbmsStreamingSessionCallbackOnError                    = "onError"
+	MethodIMbmsStreamingSessionCallbackOnStreamingServicesUpdated = "onStreamingServicesUpdated"
+	MethodIMbmsStreamingSessionCallbackOnMiddlewareReady          = "onMiddlewareReady"
+)
+
 type IMbmsStreamingSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, errorCode int32, message string) error
@@ -25,17 +31,17 @@ type IMbmsStreamingSessionCallback interface {
 }
 
 type MbmsStreamingSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMbmsStreamingSessionCallbackProxy(
 	remote binder.IBinder,
 ) *MbmsStreamingSessionCallbackProxy {
-	return &MbmsStreamingSessionCallbackProxy{remote: remote}
+	return &MbmsStreamingSessionCallbackProxy{Remote: remote}
 }
 
 func (p *MbmsStreamingSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMbmsStreamingSessionCallback = (*MbmsStreamingSessionCallbackProxy)(nil)
@@ -50,12 +56,12 @@ func (p *MbmsStreamingSessionCallbackProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingSessionCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnError)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingSessionCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,18 +76,19 @@ func (p *MbmsStreamingSessionCallbackProxy) OnStreamingServicesUpdated(
 	} else {
 		_data.WriteInt32(int32(len(services)))
 		for _, _item := range services {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingSessionCallback, "onStreamingServicesUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnStreamingServicesUpdated)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingSessionCallbackOnStreamingServicesUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnStreamingServicesUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,12 +98,12 @@ func (p *MbmsStreamingSessionCallbackProxy) OnMiddlewareReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingSessionCallback, "onMiddlewareReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnMiddlewareReady)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingSessionCallbackOnMiddlewareReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingSessionCallback, MethodIMbmsStreamingSessionCallbackOnMiddlewareReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +114,10 @@ type MbmsStreamingSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MbmsStreamingSessionCallbackStub)(nil)
+
+func (s *MbmsStreamingSessionCallbackStub) Descriptor() string {
+	return DescriptorIMbmsStreamingSessionCallback
+}
 
 func (s *MbmsStreamingSessionCallbackStub) OnTransaction(
 	ctx context.Context,

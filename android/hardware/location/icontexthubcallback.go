@@ -15,23 +15,27 @@ const (
 	TransactionIContextHubCallbackOnMessageReceipt = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIContextHubCallbackOnMessageReceipt = "onMessageReceipt"
+)
+
 type IContextHubCallback interface {
 	AsBinder() binder.IBinder
 	OnMessageReceipt(ctx context.Context, hubId int32, nanoAppId int32, msg ContextHubMessage) error
 }
 
 type ContextHubCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubCallbackProxy(
 	remote binder.IBinder,
 ) *ContextHubCallbackProxy {
-	return &ContextHubCallbackProxy{remote: remote}
+	return &ContextHubCallbackProxy{Remote: remote}
 }
 
 func (p *ContextHubCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubCallback = (*ContextHubCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "onMessageReceipt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubCallback, MethodIContextHubCallbackOnMessageReceipt)
 	if _err != nil {
-		_code = TransactionIContextHubCallbackOnMessageReceipt
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubCallback, MethodIContextHubCallbackOnMessageReceipt, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type ContextHubCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubCallbackStub)(nil)
+
+func (s *ContextHubCallbackStub) Descriptor() string {
+	return DescriptorIContextHubCallback
+}
 
 func (s *ContextHubCallbackStub) OnTransaction(
 	ctx context.Context,

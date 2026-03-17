@@ -15,23 +15,27 @@ const (
 	TransactionIDevicesForAttributesCallbackOnDevicesForAttributesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDevicesForAttributesCallbackOnDevicesForAttributesChanged = "onDevicesForAttributesChanged"
+)
+
 type IDevicesForAttributesCallback interface {
 	AsBinder() binder.IBinder
 	OnDevicesForAttributesChanged(ctx context.Context, attributes AudioAttributes, forVolume bool, devices []AudioDeviceAttributes) error
 }
 
 type DevicesForAttributesCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDevicesForAttributesCallbackProxy(
 	remote binder.IBinder,
 ) *DevicesForAttributesCallbackProxy {
-	return &DevicesForAttributesCallbackProxy{remote: remote}
+	return &DevicesForAttributesCallbackProxy{Remote: remote}
 }
 
 func (p *DevicesForAttributesCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDevicesForAttributesCallback = (*DevicesForAttributesCallbackProxy)(nil)
@@ -54,18 +58,19 @@ func (p *DevicesForAttributesCallbackProxy) OnDevicesForAttributesChanged(
 	} else {
 		_data.WriteInt32(int32(len(devices)))
 		for _, _item := range devices {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDevicesForAttributesCallback, "onDevicesForAttributesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicesForAttributesCallback, MethodIDevicesForAttributesCallbackOnDevicesForAttributesChanged)
 	if _err != nil {
-		_code = TransactionIDevicesForAttributesCallbackOnDevicesForAttributesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDevicesForAttributesCallback, MethodIDevicesForAttributesCallbackOnDevicesForAttributesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +81,10 @@ type DevicesForAttributesCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DevicesForAttributesCallbackStub)(nil)
+
+func (s *DevicesForAttributesCallbackStub) Descriptor() string {
+	return DescriptorIDevicesForAttributesCallback
+}
 
 func (s *DevicesForAttributesCallbackStub) OnTransaction(
 	ctx context.Context,

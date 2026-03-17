@@ -15,23 +15,27 @@ const (
 	TransactionIInputSinkQueue = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputSinkQueue = "queue"
+)
+
 type IInputSink interface {
 	AsBinder() binder.IBinder
 	Queue(ctx context.Context, workBundle WorkBundle) error
 }
 
 type InputSinkProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputSinkProxy(
 	remote binder.IBinder,
 ) *InputSinkProxy {
-	return &InputSinkProxy{remote: remote}
+	return &InputSinkProxy{Remote: remote}
 }
 
 func (p *InputSinkProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputSink = (*InputSinkProxy)(nil)
@@ -47,12 +51,12 @@ func (p *InputSinkProxy) Queue(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSink, "queue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSink, MethodIInputSinkQueue)
 	if _err != nil {
-		_code = TransactionIInputSinkQueue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSink, MethodIInputSinkQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,6 +76,10 @@ type InputSinkStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputSinkStub)(nil)
+
+func (s *InputSinkStub) Descriptor() string {
+	return DescriptorIInputSink
+}
 
 func (s *InputSinkStub) OnTransaction(
 	ctx context.Context,

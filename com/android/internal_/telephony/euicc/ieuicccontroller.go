@@ -41,6 +41,32 @@ const (
 	TransactionIEuiccControllerGetAvailableMemoryInBytes                = binder.FirstCallTransaction + 22
 )
 
+const (
+	MethodIEuiccControllerContinueOperation                        = "continueOperation"
+	MethodIEuiccControllerGetDownloadableSubscriptionMetadata      = "getDownloadableSubscriptionMetadata"
+	MethodIEuiccControllerGetDefaultDownloadableSubscriptionList   = "getDefaultDownloadableSubscriptionList"
+	MethodIEuiccControllerGetEid                                   = "getEid"
+	MethodIEuiccControllerGetOtaStatus                             = "getOtaStatus"
+	MethodIEuiccControllerDownloadSubscription                     = "downloadSubscription"
+	MethodIEuiccControllerGetEuiccInfo                             = "getEuiccInfo"
+	MethodIEuiccControllerDeleteSubscription                       = "deleteSubscription"
+	MethodIEuiccControllerSwitchToSubscription                     = "switchToSubscription"
+	MethodIEuiccControllerSwitchToSubscriptionWithPort             = "switchToSubscriptionWithPort"
+	MethodIEuiccControllerUpdateSubscriptionNickname               = "updateSubscriptionNickname"
+	MethodIEuiccControllerEraseSubscriptions                       = "eraseSubscriptions"
+	MethodIEuiccControllerEraseSubscriptionsWithOptions            = "eraseSubscriptionsWithOptions"
+	MethodIEuiccControllerRetainSubscriptionsForFactoryReset       = "retainSubscriptionsForFactoryReset"
+	MethodIEuiccControllerSetSupportedCountries                    = "setSupportedCountries"
+	MethodIEuiccControllerGetSupportedCountries                    = "getSupportedCountries"
+	MethodIEuiccControllerIsSupportedCountry                       = "isSupportedCountry"
+	MethodIEuiccControllerIsSimPortAvailable                       = "isSimPortAvailable"
+	MethodIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone = "hasCarrierPrivilegesForPackageOnAnyPhone"
+	MethodIEuiccControllerIsCompatChangeEnabled                    = "isCompatChangeEnabled"
+	MethodIEuiccControllerSetPsimConversionSupportedCarriers       = "setPsimConversionSupportedCarriers"
+	MethodIEuiccControllerIsPsimConversionSupported                = "isPsimConversionSupported"
+	MethodIEuiccControllerGetAvailableMemoryInBytes                = "getAvailableMemoryInBytes"
+)
+
 type IEuiccController interface {
 	AsBinder() binder.IBinder
 	ContinueOperation(ctx context.Context, cardId int32, resolutionIntent content.Intent, resolutionExtras os.Bundle) error
@@ -69,17 +95,17 @@ type IEuiccController interface {
 }
 
 type EuiccControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEuiccControllerProxy(
 	remote binder.IBinder,
 ) *EuiccControllerProxy {
-	return &EuiccControllerProxy{remote: remote}
+	return &EuiccControllerProxy{Remote: remote}
 }
 
 func (p *EuiccControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEuiccController = (*EuiccControllerProxy)(nil)
@@ -102,12 +128,12 @@ func (p *EuiccControllerProxy) ContinueOperation(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "continueOperation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerContinueOperation)
 	if _err != nil {
-		_code = TransactionIEuiccControllerContinueOperation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerContinueOperation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,7 +143,7 @@ func (p *EuiccControllerProxy) GetDownloadableSubscriptionMetadata(
 	subscription telephonyEuicc.DownloadableSubscription,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -131,12 +157,12 @@ func (p *EuiccControllerProxy) GetDownloadableSubscriptionMetadata(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getDownloadableSubscriptionMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetDownloadableSubscriptionMetadata)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetDownloadableSubscriptionMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetDownloadableSubscriptionMetadata, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,7 +171,7 @@ func (p *EuiccControllerProxy) GetDefaultDownloadableSubscriptionList(
 	cardId int32,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -155,12 +181,12 @@ func (p *EuiccControllerProxy) GetDefaultDownloadableSubscriptionList(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getDefaultDownloadableSubscriptionList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetDefaultDownloadableSubscriptionList)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetDefaultDownloadableSubscriptionList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetDefaultDownloadableSubscriptionList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -169,18 +195,18 @@ func (p *EuiccControllerProxy) GetEid(
 	cardId int32,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getEid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetEid)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetEid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetEid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,12 +232,12 @@ func (p *EuiccControllerProxy) GetOtaStatus(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getOtaStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetOtaStatus)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetOtaStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetOtaStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -236,7 +262,7 @@ func (p *EuiccControllerProxy) DownloadSubscription(
 	resolvedBundle os.Bundle,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -255,12 +281,12 @@ func (p *EuiccControllerProxy) DownloadSubscription(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "downloadSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerDownloadSubscription)
 	if _err != nil {
-		_code = TransactionIEuiccControllerDownloadSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerDownloadSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -273,12 +299,12 @@ func (p *EuiccControllerProxy) GetEuiccInfo(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getEuiccInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetEuiccInfo)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetEuiccInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetEuiccInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -306,7 +332,7 @@ func (p *EuiccControllerProxy) DeleteSubscription(
 	subscriptionId int32,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -317,12 +343,12 @@ func (p *EuiccControllerProxy) DeleteSubscription(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "deleteSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerDeleteSubscription)
 	if _err != nil {
-		_code = TransactionIEuiccControllerDeleteSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerDeleteSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -332,7 +358,7 @@ func (p *EuiccControllerProxy) SwitchToSubscription(
 	subscriptionId int32,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -343,12 +369,12 @@ func (p *EuiccControllerProxy) SwitchToSubscription(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "switchToSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscription)
 	if _err != nil {
-		_code = TransactionIEuiccControllerSwitchToSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -359,7 +385,7 @@ func (p *EuiccControllerProxy) SwitchToSubscriptionWithPort(
 	portIndex int32,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -371,12 +397,12 @@ func (p *EuiccControllerProxy) SwitchToSubscriptionWithPort(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "switchToSubscriptionWithPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscriptionWithPort)
 	if _err != nil {
-		_code = TransactionIEuiccControllerSwitchToSubscriptionWithPort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerSwitchToSubscriptionWithPort, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -387,7 +413,7 @@ func (p *EuiccControllerProxy) UpdateSubscriptionNickname(
 	nickname string,
 	callbackIntent app.PendingIntent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
@@ -399,12 +425,12 @@ func (p *EuiccControllerProxy) UpdateSubscriptionNickname(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "updateSubscriptionNickname")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerUpdateSubscriptionNickname)
 	if _err != nil {
-		_code = TransactionIEuiccControllerUpdateSubscriptionNickname
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerUpdateSubscriptionNickname, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -421,12 +447,12 @@ func (p *EuiccControllerProxy) EraseSubscriptions(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "eraseSubscriptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptions)
 	if _err != nil {
-		_code = TransactionIEuiccControllerEraseSubscriptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -445,12 +471,12 @@ func (p *EuiccControllerProxy) EraseSubscriptionsWithOptions(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "eraseSubscriptionsWithOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptionsWithOptions)
 	if _err != nil {
-		_code = TransactionIEuiccControllerEraseSubscriptionsWithOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerEraseSubscriptionsWithOptions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -467,12 +493,12 @@ func (p *EuiccControllerProxy) RetainSubscriptionsForFactoryReset(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "retainSubscriptionsForFactoryReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerRetainSubscriptionsForFactoryReset)
 	if _err != nil {
-		_code = TransactionIEuiccControllerRetainSubscriptionsForFactoryReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerRetainSubscriptionsForFactoryReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -493,12 +519,12 @@ func (p *EuiccControllerProxy) SetSupportedCountries(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "setSupportedCountries")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerSetSupportedCountries)
 	if _err != nil {
-		_code = TransactionIEuiccControllerSetSupportedCountries
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerSetSupportedCountries, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -520,12 +546,12 @@ func (p *EuiccControllerProxy) GetSupportedCountries(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteBool(isSupported)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getSupportedCountries")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetSupportedCountries)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetSupportedCountries
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetSupportedCountries, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -561,12 +587,12 @@ func (p *EuiccControllerProxy) IsSupportedCountry(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteString16(countryIso)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "isSupportedCountry")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsSupportedCountry)
 	if _err != nil {
-		_code = TransactionIEuiccControllerIsSupportedCountry
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerIsSupportedCountry, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -589,19 +615,19 @@ func (p *EuiccControllerProxy) IsSimPortAvailable(
 	portIndex int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 	_data.WriteInt32(portIndex)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "isSimPortAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsSimPortAvailable)
 	if _err != nil {
-		_code = TransactionIEuiccControllerIsSimPortAvailable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerIsSimPortAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -622,17 +648,17 @@ func (p *EuiccControllerProxy) HasCarrierPrivilegesForPackageOnAnyPhone(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "hasCarrierPrivilegesForPackageOnAnyPhone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone)
 	if _err != nil {
-		_code = TransactionIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -654,18 +680,18 @@ func (p *EuiccControllerProxy) IsCompatChangeEnabled(
 	changeId int64,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt64(changeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "isCompatChangeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsCompatChangeEnabled)
 	if _err != nil {
-		_code = TransactionIEuiccControllerIsCompatChangeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerIsCompatChangeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -697,12 +723,12 @@ func (p *EuiccControllerProxy) SetPsimConversionSupportedCarriers(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "setPsimConversionSupportedCarriers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerSetPsimConversionSupportedCarriers)
 	if _err != nil {
-		_code = TransactionIEuiccControllerSetPsimConversionSupportedCarriers
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerSetPsimConversionSupportedCarriers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -724,12 +750,12 @@ func (p *EuiccControllerProxy) IsPsimConversionSupported(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(carrierId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "isPsimConversionSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerIsPsimConversionSupported)
 	if _err != nil {
-		_code = TransactionIEuiccControllerIsPsimConversionSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerIsPsimConversionSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -751,18 +777,18 @@ func (p *EuiccControllerProxy) GetAvailableMemoryInBytes(
 	cardId int32,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccController, "getAvailableMemoryInBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccController, MethodIEuiccControllerGetAvailableMemoryInBytes)
 	if _err != nil {
-		_code = TransactionIEuiccControllerGetAvailableMemoryInBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccController, MethodIEuiccControllerGetAvailableMemoryInBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -786,6 +812,10 @@ type EuiccControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EuiccControllerStub)(nil)
+
+func (s *EuiccControllerStub) Descriptor() string {
+	return DescriptorIEuiccController
+}
 
 func (s *EuiccControllerStub) OnTransaction(
 	ctx context.Context,

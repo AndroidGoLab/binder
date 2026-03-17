@@ -15,23 +15,27 @@ const (
 	TransactionIThermalEventListenerNotifyThrottling = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIThermalEventListenerNotifyThrottling = "notifyThrottling"
+)
+
 type IThermalEventListener interface {
 	AsBinder() binder.IBinder
 	NotifyThrottling(ctx context.Context, temperature interface{}) error
 }
 
 type ThermalEventListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewThermalEventListenerProxy(
 	remote binder.IBinder,
 ) *ThermalEventListenerProxy {
-	return &ThermalEventListenerProxy{remote: remote}
+	return &ThermalEventListenerProxy{Remote: remote}
 }
 
 func (p *ThermalEventListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IThermalEventListener = (*ThermalEventListenerProxy)(nil)
@@ -43,12 +47,12 @@ func (p *ThermalEventListenerProxy) NotifyThrottling(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalEventListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThermalEventListener, "notifyThrottling")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalEventListener, MethodIThermalEventListenerNotifyThrottling)
 	if _err != nil {
-		_code = TransactionIThermalEventListenerNotifyThrottling
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThermalEventListener, MethodIThermalEventListenerNotifyThrottling, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type ThermalEventListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ThermalEventListenerStub)(nil)
+
+func (s *ThermalEventListenerStub) Descriptor() string {
+	return DescriptorIThermalEventListener
+}
 
 func (s *ThermalEventListenerStub) OnTransaction(
 	ctx context.Context,

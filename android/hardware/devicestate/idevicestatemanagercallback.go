@@ -17,6 +17,12 @@ const (
 	TransactionIDeviceStateManagerCallbackOnRequestCanceled        = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDeviceStateManagerCallbackOnDeviceStateInfoChanged = "onDeviceStateInfoChanged"
+	MethodIDeviceStateManagerCallbackOnRequestActive          = "onRequestActive"
+	MethodIDeviceStateManagerCallbackOnRequestCanceled        = "onRequestCanceled"
+)
+
 type IDeviceStateManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnDeviceStateInfoChanged(ctx context.Context, info DeviceStateInfo) error
@@ -25,17 +31,17 @@ type IDeviceStateManagerCallback interface {
 }
 
 type DeviceStateManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceStateManagerCallbackProxy(
 	remote binder.IBinder,
 ) *DeviceStateManagerCallbackProxy {
-	return &DeviceStateManagerCallbackProxy{remote: remote}
+	return &DeviceStateManagerCallbackProxy{Remote: remote}
 }
 
 func (p *DeviceStateManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceStateManagerCallback = (*DeviceStateManagerCallbackProxy)(nil)
@@ -51,12 +57,12 @@ func (p *DeviceStateManagerCallbackProxy) OnDeviceStateInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onDeviceStateInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManagerCallback, MethodIDeviceStateManagerCallbackOnDeviceStateInfoChanged)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerCallbackOnDeviceStateInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManagerCallback, MethodIDeviceStateManagerCallbackOnDeviceStateInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,14 +72,14 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestActive(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onRequestActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManagerCallback, MethodIDeviceStateManagerCallbackOnRequestActive)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerCallbackOnRequestActive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManagerCallback, MethodIDeviceStateManagerCallbackOnRequestActive, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,14 +89,14 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestCanceled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onRequestCanceled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateManagerCallback, MethodIDeviceStateManagerCallbackOnRequestCanceled)
 	if _err != nil {
-		_code = TransactionIDeviceStateManagerCallbackOnRequestCanceled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateManagerCallback, MethodIDeviceStateManagerCallbackOnRequestCanceled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,6 +107,10 @@ type DeviceStateManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceStateManagerCallbackStub)(nil)
+
+func (s *DeviceStateManagerCallbackStub) Descriptor() string {
+	return DescriptorIDeviceStateManagerCallback
+}
 
 func (s *DeviceStateManagerCallbackStub) OnTransaction(
 	ctx context.Context,

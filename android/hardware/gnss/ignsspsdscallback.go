@@ -15,23 +15,27 @@ const (
 	TransactionIGnssPsdsCallbackDownloadRequestCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssPsdsCallbackDownloadRequestCb = "downloadRequestCb"
+)
+
 type IGnssPsdsCallback interface {
 	AsBinder() binder.IBinder
 	DownloadRequestCb(ctx context.Context, psdsType PsdsType) error
 }
 
 type GnssPsdsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssPsdsCallbackProxy(
 	remote binder.IBinder,
 ) *GnssPsdsCallbackProxy {
-	return &GnssPsdsCallbackProxy{remote: remote}
+	return &GnssPsdsCallbackProxy{Remote: remote}
 }
 
 func (p *GnssPsdsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssPsdsCallback = (*GnssPsdsCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *GnssPsdsCallbackProxy) DownloadRequestCb(
 	_data.WriteInterfaceToken(DescriptorIGnssPsdsCallback)
 	_data.WriteInt32(int32(psdsType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssPsdsCallback, "downloadRequestCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPsdsCallback, MethodIGnssPsdsCallbackDownloadRequestCb)
 	if _err != nil {
-		_code = TransactionIGnssPsdsCallbackDownloadRequestCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssPsdsCallback, MethodIGnssPsdsCallbackDownloadRequestCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type GnssPsdsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssPsdsCallbackStub)(nil)
+
+func (s *GnssPsdsCallbackStub) Descriptor() string {
+	return DescriptorIGnssPsdsCallback
+}
 
 func (s *GnssPsdsCallbackStub) OnTransaction(
 	ctx context.Context,

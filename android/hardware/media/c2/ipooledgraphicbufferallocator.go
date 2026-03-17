@@ -17,6 +17,11 @@ const (
 	TransactionIPooledGraphicBufferAllocatorDeallocate = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPooledGraphicBufferAllocatorAllocate   = "allocate"
+	MethodIPooledGraphicBufferAllocatorDeallocate = "deallocate"
+)
+
 type IPooledGraphicBufferAllocator interface {
 	AsBinder() binder.IBinder
 	Allocate(ctx context.Context, desc c2IGraphicBufferAllocator.Description) (c2IGraphicBufferAllocator.Allocation, error)
@@ -24,17 +29,17 @@ type IPooledGraphicBufferAllocator interface {
 }
 
 type PooledGraphicBufferAllocatorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPooledGraphicBufferAllocatorProxy(
 	remote binder.IBinder,
 ) *PooledGraphicBufferAllocatorProxy {
-	return &PooledGraphicBufferAllocatorProxy{remote: remote}
+	return &PooledGraphicBufferAllocatorProxy{Remote: remote}
 }
 
 func (p *PooledGraphicBufferAllocatorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPooledGraphicBufferAllocator = (*PooledGraphicBufferAllocatorProxy)(nil)
@@ -51,12 +56,12 @@ func (p *PooledGraphicBufferAllocatorProxy) Allocate(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPooledGraphicBufferAllocator, "allocate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorAllocate)
 	if _err != nil {
-		_code = TransactionIPooledGraphicBufferAllocatorAllocate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorAllocate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,12 +92,12 @@ func (p *PooledGraphicBufferAllocatorProxy) Deallocate(
 	_data.WriteInterfaceToken(DescriptorIPooledGraphicBufferAllocator)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPooledGraphicBufferAllocator, "deallocate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorDeallocate)
 	if _err != nil {
-		_code = TransactionIPooledGraphicBufferAllocatorDeallocate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPooledGraphicBufferAllocator, MethodIPooledGraphicBufferAllocatorDeallocate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,6 +121,10 @@ type PooledGraphicBufferAllocatorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PooledGraphicBufferAllocatorStub)(nil)
+
+func (s *PooledGraphicBufferAllocatorStub) Descriptor() string {
+	return DescriptorIPooledGraphicBufferAllocator
+}
 
 func (s *PooledGraphicBufferAllocatorStub) OnTransaction(
 	ctx context.Context,

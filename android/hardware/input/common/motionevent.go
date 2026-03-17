@@ -54,6 +54,7 @@ func (s *MotionEvent) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PointerProperties)))
 		for _, _item := range s.PointerProperties {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -64,6 +65,7 @@ func (s *MotionEvent) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PointerCoords)))
 		for _, _item := range s.PointerCoords {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -75,6 +77,7 @@ func (s *MotionEvent) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Frames)))
 		for _, _item := range s.Frames {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -184,6 +187,9 @@ func (s *MotionEvent) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.PointerProperties = make([]PointerProperties, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PointerProperties[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -198,6 +204,9 @@ func (s *MotionEvent) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.PointerCoords = make([]PointerCoords, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PointerCoords[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -217,6 +226,9 @@ func (s *MotionEvent) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Frames = make([]VideoFrame, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Frames[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

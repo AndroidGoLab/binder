@@ -15,23 +15,27 @@ const (
 	TransactionIPersistentVrStateCallbacksOnPersistentVrStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPersistentVrStateCallbacksOnPersistentVrStateChanged = "onPersistentVrStateChanged"
+)
+
 type IPersistentVrStateCallbacks interface {
 	AsBinder() binder.IBinder
 	OnPersistentVrStateChanged(ctx context.Context, enabled bool) error
 }
 
 type PersistentVrStateCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPersistentVrStateCallbacksProxy(
 	remote binder.IBinder,
 ) *PersistentVrStateCallbacksProxy {
-	return &PersistentVrStateCallbacksProxy{remote: remote}
+	return &PersistentVrStateCallbacksProxy{Remote: remote}
 }
 
 func (p *PersistentVrStateCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPersistentVrStateCallbacks = (*PersistentVrStateCallbacksProxy)(nil)
@@ -44,12 +48,12 @@ func (p *PersistentVrStateCallbacksProxy) OnPersistentVrStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPersistentVrStateCallbacks)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPersistentVrStateCallbacks, "onPersistentVrStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPersistentVrStateCallbacks, MethodIPersistentVrStateCallbacksOnPersistentVrStateChanged)
 	if _err != nil {
-		_code = TransactionIPersistentVrStateCallbacksOnPersistentVrStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPersistentVrStateCallbacks, MethodIPersistentVrStateCallbacksOnPersistentVrStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type PersistentVrStateCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PersistentVrStateCallbacksStub)(nil)
+
+func (s *PersistentVrStateCallbacksStub) Descriptor() string {
+	return DescriptorIPersistentVrStateCallbacks
+}
 
 func (s *PersistentVrStateCallbacksStub) OnTransaction(
 	ctx context.Context,

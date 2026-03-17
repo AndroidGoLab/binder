@@ -19,6 +19,12 @@ const (
 	TransactionISoundTriggerHwCallbackRecognitionCallback       = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISoundTriggerHwCallbackModelUnloaded             = "modelUnloaded"
+	MethodISoundTriggerHwCallbackPhraseRecognitionCallback = "phraseRecognitionCallback"
+	MethodISoundTriggerHwCallbackRecognitionCallback       = "recognitionCallback"
+)
+
 type ISoundTriggerHwCallback interface {
 	AsBinder() binder.IBinder
 	ModelUnloaded(ctx context.Context, model int32) error
@@ -27,17 +33,17 @@ type ISoundTriggerHwCallback interface {
 }
 
 type SoundTriggerHwCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundTriggerHwCallbackProxy(
 	remote binder.IBinder,
 ) *SoundTriggerHwCallbackProxy {
-	return &SoundTriggerHwCallbackProxy{remote: remote}
+	return &SoundTriggerHwCallbackProxy{Remote: remote}
 }
 
 func (p *SoundTriggerHwCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundTriggerHwCallback = (*SoundTriggerHwCallbackProxy)(nil)
@@ -50,12 +56,12 @@ func (p *SoundTriggerHwCallbackProxy) ModelUnloaded(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwCallback)
 	_data.WriteInt32(model)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHwCallback, "modelUnloaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerHwCallback, MethodISoundTriggerHwCallbackModelUnloaded)
 	if _err != nil {
-		_code = TransactionISoundTriggerHwCallbackModelUnloaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerHwCallback, MethodISoundTriggerHwCallbackModelUnloaded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,12 +87,12 @@ func (p *SoundTriggerHwCallbackProxy) PhraseRecognitionCallback(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHwCallback, "phraseRecognitionCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerHwCallback, MethodISoundTriggerHwCallbackPhraseRecognitionCallback)
 	if _err != nil {
-		_code = TransactionISoundTriggerHwCallbackPhraseRecognitionCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerHwCallback, MethodISoundTriggerHwCallbackPhraseRecognitionCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,12 +118,12 @@ func (p *SoundTriggerHwCallbackProxy) RecognitionCallback(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHwCallback, "recognitionCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerHwCallback, MethodISoundTriggerHwCallbackRecognitionCallback)
 	if _err != nil {
-		_code = TransactionISoundTriggerHwCallbackRecognitionCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerHwCallback, MethodISoundTriggerHwCallbackRecognitionCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,6 +143,10 @@ type SoundTriggerHwCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerHwCallbackStub)(nil)
+
+func (s *SoundTriggerHwCallbackStub) Descriptor() string {
+	return DescriptorISoundTriggerHwCallback
+}
 
 func (s *SoundTriggerHwCallbackStub) OnTransaction(
 	ctx context.Context,

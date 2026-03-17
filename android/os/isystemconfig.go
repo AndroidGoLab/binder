@@ -25,6 +25,18 @@ const (
 	TransactionISystemConfigGetEnhancedConfirmationTrustedInstallers                    = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps                 = "getDisabledUntilUsedPreinstalledCarrierApps"
+	MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps       = "getDisabledUntilUsedPreinstalledCarrierAssociatedApps"
+	MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries = "getDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries"
+	MethodISystemConfigGetSystemPermissionUids                                     = "getSystemPermissionUids"
+	MethodISystemConfigGetEnabledComponentOverrides                                = "getEnabledComponentOverrides"
+	MethodISystemConfigGetDefaultVrComponents                                      = "getDefaultVrComponents"
+	MethodISystemConfigGetPreventUserDisablePackages                               = "getPreventUserDisablePackages"
+	MethodISystemConfigGetEnhancedConfirmationTrustedPackages                      = "getEnhancedConfirmationTrustedPackages"
+	MethodISystemConfigGetEnhancedConfirmationTrustedInstallers                    = "getEnhancedConfirmationTrustedInstallers"
+)
+
 type ISystemConfig interface {
 	AsBinder() binder.IBinder
 	GetDisabledUntilUsedPreinstalledCarrierApps(ctx context.Context) ([]string, error)
@@ -39,17 +51,17 @@ type ISystemConfig interface {
 }
 
 type SystemConfigProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSystemConfigProxy(
 	remote binder.IBinder,
 ) *SystemConfigProxy {
-	return &SystemConfigProxy{remote: remote}
+	return &SystemConfigProxy{Remote: remote}
 }
 
 func (p *SystemConfigProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISystemConfig = (*SystemConfigProxy)(nil)
@@ -61,12 +73,12 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierApps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierApps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps)
 	if _err != nil {
-		_code = TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,12 +112,12 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierAssociatedApps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps)
 	if _err != nil {
-		_code = TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,12 +155,12 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries)
 	if _err != nil {
-		_code = TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,12 +200,12 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(permissionName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getSystemPermissionUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetSystemPermissionUids)
 	if _err != nil {
-		_code = TransactionISystemConfigGetSystemPermissionUids
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetSystemPermissionUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -229,12 +241,12 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getEnabledComponentOverrides")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetEnabledComponentOverrides)
 	if _err != nil {
-		_code = TransactionISystemConfigGetEnabledComponentOverrides
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetEnabledComponentOverrides, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -252,6 +264,9 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -267,12 +282,12 @@ func (p *SystemConfigProxy) GetDefaultVrComponents(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDefaultVrComponents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetDefaultVrComponents)
 	if _err != nil {
-		_code = TransactionISystemConfigGetDefaultVrComponents
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetDefaultVrComponents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -290,6 +305,9 @@ func (p *SystemConfigProxy) GetDefaultVrComponents(
 	if _count >= 0 {
 		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -305,12 +323,12 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getPreventUserDisablePackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetPreventUserDisablePackages)
 	if _err != nil {
-		_code = TransactionISystemConfigGetPreventUserDisablePackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetPreventUserDisablePackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -344,12 +362,12 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getEnhancedConfirmationTrustedPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetEnhancedConfirmationTrustedPackages)
 	if _err != nil {
-		_code = TransactionISystemConfigGetEnhancedConfirmationTrustedPackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetEnhancedConfirmationTrustedPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -367,6 +385,9 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	if _count >= 0 {
 		_result = make([]pm.SignedPackageParcel, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -382,12 +403,12 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getEnhancedConfirmationTrustedInstallers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemConfig, MethodISystemConfigGetEnhancedConfirmationTrustedInstallers)
 	if _err != nil {
-		_code = TransactionISystemConfigGetEnhancedConfirmationTrustedInstallers
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemConfig, MethodISystemConfigGetEnhancedConfirmationTrustedInstallers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -405,6 +426,9 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	if _count >= 0 {
 		_result = make([]pm.SignedPackageParcel, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -420,6 +444,10 @@ type SystemConfigStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SystemConfigStub)(nil)
+
+func (s *SystemConfigStub) Descriptor() string {
+	return DescriptorISystemConfig
+}
 
 func (s *SystemConfigStub) OnTransaction(
 	ctx context.Context,

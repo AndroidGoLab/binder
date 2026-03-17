@@ -15,23 +15,27 @@ const (
 	TransactionISurfacePackageResultCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISurfacePackageResultCallbackOnResult = "onResult"
+)
+
 type ISurfacePackageResultCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, result interface{}) error
 }
 
 type SurfacePackageResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSurfacePackageResultCallbackProxy(
 	remote binder.IBinder,
 ) *SurfacePackageResultCallbackProxy {
-	return &SurfacePackageResultCallbackProxy{remote: remote}
+	return &SurfacePackageResultCallbackProxy{Remote: remote}
 }
 
 func (p *SurfacePackageResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISurfacePackageResultCallback = (*SurfacePackageResultCallbackProxy)(nil)
@@ -43,12 +47,12 @@ func (p *SurfacePackageResultCallbackProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfacePackageResultCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfacePackageResultCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfacePackageResultCallback, MethodISurfacePackageResultCallbackOnResult)
 	if _err != nil {
-		_code = TransactionISurfacePackageResultCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfacePackageResultCallback, MethodISurfacePackageResultCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type SurfacePackageResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SurfacePackageResultCallbackStub)(nil)
+
+func (s *SurfacePackageResultCallbackStub) Descriptor() string {
+	return DescriptorISurfacePackageResultCallback
+}
 
 func (s *SurfacePackageResultCallbackStub) OnTransaction(
 	ctx context.Context,

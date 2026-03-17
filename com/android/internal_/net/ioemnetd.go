@@ -16,6 +16,11 @@ const (
 	TransactionIOemNetdRegisterOemUnsolicitedEventListener = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIOemNetdIsAlive                             = "isAlive"
+	MethodIOemNetdRegisterOemUnsolicitedEventListener = "registerOemUnsolicitedEventListener"
+)
+
 type IOemNetd interface {
 	AsBinder() binder.IBinder
 	IsAlive(ctx context.Context) (bool, error)
@@ -23,17 +28,17 @@ type IOemNetd interface {
 }
 
 type OemNetdProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOemNetdProxy(
 	remote binder.IBinder,
 ) *OemNetdProxy {
-	return &OemNetdProxy{remote: remote}
+	return &OemNetdProxy{Remote: remote}
 }
 
 func (p *OemNetdProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOemNetd = (*OemNetdProxy)(nil)
@@ -45,12 +50,12 @@ func (p *OemNetdProxy) IsAlive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOemNetd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOemNetd, "isAlive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemNetd, MethodIOemNetdIsAlive)
 	if _err != nil {
-		_code = TransactionIOemNetdIsAlive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOemNetd, MethodIOemNetdIsAlive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,14 +78,14 @@ func (p *OemNetdProxy) RegisterOemUnsolicitedEventListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOemNetd)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOemNetd, "registerOemUnsolicitedEventListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemNetd, MethodIOemNetdRegisterOemUnsolicitedEventListener)
 	if _err != nil {
-		_code = TransactionIOemNetdRegisterOemUnsolicitedEventListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOemNetd, MethodIOemNetdRegisterOemUnsolicitedEventListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,6 +105,10 @@ type OemNetdStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OemNetdStub)(nil)
+
+func (s *OemNetdStub) Descriptor() string {
+	return DescriptorIOemNetd
+}
 
 func (s *OemNetdStub) OnTransaction(
 	ctx context.Context,

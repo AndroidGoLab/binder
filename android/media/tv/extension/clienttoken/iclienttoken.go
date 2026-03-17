@@ -15,23 +15,27 @@ const (
 	TransactionIClientTokenGenerateClientToken = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIClientTokenGenerateClientToken = "generateClientToken"
+)
+
 type IClientToken interface {
 	AsBinder() binder.IBinder
 	GenerateClientToken(ctx context.Context) (string, error)
 }
 
 type ClientTokenProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewClientTokenProxy(
 	remote binder.IBinder,
 ) *ClientTokenProxy {
-	return &ClientTokenProxy{remote: remote}
+	return &ClientTokenProxy{Remote: remote}
 }
 
 func (p *ClientTokenProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IClientToken = (*ClientTokenProxy)(nil)
@@ -43,12 +47,12 @@ func (p *ClientTokenProxy) GenerateClientToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientToken, "generateClientToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientToken, MethodIClientTokenGenerateClientToken)
 	if _err != nil {
-		_code = TransactionIClientTokenGenerateClientToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientToken, MethodIClientTokenGenerateClientToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type ClientTokenStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ClientTokenStub)(nil)
+
+func (s *ClientTokenStub) Descriptor() string {
+	return DescriptorIClientToken
+}
 
 func (s *ClientTokenStub) OnTransaction(
 	ctx context.Context,

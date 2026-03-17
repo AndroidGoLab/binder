@@ -17,6 +17,11 @@ const (
 	TransactionIStreamOutEventCallbackOnRecommendedLatencyModeChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIStreamOutEventCallbackOnCodecFormatChanged            = "onCodecFormatChanged"
+	MethodIStreamOutEventCallbackOnRecommendedLatencyModeChanged = "onRecommendedLatencyModeChanged"
+)
+
 type IStreamOutEventCallback interface {
 	AsBinder() binder.IBinder
 	OnCodecFormatChanged(ctx context.Context, audioMetadata []byte) error
@@ -24,17 +29,17 @@ type IStreamOutEventCallback interface {
 }
 
 type StreamOutEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamOutEventCallbackProxy(
 	remote binder.IBinder,
 ) *StreamOutEventCallbackProxy {
-	return &StreamOutEventCallbackProxy{remote: remote}
+	return &StreamOutEventCallbackProxy{Remote: remote}
 }
 
 func (p *StreamOutEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamOutEventCallback = (*StreamOutEventCallbackProxy)(nil)
@@ -54,12 +59,12 @@ func (p *StreamOutEventCallbackProxy) OnCodecFormatChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamOutEventCallback, "onCodecFormatChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnCodecFormatChanged)
 	if _err != nil {
-		_code = TransactionIStreamOutEventCallbackOnCodecFormatChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnCodecFormatChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +83,12 @@ func (p *StreamOutEventCallbackProxy) OnRecommendedLatencyModeChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamOutEventCallback, "onRecommendedLatencyModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnRecommendedLatencyModeChanged)
 	if _err != nil {
-		_code = TransactionIStreamOutEventCallbackOnRecommendedLatencyModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamOutEventCallback, MethodIStreamOutEventCallbackOnRecommendedLatencyModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +99,10 @@ type StreamOutEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamOutEventCallbackStub)(nil)
+
+func (s *StreamOutEventCallbackStub) Descriptor() string {
+	return DescriptorIStreamOutEventCallback
+}
 
 func (s *StreamOutEventCallbackStub) OnTransaction(
 	ctx context.Context,

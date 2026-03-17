@@ -17,6 +17,11 @@ const (
 	TransactionIVisualQueryDetectionAttentionListenerOnAttentionLost   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVisualQueryDetectionAttentionListenerOnAttentionGained = "onAttentionGained"
+	MethodIVisualQueryDetectionAttentionListenerOnAttentionLost   = "onAttentionLost"
+)
+
 type IVisualQueryDetectionAttentionListener interface {
 	AsBinder() binder.IBinder
 	OnAttentionGained(ctx context.Context, attentionResult voice.VisualQueryAttentionResult) error
@@ -24,17 +29,17 @@ type IVisualQueryDetectionAttentionListener interface {
 }
 
 type VisualQueryDetectionAttentionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVisualQueryDetectionAttentionListenerProxy(
 	remote binder.IBinder,
 ) *VisualQueryDetectionAttentionListenerProxy {
-	return &VisualQueryDetectionAttentionListenerProxy{remote: remote}
+	return &VisualQueryDetectionAttentionListenerProxy{Remote: remote}
 }
 
 func (p *VisualQueryDetectionAttentionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVisualQueryDetectionAttentionListener = (*VisualQueryDetectionAttentionListenerProxy)(nil)
@@ -50,12 +55,12 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionGained(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionAttentionListener, "onAttentionGained")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionAttentionListener, MethodIVisualQueryDetectionAttentionListenerOnAttentionGained)
 	if _err != nil {
-		_code = TransactionIVisualQueryDetectionAttentionListenerOnAttentionGained
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVisualQueryDetectionAttentionListener, MethodIVisualQueryDetectionAttentionListenerOnAttentionGained, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionLost(
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionAttentionListener)
 	_data.WriteInt32(interactionIntention)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionAttentionListener, "onAttentionLost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVisualQueryDetectionAttentionListener, MethodIVisualQueryDetectionAttentionListenerOnAttentionLost)
 	if _err != nil {
-		_code = TransactionIVisualQueryDetectionAttentionListenerOnAttentionLost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVisualQueryDetectionAttentionListener, MethodIVisualQueryDetectionAttentionListenerOnAttentionLost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type VisualQueryDetectionAttentionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VisualQueryDetectionAttentionListenerStub)(nil)
+
+func (s *VisualQueryDetectionAttentionListenerStub) Descriptor() string {
+	return DescriptorIVisualQueryDetectionAttentionListener
+}
 
 func (s *VisualQueryDetectionAttentionListenerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet = "onGroupLockSet"
+)
+
 type IBluetoothCsipSetCoordinatorLockCallback interface {
 	AsBinder() binder.IBinder
 	OnGroupLockSet(ctx context.Context, groupId int32, opStatus int32, isLocked bool) error
 }
 
 type BluetoothCsipSetCoordinatorLockCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothCsipSetCoordinatorLockCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothCsipSetCoordinatorLockCallbackProxy {
-	return &BluetoothCsipSetCoordinatorLockCallbackProxy{remote: remote}
+	return &BluetoothCsipSetCoordinatorLockCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothCsipSetCoordinatorLockCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothCsipSetCoordinatorLockCallback = (*BluetoothCsipSetCoordinatorLockCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *BluetoothCsipSetCoordinatorLockCallbackProxy) OnGroupLockSet(
 	_data.WriteInt32(opStatus)
 	_data.WriteBool(isLocked)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinatorLockCallback, "onGroupLockSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinatorLockCallback, MethodIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinatorLockCallback, MethodIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type BluetoothCsipSetCoordinatorLockCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothCsipSetCoordinatorLockCallbackStub)(nil)
+
+func (s *BluetoothCsipSetCoordinatorLockCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothCsipSetCoordinatorLockCallback
+}
 
 func (s *BluetoothCsipSetCoordinatorLockCallbackStub) OnTransaction(
 	ctx context.Context,

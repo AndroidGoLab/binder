@@ -16,6 +16,11 @@ const (
 	TransactionIStoreUpgradedKeyCallbackOnError   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIStoreUpgradedKeyCallbackOnSuccess = "onSuccess"
+	MethodIStoreUpgradedKeyCallbackOnError   = "onError"
+)
+
 type IStoreUpgradedKeyCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context) error
@@ -23,17 +28,17 @@ type IStoreUpgradedKeyCallback interface {
 }
 
 type StoreUpgradedKeyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStoreUpgradedKeyCallbackProxy(
 	remote binder.IBinder,
 ) *StoreUpgradedKeyCallbackProxy {
-	return &StoreUpgradedKeyCallbackProxy{remote: remote}
+	return &StoreUpgradedKeyCallbackProxy{Remote: remote}
 }
 
 func (p *StoreUpgradedKeyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStoreUpgradedKeyCallback = (*StoreUpgradedKeyCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *StoreUpgradedKeyCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStoreUpgradedKeyCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStoreUpgradedKeyCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStoreUpgradedKeyCallback, MethodIStoreUpgradedKeyCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIStoreUpgradedKeyCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStoreUpgradedKeyCallback, MethodIStoreUpgradedKeyCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *StoreUpgradedKeyCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIStoreUpgradedKeyCallback)
 	_data.WriteString16(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStoreUpgradedKeyCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStoreUpgradedKeyCallback, MethodIStoreUpgradedKeyCallbackOnError)
 	if _err != nil {
-		_code = TransactionIStoreUpgradedKeyCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStoreUpgradedKeyCallback, MethodIStoreUpgradedKeyCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type StoreUpgradedKeyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StoreUpgradedKeyCallbackStub)(nil)
+
+func (s *StoreUpgradedKeyCallbackStub) Descriptor() string {
+	return DescriptorIStoreUpgradedKeyCallback
+}
 
 func (s *StoreUpgradedKeyCallbackStub) OnTransaction(
 	ctx context.Context,

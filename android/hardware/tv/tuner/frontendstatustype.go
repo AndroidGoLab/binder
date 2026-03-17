@@ -52,5 +52,4 @@ const (
 	FrontendStatusTypeIptvPacketsReceived       FrontendStatusType = 44
 	FrontendStatusTypeIptvWorstJitterMs         FrontendStatusType = 45
 	FrontendStatusTypeIptvAverageJitterMs       FrontendStatusType = 46
-	FrontendStatusTypeStandardExt               FrontendStatusType = 47
 )

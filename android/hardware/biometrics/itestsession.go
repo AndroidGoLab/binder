@@ -20,7 +20,17 @@ const (
 	TransactionITestSessionNotifyAcquired       = binder.FirstCallTransaction + 5
 	TransactionITestSessionNotifyError          = binder.FirstCallTransaction + 6
 	TransactionITestSessionCleanupInternalState = binder.FirstCallTransaction + 7
-	TransactionITestSessionGetSensorId          = binder.FirstCallTransaction + 8
+)
+
+const (
+	MethodITestSessionSetTestHalEnabled    = "setTestHalEnabled"
+	MethodITestSessionStartEnroll          = "startEnroll"
+	MethodITestSessionFinishEnroll         = "finishEnroll"
+	MethodITestSessionAcceptAuthentication = "acceptAuthentication"
+	MethodITestSessionRejectAuthentication = "rejectAuthentication"
+	MethodITestSessionNotifyAcquired       = "notifyAcquired"
+	MethodITestSessionNotifyError          = "notifyError"
+	MethodITestSessionCleanupInternalState = "cleanupInternalState"
 )
 
 type ITestSession interface {
@@ -33,21 +43,20 @@ type ITestSession interface {
 	NotifyAcquired(ctx context.Context, acquireInfo int32) error
 	NotifyError(ctx context.Context, errorCode int32) error
 	CleanupInternalState(ctx context.Context) error
-	GetSensorId(ctx context.Context) (int32, error)
 }
 
 type TestSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestSessionProxy(
 	remote binder.IBinder,
 ) *TestSessionProxy {
-	return &TestSessionProxy{remote: remote}
+	return &TestSessionProxy{Remote: remote}
 }
 
 func (p *TestSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestSession = (*TestSessionProxy)(nil)
@@ -60,12 +69,12 @@ func (p *TestSessionProxy) SetTestHalEnabled(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteBool(enableTestHal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "setTestHalEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionSetTestHalEnabled)
 	if _err != nil {
-		_code = TransactionITestSessionSetTestHalEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionSetTestHalEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,17 +90,17 @@ func (p *TestSessionProxy) SetTestHalEnabled(
 func (p *TestSessionProxy) StartEnroll(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "startEnroll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionStartEnroll)
 	if _err != nil {
-		_code = TransactionITestSessionStartEnroll
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionStartEnroll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,17 +116,17 @@ func (p *TestSessionProxy) StartEnroll(
 func (p *TestSessionProxy) FinishEnroll(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "finishEnroll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionFinishEnroll)
 	if _err != nil {
-		_code = TransactionITestSessionFinishEnroll
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionFinishEnroll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,17 +142,17 @@ func (p *TestSessionProxy) FinishEnroll(
 func (p *TestSessionProxy) AcceptAuthentication(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "acceptAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionAcceptAuthentication)
 	if _err != nil {
-		_code = TransactionITestSessionAcceptAuthentication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionAcceptAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -159,17 +168,17 @@ func (p *TestSessionProxy) AcceptAuthentication(
 func (p *TestSessionProxy) RejectAuthentication(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "rejectAuthentication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionRejectAuthentication)
 	if _err != nil {
-		_code = TransactionITestSessionRejectAuthentication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionRejectAuthentication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -186,18 +195,18 @@ func (p *TestSessionProxy) NotifyAcquired(
 	ctx context.Context,
 	acquireInfo int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(acquireInfo)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "notifyAcquired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionNotifyAcquired)
 	if _err != nil {
-		_code = TransactionITestSessionNotifyAcquired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionNotifyAcquired, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,18 +223,18 @@ func (p *TestSessionProxy) NotifyError(
 	ctx context.Context,
 	errorCode int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "notifyError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionNotifyError)
 	if _err != nil {
-		_code = TransactionITestSessionNotifyError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionNotifyError, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -241,17 +250,17 @@ func (p *TestSessionProxy) NotifyError(
 func (p *TestSessionProxy) CleanupInternalState(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "cleanupInternalState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSession, MethodITestSessionCleanupInternalState)
 	if _err != nil {
-		_code = TransactionITestSessionCleanupInternalState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSession, MethodITestSessionCleanupInternalState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -264,35 +273,6 @@ func (p *TestSessionProxy) CleanupInternalState(
 	return nil
 }
 
-func (p *TestSessionProxy) GetSensorId(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITestSession)
-
-	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "getSensorId")
-	if _err != nil {
-		_code = TransactionITestSessionGetSensorId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 // TestSessionStub dispatches incoming binder transactions
 // to a typed ITestSession implementation.
 type TestSessionStub struct {
@@ -300,6 +280,10 @@ type TestSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestSessionStub)(nil)
+
+func (s *TestSessionStub) Descriptor() string {
+	return DescriptorITestSession
+}
 
 func (s *TestSessionStub) OnTransaction(
 	ctx context.Context,
@@ -436,19 +420,6 @@ func (s *TestSessionStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionITestSessionGetSensorId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetSensorId(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -466,7 +437,6 @@ type ITestSessionServer interface {
 	NotifyAcquired(ctx context.Context, acquireInfo int32) error
 	NotifyError(ctx context.Context, errorCode int32) error
 	CleanupInternalState(ctx context.Context) error
-	GetSensorId(ctx context.Context) (int32, error)
 }
 
 type testSessionStubWrapper struct {
@@ -527,12 +497,6 @@ func (w *testSessionStubWrapper) CleanupInternalState(
 	ctx context.Context,
 ) error {
 	return w.impl.CleanupInternalState(ctx)
-}
-
-func (w *testSessionStubWrapper) GetSensorId(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetSensorId(ctx)
 }
 
 var _ ITestSession = (*testSessionStubWrapper)(nil)

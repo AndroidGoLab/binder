@@ -15,23 +15,27 @@ const (
 	TransactionIPackageDeleteObserverPackageDeleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPackageDeleteObserverPackageDeleted = "packageDeleted"
+)
+
 type IPackageDeleteObserver interface {
 	AsBinder() binder.IBinder
 	PackageDeleted(ctx context.Context, packageName string, returnCode int32) error
 }
 
 type PackageDeleteObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageDeleteObserverProxy(
 	remote binder.IBinder,
 ) *PackageDeleteObserverProxy {
-	return &PackageDeleteObserverProxy{remote: remote}
+	return &PackageDeleteObserverProxy{Remote: remote}
 }
 
 func (p *PackageDeleteObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageDeleteObserver = (*PackageDeleteObserverProxy)(nil)
@@ -46,12 +50,12 @@ func (p *PackageDeleteObserverProxy) PackageDeleted(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(returnCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageDeleteObserver, "packageDeleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageDeleteObserver, MethodIPackageDeleteObserverPackageDeleted)
 	if _err != nil {
-		_code = TransactionIPackageDeleteObserverPackageDeleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageDeleteObserver, MethodIPackageDeleteObserverPackageDeleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type PackageDeleteObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageDeleteObserverStub)(nil)
+
+func (s *PackageDeleteObserverStub) Descriptor() string {
+	return DescriptorIPackageDeleteObserver
+}
 
 func (s *PackageDeleteObserverStub) OnTransaction(
 	ctx context.Context,

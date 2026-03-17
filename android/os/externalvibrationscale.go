@@ -9,7 +9,6 @@ import (
 
 type ExternalVibrationScale struct {
 	ScaleLevel           osExternalVibrationScale.ScaleLevel
-	ScaleFactor          float32
 	AdaptiveHapticsScale float32
 }
 
@@ -20,7 +19,6 @@ func (s *ExternalVibrationScale) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.ScaleLevel))
-	p.WriteFloat32(s.ScaleFactor)
 	p.WriteFloat32(s.AdaptiveHapticsScale)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -40,11 +38,6 @@ func (s *ExternalVibrationScale) UnmarshalParcel(
 		return _err
 	}
 	s.ScaleLevel = osExternalVibrationScale.ScaleLevel(_scaleLevelRaw)
-
-	s.ScaleFactor, _err = p.ReadFloat32()
-	if _err != nil {
-		return _err
-	}
 
 	s.AdaptiveHapticsScale, _err = p.ReadFloat32()
 	if _err != nil {

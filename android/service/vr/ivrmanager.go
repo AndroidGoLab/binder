@@ -26,6 +26,20 @@ const (
 	TransactionIVrManagerSetStandbyEnabled                   = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIVrManagerRegisterListener                    = "registerListener"
+	MethodIVrManagerUnregisterListener                  = "unregisterListener"
+	MethodIVrManagerRegisterPersistentVrStateListener   = "registerPersistentVrStateListener"
+	MethodIVrManagerUnregisterPersistentVrStateListener = "unregisterPersistentVrStateListener"
+	MethodIVrManagerGetVrModeState                      = "getVrModeState"
+	MethodIVrManagerGetPersistentVrModeEnabled          = "getPersistentVrModeEnabled"
+	MethodIVrManagerSetPersistentVrModeEnabled          = "setPersistentVrModeEnabled"
+	MethodIVrManagerSetVr2dDisplayProperties            = "setVr2dDisplayProperties"
+	MethodIVrManagerGetVr2dDisplayId                    = "getVr2dDisplayId"
+	MethodIVrManagerSetAndBindCompositor                = "setAndBindCompositor"
+	MethodIVrManagerSetStandbyEnabled                   = "setStandbyEnabled"
+)
+
 type IVrManager interface {
 	AsBinder() binder.IBinder
 	RegisterListener(ctx context.Context, cb IVrStateCallbacks) error
@@ -42,17 +56,17 @@ type IVrManager interface {
 }
 
 type VrManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVrManagerProxy(
 	remote binder.IBinder,
 ) *VrManagerProxy {
-	return &VrManagerProxy{remote: remote}
+	return &VrManagerProxy{Remote: remote}
 }
 
 func (p *VrManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVrManager = (*VrManagerProxy)(nil)
@@ -63,14 +77,14 @@ func (p *VrManagerProxy) RegisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "registerListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerRegisterListener)
 	if _err != nil {
-		_code = TransactionIVrManagerRegisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerRegisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -89,14 +103,14 @@ func (p *VrManagerProxy) UnregisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "unregisterListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerUnregisterListener)
 	if _err != nil {
-		_code = TransactionIVrManagerUnregisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerUnregisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -115,14 +129,14 @@ func (p *VrManagerProxy) RegisterPersistentVrStateListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "registerPersistentVrStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerRegisterPersistentVrStateListener)
 	if _err != nil {
-		_code = TransactionIVrManagerRegisterPersistentVrStateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerRegisterPersistentVrStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,14 +155,14 @@ func (p *VrManagerProxy) UnregisterPersistentVrStateListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "unregisterPersistentVrStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerUnregisterPersistentVrStateListener)
 	if _err != nil {
-		_code = TransactionIVrManagerUnregisterPersistentVrStateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerUnregisterPersistentVrStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,12 +182,12 @@ func (p *VrManagerProxy) GetVrModeState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "getVrModeState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerGetVrModeState)
 	if _err != nil {
-		_code = TransactionIVrManagerGetVrModeState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerGetVrModeState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -197,12 +211,12 @@ func (p *VrManagerProxy) GetPersistentVrModeEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "getPersistentVrModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerGetPersistentVrModeEnabled)
 	if _err != nil {
-		_code = TransactionIVrManagerGetPersistentVrModeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerGetPersistentVrModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -227,12 +241,12 @@ func (p *VrManagerProxy) SetPersistentVrModeEnabled(
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setPersistentVrModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerSetPersistentVrModeEnabled)
 	if _err != nil {
-		_code = TransactionIVrManagerSetPersistentVrModeEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerSetPersistentVrModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -256,12 +270,12 @@ func (p *VrManagerProxy) SetVr2dDisplayProperties(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setVr2dDisplayProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerSetVr2dDisplayProperties)
 	if _err != nil {
-		_code = TransactionIVrManagerSetVr2dDisplayProperties
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerSetVr2dDisplayProperties, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -281,12 +295,12 @@ func (p *VrManagerProxy) GetVr2dDisplayId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "getVr2dDisplayId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerGetVr2dDisplayId)
 	if _err != nil {
-		_code = TransactionIVrManagerGetVr2dDisplayId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerGetVr2dDisplayId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -311,12 +325,12 @@ func (p *VrManagerProxy) SetAndBindCompositor(
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteString16(componentName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setAndBindCompositor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerSetAndBindCompositor)
 	if _err != nil {
-		_code = TransactionIVrManagerSetAndBindCompositor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerSetAndBindCompositor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -337,12 +351,12 @@ func (p *VrManagerProxy) SetStandbyEnabled(
 	_data.WriteInterfaceToken(DescriptorIVrManager)
 	_data.WriteBool(standby)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setStandbyEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVrManager, MethodIVrManagerSetStandbyEnabled)
 	if _err != nil {
-		_code = TransactionIVrManagerSetStandbyEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVrManager, MethodIVrManagerSetStandbyEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -362,6 +376,10 @@ type VrManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VrManagerStub)(nil)
+
+func (s *VrManagerStub) Descriptor() string {
+	return DescriptorIVrManager
+}
 
 func (s *VrManagerStub) OnTransaction(
 	ctx context.Context,

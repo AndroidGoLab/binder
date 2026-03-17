@@ -24,6 +24,17 @@ const (
 	TransactionIEventMonitorSetBgmTuneChannelInfo            = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIEventMonitorGetPresentEventInfo              = "getPresentEventInfo"
+	MethodIEventMonitorAddPresentEventInfoListener      = "addPresentEventInfoListener"
+	MethodIEventMonitorRemovePresentEventInfoListener   = "removePresentEventInfoListener"
+	MethodIEventMonitorGetFollowingEventInfo            = "getFollowingEventInfo"
+	MethodIEventMonitorAddFollowingEventInfoListener    = "addFollowingEventInfoListener"
+	MethodIEventMonitorRemoveFollowingEventInfoListener = "removeFollowingEventInfoListener"
+	MethodIEventMonitorGetSdtGuidanceInfo               = "getSdtGuidanceInfo"
+	MethodIEventMonitorSetBgmTuneChannelInfo            = "setBgmTuneChannelInfo"
+)
+
 type IEventMonitor interface {
 	AsBinder() binder.IBinder
 	GetPresentEventInfo(ctx context.Context, channelDbId int64) (os.Bundle, error)
@@ -37,17 +48,17 @@ type IEventMonitor interface {
 }
 
 type EventMonitorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventMonitorProxy(
 	remote binder.IBinder,
 ) *EventMonitorProxy {
-	return &EventMonitorProxy{remote: remote}
+	return &EventMonitorProxy{Remote: remote}
 }
 
 func (p *EventMonitorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventMonitor = (*EventMonitorProxy)(nil)
@@ -61,12 +72,12 @@ func (p *EventMonitorProxy) GetPresentEventInfo(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteInt64(channelDbId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "getPresentEventInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorGetPresentEventInfo)
 	if _err != nil {
-		_code = TransactionIEventMonitorGetPresentEventInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorGetPresentEventInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,14 +105,14 @@ func (p *EventMonitorProxy) AddPresentEventInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "addPresentEventInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorAddPresentEventInfoListener)
 	if _err != nil {
-		_code = TransactionIEventMonitorAddPresentEventInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorAddPresentEventInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,14 +131,14 @@ func (p *EventMonitorProxy) RemovePresentEventInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "removePresentEventInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorRemovePresentEventInfoListener)
 	if _err != nil {
-		_code = TransactionIEventMonitorRemovePresentEventInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorRemovePresentEventInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,12 +160,12 @@ func (p *EventMonitorProxy) GetFollowingEventInfo(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteInt64(channelDbId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "getFollowingEventInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorGetFollowingEventInfo)
 	if _err != nil {
-		_code = TransactionIEventMonitorGetFollowingEventInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorGetFollowingEventInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,14 +193,14 @@ func (p *EventMonitorProxy) AddFollowingEventInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "addFollowingEventInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorAddFollowingEventInfoListener)
 	if _err != nil {
-		_code = TransactionIEventMonitorAddFollowingEventInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorAddFollowingEventInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -208,14 +219,14 @@ func (p *EventMonitorProxy) RemoveFollowingEventInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "removeFollowingEventInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorRemoveFollowingEventInfoListener)
 	if _err != nil {
-		_code = TransactionIEventMonitorRemoveFollowingEventInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorRemoveFollowingEventInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -237,12 +248,12 @@ func (p *EventMonitorProxy) GetSdtGuidanceInfo(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteInt64(channelDbId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "getSdtGuidanceInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorGetSdtGuidanceInfo)
 	if _err != nil {
-		_code = TransactionIEventMonitorGetSdtGuidanceInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorGetSdtGuidanceInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -275,18 +286,19 @@ func (p *EventMonitorProxy) SetBgmTuneChannelInfo(
 	} else {
 		_data.WriteInt32(int32(len(tuneChannelInfos)))
 		for _, _item := range tuneChannelInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "setBgmTuneChannelInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventMonitor, MethodIEventMonitorSetBgmTuneChannelInfo)
 	if _err != nil {
-		_code = TransactionIEventMonitorSetBgmTuneChannelInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventMonitor, MethodIEventMonitorSetBgmTuneChannelInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -306,6 +318,10 @@ type EventMonitorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventMonitorStub)(nil)
+
+func (s *EventMonitorStub) Descriptor() string {
+	return DescriptorIEventMonitor
+}
 
 func (s *EventMonitorStub) OnTransaction(
 	ctx context.Context,

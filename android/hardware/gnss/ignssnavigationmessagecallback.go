@@ -16,23 +16,27 @@ const (
 	TransactionIGnssNavigationMessageCallbackGnssNavigationMessageCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssNavigationMessageCallbackGnssNavigationMessageCb = "gnssNavigationMessageCb"
+)
+
 type IGnssNavigationMessageCallback interface {
 	AsBinder() binder.IBinder
 	GnssNavigationMessageCb(ctx context.Context, message gnssIGnssNavigationMessageCallback.GnssNavigationMessage) error
 }
 
 type GnssNavigationMessageCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssNavigationMessageCallbackProxy(
 	remote binder.IBinder,
 ) *GnssNavigationMessageCallbackProxy {
-	return &GnssNavigationMessageCallbackProxy{remote: remote}
+	return &GnssNavigationMessageCallbackProxy{Remote: remote}
 }
 
 func (p *GnssNavigationMessageCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssNavigationMessageCallback = (*GnssNavigationMessageCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *GnssNavigationMessageCallbackProxy) GnssNavigationMessageCb(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageCallback, "gnssNavigationMessageCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNavigationMessageCallback, MethodIGnssNavigationMessageCallbackGnssNavigationMessageCb)
 	if _err != nil {
-		_code = TransactionIGnssNavigationMessageCallbackGnssNavigationMessageCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssNavigationMessageCallback, MethodIGnssNavigationMessageCallbackGnssNavigationMessageCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,6 +77,10 @@ type GnssNavigationMessageCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssNavigationMessageCallbackStub)(nil)
+
+func (s *GnssNavigationMessageCallbackStub) Descriptor() string {
+	return DescriptorIGnssNavigationMessageCallback
+}
 
 func (s *GnssNavigationMessageCallbackStub) OnTransaction(
 	ctx context.Context,

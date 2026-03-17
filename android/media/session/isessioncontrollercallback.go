@@ -22,6 +22,17 @@ const (
 	TransactionISessionControllerCallbackOnVolumeInfoChanged    = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodISessionControllerCallbackOnEvent                = "onEvent"
+	MethodISessionControllerCallbackOnSessionDestroyed     = "onSessionDestroyed"
+	MethodISessionControllerCallbackOnPlaybackStateChanged = "onPlaybackStateChanged"
+	MethodISessionControllerCallbackOnMetadataChanged      = "onMetadataChanged"
+	MethodISessionControllerCallbackOnQueueChanged         = "onQueueChanged"
+	MethodISessionControllerCallbackOnQueueTitleChanged    = "onQueueTitleChanged"
+	MethodISessionControllerCallbackOnExtrasChanged        = "onExtrasChanged"
+	MethodISessionControllerCallbackOnVolumeInfoChanged    = "onVolumeInfoChanged"
+)
+
 type ISessionControllerCallback interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, event string, extras interface{}) error
@@ -35,17 +46,17 @@ type ISessionControllerCallback interface {
 }
 
 type SessionControllerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSessionControllerCallbackProxy(
 	remote binder.IBinder,
 ) *SessionControllerCallbackProxy {
-	return &SessionControllerCallbackProxy{remote: remote}
+	return &SessionControllerCallbackProxy{Remote: remote}
 }
 
 func (p *SessionControllerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISessionControllerCallback = (*SessionControllerCallbackProxy)(nil)
@@ -59,12 +70,12 @@ func (p *SessionControllerCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 	_data.WriteString16(event)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +85,12 @@ func (p *SessionControllerCallbackProxy) OnSessionDestroyed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onSessionDestroyed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnSessionDestroyed)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnSessionDestroyed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnSessionDestroyed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,12 +105,12 @@ func (p *SessionControllerCallbackProxy) OnPlaybackStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onPlaybackStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnPlaybackStateChanged)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnPlaybackStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnPlaybackStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,12 +121,12 @@ func (p *SessionControllerCallbackProxy) OnMetadataChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onMetadataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnMetadataChanged)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnMetadataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnMetadataChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +137,12 @@ func (p *SessionControllerCallbackProxy) OnQueueChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onQueueChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueChanged)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnQueueChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,12 +153,12 @@ func (p *SessionControllerCallbackProxy) OnQueueTitleChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onQueueTitleChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueTitleChanged)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnQueueTitleChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnQueueTitleChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,12 +169,12 @@ func (p *SessionControllerCallbackProxy) OnExtrasChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onExtrasChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnExtrasChanged)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnExtrasChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnExtrasChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -178,12 +189,12 @@ func (p *SessionControllerCallbackProxy) OnVolumeInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onVolumeInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnVolumeInfoChanged)
 	if _err != nil {
-		_code = TransactionISessionControllerCallbackOnVolumeInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionControllerCallback, MethodISessionControllerCallbackOnVolumeInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,6 +205,10 @@ type SessionControllerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SessionControllerCallbackStub)(nil)
+
+func (s *SessionControllerCallbackStub) Descriptor() string {
+	return DescriptorISessionControllerCallback
+}
 
 func (s *SessionControllerCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,13 @@ const (
 	TransactionISoundProfileAdjustmentListenerOnRequestSoundParameters       = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodISoundProfileAdjustmentListenerOnSoundProfileAdjusted         = "onSoundProfileAdjusted"
+	MethodISoundProfileAdjustmentListenerOnParamCapabilityChanged       = "onParamCapabilityChanged"
+	MethodISoundProfileAdjustmentListenerOnVendorParamCapabilityChanged = "onVendorParamCapabilityChanged"
+	MethodISoundProfileAdjustmentListenerOnRequestSoundParameters       = "onRequestSoundParameters"
+)
+
 type ISoundProfileAdjustmentListener interface {
 	AsBinder() binder.IBinder
 	OnSoundProfileAdjusted(ctx context.Context, soundProfile SoundProfile) error
@@ -27,17 +34,17 @@ type ISoundProfileAdjustmentListener interface {
 }
 
 type SoundProfileAdjustmentListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundProfileAdjustmentListenerProxy(
 	remote binder.IBinder,
 ) *SoundProfileAdjustmentListenerProxy {
-	return &SoundProfileAdjustmentListenerProxy{remote: remote}
+	return &SoundProfileAdjustmentListenerProxy{Remote: remote}
 }
 
 func (p *SoundProfileAdjustmentListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundProfileAdjustmentListener = (*SoundProfileAdjustmentListenerProxy)(nil)
@@ -53,12 +60,12 @@ func (p *SoundProfileAdjustmentListenerProxy) OnSoundProfileAdjusted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onSoundProfileAdjusted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnSoundProfileAdjusted)
 	if _err != nil {
-		_code = TransactionISoundProfileAdjustmentListenerOnSoundProfileAdjusted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnSoundProfileAdjusted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,18 +82,19 @@ func (p *SoundProfileAdjustmentListenerProxy) OnParamCapabilityChanged(
 	} else {
 		_data.WriteInt32(int32(len(caps)))
 		for _, _item := range caps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onParamCapabilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnParamCapabilityChanged)
 	if _err != nil {
-		_code = TransactionISoundProfileAdjustmentListenerOnParamCapabilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnParamCapabilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,18 +111,19 @@ func (p *SoundProfileAdjustmentListenerProxy) OnVendorParamCapabilityChanged(
 	} else {
 		_data.WriteInt32(int32(len(caps)))
 		for _, _item := range caps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onVendorParamCapabilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnVendorParamCapabilityChanged)
 	if _err != nil {
-		_code = TransactionISoundProfileAdjustmentListenerOnVendorParamCapabilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnVendorParamCapabilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +135,12 @@ func (p *SoundProfileAdjustmentListenerProxy) OnRequestSoundParameters(
 	_data.WriteInterfaceToken(DescriptorISoundProfileAdjustmentListener)
 	_data.WriteInt64(SoundProfileId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onRequestSoundParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnRequestSoundParameters)
 	if _err != nil {
-		_code = TransactionISoundProfileAdjustmentListenerOnRequestSoundParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundProfileAdjustmentListener, MethodISoundProfileAdjustmentListenerOnRequestSoundParameters, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,6 +151,10 @@ type SoundProfileAdjustmentListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundProfileAdjustmentListenerStub)(nil)
+
+func (s *SoundProfileAdjustmentListenerStub) Descriptor() string {
+	return DescriptorISoundProfileAdjustmentListener
+}
 
 func (s *SoundProfileAdjustmentListenerStub) OnTransaction(
 	ctx context.Context,

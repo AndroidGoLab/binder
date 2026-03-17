@@ -11,7 +11,6 @@ type CameraSessionConfig struct {
 	SessionParameter  interface{}
 	SessionTemplateId int32
 	SessionType       int32
-	ColorSpace        int32
 }
 
 var _ parcel.Parcelable = (*CameraSessionConfig)(nil)
@@ -25,6 +24,7 @@ func (s *CameraSessionConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.OutputConfigs)))
 		for _, _item := range s.OutputConfigs {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -32,7 +32,6 @@ func (s *CameraSessionConfig) MarshalParcel(
 	}
 	p.WriteInt32(s.SessionTemplateId)
 	p.WriteInt32(s.SessionType)
-	p.WriteInt32(s.ColorSpace)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -54,6 +53,9 @@ func (s *CameraSessionConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.OutputConfigs = make([]CameraOutputConfig, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.OutputConfigs[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -66,11 +68,6 @@ func (s *CameraSessionConfig) UnmarshalParcel(
 	}
 
 	s.SessionType, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-
-	s.ColorSpace, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}

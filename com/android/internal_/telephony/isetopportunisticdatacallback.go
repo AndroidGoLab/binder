@@ -15,23 +15,27 @@ const (
 	TransactionISetOpportunisticDataCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISetOpportunisticDataCallbackOnComplete = "onComplete"
+)
+
 type ISetOpportunisticDataCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type SetOpportunisticDataCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSetOpportunisticDataCallbackProxy(
 	remote binder.IBinder,
 ) *SetOpportunisticDataCallbackProxy {
-	return &SetOpportunisticDataCallbackProxy{remote: remote}
+	return &SetOpportunisticDataCallbackProxy{Remote: remote}
 }
 
 func (p *SetOpportunisticDataCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISetOpportunisticDataCallback = (*SetOpportunisticDataCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SetOpportunisticDataCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorISetOpportunisticDataCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISetOpportunisticDataCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISetOpportunisticDataCallback, MethodISetOpportunisticDataCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionISetOpportunisticDataCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISetOpportunisticDataCallback, MethodISetOpportunisticDataCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SetOpportunisticDataCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SetOpportunisticDataCallbackStub)(nil)
+
+func (s *SetOpportunisticDataCallbackStub) Descriptor() string {
+	return DescriptorISetOpportunisticDataCallback
+}
 
 func (s *SetOpportunisticDataCallbackStub) OnTransaction(
 	ctx context.Context,

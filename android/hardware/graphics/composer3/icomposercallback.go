@@ -3,7 +3,6 @@ package composer3
 import (
 	"context"
 	"fmt"
-	drm "github.com/xaionaro-go/binder/android/hardware/drm"
 	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -22,7 +21,17 @@ const (
 	TransactionIComposerCallbackOnVsyncIdle                = binder.FirstCallTransaction + 5
 	TransactionIComposerCallbackOnRefreshRateChangedDebug  = binder.FirstCallTransaction + 6
 	TransactionIComposerCallbackOnHotplugEvent             = binder.FirstCallTransaction + 7
-	TransactionIComposerCallbackOnHdcpLevelsChanged        = binder.FirstCallTransaction + 8
+)
+
+const (
+	MethodIComposerCallbackOnHotplug                  = "onHotplug"
+	MethodIComposerCallbackOnRefresh                  = "onRefresh"
+	MethodIComposerCallbackOnSeamlessPossible         = "onSeamlessPossible"
+	MethodIComposerCallbackOnVsync                    = "onVsync"
+	MethodIComposerCallbackOnVsyncPeriodTimingChanged = "onVsyncPeriodTimingChanged"
+	MethodIComposerCallbackOnVsyncIdle                = "onVsyncIdle"
+	MethodIComposerCallbackOnRefreshRateChangedDebug  = "onRefreshRateChangedDebug"
+	MethodIComposerCallbackOnHotplugEvent             = "onHotplugEvent"
 )
 
 type IComposerCallback interface {
@@ -35,21 +44,20 @@ type IComposerCallback interface {
 	OnVsyncIdle(ctx context.Context, display int64) error
 	OnRefreshRateChangedDebug(ctx context.Context, data RefreshRateChangedDebugData) error
 	OnHotplugEvent(ctx context.Context, display int64, event common.DisplayHotplugEvent) error
-	OnHdcpLevelsChanged(ctx context.Context, display int64, levels drm.HdcpLevels) error
 }
 
 type ComposerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewComposerCallbackProxy(
 	remote binder.IBinder,
 ) *ComposerCallbackProxy {
-	return &ComposerCallbackProxy{remote: remote}
+	return &ComposerCallbackProxy{Remote: remote}
 }
 
 func (p *ComposerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IComposerCallback = (*ComposerCallbackProxy)(nil)
@@ -64,12 +72,12 @@ func (p *ComposerCallbackProxy) OnHotplug(
 	_data.WriteInt64(display)
 	_data.WriteBool(connected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onHotplug")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnHotplug)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnHotplug
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnHotplug, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,12 +98,12 @@ func (p *ComposerCallbackProxy) OnRefresh(
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onRefresh")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnRefresh)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnRefresh
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnRefresh, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +115,12 @@ func (p *ComposerCallbackProxy) OnSeamlessPossible(
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onSeamlessPossible")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnSeamlessPossible)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnSeamlessPossible
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnSeamlessPossible, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,12 +136,12 @@ func (p *ComposerCallbackProxy) OnVsync(
 	_data.WriteInt64(timestamp)
 	_data.WriteInt32(vsyncPeriodNanos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onVsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnVsync)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnVsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnVsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -150,12 +158,12 @@ func (p *ComposerCallbackProxy) OnVsyncPeriodTimingChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onVsyncPeriodTimingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnVsyncPeriodTimingChanged)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnVsyncPeriodTimingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnVsyncPeriodTimingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,12 +175,12 @@ func (p *ComposerCallbackProxy) OnVsyncIdle(
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onVsyncIdle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnVsyncIdle)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnVsyncIdle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnVsyncIdle, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,12 +195,12 @@ func (p *ComposerCallbackProxy) OnRefreshRateChangedDebug(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onRefreshRateChangedDebug")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnRefreshRateChangedDebug)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnRefreshRateChangedDebug
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnRefreshRateChangedDebug, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -206,12 +214,12 @@ func (p *ComposerCallbackProxy) OnHotplugEvent(
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(event))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onHotplugEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerCallback, MethodIComposerCallbackOnHotplugEvent)
 	if _err != nil {
-		_code = TransactionIComposerCallbackOnHotplugEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerCallback, MethodIComposerCallbackOnHotplugEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -224,28 +232,6 @@ func (p *ComposerCallbackProxy) OnHotplugEvent(
 	return nil
 }
 
-func (p *ComposerCallbackProxy) OnHdcpLevelsChanged(
-	ctx context.Context,
-	display int64,
-	levels drm.HdcpLevels,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIComposerCallback)
-	_data.WriteInt64(display)
-	_data.WriteInt32(1)
-	if _err := levels.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onHdcpLevelsChanged")
-	if _err != nil {
-		_code = TransactionIComposerCallbackOnHdcpLevelsChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
 // ComposerCallbackStub dispatches incoming binder transactions
 // to a typed IComposerCallback implementation.
 type ComposerCallbackStub struct {
@@ -253,6 +239,10 @@ type ComposerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ComposerCallbackStub)(nil)
+
+func (s *ComposerCallbackStub) Descriptor() string {
+	return DescriptorIComposerCallback
+}
 
 func (s *ComposerCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -395,29 +385,6 @@ func (s *ComposerCallbackStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIComposerCallbackOnHdcpLevelsChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_display, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_levels drm.HdcpLevels
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_levels.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.OnHdcpLevelsChanged(ctx, _arg_display, _arg_levels)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -435,7 +402,6 @@ type IComposerCallbackServer interface {
 	OnVsyncIdle(ctx context.Context, display int64) error
 	OnRefreshRateChangedDebug(ctx context.Context, data RefreshRateChangedDebugData) error
 	OnHotplugEvent(ctx context.Context, display int64, event common.DisplayHotplugEvent) error
-	OnHdcpLevelsChanged(ctx context.Context, display int64, levels drm.HdcpLevels) error
 }
 
 type composerCallbackStubWrapper struct {
@@ -506,14 +472,6 @@ func (w *composerCallbackStubWrapper) OnHotplugEvent(
 	event common.DisplayHotplugEvent,
 ) error {
 	return w.impl.OnHotplugEvent(ctx, display, event)
-}
-
-func (w *composerCallbackStubWrapper) OnHdcpLevelsChanged(
-	ctx context.Context,
-	display int64,
-	levels drm.HdcpLevels,
-) error {
-	return w.impl.OnHdcpLevelsChanged(ctx, display, levels)
 }
 
 var _ IComposerCallback = (*composerCallbackStubWrapper)(nil)

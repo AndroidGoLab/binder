@@ -16,6 +16,11 @@ const (
 	TransactionITkgsInfoSetTkgsInfoListener = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITkgsInfoSetPrefServiceList  = "setPrefServiceList"
+	MethodITkgsInfoSetTkgsInfoListener = "setTkgsInfoListener"
+)
+
 type ITkgsInfo interface {
 	AsBinder() binder.IBinder
 	SetPrefServiceList(ctx context.Context, prefServiceList string) (int32, error)
@@ -23,17 +28,17 @@ type ITkgsInfo interface {
 }
 
 type TkgsInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTkgsInfoProxy(
 	remote binder.IBinder,
 ) *TkgsInfoProxy {
-	return &TkgsInfoProxy{remote: remote}
+	return &TkgsInfoProxy{Remote: remote}
 }
 
 func (p *TkgsInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITkgsInfo = (*TkgsInfoProxy)(nil)
@@ -47,12 +52,12 @@ func (p *TkgsInfoProxy) SetPrefServiceList(
 	_data.WriteInterfaceToken(DescriptorITkgsInfo)
 	_data.WriteString16(prefServiceList)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfo, "setPrefServiceList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITkgsInfo, MethodITkgsInfoSetPrefServiceList)
 	if _err != nil {
-		_code = TransactionITkgsInfoSetPrefServiceList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITkgsInfo, MethodITkgsInfoSetPrefServiceList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,14 +81,14 @@ func (p *TkgsInfoProxy) SetTkgsInfoListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITkgsInfo)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfo, "setTkgsInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITkgsInfo, MethodITkgsInfoSetTkgsInfoListener)
 	if _err != nil {
-		_code = TransactionITkgsInfoSetTkgsInfoListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITkgsInfo, MethodITkgsInfoSetTkgsInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,6 +112,10 @@ type TkgsInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TkgsInfoStub)(nil)
+
+func (s *TkgsInfoStub) Descriptor() string {
+	return DescriptorITkgsInfo
+}
 
 func (s *TkgsInfoStub) OnTransaction(
 	ctx context.Context,

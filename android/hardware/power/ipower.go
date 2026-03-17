@@ -21,11 +21,18 @@ const (
 	TransactionIPowerCreateHintSessionWithConfig = binder.FirstCallTransaction + 6
 	TransactionIPowerGetSessionChannel           = binder.FirstCallTransaction + 7
 	TransactionIPowerCloseSessionChannel         = binder.FirstCallTransaction + 8
-	TransactionIPowerGetSupportInfo              = binder.FirstCallTransaction + 9
-	TransactionIPowerGetCpuHeadroom              = binder.FirstCallTransaction + 10
-	TransactionIPowerGetGpuHeadroom              = binder.FirstCallTransaction + 11
-	TransactionIPowerSendCompositionData         = binder.FirstCallTransaction + 12
-	TransactionIPowerSendCompositionUpdate       = binder.FirstCallTransaction + 13
+)
+
+const (
+	MethodIPowerSetMode                     = "setMode"
+	MethodIPowerIsModeSupported             = "isModeSupported"
+	MethodIPowerSetBoost                    = "setBoost"
+	MethodIPowerIsBoostSupported            = "isBoostSupported"
+	MethodIPowerCreateHintSession           = "createHintSession"
+	MethodIPowerGetHintSessionPreferredRate = "getHintSessionPreferredRate"
+	MethodIPowerCreateHintSessionWithConfig = "createHintSessionWithConfig"
+	MethodIPowerGetSessionChannel           = "getSessionChannel"
+	MethodIPowerCloseSessionChannel         = "closeSessionChannel"
 )
 
 type IPower interface {
@@ -39,25 +46,20 @@ type IPower interface {
 	CreateHintSessionWithConfig(ctx context.Context, tgid int32, uid int32, threadIds []int32, durationNanos int64, tag SessionTag, config SessionConfig) (IPowerHintSession, error)
 	GetSessionChannel(ctx context.Context, tgid int32, uid int32) (ChannelConfig, error)
 	CloseSessionChannel(ctx context.Context, tgid int32, uid int32) error
-	GetSupportInfo(ctx context.Context) (SupportInfo, error)
-	GetCpuHeadroom(ctx context.Context, params CpuHeadroomParams) (CpuHeadroomResult, error)
-	GetGpuHeadroom(ctx context.Context, params GpuHeadroomParams) (GpuHeadroomResult, error)
-	SendCompositionData(ctx context.Context, data []CompositionData) error
-	SendCompositionUpdate(ctx context.Context, update CompositionUpdate) error
 }
 
 type PowerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPowerProxy(
 	remote binder.IBinder,
 ) *PowerProxy {
-	return &PowerProxy{remote: remote}
+	return &PowerProxy{Remote: remote}
 }
 
 func (p *PowerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPower = (*PowerProxy)(nil)
@@ -72,12 +74,12 @@ func (p *PowerProxy) SetMode(
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "setMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerSetMode)
 	if _err != nil {
-		_code = TransactionIPowerSetMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerSetMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +92,12 @@ func (p *PowerProxy) IsModeSupported(
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "isModeSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerIsModeSupported)
 	if _err != nil {
-		_code = TransactionIPowerIsModeSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerIsModeSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -122,12 +124,12 @@ func (p *PowerProxy) SetBoost(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(durationMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "setBoost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerSetBoost)
 	if _err != nil {
-		_code = TransactionIPowerSetBoost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerSetBoost, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,12 +142,12 @@ func (p *PowerProxy) IsBoostSupported(
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "isBoostSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerIsBoostSupported)
 	if _err != nil {
-		_code = TransactionIPowerIsBoostSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerIsBoostSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -184,12 +186,12 @@ func (p *PowerProxy) CreateHintSession(
 	}
 	_data.WriteInt64(durationNanos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "createHintSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerCreateHintSession)
 	if _err != nil {
-		_code = TransactionIPowerCreateHintSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerCreateHintSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,7 +205,7 @@ func (p *PowerProxy) CreateHintSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -214,12 +216,12 @@ func (p *PowerProxy) GetHintSessionPreferredRate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPower)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getHintSessionPreferredRate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerGetHintSessionPreferredRate)
 	if _err != nil {
-		_code = TransactionIPowerGetHintSessionPreferredRate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerGetHintSessionPreferredRate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -261,12 +263,12 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 	_data.WriteInt64(durationNanos)
 	_data.WriteInt32(int32(tag))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "createHintSessionWithConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerCreateHintSessionWithConfig)
 	if _err != nil {
-		_code = TransactionIPowerCreateHintSessionWithConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerCreateHintSessionWithConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -283,7 +285,7 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -298,12 +300,12 @@ func (p *PowerProxy) GetSessionChannel(
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getSessionChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerGetSessionChannel)
 	if _err != nil {
-		_code = TransactionIPowerGetSessionChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerGetSessionChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -335,170 +337,12 @@ func (p *PowerProxy) CloseSessionChannel(
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "closeSessionChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPower, MethodIPowerCloseSessionChannel)
 	if _err != nil {
-		_code = TransactionIPowerCloseSessionChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPower, MethodIPowerCloseSessionChannel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *PowerProxy) GetSupportInfo(
-	ctx context.Context,
-) (SupportInfo, error) {
-	var _result SupportInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPower)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getSupportInfo")
-	if _err != nil {
-		_code = TransactionIPowerGetSupportInfo
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *PowerProxy) GetCpuHeadroom(
-	ctx context.Context,
-	params CpuHeadroomParams,
-) (CpuHeadroomResult, error) {
-	var _result CpuHeadroomResult
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getCpuHeadroom")
-	if _err != nil {
-		_code = TransactionIPowerGetCpuHeadroom
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *PowerProxy) GetGpuHeadroom(
-	ctx context.Context,
-	params GpuHeadroomParams,
-) (GpuHeadroomResult, error) {
-	var _result GpuHeadroomResult
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getGpuHeadroom")
-	if _err != nil {
-		_code = TransactionIPowerGetGpuHeadroom
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *PowerProxy) SendCompositionData(
-	ctx context.Context,
-	data []CompositionData,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPower)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "sendCompositionData")
-	if _err != nil {
-		_code = TransactionIPowerSendCompositionData
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *PowerProxy) SendCompositionUpdate(
-	ctx context.Context,
-	update CompositionUpdate,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIPower)
-	_data.WriteInt32(1)
-	if _err := update.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIPower, "sendCompositionUpdate")
-	if _err != nil {
-		_code = TransactionIPowerSendCompositionUpdate
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -509,6 +353,10 @@ type PowerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PowerStub)(nil)
+
+func (s *PowerStub) Descriptor() string {
+	return DescriptorIPower
+}
 
 func (s *PowerStub) OnTransaction(
 	ctx context.Context,
@@ -700,107 +548,6 @@ func (s *PowerStub) OnTransaction(
 		_err = s.Impl.CloseSessionChannel(ctx, _arg_tgid, _arg_uid)
 		_ = _err
 		return nil, nil
-	case TransactionIPowerGetSupportInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetSupportInfo(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIPowerGetCpuHeadroom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_params CpuHeadroomParams
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.GetCpuHeadroom(ctx, _arg_params)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIPowerGetGpuHeadroom:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_params GpuHeadroomParams
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.GetGpuHeadroom(ctx, _arg_params)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIPowerSendCompositionData:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_data []CompositionData
-		_ = _arg_data
-		_err := s.Impl.SendCompositionData(ctx, _arg_data)
-		_ = _err
-		return nil, nil
-	case TransactionIPowerSendCompositionUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_update CompositionUpdate
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.SendCompositionUpdate(ctx, _arg_update)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -819,11 +566,6 @@ type IPowerServer interface {
 	CreateHintSessionWithConfig(ctx context.Context, tgid int32, uid int32, threadIds []int32, durationNanos int64, tag SessionTag, config SessionConfig) (IPowerHintSession, error)
 	GetSessionChannel(ctx context.Context, tgid int32, uid int32) (ChannelConfig, error)
 	CloseSessionChannel(ctx context.Context, tgid int32, uid int32) error
-	GetSupportInfo(ctx context.Context) (SupportInfo, error)
-	GetCpuHeadroom(ctx context.Context, params CpuHeadroomParams) (CpuHeadroomResult, error)
-	GetGpuHeadroom(ctx context.Context, params GpuHeadroomParams) (GpuHeadroomResult, error)
-	SendCompositionData(ctx context.Context, data []CompositionData) error
-	SendCompositionUpdate(ctx context.Context, update CompositionUpdate) error
 }
 
 type powerStubWrapper struct {
@@ -907,40 +649,6 @@ func (w *powerStubWrapper) CloseSessionChannel(
 	uid int32,
 ) error {
 	return w.impl.CloseSessionChannel(ctx, tgid, uid)
-}
-
-func (w *powerStubWrapper) GetSupportInfo(
-	ctx context.Context,
-) (SupportInfo, error) {
-	return w.impl.GetSupportInfo(ctx)
-}
-
-func (w *powerStubWrapper) GetCpuHeadroom(
-	ctx context.Context,
-	params CpuHeadroomParams,
-) (CpuHeadroomResult, error) {
-	return w.impl.GetCpuHeadroom(ctx, params)
-}
-
-func (w *powerStubWrapper) GetGpuHeadroom(
-	ctx context.Context,
-	params GpuHeadroomParams,
-) (GpuHeadroomResult, error) {
-	return w.impl.GetGpuHeadroom(ctx, params)
-}
-
-func (w *powerStubWrapper) SendCompositionData(
-	ctx context.Context,
-	data []CompositionData,
-) error {
-	return w.impl.SendCompositionData(ctx, data)
-}
-
-func (w *powerStubWrapper) SendCompositionUpdate(
-	ctx context.Context,
-	update CompositionUpdate,
-) error {
-	return w.impl.SendCompositionUpdate(ctx, update)
 }
 
 var _ IPower = (*powerStubWrapper)(nil)

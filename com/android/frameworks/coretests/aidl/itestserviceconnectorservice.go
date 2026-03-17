@@ -15,23 +15,27 @@ const (
 	TransactionITestServiceConnectorServiceCrashProcess = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITestServiceConnectorServiceCrashProcess = "crashProcess"
+)
+
 type ITestServiceConnectorService interface {
 	AsBinder() binder.IBinder
 	CrashProcess(ctx context.Context) error
 }
 
 type TestServiceConnectorServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestServiceConnectorServiceProxy(
 	remote binder.IBinder,
 ) *TestServiceConnectorServiceProxy {
-	return &TestServiceConnectorServiceProxy{remote: remote}
+	return &TestServiceConnectorServiceProxy{Remote: remote}
 }
 
 func (p *TestServiceConnectorServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestServiceConnectorService = (*TestServiceConnectorServiceProxy)(nil)
@@ -42,12 +46,12 @@ func (p *TestServiceConnectorServiceProxy) CrashProcess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestServiceConnectorService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestServiceConnectorService, "crashProcess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestServiceConnectorService, MethodITestServiceConnectorServiceCrashProcess)
 	if _err != nil {
-		_code = TransactionITestServiceConnectorServiceCrashProcess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestServiceConnectorService, MethodITestServiceConnectorServiceCrashProcess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type TestServiceConnectorServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestServiceConnectorServiceStub)(nil)
+
+func (s *TestServiceConnectorServiceStub) Descriptor() string {
+	return DescriptorITestServiceConnectorService
+}
 
 func (s *TestServiceConnectorServiceStub) OnTransaction(
 	ctx context.Context,

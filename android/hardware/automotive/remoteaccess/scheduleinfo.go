@@ -29,14 +29,7 @@ func (s *ScheduleInfo) MarshalParcel(
 	p.WriteString16(s.ClientId)
 	p.WriteString16(s.ScheduleId)
 	p.WriteInt32(int32(s.TaskType))
-	if s.TaskData == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.TaskData)))
-		for _, _item := range s.TaskData {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.TaskData)
 	p.WriteInt32(s.Count)
 	p.WriteInt64(s.StartTimeInEpochSeconds)
 	p.WriteInt64(s.PeriodicInSeconds)
@@ -69,19 +62,9 @@ func (s *ScheduleInfo) UnmarshalParcel(
 	}
 	s.TaskType = TaskType(_taskTypeRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.TaskData, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.TaskData = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.TaskData[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Count, _err = p.ReadInt32()

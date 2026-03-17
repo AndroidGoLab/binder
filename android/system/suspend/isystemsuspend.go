@@ -15,23 +15,27 @@ const (
 	TransactionISystemSuspendAcquireWakeLock = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISystemSuspendAcquireWakeLock = "acquireWakeLock"
+)
+
 type ISystemSuspend interface {
 	AsBinder() binder.IBinder
 	AcquireWakeLock(ctx context.Context, type_ WakeLockType, name string) (IWakeLock, error)
 }
 
 type SystemSuspendProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSystemSuspendProxy(
 	remote binder.IBinder,
 ) *SystemSuspendProxy {
-	return &SystemSuspendProxy{remote: remote}
+	return &SystemSuspendProxy{Remote: remote}
 }
 
 func (p *SystemSuspendProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISystemSuspend = (*SystemSuspendProxy)(nil)
@@ -47,12 +51,12 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemSuspend, "acquireWakeLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemSuspend, MethodISystemSuspendAcquireWakeLock)
 	if _err != nil {
-		_code = TransactionISystemSuspendAcquireWakeLock
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemSuspend, MethodISystemSuspendAcquireWakeLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -66,7 +70,7 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWakeLockProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewWakeLockProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -77,6 +81,10 @@ type SystemSuspendStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SystemSuspendStub)(nil)
+
+func (s *SystemSuspendStub) Descriptor() string {
+	return DescriptorISystemSuspend
+}
 
 func (s *SystemSuspendStub) OnTransaction(
 	ctx context.Context,

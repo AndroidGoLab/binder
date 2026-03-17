@@ -21,6 +21,14 @@ const (
 	TransactionIWallpaperConnectionOnLocalWallpaperColorsChanged = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIWallpaperConnectionAttachEngine                  = "attachEngine"
+	MethodIWallpaperConnectionEngineShown                   = "engineShown"
+	MethodIWallpaperConnectionSetWallpaper                  = "setWallpaper"
+	MethodIWallpaperConnectionOnWallpaperColorsChanged      = "onWallpaperColorsChanged"
+	MethodIWallpaperConnectionOnLocalWallpaperColorsChanged = "onLocalWallpaperColorsChanged"
+)
+
 type IWallpaperConnection interface {
 	AsBinder() binder.IBinder
 	AttachEngine(ctx context.Context, engine IWallpaperEngine, displayId int32) error
@@ -31,17 +39,17 @@ type IWallpaperConnection interface {
 }
 
 type WallpaperConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperConnectionProxy(
 	remote binder.IBinder,
 ) *WallpaperConnectionProxy {
-	return &WallpaperConnectionProxy{remote: remote}
+	return &WallpaperConnectionProxy{Remote: remote}
 }
 
 func (p *WallpaperConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperConnection = (*WallpaperConnectionProxy)(nil)
@@ -53,15 +61,15 @@ func (p *WallpaperConnectionProxy) AttachEngine(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "attachEngine")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionAttachEngine)
 	if _err != nil {
-		_code = TransactionIWallpaperConnectionAttachEngine
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperConnection, MethodIWallpaperConnectionAttachEngine, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,14 +88,14 @@ func (p *WallpaperConnectionProxy) EngineShown(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
-	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, engine.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "engineShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionEngineShown)
 	if _err != nil {
-		_code = TransactionIWallpaperConnectionEngineShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperConnection, MethodIWallpaperConnectionEngineShown, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +117,12 @@ func (p *WallpaperConnectionProxy) SetWallpaper(
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "setWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionSetWallpaper)
 	if _err != nil {
-		_code = TransactionIWallpaperConnectionSetWallpaper
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperConnection, MethodIWallpaperConnectionSetWallpaper, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -144,12 +152,12 @@ func (p *WallpaperConnectionProxy) OnWallpaperColorsChanged(
 	}
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "onWallpaperColorsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnWallpaperColorsChanged)
 	if _err != nil {
-		_code = TransactionIWallpaperConnectionOnWallpaperColorsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnWallpaperColorsChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,12 +188,12 @@ func (p *WallpaperConnectionProxy) OnLocalWallpaperColorsChanged(
 	}
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "onLocalWallpaperColorsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnLocalWallpaperColorsChanged)
 	if _err != nil {
-		_code = TransactionIWallpaperConnectionOnLocalWallpaperColorsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperConnection, MethodIWallpaperConnectionOnLocalWallpaperColorsChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -205,6 +213,10 @@ type WallpaperConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperConnectionStub)(nil)
+
+func (s *WallpaperConnectionStub) Descriptor() string {
+	return DescriptorIWallpaperConnection
+}
 
 func (s *WallpaperConnectionStub) OnTransaction(
 	ctx context.Context,

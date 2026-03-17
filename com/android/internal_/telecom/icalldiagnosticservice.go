@@ -25,6 +25,18 @@ const (
 	TransactionICallDiagnosticServiceNotifyCallDisconnected            = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodICallDiagnosticServiceSetAdapter                        = "setAdapter"
+	MethodICallDiagnosticServiceInitializeDiagnosticCall          = "initializeDiagnosticCall"
+	MethodICallDiagnosticServiceUpdateCall                        = "updateCall"
+	MethodICallDiagnosticServiceUpdateCallAudioState              = "updateCallAudioState"
+	MethodICallDiagnosticServiceRemoveDiagnosticCall              = "removeDiagnosticCall"
+	MethodICallDiagnosticServiceReceiveDeviceToDeviceMessage      = "receiveDeviceToDeviceMessage"
+	MethodICallDiagnosticServiceCallQualityChanged                = "callQualityChanged"
+	MethodICallDiagnosticServiceReceiveBluetoothCallQualityReport = "receiveBluetoothCallQualityReport"
+	MethodICallDiagnosticServiceNotifyCallDisconnected            = "notifyCallDisconnected"
+)
+
 type ICallDiagnosticService interface {
 	AsBinder() binder.IBinder
 	SetAdapter(ctx context.Context, adapter ICallDiagnosticServiceAdapter) error
@@ -39,17 +51,17 @@ type ICallDiagnosticService interface {
 }
 
 type CallDiagnosticServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallDiagnosticServiceProxy(
 	remote binder.IBinder,
 ) *CallDiagnosticServiceProxy {
-	return &CallDiagnosticServiceProxy{remote: remote}
+	return &CallDiagnosticServiceProxy{Remote: remote}
 }
 
 func (p *CallDiagnosticServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallDiagnosticService = (*CallDiagnosticServiceProxy)(nil)
@@ -60,14 +72,14 @@ func (p *CallDiagnosticServiceProxy) SetAdapter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "setAdapter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceSetAdapter)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceSetAdapter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceSetAdapter, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +94,12 @@ func (p *CallDiagnosticServiceProxy) InitializeDiagnosticCall(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "initializeDiagnosticCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceInitializeDiagnosticCall)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceInitializeDiagnosticCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceInitializeDiagnosticCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +114,12 @@ func (p *CallDiagnosticServiceProxy) UpdateCall(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "updateCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceUpdateCall)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceUpdateCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceUpdateCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +134,12 @@ func (p *CallDiagnosticServiceProxy) UpdateCallAudioState(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "updateCallAudioState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceUpdateCallAudioState)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceUpdateCallAudioState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceUpdateCallAudioState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,12 +151,12 @@ func (p *CallDiagnosticServiceProxy) RemoveDiagnosticCall(
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "removeDiagnosticCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceRemoveDiagnosticCall)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceRemoveDiagnosticCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceRemoveDiagnosticCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,12 +172,12 @@ func (p *CallDiagnosticServiceProxy) ReceiveDeviceToDeviceMessage(
 	_data.WriteInt32(message)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "receiveDeviceToDeviceMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceReceiveDeviceToDeviceMessage)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceReceiveDeviceToDeviceMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceReceiveDeviceToDeviceMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -182,12 +194,12 @@ func (p *CallDiagnosticServiceProxy) CallQualityChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "callQualityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceCallQualityChanged)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceCallQualityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceCallQualityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -202,12 +214,12 @@ func (p *CallDiagnosticServiceProxy) ReceiveBluetoothCallQualityReport(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "receiveBluetoothCallQualityReport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceReceiveBluetoothCallQualityReport)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceReceiveBluetoothCallQualityReport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceReceiveBluetoothCallQualityReport, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -224,12 +236,12 @@ func (p *CallDiagnosticServiceProxy) NotifyCallDisconnected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticService, "notifyCallDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallDiagnosticService, MethodICallDiagnosticServiceNotifyCallDisconnected)
 	if _err != nil {
-		_code = TransactionICallDiagnosticServiceNotifyCallDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallDiagnosticService, MethodICallDiagnosticServiceNotifyCallDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -240,6 +252,10 @@ type CallDiagnosticServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallDiagnosticServiceStub)(nil)
+
+func (s *CallDiagnosticServiceStub) Descriptor() string {
+	return DescriptorICallDiagnosticService
+}
 
 func (s *CallDiagnosticServiceStub) OnTransaction(
 	ctx context.Context,

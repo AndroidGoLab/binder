@@ -15,23 +15,27 @@ const (
 	TransactionIDownloadStatusListenerOnStatusUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDownloadStatusListenerOnStatusUpdated = "onStatusUpdated"
+)
+
 type IDownloadStatusListener interface {
 	AsBinder() binder.IBinder
 	OnStatusUpdated(ctx context.Context, request DownloadRequest, fileInfo FileInfo, status int32) error
 }
 
 type DownloadStatusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDownloadStatusListenerProxy(
 	remote binder.IBinder,
 ) *DownloadStatusListenerProxy {
-	return &DownloadStatusListenerProxy{remote: remote}
+	return &DownloadStatusListenerProxy{Remote: remote}
 }
 
 func (p *DownloadStatusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDownloadStatusListener = (*DownloadStatusListenerProxy)(nil)
@@ -54,12 +58,12 @@ func (p *DownloadStatusListenerProxy) OnStatusUpdated(
 	}
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadStatusListener, "onStatusUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadStatusListener, MethodIDownloadStatusListenerOnStatusUpdated)
 	if _err != nil {
-		_code = TransactionIDownloadStatusListenerOnStatusUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadStatusListener, MethodIDownloadStatusListenerOnStatusUpdated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +83,10 @@ type DownloadStatusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DownloadStatusListenerStub)(nil)
+
+func (s *DownloadStatusListenerStub) Descriptor() string {
+	return DescriptorIDownloadStatusListener
+}
 
 func (s *DownloadStatusListenerStub) OnTransaction(
 	ctx context.Context,

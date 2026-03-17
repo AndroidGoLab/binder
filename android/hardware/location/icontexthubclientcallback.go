@@ -22,6 +22,17 @@ const (
 	TransactionIContextHubClientCallbackOnClientAuthorizationChanged = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIContextHubClientCallbackOnMessageFromNanoApp         = "onMessageFromNanoApp"
+	MethodIContextHubClientCallbackOnHubReset                   = "onHubReset"
+	MethodIContextHubClientCallbackOnNanoAppAborted             = "onNanoAppAborted"
+	MethodIContextHubClientCallbackOnNanoAppLoaded              = "onNanoAppLoaded"
+	MethodIContextHubClientCallbackOnNanoAppUnloaded            = "onNanoAppUnloaded"
+	MethodIContextHubClientCallbackOnNanoAppEnabled             = "onNanoAppEnabled"
+	MethodIContextHubClientCallbackOnNanoAppDisabled            = "onNanoAppDisabled"
+	MethodIContextHubClientCallbackOnClientAuthorizationChanged = "onClientAuthorizationChanged"
+)
+
 type IContextHubClientCallback interface {
 	AsBinder() binder.IBinder
 	OnMessageFromNanoApp(ctx context.Context, message NanoAppMessage) error
@@ -35,17 +46,17 @@ type IContextHubClientCallback interface {
 }
 
 type ContextHubClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubClientCallbackProxy(
 	remote binder.IBinder,
 ) *ContextHubClientCallbackProxy {
-	return &ContextHubClientCallbackProxy{remote: remote}
+	return &ContextHubClientCallbackProxy{Remote: remote}
 }
 
 func (p *ContextHubClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubClientCallback = (*ContextHubClientCallbackProxy)(nil)
@@ -61,12 +72,12 @@ func (p *ContextHubClientCallbackProxy) OnMessageFromNanoApp(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onMessageFromNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnMessageFromNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnMessageFromNanoApp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnMessageFromNanoApp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +87,12 @@ func (p *ContextHubClientCallbackProxy) OnHubReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onHubReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnHubReset)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnHubReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnHubReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +106,12 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppAborted(
 	_data.WriteInt64(nanoAppId)
 	_data.WriteInt32(abortCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onNanoAppAborted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppAborted)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnNanoAppAborted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppAborted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,12 +123,12 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppLoaded(
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onNanoAppLoaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppLoaded)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnNanoAppLoaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppLoaded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,12 +140,12 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppUnloaded(
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onNanoAppUnloaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppUnloaded)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnNanoAppUnloaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppUnloaded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,12 +157,12 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppEnabled(
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onNanoAppEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppEnabled)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnNanoAppEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,12 +174,12 @@ func (p *ContextHubClientCallbackProxy) OnNanoAppDisabled(
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
 	_data.WriteInt64(nanoAppId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onNanoAppDisabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppDisabled)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnNanoAppDisabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnNanoAppDisabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -182,12 +193,12 @@ func (p *ContextHubClientCallbackProxy) OnClientAuthorizationChanged(
 	_data.WriteInt64(nanoAppId)
 	_data.WriteInt32(authorization)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClientCallback, "onClientAuthorizationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnClientAuthorizationChanged)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackOnClientAuthorizationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClientCallback, MethodIContextHubClientCallbackOnClientAuthorizationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,6 +209,10 @@ type ContextHubClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubClientCallbackStub)(nil)
+
+func (s *ContextHubClientCallbackStub) Descriptor() string {
+	return DescriptorIContextHubClientCallback
+}
 
 func (s *ContextHubClientCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -53,14 +53,7 @@ func (s *CdmaSmsAddress) MarshalParcel(
 	p.WriteBool(s.IsNumberModeDataNetwork)
 	p.WriteInt32(s.NumberType)
 	p.WriteInt32(s.NumberPlan)
-	if s.Digits == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Digits)))
-		for _, _item := range s.Digits {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Digits)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -94,19 +87,9 @@ func (s *CdmaSmsAddress) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Digits, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Digits = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Digits[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

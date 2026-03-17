@@ -15,23 +15,27 @@ const (
 	TransactionIOemNetdUnsolicitedEventListenerOnRegistered = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOemNetdUnsolicitedEventListenerOnRegistered = "onRegistered"
+)
+
 type IOemNetdUnsolicitedEventListener interface {
 	AsBinder() binder.IBinder
 	OnRegistered(ctx context.Context) error
 }
 
 type OemNetdUnsolicitedEventListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOemNetdUnsolicitedEventListenerProxy(
 	remote binder.IBinder,
 ) *OemNetdUnsolicitedEventListenerProxy {
-	return &OemNetdUnsolicitedEventListenerProxy{remote: remote}
+	return &OemNetdUnsolicitedEventListenerProxy{Remote: remote}
 }
 
 func (p *OemNetdUnsolicitedEventListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOemNetdUnsolicitedEventListener = (*OemNetdUnsolicitedEventListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *OemNetdUnsolicitedEventListenerProxy) OnRegistered(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOemNetdUnsolicitedEventListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOemNetdUnsolicitedEventListener, "onRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOemNetdUnsolicitedEventListener, MethodIOemNetdUnsolicitedEventListenerOnRegistered)
 	if _err != nil {
-		_code = TransactionIOemNetdUnsolicitedEventListenerOnRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOemNetdUnsolicitedEventListener, MethodIOemNetdUnsolicitedEventListenerOnRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type OemNetdUnsolicitedEventListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OemNetdUnsolicitedEventListenerStub)(nil)
+
+func (s *OemNetdUnsolicitedEventListenerStub) Descriptor() string {
+	return DescriptorIOemNetdUnsolicitedEventListener
+}
 
 func (s *OemNetdUnsolicitedEventListenerStub) OnTransaction(
 	ctx context.Context,

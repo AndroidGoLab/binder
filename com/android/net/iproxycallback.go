@@ -15,23 +15,27 @@ const (
 	TransactionIProxyCallbackGetProxyPort = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProxyCallbackGetProxyPort = "getProxyPort"
+)
+
 type IProxyCallback interface {
 	AsBinder() binder.IBinder
 	GetProxyPort(ctx context.Context, callback binder.IBinder) error
 }
 
 type ProxyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProxyCallbackProxy(
 	remote binder.IBinder,
 ) *ProxyCallbackProxy {
-	return &ProxyCallbackProxy{remote: remote}
+	return &ProxyCallbackProxy{Remote: remote}
 }
 
 func (p *ProxyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProxyCallback = (*ProxyCallbackProxy)(nil)
@@ -42,14 +46,14 @@ func (p *ProxyCallbackProxy) GetProxyPort(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProxyCallback)
-	binder.WriteBinderToParcel(ctx, _data, callback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProxyCallback, "getProxyPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProxyCallback, MethodIProxyCallbackGetProxyPort)
 	if _err != nil {
-		_code = TransactionIProxyCallbackGetProxyPort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProxyCallback, MethodIProxyCallbackGetProxyPort, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ProxyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProxyCallbackStub)(nil)
+
+func (s *ProxyCallbackStub) Descriptor() string {
+	return DescriptorIProxyCallback
+}
 
 func (s *ProxyCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIBluetoothLmpEventCallbackOnRegistered     = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothLmpEventCallbackOnEventGenerated = "onEventGenerated"
+	MethodIBluetoothLmpEventCallbackOnRegistered     = "onRegistered"
+)
+
 type IBluetoothLmpEventCallback interface {
 	AsBinder() binder.IBinder
 	OnEventGenerated(ctx context.Context, timestamp Timestamp, addressType AddressType, address []byte, direction Direction, lmpEventId LmpEventId, connEventCounter uint16) error
@@ -23,17 +28,17 @@ type IBluetoothLmpEventCallback interface {
 }
 
 type BluetoothLmpEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothLmpEventCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothLmpEventCallbackProxy {
-	return &BluetoothLmpEventCallbackProxy{remote: remote}
+	return &BluetoothLmpEventCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothLmpEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothLmpEventCallback = (*BluetoothLmpEventCallbackProxy)(nil)
@@ -66,12 +71,12 @@ func (p *BluetoothLmpEventCallbackProxy) OnEventGenerated(
 	_data.WritePaddedByte(byte(lmpEventId))
 	_data.WriteInt32(int32(connEventCounter))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLmpEventCallback, "onEventGenerated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnEventGenerated)
 	if _err != nil {
-		_code = TransactionIBluetoothLmpEventCallbackOnEventGenerated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnEventGenerated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +97,12 @@ func (p *BluetoothLmpEventCallbackProxy) OnRegistered(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLmpEventCallback)
 	_data.WriteBool(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLmpEventCallback, "onRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnRegistered)
 	if _err != nil {
-		_code = TransactionIBluetoothLmpEventCallbackOnRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLmpEventCallback, MethodIBluetoothLmpEventCallbackOnRegistered, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,6 +122,10 @@ type BluetoothLmpEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLmpEventCallbackStub)(nil)
+
+func (s *BluetoothLmpEventCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothLmpEventCallback
+}
 
 func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 	ctx context.Context,

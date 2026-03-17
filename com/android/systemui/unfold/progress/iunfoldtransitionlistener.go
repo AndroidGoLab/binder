@@ -17,6 +17,12 @@ const (
 	TransactionIUnfoldTransitionListenerOnTransitionFinished = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIUnfoldTransitionListenerOnTransitionStarted  = "onTransitionStarted"
+	MethodIUnfoldTransitionListenerOnTransitionProgress = "onTransitionProgress"
+	MethodIUnfoldTransitionListenerOnTransitionFinished = "onTransitionFinished"
+)
+
 type IUnfoldTransitionListener interface {
 	AsBinder() binder.IBinder
 	OnTransitionStarted(ctx context.Context) error
@@ -25,17 +31,17 @@ type IUnfoldTransitionListener interface {
 }
 
 type UnfoldTransitionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUnfoldTransitionListenerProxy(
 	remote binder.IBinder,
 ) *UnfoldTransitionListenerProxy {
-	return &UnfoldTransitionListenerProxy{remote: remote}
+	return &UnfoldTransitionListenerProxy{Remote: remote}
 }
 
 func (p *UnfoldTransitionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUnfoldTransitionListener = (*UnfoldTransitionListenerProxy)(nil)
@@ -46,12 +52,12 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionStarted)
 	if _err != nil {
-		_code = TransactionIUnfoldTransitionListenerOnTransitionStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionProgress(
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionProgress)
 	if _err != nil {
-		_code = TransactionIUnfoldTransitionListenerOnTransitionProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +84,12 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionFinished)
 	if _err != nil {
-		_code = TransactionIUnfoldTransitionListenerOnTransitionFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUnfoldTransitionListener, MethodIUnfoldTransitionListenerOnTransitionFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +100,10 @@ type UnfoldTransitionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UnfoldTransitionListenerStub)(nil)
+
+func (s *UnfoldTransitionListenerStub) Descriptor() string {
+	return DescriptorIUnfoldTransitionListener
+}
 
 func (s *UnfoldTransitionListenerStub) OnTransaction(
 	ctx context.Context,

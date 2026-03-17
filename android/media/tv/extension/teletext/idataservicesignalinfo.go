@@ -18,6 +18,12 @@ const (
 	TransactionIDataServiceSignalInfoRemoveDataServiceSignalInfoListener = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDataServiceSignalInfoGetDataServiceSignalInfo            = "getDataServiceSignalInfo"
+	MethodIDataServiceSignalInfoAddDataServiceSignalInfoListener    = "addDataServiceSignalInfoListener"
+	MethodIDataServiceSignalInfoRemoveDataServiceSignalInfoListener = "removeDataServiceSignalInfoListener"
+)
+
 type IDataServiceSignalInfo interface {
 	AsBinder() binder.IBinder
 	GetDataServiceSignalInfo(ctx context.Context, sessionToken string) (os.Bundle, error)
@@ -26,17 +32,17 @@ type IDataServiceSignalInfo interface {
 }
 
 type DataServiceSignalInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataServiceSignalInfoProxy(
 	remote binder.IBinder,
 ) *DataServiceSignalInfoProxy {
-	return &DataServiceSignalInfoProxy{remote: remote}
+	return &DataServiceSignalInfoProxy{Remote: remote}
 }
 
 func (p *DataServiceSignalInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataServiceSignalInfo = (*DataServiceSignalInfoProxy)(nil)
@@ -50,12 +56,12 @@ func (p *DataServiceSignalInfoProxy) GetDataServiceSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIDataServiceSignalInfo)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceSignalInfo, "getDataServiceSignalInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceSignalInfo, MethodIDataServiceSignalInfoGetDataServiceSignalInfo)
 	if _err != nil {
-		_code = TransactionIDataServiceSignalInfoGetDataServiceSignalInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceSignalInfo, MethodIDataServiceSignalInfoGetDataServiceSignalInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,14 +91,14 @@ func (p *DataServiceSignalInfoProxy) AddDataServiceSignalInfoListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataServiceSignalInfo)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceSignalInfo, "addDataServiceSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceSignalInfo, MethodIDataServiceSignalInfoAddDataServiceSignalInfoListener)
 	if _err != nil {
-		_code = TransactionIDataServiceSignalInfoAddDataServiceSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceSignalInfo, MethodIDataServiceSignalInfoAddDataServiceSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,14 +119,14 @@ func (p *DataServiceSignalInfoProxy) RemoveDataServiceSignalInfoListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataServiceSignalInfo)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceSignalInfo, "removeDataServiceSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataServiceSignalInfo, MethodIDataServiceSignalInfoRemoveDataServiceSignalInfoListener)
 	if _err != nil {
-		_code = TransactionIDataServiceSignalInfoRemoveDataServiceSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataServiceSignalInfo, MethodIDataServiceSignalInfoRemoveDataServiceSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -140,6 +146,10 @@ type DataServiceSignalInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataServiceSignalInfoStub)(nil)
+
+func (s *DataServiceSignalInfoStub) Descriptor() string {
+	return DescriptorIDataServiceSignalInfo
+}
 
 func (s *DataServiceSignalInfoStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIAppTransitionAnimationSpecsFutureGet = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppTransitionAnimationSpecsFutureGet = "get"
+)
+
 type IAppTransitionAnimationSpecsFuture interface {
 	AsBinder() binder.IBinder
 	Get(ctx context.Context) ([]AppTransitionAnimationSpec, error)
 }
 
 type AppTransitionAnimationSpecsFutureProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppTransitionAnimationSpecsFutureProxy(
 	remote binder.IBinder,
 ) *AppTransitionAnimationSpecsFutureProxy {
-	return &AppTransitionAnimationSpecsFutureProxy{remote: remote}
+	return &AppTransitionAnimationSpecsFutureProxy{Remote: remote}
 }
 
 func (p *AppTransitionAnimationSpecsFutureProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppTransitionAnimationSpecsFuture = (*AppTransitionAnimationSpecsFutureProxy)(nil)
@@ -43,12 +47,12 @@ func (p *AppTransitionAnimationSpecsFutureProxy) Get(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTransitionAnimationSpecsFuture)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppTransitionAnimationSpecsFuture, "get")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppTransitionAnimationSpecsFuture, MethodIAppTransitionAnimationSpecsFutureGet)
 	if _err != nil {
-		_code = TransactionIAppTransitionAnimationSpecsFutureGet
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppTransitionAnimationSpecsFuture, MethodIAppTransitionAnimationSpecsFutureGet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -66,6 +70,9 @@ func (p *AppTransitionAnimationSpecsFutureProxy) Get(
 	if _count >= 0 {
 		_result = make([]AppTransitionAnimationSpec, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -81,6 +88,10 @@ type AppTransitionAnimationSpecsFutureStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppTransitionAnimationSpecsFutureStub)(nil)
+
+func (s *AppTransitionAnimationSpecsFutureStub) Descriptor() string {
+	return DescriptorIAppTransitionAnimationSpecsFuture
+}
 
 func (s *AppTransitionAnimationSpecsFutureStub) OnTransaction(
 	ctx context.Context,

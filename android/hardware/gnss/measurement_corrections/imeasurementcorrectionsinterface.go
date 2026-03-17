@@ -16,6 +16,11 @@ const (
 	TransactionIMeasurementCorrectionsInterfaceSetCallback    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMeasurementCorrectionsInterfaceSetCorrections = "setCorrections"
+	MethodIMeasurementCorrectionsInterfaceSetCallback    = "setCallback"
+)
+
 type IMeasurementCorrectionsInterface interface {
 	AsBinder() binder.IBinder
 	SetCorrections(ctx context.Context, corrections MeasurementCorrections) error
@@ -23,17 +28,17 @@ type IMeasurementCorrectionsInterface interface {
 }
 
 type MeasurementCorrectionsInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMeasurementCorrectionsInterfaceProxy(
 	remote binder.IBinder,
 ) *MeasurementCorrectionsInterfaceProxy {
-	return &MeasurementCorrectionsInterfaceProxy{remote: remote}
+	return &MeasurementCorrectionsInterfaceProxy{Remote: remote}
 }
 
 func (p *MeasurementCorrectionsInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMeasurementCorrectionsInterface = (*MeasurementCorrectionsInterfaceProxy)(nil)
@@ -49,12 +54,12 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCorrections(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMeasurementCorrectionsInterface, "setCorrections")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCorrections)
 	if _err != nil {
-		_code = TransactionIMeasurementCorrectionsInterfaceSetCorrections
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCorrections, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,14 +78,14 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMeasurementCorrectionsInterface, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCallback)
 	if _err != nil {
-		_code = TransactionIMeasurementCorrectionsInterfaceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMeasurementCorrectionsInterface, MethodIMeasurementCorrectionsInterfaceSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,6 +105,10 @@ type MeasurementCorrectionsInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MeasurementCorrectionsInterfaceStub)(nil)
+
+func (s *MeasurementCorrectionsInterfaceStub) Descriptor() string {
+	return DescriptorIMeasurementCorrectionsInterface
+}
 
 func (s *MeasurementCorrectionsInterfaceStub) OnTransaction(
 	ctx context.Context,

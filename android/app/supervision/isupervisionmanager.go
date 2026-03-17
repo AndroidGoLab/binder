@@ -15,23 +15,27 @@ const (
 	TransactionISupervisionManagerIsSupervisionEnabledForUser = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISupervisionManagerIsSupervisionEnabledForUser = "isSupervisionEnabledForUser"
+)
+
 type ISupervisionManager interface {
 	AsBinder() binder.IBinder
 	IsSupervisionEnabledForUser(ctx context.Context) (bool, error)
 }
 
 type SupervisionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupervisionManagerProxy(
 	remote binder.IBinder,
 ) *SupervisionManagerProxy {
-	return &SupervisionManagerProxy{remote: remote}
+	return &SupervisionManagerProxy{Remote: remote}
 }
 
 func (p *SupervisionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupervisionManager = (*SupervisionManagerProxy)(nil)
@@ -40,17 +44,17 @@ func (p *SupervisionManagerProxy) IsSupervisionEnabledForUser(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupervisionManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupervisionManager, "isSupervisionEnabledForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupervisionManager, MethodISupervisionManagerIsSupervisionEnabledForUser)
 	if _err != nil {
-		_code = TransactionISupervisionManagerIsSupervisionEnabledForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupervisionManager, MethodISupervisionManagerIsSupervisionEnabledForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type SupervisionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupervisionManagerStub)(nil)
+
+func (s *SupervisionManagerStub) Descriptor() string {
+	return DescriptorISupervisionManager
+}
 
 func (s *SupervisionManagerStub) OnTransaction(
 	ctx context.Context,

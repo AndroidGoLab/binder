@@ -20,6 +20,14 @@ const (
 	TransactionIBroadcastTimeGetLocalTimePerStream = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBroadcastTimeGetUtcTime            = "getUtcTime"
+	MethodIBroadcastTimeGetLocalTime          = "getLocalTime"
+	MethodIBroadcastTimeGetTimeZoneInfo       = "getTimeZoneInfo"
+	MethodIBroadcastTimeGetUtcTimePerStream   = "getUtcTimePerStream"
+	MethodIBroadcastTimeGetLocalTimePerStream = "getLocalTimePerStream"
+)
+
 type IBroadcastTime interface {
 	AsBinder() binder.IBinder
 	GetUtcTime(ctx context.Context) (int64, error)
@@ -30,17 +38,17 @@ type IBroadcastTime interface {
 }
 
 type BroadcastTimeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBroadcastTimeProxy(
 	remote binder.IBinder,
 ) *BroadcastTimeProxy {
-	return &BroadcastTimeProxy{remote: remote}
+	return &BroadcastTimeProxy{Remote: remote}
 }
 
 func (p *BroadcastTimeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBroadcastTime = (*BroadcastTimeProxy)(nil)
@@ -52,12 +60,12 @@ func (p *BroadcastTimeProxy) GetUtcTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getUtcTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastTime, MethodIBroadcastTimeGetUtcTime)
 	if _err != nil {
-		_code = TransactionIBroadcastTimeGetUtcTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastTime, MethodIBroadcastTimeGetUtcTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,12 +89,12 @@ func (p *BroadcastTimeProxy) GetLocalTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getLocalTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastTime, MethodIBroadcastTimeGetLocalTime)
 	if _err != nil {
-		_code = TransactionIBroadcastTimeGetLocalTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastTime, MethodIBroadcastTimeGetLocalTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,12 +118,12 @@ func (p *BroadcastTimeProxy) GetTimeZoneInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getTimeZoneInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastTime, MethodIBroadcastTimeGetTimeZoneInfo)
 	if _err != nil {
-		_code = TransactionIBroadcastTimeGetTimeZoneInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastTime, MethodIBroadcastTimeGetTimeZoneInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -146,12 +154,12 @@ func (p *BroadcastTimeProxy) GetUtcTimePerStream(
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 	_data.WriteString16(SessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getUtcTimePerStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastTime, MethodIBroadcastTimeGetUtcTimePerStream)
 	if _err != nil {
-		_code = TransactionIBroadcastTimeGetUtcTimePerStream
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastTime, MethodIBroadcastTimeGetUtcTimePerStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -177,12 +185,12 @@ func (p *BroadcastTimeProxy) GetLocalTimePerStream(
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 	_data.WriteString16(SessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getLocalTimePerStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastTime, MethodIBroadcastTimeGetLocalTimePerStream)
 	if _err != nil {
-		_code = TransactionIBroadcastTimeGetLocalTimePerStream
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastTime, MethodIBroadcastTimeGetLocalTimePerStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,6 +214,10 @@ type BroadcastTimeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BroadcastTimeStub)(nil)
+
+func (s *BroadcastTimeStub) Descriptor() string {
+	return DescriptorIBroadcastTime
+}
 
 func (s *BroadcastTimeStub) OnTransaction(
 	ctx context.Context,

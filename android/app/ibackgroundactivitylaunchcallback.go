@@ -15,23 +15,27 @@ const (
 	TransactionIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted = "onBackgroundActivityLaunchAborted"
+)
+
 type IBackgroundActivityLaunchCallback interface {
 	AsBinder() binder.IBinder
 	OnBackgroundActivityLaunchAborted(ctx context.Context, message string) error
 }
 
 type BackgroundActivityLaunchCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackgroundActivityLaunchCallbackProxy(
 	remote binder.IBinder,
 ) *BackgroundActivityLaunchCallbackProxy {
-	return &BackgroundActivityLaunchCallbackProxy{remote: remote}
+	return &BackgroundActivityLaunchCallbackProxy{Remote: remote}
 }
 
 func (p *BackgroundActivityLaunchCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackgroundActivityLaunchCallback = (*BackgroundActivityLaunchCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *BackgroundActivityLaunchCallbackProxy) OnBackgroundActivityLaunchAborte
 	_data.WriteInterfaceToken(DescriptorIBackgroundActivityLaunchCallback)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundActivityLaunchCallback, "onBackgroundActivityLaunchAborted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundActivityLaunchCallback, MethodIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted)
 	if _err != nil {
-		_code = TransactionIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackgroundActivityLaunchCallback, MethodIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type BackgroundActivityLaunchCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackgroundActivityLaunchCallbackStub)(nil)
+
+func (s *BackgroundActivityLaunchCallbackStub) Descriptor() string {
+	return DescriptorIBackgroundActivityLaunchCallback
+}
 
 func (s *BackgroundActivityLaunchCallbackStub) OnTransaction(
 	ctx context.Context,

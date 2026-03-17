@@ -15,23 +15,27 @@ const (
 	TransactionIKeyChainAliasCallbackAlias = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyChainAliasCallbackAlias = "alias"
+)
+
 type IKeyChainAliasCallback interface {
 	AsBinder() binder.IBinder
 	Alias(ctx context.Context, alias string) error
 }
 
 type KeyChainAliasCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyChainAliasCallbackProxy(
 	remote binder.IBinder,
 ) *KeyChainAliasCallbackProxy {
-	return &KeyChainAliasCallbackProxy{remote: remote}
+	return &KeyChainAliasCallbackProxy{Remote: remote}
 }
 
 func (p *KeyChainAliasCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyChainAliasCallback = (*KeyChainAliasCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *KeyChainAliasCallbackProxy) Alias(
 	_data.WriteInterfaceToken(DescriptorIKeyChainAliasCallback)
 	_data.WriteString16(alias)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyChainAliasCallback, "alias")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyChainAliasCallback, MethodIKeyChainAliasCallbackAlias)
 	if _err != nil {
-		_code = TransactionIKeyChainAliasCallbackAlias
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyChainAliasCallback, MethodIKeyChainAliasCallbackAlias, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type KeyChainAliasCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyChainAliasCallbackStub)(nil)
+
+func (s *KeyChainAliasCallbackStub) Descriptor() string {
+	return DescriptorIKeyChainAliasCallback
+}
 
 func (s *KeyChainAliasCallbackStub) OnTransaction(
 	ctx context.Context,

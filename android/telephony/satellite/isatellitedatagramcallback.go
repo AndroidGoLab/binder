@@ -15,23 +15,27 @@ const (
 	TransactionISatelliteDatagramCallbackOnSatelliteDatagramReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISatelliteDatagramCallbackOnSatelliteDatagramReceived = "onSatelliteDatagramReceived"
+)
+
 type ISatelliteDatagramCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback interface{}) error
 }
 
 type SatelliteDatagramCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteDatagramCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteDatagramCallbackProxy {
-	return &SatelliteDatagramCallbackProxy{remote: remote}
+	return &SatelliteDatagramCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteDatagramCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteDatagramCallback = (*SatelliteDatagramCallbackProxy)(nil)
@@ -52,12 +56,12 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 	}
 	_data.WriteInt32(pendingCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteDatagramCallback, "onSatelliteDatagramReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteDatagramCallback, MethodISatelliteDatagramCallbackOnSatelliteDatagramReceived)
 	if _err != nil {
-		_code = TransactionISatelliteDatagramCallbackOnSatelliteDatagramReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteDatagramCallback, MethodISatelliteDatagramCallbackOnSatelliteDatagramReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +72,10 @@ type SatelliteDatagramCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteDatagramCallbackStub)(nil)
+
+func (s *SatelliteDatagramCallbackStub) Descriptor() string {
+	return DescriptorISatelliteDatagramCallback
+}
 
 func (s *SatelliteDatagramCallbackStub) OnTransaction(
 	ctx context.Context,

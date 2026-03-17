@@ -16,23 +16,27 @@ const (
 	TransactionIDependencyInstallerServiceOnDependenciesRequired = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDependencyInstallerServiceOnDependenciesRequired = "onDependenciesRequired"
+)
+
 type IDependencyInstallerService interface {
 	AsBinder() binder.IBinder
 	OnDependenciesRequired(ctx context.Context, neededLibraries []pm.SharedLibraryInfo, callback DependencyInstallerCallback) error
 }
 
 type DependencyInstallerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDependencyInstallerServiceProxy(
 	remote binder.IBinder,
 ) *DependencyInstallerServiceProxy {
-	return &DependencyInstallerServiceProxy{remote: remote}
+	return &DependencyInstallerServiceProxy{Remote: remote}
 }
 
 func (p *DependencyInstallerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDependencyInstallerService = (*DependencyInstallerServiceProxy)(nil)
@@ -49,6 +53,7 @@ func (p *DependencyInstallerServiceProxy) OnDependenciesRequired(
 	} else {
 		_data.WriteInt32(int32(len(neededLibraries)))
 		for _, _item := range neededLibraries {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -59,12 +64,12 @@ func (p *DependencyInstallerServiceProxy) OnDependenciesRequired(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDependencyInstallerService, "onDependenciesRequired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDependencyInstallerService, MethodIDependencyInstallerServiceOnDependenciesRequired)
 	if _err != nil {
-		_code = TransactionIDependencyInstallerServiceOnDependenciesRequired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDependencyInstallerService, MethodIDependencyInstallerServiceOnDependenciesRequired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type DependencyInstallerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DependencyInstallerServiceStub)(nil)
+
+func (s *DependencyInstallerServiceStub) Descriptor() string {
+	return DescriptorIDependencyInstallerService
+}
 
 func (s *DependencyInstallerServiceStub) OnTransaction(
 	ctx context.Context,

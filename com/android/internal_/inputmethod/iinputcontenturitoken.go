@@ -16,6 +16,11 @@ const (
 	TransactionIInputContentUriTokenRelease = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInputContentUriTokenTake    = "take"
+	MethodIInputContentUriTokenRelease = "release"
+)
+
 type IInputContentUriToken interface {
 	AsBinder() binder.IBinder
 	Take(ctx context.Context) error
@@ -23,17 +28,17 @@ type IInputContentUriToken interface {
 }
 
 type InputContentUriTokenProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputContentUriTokenProxy(
 	remote binder.IBinder,
 ) *InputContentUriTokenProxy {
-	return &InputContentUriTokenProxy{remote: remote}
+	return &InputContentUriTokenProxy{Remote: remote}
 }
 
 func (p *InputContentUriTokenProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputContentUriToken = (*InputContentUriTokenProxy)(nil)
@@ -44,12 +49,12 @@ func (p *InputContentUriTokenProxy) Take(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputContentUriToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputContentUriToken, "take")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputContentUriToken, MethodIInputContentUriTokenTake)
 	if _err != nil {
-		_code = TransactionIInputContentUriTokenTake
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputContentUriToken, MethodIInputContentUriTokenTake, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,12 +73,12 @@ func (p *InputContentUriTokenProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputContentUriToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputContentUriToken, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputContentUriToken, MethodIInputContentUriTokenRelease)
 	if _err != nil {
-		_code = TransactionIInputContentUriTokenRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputContentUriToken, MethodIInputContentUriTokenRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,6 +98,10 @@ type InputContentUriTokenStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputContentUriTokenStub)(nil)
+
+func (s *InputContentUriTokenStub) Descriptor() string {
+	return DescriptorIInputContentUriToken
+}
 
 func (s *InputContentUriTokenStub) OnTransaction(
 	ctx context.Context,

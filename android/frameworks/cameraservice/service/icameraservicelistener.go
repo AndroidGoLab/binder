@@ -16,6 +16,11 @@ const (
 	TransactionICameraServiceListenerOnStatusChanged               = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICameraServiceListenerOnPhysicalCameraStatusChanged = "onPhysicalCameraStatusChanged"
+	MethodICameraServiceListenerOnStatusChanged               = "onStatusChanged"
+)
+
 type ICameraServiceListener interface {
 	AsBinder() binder.IBinder
 	OnPhysicalCameraStatusChanged(ctx context.Context, status CameraDeviceStatus, cameraId string, physicalCameraId string) error
@@ -23,17 +28,17 @@ type ICameraServiceListener interface {
 }
 
 type CameraServiceListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraServiceListenerProxy(
 	remote binder.IBinder,
 ) *CameraServiceListenerProxy {
-	return &CameraServiceListenerProxy{remote: remote}
+	return &CameraServiceListenerProxy{Remote: remote}
 }
 
 func (p *CameraServiceListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraServiceListener = (*CameraServiceListenerProxy)(nil)
@@ -50,12 +55,12 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 	_data.WriteString16(cameraId)
 	_data.WriteString16(physicalCameraId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onPhysicalCameraStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnPhysicalCameraStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnPhysicalCameraStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 	_data.WriteInt32(int32(status))
 	_data.WriteString16(cameraId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged)
 	if _err != nil {
-		_code = TransactionICameraServiceListenerOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceListener, MethodICameraServiceListenerOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type CameraServiceListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraServiceListenerStub)(nil)
+
+func (s *CameraServiceListenerStub) Descriptor() string {
+	return DescriptorICameraServiceListener
+}
 
 func (s *CameraServiceListenerStub) OnTransaction(
 	ctx context.Context,

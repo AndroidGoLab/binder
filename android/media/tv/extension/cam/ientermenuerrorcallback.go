@@ -15,23 +15,27 @@ const (
 	TransactionIEnterMenuErrorCallbackOnAppInfoEnterMenuError = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEnterMenuErrorCallbackOnAppInfoEnterMenuError = "onAppInfoEnterMenuError"
+)
+
 type IEnterMenuErrorCallback interface {
 	AsBinder() binder.IBinder
 	OnAppInfoEnterMenuError(ctx context.Context) error
 }
 
 type EnterMenuErrorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEnterMenuErrorCallbackProxy(
 	remote binder.IBinder,
 ) *EnterMenuErrorCallbackProxy {
-	return &EnterMenuErrorCallbackProxy{remote: remote}
+	return &EnterMenuErrorCallbackProxy{Remote: remote}
 }
 
 func (p *EnterMenuErrorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEnterMenuErrorCallback = (*EnterMenuErrorCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *EnterMenuErrorCallbackProxy) OnAppInfoEnterMenuError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEnterMenuErrorCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEnterMenuErrorCallback, "onAppInfoEnterMenuError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEnterMenuErrorCallback, MethodIEnterMenuErrorCallbackOnAppInfoEnterMenuError)
 	if _err != nil {
-		_code = TransactionIEnterMenuErrorCallbackOnAppInfoEnterMenuError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEnterMenuErrorCallback, MethodIEnterMenuErrorCallbackOnAppInfoEnterMenuError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type EnterMenuErrorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EnterMenuErrorCallbackStub)(nil)
+
+func (s *EnterMenuErrorCallbackStub) Descriptor() string {
+	return DescriptorIEnterMenuErrorCallback
+}
 
 func (s *EnterMenuErrorCallbackStub) OnTransaction(
 	ctx context.Context,

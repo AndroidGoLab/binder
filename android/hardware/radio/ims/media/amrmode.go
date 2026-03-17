@@ -5,7 +5,6 @@ package media
 type AmrMode int32
 
 const (
-	AmrModeINVALID  AmrMode = 0
 	AmrModeAmrMode0 AmrMode = (1 << 0)
 	AmrModeAmrMode1 AmrMode = (1 << 1)
 	AmrModeAmrMode2 AmrMode = (1 << 2)

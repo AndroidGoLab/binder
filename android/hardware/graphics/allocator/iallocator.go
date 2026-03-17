@@ -18,6 +18,13 @@ const (
 	TransactionIAllocatorGetIMapperLibrarySuffix = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAllocatorAllocate                = "allocate"
+	MethodIAllocatorAllocate2               = "allocate2"
+	MethodIAllocatorIsSupported             = "isSupported"
+	MethodIAllocatorGetIMapperLibrarySuffix = "getIMapperLibrarySuffix"
+)
+
 type IAllocator interface {
 	AsBinder() binder.IBinder
 	Allocate(ctx context.Context, descriptor []byte, count int32) (AllocationResult, error)
@@ -27,17 +34,17 @@ type IAllocator interface {
 }
 
 type AllocatorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAllocatorProxy(
 	remote binder.IBinder,
 ) *AllocatorProxy {
-	return &AllocatorProxy{remote: remote}
+	return &AllocatorProxy{Remote: remote}
 }
 
 func (p *AllocatorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAllocator = (*AllocatorProxy)(nil)
@@ -60,12 +67,12 @@ func (p *AllocatorProxy) Allocate(
 	}
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "allocate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorAllocate)
 	if _err != nil {
-		_code = TransactionIAllocatorAllocate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAllocator, MethodIAllocatorAllocate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -101,12 +108,12 @@ func (p *AllocatorProxy) Allocate2(
 	}
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "allocate2")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorAllocate2)
 	if _err != nil {
-		_code = TransactionIAllocatorAllocate2
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAllocator, MethodIAllocatorAllocate2, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,12 +147,12 @@ func (p *AllocatorProxy) IsSupported(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "isSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorIsSupported)
 	if _err != nil {
-		_code = TransactionIAllocatorIsSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAllocator, MethodIAllocatorIsSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,12 +176,12 @@ func (p *AllocatorProxy) GetIMapperLibrarySuffix(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "getIMapperLibrarySuffix")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAllocator, MethodIAllocatorGetIMapperLibrarySuffix)
 	if _err != nil {
-		_code = TransactionIAllocatorGetIMapperLibrarySuffix
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAllocator, MethodIAllocatorGetIMapperLibrarySuffix, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -198,6 +205,10 @@ type AllocatorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AllocatorStub)(nil)
+
+func (s *AllocatorStub) Descriptor() string {
+	return DescriptorIAllocator
+}
 
 func (s *AllocatorStub) OnTransaction(
 	ctx context.Context,

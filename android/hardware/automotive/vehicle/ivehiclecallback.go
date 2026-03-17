@@ -12,11 +12,17 @@ import (
 const DescriptorIVehicleCallback = "android.hardware.automotive.vehicle.IVehicleCallback"
 
 const (
-	TransactionIVehicleCallbackOnGetValues            = binder.FirstCallTransaction + 0
-	TransactionIVehicleCallbackOnSetValues            = binder.FirstCallTransaction + 1
-	TransactionIVehicleCallbackOnPropertyEvent        = binder.FirstCallTransaction + 2
-	TransactionIVehicleCallbackOnPropertySetError     = binder.FirstCallTransaction + 3
-	TransactionIVehicleCallbackOnSupportedValueChange = binder.FirstCallTransaction + 4
+	TransactionIVehicleCallbackOnGetValues        = binder.FirstCallTransaction + 0
+	TransactionIVehicleCallbackOnSetValues        = binder.FirstCallTransaction + 1
+	TransactionIVehicleCallbackOnPropertyEvent    = binder.FirstCallTransaction + 2
+	TransactionIVehicleCallbackOnPropertySetError = binder.FirstCallTransaction + 3
+)
+
+const (
+	MethodIVehicleCallbackOnGetValues        = "onGetValues"
+	MethodIVehicleCallbackOnSetValues        = "onSetValues"
+	MethodIVehicleCallbackOnPropertyEvent    = "onPropertyEvent"
+	MethodIVehicleCallbackOnPropertySetError = "onPropertySetError"
 )
 
 type IVehicleCallback interface {
@@ -25,21 +31,20 @@ type IVehicleCallback interface {
 	OnSetValues(ctx context.Context, responses SetValueResults) error
 	OnPropertyEvent(ctx context.Context, propValues VehiclePropValues, sharedMemoryFileCount int32) error
 	OnPropertySetError(ctx context.Context, errors VehiclePropErrors) error
-	OnSupportedValueChange(ctx context.Context, propIdAreaIds []PropIdAreaId) error
 }
 
 type VehicleCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVehicleCallbackProxy(
 	remote binder.IBinder,
 ) *VehicleCallbackProxy {
-	return &VehicleCallbackProxy{remote: remote}
+	return &VehicleCallbackProxy{Remote: remote}
 }
 
 func (p *VehicleCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVehicleCallback = (*VehicleCallbackProxy)(nil)
@@ -55,12 +60,12 @@ func (p *VehicleCallbackProxy) OnGetValues(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onGetValues")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnGetValues)
 	if _err != nil {
-		_code = TransactionIVehicleCallbackOnGetValues
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicleCallback, MethodIVehicleCallbackOnGetValues, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +80,12 @@ func (p *VehicleCallbackProxy) OnSetValues(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onSetValues")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnSetValues)
 	if _err != nil {
-		_code = TransactionIVehicleCallbackOnSetValues
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicleCallback, MethodIVehicleCallbackOnSetValues, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +102,12 @@ func (p *VehicleCallbackProxy) OnPropertyEvent(
 	}
 	_data.WriteInt32(sharedMemoryFileCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onPropertyEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertyEvent)
 	if _err != nil {
-		_code = TransactionIVehicleCallbackOnPropertyEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertyEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,38 +122,12 @@ func (p *VehicleCallbackProxy) OnPropertySetError(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onPropertySetError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertySetError)
 	if _err != nil {
-		_code = TransactionIVehicleCallbackOnPropertySetError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVehicleCallback, MethodIVehicleCallbackOnPropertySetError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *VehicleCallbackProxy) OnSupportedValueChange(
-	ctx context.Context,
-	propIdAreaIds []PropIdAreaId,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
-	if propIdAreaIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(propIdAreaIds)))
-		for _, _item := range propIdAreaIds {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onSupportedValueChange")
-	if _err != nil {
-		_code = TransactionIVehicleCallbackOnSupportedValueChange
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,6 +138,10 @@ type VehicleCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VehicleCallbackStub)(nil)
+
+func (s *VehicleCallbackStub) Descriptor() string {
+	return DescriptorIVehicleCallback
+}
 
 func (s *VehicleCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -246,16 +229,6 @@ func (s *VehicleCallbackStub) OnTransaction(
 		_err := s.Impl.OnPropertySetError(ctx, _arg_errors)
 		_ = _err
 		return nil, nil
-	case TransactionIVehicleCallbackOnSupportedValueChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_propIdAreaIds []PropIdAreaId
-		_ = _arg_propIdAreaIds
-		_err := s.Impl.OnSupportedValueChange(ctx, _arg_propIdAreaIds)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -269,7 +242,6 @@ type IVehicleCallbackServer interface {
 	OnSetValues(ctx context.Context, responses SetValueResults) error
 	OnPropertyEvent(ctx context.Context, propValues VehiclePropValues, sharedMemoryFileCount int32) error
 	OnPropertySetError(ctx context.Context, errors VehiclePropErrors) error
-	OnSupportedValueChange(ctx context.Context, propIdAreaIds []PropIdAreaId) error
 }
 
 type vehicleCallbackStubWrapper struct {
@@ -308,13 +280,6 @@ func (w *vehicleCallbackStubWrapper) OnPropertySetError(
 	errors VehiclePropErrors,
 ) error {
 	return w.impl.OnPropertySetError(ctx, errors)
-}
-
-func (w *vehicleCallbackStubWrapper) OnSupportedValueChange(
-	ctx context.Context,
-	propIdAreaIds []PropIdAreaId,
-) error {
-	return w.impl.OnSupportedValueChange(ctx, propIdAreaIds)
 }
 
 var _ IVehicleCallback = (*vehicleCallbackStubWrapper)(nil)

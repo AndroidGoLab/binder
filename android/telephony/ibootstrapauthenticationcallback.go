@@ -16,6 +16,11 @@ const (
 	TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBootstrapAuthenticationCallbackOnKeysAvailable         = "onKeysAvailable"
+	MethodIBootstrapAuthenticationCallbackOnAuthenticationFailure = "onAuthenticationFailure"
+)
+
 type IBootstrapAuthenticationCallback interface {
 	AsBinder() binder.IBinder
 	OnKeysAvailable(ctx context.Context, token int32, gbaKey []byte, btId string) error
@@ -23,17 +28,17 @@ type IBootstrapAuthenticationCallback interface {
 }
 
 type BootstrapAuthenticationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBootstrapAuthenticationCallbackProxy(
 	remote binder.IBinder,
 ) *BootstrapAuthenticationCallbackProxy {
-	return &BootstrapAuthenticationCallbackProxy{remote: remote}
+	return &BootstrapAuthenticationCallbackProxy{Remote: remote}
 }
 
 func (p *BootstrapAuthenticationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBootstrapAuthenticationCallback = (*BootstrapAuthenticationCallbackProxy)(nil)
@@ -57,12 +62,12 @@ func (p *BootstrapAuthenticationCallbackProxy) OnKeysAvailable(
 	}
 	_data.WriteString16(btId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBootstrapAuthenticationCallback, "onKeysAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootstrapAuthenticationCallback, MethodIBootstrapAuthenticationCallbackOnKeysAvailable)
 	if _err != nil {
-		_code = TransactionIBootstrapAuthenticationCallbackOnKeysAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBootstrapAuthenticationCallback, MethodIBootstrapAuthenticationCallbackOnKeysAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +81,12 @@ func (p *BootstrapAuthenticationCallbackProxy) OnAuthenticationFailure(
 	_data.WriteInt32(token)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBootstrapAuthenticationCallback, "onAuthenticationFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBootstrapAuthenticationCallback, MethodIBootstrapAuthenticationCallbackOnAuthenticationFailure)
 	if _err != nil {
-		_code = TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBootstrapAuthenticationCallback, MethodIBootstrapAuthenticationCallbackOnAuthenticationFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +97,10 @@ type BootstrapAuthenticationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BootstrapAuthenticationCallbackStub)(nil)
+
+func (s *BootstrapAuthenticationCallbackStub) Descriptor() string {
+	return DescriptorIBootstrapAuthenticationCallback
+}
 
 func (s *BootstrapAuthenticationCallbackStub) OnTransaction(
 	ctx context.Context,

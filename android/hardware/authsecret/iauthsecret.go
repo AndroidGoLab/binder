@@ -15,23 +15,27 @@ const (
 	TransactionIAuthSecretSetPrimaryUserCredential = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAuthSecretSetPrimaryUserCredential = "setPrimaryUserCredential"
+)
+
 type IAuthSecret interface {
 	AsBinder() binder.IBinder
 	SetPrimaryUserCredential(ctx context.Context, secret []byte) error
 }
 
 type AuthSecretProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthSecretProxy(
 	remote binder.IBinder,
 ) *AuthSecretProxy {
-	return &AuthSecretProxy{remote: remote}
+	return &AuthSecretProxy{Remote: remote}
 }
 
 func (p *AuthSecretProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuthSecret = (*AuthSecretProxy)(nil)
@@ -51,12 +55,12 @@ func (p *AuthSecretProxy) SetPrimaryUserCredential(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthSecret, "setPrimaryUserCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthSecret, MethodIAuthSecretSetPrimaryUserCredential)
 	if _err != nil {
-		_code = TransactionIAuthSecretSetPrimaryUserCredential
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthSecret, MethodIAuthSecretSetPrimaryUserCredential, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type AuthSecretStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuthSecretStub)(nil)
+
+func (s *AuthSecretStub) Descriptor() string {
+	return DescriptorIAuthSecret
+}
 
 func (s *AuthSecretStub) OnTransaction(
 	ctx context.Context,

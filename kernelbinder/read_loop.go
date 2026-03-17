@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/binder/binder"
+	"github.com/xaionaro-go/binder/logger"
 	aidlerrors "github.com/xaionaro-go/binder/errors"
 	"github.com/xaionaro-go/binder/parcel"
 	"golang.org/x/sys/unix"
@@ -133,7 +133,7 @@ func (d *Driver) runReadLoop(
 		if errno != 0 {
 			// If the fd was closed (e.g. during shutdown), stop gracefully.
 			if errno == unix.EBADF {
-				logger.Debugf(ctx, "read loop: fd closed, exiting")
+				logger.Tracef(ctx, "read loop: fd closed, exiting")
 				return
 			}
 			logger.Errorf(ctx, "read loop ioctl error: %v", errno)
@@ -166,9 +166,6 @@ func (d *Driver) dispatchReadBuffer(
 	ctx context.Context,
 	buf []byte,
 ) {
-	logger.Tracef(ctx, "dispatchReadBuffer")
-	defer func() { logger.Tracef(ctx, "/dispatchReadBuffer") }()
-
 	offset := 0
 	txnSize := int(unsafe.Sizeof(binderTransactionData{}))
 	ptrCookieSize := int(binderPtrCookieSize)
@@ -184,13 +181,13 @@ func (d *Driver) dispatchReadBuffer(
 
 		switch cmd {
 		case brNoop:
-			logger.Debugf(ctx, "read loop: BR_NOOP")
+			logger.Tracef(ctx, "read loop: BR_NOOP")
 
 		case brTransactionComplete:
-			logger.Debugf(ctx, "read loop: BR_TRANSACTION_COMPLETE")
+			logger.Tracef(ctx, "read loop: BR_TRANSACTION_COMPLETE")
 
 		case brTransaction:
-			logger.Debugf(ctx, "read loop: BR_TRANSACTION")
+			logger.Tracef(ctx, "read loop: BR_TRANSACTION")
 			if offset+txnSize > len(buf) {
 				logger.Warnf(ctx, "read loop: truncated BR_TRANSACTION at offset %d", offset)
 				return
@@ -209,7 +206,7 @@ func (d *Driver) dispatchReadBuffer(
 			offset += txnSize
 
 		case brIncRefs:
-			logger.Debugf(ctx, "read loop: BR_INCREFS")
+			logger.Tracef(ctx, "read loop: BR_INCREFS")
 			if offset+ptrCookieSize > len(buf) {
 				logger.Warnf(ctx, "read loop: truncated BR_INCREFS at offset %d", offset)
 				return
@@ -218,7 +215,7 @@ func (d *Driver) dispatchReadBuffer(
 			offset += ptrCookieSize
 
 		case brAcquire:
-			logger.Debugf(ctx, "read loop: BR_ACQUIRE")
+			logger.Tracef(ctx, "read loop: BR_ACQUIRE")
 			if offset+ptrCookieSize > len(buf) {
 				logger.Warnf(ctx, "read loop: truncated BR_ACQUIRE at offset %d", offset)
 				return
@@ -227,7 +224,7 @@ func (d *Driver) dispatchReadBuffer(
 			offset += ptrCookieSize
 
 		case brRelease:
-			logger.Debugf(ctx, "read loop: BR_RELEASE")
+			logger.Tracef(ctx, "read loop: BR_RELEASE")
 			if offset+ptrCookieSize > len(buf) {
 				logger.Warnf(ctx, "read loop: truncated BR_RELEASE at offset %d", offset)
 				return
@@ -236,7 +233,7 @@ func (d *Driver) dispatchReadBuffer(
 			offset += ptrCookieSize
 
 		case brDecrefs:
-			logger.Debugf(ctx, "read loop: BR_DECREFS")
+			logger.Tracef(ctx, "read loop: BR_DECREFS")
 			if offset+ptrCookieSize > len(buf) {
 				logger.Warnf(ctx, "read loop: truncated BR_DECREFS at offset %d", offset)
 				return
@@ -245,10 +242,10 @@ func (d *Driver) dispatchReadBuffer(
 			offset += ptrCookieSize
 
 		case brDeadReply:
-			logger.Debugf(ctx, "read loop: BR_DEAD_REPLY")
+			logger.Tracef(ctx, "read loop: BR_DEAD_REPLY")
 
 		case brFailedReply:
-			logger.Debugf(ctx, "read loop: BR_FAILED_REPLY")
+			logger.Tracef(ctx, "read loop: BR_FAILED_REPLY")
 
 		case brError:
 			if offset+4 > len(buf) {
@@ -260,7 +257,7 @@ func (d *Driver) dispatchReadBuffer(
 			logger.Errorf(ctx, "read loop: BR_ERROR %d", errCode)
 
 		case brSpawnLooper:
-			logger.Debugf(ctx, "read loop: BR_SPAWN_LOOPER (ignored)")
+			logger.Tracef(ctx, "read loop: BR_SPAWN_LOOPER (ignored)")
 
 		default:
 			logger.Warnf(ctx, "read loop: unknown BR code 0x%08x at offset %d", cmd, offset-4)
@@ -268,6 +265,10 @@ func (d *Driver) dispatchReadBuffer(
 		}
 	}
 }
+
+// refAckBufSize is the size of the acknowledgment buffer for BR_INCREFS/BR_ACQUIRE:
+// 4 bytes (command) + binderPtrCookieSize (16 on 64-bit) = 20.
+const refAckBufSize = 4 + binderPtrCookieSize
 
 // handleRefCommand acknowledges a BR_INCREFS or BR_ACQUIRE with the
 // corresponding BC_INCREFS_DONE or BC_ACQUIRE_DONE response.
@@ -278,7 +279,9 @@ func (d *Driver) handleRefCommand(
 ) {
 	// The payload is binder_ptr_cookie: two pointer-sized values (ptr + cookie).
 	// We echo them back in BC_INCREFS_DONE / BC_ACQUIRE_DONE.
-	ackBuf := make([]byte, 4+len(ptrCookieBuf))
+	// Use a fixed-size array so the compiler can stack-allocate it.
+	var ackArr [refAckBufSize]byte
+	ackBuf := ackArr[:]
 	binary.LittleEndian.PutUint32(ackBuf[0:4], doneCmd)
 	copy(ackBuf[4:], ptrCookieBuf)
 
@@ -294,9 +297,6 @@ func (d *Driver) handleIncomingTransaction(
 	ctx context.Context,
 	txn *binderTransactionData,
 ) {
-	logger.Tracef(ctx, "handleIncomingTransaction")
-	defer func() { logger.Tracef(ctx, "/handleIncomingTransaction") }()
-
 	cookie := uintptr(txn.cookie)
 	code := binder.TransactionCode(txn.code)
 	isOneway := binder.TransactionFlags(txn.flags)&binder.FlagOneway != 0
@@ -323,10 +323,38 @@ func (d *Driver) handleIncomingTransaction(
 		return
 	}
 
+	// Handle system transaction codes that all binder objects must respond to.
+	switch {
+	case code == binder.InterfaceTransaction:
+		// Return the interface descriptor from the receiver.
+		desc := receiver.Descriptor()
+		logger.Tracef(ctx, "INTERFACE_TRANSACTION: returning descriptor %q", desc)
+		reply := parcel.New()
+		reply.WriteString16(desc)
+		if !isOneway {
+			d.sendReply(ctx, reply)
+		}
+		return
+	case code == binder.PingTransaction:
+		if !isOneway {
+			d.sendReply(ctx, parcel.New())
+		}
+		return
+	case code > binder.LastCallTransaction:
+		// Unknown system transaction — reply with empty parcel.
+		logger.Tracef(ctx, "ignoring system transaction code 0x%x", uint32(code))
+		if !isOneway {
+			d.sendReply(ctx, parcel.New())
+		}
+		return
+	}
+
 	dataParcel := parcel.FromBytes(dataBytes)
 	replyParcel, err := receiver.OnTransaction(ctx, code, dataParcel)
 	if err != nil {
-		logger.Warnf(ctx, "OnTransaction(code=%d) failed: %v", code, err)
+		// Trace level: fires on every unhandled transaction code on the
+		// per-frame hot path. Warn-level consumed 20ms in profiling.
+		logger.Tracef(ctx, "OnTransaction(code=%d) failed: %v", code, err)
 		if !isOneway {
 			// Send an empty reply on error so the caller does not hang.
 			d.sendReply(ctx, parcel.New())
@@ -362,9 +390,6 @@ func (d *Driver) Reply(
 	ctx context.Context,
 	reply *parcel.Parcel,
 ) (_err error) {
-	logger.Tracef(ctx, "Reply")
-	defer func() { logger.Tracef(ctx, "/Reply: %v", _err) }()
-
 	replyData := reply.Data()
 	objects := reply.Objects()
 
@@ -392,17 +417,24 @@ func (d *Driver) Reply(
 	}
 
 	txnSize := unsafe.Sizeof(txn)
-	writeBuf := make([]byte, 4+txnSize)
+	// Use a fixed-size array so the compiler can stack-allocate it,
+	// avoiding a per-call heap allocation for the write buffer.
+	var writeBufArr [replyWriteBufSize]byte
+	writeBuf := writeBufArr[:4+txnSize]
 	binary.LittleEndian.PutUint32(writeBuf[0:4], bcReply)
 	copyStructToBytes(writeBuf[4:], unsafe.Pointer(&txn), txnSize)
 
-	readBuf := make([]byte, readBufferSize)
-
+	// Use readSize=0 so the ioctl only sends the BC_REPLY without
+	// consuming any incoming events from the read buffer. Events will
+	// be picked up by the Transact loop or the read loop instead.
+	// Previously readSize was set to readBufferSize, which caused
+	// incoming BR_TRANSACTION events to be silently dropped, leading
+	// to deadlocks when the remote end expected a reply.
 	bwr := binderWriteRead{
 		writeSize:   uint64(len(writeBuf)),
 		writeBuffer: uint64(uintptr(unsafe.Pointer(&writeBuf[0]))),
-		readSize:    uint64(len(readBuf)),
-		readBuffer:  uint64(uintptr(unsafe.Pointer(&readBuf[0]))),
+		readSize:    0,
+		readBuffer:  0,
 	}
 
 	for {

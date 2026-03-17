@@ -12,34 +12,33 @@ import (
 const DescriptorIDesktopTaskListener = "com.android.wm.shell.desktopmode.IDesktopTaskListener"
 
 const (
-	TransactionIDesktopTaskListenerOnTasksVisibilityChanged            = binder.FirstCallTransaction + 0
-	TransactionIDesktopTaskListenerOnStashedChanged                    = binder.FirstCallTransaction + 1
-	TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate       = binder.FirstCallTransaction + 2
-	TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted = binder.FirstCallTransaction + 3
-	TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted  = binder.FirstCallTransaction + 4
+	TransactionIDesktopTaskListenerOnTasksVisibilityChanged = binder.FirstCallTransaction + 0
+	TransactionIDesktopTaskListenerOnStashedChanged         = binder.FirstCallTransaction + 1
+)
+
+const (
+	MethodIDesktopTaskListenerOnTasksVisibilityChanged = "onTasksVisibilityChanged"
+	MethodIDesktopTaskListenerOnStashedChanged         = "onStashedChanged"
 )
 
 type IDesktopTaskListener interface {
 	AsBinder() binder.IBinder
 	OnTasksVisibilityChanged(ctx context.Context, displayId int32, visibleTasksCount int32) error
 	OnStashedChanged(ctx context.Context, displayId int32, stashed bool) error
-	OnTaskbarCornerRoundingUpdate(ctx context.Context, hasTasksRequiringTaskbarRounding bool) error
-	OnEnterDesktopModeTransitionStarted(ctx context.Context, transitionDuration int32) error
-	OnExitDesktopModeTransitionStarted(ctx context.Context, transitionDuration int32) error
 }
 
 type DesktopTaskListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDesktopTaskListenerProxy(
 	remote binder.IBinder,
 ) *DesktopTaskListenerProxy {
-	return &DesktopTaskListenerProxy{remote: remote}
+	return &DesktopTaskListenerProxy{Remote: remote}
 }
 
 func (p *DesktopTaskListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDesktopTaskListener = (*DesktopTaskListenerProxy)(nil)
@@ -54,12 +53,12 @@ func (p *DesktopTaskListenerProxy) OnTasksVisibilityChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(visibleTasksCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onTasksVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnTasksVisibilityChanged)
 	if _err != nil {
-		_code = TransactionIDesktopTaskListenerOnTasksVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnTasksVisibilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,63 +72,12 @@ func (p *DesktopTaskListenerProxy) OnStashedChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteBool(stashed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onStashedChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnStashedChanged)
 	if _err != nil {
-		_code = TransactionIDesktopTaskListenerOnStashedChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopTaskListener, MethodIDesktopTaskListenerOnStashedChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DesktopTaskListenerProxy) OnTaskbarCornerRoundingUpdate(
-	ctx context.Context,
-	hasTasksRequiringTaskbarRounding bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
-	_data.WriteBool(hasTasksRequiringTaskbarRounding)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onTaskbarCornerRoundingUpdate")
-	if _err != nil {
-		_code = TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DesktopTaskListenerProxy) OnEnterDesktopModeTransitionStarted(
-	ctx context.Context,
-	transitionDuration int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
-	_data.WriteInt32(transitionDuration)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onEnterDesktopModeTransitionStarted")
-	if _err != nil {
-		_code = TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DesktopTaskListenerProxy) OnExitDesktopModeTransitionStarted(
-	ctx context.Context,
-	transitionDuration int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
-	_data.WriteInt32(transitionDuration)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onExitDesktopModeTransitionStarted")
-	if _err != nil {
-		_code = TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,6 +88,10 @@ type DesktopTaskListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DesktopTaskListenerStub)(nil)
+
+func (s *DesktopTaskListenerStub) Descriptor() string {
+	return DescriptorIDesktopTaskListener
+}
 
 func (s *DesktopTaskListenerStub) OnTransaction(
 	ctx context.Context,
@@ -177,39 +129,6 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 		_err = s.Impl.OnStashedChanged(ctx, _arg_displayId, _arg_stashed)
 		_ = _err
 		return nil, nil
-	case TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_hasTasksRequiringTaskbarRounding, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnTaskbarCornerRoundingUpdate(ctx, _arg_hasTasksRequiringTaskbarRounding)
-		_ = _err
-		return nil, nil
-	case TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_transitionDuration, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnEnterDesktopModeTransitionStarted(ctx, _arg_transitionDuration)
-		_ = _err
-		return nil, nil
-	case TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_transitionDuration, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnExitDesktopModeTransitionStarted(ctx, _arg_transitionDuration)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -221,9 +140,6 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 type IDesktopTaskListenerServer interface {
 	OnTasksVisibilityChanged(ctx context.Context, displayId int32, visibleTasksCount int32) error
 	OnStashedChanged(ctx context.Context, displayId int32, stashed bool) error
-	OnTaskbarCornerRoundingUpdate(ctx context.Context, hasTasksRequiringTaskbarRounding bool) error
-	OnEnterDesktopModeTransitionStarted(ctx context.Context, transitionDuration int32) error
-	OnExitDesktopModeTransitionStarted(ctx context.Context, transitionDuration int32) error
 }
 
 type desktopTaskListenerStubWrapper struct {
@@ -249,27 +165,6 @@ func (w *desktopTaskListenerStubWrapper) OnStashedChanged(
 	stashed bool,
 ) error {
 	return w.impl.OnStashedChanged(ctx, displayId, stashed)
-}
-
-func (w *desktopTaskListenerStubWrapper) OnTaskbarCornerRoundingUpdate(
-	ctx context.Context,
-	hasTasksRequiringTaskbarRounding bool,
-) error {
-	return w.impl.OnTaskbarCornerRoundingUpdate(ctx, hasTasksRequiringTaskbarRounding)
-}
-
-func (w *desktopTaskListenerStubWrapper) OnEnterDesktopModeTransitionStarted(
-	ctx context.Context,
-	transitionDuration int32,
-) error {
-	return w.impl.OnEnterDesktopModeTransitionStarted(ctx, transitionDuration)
-}
-
-func (w *desktopTaskListenerStubWrapper) OnExitDesktopModeTransitionStarted(
-	ctx context.Context,
-	transitionDuration int32,
-) error {
-	return w.impl.OnExitDesktopModeTransitionStarted(ctx, transitionDuration)
 }
 
 var _ IDesktopTaskListener = (*desktopTaskListenerStubWrapper)(nil)

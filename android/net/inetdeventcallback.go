@@ -18,6 +18,13 @@ const (
 	TransactionINetdEventCallbackOnConnectEvent              = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodINetdEventCallbackOnDnsEvent                  = "onDnsEvent"
+	MethodINetdEventCallbackOnNat64PrefixEvent          = "onNat64PrefixEvent"
+	MethodINetdEventCallbackOnPrivateDnsValidationEvent = "onPrivateDnsValidationEvent"
+	MethodINetdEventCallbackOnConnectEvent              = "onConnectEvent"
+)
+
 type INetdEventCallback interface {
 	AsBinder() binder.IBinder
 	OnDnsEvent(ctx context.Context, netId int32, eventType int32, returnCode int32, hostname string, ipAddresses []string, ipAddressesCount int32, timestamp int64, uid int32) error
@@ -33,17 +40,17 @@ const (
 )
 
 type NetdEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetdEventCallbackProxy(
 	remote binder.IBinder,
 ) *NetdEventCallbackProxy {
-	return &NetdEventCallbackProxy{remote: remote}
+	return &NetdEventCallbackProxy{Remote: remote}
 }
 
 func (p *NetdEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetdEventCallback = (*NetdEventCallbackProxy)(nil)
@@ -77,12 +84,12 @@ func (p *NetdEventCallbackProxy) OnDnsEvent(
 	_data.WriteInt64(timestamp)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onDnsEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnDnsEvent)
 	if _err != nil {
-		_code = TransactionINetdEventCallbackOnDnsEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetdEventCallback, MethodINetdEventCallbackOnDnsEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,12 +107,12 @@ func (p *NetdEventCallbackProxy) OnNat64PrefixEvent(
 	_data.WriteString16(prefixString)
 	_data.WriteInt32(prefixLength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onNat64PrefixEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnNat64PrefixEvent)
 	if _err != nil {
-		_code = TransactionINetdEventCallbackOnNat64PrefixEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetdEventCallback, MethodINetdEventCallbackOnNat64PrefixEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,12 +130,12 @@ func (p *NetdEventCallbackProxy) OnPrivateDnsValidationEvent(
 	_data.WriteString16(hostname)
 	_data.WriteBool(validated)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onPrivateDnsValidationEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnPrivateDnsValidationEvent)
 	if _err != nil {
-		_code = TransactionINetdEventCallbackOnPrivateDnsValidationEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetdEventCallback, MethodINetdEventCallbackOnPrivateDnsValidationEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,12 +153,12 @@ func (p *NetdEventCallbackProxy) OnConnectEvent(
 	_data.WriteInt64(timestamp)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onConnectEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetdEventCallback, MethodINetdEventCallbackOnConnectEvent)
 	if _err != nil {
-		_code = TransactionINetdEventCallbackOnConnectEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetdEventCallback, MethodINetdEventCallbackOnConnectEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,6 +169,10 @@ type NetdEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetdEventCallbackStub)(nil)
+
+func (s *NetdEventCallbackStub) Descriptor() string {
+	return DescriptorINetdEventCallback
+}
 
 func (s *NetdEventCallbackStub) OnTransaction(
 	ctx context.Context,

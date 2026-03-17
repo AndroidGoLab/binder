@@ -24,6 +24,16 @@ const (
 	TransactionIRecentsAnimationControllerHandOffAnimation           = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIRecentsAnimationControllerScreenshotTask             = "screenshotTask"
+	MethodIRecentsAnimationControllerSetFinishTaskTransaction   = "setFinishTaskTransaction"
+	MethodIRecentsAnimationControllerFinish                     = "finish"
+	MethodIRecentsAnimationControllerSetInputConsumerEnabled    = "setInputConsumerEnabled"
+	MethodIRecentsAnimationControllerSetWillFinishToHome        = "setWillFinishToHome"
+	MethodIRecentsAnimationControllerDetachNavigationBarFromApp = "detachNavigationBarFromApp"
+	MethodIRecentsAnimationControllerHandOffAnimation           = "handOffAnimation"
+)
+
 type IRecentsAnimationController interface {
 	AsBinder() binder.IBinder
 	ScreenshotTask(ctx context.Context, taskId int32) (view.WindowManagerTaskSnapshot, error)
@@ -36,17 +46,17 @@ type IRecentsAnimationController interface {
 }
 
 type RecentsAnimationControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecentsAnimationControllerProxy(
 	remote binder.IBinder,
 ) *RecentsAnimationControllerProxy {
-	return &RecentsAnimationControllerProxy{remote: remote}
+	return &RecentsAnimationControllerProxy{Remote: remote}
 }
 
 func (p *RecentsAnimationControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecentsAnimationController = (*RecentsAnimationControllerProxy)(nil)
@@ -60,12 +70,12 @@ func (p *RecentsAnimationControllerProxy) ScreenshotTask(
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "screenshotTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerScreenshotTask)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerScreenshotTask
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerScreenshotTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,12 +115,12 @@ func (p *RecentsAnimationControllerProxy) SetFinishTaskTransaction(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "setFinishTaskTransaction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetFinishTaskTransaction)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerSetFinishTaskTransaction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetFinishTaskTransaction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,14 +143,14 @@ func (p *RecentsAnimationControllerProxy) Finish(
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(moveHomeToTop)
 	_data.WriteBool(sendUserLeaveHint)
-	binder.WriteBinderToParcel(ctx, _data, finishCb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, finishCb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerFinish)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerFinish, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,12 +171,12 @@ func (p *RecentsAnimationControllerProxy) SetInputConsumerEnabled(
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "setInputConsumerEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetInputConsumerEnabled)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerSetInputConsumerEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetInputConsumerEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -187,12 +197,12 @@ func (p *RecentsAnimationControllerProxy) SetWillFinishToHome(
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(willFinishToHome)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "setWillFinishToHome")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetWillFinishToHome)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerSetWillFinishToHome
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerSetWillFinishToHome, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -213,12 +223,12 @@ func (p *RecentsAnimationControllerProxy) DetachNavigationBarFromApp(
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteBool(moveHomeToTop)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "detachNavigationBarFromApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerDetachNavigationBarFromApp)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerDetachNavigationBarFromApp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerDetachNavigationBarFromApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -243,6 +253,7 @@ func (p *RecentsAnimationControllerProxy) HandOffAnimation(
 	} else {
 		_data.WriteInt32(int32(len(targets)))
 		for _, _item := range targets {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -253,18 +264,19 @@ func (p *RecentsAnimationControllerProxy) HandOffAnimation(
 	} else {
 		_data.WriteInt32(int32(len(states)))
 		for _, _item := range states {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "handOffAnimation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerHandOffAnimation)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationControllerHandOffAnimation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationController, MethodIRecentsAnimationControllerHandOffAnimation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -275,6 +287,10 @@ type RecentsAnimationControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecentsAnimationControllerStub)(nil)
+
+func (s *RecentsAnimationControllerStub) Descriptor() string {
+	return DescriptorIRecentsAnimationController
+}
 
 func (s *RecentsAnimationControllerStub) OnTransaction(
 	ctx context.Context,

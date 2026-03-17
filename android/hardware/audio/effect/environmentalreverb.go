@@ -228,6 +228,7 @@ func (u *EnvironmentalReverb) MarshalParcel(
 
 	switch u.Tag {
 	case EnvironmentalReverbTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -276,6 +277,9 @@ func (u *EnvironmentalReverb) UnmarshalParcel(
 
 	switch u.Tag {
 	case EnvironmentalReverbTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

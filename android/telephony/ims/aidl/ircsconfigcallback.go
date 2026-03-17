@@ -19,6 +19,14 @@ const (
 	TransactionIRcsConfigCallbackOnPreProvisioningReceived        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIRcsConfigCallbackOnConfigurationChanged           = "onConfigurationChanged"
+	MethodIRcsConfigCallbackOnAutoConfigurationErrorReceived = "onAutoConfigurationErrorReceived"
+	MethodIRcsConfigCallbackOnConfigurationReset             = "onConfigurationReset"
+	MethodIRcsConfigCallbackOnRemoved                        = "onRemoved"
+	MethodIRcsConfigCallbackOnPreProvisioningReceived        = "onPreProvisioningReceived"
+)
+
 type IRcsConfigCallback interface {
 	AsBinder() binder.IBinder
 	OnConfigurationChanged(ctx context.Context, config []byte) error
@@ -29,17 +37,17 @@ type IRcsConfigCallback interface {
 }
 
 type RcsConfigCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRcsConfigCallbackProxy(
 	remote binder.IBinder,
 ) *RcsConfigCallbackProxy {
-	return &RcsConfigCallbackProxy{remote: remote}
+	return &RcsConfigCallbackProxy{Remote: remote}
 }
 
 func (p *RcsConfigCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRcsConfigCallback = (*RcsConfigCallbackProxy)(nil)
@@ -59,12 +67,12 @@ func (p *RcsConfigCallbackProxy) OnConfigurationChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationChanged)
 	if _err != nil {
-		_code = TransactionIRcsConfigCallbackOnConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +86,12 @@ func (p *RcsConfigCallbackProxy) OnAutoConfigurationErrorReceived(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorString)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onAutoConfigurationErrorReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnAutoConfigurationErrorReceived)
 	if _err != nil {
-		_code = TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnAutoConfigurationErrorReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +101,12 @@ func (p *RcsConfigCallbackProxy) OnConfigurationReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onConfigurationReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationReset)
 	if _err != nil {
-		_code = TransactionIRcsConfigCallbackOnConfigurationReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnConfigurationReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,12 +116,12 @@ func (p *RcsConfigCallbackProxy) OnRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnRemoved)
 	if _err != nil {
-		_code = TransactionIRcsConfigCallbackOnRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +140,12 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onPreProvisioningReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnPreProvisioningReceived)
 	if _err != nil {
-		_code = TransactionIRcsConfigCallbackOnPreProvisioningReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsConfigCallback, MethodIRcsConfigCallbackOnPreProvisioningReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,6 +156,10 @@ type RcsConfigCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RcsConfigCallbackStub)(nil)
+
+func (s *RcsConfigCallbackStub) Descriptor() string {
+	return DescriptorIRcsConfigCallback
+}
 
 func (s *RcsConfigCallbackStub) OnTransaction(
 	ctx context.Context,

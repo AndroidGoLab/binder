@@ -19,6 +19,14 @@ const (
 	TransactionIEvsDisplaySetDisplayState              = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIEvsDisplayGetDisplayInfo               = "getDisplayInfo"
+	MethodIEvsDisplayGetDisplayState              = "getDisplayState"
+	MethodIEvsDisplayGetTargetBuffer              = "getTargetBuffer"
+	MethodIEvsDisplayReturnTargetBufferForDisplay = "returnTargetBufferForDisplay"
+	MethodIEvsDisplaySetDisplayState              = "setDisplayState"
+)
+
 type IEvsDisplay interface {
 	AsBinder() binder.IBinder
 	GetDisplayInfo(ctx context.Context) (DisplayDesc, error)
@@ -29,17 +37,17 @@ type IEvsDisplay interface {
 }
 
 type EvsDisplayProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEvsDisplayProxy(
 	remote binder.IBinder,
 ) *EvsDisplayProxy {
-	return &EvsDisplayProxy{remote: remote}
+	return &EvsDisplayProxy{Remote: remote}
 }
 
 func (p *EvsDisplayProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEvsDisplay = (*EvsDisplayProxy)(nil)
@@ -51,12 +59,12 @@ func (p *EvsDisplayProxy) GetDisplayInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "getDisplayInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayGetDisplayInfo)
 	if _err != nil {
-		_code = TransactionIEvsDisplayGetDisplayInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsDisplay, MethodIEvsDisplayGetDisplayInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,12 +93,12 @@ func (p *EvsDisplayProxy) GetDisplayState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "getDisplayState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayGetDisplayState)
 	if _err != nil {
-		_code = TransactionIEvsDisplayGetDisplayState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsDisplay, MethodIEvsDisplayGetDisplayState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,12 +123,12 @@ func (p *EvsDisplayProxy) GetTargetBuffer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "getTargetBuffer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayGetTargetBuffer)
 	if _err != nil {
-		_code = TransactionIEvsDisplayGetTargetBuffer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsDisplay, MethodIEvsDisplayGetTargetBuffer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,12 +161,12 @@ func (p *EvsDisplayProxy) ReturnTargetBufferForDisplay(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "returnTargetBufferForDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplayReturnTargetBufferForDisplay)
 	if _err != nil {
-		_code = TransactionIEvsDisplayReturnTargetBufferForDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsDisplay, MethodIEvsDisplayReturnTargetBufferForDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,12 +187,12 @@ func (p *EvsDisplayProxy) SetDisplayState(
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
 	_data.WriteInt32(int32(state))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "setDisplayState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsDisplay, MethodIEvsDisplaySetDisplayState)
 	if _err != nil {
-		_code = TransactionIEvsDisplaySetDisplayState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsDisplay, MethodIEvsDisplaySetDisplayState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -204,6 +212,10 @@ type EvsDisplayStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EvsDisplayStub)(nil)
+
+func (s *EvsDisplayStub) Descriptor() string {
+	return DescriptorIEvsDisplay
+}
 
 func (s *EvsDisplayStub) OnTransaction(
 	ctx context.Context,

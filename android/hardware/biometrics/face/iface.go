@@ -16,6 +16,11 @@ const (
 	TransactionIFaceCreateSession  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFaceGetSensorProps = "getSensorProps"
+	MethodIFaceCreateSession  = "createSession"
+)
+
 type IFace interface {
 	AsBinder() binder.IBinder
 	GetSensorProps(ctx context.Context) ([]SensorProps, error)
@@ -23,17 +28,17 @@ type IFace interface {
 }
 
 type FaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFaceProxy(
 	remote binder.IBinder,
 ) *FaceProxy {
-	return &FaceProxy{remote: remote}
+	return &FaceProxy{Remote: remote}
 }
 
 func (p *FaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFace = (*FaceProxy)(nil)
@@ -45,12 +50,12 @@ func (p *FaceProxy) GetSensorProps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFace)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFace, "getSensorProps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFace, MethodIFaceGetSensorProps)
 	if _err != nil {
-		_code = TransactionIFaceGetSensorProps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFace, MethodIFaceGetSensorProps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,6 +73,9 @@ func (p *FaceProxy) GetSensorProps(
 	if _count >= 0 {
 		_result = make([]SensorProps, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -82,19 +90,19 @@ func (p *FaceProxy) CreateSession(
 	cb ISessionCallback,
 ) (ISession, error) {
 	var _result ISession
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFace)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFace, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFace, MethodIFaceCreateSession)
 	if _err != nil {
-		_code = TransactionIFaceCreateSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFace, MethodIFaceCreateSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,7 +116,7 @@ func (p *FaceProxy) CreateSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -119,6 +127,10 @@ type FaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FaceStub)(nil)
+
+func (s *FaceStub) Descriptor() string {
+	return DescriptorIFace
+}
 
 func (s *FaceStub) OnTransaction(
 	ctx context.Context,

@@ -19,6 +19,14 @@ const (
 	TransactionIRestoreSessionEndRestoreSession       = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIRestoreSessionGetAvailableRestoreSets = "getAvailableRestoreSets"
+	MethodIRestoreSessionRestoreAll              = "restoreAll"
+	MethodIRestoreSessionRestorePackages         = "restorePackages"
+	MethodIRestoreSessionRestorePackage          = "restorePackage"
+	MethodIRestoreSessionEndRestoreSession       = "endRestoreSession"
+)
+
 type IRestoreSession interface {
 	AsBinder() binder.IBinder
 	GetAvailableRestoreSets(ctx context.Context, observer IRestoreObserver, monitor IBackupManagerMonitor) (int32, error)
@@ -29,17 +37,17 @@ type IRestoreSession interface {
 }
 
 type RestoreSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRestoreSessionProxy(
 	remote binder.IBinder,
 ) *RestoreSessionProxy {
-	return &RestoreSessionProxy{remote: remote}
+	return &RestoreSessionProxy{Remote: remote}
 }
 
 func (p *RestoreSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRestoreSession = (*RestoreSessionProxy)(nil)
@@ -52,15 +60,15 @@ func (p *RestoreSessionProxy) GetAvailableRestoreSets(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "getAvailableRestoreSets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionGetAvailableRestoreSets)
 	if _err != nil {
-		_code = TransactionIRestoreSessionGetAvailableRestoreSets
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreSession, MethodIRestoreSessionGetAvailableRestoreSets, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,15 +95,15 @@ func (p *RestoreSessionProxy) RestoreAll(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	_data.WriteInt64(token)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "restoreAll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestoreAll)
 	if _err != nil {
-		_code = TransactionIRestoreSessionRestoreAll
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreSession, MethodIRestoreSessionRestoreAll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +131,7 @@ func (p *RestoreSessionProxy) RestorePackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	_data.WriteInt64(token)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 	if packages == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -132,14 +140,14 @@ func (p *RestoreSessionProxy) RestorePackages(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "restorePackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestorePackages)
 	if _err != nil {
-		_code = TransactionIRestoreSessionRestorePackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreSession, MethodIRestoreSessionRestorePackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,15 +174,15 @@ func (p *RestoreSessionProxy) RestorePackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, monitor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "restorePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionRestorePackage)
 	if _err != nil {
-		_code = TransactionIRestoreSessionRestorePackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreSession, MethodIRestoreSessionRestorePackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -197,12 +205,12 @@ func (p *RestoreSessionProxy) EndRestoreSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRestoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "endRestoreSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreSession, MethodIRestoreSessionEndRestoreSession)
 	if _err != nil {
-		_code = TransactionIRestoreSessionEndRestoreSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreSession, MethodIRestoreSessionEndRestoreSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -222,6 +230,10 @@ type RestoreSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RestoreSessionStub)(nil)
+
+func (s *RestoreSessionStub) Descriptor() string {
+	return DescriptorIRestoreSession
+}
 
 func (s *RestoreSessionStub) OnTransaction(
 	ctx context.Context,

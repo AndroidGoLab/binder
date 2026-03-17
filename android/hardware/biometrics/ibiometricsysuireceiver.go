@@ -20,6 +20,15 @@ const (
 	TransactionIBiometricSysuiReceiverOnStartFingerprintNow     = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIBiometricSysuiReceiverOnDialogDismissed         = "onDialogDismissed"
+	MethodIBiometricSysuiReceiverOnTryAgainPressed         = "onTryAgainPressed"
+	MethodIBiometricSysuiReceiverOnDeviceCredentialPressed = "onDeviceCredentialPressed"
+	MethodIBiometricSysuiReceiverOnSystemEvent             = "onSystemEvent"
+	MethodIBiometricSysuiReceiverOnDialogAnimatedIn        = "onDialogAnimatedIn"
+	MethodIBiometricSysuiReceiverOnStartFingerprintNow     = "onStartFingerprintNow"
+)
+
 type IBiometricSysuiReceiver interface {
 	AsBinder() binder.IBinder
 	OnDialogDismissed(ctx context.Context, reason int32, credentialAttestation []byte) error
@@ -31,17 +40,17 @@ type IBiometricSysuiReceiver interface {
 }
 
 type BiometricSysuiReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricSysuiReceiverProxy(
 	remote binder.IBinder,
 ) *BiometricSysuiReceiverProxy {
-	return &BiometricSysuiReceiverProxy{remote: remote}
+	return &BiometricSysuiReceiverProxy{Remote: remote}
 }
 
 func (p *BiometricSysuiReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricSysuiReceiver = (*BiometricSysuiReceiverProxy)(nil)
@@ -63,12 +72,12 @@ func (p *BiometricSysuiReceiverProxy) OnDialogDismissed(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDialogDismissed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogDismissed)
 	if _err != nil {
-		_code = TransactionIBiometricSysuiReceiverOnDialogDismissed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogDismissed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +87,12 @@ func (p *BiometricSysuiReceiverProxy) OnTryAgainPressed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onTryAgainPressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnTryAgainPressed)
 	if _err != nil {
-		_code = TransactionIBiometricSysuiReceiverOnTryAgainPressed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnTryAgainPressed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +102,12 @@ func (p *BiometricSysuiReceiverProxy) OnDeviceCredentialPressed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDeviceCredentialPressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDeviceCredentialPressed)
 	if _err != nil {
-		_code = TransactionIBiometricSysuiReceiverOnDeviceCredentialPressed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDeviceCredentialPressed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,12 +119,12 @@ func (p *BiometricSysuiReceiverProxy) OnSystemEvent(
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteInt32(event)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onSystemEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnSystemEvent)
 	if _err != nil {
-		_code = TransactionIBiometricSysuiReceiverOnSystemEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnSystemEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,12 +136,12 @@ func (p *BiometricSysuiReceiverProxy) OnDialogAnimatedIn(
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteBool(startFingerprintNow)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDialogAnimatedIn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogAnimatedIn)
 	if _err != nil {
-		_code = TransactionIBiometricSysuiReceiverOnDialogAnimatedIn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnDialogAnimatedIn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,12 +151,12 @@ func (p *BiometricSysuiReceiverProxy) OnStartFingerprintNow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onStartFingerprintNow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnStartFingerprintNow)
 	if _err != nil {
-		_code = TransactionIBiometricSysuiReceiverOnStartFingerprintNow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSysuiReceiver, MethodIBiometricSysuiReceiverOnStartFingerprintNow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,6 +167,10 @@ type BiometricSysuiReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricSysuiReceiverStub)(nil)
+
+func (s *BiometricSysuiReceiverStub) Descriptor() string {
+	return DescriptorIBiometricSysuiReceiver
+}
 
 func (s *BiometricSysuiReceiverStub) OnTransaction(
 	ctx context.Context,

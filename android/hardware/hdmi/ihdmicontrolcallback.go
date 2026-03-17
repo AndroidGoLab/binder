@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiControlCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiControlCallbackOnComplete = "onComplete"
+)
+
 type IHdmiControlCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type HdmiControlCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiControlCallbackProxy(
 	remote binder.IBinder,
 ) *HdmiControlCallbackProxy {
-	return &HdmiControlCallbackProxy{remote: remote}
+	return &HdmiControlCallbackProxy{Remote: remote}
 }
 
 func (p *HdmiControlCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiControlCallback = (*HdmiControlCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *HdmiControlCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIHdmiControlCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiControlCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiControlCallback, MethodIHdmiControlCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIHdmiControlCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiControlCallback, MethodIHdmiControlCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type HdmiControlCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiControlCallbackStub)(nil)
+
+func (s *HdmiControlCallbackStub) Descriptor() string {
+	return DescriptorIHdmiControlCallback
+}
 
 func (s *HdmiControlCallbackStub) OnTransaction(
 	ctx context.Context,

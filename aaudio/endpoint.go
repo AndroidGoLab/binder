@@ -38,6 +38,7 @@ func (s *Endpoint) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SharedMemories)))
 		for _, _item := range s.SharedMemories {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -80,6 +81,9 @@ func (s *Endpoint) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.SharedMemories = make([]media.SharedFileRegion, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SharedMemories[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

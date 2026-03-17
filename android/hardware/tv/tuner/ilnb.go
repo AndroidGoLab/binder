@@ -20,6 +20,15 @@ const (
 	TransactionILnbClose                = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodILnbSetCallback          = "setCallback"
+	MethodILnbSetVoltage           = "setVoltage"
+	MethodILnbSetTone              = "setTone"
+	MethodILnbSetSatellitePosition = "setSatellitePosition"
+	MethodILnbSendDiseqcMessage    = "sendDiseqcMessage"
+	MethodILnbClose                = "close"
+)
+
 type ILnb interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback ILnbCallback) error
@@ -31,17 +40,17 @@ type ILnb interface {
 }
 
 type LnbProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLnbProxy(
 	remote binder.IBinder,
 ) *LnbProxy {
-	return &LnbProxy{remote: remote}
+	return &LnbProxy{Remote: remote}
 }
 
 func (p *LnbProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILnb = (*LnbProxy)(nil)
@@ -52,14 +61,14 @@ func (p *LnbProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILnb)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnb, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbSetCallback)
 	if _err != nil {
-		_code = TransactionILnbSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnb, MethodILnbSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +89,12 @@ func (p *LnbProxy) SetVoltage(
 	_data.WriteInterfaceToken(DescriptorILnb)
 	_data.WriteInt32(int32(voltage))
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnb, "setVoltage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbSetVoltage)
 	if _err != nil {
-		_code = TransactionILnbSetVoltage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnb, MethodILnbSetVoltage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +115,12 @@ func (p *LnbProxy) SetTone(
 	_data.WriteInterfaceToken(DescriptorILnb)
 	_data.WriteInt32(int32(tone))
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnb, "setTone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbSetTone)
 	if _err != nil {
-		_code = TransactionILnbSetTone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnb, MethodILnbSetTone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,12 +141,12 @@ func (p *LnbProxy) SetSatellitePosition(
 	_data.WriteInterfaceToken(DescriptorILnb)
 	_data.WriteInt32(int32(position))
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnb, "setSatellitePosition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbSetSatellitePosition)
 	if _err != nil {
-		_code = TransactionILnbSetSatellitePosition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnb, MethodILnbSetSatellitePosition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -165,12 +174,12 @@ func (p *LnbProxy) SendDiseqcMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnb, "sendDiseqcMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbSendDiseqcMessage)
 	if _err != nil {
-		_code = TransactionILnbSendDiseqcMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnb, MethodILnbSendDiseqcMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,12 +198,12 @@ func (p *LnbProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILnb)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnb, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnb, MethodILnbClose)
 	if _err != nil {
-		_code = TransactionILnbClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnb, MethodILnbClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,6 +223,10 @@ type LnbStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LnbStub)(nil)
+
+func (s *LnbStub) Descriptor() string {
+	return DescriptorILnb
+}
 
 func (s *LnbStub) OnTransaction(
 	ctx context.Context,

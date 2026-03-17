@@ -17,6 +17,12 @@ const (
 	TransactionIProgressListenerOnFinished = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIProgressListenerOnStarted  = "onStarted"
+	MethodIProgressListenerOnProgress = "onProgress"
+	MethodIProgressListenerOnFinished = "onFinished"
+)
+
 type IProgressListener interface {
 	AsBinder() binder.IBinder
 	OnStarted(ctx context.Context, id int32, extras Bundle) error
@@ -25,17 +31,17 @@ type IProgressListener interface {
 }
 
 type ProgressListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProgressListenerProxy(
 	remote binder.IBinder,
 ) *ProgressListenerProxy {
-	return &ProgressListenerProxy{remote: remote}
+	return &ProgressListenerProxy{Remote: remote}
 }
 
 func (p *ProgressListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProgressListener = (*ProgressListenerProxy)(nil)
@@ -53,12 +59,12 @@ func (p *ProgressListenerProxy) OnStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgressListener, "onStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgressListener, MethodIProgressListenerOnStarted)
 	if _err != nil {
-		_code = TransactionIProgressListenerOnStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProgressListener, MethodIProgressListenerOnStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +83,12 @@ func (p *ProgressListenerProxy) OnProgress(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgressListener, "onProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgressListener, MethodIProgressListenerOnProgress)
 	if _err != nil {
-		_code = TransactionIProgressListenerOnProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProgressListener, MethodIProgressListenerOnProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +105,12 @@ func (p *ProgressListenerProxy) OnFinished(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProgressListener, "onFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProgressListener, MethodIProgressListenerOnFinished)
 	if _err != nil {
-		_code = TransactionIProgressListenerOnFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProgressListener, MethodIProgressListenerOnFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,6 +121,10 @@ type ProgressListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProgressListenerStub)(nil)
+
+func (s *ProgressListenerStub) Descriptor() string {
+	return DescriptorIProgressListener
+}
 
 func (s *ProgressListenerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIPmtRatingListenerOnPmtRatingChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPmtRatingListenerOnPmtRatingChanged = "onPmtRatingChanged"
+)
+
 type IPmtRatingListener interface {
 	AsBinder() binder.IBinder
 	OnPmtRatingChanged(ctx context.Context, sessionToken string, newTvContentRating string) error
 }
 
 type PmtRatingListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPmtRatingListenerProxy(
 	remote binder.IBinder,
 ) *PmtRatingListenerProxy {
-	return &PmtRatingListenerProxy{remote: remote}
+	return &PmtRatingListenerProxy{Remote: remote}
 }
 
 func (p *PmtRatingListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPmtRatingListener = (*PmtRatingListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *PmtRatingListenerProxy) OnPmtRatingChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteString16(newTvContentRating)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPmtRatingListener, "onPmtRatingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPmtRatingListener, MethodIPmtRatingListenerOnPmtRatingChanged)
 	if _err != nil {
-		_code = TransactionIPmtRatingListenerOnPmtRatingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPmtRatingListener, MethodIPmtRatingListenerOnPmtRatingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type PmtRatingListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PmtRatingListenerStub)(nil)
+
+func (s *PmtRatingListenerStub) Descriptor() string {
+	return DescriptorIPmtRatingListener
+}
 
 func (s *PmtRatingListenerStub) OnTransaction(
 	ctx context.Context,

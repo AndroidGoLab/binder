@@ -19,6 +19,14 @@ const (
 	TransactionITvInteractiveAppManagerCallbackOnStateChanged                       = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded         = "onInteractiveAppServiceAdded"
+	MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved       = "onInteractiveAppServiceRemoved"
+	MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated       = "onInteractiveAppServiceUpdated"
+	MethodITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated = "onTvInteractiveAppServiceInfoUpdated"
+	MethodITvInteractiveAppManagerCallbackOnStateChanged                       = "onStateChanged"
+)
+
 type ITvInteractiveAppManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnInteractiveAppServiceAdded(ctx context.Context, iAppServiceId string) error
@@ -29,17 +37,17 @@ type ITvInteractiveAppManagerCallback interface {
 }
 
 type TvInteractiveAppManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInteractiveAppManagerCallbackProxy(
 	remote binder.IBinder,
 ) *TvInteractiveAppManagerCallbackProxy {
-	return &TvInteractiveAppManagerCallbackProxy{remote: remote}
+	return &TvInteractiveAppManagerCallbackProxy{Remote: remote}
 }
 
 func (p *TvInteractiveAppManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInteractiveAppManagerCallback = (*TvInteractiveAppManagerCallbackProxy)(nil)
@@ -52,12 +60,12 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceAdded(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +77,12 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceRemoved(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +94,12 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceUpdated(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,12 +114,12 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnTvInteractiveAppServiceInfoUpda
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onTvInteractiveAppServiceInfoUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,12 +137,12 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteInt32(err)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnStateChanged)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppManagerCallbackOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppManagerCallback, MethodITvInteractiveAppManagerCallbackOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,6 +153,10 @@ type TvInteractiveAppManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppManagerCallbackStub)(nil)
+
+func (s *TvInteractiveAppManagerCallbackStub) Descriptor() string {
+	return DescriptorITvInteractiveAppManagerCallback
+}
 
 func (s *TvInteractiveAppManagerCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionICheckCredentialProgressCallbackOnCredentialVerified = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICheckCredentialProgressCallbackOnCredentialVerified = "onCredentialVerified"
+)
+
 type ICheckCredentialProgressCallback interface {
 	AsBinder() binder.IBinder
 	OnCredentialVerified(ctx context.Context) error
 }
 
 type CheckCredentialProgressCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCheckCredentialProgressCallbackProxy(
 	remote binder.IBinder,
 ) *CheckCredentialProgressCallbackProxy {
-	return &CheckCredentialProgressCallbackProxy{remote: remote}
+	return &CheckCredentialProgressCallbackProxy{Remote: remote}
 }
 
 func (p *CheckCredentialProgressCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICheckCredentialProgressCallback = (*CheckCredentialProgressCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *CheckCredentialProgressCallbackProxy) OnCredentialVerified(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICheckCredentialProgressCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICheckCredentialProgressCallback, "onCredentialVerified")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICheckCredentialProgressCallback, MethodICheckCredentialProgressCallbackOnCredentialVerified)
 	if _err != nil {
-		_code = TransactionICheckCredentialProgressCallbackOnCredentialVerified
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICheckCredentialProgressCallback, MethodICheckCredentialProgressCallbackOnCredentialVerified, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type CheckCredentialProgressCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CheckCredentialProgressCallbackStub)(nil)
+
+func (s *CheckCredentialProgressCallbackStub) Descriptor() string {
+	return DescriptorICheckCredentialProgressCallback
+}
 
 func (s *CheckCredentialProgressCallbackStub) OnTransaction(
 	ctx context.Context,

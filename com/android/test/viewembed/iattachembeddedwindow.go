@@ -20,6 +20,13 @@ const (
 	TransactionIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAttachEmbeddedWindowAttachEmbedded                 = "attachEmbedded"
+	MethodIAttachEmbeddedWindowRelayout                       = "relayout"
+	MethodIAttachEmbeddedWindowAttachEmbeddedSurfaceControl   = "attachEmbeddedSurfaceControl"
+	MethodIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl = "tearDownEmbeddedSurfaceControl"
+)
+
 type IAttachEmbeddedWindow interface {
 	AsBinder() binder.IBinder
 	AttachEmbedded(ctx context.Context, hostToken binder.IBinder, width int32, height int32, callback IAttachEmbeddedWindowCallback) error
@@ -29,17 +36,17 @@ type IAttachEmbeddedWindow interface {
 }
 
 type AttachEmbeddedWindowProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAttachEmbeddedWindowProxy(
 	remote binder.IBinder,
 ) *AttachEmbeddedWindowProxy {
-	return &AttachEmbeddedWindowProxy{remote: remote}
+	return &AttachEmbeddedWindowProxy{Remote: remote}
 }
 
 func (p *AttachEmbeddedWindowProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAttachEmbeddedWindow = (*AttachEmbeddedWindowProxy)(nil)
@@ -53,17 +60,17 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbedded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
-	binder.WriteBinderToParcel(ctx, _data, hostToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "attachEmbedded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbedded)
 	if _err != nil {
-		_code = TransactionIAttachEmbeddedWindowAttachEmbedded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbedded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -87,12 +94,12 @@ func (p *AttachEmbeddedWindowProxy) Relayout(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "relayout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowRelayout)
 	if _err != nil {
-		_code = TransactionIAttachEmbeddedWindowRelayout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowRelayout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -123,12 +130,12 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbeddedSurfaceControl(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "attachEmbeddedSurfaceControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbeddedSurfaceControl)
 	if _err != nil {
-		_code = TransactionIAttachEmbeddedWindowAttachEmbeddedSurfaceControl
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowAttachEmbeddedSurfaceControl, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,12 +145,12 @@ func (p *AttachEmbeddedWindowProxy) TearDownEmbeddedSurfaceControl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "tearDownEmbeddedSurfaceControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl)
 	if _err != nil {
-		_code = TransactionIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttachEmbeddedWindow, MethodIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,6 +161,10 @@ type AttachEmbeddedWindowStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AttachEmbeddedWindowStub)(nil)
+
+func (s *AttachEmbeddedWindowStub) Descriptor() string {
+	return DescriptorIAttachEmbeddedWindow
+}
 
 func (s *AttachEmbeddedWindowStub) OnTransaction(
 	ctx context.Context,

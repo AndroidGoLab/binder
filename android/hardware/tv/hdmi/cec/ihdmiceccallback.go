@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiCecCallbackOnCecMessage = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiCecCallbackOnCecMessage = "onCecMessage"
+)
+
 type IHdmiCecCallback interface {
 	AsBinder() binder.IBinder
 	OnCecMessage(ctx context.Context, message CecMessage) error
 }
 
 type HdmiCecCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiCecCallbackProxy(
 	remote binder.IBinder,
 ) *HdmiCecCallbackProxy {
-	return &HdmiCecCallbackProxy{remote: remote}
+	return &HdmiCecCallbackProxy{Remote: remote}
 }
 
 func (p *HdmiCecCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiCecCallback = (*HdmiCecCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *HdmiCecCallbackProxy) OnCecMessage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCecCallback, "onCecMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCecCallback, MethodIHdmiCecCallbackOnCecMessage)
 	if _err != nil {
-		_code = TransactionIHdmiCecCallbackOnCecMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiCecCallback, MethodIHdmiCecCallbackOnCecMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type HdmiCecCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiCecCallbackStub)(nil)
+
+func (s *HdmiCecCallbackStub) Descriptor() string {
+	return DescriptorIHdmiCecCallback
+}
 
 func (s *HdmiCecCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionINetInitiatedListenerSendNiResponse = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodINetInitiatedListenerSendNiResponse = "sendNiResponse"
+)
+
 type INetInitiatedListener interface {
 	AsBinder() binder.IBinder
 	SendNiResponse(ctx context.Context, notifId int32, userResponse int32) (bool, error)
 }
 
 type NetInitiatedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetInitiatedListenerProxy(
 	remote binder.IBinder,
 ) *NetInitiatedListenerProxy {
-	return &NetInitiatedListenerProxy{remote: remote}
+	return &NetInitiatedListenerProxy{Remote: remote}
 }
 
 func (p *NetInitiatedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetInitiatedListener = (*NetInitiatedListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *NetInitiatedListenerProxy) SendNiResponse(
 	_data.WriteInt32(notifId)
 	_data.WriteInt32(userResponse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetInitiatedListener, "sendNiResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetInitiatedListener, MethodINetInitiatedListenerSendNiResponse)
 	if _err != nil {
-		_code = TransactionINetInitiatedListenerSendNiResponse
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetInitiatedListener, MethodINetInitiatedListenerSendNiResponse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,6 +80,10 @@ type NetInitiatedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetInitiatedListenerStub)(nil)
+
+func (s *NetInitiatedListenerStub) Descriptor() string {
+	return DescriptorINetInitiatedListener
+}
 
 func (s *NetInitiatedListenerStub) OnTransaction(
 	ctx context.Context,

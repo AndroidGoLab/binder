@@ -13,6 +13,4 @@ const (
 	SessionHintGpuLoadUp       SessionHint = 5
 	SessionHintGpuLoadDown     SessionHint = 6
 	SessionHintGpuLoadReset    SessionHint = 7
-	SessionHintCpuLoadSpike    SessionHint = 8
-	SessionHintGpuLoadSpike    SessionHint = 9
 )

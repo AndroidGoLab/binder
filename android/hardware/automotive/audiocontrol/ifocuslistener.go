@@ -19,6 +19,13 @@ const (
 	TransactionIFocusListenerRequestAudioFocusWithMetaData = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIFocusListenerAbandonAudioFocus             = "abandonAudioFocus"
+	MethodIFocusListenerRequestAudioFocus             = "requestAudioFocus"
+	MethodIFocusListenerAbandonAudioFocusWithMetaData = "abandonAudioFocusWithMetaData"
+	MethodIFocusListenerRequestAudioFocusWithMetaData = "requestAudioFocusWithMetaData"
+)
+
 type IFocusListener interface {
 	AsBinder() binder.IBinder
 	AbandonAudioFocus(ctx context.Context, usage string, zoneId int32) error
@@ -28,17 +35,17 @@ type IFocusListener interface {
 }
 
 type FocusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFocusListenerProxy(
 	remote binder.IBinder,
 ) *FocusListenerProxy {
-	return &FocusListenerProxy{remote: remote}
+	return &FocusListenerProxy{Remote: remote}
 }
 
 func (p *FocusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFocusListener = (*FocusListenerProxy)(nil)
@@ -53,12 +60,12 @@ func (p *FocusListenerProxy) AbandonAudioFocus(
 	_data.WriteString16(usage)
 	_data.WriteInt32(zoneId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "abandonAudioFocus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocus)
 	if _err != nil {
-		_code = TransactionIFocusListenerAbandonAudioFocus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +81,12 @@ func (p *FocusListenerProxy) RequestAudioFocus(
 	_data.WriteInt32(zoneId)
 	_data.WriteInt32(int32(focusGain))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "requestAudioFocus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocus)
 	if _err != nil {
-		_code = TransactionIFocusListenerRequestAudioFocus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +103,12 @@ func (p *FocusListenerProxy) AbandonAudioFocusWithMetaData(
 	}
 	_data.WriteInt32(zoneId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "abandonAudioFocusWithMetaData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocusWithMetaData)
 	if _err != nil {
-		_code = TransactionIFocusListenerAbandonAudioFocusWithMetaData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFocusListener, MethodIFocusListenerAbandonAudioFocusWithMetaData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,12 +127,12 @@ func (p *FocusListenerProxy) RequestAudioFocusWithMetaData(
 	_data.WriteInt32(zoneId)
 	_data.WriteInt32(int32(focusGain))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "requestAudioFocusWithMetaData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocusWithMetaData)
 	if _err != nil {
-		_code = TransactionIFocusListenerRequestAudioFocusWithMetaData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFocusListener, MethodIFocusListenerRequestAudioFocusWithMetaData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,6 +143,10 @@ type FocusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FocusListenerStub)(nil)
+
+func (s *FocusListenerStub) Descriptor() string {
+	return DescriptorIFocusListener
+}
 
 func (s *FocusListenerStub) OnTransaction(
 	ctx context.Context,

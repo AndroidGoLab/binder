@@ -5,7 +5,6 @@ import (
 	"fmt"
 	appContentsuggestions "github.com/xaionaro-go/binder/android/app/contentsuggestions"
 	os "github.com/xaionaro-go/binder/android/os"
-	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,26 +20,33 @@ const (
 	TransactionIContentSuggestionsServiceNotifyInteraction         = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIContentSuggestionsServiceProvideContextImage       = "provideContextImage"
+	MethodIContentSuggestionsServiceSuggestContentSelections  = "suggestContentSelections"
+	MethodIContentSuggestionsServiceClassifyContentSelections = "classifyContentSelections"
+	MethodIContentSuggestionsServiceNotifyInteraction         = "notifyInteraction"
+)
+
 type IContentSuggestionsService interface {
 	AsBinder() binder.IBinder
-	ProvideContextImage(ctx context.Context, taskId int32, snapshot view.WindowManagerTaskSnapshot, imageContextRequestExtras os.Bundle) error
+	ProvideContextImage(ctx context.Context, taskId int32, contextImage interface{}, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
 	SuggestContentSelections(ctx context.Context, request appContentsuggestions.SelectionsRequest, callback appContentsuggestions.ISelectionsCallback) error
 	ClassifyContentSelections(ctx context.Context, request appContentsuggestions.ClassificationsRequest, callback appContentsuggestions.IClassificationsCallback) error
 	NotifyInteraction(ctx context.Context, requestId string, interaction os.Bundle) error
 }
 
 type ContentSuggestionsServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentSuggestionsServiceProxy(
 	remote binder.IBinder,
 ) *ContentSuggestionsServiceProxy {
-	return &ContentSuggestionsServiceProxy{remote: remote}
+	return &ContentSuggestionsServiceProxy{Remote: remote}
 }
 
 func (p *ContentSuggestionsServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentSuggestionsService = (*ContentSuggestionsServiceProxy)(nil)
@@ -48,27 +54,25 @@ var _ IContentSuggestionsService = (*ContentSuggestionsServiceProxy)(nil)
 func (p *ContentSuggestionsServiceProxy) ProvideContextImage(
 	ctx context.Context,
 	taskId int32,
-	snapshot view.WindowManagerTaskSnapshot,
+	contextImage interface{},
+	colorSpaceId int32,
 	imageContextRequestExtras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := snapshot.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	_data.WriteInt32(colorSpaceId)
 	_data.WriteInt32(1)
 	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "provideContextImage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceProvideContextImage)
 	if _err != nil {
-		_code = TransactionIContentSuggestionsServiceProvideContextImage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceProvideContextImage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,14 +87,14 @@ func (p *ContentSuggestionsServiceProxy) SuggestContentSelections(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "suggestContentSelections")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceSuggestContentSelections)
 	if _err != nil {
-		_code = TransactionIContentSuggestionsServiceSuggestContentSelections
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceSuggestContentSelections, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,14 +109,14 @@ func (p *ContentSuggestionsServiceProxy) ClassifyContentSelections(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "classifyContentSelections")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceClassifyContentSelections)
 	if _err != nil {
-		_code = TransactionIContentSuggestionsServiceClassifyContentSelections
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceClassifyContentSelections, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,12 +133,12 @@ func (p *ContentSuggestionsServiceProxy) NotifyInteraction(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "notifyInteraction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceNotifyInteraction)
 	if _err != nil {
-		_code = TransactionIContentSuggestionsServiceNotifyInteraction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentSuggestionsService, MethodIContentSuggestionsServiceNotifyInteraction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,6 +149,10 @@ type ContentSuggestionsServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentSuggestionsServiceStub)(nil)
+
+func (s *ContentSuggestionsServiceStub) Descriptor() string {
+	return DescriptorIContentSuggestionsService
+}
 
 func (s *ContentSuggestionsServiceStub) OnTransaction(
 	ctx context.Context,
@@ -160,17 +168,10 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_snapshot view.WindowManagerTaskSnapshot
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_snapshot.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+		var _arg_contextImage interface{}
+		_arg_colorSpaceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
 		}
 		var _arg_imageContextRequestExtras os.Bundle
 		{
@@ -184,7 +185,7 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ProvideContextImage(ctx, _arg_taskId, _arg_snapshot, _arg_imageContextRequestExtras)
+		_err = s.Impl.ProvideContextImage(ctx, _arg_taskId, _arg_contextImage, _arg_colorSpaceId, _arg_imageContextRequestExtras)
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsServiceSuggestContentSelections:
@@ -263,7 +264,7 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 // provide to NewContentSuggestionsServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IContentSuggestionsServiceServer interface {
-	ProvideContextImage(ctx context.Context, taskId int32, snapshot view.WindowManagerTaskSnapshot, imageContextRequestExtras os.Bundle) error
+	ProvideContextImage(ctx context.Context, taskId int32, contextImage interface{}, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
 	SuggestContentSelections(ctx context.Context, request appContentsuggestions.SelectionsRequest, callback appContentsuggestions.ISelectionsCallback) error
 	ClassifyContentSelections(ctx context.Context, request appContentsuggestions.ClassificationsRequest, callback appContentsuggestions.IClassificationsCallback) error
 	NotifyInteraction(ctx context.Context, requestId string, interaction os.Bundle) error
@@ -281,10 +282,11 @@ func (w *contentSuggestionsServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *contentSuggestionsServiceStubWrapper) ProvideContextImage(
 	ctx context.Context,
 	taskId int32,
-	snapshot view.WindowManagerTaskSnapshot,
+	contextImage interface{},
+	colorSpaceId int32,
 	imageContextRequestExtras os.Bundle,
 ) error {
-	return w.impl.ProvideContextImage(ctx, taskId, snapshot, imageContextRequestExtras)
+	return w.impl.ProvideContextImage(ctx, taskId, contextImage, colorSpaceId, imageContextRequestExtras)
 }
 
 func (w *contentSuggestionsServiceStubWrapper) SuggestContentSelections(

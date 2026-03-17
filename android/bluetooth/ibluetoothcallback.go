@@ -13,29 +13,29 @@ const DescriptorIBluetoothCallback = "android.bluetooth.IBluetoothCallback"
 
 const (
 	TransactionIBluetoothCallbackOnBluetoothStateChange = binder.FirstCallTransaction + 0
-	TransactionIBluetoothCallbackOnAdapterNameChange    = binder.FirstCallTransaction + 1
-	TransactionIBluetoothCallbackOnAdapterAddressChange = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIBluetoothCallbackOnBluetoothStateChange = "onBluetoothStateChange"
 )
 
 type IBluetoothCallback interface {
 	AsBinder() binder.IBinder
 	OnBluetoothStateChange(ctx context.Context, prevState int32, newState int32) error
-	OnAdapterNameChange(ctx context.Context, name string) error
-	OnAdapterAddressChange(ctx context.Context, address string) error
 }
 
 type BluetoothCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothCallbackProxy {
-	return &BluetoothCallbackProxy{remote: remote}
+	return &BluetoothCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothCallback = (*BluetoothCallbackProxy)(nil)
@@ -50,64 +50,12 @@ func (p *BluetoothCallbackProxy) OnBluetoothStateChange(
 	_data.WriteInt32(prevState)
 	_data.WriteInt32(newState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCallback, "onBluetoothStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnBluetoothStateChange)
 	if _err != nil {
-		_code = TransactionIBluetoothCallbackOnBluetoothStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCallback, MethodIBluetoothCallbackOnBluetoothStateChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *BluetoothCallbackProxy) OnAdapterNameChange(
-	ctx context.Context,
-	name string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteString16(name)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCallback, "onAdapterNameChange")
-	if _err != nil {
-		_code = TransactionIBluetoothCallbackOnAdapterNameChange
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *BluetoothCallbackProxy) OnAdapterAddressChange(
-	ctx context.Context,
-	address string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothCallback)
-	_data.WriteString16(address)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCallback, "onAdapterAddressChange")
-	if _err != nil {
-		_code = TransactionIBluetoothCallbackOnAdapterAddressChange
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,6 +75,10 @@ type BluetoothCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothCallbackStub)(nil)
+
+func (s *BluetoothCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothCallback
+}
 
 func (s *BluetoothCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -154,38 +106,6 @@ func (s *BluetoothCallbackStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIBluetoothCallbackOnAdapterNameChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnAdapterNameChange(ctx, _arg_name)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIBluetoothCallbackOnAdapterAddressChange:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnAdapterAddressChange(ctx, _arg_address)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -196,8 +116,6 @@ func (s *BluetoothCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothCallbackServer interface {
 	OnBluetoothStateChange(ctx context.Context, prevState int32, newState int32) error
-	OnAdapterNameChange(ctx context.Context, name string) error
-	OnAdapterAddressChange(ctx context.Context, address string) error
 }
 
 type bluetoothCallbackStubWrapper struct {
@@ -215,20 +133,6 @@ func (w *bluetoothCallbackStubWrapper) OnBluetoothStateChange(
 	newState int32,
 ) error {
 	return w.impl.OnBluetoothStateChange(ctx, prevState, newState)
-}
-
-func (w *bluetoothCallbackStubWrapper) OnAdapterNameChange(
-	ctx context.Context,
-	name string,
-) error {
-	return w.impl.OnAdapterNameChange(ctx, name)
-}
-
-func (w *bluetoothCallbackStubWrapper) OnAdapterAddressChange(
-	ctx context.Context,
-	address string,
-) error {
-	return w.impl.OnAdapterAddressChange(ctx, address)
 }
 
 var _ IBluetoothCallback = (*bluetoothCallbackStubWrapper)(nil)

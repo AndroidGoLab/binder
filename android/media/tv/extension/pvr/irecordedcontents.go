@@ -17,6 +17,12 @@ const (
 	TransactionIRecordedContentsGetRecordedContentsLockInfoAsync = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRecordedContentsDeleteRecordedContents           = "deleteRecordedContents"
+	MethodIRecordedContentsGetRecordedContentsLockInfoSync  = "getRecordedContentsLockInfoSync"
+	MethodIRecordedContentsGetRecordedContentsLockInfoAsync = "getRecordedContentsLockInfoAsync"
+)
+
 type IRecordedContents interface {
 	AsBinder() binder.IBinder
 	DeleteRecordedContents(ctx context.Context, contentUri []string, callback IDeleteRecordedContentsCallback) error
@@ -25,17 +31,17 @@ type IRecordedContents interface {
 }
 
 type RecordedContentsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecordedContentsProxy(
 	remote binder.IBinder,
 ) *RecordedContentsProxy {
-	return &RecordedContentsProxy{remote: remote}
+	return &RecordedContentsProxy{Remote: remote}
 }
 
 func (p *RecordedContentsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecordedContents = (*RecordedContentsProxy)(nil)
@@ -55,14 +61,14 @@ func (p *RecordedContentsProxy) DeleteRecordedContents(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecordedContents, "deleteRecordedContents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecordedContents, MethodIRecordedContentsDeleteRecordedContents)
 	if _err != nil {
-		_code = TransactionIRecordedContentsDeleteRecordedContents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecordedContents, MethodIRecordedContentsDeleteRecordedContents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,12 +90,12 @@ func (p *RecordedContentsProxy) GetRecordedContentsLockInfoSync(
 	_data.WriteInterfaceToken(DescriptorIRecordedContents)
 	_data.WriteString16(contentUri)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecordedContents, "getRecordedContentsLockInfoSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecordedContents, MethodIRecordedContentsGetRecordedContentsLockInfoSync)
 	if _err != nil {
-		_code = TransactionIRecordedContentsGetRecordedContentsLockInfoSync
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRecordedContents, MethodIRecordedContentsGetRecordedContentsLockInfoSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,14 +120,14 @@ func (p *RecordedContentsProxy) GetRecordedContentsLockInfoAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecordedContents)
 	_data.WriteString16(contentUri)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecordedContents, "getRecordedContentsLockInfoAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecordedContents, MethodIRecordedContentsGetRecordedContentsLockInfoAsync)
 	if _err != nil {
-		_code = TransactionIRecordedContentsGetRecordedContentsLockInfoAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecordedContents, MethodIRecordedContentsGetRecordedContentsLockInfoAsync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,6 +147,10 @@ type RecordedContentsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecordedContentsStub)(nil)
+
+func (s *RecordedContentsStub) Descriptor() string {
+	return DescriptorIRecordedContents
+}
 
 func (s *RecordedContentsStub) OnTransaction(
 	ctx context.Context,

@@ -35,6 +35,29 @@ const (
 	TransactionITunerGetParameters           = binder.FirstCallTransaction + 19
 )
 
+const (
+	MethodITunerClose                   = "close"
+	MethodITunerIsClosed                = "isClosed"
+	MethodITunerSetConfiguration        = "setConfiguration"
+	MethodITunerGetConfiguration        = "getConfiguration"
+	MethodITunerSetMuted                = "setMuted"
+	MethodITunerIsMuted                 = "isMuted"
+	MethodITunerStep                    = "step"
+	MethodITunerSeek                    = "seek"
+	MethodITunerTune                    = "tune"
+	MethodITunerCancel                  = "cancel"
+	MethodITunerCancelAnnouncement      = "cancelAnnouncement"
+	MethodITunerGetImage                = "getImage"
+	MethodITunerStartBackgroundScan     = "startBackgroundScan"
+	MethodITunerStartProgramListUpdates = "startProgramListUpdates"
+	MethodITunerStopProgramListUpdates  = "stopProgramListUpdates"
+	MethodITunerIsConfigFlagSupported   = "isConfigFlagSupported"
+	MethodITunerIsConfigFlagSet         = "isConfigFlagSet"
+	MethodITunerSetConfigFlag           = "setConfigFlag"
+	MethodITunerSetParameters           = "setParameters"
+	MethodITunerGetParameters           = "getParameters"
+)
+
 type ITuner interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
@@ -60,17 +83,17 @@ type ITuner interface {
 }
 
 type TunerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerProxy(
 	remote binder.IBinder,
 ) *TunerProxy {
-	return &TunerProxy{remote: remote}
+	return &TunerProxy{Remote: remote}
 }
 
 func (p *TunerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITuner = (*TunerProxy)(nil)
@@ -81,12 +104,12 @@ func (p *TunerProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerClose)
 	if _err != nil {
-		_code = TransactionITunerClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +129,12 @@ func (p *TunerProxy) IsClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerIsClosed)
 	if _err != nil {
-		_code = TransactionITunerIsClosed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerIsClosed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,12 +162,12 @@ func (p *TunerProxy) SetConfiguration(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSetConfiguration)
 	if _err != nil {
-		_code = TransactionITunerSetConfiguration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerSetConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -164,12 +187,12 @@ func (p *TunerProxy) GetConfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetConfiguration)
 	if _err != nil {
-		_code = TransactionITunerGetConfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerGetConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -199,12 +222,12 @@ func (p *TunerProxy) SetMuted(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteBool(mute)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setMuted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSetMuted)
 	if _err != nil {
-		_code = TransactionITunerSetMuted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerSetMuted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -224,12 +247,12 @@ func (p *TunerProxy) IsMuted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isMuted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerIsMuted)
 	if _err != nil {
-		_code = TransactionITunerIsMuted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerIsMuted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -256,12 +279,12 @@ func (p *TunerProxy) Step(
 	_data.WriteBool(directionDown)
 	_data.WriteBool(skipSubChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "step")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerStep)
 	if _err != nil {
-		_code = TransactionITunerStep
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerStep, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -284,12 +307,12 @@ func (p *TunerProxy) Seek(
 	_data.WriteBool(directionDown)
 	_data.WriteBool(skipSubChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "seek")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSeek)
 	if _err != nil {
-		_code = TransactionITunerSeek
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerSeek, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,12 +336,12 @@ func (p *TunerProxy) Tune(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "tune")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerTune)
 	if _err != nil {
-		_code = TransactionITunerTune
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerTune, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -337,12 +360,12 @@ func (p *TunerProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerCancel)
 	if _err != nil {
-		_code = TransactionITunerCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerCancel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -361,12 +384,12 @@ func (p *TunerProxy) CancelAnnouncement(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "cancelAnnouncement")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerCancelAnnouncement)
 	if _err != nil {
-		_code = TransactionITunerCancelAnnouncement
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerCancelAnnouncement, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -388,12 +411,12 @@ func (p *TunerProxy) GetImage(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getImage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetImage)
 	if _err != nil {
-		_code = TransactionITunerGetImage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerGetImage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -422,12 +445,12 @@ func (p *TunerProxy) StartBackgroundScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "startBackgroundScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerStartBackgroundScan)
 	if _err != nil {
-		_code = TransactionITunerStartBackgroundScan
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerStartBackgroundScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -455,12 +478,12 @@ func (p *TunerProxy) StartProgramListUpdates(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "startProgramListUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerStartProgramListUpdates)
 	if _err != nil {
-		_code = TransactionITunerStartProgramListUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerStartProgramListUpdates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -479,12 +502,12 @@ func (p *TunerProxy) StopProgramListUpdates(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "stopProgramListUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerStopProgramListUpdates)
 	if _err != nil {
-		_code = TransactionITunerStopProgramListUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerStopProgramListUpdates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -506,12 +529,12 @@ func (p *TunerProxy) IsConfigFlagSupported(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(flag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isConfigFlagSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerIsConfigFlagSupported)
 	if _err != nil {
-		_code = TransactionITunerIsConfigFlagSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerIsConfigFlagSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -537,12 +560,12 @@ func (p *TunerProxy) IsConfigFlagSet(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(flag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isConfigFlagSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerIsConfigFlagSet)
 	if _err != nil {
-		_code = TransactionITunerIsConfigFlagSet
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerIsConfigFlagSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -569,12 +592,12 @@ func (p *TunerProxy) SetConfigFlag(
 	_data.WriteInt32(flag)
 	_data.WriteBool(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setConfigFlag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSetConfigFlag)
 	if _err != nil {
-		_code = TransactionITunerSetConfigFlag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerSetConfigFlag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -604,12 +627,12 @@ func (p *TunerProxy) SetParameters(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerSetParameters)
 	if _err != nil {
-		_code = TransactionITunerSetParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerSetParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -656,12 +679,12 @@ func (p *TunerProxy) GetParameters(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITuner, MethodITunerGetParameters)
 	if _err != nil {
-		_code = TransactionITunerGetParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITuner, MethodITunerGetParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -699,6 +722,10 @@ type TunerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerStub)(nil)
+
+func (s *TunerStub) Descriptor() string {
+	return DescriptorITuner
+}
 
 func (s *TunerStub) OnTransaction(
 	ctx context.Context,

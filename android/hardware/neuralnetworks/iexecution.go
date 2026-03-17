@@ -16,6 +16,11 @@ const (
 	TransactionIExecutionExecuteFenced        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIExecutionExecuteSynchronously = "executeSynchronously"
+	MethodIExecutionExecuteFenced        = "executeFenced"
+)
+
 type IExecution interface {
 	AsBinder() binder.IBinder
 	ExecuteSynchronously(ctx context.Context, deadlineNs int64) (ExecutionResult, error)
@@ -23,17 +28,17 @@ type IExecution interface {
 }
 
 type ExecutionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewExecutionProxy(
 	remote binder.IBinder,
 ) *ExecutionProxy {
-	return &ExecutionProxy{remote: remote}
+	return &ExecutionProxy{Remote: remote}
 }
 
 func (p *ExecutionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IExecution = (*ExecutionProxy)(nil)
@@ -47,12 +52,12 @@ func (p *ExecutionProxy) ExecuteSynchronously(
 	_data.WriteInterfaceToken(DescriptorIExecution)
 	_data.WriteInt64(deadlineNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExecution, "executeSynchronously")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExecution, MethodIExecutionExecuteSynchronously)
 	if _err != nil {
-		_code = TransactionIExecutionExecuteSynchronously
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIExecution, MethodIExecutionExecuteSynchronously, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,12 +99,12 @@ func (p *ExecutionProxy) ExecuteFenced(
 	_data.WriteInt64(deadlineNs)
 	_data.WriteInt64(durationNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExecution, "executeFenced")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExecution, MethodIExecutionExecuteFenced)
 	if _err != nil {
-		_code = TransactionIExecutionExecuteFenced
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIExecution, MethodIExecutionExecuteFenced, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -128,6 +133,10 @@ type ExecutionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ExecutionStub)(nil)
+
+func (s *ExecutionStub) Descriptor() string {
+	return DescriptorIExecution
+}
 
 func (s *ExecutionStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,13 @@ const (
 	TransactionIBluetoothA2dpReconfigureOffload             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBluetoothA2dpIsEnabled                      = "isEnabled"
+	MethodIBluetoothA2dpSetEnabled                     = "setEnabled"
+	MethodIBluetoothA2dpSupportsOffloadReconfiguration = "supportsOffloadReconfiguration"
+	MethodIBluetoothA2dpReconfigureOffload             = "reconfigureOffload"
+)
+
 type IBluetoothA2dp interface {
 	AsBinder() binder.IBinder
 	IsEnabled(ctx context.Context) (bool, error)
@@ -27,17 +34,17 @@ type IBluetoothA2dp interface {
 }
 
 type BluetoothA2dpProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothA2dpProxy(
 	remote binder.IBinder,
 ) *BluetoothA2dpProxy {
-	return &BluetoothA2dpProxy{remote: remote}
+	return &BluetoothA2dpProxy{Remote: remote}
 }
 
 func (p *BluetoothA2dpProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothA2dp = (*BluetoothA2dpProxy)(nil)
@@ -49,12 +56,12 @@ func (p *BluetoothA2dpProxy) IsEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dp, "isEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsEnabled)
 	if _err != nil {
-		_code = TransactionIBluetoothA2dpIsEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpIsEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,12 +86,12 @@ func (p *BluetoothA2dpProxy) SetEnabled(
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dp, "setEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetEnabled)
 	if _err != nil {
-		_code = TransactionIBluetoothA2dpSetEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSetEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,12 +111,12 @@ func (p *BluetoothA2dpProxy) SupportsOffloadReconfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothA2dp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dp, "supportsOffloadReconfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSupportsOffloadReconfiguration)
 	if _err != nil {
-		_code = TransactionIBluetoothA2dpSupportsOffloadReconfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpSupportsOffloadReconfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,18 +144,19 @@ func (p *BluetoothA2dpProxy) ReconfigureOffload(
 	} else {
 		_data.WriteInt32(int32(len(parameters)))
 		for _, _item := range parameters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dp, "reconfigureOffload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothA2dp, MethodIBluetoothA2dpReconfigureOffload)
 	if _err != nil {
-		_code = TransactionIBluetoothA2dpReconfigureOffload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothA2dp, MethodIBluetoothA2dpReconfigureOffload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,6 +176,10 @@ type BluetoothA2dpStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothA2dpStub)(nil)
+
+func (s *BluetoothA2dpStub) Descriptor() string {
+	return DescriptorIBluetoothA2dp
+}
 
 func (s *BluetoothA2dpStub) OnTransaction(
 	ctx context.Context,

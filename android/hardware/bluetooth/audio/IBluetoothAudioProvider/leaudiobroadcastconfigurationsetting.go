@@ -1,7 +1,6 @@
 package IBluetoothAudioProvider
 
 import (
-	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,7 +12,7 @@ type LeAudioBroadcastConfigurationSetting struct {
 	MaxSduOctets            int32
 	MaxTransportLatencyMs   int32
 	RetransmitionNum        int32
-	Phy                     []audio.Phy
+	Phy                     []interface{}
 	Packing                 Packing
 	Framing                 Framing
 	DataPathConfiguration   LeAudioDataPathConfiguration
@@ -35,9 +34,6 @@ func (s *LeAudioBroadcastConfigurationSetting) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Phy)))
-		for _, _item := range s.Phy {
-			p.WritePaddedByte(byte(_item))
-		}
 	}
 	p.WritePaddedByte(byte(s.Packing))
 	p.WritePaddedByte(byte(s.Framing))
@@ -49,6 +45,7 @@ func (s *LeAudioBroadcastConfigurationSetting) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SubgroupsConfigurations)))
 		for _, _item := range s.SubgroupsConfigurations {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -98,13 +95,8 @@ func (s *LeAudioBroadcastConfigurationSetting) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.Phy = make([]audio.Phy, _count0)
+		s.Phy = make([]interface{}, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
-			_raw, _err := p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-			s.Phy[_i] = audio.Phy(_raw)
 		}
 	}
 
@@ -132,6 +124,9 @@ func (s *LeAudioBroadcastConfigurationSetting) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.SubgroupsConfigurations = make([]LeAudioBroadcastSubgroupConfiguration, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SubgroupsConfigurations[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

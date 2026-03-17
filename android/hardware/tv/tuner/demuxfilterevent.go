@@ -194,38 +194,47 @@ func (u *DemuxFilterEvent) MarshalParcel(
 
 	switch u.Tag {
 	case DemuxFilterEventTagSection:
+		p.WriteInt32(1)
 		if _err := u.Section.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagMedia:
+		p.WriteInt32(1)
 		if _err := u.Media.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagPes:
+		p.WriteInt32(1)
 		if _err := u.Pes.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagTsRecord:
+		p.WriteInt32(1)
 		if _err := u.TsRecord.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagMmtpRecord:
+		p.WriteInt32(1)
 		if _err := u.MmtpRecord.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagDownload:
+		p.WriteInt32(1)
 		if _err := u.Download.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagIpPayload:
+		p.WriteInt32(1)
 		if _err := u.IpPayload.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagTemi:
+		p.WriteInt32(1)
 		if _err := u.Temi.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagMonitorEvent:
+		p.WriteInt32(1)
 		if _err := u.MonitorEvent.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -254,38 +263,65 @@ func (u *DemuxFilterEvent) UnmarshalParcel(
 
 	switch u.Tag {
 	case DemuxFilterEventTagSection:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Section.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagMedia:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Media.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagPes:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Pes.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagTsRecord:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.TsRecord.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagMmtpRecord:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.MmtpRecord.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagDownload:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Download.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagIpPayload:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.IpPayload.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagTemi:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Temi.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterEventTagMonitorEvent:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.MonitorEvent.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

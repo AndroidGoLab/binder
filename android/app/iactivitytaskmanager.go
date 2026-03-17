@@ -30,9 +30,9 @@ const (
 	TransactionIActivityTaskManagerGetVoiceInteractorPackageName               = binder.FirstCallTransaction + 8
 	TransactionIActivityTaskManagerStartAssistantActivity                      = binder.FirstCallTransaction + 9
 	TransactionIActivityTaskManagerStartActivityFromGameSession                = binder.FirstCallTransaction + 10
-	TransactionIActivityTaskManagerStartActivityFromRecents                    = binder.FirstCallTransaction + 11
-	TransactionIActivityTaskManagerStartActivityAsCaller                       = binder.FirstCallTransaction + 12
-	TransactionIActivityTaskManagerPreloadRecentsActivity                      = binder.FirstCallTransaction + 13
+	TransactionIActivityTaskManagerStartRecentsActivity                        = binder.FirstCallTransaction + 11
+	TransactionIActivityTaskManagerStartActivityFromRecents                    = binder.FirstCallTransaction + 12
+	TransactionIActivityTaskManagerStartActivityAsCaller                       = binder.FirstCallTransaction + 13
 	TransactionIActivityTaskManagerIsActivityStartAllowedOnDisplay             = binder.FirstCallTransaction + 14
 	TransactionIActivityTaskManagerUnhandledBack                               = binder.FirstCallTransaction + 15
 	TransactionIActivityTaskManagerGetActivityClientController                 = binder.FirstCallTransaction + 16
@@ -45,75 +45,171 @@ const (
 	TransactionIActivityTaskManagerMoveTaskToFront                             = binder.FirstCallTransaction + 23
 	TransactionIActivityTaskManagerGetRecentTasks                              = binder.FirstCallTransaction + 24
 	TransactionIActivityTaskManagerIsTopActivityImmersive                      = binder.FirstCallTransaction + 25
-	TransactionIActivityTaskManagerReportAssistContextExtras                   = binder.FirstCallTransaction + 26
-	TransactionIActivityTaskManagerSetFocusedRootTask                          = binder.FirstCallTransaction + 27
-	TransactionIActivityTaskManagerGetFocusedRootTaskInfo                      = binder.FirstCallTransaction + 28
-	TransactionIActivityTaskManagerGetTaskBounds                               = binder.FirstCallTransaction + 29
-	TransactionIActivityTaskManagerFocusTopTask                                = binder.FirstCallTransaction + 30
-	TransactionIActivityTaskManagerUpdateLockTaskPackages                      = binder.FirstCallTransaction + 31
-	TransactionIActivityTaskManagerIsInLockTaskMode                            = binder.FirstCallTransaction + 32
-	TransactionIActivityTaskManagerGetLockTaskModeState                        = binder.FirstCallTransaction + 33
-	TransactionIActivityTaskManagerGetAppTasks                                 = binder.FirstCallTransaction + 34
-	TransactionIActivityTaskManagerStartSystemLockTaskMode                     = binder.FirstCallTransaction + 35
-	TransactionIActivityTaskManagerStopSystemLockTaskMode                      = binder.FirstCallTransaction + 36
-	TransactionIActivityTaskManagerFinishVoiceTask                             = binder.FirstCallTransaction + 37
-	TransactionIActivityTaskManagerAddAppTask                                  = binder.FirstCallTransaction + 38
-	TransactionIActivityTaskManagerGetAppTaskThumbnailSize                     = binder.FirstCallTransaction + 39
-	TransactionIActivityTaskManagerReleaseSomeActivities                       = binder.FirstCallTransaction + 40
-	TransactionIActivityTaskManagerGetTaskDescriptionIcon                      = binder.FirstCallTransaction + 41
-	TransactionIActivityTaskManagerRegisterTaskStackListener                   = binder.FirstCallTransaction + 42
-	TransactionIActivityTaskManagerUnregisterTaskStackListener                 = binder.FirstCallTransaction + 43
-	TransactionIActivityTaskManagerSetTaskResizeable                           = binder.FirstCallTransaction + 44
-	TransactionIActivityTaskManagerResizeTask                                  = binder.FirstCallTransaction + 45
-	TransactionIActivityTaskManagerMoveRootTaskToDisplay                       = binder.FirstCallTransaction + 46
-	TransactionIActivityTaskManagerMoveTaskToRootTask                          = binder.FirstCallTransaction + 47
-	TransactionIActivityTaskManagerRemoveRootTasksInWindowingModes             = binder.FirstCallTransaction + 48
-	TransactionIActivityTaskManagerRemoveRootTasksWithActivityTypes            = binder.FirstCallTransaction + 49
-	TransactionIActivityTaskManagerGetAllRootTaskInfos                         = binder.FirstCallTransaction + 50
-	TransactionIActivityTaskManagerGetRootTaskInfo                             = binder.FirstCallTransaction + 51
-	TransactionIActivityTaskManagerGetAllRootTaskInfosOnDisplay                = binder.FirstCallTransaction + 52
-	TransactionIActivityTaskManagerGetRootTaskInfoOnDisplay                    = binder.FirstCallTransaction + 53
-	TransactionIActivityTaskManagerSetLockScreenShown                          = binder.FirstCallTransaction + 54
-	TransactionIActivityTaskManagerGetAssistContextExtras                      = binder.FirstCallTransaction + 55
-	TransactionIActivityTaskManagerRequestAssistContextExtras                  = binder.FirstCallTransaction + 56
-	TransactionIActivityTaskManagerRequestAutofillData                         = binder.FirstCallTransaction + 57
-	TransactionIActivityTaskManagerIsAssistDataAllowed                         = binder.FirstCallTransaction + 58
-	TransactionIActivityTaskManagerRequestAssistDataForTask                    = binder.FirstCallTransaction + 59
-	TransactionIActivityTaskManagerKeyguardGoingAway                           = binder.FirstCallTransaction + 60
-	TransactionIActivityTaskManagerSuppressResizeConfigChanges                 = binder.FirstCallTransaction + 61
-	TransactionIActivityTaskManagerGetWindowOrganizerController                = binder.FirstCallTransaction + 62
-	TransactionIActivityTaskManagerSupportsLocalVoiceInteraction               = binder.FirstCallTransaction + 63
-	TransactionIActivityTaskManagerRequestOpenInBrowserEducation               = binder.FirstCallTransaction + 64
-	TransactionIActivityTaskManagerGetDeviceConfigurationInfo                  = binder.FirstCallTransaction + 65
-	TransactionIActivityTaskManagerCancelTaskWindowTransition                  = binder.FirstCallTransaction + 66
-	TransactionIActivityTaskManagerGetTaskSnapshot                             = binder.FirstCallTransaction + 67
-	TransactionIActivityTaskManagerTakeTaskSnapshot                            = binder.FirstCallTransaction + 68
-	TransactionIActivityTaskManagerGetLastResumedActivityUserId                = binder.FirstCallTransaction + 69
-	TransactionIActivityTaskManagerUpdateConfiguration                         = binder.FirstCallTransaction + 70
-	TransactionIActivityTaskManagerUpdateLockTaskFeatures                      = binder.FirstCallTransaction + 71
-	TransactionIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart = binder.FirstCallTransaction + 72
-	TransactionIActivityTaskManagerRegisterRemoteAnimationsForDisplay          = binder.FirstCallTransaction + 73
-	TransactionIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning      = binder.FirstCallTransaction + 74
-	TransactionIActivityTaskManagerSetVrThread                                 = binder.FirstCallTransaction + 75
-	TransactionIActivityTaskManagerSetPersistentVrThread                       = binder.FirstCallTransaction + 76
-	TransactionIActivityTaskManagerStopAppSwitches                             = binder.FirstCallTransaction + 77
-	TransactionIActivityTaskManagerResumeAppSwitches                           = binder.FirstCallTransaction + 78
-	TransactionIActivityTaskManagerSetActivityController                       = binder.FirstCallTransaction + 79
-	TransactionIActivityTaskManagerSetVoiceKeepAwake                           = binder.FirstCallTransaction + 80
-	TransactionIActivityTaskManagerGetPackageScreenCompatMode                  = binder.FirstCallTransaction + 81
-	TransactionIActivityTaskManagerSetPackageScreenCompatMode                  = binder.FirstCallTransaction + 82
-	TransactionIActivityTaskManagerGetPackageAskScreenCompat                   = binder.FirstCallTransaction + 83
-	TransactionIActivityTaskManagerSetPackageAskScreenCompat                   = binder.FirstCallTransaction + 84
-	TransactionIActivityTaskManagerClearLaunchParamsForPackages                = binder.FirstCallTransaction + 85
-	TransactionIActivityTaskManagerOnSplashScreenViewCopyFinished              = binder.FirstCallTransaction + 86
-	TransactionIActivityTaskManagerOnPictureInPictureUiStateChanged            = binder.FirstCallTransaction + 87
-	TransactionIActivityTaskManagerDetachNavigationBarFromApp                  = binder.FirstCallTransaction + 88
-	TransactionIActivityTaskManagerSetRunningRemoteTransitionDelegate          = binder.FirstCallTransaction + 89
-	TransactionIActivityTaskManagerStartBackNavigation                         = binder.FirstCallTransaction + 90
-	TransactionIActivityTaskManagerRegisterBackgroundActivityStartCallback     = binder.FirstCallTransaction + 91
-	TransactionIActivityTaskManagerUnregisterBackgroundActivityStartCallback   = binder.FirstCallTransaction + 92
-	TransactionIActivityTaskManagerRegisterScreenCaptureObserver               = binder.FirstCallTransaction + 93
-	TransactionIActivityTaskManagerUnregisterScreenCaptureObserver             = binder.FirstCallTransaction + 94
+	TransactionIActivityTaskManagerGetTaskDescription                          = binder.FirstCallTransaction + 26
+	TransactionIActivityTaskManagerReportAssistContextExtras                   = binder.FirstCallTransaction + 27
+	TransactionIActivityTaskManagerSetFocusedRootTask                          = binder.FirstCallTransaction + 28
+	TransactionIActivityTaskManagerGetFocusedRootTaskInfo                      = binder.FirstCallTransaction + 29
+	TransactionIActivityTaskManagerGetTaskBounds                               = binder.FirstCallTransaction + 30
+	TransactionIActivityTaskManagerFocusTopTask                                = binder.FirstCallTransaction + 31
+	TransactionIActivityTaskManagerCancelRecentsAnimation                      = binder.FirstCallTransaction + 32
+	TransactionIActivityTaskManagerUpdateLockTaskPackages                      = binder.FirstCallTransaction + 33
+	TransactionIActivityTaskManagerIsInLockTaskMode                            = binder.FirstCallTransaction + 34
+	TransactionIActivityTaskManagerGetLockTaskModeState                        = binder.FirstCallTransaction + 35
+	TransactionIActivityTaskManagerGetAppTasks                                 = binder.FirstCallTransaction + 36
+	TransactionIActivityTaskManagerStartSystemLockTaskMode                     = binder.FirstCallTransaction + 37
+	TransactionIActivityTaskManagerStopSystemLockTaskMode                      = binder.FirstCallTransaction + 38
+	TransactionIActivityTaskManagerFinishVoiceTask                             = binder.FirstCallTransaction + 39
+	TransactionIActivityTaskManagerAddAppTask                                  = binder.FirstCallTransaction + 40
+	TransactionIActivityTaskManagerGetAppTaskThumbnailSize                     = binder.FirstCallTransaction + 41
+	TransactionIActivityTaskManagerReleaseSomeActivities                       = binder.FirstCallTransaction + 42
+	TransactionIActivityTaskManagerGetTaskDescriptionIcon                      = binder.FirstCallTransaction + 43
+	TransactionIActivityTaskManagerRegisterTaskStackListener                   = binder.FirstCallTransaction + 44
+	TransactionIActivityTaskManagerUnregisterTaskStackListener                 = binder.FirstCallTransaction + 45
+	TransactionIActivityTaskManagerSetTaskResizeable                           = binder.FirstCallTransaction + 46
+	TransactionIActivityTaskManagerResizeTask                                  = binder.FirstCallTransaction + 47
+	TransactionIActivityTaskManagerMoveRootTaskToDisplay                       = binder.FirstCallTransaction + 48
+	TransactionIActivityTaskManagerMoveTaskToRootTask                          = binder.FirstCallTransaction + 49
+	TransactionIActivityTaskManagerRemoveRootTasksInWindowingModes             = binder.FirstCallTransaction + 50
+	TransactionIActivityTaskManagerRemoveRootTasksWithActivityTypes            = binder.FirstCallTransaction + 51
+	TransactionIActivityTaskManagerGetAllRootTaskInfos                         = binder.FirstCallTransaction + 52
+	TransactionIActivityTaskManagerGetRootTaskInfo                             = binder.FirstCallTransaction + 53
+	TransactionIActivityTaskManagerGetAllRootTaskInfosOnDisplay                = binder.FirstCallTransaction + 54
+	TransactionIActivityTaskManagerGetRootTaskInfoOnDisplay                    = binder.FirstCallTransaction + 55
+	TransactionIActivityTaskManagerSetLockScreenShown                          = binder.FirstCallTransaction + 56
+	TransactionIActivityTaskManagerGetAssistContextExtras                      = binder.FirstCallTransaction + 57
+	TransactionIActivityTaskManagerRequestAssistContextExtras                  = binder.FirstCallTransaction + 58
+	TransactionIActivityTaskManagerRequestAutofillData                         = binder.FirstCallTransaction + 59
+	TransactionIActivityTaskManagerIsAssistDataAllowed                         = binder.FirstCallTransaction + 60
+	TransactionIActivityTaskManagerRequestAssistDataForTask                    = binder.FirstCallTransaction + 61
+	TransactionIActivityTaskManagerKeyguardGoingAway                           = binder.FirstCallTransaction + 62
+	TransactionIActivityTaskManagerSuppressResizeConfigChanges                 = binder.FirstCallTransaction + 63
+	TransactionIActivityTaskManagerGetWindowOrganizerController                = binder.FirstCallTransaction + 64
+	TransactionIActivityTaskManagerSupportsLocalVoiceInteraction               = binder.FirstCallTransaction + 65
+	TransactionIActivityTaskManagerGetDeviceConfigurationInfo                  = binder.FirstCallTransaction + 66
+	TransactionIActivityTaskManagerCancelTaskWindowTransition                  = binder.FirstCallTransaction + 67
+	TransactionIActivityTaskManagerGetTaskSnapshot                             = binder.FirstCallTransaction + 68
+	TransactionIActivityTaskManagerTakeTaskSnapshot                            = binder.FirstCallTransaction + 69
+	TransactionIActivityTaskManagerGetLastResumedActivityUserId                = binder.FirstCallTransaction + 70
+	TransactionIActivityTaskManagerUpdateConfiguration                         = binder.FirstCallTransaction + 71
+	TransactionIActivityTaskManagerUpdateLockTaskFeatures                      = binder.FirstCallTransaction + 72
+	TransactionIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart = binder.FirstCallTransaction + 73
+	TransactionIActivityTaskManagerRegisterRemoteAnimationsForDisplay          = binder.FirstCallTransaction + 74
+	TransactionIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning      = binder.FirstCallTransaction + 75
+	TransactionIActivityTaskManagerSetVrThread                                 = binder.FirstCallTransaction + 76
+	TransactionIActivityTaskManagerSetPersistentVrThread                       = binder.FirstCallTransaction + 77
+	TransactionIActivityTaskManagerStopAppSwitches                             = binder.FirstCallTransaction + 78
+	TransactionIActivityTaskManagerResumeAppSwitches                           = binder.FirstCallTransaction + 79
+	TransactionIActivityTaskManagerSetActivityController                       = binder.FirstCallTransaction + 80
+	TransactionIActivityTaskManagerSetVoiceKeepAwake                           = binder.FirstCallTransaction + 81
+	TransactionIActivityTaskManagerGetPackageScreenCompatMode                  = binder.FirstCallTransaction + 82
+	TransactionIActivityTaskManagerSetPackageScreenCompatMode                  = binder.FirstCallTransaction + 83
+	TransactionIActivityTaskManagerGetPackageAskScreenCompat                   = binder.FirstCallTransaction + 84
+	TransactionIActivityTaskManagerSetPackageAskScreenCompat                   = binder.FirstCallTransaction + 85
+	TransactionIActivityTaskManagerClearLaunchParamsForPackages                = binder.FirstCallTransaction + 86
+	TransactionIActivityTaskManagerOnSplashScreenViewCopyFinished              = binder.FirstCallTransaction + 87
+	TransactionIActivityTaskManagerOnPictureInPictureUiStateChanged            = binder.FirstCallTransaction + 88
+	TransactionIActivityTaskManagerDetachNavigationBarFromApp                  = binder.FirstCallTransaction + 89
+	TransactionIActivityTaskManagerSetRunningRemoteTransitionDelegate          = binder.FirstCallTransaction + 90
+	TransactionIActivityTaskManagerStartBackNavigation                         = binder.FirstCallTransaction + 91
+	TransactionIActivityTaskManagerRegisterScreenCaptureObserver               = binder.FirstCallTransaction + 92
+	TransactionIActivityTaskManagerUnregisterScreenCaptureObserver             = binder.FirstCallTransaction + 93
+)
+
+const (
+	MethodIActivityTaskManagerStartActivity                               = "startActivity"
+	MethodIActivityTaskManagerStartActivities                             = "startActivities"
+	MethodIActivityTaskManagerStartActivityAsUser                         = "startActivityAsUser"
+	MethodIActivityTaskManagerStartNextMatchingActivity                   = "startNextMatchingActivity"
+	MethodIActivityTaskManagerStartActivityIntentSender                   = "startActivityIntentSender"
+	MethodIActivityTaskManagerStartActivityAndWait                        = "startActivityAndWait"
+	MethodIActivityTaskManagerStartActivityWithConfig                     = "startActivityWithConfig"
+	MethodIActivityTaskManagerStartVoiceActivity                          = "startVoiceActivity"
+	MethodIActivityTaskManagerGetVoiceInteractorPackageName               = "getVoiceInteractorPackageName"
+	MethodIActivityTaskManagerStartAssistantActivity                      = "startAssistantActivity"
+	MethodIActivityTaskManagerStartActivityFromGameSession                = "startActivityFromGameSession"
+	MethodIActivityTaskManagerStartRecentsActivity                        = "startRecentsActivity"
+	MethodIActivityTaskManagerStartActivityFromRecents                    = "startActivityFromRecents"
+	MethodIActivityTaskManagerStartActivityAsCaller                       = "startActivityAsCaller"
+	MethodIActivityTaskManagerIsActivityStartAllowedOnDisplay             = "isActivityStartAllowedOnDisplay"
+	MethodIActivityTaskManagerUnhandledBack                               = "unhandledBack"
+	MethodIActivityTaskManagerGetActivityClientController                 = "getActivityClientController"
+	MethodIActivityTaskManagerGetFrontActivityScreenCompatMode            = "getFrontActivityScreenCompatMode"
+	MethodIActivityTaskManagerSetFrontActivityScreenCompatMode            = "setFrontActivityScreenCompatMode"
+	MethodIActivityTaskManagerSetFocusedTask                              = "setFocusedTask"
+	MethodIActivityTaskManagerRemoveTask                                  = "removeTask"
+	MethodIActivityTaskManagerRemoveAllVisibleRecentTasks                 = "removeAllVisibleRecentTasks"
+	MethodIActivityTaskManagerGetTasks                                    = "getTasks"
+	MethodIActivityTaskManagerMoveTaskToFront                             = "moveTaskToFront"
+	MethodIActivityTaskManagerGetRecentTasks                              = "getRecentTasks"
+	MethodIActivityTaskManagerIsTopActivityImmersive                      = "isTopActivityImmersive"
+	MethodIActivityTaskManagerGetTaskDescription                          = "getTaskDescription"
+	MethodIActivityTaskManagerReportAssistContextExtras                   = "reportAssistContextExtras"
+	MethodIActivityTaskManagerSetFocusedRootTask                          = "setFocusedRootTask"
+	MethodIActivityTaskManagerGetFocusedRootTaskInfo                      = "getFocusedRootTaskInfo"
+	MethodIActivityTaskManagerGetTaskBounds                               = "getTaskBounds"
+	MethodIActivityTaskManagerFocusTopTask                                = "focusTopTask"
+	MethodIActivityTaskManagerCancelRecentsAnimation                      = "cancelRecentsAnimation"
+	MethodIActivityTaskManagerUpdateLockTaskPackages                      = "updateLockTaskPackages"
+	MethodIActivityTaskManagerIsInLockTaskMode                            = "isInLockTaskMode"
+	MethodIActivityTaskManagerGetLockTaskModeState                        = "getLockTaskModeState"
+	MethodIActivityTaskManagerGetAppTasks                                 = "getAppTasks"
+	MethodIActivityTaskManagerStartSystemLockTaskMode                     = "startSystemLockTaskMode"
+	MethodIActivityTaskManagerStopSystemLockTaskMode                      = "stopSystemLockTaskMode"
+	MethodIActivityTaskManagerFinishVoiceTask                             = "finishVoiceTask"
+	MethodIActivityTaskManagerAddAppTask                                  = "addAppTask"
+	MethodIActivityTaskManagerGetAppTaskThumbnailSize                     = "getAppTaskThumbnailSize"
+	MethodIActivityTaskManagerReleaseSomeActivities                       = "releaseSomeActivities"
+	MethodIActivityTaskManagerGetTaskDescriptionIcon                      = "getTaskDescriptionIcon"
+	MethodIActivityTaskManagerRegisterTaskStackListener                   = "registerTaskStackListener"
+	MethodIActivityTaskManagerUnregisterTaskStackListener                 = "unregisterTaskStackListener"
+	MethodIActivityTaskManagerSetTaskResizeable                           = "setTaskResizeable"
+	MethodIActivityTaskManagerResizeTask                                  = "resizeTask"
+	MethodIActivityTaskManagerMoveRootTaskToDisplay                       = "moveRootTaskToDisplay"
+	MethodIActivityTaskManagerMoveTaskToRootTask                          = "moveTaskToRootTask"
+	MethodIActivityTaskManagerRemoveRootTasksInWindowingModes             = "removeRootTasksInWindowingModes"
+	MethodIActivityTaskManagerRemoveRootTasksWithActivityTypes            = "removeRootTasksWithActivityTypes"
+	MethodIActivityTaskManagerGetAllRootTaskInfos                         = "getAllRootTaskInfos"
+	MethodIActivityTaskManagerGetRootTaskInfo                             = "getRootTaskInfo"
+	MethodIActivityTaskManagerGetAllRootTaskInfosOnDisplay                = "getAllRootTaskInfosOnDisplay"
+	MethodIActivityTaskManagerGetRootTaskInfoOnDisplay                    = "getRootTaskInfoOnDisplay"
+	MethodIActivityTaskManagerSetLockScreenShown                          = "setLockScreenShown"
+	MethodIActivityTaskManagerGetAssistContextExtras                      = "getAssistContextExtras"
+	MethodIActivityTaskManagerRequestAssistContextExtras                  = "requestAssistContextExtras"
+	MethodIActivityTaskManagerRequestAutofillData                         = "requestAutofillData"
+	MethodIActivityTaskManagerIsAssistDataAllowed                         = "isAssistDataAllowed"
+	MethodIActivityTaskManagerRequestAssistDataForTask                    = "requestAssistDataForTask"
+	MethodIActivityTaskManagerKeyguardGoingAway                           = "keyguardGoingAway"
+	MethodIActivityTaskManagerSuppressResizeConfigChanges                 = "suppressResizeConfigChanges"
+	MethodIActivityTaskManagerGetWindowOrganizerController                = "getWindowOrganizerController"
+	MethodIActivityTaskManagerSupportsLocalVoiceInteraction               = "supportsLocalVoiceInteraction"
+	MethodIActivityTaskManagerGetDeviceConfigurationInfo                  = "getDeviceConfigurationInfo"
+	MethodIActivityTaskManagerCancelTaskWindowTransition                  = "cancelTaskWindowTransition"
+	MethodIActivityTaskManagerGetTaskSnapshot                             = "getTaskSnapshot"
+	MethodIActivityTaskManagerTakeTaskSnapshot                            = "takeTaskSnapshot"
+	MethodIActivityTaskManagerGetLastResumedActivityUserId                = "getLastResumedActivityUserId"
+	MethodIActivityTaskManagerUpdateConfiguration                         = "updateConfiguration"
+	MethodIActivityTaskManagerUpdateLockTaskFeatures                      = "updateLockTaskFeatures"
+	MethodIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart = "registerRemoteAnimationForNextActivityStart"
+	MethodIActivityTaskManagerRegisterRemoteAnimationsForDisplay          = "registerRemoteAnimationsForDisplay"
+	MethodIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning      = "alwaysShowUnsupportedCompileSdkWarning"
+	MethodIActivityTaskManagerSetVrThread                                 = "setVrThread"
+	MethodIActivityTaskManagerSetPersistentVrThread                       = "setPersistentVrThread"
+	MethodIActivityTaskManagerStopAppSwitches                             = "stopAppSwitches"
+	MethodIActivityTaskManagerResumeAppSwitches                           = "resumeAppSwitches"
+	MethodIActivityTaskManagerSetActivityController                       = "setActivityController"
+	MethodIActivityTaskManagerSetVoiceKeepAwake                           = "setVoiceKeepAwake"
+	MethodIActivityTaskManagerGetPackageScreenCompatMode                  = "getPackageScreenCompatMode"
+	MethodIActivityTaskManagerSetPackageScreenCompatMode                  = "setPackageScreenCompatMode"
+	MethodIActivityTaskManagerGetPackageAskScreenCompat                   = "getPackageAskScreenCompat"
+	MethodIActivityTaskManagerSetPackageAskScreenCompat                   = "setPackageAskScreenCompat"
+	MethodIActivityTaskManagerClearLaunchParamsForPackages                = "clearLaunchParamsForPackages"
+	MethodIActivityTaskManagerOnSplashScreenViewCopyFinished              = "onSplashScreenViewCopyFinished"
+	MethodIActivityTaskManagerOnPictureInPictureUiStateChanged            = "onPictureInPictureUiStateChanged"
+	MethodIActivityTaskManagerDetachNavigationBarFromApp                  = "detachNavigationBarFromApp"
+	MethodIActivityTaskManagerSetRunningRemoteTransitionDelegate          = "setRunningRemoteTransitionDelegate"
+	MethodIActivityTaskManagerStartBackNavigation                         = "startBackNavigation"
+	MethodIActivityTaskManagerRegisterScreenCaptureObserver               = "registerScreenCaptureObserver"
+	MethodIActivityTaskManagerUnregisterScreenCaptureObserver             = "unregisterScreenCaptureObserver"
 )
 
 type IActivityTaskManager interface {
@@ -129,9 +225,9 @@ type IActivityTaskManager interface {
 	GetVoiceInteractorPackageName(ctx context.Context, callingVoiceInteractor binder.IBinder) (string, error)
 	StartAssistantActivity(ctx context.Context, intent androidContent.Intent, resolvedType string, options interface{}) (int32, error)
 	StartActivityFromGameSession(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, taskId int32) (int32, error)
+	StartRecentsActivity(ctx context.Context, intent androidContent.Intent, eventTime int64, recentsAnimationRunner interface{}) error
 	StartActivityFromRecents(ctx context.Context, taskId int32, options interface{}) (int32, error)
 	StartActivityAsCaller(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}, ignoreTargetSecurity bool) (int32, error)
-	PreloadRecentsActivity(ctx context.Context, intent androidContent.Intent) error
 	IsActivityStartAllowedOnDisplay(ctx context.Context, displayId int32, intent androidContent.Intent, resolvedType string) (bool, error)
 	UnhandledBack(ctx context.Context) error
 	GetActivityClientController(ctx context.Context) (IActivityClientController, error)
@@ -144,11 +240,13 @@ type IActivityTaskManager interface {
 	MoveTaskToFront(ctx context.Context, app IApplicationThread, task int32, flags int32, options interface{}) error
 	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) (interface{}, error)
 	IsTopActivityImmersive(ctx context.Context) (bool, error)
+	GetTaskDescription(ctx context.Context, taskId int32) (ActivityManagerTaskDescription, error)
 	ReportAssistContextExtras(ctx context.Context, assistToken binder.IBinder, extras interface{}, structure assist.AssistStructure, content assist.AssistContent, referrer net.Uri) error
 	SetFocusedRootTask(ctx context.Context, taskId int32) error
 	GetFocusedRootTaskInfo(ctx context.Context) (ActivityTaskManagerRootTaskInfo, error)
 	GetTaskBounds(ctx context.Context, taskId int32) (graphics.Rect, error)
 	FocusTopTask(ctx context.Context, displayId int32) error
+	CancelRecentsAnimation(ctx context.Context, restoreHomeRootTaskPosition bool) error
 	UpdateLockTaskPackages(ctx context.Context, packages []string) error
 	IsInLockTaskMode(ctx context.Context) (bool, error)
 	GetLockTaskModeState(ctx context.Context) (int32, error)
@@ -177,12 +275,11 @@ type IActivityTaskManager interface {
 	RequestAssistContextExtras(ctx context.Context, requestType int32, receiver IAssistDataReceiver, receiverExtras interface{}, activityToken binder.IBinder, focused bool, newSessionId bool) (bool, error)
 	RequestAutofillData(ctx context.Context, receiver IAssistDataReceiver, receiverExtras interface{}, activityToken binder.IBinder, flags int32) (bool, error)
 	IsAssistDataAllowed(ctx context.Context) (bool, error)
-	RequestAssistDataForTask(ctx context.Context, receiver IAssistDataReceiver, taskId int32, callingPackageName string, callingAttributionTag string, fetchStructure bool) (bool, error)
+	RequestAssistDataForTask(ctx context.Context, receiver IAssistDataReceiver, taskId int32, callingPackageName string, callingAttributionTag string) (bool, error)
 	KeyguardGoingAway(ctx context.Context, flags int32) error
 	SuppressResizeConfigChanges(ctx context.Context, suppress bool) error
 	GetWindowOrganizerController(ctx context.Context) (interface{}, error)
 	SupportsLocalVoiceInteraction(ctx context.Context) (bool, error)
-	RequestOpenInBrowserEducation(ctx context.Context, appToken binder.IBinder) error
 	GetDeviceConfigurationInfo(ctx context.Context) (interface{}, error)
 	CancelTaskWindowTransition(ctx context.Context, taskId int32) error
 	GetTaskSnapshot(ctx context.Context, taskId int32, isLowResolution bool) (interface{}, error)
@@ -209,24 +306,22 @@ type IActivityTaskManager interface {
 	DetachNavigationBarFromApp(ctx context.Context, transition binder.IBinder) error
 	SetRunningRemoteTransitionDelegate(ctx context.Context, caller IApplicationThread) error
 	StartBackNavigation(ctx context.Context, navigationObserver interface{}, adaptor interface{}) (interface{}, error)
-	RegisterBackgroundActivityStartCallback(ctx context.Context, binder_ binder.IBinder) (bool, error)
-	UnregisterBackgroundActivityStartCallback(ctx context.Context, binder_ binder.IBinder) error
 	RegisterScreenCaptureObserver(ctx context.Context, activityToken binder.IBinder, observer IScreenCaptureObserver) error
 	UnregisterScreenCaptureObserver(ctx context.Context, activityToken binder.IBinder, observer IScreenCaptureObserver) error
 }
 
 type ActivityTaskManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityTaskManagerProxy(
 	remote binder.IBinder,
 ) *ActivityTaskManagerProxy {
-	return &ActivityTaskManagerProxy{remote: remote}
+	return &ActivityTaskManagerProxy{Remote: remote}
 }
 
 func (p *ActivityTaskManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityTaskManager = (*ActivityTaskManagerProxy)(nil)
@@ -244,10 +339,10 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(1)
@@ -255,7 +350,7 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
@@ -264,12 +359,12 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivity)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -295,10 +390,10 @@ func (p *ActivityTaskManagerProxy) StartActivities(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	if intents == nil {
@@ -306,6 +401,7 @@ func (p *ActivityTaskManagerProxy) StartActivities(
 	} else {
 		_data.WriteInt32(int32(len(intents)))
 		for _, _item := range intents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -319,15 +415,15 @@ func (p *ActivityTaskManagerProxy) StartActivities(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivities)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -357,10 +453,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(1)
@@ -368,7 +464,7 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
@@ -378,12 +474,12 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityAsUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityAsUser)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityAsUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityAsUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -409,18 +505,18 @@ func (p *ActivityTaskManagerProxy) StartNextMatchingActivity(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, callingActivity, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingActivity, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startNextMatchingActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartNextMatchingActivity)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartNextMatchingActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartNextMatchingActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -454,26 +550,26 @@ func (p *ActivityTaskManagerProxy) StartActivityIntentSender(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, whitelistToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, whitelistToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := fillInIntent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flagsMask)
 	_data.WriteInt32(flagsValues)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityIntentSender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityIntentSender)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityIntentSender
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityIntentSender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -503,10 +599,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 	options interface{},
 ) (WaitResult, error) {
 	var _result WaitResult
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(1)
@@ -514,7 +610,7 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
@@ -524,12 +620,12 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityAndWait")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityAndWait)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityAndWait
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityAndWait, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -564,10 +660,10 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(1)
@@ -575,7 +671,7 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(startFlags)
@@ -585,12 +681,12 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityWithConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityWithConfig)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityWithConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityWithConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -618,7 +714,7 @@ func (p *ActivityTaskManagerProxy) StartVoiceActivity(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(_identity.PackageName)
@@ -630,8 +726,8 @@ func (p *ActivityTaskManagerProxy) StartVoiceActivity(
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, interactor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, interactor.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
@@ -639,12 +735,12 @@ func (p *ActivityTaskManagerProxy) StartVoiceActivity(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startVoiceActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartVoiceActivity)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartVoiceActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartVoiceActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -668,14 +764,14 @@ func (p *ActivityTaskManagerProxy) GetVoiceInteractorPackageName(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, callingVoiceInteractor, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingVoiceInteractor, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getVoiceInteractorPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetVoiceInteractorPackageName)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetVoiceInteractorPackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetVoiceInteractorPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -699,7 +795,7 @@ func (p *ActivityTaskManagerProxy) StartAssistantActivity(
 	options interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(_identity.PackageName)
@@ -713,12 +809,12 @@ func (p *ActivityTaskManagerProxy) StartAssistantActivity(
 	_data.WriteString16(resolvedType)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startAssistantActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartAssistantActivity)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartAssistantActivity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartAssistantActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -742,10 +838,10 @@ func (p *ActivityTaskManagerProxy) StartActivityFromGameSession(
 	taskId int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(_identity.PID)
@@ -757,12 +853,12 @@ func (p *ActivityTaskManagerProxy) StartActivityFromGameSession(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityFromGameSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityFromGameSession)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityFromGameSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityFromGameSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -779,6 +875,38 @@ func (p *ActivityTaskManagerProxy) StartActivityFromGameSession(
 	return _result, nil
 }
 
+func (p *ActivityTaskManagerProxy) StartRecentsActivity(
+	ctx context.Context,
+	intent androidContent.Intent,
+	eventTime int64,
+	recentsAnimationRunner interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt64(eventTime)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartRecentsActivity)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartRecentsActivity, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
 func (p *ActivityTaskManagerProxy) StartActivityFromRecents(
 	ctx context.Context,
 	taskId int32,
@@ -789,12 +917,12 @@ func (p *ActivityTaskManagerProxy) StartActivityFromRecents(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityFromRecents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityFromRecents)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityFromRecents
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityFromRecents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -825,17 +953,17 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	ignoreTargetSecurity bool,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(resolvedType)
-	binder.WriteBinderToParcel(ctx, _data, resultTo, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultTo, p.Remote.Transport())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
@@ -846,12 +974,12 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	_data.WriteBool(ignoreTargetSecurity)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityAsCaller")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityAsCaller)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartActivityAsCaller
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartActivityAsCaller, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -868,35 +996,6 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	return _result, nil
 }
 
-func (p *ActivityTaskManagerProxy) PreloadRecentsActivity(
-	ctx context.Context,
-	intent androidContent.Intent,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "preloadRecentsActivity")
-	if _err != nil {
-		_code = TransactionIActivityTaskManagerPreloadRecentsActivity
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
 func (p *ActivityTaskManagerProxy) IsActivityStartAllowedOnDisplay(
 	ctx context.Context,
 	displayId int32,
@@ -904,7 +1003,7 @@ func (p *ActivityTaskManagerProxy) IsActivityStartAllowedOnDisplay(
 	resolvedType string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(displayId)
@@ -915,12 +1014,12 @@ func (p *ActivityTaskManagerProxy) IsActivityStartAllowedOnDisplay(
 	_data.WriteString16(resolvedType)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "isActivityStartAllowedOnDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsActivityStartAllowedOnDisplay)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerIsActivityStartAllowedOnDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsActivityStartAllowedOnDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -943,12 +1042,12 @@ func (p *ActivityTaskManagerProxy) UnhandledBack(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "unhandledBack")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerUnhandledBack)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerUnhandledBack
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerUnhandledBack, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -968,12 +1067,12 @@ func (p *ActivityTaskManagerProxy) GetActivityClientController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getActivityClientController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetActivityClientController)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetActivityClientController
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetActivityClientController, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -987,7 +1086,7 @@ func (p *ActivityTaskManagerProxy) GetActivityClientController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewActivityClientControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewActivityClientControllerProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -998,12 +1097,12 @@ func (p *ActivityTaskManagerProxy) GetFrontActivityScreenCompatMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getFrontActivityScreenCompatMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetFrontActivityScreenCompatMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetFrontActivityScreenCompatMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetFrontActivityScreenCompatMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1028,12 +1127,12 @@ func (p *ActivityTaskManagerProxy) SetFrontActivityScreenCompatMode(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setFrontActivityScreenCompatMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetFrontActivityScreenCompatMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetFrontActivityScreenCompatMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetFrontActivityScreenCompatMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1054,12 +1153,12 @@ func (p *ActivityTaskManagerProxy) SetFocusedTask(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setFocusedTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetFocusedTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetFocusedTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetFocusedTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1081,12 +1180,12 @@ func (p *ActivityTaskManagerProxy) RemoveTask(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "removeTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRemoveTask
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1109,12 +1208,12 @@ func (p *ActivityTaskManagerProxy) RemoveAllVisibleRecentTasks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "removeAllVisibleRecentTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveAllVisibleRecentTasks)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRemoveAllVisibleRecentTasks
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveAllVisibleRecentTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1142,12 +1241,12 @@ func (p *ActivityTaskManagerProxy) GetTasks(
 	_data.WriteBool(keepIntentExtra)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTasks)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1165,6 +1264,9 @@ func (p *ActivityTaskManagerProxy) GetTasks(
 	if _count >= 0 {
 		_result = make([]ActivityManagerRunningTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1180,20 +1282,20 @@ func (p *ActivityTaskManagerProxy) MoveTaskToFront(
 	flags int32,
 	options interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, app.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, app.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(task)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "moveTaskToFront")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerMoveTaskToFront)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerMoveTaskToFront
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerMoveTaskToFront, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1212,19 +1314,19 @@ func (p *ActivityTaskManagerProxy) GetRecentTasks(
 	flags int32,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(maxNum)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getRecentTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetRecentTasks)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetRecentTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetRecentTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1244,12 +1346,12 @@ func (p *ActivityTaskManagerProxy) IsTopActivityImmersive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "isTopActivityImmersive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsTopActivityImmersive)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerIsTopActivityImmersive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsTopActivityImmersive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1266,6 +1368,42 @@ func (p *ActivityTaskManagerProxy) IsTopActivityImmersive(
 	return _result, nil
 }
 
+func (p *ActivityTaskManagerProxy) GetTaskDescription(
+	ctx context.Context,
+	taskId int32,
+) (ActivityManagerTaskDescription, error) {
+	var _result ActivityManagerTaskDescription
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(taskId)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskDescription)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskDescription, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
+	return _result, nil
+}
+
 func (p *ActivityTaskManagerProxy) ReportAssistContextExtras(
 	ctx context.Context,
 	assistToken binder.IBinder,
@@ -1276,7 +1414,7 @@ func (p *ActivityTaskManagerProxy) ReportAssistContextExtras(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, assistToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, assistToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := structure.MarshalParcel(_data); _err != nil {
 		return _err
@@ -1290,12 +1428,12 @@ func (p *ActivityTaskManagerProxy) ReportAssistContextExtras(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "reportAssistContextExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerReportAssistContextExtras)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerReportAssistContextExtras
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerReportAssistContextExtras, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1316,12 +1454,12 @@ func (p *ActivityTaskManagerProxy) SetFocusedRootTask(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setFocusedRootTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetFocusedRootTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetFocusedRootTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetFocusedRootTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1341,12 +1479,12 @@ func (p *ActivityTaskManagerProxy) GetFocusedRootTaskInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getFocusedRootTaskInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetFocusedRootTaskInfo)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetFocusedRootTaskInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetFocusedRootTaskInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1377,12 +1515,12 @@ func (p *ActivityTaskManagerProxy) GetTaskBounds(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getTaskBounds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskBounds)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetTaskBounds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskBounds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1412,12 +1550,38 @@ func (p *ActivityTaskManagerProxy) FocusTopTask(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "focusTopTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerFocusTopTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerFocusTopTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerFocusTopTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *ActivityTaskManagerProxy) CancelRecentsAnimation(
+	ctx context.Context,
+	restoreHomeRootTaskPosition bool,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteBool(restoreHomeRootTaskPosition)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerCancelRecentsAnimation)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerCancelRecentsAnimation, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1434,7 +1598,7 @@ func (p *ActivityTaskManagerProxy) UpdateLockTaskPackages(
 	ctx context.Context,
 	packages []string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(_identity.UserID)
@@ -1447,12 +1611,12 @@ func (p *ActivityTaskManagerProxy) UpdateLockTaskPackages(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "updateLockTaskPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerUpdateLockTaskPackages)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerUpdateLockTaskPackages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerUpdateLockTaskPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1472,12 +1636,12 @@ func (p *ActivityTaskManagerProxy) IsInLockTaskMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "isInLockTaskMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsInLockTaskMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerIsInLockTaskMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsInLockTaskMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1501,12 +1665,12 @@ func (p *ActivityTaskManagerProxy) GetLockTaskModeState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getLockTaskModeState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetLockTaskModeState)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetLockTaskModeState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetLockTaskModeState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1527,17 +1691,17 @@ func (p *ActivityTaskManagerProxy) GetAppTasks(
 	ctx context.Context,
 ) ([]binder.IBinder, error) {
 	var _result []binder.IBinder
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getAppTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAppTasks)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetAppTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAppTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1559,7 +1723,7 @@ func (p *ActivityTaskManagerProxy) GetAppTasks(
 			if _err != nil {
 				return _result, _err
 			}
-			_result[_i] = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+			_result[_i] = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 		}
 	}
 	return _result, nil
@@ -1573,12 +1737,12 @@ func (p *ActivityTaskManagerProxy) StartSystemLockTaskMode(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startSystemLockTaskMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartSystemLockTaskMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartSystemLockTaskMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartSystemLockTaskMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1597,12 +1761,12 @@ func (p *ActivityTaskManagerProxy) StopSystemLockTaskMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "stopSystemLockTaskMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStopSystemLockTaskMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStopSystemLockTaskMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStopSystemLockTaskMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1621,14 +1785,14 @@ func (p *ActivityTaskManagerProxy) FinishVoiceTask(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "finishVoiceTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerFinishVoiceTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerFinishVoiceTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerFinishVoiceTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1651,7 +1815,7 @@ func (p *ActivityTaskManagerProxy) AddAppTask(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -1665,12 +1829,12 @@ func (p *ActivityTaskManagerProxy) AddAppTask(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "addAppTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerAddAppTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerAddAppTask
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerAddAppTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1694,12 +1858,12 @@ func (p *ActivityTaskManagerProxy) GetAppTaskThumbnailSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getAppTaskThumbnailSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAppTaskThumbnailSize)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetAppTaskThumbnailSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAppTaskThumbnailSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1727,14 +1891,14 @@ func (p *ActivityTaskManagerProxy) ReleaseSomeActivities(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, app.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, app.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "releaseSomeActivities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerReleaseSomeActivities)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerReleaseSomeActivities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerReleaseSomeActivities, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1743,18 +1907,18 @@ func (p *ActivityTaskManagerProxy) GetTaskDescriptionIcon(
 	filename string,
 ) (graphics.Bitmap, error) {
 	var _result graphics.Bitmap
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(filename)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getTaskDescriptionIcon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskDescriptionIcon)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetTaskDescriptionIcon
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskDescriptionIcon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1782,14 +1946,14 @@ func (p *ActivityTaskManagerProxy) RegisterTaskStackListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerTaskStackListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterTaskStackListener)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRegisterTaskStackListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterTaskStackListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1808,14 +1972,14 @@ func (p *ActivityTaskManagerProxy) UnregisterTaskStackListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "unregisterTaskStackListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerUnregisterTaskStackListener)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerUnregisterTaskStackListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerUnregisterTaskStackListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1838,12 +2002,12 @@ func (p *ActivityTaskManagerProxy) SetTaskResizeable(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(resizeableMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setTaskResizeable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetTaskResizeable)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetTaskResizeable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetTaskResizeable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1871,12 +2035,12 @@ func (p *ActivityTaskManagerProxy) ResizeTask(
 	}
 	_data.WriteInt32(resizeMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "resizeTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerResizeTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerResizeTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerResizeTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1899,12 +2063,12 @@ func (p *ActivityTaskManagerProxy) MoveRootTaskToDisplay(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "moveRootTaskToDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerMoveRootTaskToDisplay)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerMoveRootTaskToDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerMoveRootTaskToDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1929,12 +2093,12 @@ func (p *ActivityTaskManagerProxy) MoveTaskToRootTask(
 	_data.WriteInt32(rootTaskId)
 	_data.WriteBool(toTop)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "moveTaskToRootTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerMoveTaskToRootTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerMoveTaskToRootTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerMoveTaskToRootTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1962,12 +2126,12 @@ func (p *ActivityTaskManagerProxy) RemoveRootTasksInWindowingModes(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "removeRootTasksInWindowingModes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveRootTasksInWindowingModes)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRemoveRootTasksInWindowingModes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveRootTasksInWindowingModes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1995,12 +2159,12 @@ func (p *ActivityTaskManagerProxy) RemoveRootTasksWithActivityTypes(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "removeRootTasksWithActivityTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveRootTasksWithActivityTypes)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRemoveRootTasksWithActivityTypes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRemoveRootTasksWithActivityTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2020,12 +2184,12 @@ func (p *ActivityTaskManagerProxy) GetAllRootTaskInfos(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getAllRootTaskInfos")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAllRootTaskInfos)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetAllRootTaskInfos
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAllRootTaskInfos, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2043,6 +2207,9 @@ func (p *ActivityTaskManagerProxy) GetAllRootTaskInfos(
 	if _count >= 0 {
 		_result = make([]ActivityTaskManagerRootTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2062,12 +2229,12 @@ func (p *ActivityTaskManagerProxy) GetRootTaskInfo(
 	_data.WriteInt32(windowingMode)
 	_data.WriteInt32(activityType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getRootTaskInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetRootTaskInfo)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetRootTaskInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetRootTaskInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2098,12 +2265,12 @@ func (p *ActivityTaskManagerProxy) GetAllRootTaskInfosOnDisplay(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getAllRootTaskInfosOnDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAllRootTaskInfosOnDisplay)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetAllRootTaskInfosOnDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAllRootTaskInfosOnDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2121,6 +2288,9 @@ func (p *ActivityTaskManagerProxy) GetAllRootTaskInfosOnDisplay(
 	if _count >= 0 {
 		_result = make([]ActivityTaskManagerRootTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2142,12 +2312,12 @@ func (p *ActivityTaskManagerProxy) GetRootTaskInfoOnDisplay(
 	_data.WriteInt32(activityType)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getRootTaskInfoOnDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetRootTaskInfoOnDisplay)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetRootTaskInfoOnDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetRootTaskInfoOnDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2179,12 +2349,12 @@ func (p *ActivityTaskManagerProxy) SetLockScreenShown(
 	_data.WriteBool(showingKeyguard)
 	_data.WriteBool(showingAod)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setLockScreenShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetLockScreenShown)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetLockScreenShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetLockScreenShown, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2206,12 +2376,12 @@ func (p *ActivityTaskManagerProxy) GetAssistContextExtras(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(requestType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getAssistContextExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAssistContextExtras)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetAssistContextExtras
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetAssistContextExtras, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2237,17 +2407,17 @@ func (p *ActivityTaskManagerProxy) RequestAssistContextExtras(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(requestType)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteBool(focused)
 	_data.WriteBool(newSessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "requestAssistContextExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRequestAssistContextExtras)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRequestAssistContextExtras
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRequestAssistContextExtras, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2274,16 +2444,16 @@ func (p *ActivityTaskManagerProxy) RequestAutofillData(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "requestAutofillData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRequestAutofillData)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRequestAutofillData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRequestAutofillData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2307,12 +2477,12 @@ func (p *ActivityTaskManagerProxy) IsAssistDataAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "isAssistDataAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsAssistDataAllowed)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerIsAssistDataAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerIsAssistDataAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2335,23 +2505,21 @@ func (p *ActivityTaskManagerProxy) RequestAssistDataForTask(
 	taskId int32,
 	callingPackageName string,
 	callingAttributionTag string,
-	fetchStructure bool,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(taskId)
 	_data.WriteString16(callingPackageName)
 	_data.WriteString16(callingAttributionTag)
-	_data.WriteBool(fetchStructure)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "requestAssistDataForTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRequestAssistDataForTask)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRequestAssistDataForTask
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRequestAssistDataForTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2376,12 +2544,12 @@ func (p *ActivityTaskManagerProxy) KeyguardGoingAway(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "keyguardGoingAway")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerKeyguardGoingAway)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerKeyguardGoingAway
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerKeyguardGoingAway, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2402,12 +2570,12 @@ func (p *ActivityTaskManagerProxy) SuppressResizeConfigChanges(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteBool(suppress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "suppressResizeConfigChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSuppressResizeConfigChanges)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSuppressResizeConfigChanges
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSuppressResizeConfigChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2427,12 +2595,12 @@ func (p *ActivityTaskManagerProxy) GetWindowOrganizerController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getWindowOrganizerController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetWindowOrganizerController)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetWindowOrganizerController
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetWindowOrganizerController, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2452,12 +2620,12 @@ func (p *ActivityTaskManagerProxy) SupportsLocalVoiceInteraction(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "supportsLocalVoiceInteraction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSupportsLocalVoiceInteraction)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSupportsLocalVoiceInteraction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSupportsLocalVoiceInteraction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2474,32 +2642,6 @@ func (p *ActivityTaskManagerProxy) SupportsLocalVoiceInteraction(
 	return _result, nil
 }
 
-func (p *ActivityTaskManagerProxy) RequestOpenInBrowserEducation(
-	ctx context.Context,
-	appToken binder.IBinder,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, appToken, p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "requestOpenInBrowserEducation")
-	if _err != nil {
-		_code = TransactionIActivityTaskManagerRequestOpenInBrowserEducation
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
 func (p *ActivityTaskManagerProxy) GetDeviceConfigurationInfo(
 	ctx context.Context,
 ) (interface{}, error) {
@@ -2507,12 +2649,12 @@ func (p *ActivityTaskManagerProxy) GetDeviceConfigurationInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getDeviceConfigurationInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetDeviceConfigurationInfo)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetDeviceConfigurationInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetDeviceConfigurationInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2533,12 +2675,12 @@ func (p *ActivityTaskManagerProxy) CancelTaskWindowTransition(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "cancelTaskWindowTransition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerCancelTaskWindowTransition)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerCancelTaskWindowTransition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerCancelTaskWindowTransition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2562,12 +2704,12 @@ func (p *ActivityTaskManagerProxy) GetTaskSnapshot(
 	_data.WriteInt32(taskId)
 	_data.WriteBool(isLowResolution)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getTaskSnapshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskSnapshot)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetTaskSnapshot
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetTaskSnapshot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2591,12 +2733,12 @@ func (p *ActivityTaskManagerProxy) TakeTaskSnapshot(
 	_data.WriteInt32(taskId)
 	_data.WriteBool(updateCache)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "takeTaskSnapshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerTakeTaskSnapshot)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerTakeTaskSnapshot
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerTakeTaskSnapshot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2616,12 +2758,12 @@ func (p *ActivityTaskManagerProxy) GetLastResumedActivityUserId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getLastResumedActivityUserId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetLastResumedActivityUserId)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetLastResumedActivityUserId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetLastResumedActivityUserId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2650,12 +2792,12 @@ func (p *ActivityTaskManagerProxy) UpdateConfiguration(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "updateConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerUpdateConfiguration)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerUpdateConfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerUpdateConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2676,18 +2818,18 @@ func (p *ActivityTaskManagerProxy) UpdateLockTaskFeatures(
 	ctx context.Context,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "updateLockTaskFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerUpdateLockTaskFeatures)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerUpdateLockTaskFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerUpdateLockTaskFeatures, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2709,14 +2851,14 @@ func (p *ActivityTaskManagerProxy) RegisterRemoteAnimationForNextActivityStart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, launchCookie, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, launchCookie, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerRemoteAnimationForNextActivityStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2738,12 +2880,12 @@ func (p *ActivityTaskManagerProxy) RegisterRemoteAnimationsForDisplay(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerRemoteAnimationsForDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterRemoteAnimationsForDisplay)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRegisterRemoteAnimationsForDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterRemoteAnimationsForDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2767,12 +2909,12 @@ func (p *ActivityTaskManagerProxy) AlwaysShowUnsupportedCompileSdkWarning(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "alwaysShowUnsupportedCompileSdkWarning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2793,12 +2935,12 @@ func (p *ActivityTaskManagerProxy) SetVrThread(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(tid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setVrThread")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetVrThread)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetVrThread
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetVrThread, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2819,12 +2961,12 @@ func (p *ActivityTaskManagerProxy) SetPersistentVrThread(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(tid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setPersistentVrThread")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetPersistentVrThread)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetPersistentVrThread
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetPersistentVrThread, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2843,12 +2985,12 @@ func (p *ActivityTaskManagerProxy) StopAppSwitches(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "stopAppSwitches")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStopAppSwitches)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStopAppSwitches
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStopAppSwitches, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2867,12 +3009,12 @@ func (p *ActivityTaskManagerProxy) ResumeAppSwitches(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "resumeAppSwitches")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerResumeAppSwitches)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerResumeAppSwitches
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerResumeAppSwitches, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2892,15 +3034,15 @@ func (p *ActivityTaskManagerProxy) SetActivityController(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, watcher.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, watcher.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(imAMonkey)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setActivityController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetActivityController)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetActivityController
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetActivityController, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2920,15 +3062,15 @@ func (p *ActivityTaskManagerProxy) SetVoiceKeepAwake(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(keepAwake)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setVoiceKeepAwake")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetVoiceKeepAwake)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetVoiceKeepAwake
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetVoiceKeepAwake, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2950,12 +3092,12 @@ func (p *ActivityTaskManagerProxy) GetPackageScreenCompatMode(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getPackageScreenCompatMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetPackageScreenCompatMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetPackageScreenCompatMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetPackageScreenCompatMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2982,12 +3124,12 @@ func (p *ActivityTaskManagerProxy) SetPackageScreenCompatMode(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setPackageScreenCompatMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetPackageScreenCompatMode)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetPackageScreenCompatMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetPackageScreenCompatMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3009,12 +3151,12 @@ func (p *ActivityTaskManagerProxy) GetPackageAskScreenCompat(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "getPackageAskScreenCompat")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetPackageAskScreenCompat)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerGetPackageAskScreenCompat
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerGetPackageAskScreenCompat, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3041,12 +3183,12 @@ func (p *ActivityTaskManagerProxy) SetPackageAskScreenCompat(
 	_data.WriteString16(packageName)
 	_data.WriteBool(ask)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setPackageAskScreenCompat")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetPackageAskScreenCompat)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetPackageAskScreenCompat
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetPackageAskScreenCompat, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3074,12 +3216,12 @@ func (p *ActivityTaskManagerProxy) ClearLaunchParamsForPackages(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "clearLaunchParamsForPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerClearLaunchParamsForPackages)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerClearLaunchParamsForPackages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerClearLaunchParamsForPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3101,12 +3243,12 @@ func (p *ActivityTaskManagerProxy) OnSplashScreenViewCopyFinished(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "onSplashScreenViewCopyFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerOnSplashScreenViewCopyFinished)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerOnSplashScreenViewCopyFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerOnSplashScreenViewCopyFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3130,12 +3272,12 @@ func (p *ActivityTaskManagerProxy) OnPictureInPictureUiStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "onPictureInPictureUiStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerOnPictureInPictureUiStateChanged)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerOnPictureInPictureUiStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerOnPictureInPictureUiStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3154,14 +3296,14 @@ func (p *ActivityTaskManagerProxy) DetachNavigationBarFromApp(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, transition, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transition, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "detachNavigationBarFromApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerDetachNavigationBarFromApp)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerDetachNavigationBarFromApp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerDetachNavigationBarFromApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3180,14 +3322,14 @@ func (p *ActivityTaskManagerProxy) SetRunningRemoteTransitionDelegate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "setRunningRemoteTransitionDelegate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetRunningRemoteTransitionDelegate)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerSetRunningRemoteTransitionDelegate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerSetRunningRemoteTransitionDelegate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3209,12 +3351,12 @@ func (p *ActivityTaskManagerProxy) StartBackNavigation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startBackNavigation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartBackNavigation)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerStartBackNavigation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerStartBackNavigation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3225,63 +3367,6 @@ func (p *ActivityTaskManagerProxy) StartBackNavigation(
 	}
 
 	return _result, nil
-}
-
-func (p *ActivityTaskManagerProxy) RegisterBackgroundActivityStartCallback(
-	ctx context.Context,
-	binder_ binder.IBinder,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerBackgroundActivityStartCallback")
-	if _err != nil {
-		_code = TransactionIActivityTaskManagerRegisterBackgroundActivityStartCallback
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *ActivityTaskManagerProxy) UnregisterBackgroundActivityStartCallback(
-	ctx context.Context,
-	binder_ binder.IBinder,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "unregisterBackgroundActivityStartCallback")
-	if _err != nil {
-		_code = TransactionIActivityTaskManagerUnregisterBackgroundActivityStartCallback
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
 }
 
 func (p *ActivityTaskManagerProxy) RegisterScreenCaptureObserver(
@@ -3291,15 +3376,15 @@ func (p *ActivityTaskManagerProxy) RegisterScreenCaptureObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerScreenCaptureObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterScreenCaptureObserver)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerRegisterScreenCaptureObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerRegisterScreenCaptureObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3319,15 +3404,15 @@ func (p *ActivityTaskManagerProxy) UnregisterScreenCaptureObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "unregisterScreenCaptureObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityTaskManager, MethodIActivityTaskManagerUnregisterScreenCaptureObserver)
 	if _err != nil {
-		_code = TransactionIActivityTaskManagerUnregisterScreenCaptureObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityTaskManager, MethodIActivityTaskManagerUnregisterScreenCaptureObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3347,6 +3432,10 @@ type ActivityTaskManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityTaskManagerStub)(nil)
+
+func (s *ActivityTaskManagerStub) Descriptor() string {
+	return DescriptorIActivityTaskManager
+}
 
 func (s *ActivityTaskManagerStub) OnTransaction(
 	ctx context.Context,
@@ -3927,6 +4016,35 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
 		return _reply, nil
+	case TransactionIActivityTaskManagerStartRecentsActivity:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent androidContent.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_eventTime, _err := _data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_recentsAnimationRunner interface{}
+		_err = s.Impl.StartRecentsActivity(ctx, _arg_intent, _arg_eventTime, _arg_recentsAnimationRunner)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityFromRecents:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -4014,30 +4132,6 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIActivityTaskManagerPreloadRecentsActivity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_intent androidContent.Intent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.PreloadRecentsActivity(ctx, _arg_intent)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerIsActivityStartAllowedOnDisplay:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4269,6 +4363,26 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
+	case TransactionIActivityTaskManagerGetTaskDescription:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTaskDescription(ctx, _arg_taskId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
 	case TransactionIActivityTaskManagerReportAssistContextExtras:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -4382,6 +4496,22 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.FocusTopTask(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIActivityTaskManagerCancelRecentsAnimation:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_restoreHomeRootTaskPosition, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CancelRecentsAnimation(ctx, _arg_restoreHomeRootTaskPosition)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4959,11 +5089,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fetchStructure, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.RequestAssistDataForTask(ctx, _arg_receiver, _arg_taskId, _arg_callingPackageName, _arg_callingAttributionTag, _arg_fetchStructure)
+		_result, _err := s.Impl.RequestAssistDataForTask(ctx, _arg_receiver, _arg_taskId, _arg_callingPackageName, _arg_callingAttributionTag)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -5029,21 +5155,6 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIActivityTaskManagerRequestOpenInBrowserEducation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_appToken binder.IBinder
-		_ = _arg_appToken
-		_err := s.Impl.RequestOpenInBrowserEducation(ctx, _arg_appToken)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetDeviceConfigurationInfo:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -5503,37 +5614,6 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_ = _result
 		return _reply, nil
-	case TransactionIActivityTaskManagerRegisterBackgroundActivityStartCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_binder_ binder.IBinder
-		_ = _arg_binder_
-		_result, _err := s.Impl.RegisterBackgroundActivityStartCallback(ctx, _arg_binder_)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIActivityTaskManagerUnregisterBackgroundActivityStartCallback:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_binder_ binder.IBinder
-		_ = _arg_binder_
-		_err := s.Impl.UnregisterBackgroundActivityStartCallback(ctx, _arg_binder_)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterScreenCaptureObserver:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -5590,9 +5670,9 @@ type IActivityTaskManagerServer interface {
 	GetVoiceInteractorPackageName(ctx context.Context, callingVoiceInteractor binder.IBinder) (string, error)
 	StartAssistantActivity(ctx context.Context, intent androidContent.Intent, resolvedType string, options interface{}) (int32, error)
 	StartActivityFromGameSession(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, taskId int32) (int32, error)
+	StartRecentsActivity(ctx context.Context, intent androidContent.Intent, eventTime int64, recentsAnimationRunner interface{}) error
 	StartActivityFromRecents(ctx context.Context, taskId int32, options interface{}) (int32, error)
 	StartActivityAsCaller(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}, ignoreTargetSecurity bool) (int32, error)
-	PreloadRecentsActivity(ctx context.Context, intent androidContent.Intent) error
 	IsActivityStartAllowedOnDisplay(ctx context.Context, displayId int32, intent androidContent.Intent, resolvedType string) (bool, error)
 	UnhandledBack(ctx context.Context) error
 	GetActivityClientController(ctx context.Context) (IActivityClientController, error)
@@ -5605,11 +5685,13 @@ type IActivityTaskManagerServer interface {
 	MoveTaskToFront(ctx context.Context, app IApplicationThread, task int32, flags int32, options interface{}) error
 	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) (interface{}, error)
 	IsTopActivityImmersive(ctx context.Context) (bool, error)
+	GetTaskDescription(ctx context.Context, taskId int32) (ActivityManagerTaskDescription, error)
 	ReportAssistContextExtras(ctx context.Context, assistToken binder.IBinder, extras interface{}, structure assist.AssistStructure, content assist.AssistContent, referrer net.Uri) error
 	SetFocusedRootTask(ctx context.Context, taskId int32) error
 	GetFocusedRootTaskInfo(ctx context.Context) (ActivityTaskManagerRootTaskInfo, error)
 	GetTaskBounds(ctx context.Context, taskId int32) (graphics.Rect, error)
 	FocusTopTask(ctx context.Context, displayId int32) error
+	CancelRecentsAnimation(ctx context.Context, restoreHomeRootTaskPosition bool) error
 	UpdateLockTaskPackages(ctx context.Context, packages []string) error
 	IsInLockTaskMode(ctx context.Context) (bool, error)
 	GetLockTaskModeState(ctx context.Context) (int32, error)
@@ -5638,12 +5720,11 @@ type IActivityTaskManagerServer interface {
 	RequestAssistContextExtras(ctx context.Context, requestType int32, receiver IAssistDataReceiver, receiverExtras interface{}, activityToken binder.IBinder, focused bool, newSessionId bool) (bool, error)
 	RequestAutofillData(ctx context.Context, receiver IAssistDataReceiver, receiverExtras interface{}, activityToken binder.IBinder, flags int32) (bool, error)
 	IsAssistDataAllowed(ctx context.Context) (bool, error)
-	RequestAssistDataForTask(ctx context.Context, receiver IAssistDataReceiver, taskId int32, callingPackageName string, callingAttributionTag string, fetchStructure bool) (bool, error)
+	RequestAssistDataForTask(ctx context.Context, receiver IAssistDataReceiver, taskId int32, callingPackageName string, callingAttributionTag string) (bool, error)
 	KeyguardGoingAway(ctx context.Context, flags int32) error
 	SuppressResizeConfigChanges(ctx context.Context, suppress bool) error
 	GetWindowOrganizerController(ctx context.Context) (interface{}, error)
 	SupportsLocalVoiceInteraction(ctx context.Context) (bool, error)
-	RequestOpenInBrowserEducation(ctx context.Context, appToken binder.IBinder) error
 	GetDeviceConfigurationInfo(ctx context.Context) (interface{}, error)
 	CancelTaskWindowTransition(ctx context.Context, taskId int32) error
 	GetTaskSnapshot(ctx context.Context, taskId int32, isLowResolution bool) (interface{}, error)
@@ -5670,8 +5751,6 @@ type IActivityTaskManagerServer interface {
 	DetachNavigationBarFromApp(ctx context.Context, transition binder.IBinder) error
 	SetRunningRemoteTransitionDelegate(ctx context.Context, caller IApplicationThread) error
 	StartBackNavigation(ctx context.Context, navigationObserver interface{}, adaptor interface{}) (interface{}, error)
-	RegisterBackgroundActivityStartCallback(ctx context.Context, binder_ binder.IBinder) (bool, error)
-	UnregisterBackgroundActivityStartCallback(ctx context.Context, binder_ binder.IBinder) error
 	RegisterScreenCaptureObserver(ctx context.Context, activityToken binder.IBinder, observer IScreenCaptureObserver) error
 	UnregisterScreenCaptureObserver(ctx context.Context, activityToken binder.IBinder, observer IScreenCaptureObserver) error
 }
@@ -5820,6 +5899,15 @@ func (w *activityTaskManagerStubWrapper) StartActivityFromGameSession(
 	return w.impl.StartActivityFromGameSession(ctx, caller, intent, taskId)
 }
 
+func (w *activityTaskManagerStubWrapper) StartRecentsActivity(
+	ctx context.Context,
+	intent androidContent.Intent,
+	eventTime int64,
+	recentsAnimationRunner interface{},
+) error {
+	return w.impl.StartRecentsActivity(ctx, intent, eventTime, recentsAnimationRunner)
+}
+
 func (w *activityTaskManagerStubWrapper) StartActivityFromRecents(
 	ctx context.Context,
 	taskId int32,
@@ -5842,13 +5930,6 @@ func (w *activityTaskManagerStubWrapper) StartActivityAsCaller(
 	ignoreTargetSecurity bool,
 ) (int32, error) {
 	return w.impl.StartActivityAsCaller(ctx, caller, intent, resolvedType, resultTo, resultWho, requestCode, flags, profilerInfo, options, ignoreTargetSecurity)
-}
-
-func (w *activityTaskManagerStubWrapper) PreloadRecentsActivity(
-	ctx context.Context,
-	intent androidContent.Intent,
-) error {
-	return w.impl.PreloadRecentsActivity(ctx, intent)
 }
 
 func (w *activityTaskManagerStubWrapper) IsActivityStartAllowedOnDisplay(
@@ -5939,6 +6020,13 @@ func (w *activityTaskManagerStubWrapper) IsTopActivityImmersive(
 	return w.impl.IsTopActivityImmersive(ctx)
 }
 
+func (w *activityTaskManagerStubWrapper) GetTaskDescription(
+	ctx context.Context,
+	taskId int32,
+) (ActivityManagerTaskDescription, error) {
+	return w.impl.GetTaskDescription(ctx, taskId)
+}
+
 func (w *activityTaskManagerStubWrapper) ReportAssistContextExtras(
 	ctx context.Context,
 	assistToken binder.IBinder,
@@ -5975,6 +6063,13 @@ func (w *activityTaskManagerStubWrapper) FocusTopTask(
 	displayId int32,
 ) error {
 	return w.impl.FocusTopTask(ctx, displayId)
+}
+
+func (w *activityTaskManagerStubWrapper) CancelRecentsAnimation(
+	ctx context.Context,
+	restoreHomeRootTaskPosition bool,
+) error {
+	return w.impl.CancelRecentsAnimation(ctx, restoreHomeRootTaskPosition)
 }
 
 func (w *activityTaskManagerStubWrapper) UpdateLockTaskPackages(
@@ -6193,9 +6288,8 @@ func (w *activityTaskManagerStubWrapper) RequestAssistDataForTask(
 	taskId int32,
 	callingPackageName string,
 	callingAttributionTag string,
-	fetchStructure bool,
 ) (bool, error) {
-	return w.impl.RequestAssistDataForTask(ctx, receiver, taskId, callingPackageName, callingAttributionTag, fetchStructure)
+	return w.impl.RequestAssistDataForTask(ctx, receiver, taskId, callingPackageName, callingAttributionTag)
 }
 
 func (w *activityTaskManagerStubWrapper) KeyguardGoingAway(
@@ -6222,13 +6316,6 @@ func (w *activityTaskManagerStubWrapper) SupportsLocalVoiceInteraction(
 	ctx context.Context,
 ) (bool, error) {
 	return w.impl.SupportsLocalVoiceInteraction(ctx)
-}
-
-func (w *activityTaskManagerStubWrapper) RequestOpenInBrowserEducation(
-	ctx context.Context,
-	appToken binder.IBinder,
-) error {
-	return w.impl.RequestOpenInBrowserEducation(ctx, appToken)
 }
 
 func (w *activityTaskManagerStubWrapper) GetDeviceConfigurationInfo(
@@ -6418,20 +6505,6 @@ func (w *activityTaskManagerStubWrapper) StartBackNavigation(
 	adaptor interface{},
 ) (interface{}, error) {
 	return w.impl.StartBackNavigation(ctx, navigationObserver, adaptor)
-}
-
-func (w *activityTaskManagerStubWrapper) RegisterBackgroundActivityStartCallback(
-	ctx context.Context,
-	binder_ binder.IBinder,
-) (bool, error) {
-	return w.impl.RegisterBackgroundActivityStartCallback(ctx, binder_)
-}
-
-func (w *activityTaskManagerStubWrapper) UnregisterBackgroundActivityStartCallback(
-	ctx context.Context,
-	binder_ binder.IBinder,
-) error {
-	return w.impl.UnregisterBackgroundActivityStartCallback(ctx, binder_)
 }
 
 func (w *activityTaskManagerStubWrapper) RegisterScreenCaptureObserver(

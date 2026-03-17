@@ -16,6 +16,11 @@ const (
 	TransactionIRecognitionServiceManagerCallbackOnError   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRecognitionServiceManagerCallbackOnSuccess = "onSuccess"
+	MethodIRecognitionServiceManagerCallbackOnError   = "onError"
+)
+
 type IRecognitionServiceManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, service IRecognitionService) error
@@ -23,17 +28,17 @@ type IRecognitionServiceManagerCallback interface {
 }
 
 type RecognitionServiceManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecognitionServiceManagerCallbackProxy(
 	remote binder.IBinder,
 ) *RecognitionServiceManagerCallbackProxy {
-	return &RecognitionServiceManagerCallbackProxy{remote: remote}
+	return &RecognitionServiceManagerCallbackProxy{Remote: remote}
 }
 
 func (p *RecognitionServiceManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecognitionServiceManagerCallback = (*RecognitionServiceManagerCallbackProxy)(nil)
@@ -44,14 +49,14 @@ func (p *RecognitionServiceManagerCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManagerCallback)
-	binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManagerCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceManagerCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *RecognitionServiceManagerCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManagerCallback)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManagerCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnError)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceManagerCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionServiceManagerCallback, MethodIRecognitionServiceManagerCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type RecognitionServiceManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecognitionServiceManagerCallbackStub)(nil)
+
+func (s *RecognitionServiceManagerCallbackStub) Descriptor() string {
+	return DescriptorIRecognitionServiceManagerCallback
+}
 
 func (s *RecognitionServiceManagerCallbackStub) OnTransaction(
 	ctx context.Context,

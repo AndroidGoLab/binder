@@ -15,23 +15,27 @@ const (
 	TransactionIDynamicInstrumentationManagerGetExecutableMethodFileOffsets = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDynamicInstrumentationManagerGetExecutableMethodFileOffsets = "getExecutableMethodFileOffsets"
+)
+
 type IDynamicInstrumentationManager interface {
 	AsBinder() binder.IBinder
 	GetExecutableMethodFileOffsets(ctx context.Context, targetProcess TargetProcess, methodDescriptor MethodDescriptor, callback IOffsetCallback) error
 }
 
 type DynamicInstrumentationManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDynamicInstrumentationManagerProxy(
 	remote binder.IBinder,
 ) *DynamicInstrumentationManagerProxy {
-	return &DynamicInstrumentationManagerProxy{remote: remote}
+	return &DynamicInstrumentationManagerProxy{Remote: remote}
 }
 
 func (p *DynamicInstrumentationManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDynamicInstrumentationManager = (*DynamicInstrumentationManagerProxy)(nil)
@@ -52,14 +56,14 @@ func (p *DynamicInstrumentationManagerProxy) GetExecutableMethodFileOffsets(
 	if _err := methodDescriptor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicInstrumentationManager, "getExecutableMethodFileOffsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicInstrumentationManager, MethodIDynamicInstrumentationManagerGetExecutableMethodFileOffsets)
 	if _err != nil {
-		_code = TransactionIDynamicInstrumentationManagerGetExecutableMethodFileOffsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicInstrumentationManager, MethodIDynamicInstrumentationManagerGetExecutableMethodFileOffsets, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +83,10 @@ type DynamicInstrumentationManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DynamicInstrumentationManagerStub)(nil)
+
+func (s *DynamicInstrumentationManagerStub) Descriptor() string {
+	return DescriptorIDynamicInstrumentationManager
+}
 
 func (s *DynamicInstrumentationManagerStub) OnTransaction(
 	ctx context.Context,

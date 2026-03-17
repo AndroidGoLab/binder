@@ -18,6 +18,13 @@ const (
 	TransactionITestServiceSetService     = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodITestServiceSetIntData     = "setIntData"
+	MethodITestServiceSetCharData    = "setCharData"
+	MethodITestServiceSetBooleanData = "setBooleanData"
+	MethodITestServiceSetService     = "setService"
+)
+
 type ITestService interface {
 	AsBinder() binder.IBinder
 	SetIntData(ctx context.Context, input int32) error
@@ -27,17 +34,17 @@ type ITestService interface {
 }
 
 type TestServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestServiceProxy(
 	remote binder.IBinder,
 ) *TestServiceProxy {
-	return &TestServiceProxy{remote: remote}
+	return &TestServiceProxy{Remote: remote}
 }
 
 func (p *TestServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestService = (*TestServiceProxy)(nil)
@@ -50,12 +57,12 @@ func (p *TestServiceProxy) SetIntData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteInt32(input)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setIntData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestService, MethodITestServiceSetIntData)
 	if _err != nil {
-		_code = TransactionITestServiceSetIntData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestService, MethodITestServiceSetIntData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,12 +83,12 @@ func (p *TestServiceProxy) SetCharData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteInt32(int32(input))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setCharData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestService, MethodITestServiceSetCharData)
 	if _err != nil {
-		_code = TransactionITestServiceSetCharData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestService, MethodITestServiceSetCharData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +109,12 @@ func (p *TestServiceProxy) SetBooleanData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteBool(input)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setBooleanData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestService, MethodITestServiceSetBooleanData)
 	if _err != nil {
-		_code = TransactionITestServiceSetBooleanData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestService, MethodITestServiceSetBooleanData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,14 +133,14 @@ func (p *TestServiceProxy) SetService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestService)
-	binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestService, MethodITestServiceSetService)
 	if _err != nil {
-		_code = TransactionITestServiceSetService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestService, MethodITestServiceSetService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,6 +160,10 @@ type TestServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestServiceStub)(nil)
+
+func (s *TestServiceStub) Descriptor() string {
+	return DescriptorITestService
+}
 
 func (s *TestServiceStub) OnTransaction(
 	ctx context.Context,

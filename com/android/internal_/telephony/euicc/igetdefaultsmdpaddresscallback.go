@@ -15,23 +15,27 @@ const (
 	TransactionIGetDefaultSmdpAddressCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetDefaultSmdpAddressCallbackOnComplete = "onComplete"
+)
+
 type IGetDefaultSmdpAddressCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, address string) error
 }
 
 type GetDefaultSmdpAddressCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetDefaultSmdpAddressCallbackProxy(
 	remote binder.IBinder,
 ) *GetDefaultSmdpAddressCallbackProxy {
-	return &GetDefaultSmdpAddressCallbackProxy{remote: remote}
+	return &GetDefaultSmdpAddressCallbackProxy{Remote: remote}
 }
 
 func (p *GetDefaultSmdpAddressCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetDefaultSmdpAddressCallback = (*GetDefaultSmdpAddressCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *GetDefaultSmdpAddressCallbackProxy) OnComplete(
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(address)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetDefaultSmdpAddressCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetDefaultSmdpAddressCallback, MethodIGetDefaultSmdpAddressCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetDefaultSmdpAddressCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetDefaultSmdpAddressCallback, MethodIGetDefaultSmdpAddressCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type GetDefaultSmdpAddressCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetDefaultSmdpAddressCallbackStub)(nil)
+
+func (s *GetDefaultSmdpAddressCallbackStub) Descriptor() string {
+	return DescriptorIGetDefaultSmdpAddressCallback
+}
 
 func (s *GetDefaultSmdpAddressCallbackStub) OnTransaction(
 	ctx context.Context,

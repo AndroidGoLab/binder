@@ -15,23 +15,27 @@ const (
 	TransactionIUserVisibleJobObserverOnUserVisibleJobStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUserVisibleJobObserverOnUserVisibleJobStateChanged = "onUserVisibleJobStateChanged"
+)
+
 type IUserVisibleJobObserver interface {
 	AsBinder() binder.IBinder
 	OnUserVisibleJobStateChanged(ctx context.Context, summary UserVisibleJobSummary, isRunning bool) error
 }
 
 type UserVisibleJobObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUserVisibleJobObserverProxy(
 	remote binder.IBinder,
 ) *UserVisibleJobObserverProxy {
-	return &UserVisibleJobObserverProxy{remote: remote}
+	return &UserVisibleJobObserverProxy{Remote: remote}
 }
 
 func (p *UserVisibleJobObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUserVisibleJobObserver = (*UserVisibleJobObserverProxy)(nil)
@@ -49,12 +53,12 @@ func (p *UserVisibleJobObserverProxy) OnUserVisibleJobStateChanged(
 	}
 	_data.WriteBool(isRunning)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserVisibleJobObserver, "onUserVisibleJobStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserVisibleJobObserver, MethodIUserVisibleJobObserverOnUserVisibleJobStateChanged)
 	if _err != nil {
-		_code = TransactionIUserVisibleJobObserverOnUserVisibleJobStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserVisibleJobObserver, MethodIUserVisibleJobObserverOnUserVisibleJobStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type UserVisibleJobObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UserVisibleJobObserverStub)(nil)
+
+func (s *UserVisibleJobObserverStub) Descriptor() string {
+	return DescriptorIUserVisibleJobObserver
+}
 
 func (s *UserVisibleJobObserverStub) OnTransaction(
 	ctx context.Context,

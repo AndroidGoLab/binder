@@ -20,30 +20,9 @@ func (s *NpkSecurityAssociation) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.PeerNanIdentityKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerNanIdentityKey)))
-		for _, _item := range s.PeerNanIdentityKey {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.LocalNanIdentityKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.LocalNanIdentityKey)))
-		for _, _item := range s.LocalNanIdentityKey {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Npk == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Npk)))
-		for _, _item := range s.Npk {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerNanIdentityKey, 16)
+	p.WriteFixedByteArray(s.LocalNanIdentityKey, 16)
+	p.WriteFixedByteArray(s.Npk, 32)
 	p.WriteInt32(int32(s.Akm))
 	p.WriteInt32(int32(s.CipherType))
 
@@ -59,49 +38,19 @@ func (s *NpkSecurityAssociation) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerNanIdentityKey, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerNanIdentityKey = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerNanIdentityKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.LocalNanIdentityKey, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.LocalNanIdentityKey = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.LocalNanIdentityKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.Npk, _err = p.ReadFixedByteArray(32)
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.Npk = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.Npk[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_akmRaw, _err := p.ReadInt32()

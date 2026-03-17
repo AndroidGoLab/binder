@@ -53,6 +53,48 @@ const (
 	TransactionIRadioVoiceSwitchWaitingOrHoldingAndActive  = binder.FirstCallTransaction + 38
 )
 
+const (
+	MethodIRadioVoiceAcceptCall                       = "acceptCall"
+	MethodIRadioVoiceCancelPendingUssd                = "cancelPendingUssd"
+	MethodIRadioVoiceConference                       = "conference"
+	MethodIRadioVoiceDial                             = "dial"
+	MethodIRadioVoiceEmergencyDial                    = "emergencyDial"
+	MethodIRadioVoiceExitEmergencyCallbackMode        = "exitEmergencyCallbackMode"
+	MethodIRadioVoiceExplicitCallTransfer             = "explicitCallTransfer"
+	MethodIRadioVoiceGetCallForwardStatus             = "getCallForwardStatus"
+	MethodIRadioVoiceGetCallWaiting                   = "getCallWaiting"
+	MethodIRadioVoiceGetClip                          = "getClip"
+	MethodIRadioVoiceGetClir                          = "getClir"
+	MethodIRadioVoiceGetCurrentCalls                  = "getCurrentCalls"
+	MethodIRadioVoiceGetLastCallFailCause             = "getLastCallFailCause"
+	MethodIRadioVoiceGetMute                          = "getMute"
+	MethodIRadioVoiceGetPreferredVoicePrivacy         = "getPreferredVoicePrivacy"
+	MethodIRadioVoiceGetTtyMode                       = "getTtyMode"
+	MethodIRadioVoiceHandleStkCallSetupRequestFromSim = "handleStkCallSetupRequestFromSim"
+	MethodIRadioVoiceHangup                           = "hangup"
+	MethodIRadioVoiceHangupForegroundResumeBackground = "hangupForegroundResumeBackground"
+	MethodIRadioVoiceHangupWaitingOrBackground        = "hangupWaitingOrBackground"
+	MethodIRadioVoiceIsVoNrEnabled                    = "isVoNrEnabled"
+	MethodIRadioVoiceRejectCall                       = "rejectCall"
+	MethodIRadioVoiceResponseAcknowledgement          = "responseAcknowledgement"
+	MethodIRadioVoiceSendBurstDtmf                    = "sendBurstDtmf"
+	MethodIRadioVoiceSendCdmaFeatureCode              = "sendCdmaFeatureCode"
+	MethodIRadioVoiceSendDtmf                         = "sendDtmf"
+	MethodIRadioVoiceSendUssd                         = "sendUssd"
+	MethodIRadioVoiceSeparateConnection               = "separateConnection"
+	MethodIRadioVoiceSetCallForward                   = "setCallForward"
+	MethodIRadioVoiceSetCallWaiting                   = "setCallWaiting"
+	MethodIRadioVoiceSetClir                          = "setClir"
+	MethodIRadioVoiceSetMute                          = "setMute"
+	MethodIRadioVoiceSetPreferredVoicePrivacy         = "setPreferredVoicePrivacy"
+	MethodIRadioVoiceSetResponseFunctions             = "setResponseFunctions"
+	MethodIRadioVoiceSetTtyMode                       = "setTtyMode"
+	MethodIRadioVoiceSetVoNrEnabled                   = "setVoNrEnabled"
+	MethodIRadioVoiceStartDtmf                        = "startDtmf"
+	MethodIRadioVoiceStopDtmf                         = "stopDtmf"
+	MethodIRadioVoiceSwitchWaitingOrHoldingAndActive  = "switchWaitingOrHoldingAndActive"
+)
+
 type IRadioVoice interface {
 	AsBinder() binder.IBinder
 	AcceptCall(ctx context.Context, serial int32) error
@@ -97,17 +139,17 @@ type IRadioVoice interface {
 }
 
 type RadioVoiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioVoiceProxy(
 	remote binder.IBinder,
 ) *RadioVoiceProxy {
-	return &RadioVoiceProxy{remote: remote}
+	return &RadioVoiceProxy{Remote: remote}
 }
 
 func (p *RadioVoiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioVoice = (*RadioVoiceProxy)(nil)
@@ -120,12 +162,12 @@ func (p *RadioVoiceProxy) AcceptCall(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "acceptCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceAcceptCall)
 	if _err != nil {
-		_code = TransactionIRadioVoiceAcceptCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceAcceptCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,12 +179,12 @@ func (p *RadioVoiceProxy) CancelPendingUssd(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "cancelPendingUssd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceCancelPendingUssd)
 	if _err != nil {
-		_code = TransactionIRadioVoiceCancelPendingUssd
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceCancelPendingUssd, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,12 +196,12 @@ func (p *RadioVoiceProxy) Conference(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "conference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceConference)
 	if _err != nil {
-		_code = TransactionIRadioVoiceConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceConference, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,12 +218,12 @@ func (p *RadioVoiceProxy) Dial(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "dial")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceDial)
 	if _err != nil {
-		_code = TransactionIRadioVoiceDial
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceDial, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -215,12 +257,12 @@ func (p *RadioVoiceProxy) EmergencyDial(
 	_data.WriteBool(hasKnownUserIntentEmergency)
 	_data.WriteBool(isTesting)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "emergencyDial")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceEmergencyDial)
 	if _err != nil {
-		_code = TransactionIRadioVoiceEmergencyDial
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceEmergencyDial, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,12 +274,12 @@ func (p *RadioVoiceProxy) ExitEmergencyCallbackMode(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "exitEmergencyCallbackMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceExitEmergencyCallbackMode)
 	if _err != nil {
-		_code = TransactionIRadioVoiceExitEmergencyCallbackMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceExitEmergencyCallbackMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -249,12 +291,12 @@ func (p *RadioVoiceProxy) ExplicitCallTransfer(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "explicitCallTransfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceExplicitCallTransfer)
 	if _err != nil {
-		_code = TransactionIRadioVoiceExplicitCallTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceExplicitCallTransfer, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -271,12 +313,12 @@ func (p *RadioVoiceProxy) GetCallForwardStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getCallForwardStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCallForwardStatus)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetCallForwardStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetCallForwardStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -290,12 +332,12 @@ func (p *RadioVoiceProxy) GetCallWaiting(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(serviceClass)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getCallWaiting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCallWaiting)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetCallWaiting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetCallWaiting, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -307,12 +349,12 @@ func (p *RadioVoiceProxy) GetClip(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getClip")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetClip)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetClip
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetClip, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -324,12 +366,12 @@ func (p *RadioVoiceProxy) GetClir(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getClir")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetClir)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetClir
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetClir, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -341,12 +383,12 @@ func (p *RadioVoiceProxy) GetCurrentCalls(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getCurrentCalls")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetCurrentCalls)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetCurrentCalls
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetCurrentCalls, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -358,12 +400,12 @@ func (p *RadioVoiceProxy) GetLastCallFailCause(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getLastCallFailCause")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetLastCallFailCause)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetLastCallFailCause
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetLastCallFailCause, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -375,12 +417,12 @@ func (p *RadioVoiceProxy) GetMute(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getMute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetMute)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetMute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetMute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -392,12 +434,12 @@ func (p *RadioVoiceProxy) GetPreferredVoicePrivacy(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getPreferredVoicePrivacy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetPreferredVoicePrivacy)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetPreferredVoicePrivacy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetPreferredVoicePrivacy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -409,12 +451,12 @@ func (p *RadioVoiceProxy) GetTtyMode(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "getTtyMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceGetTtyMode)
 	if _err != nil {
-		_code = TransactionIRadioVoiceGetTtyMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceGetTtyMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -428,12 +470,12 @@ func (p *RadioVoiceProxy) HandleStkCallSetupRequestFromSim(
 	_data.WriteInt32(serial)
 	_data.WriteBool(accept)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "handleStkCallSetupRequestFromSim")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHandleStkCallSetupRequestFromSim)
 	if _err != nil {
-		_code = TransactionIRadioVoiceHandleStkCallSetupRequestFromSim
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceHandleStkCallSetupRequestFromSim, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -447,12 +489,12 @@ func (p *RadioVoiceProxy) Hangup(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(gsmIndex)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "hangup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangup)
 	if _err != nil {
-		_code = TransactionIRadioVoiceHangup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceHangup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -464,12 +506,12 @@ func (p *RadioVoiceProxy) HangupForegroundResumeBackground(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "hangupForegroundResumeBackground")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangupForegroundResumeBackground)
 	if _err != nil {
-		_code = TransactionIRadioVoiceHangupForegroundResumeBackground
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceHangupForegroundResumeBackground, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -481,12 +523,12 @@ func (p *RadioVoiceProxy) HangupWaitingOrBackground(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "hangupWaitingOrBackground")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceHangupWaitingOrBackground)
 	if _err != nil {
-		_code = TransactionIRadioVoiceHangupWaitingOrBackground
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceHangupWaitingOrBackground, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -498,12 +540,12 @@ func (p *RadioVoiceProxy) IsVoNrEnabled(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "isVoNrEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceIsVoNrEnabled)
 	if _err != nil {
-		_code = TransactionIRadioVoiceIsVoNrEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceIsVoNrEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -515,12 +557,12 @@ func (p *RadioVoiceProxy) RejectCall(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "rejectCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceRejectCall)
 	if _err != nil {
-		_code = TransactionIRadioVoiceRejectCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceRejectCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -530,12 +572,12 @@ func (p *RadioVoiceProxy) ResponseAcknowledgement(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "responseAcknowledgement")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceResponseAcknowledgement)
 	if _err != nil {
-		_code = TransactionIRadioVoiceResponseAcknowledgement
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceResponseAcknowledgement, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -553,12 +595,12 @@ func (p *RadioVoiceProxy) SendBurstDtmf(
 	_data.WriteInt32(on)
 	_data.WriteInt32(off)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "sendBurstDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendBurstDtmf)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSendBurstDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSendBurstDtmf, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -572,12 +614,12 @@ func (p *RadioVoiceProxy) SendCdmaFeatureCode(
 	_data.WriteInt32(serial)
 	_data.WriteString16(featureCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "sendCdmaFeatureCode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendCdmaFeatureCode)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSendCdmaFeatureCode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSendCdmaFeatureCode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -591,12 +633,12 @@ func (p *RadioVoiceProxy) SendDtmf(
 	_data.WriteInt32(serial)
 	_data.WriteString16(s_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "sendDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendDtmf)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSendDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSendDtmf, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -610,12 +652,12 @@ func (p *RadioVoiceProxy) SendUssd(
 	_data.WriteInt32(serial)
 	_data.WriteString16(ussd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "sendUssd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSendUssd)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSendUssd
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSendUssd, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -629,12 +671,12 @@ func (p *RadioVoiceProxy) SeparateConnection(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(gsmIndex)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "separateConnection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSeparateConnection)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSeparateConnection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSeparateConnection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -651,12 +693,12 @@ func (p *RadioVoiceProxy) SetCallForward(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setCallForward")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetCallForward)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetCallForward
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetCallForward, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -672,12 +714,12 @@ func (p *RadioVoiceProxy) SetCallWaiting(
 	_data.WriteBool(enable)
 	_data.WriteInt32(serviceClass)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setCallWaiting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetCallWaiting)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetCallWaiting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetCallWaiting, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -691,12 +733,12 @@ func (p *RadioVoiceProxy) SetClir(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setClir")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetClir)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetClir
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetClir, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -710,12 +752,12 @@ func (p *RadioVoiceProxy) SetMute(
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setMute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetMute)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetMute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetMute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -729,12 +771,12 @@ func (p *RadioVoiceProxy) SetPreferredVoicePrivacy(
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setPreferredVoicePrivacy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetPreferredVoicePrivacy)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetPreferredVoicePrivacy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetPreferredVoicePrivacy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -745,15 +787,15 @@ func (p *RadioVoiceProxy) SetResponseFunctions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
-	binder.WriteBinderToParcel(ctx, _data, radioVoiceResponse.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, radioVoiceIndication.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, radioVoiceResponse.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, radioVoiceIndication.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setResponseFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetResponseFunctions)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetResponseFunctions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetResponseFunctions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -767,12 +809,12 @@ func (p *RadioVoiceProxy) SetTtyMode(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(mode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setTtyMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetTtyMode)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetTtyMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetTtyMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -786,12 +828,12 @@ func (p *RadioVoiceProxy) SetVoNrEnabled(
 	_data.WriteInt32(serial)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "setVoNrEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSetVoNrEnabled)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSetVoNrEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSetVoNrEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -805,12 +847,12 @@ func (p *RadioVoiceProxy) StartDtmf(
 	_data.WriteInt32(serial)
 	_data.WriteString16(s_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "startDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceStartDtmf)
 	if _err != nil {
-		_code = TransactionIRadioVoiceStartDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceStartDtmf, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -822,12 +864,12 @@ func (p *RadioVoiceProxy) StopDtmf(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "stopDtmf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceStopDtmf)
 	if _err != nil {
-		_code = TransactionIRadioVoiceStopDtmf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceStopDtmf, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -839,12 +881,12 @@ func (p *RadioVoiceProxy) SwitchWaitingOrHoldingAndActive(
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioVoice, "switchWaitingOrHoldingAndActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioVoice, MethodIRadioVoiceSwitchWaitingOrHoldingAndActive)
 	if _err != nil {
-		_code = TransactionIRadioVoiceSwitchWaitingOrHoldingAndActive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioVoice, MethodIRadioVoiceSwitchWaitingOrHoldingAndActive, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -855,6 +897,10 @@ type RadioVoiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioVoiceStub)(nil)
+
+func (s *RadioVoiceStub) Descriptor() string {
+	return DescriptorIRadioVoice
+}
 
 func (s *RadioVoiceStub) OnTransaction(
 	ctx context.Context,

@@ -22,14 +22,7 @@ func (s *KeyDescriptor) MarshalParcel(
 	p.WriteInt32(int32(s.Domain))
 	p.WriteInt64(s.Nspace)
 	p.WriteString16(s.Alias)
-	if s.Blob == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Blob)))
-		for _, _item := range s.Blob {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Blob)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -59,19 +52,9 @@ func (s *KeyDescriptor) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Blob, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Blob = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Blob[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

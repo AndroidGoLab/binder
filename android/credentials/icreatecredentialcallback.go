@@ -17,6 +17,12 @@ const (
 	TransactionICreateCredentialCallbackOnError         = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICreateCredentialCallbackOnPendingIntent = "onPendingIntent"
+	MethodICreateCredentialCallbackOnResponse      = "onResponse"
+	MethodICreateCredentialCallbackOnError         = "onError"
+)
+
 type ICreateCredentialCallback interface {
 	AsBinder() binder.IBinder
 	OnPendingIntent(ctx context.Context, pendingIntent interface{}) error
@@ -25,17 +31,17 @@ type ICreateCredentialCallback interface {
 }
 
 type CreateCredentialCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCreateCredentialCallbackProxy(
 	remote binder.IBinder,
 ) *CreateCredentialCallbackProxy {
-	return &CreateCredentialCallbackProxy{remote: remote}
+	return &CreateCredentialCallbackProxy{Remote: remote}
 }
 
 func (p *CreateCredentialCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICreateCredentialCallback = (*CreateCredentialCallbackProxy)(nil)
@@ -47,12 +53,12 @@ func (p *CreateCredentialCallbackProxy) OnPendingIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICreateCredentialCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICreateCredentialCallback, "onPendingIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnPendingIntent)
 	if _err != nil {
-		_code = TransactionICreateCredentialCallbackOnPendingIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnPendingIntent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +73,12 @@ func (p *CreateCredentialCallbackProxy) OnResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICreateCredentialCallback, "onResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnResponse)
 	if _err != nil {
-		_code = TransactionICreateCredentialCallbackOnResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +92,12 @@ func (p *CreateCredentialCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICreateCredentialCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnError)
 	if _err != nil {
-		_code = TransactionICreateCredentialCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICreateCredentialCallback, MethodICreateCredentialCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +108,10 @@ type CreateCredentialCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CreateCredentialCallbackStub)(nil)
+
+func (s *CreateCredentialCallbackStub) Descriptor() string {
+	return DescriptorICreateCredentialCallback
+}
 
 func (s *CreateCredentialCallbackStub) OnTransaction(
 	ctx context.Context,

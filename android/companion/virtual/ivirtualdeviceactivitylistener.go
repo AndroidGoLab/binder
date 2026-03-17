@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,34 +13,33 @@ import (
 const DescriptorIVirtualDeviceActivityListener = "android.companion.virtual.IVirtualDeviceActivityListener"
 
 const (
-	TransactionIVirtualDeviceActivityListenerOnTopActivityChanged    = binder.FirstCallTransaction + 0
-	TransactionIVirtualDeviceActivityListenerOnDisplayEmpty          = binder.FirstCallTransaction + 1
-	TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked = binder.FirstCallTransaction + 2
-	TransactionIVirtualDeviceActivityListenerOnSecureWindowShown     = binder.FirstCallTransaction + 3
-	TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden    = binder.FirstCallTransaction + 4
+	TransactionIVirtualDeviceActivityListenerOnTopActivityChanged = binder.FirstCallTransaction + 0
+	TransactionIVirtualDeviceActivityListenerOnDisplayEmpty       = binder.FirstCallTransaction + 1
+)
+
+const (
+	MethodIVirtualDeviceActivityListenerOnTopActivityChanged = "onTopActivityChanged"
+	MethodIVirtualDeviceActivityListenerOnDisplayEmpty       = "onDisplayEmpty"
 )
 
 type IVirtualDeviceActivityListener interface {
 	AsBinder() binder.IBinder
 	OnTopActivityChanged(ctx context.Context, displayId int32, topActivity content.ComponentName) error
 	OnDisplayEmpty(ctx context.Context, displayId int32) error
-	OnActivityLaunchBlocked(ctx context.Context, displayId int32, componentName content.ComponentName, user os.UserHandle, intentSender content.IntentSender) error
-	OnSecureWindowShown(ctx context.Context, displayId int32, componentName content.ComponentName, user os.UserHandle) error
-	OnSecureWindowHidden(ctx context.Context, displayId int32) error
 }
 
 type VirtualDeviceActivityListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDeviceActivityListenerProxy(
 	remote binder.IBinder,
 ) *VirtualDeviceActivityListenerProxy {
-	return &VirtualDeviceActivityListenerProxy{remote: remote}
+	return &VirtualDeviceActivityListenerProxy{Remote: remote}
 }
 
 func (p *VirtualDeviceActivityListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDeviceActivityListener = (*VirtualDeviceActivityListenerProxy)(nil)
@@ -51,7 +49,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 	displayId int32,
 	topActivity content.ComponentName,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
@@ -61,12 +59,12 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onTopActivityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnTopActivityChanged)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceActivityListenerOnTopActivityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnTopActivityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,88 +76,12 @@ func (p *VirtualDeviceActivityListenerProxy) OnDisplayEmpty(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onDisplayEmpty")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnDisplayEmpty)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceActivityListenerOnDisplayEmpty
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceActivityListener, MethodIVirtualDeviceActivityListenerOnDisplayEmpty, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *VirtualDeviceActivityListenerProxy) OnActivityLaunchBlocked(
-	ctx context.Context,
-	displayId int32,
-	componentName content.ComponentName,
-	user os.UserHandle,
-	intentSender content.IntentSender,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := intentSender.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onActivityLaunchBlocked")
-	if _err != nil {
-		_code = TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowShown(
-	ctx context.Context,
-	displayId int32,
-	componentName content.ComponentName,
-	user os.UserHandle,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := componentName.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := user.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onSecureWindowShown")
-	if _err != nil {
-		_code = TransactionIVirtualDeviceActivityListenerOnSecureWindowShown
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowHidden(
-	ctx context.Context,
-	displayId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onSecureWindowHidden")
-	if _err != nil {
-		_code = TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,6 +92,10 @@ type VirtualDeviceActivityListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceActivityListenerStub)(nil)
+
+func (s *VirtualDeviceActivityListenerStub) Descriptor() string {
+	return DescriptorIVirtualDeviceActivityListener
+}
 
 func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 	ctx context.Context,
@@ -214,99 +140,6 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 		_err = s.Impl.OnDisplayEmpty(ctx, _arg_displayId)
 		_ = _err
 		return nil, nil
-	case TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_componentName content.ComponentName
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_user os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_intentSender content.IntentSender
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intentSender.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.OnActivityLaunchBlocked(ctx, _arg_displayId, _arg_componentName, _arg_user, _arg_intentSender)
-		_ = _err
-		return nil, nil
-	case TransactionIVirtualDeviceActivityListenerOnSecureWindowShown:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_componentName content.ComponentName
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_user os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.OnSecureWindowShown(ctx, _arg_displayId, _arg_componentName, _arg_user)
-		_ = _err
-		return nil, nil
-	case TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnSecureWindowHidden(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -318,9 +151,6 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 type IVirtualDeviceActivityListenerServer interface {
 	OnTopActivityChanged(ctx context.Context, displayId int32, topActivity content.ComponentName) error
 	OnDisplayEmpty(ctx context.Context, displayId int32) error
-	OnActivityLaunchBlocked(ctx context.Context, displayId int32, componentName content.ComponentName, user os.UserHandle, intentSender content.IntentSender) error
-	OnSecureWindowShown(ctx context.Context, displayId int32, componentName content.ComponentName, user os.UserHandle) error
-	OnSecureWindowHidden(ctx context.Context, displayId int32) error
 }
 
 type virtualDeviceActivityListenerStubWrapper struct {
@@ -345,32 +175,6 @@ func (w *virtualDeviceActivityListenerStubWrapper) OnDisplayEmpty(
 	displayId int32,
 ) error {
 	return w.impl.OnDisplayEmpty(ctx, displayId)
-}
-
-func (w *virtualDeviceActivityListenerStubWrapper) OnActivityLaunchBlocked(
-	ctx context.Context,
-	displayId int32,
-	componentName content.ComponentName,
-	user os.UserHandle,
-	intentSender content.IntentSender,
-) error {
-	return w.impl.OnActivityLaunchBlocked(ctx, displayId, componentName, user, intentSender)
-}
-
-func (w *virtualDeviceActivityListenerStubWrapper) OnSecureWindowShown(
-	ctx context.Context,
-	displayId int32,
-	componentName content.ComponentName,
-	user os.UserHandle,
-) error {
-	return w.impl.OnSecureWindowShown(ctx, displayId, componentName, user)
-}
-
-func (w *virtualDeviceActivityListenerStubWrapper) OnSecureWindowHidden(
-	ctx context.Context,
-	displayId int32,
-) error {
-	return w.impl.OnSecureWindowHidden(ctx, displayId)
 }
 
 var _ IVirtualDeviceActivityListener = (*virtualDeviceActivityListenerStubWrapper)(nil)

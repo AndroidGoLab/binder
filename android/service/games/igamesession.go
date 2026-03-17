@@ -17,6 +17,12 @@ const (
 	TransactionIGameSessionOnTaskFocusChanged                                     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGameSessionOnDestroyed                                            = "onDestroyed"
+	MethodIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged = "onTransientSystemBarVisibilityFromRevealGestureChanged"
+	MethodIGameSessionOnTaskFocusChanged                                     = "onTaskFocusChanged"
+)
+
 type IGameSession interface {
 	AsBinder() binder.IBinder
 	OnDestroyed(ctx context.Context) error
@@ -25,17 +31,17 @@ type IGameSession interface {
 }
 
 type GameSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameSessionProxy(
 	remote binder.IBinder,
 ) *GameSessionProxy {
-	return &GameSessionProxy{remote: remote}
+	return &GameSessionProxy{Remote: remote}
 }
 
 func (p *GameSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameSession = (*GameSessionProxy)(nil)
@@ -46,12 +52,12 @@ func (p *GameSessionProxy) OnDestroyed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameSession, "onDestroyed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSession, MethodIGameSessionOnDestroyed)
 	if _err != nil {
-		_code = TransactionIGameSessionOnDestroyed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameSession, MethodIGameSessionOnDestroyed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *GameSessionProxy) OnTransientSystemBarVisibilityFromRevealGestureChange
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 	_data.WriteBool(visibleDueToGesture)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameSession, "onTransientSystemBarVisibilityFromRevealGestureChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSession, MethodIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged)
 	if _err != nil {
-		_code = TransactionIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameSession, MethodIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 	_data.WriteBool(focused)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameSession, "onTaskFocusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSession, MethodIGameSessionOnTaskFocusChanged)
 	if _err != nil {
-		_code = TransactionIGameSessionOnTaskFocusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameSession, MethodIGameSessionOnTaskFocusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +102,10 @@ type GameSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameSessionStub)(nil)
+
+func (s *GameSessionStub) Descriptor() string {
+	return DescriptorIGameSession
+}
 
 func (s *GameSessionStub) OnTransaction(
 	ctx context.Context,

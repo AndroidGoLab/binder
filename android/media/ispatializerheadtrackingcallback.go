@@ -17,6 +17,11 @@ const (
 	TransactionISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged     = "onHeadTrackingModeChanged"
+	MethodISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated = "onHeadToSoundStagePoseUpdated"
+)
+
 type ISpatializerHeadTrackingCallback interface {
 	AsBinder() binder.IBinder
 	OnHeadTrackingModeChanged(ctx context.Context, mode HeadTracking.Mode) error
@@ -24,17 +29,17 @@ type ISpatializerHeadTrackingCallback interface {
 }
 
 type SpatializerHeadTrackingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpatializerHeadTrackingCallbackProxy(
 	remote binder.IBinder,
 ) *SpatializerHeadTrackingCallbackProxy {
-	return &SpatializerHeadTrackingCallbackProxy{remote: remote}
+	return &SpatializerHeadTrackingCallbackProxy{Remote: remote}
 }
 
 func (p *SpatializerHeadTrackingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpatializerHeadTrackingCallback = (*SpatializerHeadTrackingCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadTrackingModeChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingCallback, "onHeadTrackingModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged)
 	if _err != nil {
-		_code = TransactionISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +75,12 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadToSoundStagePoseUpdated(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingCallback, "onHeadToSoundStagePoseUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated)
 	if _err != nil {
-		_code = TransactionISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerHeadTrackingCallback, MethodISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +91,10 @@ type SpatializerHeadTrackingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpatializerHeadTrackingCallbackStub)(nil)
+
+func (s *SpatializerHeadTrackingCallbackStub) Descriptor() string {
+	return DescriptorISpatializerHeadTrackingCallback
+}
 
 func (s *SpatializerHeadTrackingCallbackStub) OnTransaction(
 	ctx context.Context,

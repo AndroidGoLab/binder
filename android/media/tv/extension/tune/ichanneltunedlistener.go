@@ -16,23 +16,27 @@ const (
 	TransactionIChannelTunedListenerOnChannelTuned = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIChannelTunedListenerOnChannelTuned = "onChannelTuned"
+)
+
 type IChannelTunedListener interface {
 	AsBinder() binder.IBinder
 	OnChannelTuned(ctx context.Context, sessionToken string, channelTunedInfo os.Bundle) error
 }
 
 type ChannelTunedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewChannelTunedListenerProxy(
 	remote binder.IBinder,
 ) *ChannelTunedListenerProxy {
-	return &ChannelTunedListenerProxy{remote: remote}
+	return &ChannelTunedListenerProxy{Remote: remote}
 }
 
 func (p *ChannelTunedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IChannelTunedListener = (*ChannelTunedListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *ChannelTunedListenerProxy) OnChannelTuned(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChannelTunedListener, "onChannelTuned")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChannelTunedListener, MethodIChannelTunedListenerOnChannelTuned)
 	if _err != nil {
-		_code = TransactionIChannelTunedListenerOnChannelTuned
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChannelTunedListener, MethodIChannelTunedListenerOnChannelTuned, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type ChannelTunedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ChannelTunedListenerStub)(nil)
+
+func (s *ChannelTunedListenerStub) Descriptor() string {
+	return DescriptorIChannelTunedListener
+}
 
 func (s *ChannelTunedListenerStub) OnTransaction(
 	ctx context.Context,

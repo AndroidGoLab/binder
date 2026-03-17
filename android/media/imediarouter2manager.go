@@ -19,7 +19,16 @@ const (
 	TransactionIMediaRouter2ManagerNotifyRouteListingPreferenceChange = binder.FirstCallTransaction + 4
 	TransactionIMediaRouter2ManagerNotifyRoutesUpdated                = binder.FirstCallTransaction + 5
 	TransactionIMediaRouter2ManagerNotifyRequestFailed                = binder.FirstCallTransaction + 6
-	TransactionIMediaRouter2ManagerInvalidateInstance                 = binder.FirstCallTransaction + 7
+)
+
+const (
+	MethodIMediaRouter2ManagerNotifySessionCreated               = "notifySessionCreated"
+	MethodIMediaRouter2ManagerNotifySessionUpdated               = "notifySessionUpdated"
+	MethodIMediaRouter2ManagerNotifySessionReleased              = "notifySessionReleased"
+	MethodIMediaRouter2ManagerNotifyDiscoveryPreferenceChanged   = "notifyDiscoveryPreferenceChanged"
+	MethodIMediaRouter2ManagerNotifyRouteListingPreferenceChange = "notifyRouteListingPreferenceChange"
+	MethodIMediaRouter2ManagerNotifyRoutesUpdated                = "notifyRoutesUpdated"
+	MethodIMediaRouter2ManagerNotifyRequestFailed                = "notifyRequestFailed"
 )
 
 type IMediaRouter2Manager interface {
@@ -31,21 +40,20 @@ type IMediaRouter2Manager interface {
 	NotifyRouteListingPreferenceChange(ctx context.Context, packageName string, routeListingPreference *RouteListingPreference) error
 	NotifyRoutesUpdated(ctx context.Context, routes []MediaRoute2Info) error
 	NotifyRequestFailed(ctx context.Context, requestId int32, reason int32) error
-	InvalidateInstance(ctx context.Context) error
 }
 
 type MediaRouter2ManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaRouter2ManagerProxy(
 	remote binder.IBinder,
 ) *MediaRouter2ManagerProxy {
-	return &MediaRouter2ManagerProxy{remote: remote}
+	return &MediaRouter2ManagerProxy{Remote: remote}
 }
 
 func (p *MediaRouter2ManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaRouter2Manager = (*MediaRouter2ManagerProxy)(nil)
@@ -63,12 +71,12 @@ func (p *MediaRouter2ManagerProxy) NotifySessionCreated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifySessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifySessionCreated)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifySessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifySessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +91,12 @@ func (p *MediaRouter2ManagerProxy) NotifySessionUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifySessionUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifySessionUpdated)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifySessionUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifySessionUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +111,12 @@ func (p *MediaRouter2ManagerProxy) NotifySessionReleased(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifySessionReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifySessionReleased)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifySessionReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifySessionReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,12 +133,12 @@ func (p *MediaRouter2ManagerProxy) NotifyDiscoveryPreferenceChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyDiscoveryPreferenceChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyDiscoveryPreferenceChanged)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifyDiscoveryPreferenceChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyDiscoveryPreferenceChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -150,12 +158,12 @@ func (p *MediaRouter2ManagerProxy) NotifyRouteListingPreferenceChange(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyRouteListingPreferenceChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyRouteListingPreferenceChange)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifyRouteListingPreferenceChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyRouteListingPreferenceChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,18 +178,19 @@ func (p *MediaRouter2ManagerProxy) NotifyRoutesUpdated(
 	} else {
 		_data.WriteInt32(int32(len(routes)))
 		for _, _item := range routes {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyRoutesUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyRoutesUpdated)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifyRoutesUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyRoutesUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -195,27 +204,12 @@ func (p *MediaRouter2ManagerProxy) NotifyRequestFailed(
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyRequestFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyRequestFailed)
 	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerNotifyRequestFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouter2Manager, MethodIMediaRouter2ManagerNotifyRequestFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *MediaRouter2ManagerProxy) InvalidateInstance(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIMediaRouter2Manager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "invalidateInstance")
-	if _err != nil {
-		_code = TransactionIMediaRouter2ManagerInvalidateInstance
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -226,6 +220,10 @@ type MediaRouter2ManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaRouter2ManagerStub)(nil)
+
+func (s *MediaRouter2ManagerStub) Descriptor() string {
+	return DescriptorIMediaRouter2Manager
+}
 
 func (s *MediaRouter2ManagerStub) OnTransaction(
 	ctx context.Context,
@@ -365,13 +363,6 @@ func (s *MediaRouter2ManagerStub) OnTransaction(
 		_err = s.Impl.NotifyRequestFailed(ctx, _arg_requestId, _arg_reason)
 		_ = _err
 		return nil, nil
-	case TransactionIMediaRouter2ManagerInvalidateInstance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.InvalidateInstance(ctx)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -388,7 +379,6 @@ type IMediaRouter2ManagerServer interface {
 	NotifyRouteListingPreferenceChange(ctx context.Context, packageName string, routeListingPreference *RouteListingPreference) error
 	NotifyRoutesUpdated(ctx context.Context, routes []MediaRoute2Info) error
 	NotifyRequestFailed(ctx context.Context, requestId int32, reason int32) error
-	InvalidateInstance(ctx context.Context) error
 }
 
 type mediaRouter2ManagerStubWrapper struct {
@@ -451,12 +441,6 @@ func (w *mediaRouter2ManagerStubWrapper) NotifyRequestFailed(
 	reason int32,
 ) error {
 	return w.impl.NotifyRequestFailed(ctx, requestId, reason)
-}
-
-func (w *mediaRouter2ManagerStubWrapper) InvalidateInstance(
-	ctx context.Context,
-) error {
-	return w.impl.InvalidateInstance(ctx)
 }
 
 var _ IMediaRouter2Manager = (*mediaRouter2ManagerStubWrapper)(nil)

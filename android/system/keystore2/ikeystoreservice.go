@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	drm "github.com/xaionaro-go/binder/android/hardware/drm"
-	keymint "github.com/xaionaro-go/binder/android/hardware/security/keymint"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,16 +13,27 @@ import (
 const DescriptorIKeystoreService = "android.system.keystore2.IKeystoreService"
 
 const (
-	TransactionIKeystoreServiceGetSecurityLevel                = binder.FirstCallTransaction + 0
-	TransactionIKeystoreServiceGetKeyEntry                     = binder.FirstCallTransaction + 1
-	TransactionIKeystoreServiceUpdateSubcomponent              = binder.FirstCallTransaction + 2
-	TransactionIKeystoreServiceListEntries                     = binder.FirstCallTransaction + 3
-	TransactionIKeystoreServiceDeleteKey                       = binder.FirstCallTransaction + 4
-	TransactionIKeystoreServiceGrant                           = binder.FirstCallTransaction + 5
-	TransactionIKeystoreServiceUngrant                         = binder.FirstCallTransaction + 6
-	TransactionIKeystoreServiceGetNumberOfEntries              = binder.FirstCallTransaction + 7
-	TransactionIKeystoreServiceListEntriesBatched              = binder.FirstCallTransaction + 8
-	TransactionIKeystoreServiceGetSupplementaryAttestationInfo = binder.FirstCallTransaction + 9
+	TransactionIKeystoreServiceGetSecurityLevel   = binder.FirstCallTransaction + 0
+	TransactionIKeystoreServiceGetKeyEntry        = binder.FirstCallTransaction + 1
+	TransactionIKeystoreServiceUpdateSubcomponent = binder.FirstCallTransaction + 2
+	TransactionIKeystoreServiceListEntries        = binder.FirstCallTransaction + 3
+	TransactionIKeystoreServiceDeleteKey          = binder.FirstCallTransaction + 4
+	TransactionIKeystoreServiceGrant              = binder.FirstCallTransaction + 5
+	TransactionIKeystoreServiceUngrant            = binder.FirstCallTransaction + 6
+	TransactionIKeystoreServiceGetNumberOfEntries = binder.FirstCallTransaction + 7
+	TransactionIKeystoreServiceListEntriesBatched = binder.FirstCallTransaction + 8
+)
+
+const (
+	MethodIKeystoreServiceGetSecurityLevel   = "getSecurityLevel"
+	MethodIKeystoreServiceGetKeyEntry        = "getKeyEntry"
+	MethodIKeystoreServiceUpdateSubcomponent = "updateSubcomponent"
+	MethodIKeystoreServiceListEntries        = "listEntries"
+	MethodIKeystoreServiceDeleteKey          = "deleteKey"
+	MethodIKeystoreServiceGrant              = "grant"
+	MethodIKeystoreServiceUngrant            = "ungrant"
+	MethodIKeystoreServiceGetNumberOfEntries = "getNumberOfEntries"
+	MethodIKeystoreServiceListEntriesBatched = "listEntriesBatched"
 )
 
 type IKeystoreService interface {
@@ -37,21 +47,20 @@ type IKeystoreService interface {
 	Ungrant(ctx context.Context, key KeyDescriptor, granteeUid int32) error
 	GetNumberOfEntries(ctx context.Context, domain Domain, nspace int64) (int32, error)
 	ListEntriesBatched(ctx context.Context, domain Domain, nspace int64, startingPastAlias string) ([]KeyDescriptor, error)
-	GetSupplementaryAttestationInfo(ctx context.Context, tag keymint.Tag) ([]byte, error)
 }
 
 type KeystoreServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeystoreServiceProxy(
 	remote binder.IBinder,
 ) *KeystoreServiceProxy {
-	return &KeystoreServiceProxy{remote: remote}
+	return &KeystoreServiceProxy{Remote: remote}
 }
 
 func (p *KeystoreServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeystoreService = (*KeystoreServiceProxy)(nil)
@@ -65,12 +74,12 @@ func (p *KeystoreServiceProxy) GetSecurityLevel(
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
 	_data.WriteInt32(int32(securityLevel))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getSecurityLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceGetSecurityLevel)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceGetSecurityLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceGetSecurityLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,7 +93,7 @@ func (p *KeystoreServiceProxy) GetSecurityLevel(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewKeystoreSecurityLevelProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewKeystoreSecurityLevelProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -100,12 +109,12 @@ func (p *KeystoreServiceProxy) GetKeyEntry(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getKeyEntry")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceGetKeyEntry)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceGetKeyEntry
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceGetKeyEntry, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,12 +165,12 @@ func (p *KeystoreServiceProxy) UpdateSubcomponent(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "updateSubcomponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceUpdateSubcomponent)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceUpdateSubcomponent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceUpdateSubcomponent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,12 +194,12 @@ func (p *KeystoreServiceProxy) ListEntries(
 	_data.WriteInt32(int32(domain))
 	_data.WriteInt64(nspace)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "listEntries")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceListEntries)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceListEntries
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceListEntries, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,6 +217,9 @@ func (p *KeystoreServiceProxy) ListEntries(
 	if _count >= 0 {
 		_result = make([]KeyDescriptor, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -227,12 +239,12 @@ func (p *KeystoreServiceProxy) DeleteKey(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "deleteKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceDeleteKey)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceDeleteKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceDeleteKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -261,12 +273,12 @@ func (p *KeystoreServiceProxy) Grant(
 	_data.WriteInt32(granteeUid)
 	_data.WriteInt32(accessVector)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "grant")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceGrant)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceGrant
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceGrant, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -301,12 +313,12 @@ func (p *KeystoreServiceProxy) Ungrant(
 	}
 	_data.WriteInt32(granteeUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "ungrant")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceUngrant)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceUngrant
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceUngrant, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -330,12 +342,12 @@ func (p *KeystoreServiceProxy) GetNumberOfEntries(
 	_data.WriteInt32(int32(domain))
 	_data.WriteInt64(nspace)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getNumberOfEntries")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceGetNumberOfEntries)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceGetNumberOfEntries
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceGetNumberOfEntries, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -365,12 +377,12 @@ func (p *KeystoreServiceProxy) ListEntriesBatched(
 	_data.WriteInt64(nspace)
 	_data.WriteString16(startingPastAlias)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "listEntriesBatched")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreService, MethodIKeystoreServiceListEntriesBatched)
 	if _err != nil {
-		_code = TransactionIKeystoreServiceListEntriesBatched
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreService, MethodIKeystoreServiceListEntriesBatched, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -388,48 +400,10 @@ func (p *KeystoreServiceProxy) ListEntriesBatched(
 	if _count >= 0 {
 		_result = make([]KeyDescriptor, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *KeystoreServiceProxy) GetSupplementaryAttestationInfo(
-	ctx context.Context,
-	tag keymint.Tag,
-) ([]byte, error) {
-	var _result []byte
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIKeystoreService)
-	_data.WriteInt32(int32(tag))
-
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getSupplementaryAttestationInfo")
-	if _err != nil {
-		_code = TransactionIKeystoreServiceGetSupplementaryAttestationInfo
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
 		}
@@ -444,6 +418,10 @@ type KeystoreServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeystoreServiceStub)(nil)
+
+func (s *KeystoreServiceStub) Descriptor() string {
+	return DescriptorIKeystoreService
+}
 
 func (s *KeystoreServiceStub) OnTransaction(
 	ctx context.Context,
@@ -688,25 +666,6 @@ func (s *KeystoreServiceStub) OnTransaction(
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
-	case TransactionIKeystoreServiceGetSupplementaryAttestationInfo:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_raw_tag, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_tag := keymint.Tag(_raw_tag)
-		_result, _err := s.Impl.GetSupplementaryAttestationInfo(ctx, _arg_tag)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -725,7 +684,6 @@ type IKeystoreServiceServer interface {
 	Ungrant(ctx context.Context, key KeyDescriptor, granteeUid int32) error
 	GetNumberOfEntries(ctx context.Context, domain Domain, nspace int64) (int32, error)
 	ListEntriesBatched(ctx context.Context, domain Domain, nspace int64, startingPastAlias string) ([]KeyDescriptor, error)
-	GetSupplementaryAttestationInfo(ctx context.Context, tag keymint.Tag) ([]byte, error)
 }
 
 type keystoreServiceStubWrapper struct {
@@ -807,13 +765,6 @@ func (w *keystoreServiceStubWrapper) ListEntriesBatched(
 	startingPastAlias string,
 ) ([]KeyDescriptor, error) {
 	return w.impl.ListEntriesBatched(ctx, domain, nspace, startingPastAlias)
-}
-
-func (w *keystoreServiceStubWrapper) GetSupplementaryAttestationInfo(
-	ctx context.Context,
-	tag keymint.Tag,
-) ([]byte, error) {
-	return w.impl.GetSupplementaryAttestationInfo(ctx, tag)
 }
 
 var _ IKeystoreService = (*keystoreServiceStubWrapper)(nil)

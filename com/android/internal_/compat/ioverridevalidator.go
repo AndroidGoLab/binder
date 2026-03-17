@@ -15,23 +15,27 @@ const (
 	TransactionIOverrideValidatorGetOverrideAllowedState = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOverrideValidatorGetOverrideAllowedState = "getOverrideAllowedState"
+)
+
 type IOverrideValidator interface {
 	AsBinder() binder.IBinder
 	GetOverrideAllowedState(ctx context.Context, changeId int64, packageName string) (OverrideAllowedState, error)
 }
 
 type OverrideValidatorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOverrideValidatorProxy(
 	remote binder.IBinder,
 ) *OverrideValidatorProxy {
-	return &OverrideValidatorProxy{remote: remote}
+	return &OverrideValidatorProxy{Remote: remote}
 }
 
 func (p *OverrideValidatorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOverrideValidator = (*OverrideValidatorProxy)(nil)
@@ -47,12 +51,12 @@ func (p *OverrideValidatorProxy) GetOverrideAllowedState(
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOverrideValidator, "getOverrideAllowedState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOverrideValidator, MethodIOverrideValidatorGetOverrideAllowedState)
 	if _err != nil {
-		_code = TransactionIOverrideValidatorGetOverrideAllowedState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOverrideValidator, MethodIOverrideValidatorGetOverrideAllowedState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,6 +85,10 @@ type OverrideValidatorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OverrideValidatorStub)(nil)
+
+func (s *OverrideValidatorStub) Descriptor() string {
+	return DescriptorIOverrideValidator
+}
 
 func (s *OverrideValidatorStub) OnTransaction(
 	ctx context.Context,

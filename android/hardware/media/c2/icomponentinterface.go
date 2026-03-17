@@ -15,23 +15,27 @@ const (
 	TransactionIComponentInterfaceGetConfigurable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIComponentInterfaceGetConfigurable = "getConfigurable"
+)
+
 type IComponentInterface interface {
 	AsBinder() binder.IBinder
 	GetConfigurable(ctx context.Context) (IConfigurable, error)
 }
 
 type ComponentInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewComponentInterfaceProxy(
 	remote binder.IBinder,
 ) *ComponentInterfaceProxy {
-	return &ComponentInterfaceProxy{remote: remote}
+	return &ComponentInterfaceProxy{Remote: remote}
 }
 
 func (p *ComponentInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IComponentInterface = (*ComponentInterfaceProxy)(nil)
@@ -43,12 +47,12 @@ func (p *ComponentInterfaceProxy) GetConfigurable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponentInterface, "getConfigurable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponentInterface, MethodIComponentInterfaceGetConfigurable)
 	if _err != nil {
-		_code = TransactionIComponentInterfaceGetConfigurable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponentInterface, MethodIComponentInterfaceGetConfigurable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -62,7 +66,7 @@ func (p *ComponentInterfaceProxy) GetConfigurable(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewConfigurableProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -73,6 +77,10 @@ type ComponentInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ComponentInterfaceStub)(nil)
+
+func (s *ComponentInterfaceStub) Descriptor() string {
+	return DescriptorIComponentInterface
+}
 
 func (s *ComponentInterfaceStub) OnTransaction(
 	ctx context.Context,

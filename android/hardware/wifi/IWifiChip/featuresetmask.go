@@ -15,6 +15,4 @@ const (
 	FeatureSetMaskSetAfcChannelAllowance FeatureSetMask = (1 << 7)
 	FeatureSetMaskT2lmNegotiation        FeatureSetMask = (1 << 8)
 	FeatureSetMaskSetVoipMode            FeatureSetMask = (1 << 9)
-	FeatureSetMaskMloSap                 FeatureSetMask = (1 << 10)
-	FeatureSetMaskMultipleMldOnSap       FeatureSetMask = (1 << 11)
 )

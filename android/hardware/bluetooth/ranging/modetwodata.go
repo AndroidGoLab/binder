@@ -35,19 +35,13 @@ func (s *ModeTwoData) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.TonePctIQSamples)))
 		for _, _item := range s.TonePctIQSamples {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.ToneQualityIndicators == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ToneQualityIndicators)))
-		for _, _item := range s.ToneQualityIndicators {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ToneQualityIndicators)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -74,25 +68,18 @@ func (s *ModeTwoData) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.TonePctIQSamples = make([]PctIQSample, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.TonePctIQSamples[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ToneQualityIndicators, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ToneQualityIndicators = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ToneQualityIndicators[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

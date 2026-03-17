@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/audio/common"
-	audioCommon "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,9 +24,20 @@ const (
 	TransactionIAudioControlRegisterGainCallback           = binder.FirstCallTransaction + 8
 	TransactionIAudioControlSetModuleChangeCallback        = binder.FirstCallTransaction + 9
 	TransactionIAudioControlClearModuleChangeCallback      = binder.FirstCallTransaction + 10
-	TransactionIAudioControlGetAudioDeviceConfiguration    = binder.FirstCallTransaction + 11
-	TransactionIAudioControlGetOutputMirroringDevices      = binder.FirstCallTransaction + 12
-	TransactionIAudioControlGetCarAudioZones               = binder.FirstCallTransaction + 13
+)
+
+const (
+	MethodIAudioControlOnAudioFocusChange             = "onAudioFocusChange"
+	MethodIAudioControlOnDevicesToDuckChange          = "onDevicesToDuckChange"
+	MethodIAudioControlOnDevicesToMuteChange          = "onDevicesToMuteChange"
+	MethodIAudioControlRegisterFocusListener          = "registerFocusListener"
+	MethodIAudioControlSetBalanceTowardRight          = "setBalanceTowardRight"
+	MethodIAudioControlSetFadeTowardFront             = "setFadeTowardFront"
+	MethodIAudioControlOnAudioFocusChangeWithMetaData = "onAudioFocusChangeWithMetaData"
+	MethodIAudioControlSetAudioDeviceGainsChanged     = "setAudioDeviceGainsChanged"
+	MethodIAudioControlRegisterGainCallback           = "registerGainCallback"
+	MethodIAudioControlSetModuleChangeCallback        = "setModuleChangeCallback"
+	MethodIAudioControlClearModuleChangeCallback      = "clearModuleChangeCallback"
 )
 
 type IAudioControl interface {
@@ -43,23 +53,20 @@ type IAudioControl interface {
 	RegisterGainCallback(ctx context.Context, callback IAudioGainCallback) error
 	SetModuleChangeCallback(ctx context.Context, callback IModuleChangeCallback) error
 	ClearModuleChangeCallback(ctx context.Context) error
-	GetAudioDeviceConfiguration(ctx context.Context) (AudioDeviceConfiguration, error)
-	GetOutputMirroringDevices(ctx context.Context) ([]audioCommon.AudioPort, error)
-	GetCarAudioZones(ctx context.Context) ([]AudioZone, error)
 }
 
 type AudioControlProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioControlProxy(
 	remote binder.IBinder,
 ) *AudioControlProxy {
-	return &AudioControlProxy{remote: remote}
+	return &AudioControlProxy{Remote: remote}
 }
 
 func (p *AudioControlProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioControl = (*AudioControlProxy)(nil)
@@ -76,12 +83,12 @@ func (p *AudioControlProxy) OnAudioFocusChange(
 	_data.WriteInt32(zoneId)
 	_data.WriteInt32(int32(focusChange))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onAudioFocusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlOnAudioFocusChange)
 	if _err != nil {
-		_code = TransactionIAudioControlOnAudioFocusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlOnAudioFocusChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,18 +103,19 @@ func (p *AudioControlProxy) OnDevicesToDuckChange(
 	} else {
 		_data.WriteInt32(int32(len(duckingInfos)))
 		for _, _item := range duckingInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onDevicesToDuckChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlOnDevicesToDuckChange)
 	if _err != nil {
-		_code = TransactionIAudioControlOnDevicesToDuckChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlOnDevicesToDuckChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,18 +130,19 @@ func (p *AudioControlProxy) OnDevicesToMuteChange(
 	} else {
 		_data.WriteInt32(int32(len(mutingInfos)))
 		for _, _item := range mutingInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onDevicesToMuteChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlOnDevicesToMuteChange)
 	if _err != nil {
-		_code = TransactionIAudioControlOnDevicesToMuteChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlOnDevicesToMuteChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,14 +152,14 @@ func (p *AudioControlProxy) RegisterFocusListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "registerFocusListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlRegisterFocusListener)
 	if _err != nil {
-		_code = TransactionIAudioControlRegisterFocusListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlRegisterFocusListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,12 +171,12 @@ func (p *AudioControlProxy) SetBalanceTowardRight(
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	_data.WriteFloat32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setBalanceTowardRight")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlSetBalanceTowardRight)
 	if _err != nil {
-		_code = TransactionIAudioControlSetBalanceTowardRight
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlSetBalanceTowardRight, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,12 +188,12 @@ func (p *AudioControlProxy) SetFadeTowardFront(
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 	_data.WriteFloat32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setFadeTowardFront")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlSetFadeTowardFront)
 	if _err != nil {
-		_code = TransactionIAudioControlSetFadeTowardFront
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlSetFadeTowardFront, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -203,12 +212,12 @@ func (p *AudioControlProxy) OnAudioFocusChangeWithMetaData(
 	_data.WriteInt32(zoneId)
 	_data.WriteInt32(int32(focusChange))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onAudioFocusChangeWithMetaData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlOnAudioFocusChangeWithMetaData)
 	if _err != nil {
-		_code = TransactionIAudioControlOnAudioFocusChangeWithMetaData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlOnAudioFocusChangeWithMetaData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,18 +241,19 @@ func (p *AudioControlProxy) SetAudioDeviceGainsChanged(
 	} else {
 		_data.WriteInt32(int32(len(gains)))
 		for _, _item := range gains {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setAudioDeviceGainsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlSetAudioDeviceGainsChanged)
 	if _err != nil {
-		_code = TransactionIAudioControlSetAudioDeviceGainsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlSetAudioDeviceGainsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -253,14 +263,14 @@ func (p *AudioControlProxy) RegisterGainCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "registerGainCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlRegisterGainCallback)
 	if _err != nil {
-		_code = TransactionIAudioControlRegisterGainCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlRegisterGainCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -270,14 +280,14 @@ func (p *AudioControlProxy) SetModuleChangeCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setModuleChangeCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlSetModuleChangeCallback)
 	if _err != nil {
-		_code = TransactionIAudioControlSetModuleChangeCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlSetModuleChangeCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -296,12 +306,12 @@ func (p *AudioControlProxy) ClearModuleChangeCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "clearModuleChangeCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioControl, MethodIAudioControlClearModuleChangeCallback)
 	if _err != nil {
-		_code = TransactionIAudioControlClearModuleChangeCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioControl, MethodIAudioControlClearModuleChangeCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -314,116 +324,6 @@ func (p *AudioControlProxy) ClearModuleChangeCallback(
 	return nil
 }
 
-func (p *AudioControlProxy) GetAudioDeviceConfiguration(
-	ctx context.Context,
-) (AudioDeviceConfiguration, error) {
-	var _result AudioDeviceConfiguration
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioControl)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "getAudioDeviceConfiguration")
-	if _err != nil {
-		_code = TransactionIAudioControlGetAudioDeviceConfiguration
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *AudioControlProxy) GetOutputMirroringDevices(
-	ctx context.Context,
-) ([]audioCommon.AudioPort, error) {
-	var _result []audioCommon.AudioPort
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioControl)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "getOutputMirroringDevices")
-	if _err != nil {
-		_code = TransactionIAudioControlGetOutputMirroringDevices
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]audioCommon.AudioPort, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *AudioControlProxy) GetCarAudioZones(
-	ctx context.Context,
-) ([]AudioZone, error) {
-	var _result []AudioZone
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAudioControl)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "getCarAudioZones")
-	if _err != nil {
-		_code = TransactionIAudioControlGetCarAudioZones
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]AudioZone, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
 // AudioControlStub dispatches incoming binder transactions
 // to a typed IAudioControl implementation.
 type AudioControlStub struct {
@@ -431,6 +331,10 @@ type AudioControlStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioControlStub)(nil)
+
+func (s *AudioControlStub) Descriptor() string {
+	return DescriptorIAudioControl
+}
 
 func (s *AudioControlStub) OnTransaction(
 	ctx context.Context,
@@ -588,50 +492,6 @@ func (s *AudioControlStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIAudioControlGetAudioDeviceConfiguration:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetAudioDeviceConfiguration(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIAudioControlGetOutputMirroringDevices:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetOutputMirroringDevices(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIAudioControlGetCarAudioZones:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetCarAudioZones(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -652,9 +512,6 @@ type IAudioControlServer interface {
 	RegisterGainCallback(ctx context.Context, callback IAudioGainCallback) error
 	SetModuleChangeCallback(ctx context.Context, callback IModuleChangeCallback) error
 	ClearModuleChangeCallback(ctx context.Context) error
-	GetAudioDeviceConfiguration(ctx context.Context) (AudioDeviceConfiguration, error)
-	GetOutputMirroringDevices(ctx context.Context) ([]audioCommon.AudioPort, error)
-	GetCarAudioZones(ctx context.Context) ([]AudioZone, error)
 }
 
 type audioControlStubWrapper struct {
@@ -745,24 +602,6 @@ func (w *audioControlStubWrapper) ClearModuleChangeCallback(
 	ctx context.Context,
 ) error {
 	return w.impl.ClearModuleChangeCallback(ctx)
-}
-
-func (w *audioControlStubWrapper) GetAudioDeviceConfiguration(
-	ctx context.Context,
-) (AudioDeviceConfiguration, error) {
-	return w.impl.GetAudioDeviceConfiguration(ctx)
-}
-
-func (w *audioControlStubWrapper) GetOutputMirroringDevices(
-	ctx context.Context,
-) ([]audioCommon.AudioPort, error) {
-	return w.impl.GetOutputMirroringDevices(ctx)
-}
-
-func (w *audioControlStubWrapper) GetCarAudioZones(
-	ctx context.Context,
-) ([]AudioZone, error) {
-	return w.impl.GetCarAudioZones(ctx)
 }
 
 var _ IAudioControl = (*audioControlStubWrapper)(nil)

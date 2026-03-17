@@ -16,17 +16,17 @@ type ITestRemoteCallback interface {
 }
 
 type TestRemoteCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestRemoteCallbackProxy(
 	remote binder.IBinder,
 ) *TestRemoteCallbackProxy {
-	return &TestRemoteCallbackProxy{remote: remote}
+	return &TestRemoteCallbackProxy{Remote: remote}
 }
 
 func (p *TestRemoteCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestRemoteCallback = (*TestRemoteCallbackProxy)(nil)
@@ -38,6 +38,10 @@ type TestRemoteCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestRemoteCallbackStub)(nil)
+
+func (s *TestRemoteCallbackStub) Descriptor() string {
+	return DescriptorITestRemoteCallback
+}
 
 func (s *TestRemoteCallbackStub) OnTransaction(
 	ctx context.Context,

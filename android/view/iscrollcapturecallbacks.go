@@ -18,6 +18,12 @@ const (
 	TransactionIScrollCaptureCallbacksOnCaptureEnded          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIScrollCaptureCallbacksOnCaptureStarted        = "onCaptureStarted"
+	MethodIScrollCaptureCallbacksOnImageRequestCompleted = "onImageRequestCompleted"
+	MethodIScrollCaptureCallbacksOnCaptureEnded          = "onCaptureEnded"
+)
+
 type IScrollCaptureCallbacks interface {
 	AsBinder() binder.IBinder
 	OnCaptureStarted(ctx context.Context) error
@@ -26,17 +32,17 @@ type IScrollCaptureCallbacks interface {
 }
 
 type ScrollCaptureCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScrollCaptureCallbacksProxy(
 	remote binder.IBinder,
 ) *ScrollCaptureCallbacksProxy {
-	return &ScrollCaptureCallbacksProxy{remote: remote}
+	return &ScrollCaptureCallbacksProxy{Remote: remote}
 }
 
 func (p *ScrollCaptureCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScrollCaptureCallbacks = (*ScrollCaptureCallbacksProxy)(nil)
@@ -47,12 +53,12 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureCallbacks, "onCaptureStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnCaptureStarted)
 	if _err != nil {
-		_code = TransactionIScrollCaptureCallbacksOnCaptureStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnCaptureStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +75,12 @@ func (p *ScrollCaptureCallbacksProxy) OnImageRequestCompleted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureCallbacks, "onImageRequestCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnImageRequestCompleted)
 	if _err != nil {
-		_code = TransactionIScrollCaptureCallbacksOnImageRequestCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnImageRequestCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +90,12 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureEnded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureCallbacks, "onCaptureEnded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnCaptureEnded)
 	if _err != nil {
-		_code = TransactionIScrollCaptureCallbacksOnCaptureEnded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureCallbacks, MethodIScrollCaptureCallbacksOnCaptureEnded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +106,10 @@ type ScrollCaptureCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScrollCaptureCallbacksStub)(nil)
+
+func (s *ScrollCaptureCallbacksStub) Descriptor() string {
+	return DescriptorIScrollCaptureCallbacks
+}
 
 func (s *ScrollCaptureCallbacksStub) OnTransaction(
 	ctx context.Context,

@@ -22,14 +22,7 @@ func (s *NanBootstrappingRequestInd) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(s.DiscoverySessionId)
 	p.WriteInt32(s.PeerId)
-	if s.PeerDiscMacAddr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerDiscMacAddr)))
-		for _, _item := range s.PeerDiscMacAddr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerDiscMacAddr, 6)
 	p.WriteInt32(s.BootstrappingInstanceId)
 	p.WriteInt32(int32(s.RequestBootstrappingMethod))
 
@@ -55,19 +48,9 @@ func (s *NanBootstrappingRequestInd) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerDiscMacAddr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerDiscMacAddr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerDiscMacAddr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.BootstrappingInstanceId, _err = p.ReadInt32()

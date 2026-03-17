@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteDisplayCallbackOnStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteDisplayCallbackOnStateChanged = "onStateChanged"
+)
+
 type IRemoteDisplayCallback interface {
 	AsBinder() binder.IBinder
 	OnStateChanged(ctx context.Context, state RemoteDisplayState) error
 }
 
 type RemoteDisplayCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteDisplayCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteDisplayCallbackProxy {
-	return &RemoteDisplayCallbackProxy{remote: remote}
+	return &RemoteDisplayCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteDisplayCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteDisplayCallback = (*RemoteDisplayCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *RemoteDisplayCallbackProxy) OnStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayCallback, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayCallback, MethodIRemoteDisplayCallbackOnStateChanged)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayCallbackOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayCallback, MethodIRemoteDisplayCallbackOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type RemoteDisplayCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteDisplayCallbackStub)(nil)
+
+func (s *RemoteDisplayCallbackStub) Descriptor() string {
+	return DescriptorIRemoteDisplayCallback
+}
 
 func (s *RemoteDisplayCallbackStub) OnTransaction(
 	ctx context.Context,

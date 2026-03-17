@@ -15,23 +15,27 @@ const (
 	TransactionIFeatureFlagsCallbackOnFlagChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFeatureFlagsCallbackOnFlagChange = "onFlagChange"
+)
+
 type IFeatureFlagsCallback interface {
 	AsBinder() binder.IBinder
 	OnFlagChange(ctx context.Context, flag SyncableFlag) error
 }
 
 type FeatureFlagsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFeatureFlagsCallbackProxy(
 	remote binder.IBinder,
 ) *FeatureFlagsCallbackProxy {
-	return &FeatureFlagsCallbackProxy{remote: remote}
+	return &FeatureFlagsCallbackProxy{Remote: remote}
 }
 
 func (p *FeatureFlagsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFeatureFlagsCallback = (*FeatureFlagsCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *FeatureFlagsCallbackProxy) OnFlagChange(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlagsCallback, "onFlagChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureFlagsCallback, MethodIFeatureFlagsCallbackOnFlagChange)
 	if _err != nil {
-		_code = TransactionIFeatureFlagsCallbackOnFlagChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureFlagsCallback, MethodIFeatureFlagsCallbackOnFlagChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type FeatureFlagsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FeatureFlagsCallbackStub)(nil)
+
+func (s *FeatureFlagsCallbackStub) Descriptor() string {
+	return DescriptorIFeatureFlagsCallback
+}
 
 func (s *FeatureFlagsCallbackStub) OnTransaction(
 	ctx context.Context,

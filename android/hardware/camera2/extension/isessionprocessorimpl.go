@@ -25,6 +25,19 @@ const (
 	TransactionISessionProcessorImplGetRealtimeCaptureLatency = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodISessionProcessorImplInitSession               = "initSession"
+	MethodISessionProcessorImplDeInitSession             = "deInitSession"
+	MethodISessionProcessorImplOnCaptureSessionStart     = "onCaptureSessionStart"
+	MethodISessionProcessorImplOnCaptureSessionEnd       = "onCaptureSessionEnd"
+	MethodISessionProcessorImplStartRepeating            = "startRepeating"
+	MethodISessionProcessorImplStopRepeating             = "stopRepeating"
+	MethodISessionProcessorImplStartCapture              = "startCapture"
+	MethodISessionProcessorImplSetParameters             = "setParameters"
+	MethodISessionProcessorImplStartTrigger              = "startTrigger"
+	MethodISessionProcessorImplGetRealtimeCaptureLatency = "getRealtimeCaptureLatency"
+)
+
 type ISessionProcessorImpl interface {
 	AsBinder() binder.IBinder
 	InitSession(ctx context.Context, token binder.IBinder, cameraId string, charsMap map[string]interface{}, previewSurface OutputSurface, imageCaptureSurface OutputSurface, postviewSurface OutputSurface) (CameraSessionConfig, error)
@@ -40,17 +53,17 @@ type ISessionProcessorImpl interface {
 }
 
 type SessionProcessorImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSessionProcessorImplProxy(
 	remote binder.IBinder,
 ) *SessionProcessorImplProxy {
-	return &SessionProcessorImplProxy{remote: remote}
+	return &SessionProcessorImplProxy{Remote: remote}
 }
 
 func (p *SessionProcessorImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISessionProcessorImpl = (*SessionProcessorImplProxy)(nil)
@@ -67,7 +80,7 @@ func (p *SessionProcessorImplProxy) InitSession(
 	var _result CameraSessionConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(cameraId)
 	if charsMap == nil {
 		_data.WriteInt32(-1)
@@ -87,12 +100,12 @@ func (p *SessionProcessorImplProxy) InitSession(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "initSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplInitSession)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplInitSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplInitSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -120,14 +133,14 @@ func (p *SessionProcessorImplProxy) DeInitSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "deInitSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplDeInitSession)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplDeInitSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplDeInitSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -147,15 +160,15 @@ func (p *SessionProcessorImplProxy) OnCaptureSessionStart(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
-	binder.WriteBinderToParcel(ctx, _data, requestProcessor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, requestProcessor.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(statsKey)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "onCaptureSessionStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplOnCaptureSessionStart)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplOnCaptureSessionStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplOnCaptureSessionStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -174,12 +187,12 @@ func (p *SessionProcessorImplProxy) OnCaptureSessionEnd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "onCaptureSessionEnd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplOnCaptureSessionEnd)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplOnCaptureSessionEnd
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplOnCaptureSessionEnd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -199,14 +212,14 @@ func (p *SessionProcessorImplProxy) StartRepeating(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "startRepeating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplStartRepeating)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplStartRepeating
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplStartRepeating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -229,12 +242,12 @@ func (p *SessionProcessorImplProxy) StopRepeating(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "stopRepeating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplStopRepeating)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplStopRepeating
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplStopRepeating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -255,15 +268,15 @@ func (p *SessionProcessorImplProxy) StartCapture(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isPostviewRequested)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "startCapture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplStartCapture)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplStartCapture
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplStartCapture, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -291,12 +304,12 @@ func (p *SessionProcessorImplProxy) SetParameters(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "setParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplSetParameters)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplSetParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplSetParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -321,14 +334,14 @@ func (p *SessionProcessorImplProxy) StartTrigger(
 	if _err := captureRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "startTrigger")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplStartTrigger)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplStartTrigger
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplStartTrigger, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -352,12 +365,12 @@ func (p *SessionProcessorImplProxy) GetRealtimeCaptureLatency(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "getRealtimeCaptureLatency")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionProcessorImpl, MethodISessionProcessorImplGetRealtimeCaptureLatency)
 	if _err != nil {
-		_code = TransactionISessionProcessorImplGetRealtimeCaptureLatency
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionProcessorImpl, MethodISessionProcessorImplGetRealtimeCaptureLatency, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -386,6 +399,10 @@ type SessionProcessorImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SessionProcessorImplStub)(nil)
+
+func (s *SessionProcessorImplStub) Descriptor() string {
+	return DescriptorISessionProcessorImpl
+}
 
 func (s *SessionProcessorImplStub) OnTransaction(
 	ctx context.Context,

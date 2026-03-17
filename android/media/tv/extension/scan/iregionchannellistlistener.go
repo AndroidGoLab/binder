@@ -15,23 +15,27 @@ const (
 	TransactionIRegionChannelListListenerOnDetectRegionChannelList = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRegionChannelListListenerOnDetectRegionChannelList = "onDetectRegionChannelList"
+)
+
 type IRegionChannelListListener interface {
 	AsBinder() binder.IBinder
 	OnDetectRegionChannelList(ctx context.Context, detectRegionChannelList []string) error
 }
 
 type RegionChannelListListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRegionChannelListListenerProxy(
 	remote binder.IBinder,
 ) *RegionChannelListListenerProxy {
-	return &RegionChannelListListenerProxy{remote: remote}
+	return &RegionChannelListListenerProxy{Remote: remote}
 }
 
 func (p *RegionChannelListListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRegionChannelListListener = (*RegionChannelListListenerProxy)(nil)
@@ -51,12 +55,12 @@ func (p *RegionChannelListListenerProxy) OnDetectRegionChannelList(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegionChannelListListener, "onDetectRegionChannelList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegionChannelListListener, MethodIRegionChannelListListenerOnDetectRegionChannelList)
 	if _err != nil {
-		_code = TransactionIRegionChannelListListenerOnDetectRegionChannelList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRegionChannelListListener, MethodIRegionChannelListListenerOnDetectRegionChannelList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type RegionChannelListListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RegionChannelListListenerStub)(nil)
+
+func (s *RegionChannelListListenerStub) Descriptor() string {
+	return DescriptorIRegionChannelListListener
+}
 
 func (s *RegionChannelListListenerStub) OnTransaction(
 	ctx context.Context,

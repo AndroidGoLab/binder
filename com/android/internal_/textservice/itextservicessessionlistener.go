@@ -15,23 +15,27 @@ const (
 	TransactionITextServicesSessionListenerOnServiceConnected = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITextServicesSessionListenerOnServiceConnected = "onServiceConnected"
+)
+
 type ITextServicesSessionListener interface {
 	AsBinder() binder.IBinder
 	OnServiceConnected(ctx context.Context, spellCheckerSession ISpellCheckerSession) error
 }
 
 type TextServicesSessionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextServicesSessionListenerProxy(
 	remote binder.IBinder,
 ) *TextServicesSessionListenerProxy {
-	return &TextServicesSessionListenerProxy{remote: remote}
+	return &TextServicesSessionListenerProxy{Remote: remote}
 }
 
 func (p *TextServicesSessionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextServicesSessionListener = (*TextServicesSessionListenerProxy)(nil)
@@ -42,14 +46,14 @@ func (p *TextServicesSessionListenerProxy) OnServiceConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextServicesSessionListener)
-	binder.WriteBinderToParcel(ctx, _data, spellCheckerSession.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, spellCheckerSession.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextServicesSessionListener, "onServiceConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextServicesSessionListener, MethodITextServicesSessionListenerOnServiceConnected)
 	if _err != nil {
-		_code = TransactionITextServicesSessionListenerOnServiceConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextServicesSessionListener, MethodITextServicesSessionListenerOnServiceConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type TextServicesSessionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextServicesSessionListenerStub)(nil)
+
+func (s *TextServicesSessionListenerStub) Descriptor() string {
+	return DescriptorITextServicesSessionListener
+}
 
 func (s *TextServicesSessionListenerStub) OnTransaction(
 	ctx context.Context,

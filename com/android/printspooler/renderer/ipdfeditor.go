@@ -20,6 +20,14 @@ const (
 	TransactionIPdfEditorCloseDocument        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPdfEditorOpenDocument         = "openDocument"
+	MethodIPdfEditorRemovePages          = "removePages"
+	MethodIPdfEditorApplyPrintAttributes = "applyPrintAttributes"
+	MethodIPdfEditorWrite                = "write"
+	MethodIPdfEditorCloseDocument        = "closeDocument"
+)
+
 type IPdfEditor interface {
 	AsBinder() binder.IBinder
 	OpenDocument(ctx context.Context, source int32) (int32, error)
@@ -30,17 +38,17 @@ type IPdfEditor interface {
 }
 
 type PdfEditorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPdfEditorProxy(
 	remote binder.IBinder,
 ) *PdfEditorProxy {
-	return &PdfEditorProxy{remote: remote}
+	return &PdfEditorProxy{Remote: remote}
 }
 
 func (p *PdfEditorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPdfEditor = (*PdfEditorProxy)(nil)
@@ -54,12 +62,12 @@ func (p *PdfEditorProxy) OpenDocument(
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 	_data.WriteFileDescriptor(source)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "openDocument")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorOpenDocument)
 	if _err != nil {
-		_code = TransactionIPdfEditorOpenDocument
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfEditor, MethodIPdfEditorOpenDocument, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,18 +95,19 @@ func (p *PdfEditorProxy) RemovePages(
 	} else {
 		_data.WriteInt32(int32(len(pages)))
 		for _, _item := range pages {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "removePages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorRemovePages)
 	if _err != nil {
-		_code = TransactionIPdfEditorRemovePages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfEditor, MethodIPdfEditorRemovePages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,12 +131,12 @@ func (p *PdfEditorProxy) ApplyPrintAttributes(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "applyPrintAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorApplyPrintAttributes)
 	if _err != nil {
-		_code = TransactionIPdfEditorApplyPrintAttributes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfEditor, MethodIPdfEditorApplyPrintAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,12 +157,12 @@ func (p *PdfEditorProxy) Write(
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 	_data.WriteFileDescriptor(destination)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorWrite)
 	if _err != nil {
-		_code = TransactionIPdfEditorWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfEditor, MethodIPdfEditorWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,12 +181,12 @@ func (p *PdfEditorProxy) CloseDocument(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPdfEditor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "closeDocument")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPdfEditor, MethodIPdfEditorCloseDocument)
 	if _err != nil {
-		_code = TransactionIPdfEditorCloseDocument
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPdfEditor, MethodIPdfEditorCloseDocument, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,6 +206,10 @@ type PdfEditorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PdfEditorStub)(nil)
+
+func (s *PdfEditorStub) Descriptor() string {
+	return DescriptorIPdfEditor
+}
 
 func (s *PdfEditorStub) OnTransaction(
 	ctx context.Context,

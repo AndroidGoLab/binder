@@ -18,6 +18,13 @@ const (
 	TransactionIEffectClientFramesProcessed      = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIEffectClientControlStatusChanged = "controlStatusChanged"
+	MethodIEffectClientEnableStatusChanged  = "enableStatusChanged"
+	MethodIEffectClientCommandExecuted      = "commandExecuted"
+	MethodIEffectClientFramesProcessed      = "framesProcessed"
+)
+
 type IEffectClient interface {
 	AsBinder() binder.IBinder
 	ControlStatusChanged(ctx context.Context, controlGranted bool) error
@@ -27,17 +34,17 @@ type IEffectClient interface {
 }
 
 type EffectClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEffectClientProxy(
 	remote binder.IBinder,
 ) *EffectClientProxy {
-	return &EffectClientProxy{remote: remote}
+	return &EffectClientProxy{Remote: remote}
 }
 
 func (p *EffectClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEffectClient = (*EffectClientProxy)(nil)
@@ -50,12 +57,12 @@ func (p *EffectClientProxy) ControlStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteBool(controlGranted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "controlStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientControlStatusChanged)
 	if _err != nil {
-		_code = TransactionIEffectClientControlStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffectClient, MethodIEffectClientControlStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *EffectClientProxy) EnableStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "enableStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientEnableStatusChanged)
 	if _err != nil {
-		_code = TransactionIEffectClientEnableStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffectClient, MethodIEffectClientEnableStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +109,12 @@ func (p *EffectClientProxy) CommandExecuted(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "commandExecuted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientCommandExecuted)
 	if _err != nil {
-		_code = TransactionIEffectClientCommandExecuted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffectClient, MethodIEffectClientCommandExecuted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +126,12 @@ func (p *EffectClientProxy) FramesProcessed(
 	_data.WriteInterfaceToken(DescriptorIEffectClient)
 	_data.WriteInt32(frames)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "framesProcessed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEffectClient, MethodIEffectClientFramesProcessed)
 	if _err != nil {
-		_code = TransactionIEffectClientFramesProcessed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEffectClient, MethodIEffectClientFramesProcessed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,6 +142,10 @@ type EffectClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EffectClientStub)(nil)
+
+func (s *EffectClientStub) Descriptor() string {
+	return DescriptorIEffectClient
+}
 
 func (s *EffectClientStub) OnTransaction(
 	ctx context.Context,

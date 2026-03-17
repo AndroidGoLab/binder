@@ -12,12 +12,19 @@ import (
 const DescriptorISuspendControlServiceInternal = "android.system.suspend.internal.ISuspendControlServiceInternal"
 
 const (
-	TransactionISuspendControlServiceInternalEnableAutosuspend        = binder.FirstCallTransaction + 0
-	TransactionISuspendControlServiceInternalForceSuspend             = binder.FirstCallTransaction + 1
-	TransactionISuspendControlServiceInternalGetWakeLockStats         = binder.FirstCallTransaction + 2
-	TransactionISuspendControlServiceInternalGetWakeLockStatsFiltered = binder.FirstCallTransaction + 3
-	TransactionISuspendControlServiceInternalGetWakeupStats           = binder.FirstCallTransaction + 4
-	TransactionISuspendControlServiceInternalGetSuspendStats          = binder.FirstCallTransaction + 5
+	TransactionISuspendControlServiceInternalEnableAutosuspend = binder.FirstCallTransaction + 0
+	TransactionISuspendControlServiceInternalForceSuspend      = binder.FirstCallTransaction + 1
+	TransactionISuspendControlServiceInternalGetWakeLockStats  = binder.FirstCallTransaction + 2
+	TransactionISuspendControlServiceInternalGetWakeupStats    = binder.FirstCallTransaction + 3
+	TransactionISuspendControlServiceInternalGetSuspendStats   = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodISuspendControlServiceInternalEnableAutosuspend = "enableAutosuspend"
+	MethodISuspendControlServiceInternalForceSuspend      = "forceSuspend"
+	MethodISuspendControlServiceInternalGetWakeLockStats  = "getWakeLockStats"
+	MethodISuspendControlServiceInternalGetWakeupStats    = "getWakeupStats"
+	MethodISuspendControlServiceInternalGetSuspendStats   = "getSuspendStats"
 )
 
 type ISuspendControlServiceInternal interface {
@@ -25,39 +32,22 @@ type ISuspendControlServiceInternal interface {
 	EnableAutosuspend(ctx context.Context, token binder.IBinder) (bool, error)
 	ForceSuspend(ctx context.Context) (bool, error)
 	GetWakeLockStats(ctx context.Context) ([]WakeLockInfo, error)
-	GetWakeLockStatsFiltered(ctx context.Context, wakeLockInfoFieldBitMask int32) ([]WakeLockInfo, error)
 	GetWakeupStats(ctx context.Context) ([]WakeupInfo, error)
 	GetSuspendStats(ctx context.Context) (SuspendInfo, error)
 }
 
-const (
-	ISuspendControlServiceInternalWakeLockInfoActiveCount        int32 = (1 << 0)
-	ISuspendControlServiceInternalWakeLockInfoLastChange         int32 = (1 << 1)
-	ISuspendControlServiceInternalWakeLockInfoMaxTime            int32 = (1 << 2)
-	ISuspendControlServiceInternalWakeLockInfoTotalTime          int32 = (1 << 3)
-	ISuspendControlServiceInternalWakeLockInfoIsActive           int32 = (1 << 4)
-	ISuspendControlServiceInternalWakeLockInfoActiveTime         int32 = (1 << 5)
-	ISuspendControlServiceInternalWakeLockInfoIsKernelWakelock   int32 = (1 << 6)
-	ISuspendControlServiceInternalWakeLockInfoPid                int32 = (1 << 7)
-	ISuspendControlServiceInternalWakeLockInfoEventCount         int32 = (1 << 8)
-	ISuspendControlServiceInternalWakeLockInfoExpireCount        int32 = (1 << 9)
-	ISuspendControlServiceInternalWakeLockInfoPreventSuspendTime int32 = (1 << 10)
-	ISuspendControlServiceInternalWakeLockInfoWakeupCount        int32 = (1 << 11)
-	ISuspendControlServiceInternalWakeLockInfoAllFields          int32 = ((1 << 12) - 1)
-)
-
 type SuspendControlServiceInternalProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSuspendControlServiceInternalProxy(
 	remote binder.IBinder,
 ) *SuspendControlServiceInternalProxy {
-	return &SuspendControlServiceInternalProxy{remote: remote}
+	return &SuspendControlServiceInternalProxy{Remote: remote}
 }
 
 func (p *SuspendControlServiceInternalProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISuspendControlServiceInternal = (*SuspendControlServiceInternalProxy)(nil)
@@ -69,14 +59,14 @@ func (p *SuspendControlServiceInternalProxy) EnableAutosuspend(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "enableAutosuspend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalEnableAutosuspend)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceInternalEnableAutosuspend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalEnableAutosuspend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,12 +90,12 @@ func (p *SuspendControlServiceInternalProxy) ForceSuspend(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "forceSuspend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalForceSuspend)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceInternalForceSuspend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalForceSuspend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,12 +119,12 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeLockStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetWakeLockStats)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceInternalGetWakeLockStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetWakeLockStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,46 +142,9 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStats(
 	if _count >= 0 {
 		_result = make([]WakeLockInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
 			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *SuspendControlServiceInternalProxy) GetWakeLockStatsFiltered(
-	ctx context.Context,
-	wakeLockInfoFieldBitMask int32,
-) ([]WakeLockInfo, error) {
-	var _result []WakeLockInfo
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
-	_data.WriteInt32(wakeLockInfoFieldBitMask)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeLockStatsFiltered")
-	if _err != nil {
-		_code = TransactionISuspendControlServiceInternalGetWakeLockStatsFiltered
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]WakeLockInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -207,12 +160,12 @@ func (p *SuspendControlServiceInternalProxy) GetWakeupStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeupStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetWakeupStats)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceInternalGetWakeupStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetWakeupStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -230,6 +183,9 @@ func (p *SuspendControlServiceInternalProxy) GetWakeupStats(
 	if _count >= 0 {
 		_result = make([]WakeupInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -245,12 +201,12 @@ func (p *SuspendControlServiceInternalProxy) GetSuspendStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getSuspendStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetSuspendStats)
 	if _err != nil {
-		_code = TransactionISuspendControlServiceInternalGetSuspendStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendControlServiceInternal, MethodISuspendControlServiceInternalGetSuspendStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,6 +235,10 @@ type SuspendControlServiceInternalStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SuspendControlServiceInternalStub)(nil)
+
+func (s *SuspendControlServiceInternalStub) Descriptor() string {
+	return DescriptorISuspendControlServiceInternal
+}
 
 func (s *SuspendControlServiceInternalStub) OnTransaction(
 	ctx context.Context,
@@ -320,24 +280,6 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWakeLockStats(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionISuspendControlServiceInternalGetWakeLockStatsFiltered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_wakeLockInfoFieldBitMask, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetWakeLockStatsFiltered(ctx, _arg_wakeLockInfoFieldBitMask)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -389,7 +331,6 @@ type ISuspendControlServiceInternalServer interface {
 	EnableAutosuspend(ctx context.Context, token binder.IBinder) (bool, error)
 	ForceSuspend(ctx context.Context) (bool, error)
 	GetWakeLockStats(ctx context.Context) ([]WakeLockInfo, error)
-	GetWakeLockStatsFiltered(ctx context.Context, wakeLockInfoFieldBitMask int32) ([]WakeLockInfo, error)
 	GetWakeupStats(ctx context.Context) ([]WakeupInfo, error)
 	GetSuspendStats(ctx context.Context) (SuspendInfo, error)
 }
@@ -420,13 +361,6 @@ func (w *suspendControlServiceInternalStubWrapper) GetWakeLockStats(
 	ctx context.Context,
 ) ([]WakeLockInfo, error) {
 	return w.impl.GetWakeLockStats(ctx)
-}
-
-func (w *suspendControlServiceInternalStubWrapper) GetWakeLockStatsFiltered(
-	ctx context.Context,
-	wakeLockInfoFieldBitMask int32,
-) ([]WakeLockInfo, error) {
-	return w.impl.GetWakeLockStatsFiltered(ctx, wakeLockInfoFieldBitMask)
 }
 
 func (w *suspendControlServiceInternalStubWrapper) GetWakeupStats(

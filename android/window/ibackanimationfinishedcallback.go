@@ -15,23 +15,27 @@ const (
 	TransactionIBackAnimationFinishedCallbackOnAnimationFinished = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBackAnimationFinishedCallbackOnAnimationFinished = "onAnimationFinished"
+)
+
 type IBackAnimationFinishedCallback interface {
 	AsBinder() binder.IBinder
 	OnAnimationFinished(ctx context.Context, triggerBack bool) error
 }
 
 type BackAnimationFinishedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackAnimationFinishedCallbackProxy(
 	remote binder.IBinder,
 ) *BackAnimationFinishedCallbackProxy {
-	return &BackAnimationFinishedCallbackProxy{remote: remote}
+	return &BackAnimationFinishedCallbackProxy{Remote: remote}
 }
 
 func (p *BackAnimationFinishedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackAnimationFinishedCallback = (*BackAnimationFinishedCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *BackAnimationFinishedCallbackProxy) OnAnimationFinished(
 	_data.WriteInterfaceToken(DescriptorIBackAnimationFinishedCallback)
 	_data.WriteBool(triggerBack)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimationFinishedCallback, "onAnimationFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationFinishedCallback, MethodIBackAnimationFinishedCallbackOnAnimationFinished)
 	if _err != nil {
-		_code = TransactionIBackAnimationFinishedCallbackOnAnimationFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimationFinishedCallback, MethodIBackAnimationFinishedCallbackOnAnimationFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type BackAnimationFinishedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationFinishedCallbackStub)(nil)
+
+func (s *BackAnimationFinishedCallbackStub) Descriptor() string {
+	return DescriptorIBackAnimationFinishedCallback
+}
 
 func (s *BackAnimationFinishedCallbackStub) OnTransaction(
 	ctx context.Context,

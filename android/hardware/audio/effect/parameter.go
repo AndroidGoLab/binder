@@ -181,6 +181,7 @@ func (u *Parameter) MarshalParcel(
 
 	switch u.Tag {
 	case ParameterTagCommon:
+		p.WriteInt32(1)
 		if _err := u.Common.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -190,6 +191,7 @@ func (u *Parameter) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.DeviceDescription)))
 			for _, _item := range u.DeviceDescription {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -202,18 +204,22 @@ func (u *Parameter) MarshalParcel(
 	case ParameterTagOffload:
 		p.WriteBool(u.Offload)
 	case ParameterTagVolumeStereo:
+		p.WriteInt32(1)
 		if _err := u.VolumeStereo.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ParameterTagSpecific:
+		p.WriteInt32(1)
 		if _err := u.Specific.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ParameterTagSinkMetadata:
+		p.WriteInt32(1)
 		if _err := u.SinkMetadata.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ParameterTagSourceMetadata:
+		p.WriteInt32(1)
 		if _err := u.SourceMetadata.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -240,6 +246,9 @@ func (u *Parameter) UnmarshalParcel(
 
 	switch u.Tag {
 	case ParameterTagCommon:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Common.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -253,6 +262,9 @@ func (u *Parameter) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.DeviceDescription = make([]common.AudioDeviceDescription, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.DeviceDescription[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -276,18 +288,30 @@ func (u *Parameter) UnmarshalParcel(
 			return _err
 		}
 	case ParameterTagVolumeStereo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VolumeStereo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ParameterTagSpecific:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Specific.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ParameterTagSinkMetadata:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SinkMetadata.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ParameterTagSourceMetadata:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SourceMetadata.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -59,6 +59,7 @@ func (u *FetchResult) MarshalParcel(
 
 	switch u.Tag {
 	case FetchResultTagBuffer:
+		p.WriteInt32(1)
 		if _err := u.Buffer.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -87,6 +88,9 @@ func (u *FetchResult) UnmarshalParcel(
 
 	switch u.Tag {
 	case FetchResultTagBuffer:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Buffer.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

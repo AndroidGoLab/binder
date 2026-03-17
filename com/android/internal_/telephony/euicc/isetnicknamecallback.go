@@ -15,23 +15,27 @@ const (
 	TransactionISetNicknameCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISetNicknameCallbackOnComplete = "onComplete"
+)
+
 type ISetNicknameCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32) error
 }
 
 type SetNicknameCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSetNicknameCallbackProxy(
 	remote binder.IBinder,
 ) *SetNicknameCallbackProxy {
-	return &SetNicknameCallbackProxy{remote: remote}
+	return &SetNicknameCallbackProxy{Remote: remote}
 }
 
 func (p *SetNicknameCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISetNicknameCallback = (*SetNicknameCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SetNicknameCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorISetNicknameCallback)
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISetNicknameCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISetNicknameCallback, MethodISetNicknameCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionISetNicknameCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISetNicknameCallback, MethodISetNicknameCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SetNicknameCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SetNicknameCallbackStub)(nil)
+
+func (s *SetNicknameCallbackStub) Descriptor() string {
+	return DescriptorISetNicknameCallback
+}
 
 func (s *SetNicknameCallbackStub) OnTransaction(
 	ctx context.Context,

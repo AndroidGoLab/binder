@@ -17,6 +17,12 @@ const (
 	TransactionIVirtualDisplayCallbackOnStopped = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIVirtualDisplayCallbackOnPaused  = "onPaused"
+	MethodIVirtualDisplayCallbackOnResumed = "onResumed"
+	MethodIVirtualDisplayCallbackOnStopped = "onStopped"
+)
+
 type IVirtualDisplayCallback interface {
 	AsBinder() binder.IBinder
 	OnPaused(ctx context.Context) error
@@ -25,17 +31,17 @@ type IVirtualDisplayCallback interface {
 }
 
 type VirtualDisplayCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDisplayCallbackProxy(
 	remote binder.IBinder,
 ) *VirtualDisplayCallbackProxy {
-	return &VirtualDisplayCallbackProxy{remote: remote}
+	return &VirtualDisplayCallbackProxy{Remote: remote}
 }
 
 func (p *VirtualDisplayCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDisplayCallback = (*VirtualDisplayCallbackProxy)(nil)
@@ -46,12 +52,12 @@ func (p *VirtualDisplayCallbackProxy) OnPaused(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onPaused")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnPaused)
 	if _err != nil {
-		_code = TransactionIVirtualDisplayCallbackOnPaused
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnPaused, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +67,12 @@ func (p *VirtualDisplayCallbackProxy) OnResumed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onResumed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnResumed)
 	if _err != nil {
-		_code = TransactionIVirtualDisplayCallbackOnResumed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnResumed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +82,12 @@ func (p *VirtualDisplayCallbackProxy) OnStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnStopped)
 	if _err != nil {
-		_code = TransactionIVirtualDisplayCallbackOnStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDisplayCallback, MethodIVirtualDisplayCallbackOnStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +98,10 @@ type VirtualDisplayCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDisplayCallbackStub)(nil)
+
+func (s *VirtualDisplayCallbackStub) Descriptor() string {
+	return DescriptorIVirtualDisplayCallback
+}
 
 func (s *VirtualDisplayCallbackStub) OnTransaction(
 	ctx context.Context,

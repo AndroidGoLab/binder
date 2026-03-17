@@ -183,6 +183,28 @@ func TestSmoke_PinnedTaskListenerProxy(t *testing.T) {
 	}
 }
 
+func TestSmoke_RecentsAnimationControllerProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewRecentsAnimationControllerProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("RecentsAnimationControllerProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
+func TestSmoke_RecentsAnimationRunnerProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewRecentsAnimationRunnerProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("RecentsAnimationRunnerProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
 func TestSmoke_RemoteAnimationFinishedCallbackProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewRemoteAnimationFinishedCallbackProxy(mock)

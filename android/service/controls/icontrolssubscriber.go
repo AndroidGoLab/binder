@@ -18,6 +18,13 @@ const (
 	TransactionIControlsSubscriberOnComplete  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIControlsSubscriberOnSubscribe = "onSubscribe"
+	MethodIControlsSubscriberOnNext      = "onNext"
+	MethodIControlsSubscriberOnError     = "onError"
+	MethodIControlsSubscriberOnComplete  = "onComplete"
+)
+
 type IControlsSubscriber interface {
 	AsBinder() binder.IBinder
 	OnSubscribe(ctx context.Context, token binder.IBinder, cs IControlsSubscription) error
@@ -27,17 +34,17 @@ type IControlsSubscriber interface {
 }
 
 type ControlsSubscriberProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewControlsSubscriberProxy(
 	remote binder.IBinder,
 ) *ControlsSubscriberProxy {
-	return &ControlsSubscriberProxy{remote: remote}
+	return &ControlsSubscriberProxy{Remote: remote}
 }
 
 func (p *ControlsSubscriberProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IControlsSubscriber = (*ControlsSubscriberProxy)(nil)
@@ -49,15 +56,15 @@ func (p *ControlsSubscriberProxy) OnSubscribe(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, cs.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cs.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onSubscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscriber, MethodIControlsSubscriberOnSubscribe)
 	if _err != nil {
-		_code = TransactionIControlsSubscriberOnSubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsSubscriber, MethodIControlsSubscriberOnSubscribe, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,18 +75,18 @@ func (p *ControlsSubscriberProxy) OnNext(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onNext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscriber, MethodIControlsSubscriberOnNext)
 	if _err != nil {
-		_code = TransactionIControlsSubscriberOnNext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsSubscriber, MethodIControlsSubscriberOnNext, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,15 +97,15 @@ func (p *ControlsSubscriberProxy) OnError(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(s_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscriber, MethodIControlsSubscriberOnError)
 	if _err != nil {
-		_code = TransactionIControlsSubscriberOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsSubscriber, MethodIControlsSubscriberOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,14 +115,14 @@ func (p *ControlsSubscriberProxy) OnComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscriber, MethodIControlsSubscriberOnComplete)
 	if _err != nil {
-		_code = TransactionIControlsSubscriberOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsSubscriber, MethodIControlsSubscriberOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,6 +133,10 @@ type ControlsSubscriberStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ControlsSubscriberStub)(nil)
+
+func (s *ControlsSubscriberStub) Descriptor() string {
+	return DescriptorIControlsSubscriber
+}
 
 func (s *ControlsSubscriberStub) OnTransaction(
 	ctx context.Context,

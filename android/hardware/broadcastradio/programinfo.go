@@ -15,7 +15,6 @@ type ProgramInfo struct {
 	SignalQuality     int32
 	Metadata          []Metadata
 	VendorInfo        []VendorKeyValue
-	EmergencyAlert    Alert
 }
 
 const (
@@ -50,6 +49,7 @@ func (s *ProgramInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.RelatedContent)))
 		for _, _item := range s.RelatedContent {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -62,6 +62,7 @@ func (s *ProgramInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Metadata)))
 		for _, _item := range s.Metadata {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,13 +73,11 @@ func (s *ProgramInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorInfo)))
 		for _, _item := range s.VendorInfo {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-	if _err := s.EmergencyAlert.MarshalParcel(p); _err != nil {
-		return _err
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -113,6 +112,9 @@ func (s *ProgramInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.RelatedContent = make([]ProgramIdentifier, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.RelatedContent[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -137,6 +139,9 @@ func (s *ProgramInfo) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Metadata = make([]Metadata, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Metadata[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -151,14 +156,13 @@ func (s *ProgramInfo) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.VendorInfo = make([]VendorKeyValue, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorInfo[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	if _err = s.EmergencyAlert.UnmarshalParcel(p); _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

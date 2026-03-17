@@ -15,23 +15,27 @@ const (
 	TransactionIForegroundServiceObserverOnForegroundStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIForegroundServiceObserverOnForegroundStateChanged = "onForegroundStateChanged"
+)
+
 type IForegroundServiceObserver interface {
 	AsBinder() binder.IBinder
 	OnForegroundStateChanged(ctx context.Context, serviceToken binder.IBinder, packageName string, isForeground bool) error
 }
 
 type ForegroundServiceObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewForegroundServiceObserverProxy(
 	remote binder.IBinder,
 ) *ForegroundServiceObserverProxy {
-	return &ForegroundServiceObserverProxy{remote: remote}
+	return &ForegroundServiceObserverProxy{Remote: remote}
 }
 
 func (p *ForegroundServiceObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IForegroundServiceObserver = (*ForegroundServiceObserverProxy)(nil)
@@ -42,20 +46,20 @@ func (p *ForegroundServiceObserverProxy) OnForegroundStateChanged(
 	packageName string,
 	isForeground bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIForegroundServiceObserver)
-	binder.WriteBinderToParcel(ctx, _data, serviceToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, serviceToken, p.Remote.Transport())
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(isForeground)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIForegroundServiceObserver, "onForegroundStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIForegroundServiceObserver, MethodIForegroundServiceObserverOnForegroundStateChanged)
 	if _err != nil {
-		_code = TransactionIForegroundServiceObserverOnForegroundStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIForegroundServiceObserver, MethodIForegroundServiceObserverOnForegroundStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type ForegroundServiceObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ForegroundServiceObserverStub)(nil)
+
+func (s *ForegroundServiceObserverStub) Descriptor() string {
+	return DescriptorIForegroundServiceObserver
+}
 
 func (s *ForegroundServiceObserverStub) OnTransaction(
 	ctx context.Context,

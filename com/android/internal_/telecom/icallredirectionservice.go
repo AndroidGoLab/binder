@@ -18,6 +18,11 @@ const (
 	TransactionICallRedirectionServiceNotifyTimeout = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICallRedirectionServicePlaceCall     = "placeCall"
+	MethodICallRedirectionServiceNotifyTimeout = "notifyTimeout"
+)
+
 type ICallRedirectionService interface {
 	AsBinder() binder.IBinder
 	PlaceCall(ctx context.Context, adapter ICallRedirectionAdapter, handle net.Uri, initialPhoneAccount androidTelecom.PhoneAccountHandle, allowInteractiveResponse bool) error
@@ -25,17 +30,17 @@ type ICallRedirectionService interface {
 }
 
 type CallRedirectionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallRedirectionServiceProxy(
 	remote binder.IBinder,
 ) *CallRedirectionServiceProxy {
-	return &CallRedirectionServiceProxy{remote: remote}
+	return &CallRedirectionServiceProxy{Remote: remote}
 }
 
 func (p *CallRedirectionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallRedirectionService = (*CallRedirectionServiceProxy)(nil)
@@ -49,7 +54,7 @@ func (p *CallRedirectionServiceProxy) PlaceCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionService)
-	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, adapter.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
@@ -60,12 +65,12 @@ func (p *CallRedirectionServiceProxy) PlaceCall(
 	}
 	_data.WriteBool(allowInteractiveResponse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionService, "placeCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionService, MethodICallRedirectionServicePlaceCall)
 	if _err != nil {
-		_code = TransactionICallRedirectionServicePlaceCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallRedirectionService, MethodICallRedirectionServicePlaceCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +80,12 @@ func (p *CallRedirectionServiceProxy) NotifyTimeout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionService, "notifyTimeout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallRedirectionService, MethodICallRedirectionServiceNotifyTimeout)
 	if _err != nil {
-		_code = TransactionICallRedirectionServiceNotifyTimeout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallRedirectionService, MethodICallRedirectionServiceNotifyTimeout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +96,10 @@ type CallRedirectionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallRedirectionServiceStub)(nil)
+
+func (s *CallRedirectionServiceStub) Descriptor() string {
+	return DescriptorICallRedirectionService
+}
 
 func (s *CallRedirectionServiceStub) OnTransaction(
 	ctx context.Context,

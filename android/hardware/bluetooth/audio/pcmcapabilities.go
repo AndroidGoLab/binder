@@ -35,14 +35,7 @@ func (s *PcmCapabilities) MarshalParcel(
 			p.WritePaddedByte(byte(_item))
 		}
 	}
-	if s.BitsPerSample == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BitsPerSample)))
-		for _, _item := range s.BitsPerSample {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.BitsPerSample)
 	if s.DataIntervalUs == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -95,19 +88,9 @@ func (s *PcmCapabilities) UnmarshalParcel(
 		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.BitsPerSample, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.BitsPerSample = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.BitsPerSample[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count3 int32

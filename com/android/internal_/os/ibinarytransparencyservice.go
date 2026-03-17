@@ -20,6 +20,14 @@ const (
 	TransactionIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBinaryTransparencyServiceGetSignedImageInfo               = "getSignedImageInfo"
+	MethodIBinaryTransparencyServiceRecordMeasurementsForAllPackages = "recordMeasurementsForAllPackages"
+	MethodIBinaryTransparencyServiceCollectAllApexInfo               = "collectAllApexInfo"
+	MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo     = "collectAllUpdatedPreloadInfo"
+	MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo = "collectAllSilentInstalledMbaInfo"
+)
+
 type IBinaryTransparencyService interface {
 	AsBinder() binder.IBinder
 	GetSignedImageInfo(ctx context.Context) (string, error)
@@ -30,17 +38,17 @@ type IBinaryTransparencyService interface {
 }
 
 type BinaryTransparencyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinaryTransparencyServiceProxy(
 	remote binder.IBinder,
 ) *BinaryTransparencyServiceProxy {
-	return &BinaryTransparencyServiceProxy{remote: remote}
+	return &BinaryTransparencyServiceProxy{Remote: remote}
 }
 
 func (p *BinaryTransparencyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinaryTransparencyService = (*BinaryTransparencyServiceProxy)(nil)
@@ -52,12 +60,12 @@ func (p *BinaryTransparencyServiceProxy) GetSignedImageInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "getSignedImageInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceGetSignedImageInfo)
 	if _err != nil {
-		_code = TransactionIBinaryTransparencyServiceGetSignedImageInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceGetSignedImageInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,12 +88,12 @@ func (p *BinaryTransparencyServiceProxy) RecordMeasurementsForAllPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "recordMeasurementsForAllPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceRecordMeasurementsForAllPackages)
 	if _err != nil {
-		_code = TransactionIBinaryTransparencyServiceRecordMeasurementsForAllPackages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceRecordMeasurementsForAllPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,12 +115,12 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 	_data.WriteBool(includeTestOnly)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllApexInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllApexInfo)
 	if _err != nil {
-		_code = TransactionIBinaryTransparencyServiceCollectAllApexInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllApexInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,6 +138,9 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 	if _count >= 0 {
 		_result = make([]osIBinaryTransparencyService.ApexInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -146,12 +157,12 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllUpdatedPreloadInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo)
 	if _err != nil {
-		_code = TransactionIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,6 +180,9 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	if _count >= 0 {
 		_result = make([]osIBinaryTransparencyService.AppInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -185,12 +199,12 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllSilentInstalledMbaInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo)
 	if _err != nil {
-		_code = TransactionIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinaryTransparencyService, MethodIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,6 +222,9 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	if _count >= 0 {
 		_result = make([]osIBinaryTransparencyService.AppInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -223,6 +240,10 @@ type BinaryTransparencyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinaryTransparencyServiceStub)(nil)
+
+func (s *BinaryTransparencyServiceStub) Descriptor() string {
+	return DescriptorIBinaryTransparencyService
+}
 
 func (s *BinaryTransparencyServiceStub) OnTransaction(
 	ctx context.Context,

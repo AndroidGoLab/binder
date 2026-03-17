@@ -27,6 +27,17 @@ const (
 	TransactionIPipSetLauncherAppIconSize         = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIPipStartSwipePipToHome            = "startSwipePipToHome"
+	MethodIPipStopSwipePipToHome             = "stopSwipePipToHome"
+	MethodIPipAbortSwipePipToHome            = "abortSwipePipToHome"
+	MethodIPipSetPipAnimationListener        = "setPipAnimationListener"
+	MethodIPipSetShelfHeight                 = "setShelfHeight"
+	MethodIPipSetPipAnimationTypeToAlpha     = "setPipAnimationTypeToAlpha"
+	MethodIPipSetLauncherKeepClearAreaHeight = "setLauncherKeepClearAreaHeight"
+	MethodIPipSetLauncherAppIconSize         = "setLauncherAppIconSize"
+)
+
 type IPip interface {
 	AsBinder() binder.IBinder
 	StartSwipePipToHome(ctx context.Context, componentName content.ComponentName, activityInfo pm.ActivityInfo, pictureInPictureParams app.PictureInPictureParams, launcherRotation int32, hotseatKeepClearArea graphics.Rect) (graphics.Rect, error)
@@ -40,17 +51,17 @@ type IPip interface {
 }
 
 type PipProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPipProxy(
 	remote binder.IBinder,
 ) *PipProxy {
-	return &PipProxy{remote: remote}
+	return &PipProxy{Remote: remote}
 }
 
 func (p *PipProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPip = (*PipProxy)(nil)
@@ -84,12 +95,12 @@ func (p *PipProxy) StartSwipePipToHome(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "startSwipePipToHome")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipStartSwipePipToHome)
 	if _err != nil {
-		_code = TransactionIPipStartSwipePipToHome
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipStartSwipePipToHome, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -144,12 +155,12 @@ func (p *PipProxy) StopSwipePipToHome(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "stopSwipePipToHome")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipStopSwipePipToHome)
 	if _err != nil {
-		_code = TransactionIPipStopSwipePipToHome
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipStopSwipePipToHome, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,12 +177,12 @@ func (p *PipProxy) AbortSwipePipToHome(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "abortSwipePipToHome")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipAbortSwipePipToHome)
 	if _err != nil {
-		_code = TransactionIPipAbortSwipePipToHome
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipAbortSwipePipToHome, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -181,14 +192,14 @@ func (p *PipProxy) SetPipAnimationListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPip)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "setPipAnimationListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetPipAnimationListener)
 	if _err != nil {
-		_code = TransactionIPipSetPipAnimationListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipSetPipAnimationListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -202,12 +213,12 @@ func (p *PipProxy) SetShelfHeight(
 	_data.WriteBool(visible)
 	_data.WriteInt32(shelfHeight)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "setShelfHeight")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetShelfHeight)
 	if _err != nil {
-		_code = TransactionIPipSetShelfHeight
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipSetShelfHeight, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -217,12 +228,12 @@ func (p *PipProxy) SetPipAnimationTypeToAlpha(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "setPipAnimationTypeToAlpha")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetPipAnimationTypeToAlpha)
 	if _err != nil {
-		_code = TransactionIPipSetPipAnimationTypeToAlpha
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipSetPipAnimationTypeToAlpha, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -236,12 +247,12 @@ func (p *PipProxy) SetLauncherKeepClearAreaHeight(
 	_data.WriteBool(visible)
 	_data.WriteInt32(height)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "setLauncherKeepClearAreaHeight")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetLauncherKeepClearAreaHeight)
 	if _err != nil {
-		_code = TransactionIPipSetLauncherKeepClearAreaHeight
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipSetLauncherKeepClearAreaHeight, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -253,12 +264,12 @@ func (p *PipProxy) SetLauncherAppIconSize(
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(iconSizePx)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPip, "setLauncherAppIconSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPip, MethodIPipSetLauncherAppIconSize)
 	if _err != nil {
-		_code = TransactionIPipSetLauncherAppIconSize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPip, MethodIPipSetLauncherAppIconSize, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -269,6 +280,10 @@ type PipStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PipStub)(nil)
+
+func (s *PipStub) Descriptor() string {
+	return DescriptorIPip
+}
 
 func (s *PipStub) OnTransaction(
 	ctx context.Context,

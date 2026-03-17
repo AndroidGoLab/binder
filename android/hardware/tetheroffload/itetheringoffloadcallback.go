@@ -16,6 +16,11 @@ const (
 	TransactionITetheringOffloadCallbackUpdateTimeout = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITetheringOffloadCallbackOnEvent       = "onEvent"
+	MethodITetheringOffloadCallbackUpdateTimeout = "updateTimeout"
+)
+
 type ITetheringOffloadCallback interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, event OffloadCallbackEvent) error
@@ -23,17 +28,17 @@ type ITetheringOffloadCallback interface {
 }
 
 type TetheringOffloadCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTetheringOffloadCallbackProxy(
 	remote binder.IBinder,
 ) *TetheringOffloadCallbackProxy {
-	return &TetheringOffloadCallbackProxy{remote: remote}
+	return &TetheringOffloadCallbackProxy{Remote: remote}
 }
 
 func (p *TetheringOffloadCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITetheringOffloadCallback = (*TetheringOffloadCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *TetheringOffloadCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorITetheringOffloadCallback)
 	_data.WriteInt32(int32(event))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITetheringOffloadCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITetheringOffloadCallback, MethodITetheringOffloadCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionITetheringOffloadCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITetheringOffloadCallback, MethodITetheringOffloadCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *TetheringOffloadCallbackProxy) UpdateTimeout(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITetheringOffloadCallback, "updateTimeout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITetheringOffloadCallback, MethodITetheringOffloadCallbackUpdateTimeout)
 	if _err != nil {
-		_code = TransactionITetheringOffloadCallbackUpdateTimeout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITetheringOffloadCallback, MethodITetheringOffloadCallbackUpdateTimeout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type TetheringOffloadCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TetheringOffloadCallbackStub)(nil)
+
+func (s *TetheringOffloadCallbackStub) Descriptor() string {
+	return DescriptorITetheringOffloadCallback
+}
 
 func (s *TetheringOffloadCallbackStub) OnTransaction(
 	ctx context.Context,

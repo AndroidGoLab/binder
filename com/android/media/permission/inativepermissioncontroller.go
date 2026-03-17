@@ -17,6 +17,12 @@ const (
 	TransactionINativePermissionControllerPopulatePermissionState = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodINativePermissionControllerPopulatePackagesForUids = "populatePackagesForUids"
+	MethodINativePermissionControllerUpdatePackagesForUid    = "updatePackagesForUid"
+	MethodINativePermissionControllerPopulatePermissionState = "populatePermissionState"
+)
+
 type INativePermissionController interface {
 	AsBinder() binder.IBinder
 	PopulatePackagesForUids(ctx context.Context, initialPackageStates []UidPackageState) error
@@ -25,17 +31,17 @@ type INativePermissionController interface {
 }
 
 type NativePermissionControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNativePermissionControllerProxy(
 	remote binder.IBinder,
 ) *NativePermissionControllerProxy {
-	return &NativePermissionControllerProxy{remote: remote}
+	return &NativePermissionControllerProxy{Remote: remote}
 }
 
 func (p *NativePermissionControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INativePermissionController = (*NativePermissionControllerProxy)(nil)
@@ -51,18 +57,19 @@ func (p *NativePermissionControllerProxy) PopulatePackagesForUids(
 	} else {
 		_data.WriteInt32(int32(len(initialPackageStates)))
 		for _, _item := range initialPackageStates {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINativePermissionController, "populatePackagesForUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativePermissionController, MethodINativePermissionControllerPopulatePackagesForUids)
 	if _err != nil {
-		_code = TransactionINativePermissionControllerPopulatePackagesForUids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINativePermissionController, MethodINativePermissionControllerPopulatePackagesForUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -86,12 +93,12 @@ func (p *NativePermissionControllerProxy) UpdatePackagesForUid(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINativePermissionController, "updatePackagesForUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativePermissionController, MethodINativePermissionControllerUpdatePackagesForUid)
 	if _err != nil {
-		_code = TransactionINativePermissionControllerUpdatePackagesForUid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINativePermissionController, MethodINativePermissionControllerUpdatePackagesForUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,12 +128,12 @@ func (p *NativePermissionControllerProxy) PopulatePermissionState(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINativePermissionController, "populatePermissionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINativePermissionController, MethodINativePermissionControllerPopulatePermissionState)
 	if _err != nil {
-		_code = TransactionINativePermissionControllerPopulatePermissionState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINativePermissionController, MethodINativePermissionControllerPopulatePermissionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,6 +153,10 @@ type NativePermissionControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NativePermissionControllerStub)(nil)
+
+func (s *NativePermissionControllerStub) Descriptor() string {
+	return DescriptorINativePermissionController
+}
 
 func (s *NativePermissionControllerStub) OnTransaction(
 	ctx context.Context,

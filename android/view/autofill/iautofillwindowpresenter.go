@@ -17,6 +17,11 @@ const (
 	TransactionIAutofillWindowPresenterHide = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAutofillWindowPresenterShow = "show"
+	MethodIAutofillWindowPresenterHide = "hide"
+)
+
 type IAutofillWindowPresenter interface {
 	AsBinder() binder.IBinder
 	Show(ctx context.Context, p_ interface{}, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
@@ -24,17 +29,17 @@ type IAutofillWindowPresenter interface {
 }
 
 type AutofillWindowPresenterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAutofillWindowPresenterProxy(
 	remote binder.IBinder,
 ) *AutofillWindowPresenterProxy {
-	return &AutofillWindowPresenterProxy{remote: remote}
+	return &AutofillWindowPresenterProxy{Remote: remote}
 }
 
 func (p *AutofillWindowPresenterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAutofillWindowPresenter = (*AutofillWindowPresenterProxy)(nil)
@@ -55,12 +60,12 @@ func (p *AutofillWindowPresenterProxy) Show(
 	_data.WriteBool(fitsSystemWindows)
 	_data.WriteInt32(layoutDirection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutofillWindowPresenter, "show")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterShow)
 	if _err != nil {
-		_code = TransactionIAutofillWindowPresenterShow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterShow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +80,12 @@ func (p *AutofillWindowPresenterProxy) Hide(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutofillWindowPresenter, "hide")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterHide)
 	if _err != nil {
-		_code = TransactionIAutofillWindowPresenterHide
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutofillWindowPresenter, MethodIAutofillWindowPresenterHide, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +96,10 @@ type AutofillWindowPresenterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AutofillWindowPresenterStub)(nil)
+
+func (s *AutofillWindowPresenterStub) Descriptor() string {
+	return DescriptorIAutofillWindowPresenter
+}
 
 func (s *AutofillWindowPresenterStub) OnTransaction(
 	ctx context.Context,

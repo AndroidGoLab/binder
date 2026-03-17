@@ -15,23 +15,27 @@ const (
 	TransactionIWindowSessionCallbackOnAnimatorScaleChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWindowSessionCallbackOnAnimatorScaleChanged = "onAnimatorScaleChanged"
+)
+
 type IWindowSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnAnimatorScaleChanged(ctx context.Context, scale float32) error
 }
 
 type WindowSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowSessionCallbackProxy(
 	remote binder.IBinder,
 ) *WindowSessionCallbackProxy {
-	return &WindowSessionCallbackProxy{remote: remote}
+	return &WindowSessionCallbackProxy{Remote: remote}
 }
 
 func (p *WindowSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowSessionCallback = (*WindowSessionCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *WindowSessionCallbackProxy) OnAnimatorScaleChanged(
 	_data.WriteInterfaceToken(DescriptorIWindowSessionCallback)
 	_data.WriteFloat32(scale)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowSessionCallback, "onAnimatorScaleChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowSessionCallback, MethodIWindowSessionCallbackOnAnimatorScaleChanged)
 	if _err != nil {
-		_code = TransactionIWindowSessionCallbackOnAnimatorScaleChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowSessionCallback, MethodIWindowSessionCallbackOnAnimatorScaleChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type WindowSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowSessionCallbackStub)(nil)
+
+func (s *WindowSessionCallbackStub) Descriptor() string {
+	return DescriptorIWindowSessionCallback
+}
 
 func (s *WindowSessionCallbackStub) OnTransaction(
 	ctx context.Context,

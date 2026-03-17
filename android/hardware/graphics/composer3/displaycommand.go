@@ -19,7 +19,6 @@ type DisplayCommand struct {
 	PresentDisplay             bool
 	PresentOrValidateDisplay   bool
 	FrameIntervalNs            int32
-	PictureProfileId           int64
 }
 
 var _ parcel.Parcelable = (*DisplayCommand)(nil)
@@ -34,6 +33,7 @@ func (s *DisplayCommand) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Layers)))
 		for _, _item := range s.Layers {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -64,7 +64,6 @@ func (s *DisplayCommand) MarshalParcel(
 	p.WriteBool(s.PresentDisplay)
 	p.WriteBool(s.PresentOrValidateDisplay)
 	p.WriteInt32(s.FrameIntervalNs)
-	p.WriteInt64(s.PictureProfileId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -91,6 +90,9 @@ func (s *DisplayCommand) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Layers = make([]LayerCommand, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Layers[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -149,11 +151,6 @@ func (s *DisplayCommand) UnmarshalParcel(
 	}
 
 	s.FrameIntervalNs, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-
-	s.PictureProfileId, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}

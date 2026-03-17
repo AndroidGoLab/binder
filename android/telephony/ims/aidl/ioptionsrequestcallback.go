@@ -17,6 +17,11 @@ const (
 	TransactionIOptionsRequestCallbackRespondToCapabilityRequestWithError = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIOptionsRequestCallbackRespondToCapabilityRequest          = "respondToCapabilityRequest"
+	MethodIOptionsRequestCallbackRespondToCapabilityRequestWithError = "respondToCapabilityRequestWithError"
+)
+
 type IOptionsRequestCallback interface {
 	AsBinder() binder.IBinder
 	RespondToCapabilityRequest(ctx context.Context, ownCapabilities ims.RcsContactUceCapability, isBlocked bool) error
@@ -24,17 +29,17 @@ type IOptionsRequestCallback interface {
 }
 
 type OptionsRequestCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOptionsRequestCallbackProxy(
 	remote binder.IBinder,
 ) *OptionsRequestCallbackProxy {
-	return &OptionsRequestCallbackProxy{remote: remote}
+	return &OptionsRequestCallbackProxy{Remote: remote}
 }
 
 func (p *OptionsRequestCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOptionsRequestCallback = (*OptionsRequestCallbackProxy)(nil)
@@ -52,12 +57,12 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequest(
 	}
 	_data.WriteBool(isBlocked)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsRequestCallback, "respondToCapabilityRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequest)
 	if _err != nil {
-		_code = TransactionIOptionsRequestCallbackRespondToCapabilityRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +76,12 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequestWithError(
 	_data.WriteInt32(code)
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsRequestCallback, "respondToCapabilityRequestWithError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequestWithError)
 	if _err != nil {
-		_code = TransactionIOptionsRequestCallbackRespondToCapabilityRequestWithError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsRequestCallback, MethodIOptionsRequestCallbackRespondToCapabilityRequestWithError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type OptionsRequestCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OptionsRequestCallbackStub)(nil)
+
+func (s *OptionsRequestCallbackStub) Descriptor() string {
+	return DescriptorIOptionsRequestCallback
+}
 
 func (s *OptionsRequestCallbackStub) OnTransaction(
 	ctx context.Context,

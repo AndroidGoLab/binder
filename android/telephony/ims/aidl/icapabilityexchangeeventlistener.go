@@ -20,6 +20,13 @@ const (
 	TransactionICapabilityExchangeEventListenerOnRemoteCapabilityRequest    = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICapabilityExchangeEventListenerOnRequestPublishCapabilities = "onRequestPublishCapabilities"
+	MethodICapabilityExchangeEventListenerOnUnpublish                  = "onUnpublish"
+	MethodICapabilityExchangeEventListenerOnPublishUpdated             = "onPublishUpdated"
+	MethodICapabilityExchangeEventListenerOnRemoteCapabilityRequest    = "onRemoteCapabilityRequest"
+)
+
 type ICapabilityExchangeEventListener interface {
 	AsBinder() binder.IBinder
 	OnRequestPublishCapabilities(ctx context.Context, publishTriggerType int32) error
@@ -29,17 +36,17 @@ type ICapabilityExchangeEventListener interface {
 }
 
 type CapabilityExchangeEventListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCapabilityExchangeEventListenerProxy(
 	remote binder.IBinder,
 ) *CapabilityExchangeEventListenerProxy {
-	return &CapabilityExchangeEventListenerProxy{remote: remote}
+	return &CapabilityExchangeEventListenerProxy{Remote: remote}
 }
 
 func (p *CapabilityExchangeEventListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICapabilityExchangeEventListener = (*CapabilityExchangeEventListenerProxy)(nil)
@@ -52,12 +59,12 @@ func (p *CapabilityExchangeEventListenerProxy) OnRequestPublishCapabilities(
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 	_data.WriteInt32(publishTriggerType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onRequestPublishCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRequestPublishCapabilities)
 	if _err != nil {
-		_code = TransactionICapabilityExchangeEventListenerOnRequestPublishCapabilities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRequestPublishCapabilities, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *CapabilityExchangeEventListenerProxy) OnUnpublish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onUnpublish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnUnpublish)
 	if _err != nil {
-		_code = TransactionICapabilityExchangeEventListenerOnUnpublish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnUnpublish, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,12 +94,12 @@ func (p *CapabilityExchangeEventListenerProxy) OnPublishUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onPublishUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnPublishUpdated)
 	if _err != nil {
-		_code = TransactionICapabilityExchangeEventListenerOnPublishUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnPublishUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,14 +123,14 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 			_data.WriteString16(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onRemoteCapabilityRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRemoteCapabilityRequest)
 	if _err != nil {
-		_code = TransactionICapabilityExchangeEventListenerOnRemoteCapabilityRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICapabilityExchangeEventListener, MethodICapabilityExchangeEventListenerOnRemoteCapabilityRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,6 +141,10 @@ type CapabilityExchangeEventListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CapabilityExchangeEventListenerStub)(nil)
+
+func (s *CapabilityExchangeEventListenerStub) Descriptor() string {
+	return DescriptorICapabilityExchangeEventListener
+}
 
 func (s *CapabilityExchangeEventListenerStub) OnTransaction(
 	ctx context.Context,

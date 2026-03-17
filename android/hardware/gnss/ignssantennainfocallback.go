@@ -16,23 +16,27 @@ const (
 	TransactionIGnssAntennaInfoCallbackGnssAntennaInfoCb = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssAntennaInfoCallbackGnssAntennaInfoCb = "gnssAntennaInfoCb"
+)
+
 type IGnssAntennaInfoCallback interface {
 	AsBinder() binder.IBinder
 	GnssAntennaInfoCb(ctx context.Context, gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo) error
 }
 
 type GnssAntennaInfoCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssAntennaInfoCallbackProxy(
 	remote binder.IBinder,
 ) *GnssAntennaInfoCallbackProxy {
-	return &GnssAntennaInfoCallbackProxy{remote: remote}
+	return &GnssAntennaInfoCallbackProxy{Remote: remote}
 }
 
 func (p *GnssAntennaInfoCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssAntennaInfoCallback = (*GnssAntennaInfoCallbackProxy)(nil)
@@ -48,18 +52,19 @@ func (p *GnssAntennaInfoCallbackProxy) GnssAntennaInfoCb(
 	} else {
 		_data.WriteInt32(int32(len(gnssAntennaInfos)))
 		for _, _item := range gnssAntennaInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfoCallback, "gnssAntennaInfoCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAntennaInfoCallback, MethodIGnssAntennaInfoCallbackGnssAntennaInfoCb)
 	if _err != nil {
-		_code = TransactionIGnssAntennaInfoCallbackGnssAntennaInfoCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAntennaInfoCallback, MethodIGnssAntennaInfoCallbackGnssAntennaInfoCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +84,10 @@ type GnssAntennaInfoCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssAntennaInfoCallbackStub)(nil)
+
+func (s *GnssAntennaInfoCallbackStub) Descriptor() string {
+	return DescriptorIGnssAntennaInfoCallback
+}
 
 func (s *GnssAntennaInfoCallbackStub) OnTransaction(
 	ctx context.Context,

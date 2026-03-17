@@ -23,22 +23,8 @@ func (s *NanDataPathConfirmInd) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.NdpInstanceId)
 	p.WriteBool(s.DataPathSetupSuccess)
-	if s.PeerNdiMacAddr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerNdiMacAddr)))
-		for _, _item := range s.PeerNdiMacAddr {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.AppInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.AppInfo)))
-		for _, _item := range s.AppInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerNdiMacAddr, 6)
+	p.WriteByteArray(s.AppInfo)
 	if _err := s.Status.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -47,6 +33,7 @@ func (s *NanDataPathConfirmInd) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ChannelInfo)))
 		for _, _item := range s.ChannelInfo {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -75,34 +62,14 @@ func (s *NanDataPathConfirmInd) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerNdiMacAddr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerNdiMacAddr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerNdiMacAddr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.AppInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.AppInfo = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.AppInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	if _err = s.Status.UnmarshalParcel(p); _err != nil {
@@ -117,6 +84,9 @@ func (s *NanDataPathConfirmInd) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.ChannelInfo = make([]NanDataPathChannelInfo, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ChannelInfo[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

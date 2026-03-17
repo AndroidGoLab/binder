@@ -27,6 +27,20 @@ const (
 	TransactionIQSServiceOnStartSuccessful = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIQSServiceGetTile           = "getTile"
+	MethodIQSServiceUpdateQsTile      = "updateQsTile"
+	MethodIQSServiceUpdateStatusIcon  = "updateStatusIcon"
+	MethodIQSServiceOnShowDialog      = "onShowDialog"
+	MethodIQSServiceOnStartActivity   = "onStartActivity"
+	MethodIQSServiceStartActivity     = "startActivity"
+	MethodIQSServiceIsLocked          = "isLocked"
+	MethodIQSServiceIsSecure          = "isSecure"
+	MethodIQSServiceStartUnlockAndRun = "startUnlockAndRun"
+	MethodIQSServiceOnDialogHidden    = "onDialogHidden"
+	MethodIQSServiceOnStartSuccessful = "onStartSuccessful"
+)
+
 type IQSService interface {
 	AsBinder() binder.IBinder
 	GetTile(ctx context.Context, tile binder.IBinder) (Tile, error)
@@ -43,17 +57,17 @@ type IQSService interface {
 }
 
 type QSServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewQSServiceProxy(
 	remote binder.IBinder,
 ) *QSServiceProxy {
-	return &QSServiceProxy{remote: remote}
+	return &QSServiceProxy{Remote: remote}
 }
 
 func (p *QSServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IQSService = (*QSServiceProxy)(nil)
@@ -65,14 +79,14 @@ func (p *QSServiceProxy) GetTile(
 	var _result Tile
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "getTile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceGetTile)
 	if _err != nil {
-		_code = TransactionIQSServiceGetTile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceGetTile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,14 +119,14 @@ func (p *QSServiceProxy) UpdateQsTile(
 	if _err := tile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, service, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "updateQsTile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceUpdateQsTile)
 	if _err != nil {
-		_code = TransactionIQSServiceUpdateQsTile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceUpdateQsTile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,19 +147,19 @@ func (p *QSServiceProxy) UpdateStatusIcon(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(contentDescription)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "updateStatusIcon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceUpdateStatusIcon)
 	if _err != nil {
-		_code = TransactionIQSServiceUpdateStatusIcon
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceUpdateStatusIcon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -164,14 +178,14 @@ func (p *QSServiceProxy) OnShowDialog(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onShowDialog")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceOnShowDialog)
 	if _err != nil {
-		_code = TransactionIQSServiceOnShowDialog
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceOnShowDialog, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -190,14 +204,14 @@ func (p *QSServiceProxy) OnStartActivity(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onStartActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceOnStartActivity)
 	if _err != nil {
-		_code = TransactionIQSServiceOnStartActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceOnStartActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -217,18 +231,18 @@ func (p *QSServiceProxy) StartActivity(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "startActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceStartActivity)
 	if _err != nil {
-		_code = TransactionIQSServiceStartActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceStartActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -248,12 +262,12 @@ func (p *QSServiceProxy) IsLocked(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "isLocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceIsLocked)
 	if _err != nil {
-		_code = TransactionIQSServiceIsLocked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceIsLocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -277,12 +291,12 @@ func (p *QSServiceProxy) IsSecure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "isSecure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceIsSecure)
 	if _err != nil {
-		_code = TransactionIQSServiceIsSecure
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceIsSecure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -305,14 +319,14 @@ func (p *QSServiceProxy) StartUnlockAndRun(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "startUnlockAndRun")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceStartUnlockAndRun)
 	if _err != nil {
-		_code = TransactionIQSServiceStartUnlockAndRun
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceStartUnlockAndRun, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -331,14 +345,14 @@ func (p *QSServiceProxy) OnDialogHidden(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onDialogHidden")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceOnDialogHidden)
 	if _err != nil {
-		_code = TransactionIQSServiceOnDialogHidden
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceOnDialogHidden, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -357,14 +371,14 @@ func (p *QSServiceProxy) OnStartSuccessful(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
-	binder.WriteBinderToParcel(ctx, _data, tile, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tile, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onStartSuccessful")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQSService, MethodIQSServiceOnStartSuccessful)
 	if _err != nil {
-		_code = TransactionIQSServiceOnStartSuccessful
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQSService, MethodIQSServiceOnStartSuccessful, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -384,6 +398,10 @@ type QSServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*QSServiceStub)(nil)
+
+func (s *QSServiceStub) Descriptor() string {
+	return DescriptorIQSService
+}
 
 func (s *QSServiceStub) OnTransaction(
 	ctx context.Context,

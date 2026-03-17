@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature = "onHdmiCecVolumeControlFeature"
+)
+
 type IHdmiCecVolumeControlFeatureListener interface {
 	AsBinder() binder.IBinder
 	OnHdmiCecVolumeControlFeature(ctx context.Context, hdmiCecVolumeControl int32) error
 }
 
 type HdmiCecVolumeControlFeatureListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiCecVolumeControlFeatureListenerProxy(
 	remote binder.IBinder,
 ) *HdmiCecVolumeControlFeatureListenerProxy {
-	return &HdmiCecVolumeControlFeatureListenerProxy{remote: remote}
+	return &HdmiCecVolumeControlFeatureListenerProxy{Remote: remote}
 }
 
 func (p *HdmiCecVolumeControlFeatureListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiCecVolumeControlFeatureListener = (*HdmiCecVolumeControlFeatureListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *HdmiCecVolumeControlFeatureListenerProxy) OnHdmiCecVolumeControlFeature
 	_data.WriteInterfaceToken(DescriptorIHdmiCecVolumeControlFeatureListener)
 	_data.WriteInt32(hdmiCecVolumeControl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCecVolumeControlFeatureListener, "onHdmiCecVolumeControlFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiCecVolumeControlFeatureListener, MethodIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature)
 	if _err != nil {
-		_code = TransactionIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiCecVolumeControlFeatureListener, MethodIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type HdmiCecVolumeControlFeatureListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiCecVolumeControlFeatureListenerStub)(nil)
+
+func (s *HdmiCecVolumeControlFeatureListenerStub) Descriptor() string {
+	return DescriptorIHdmiCecVolumeControlFeatureListener
+}
 
 func (s *HdmiCecVolumeControlFeatureListenerStub) OnTransaction(
 	ctx context.Context,

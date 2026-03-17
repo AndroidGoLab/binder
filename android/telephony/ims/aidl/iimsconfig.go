@@ -30,6 +30,24 @@ const (
 	TransactionIImsConfigNotifyStringImsConfigChanged       = binder.FirstCallTransaction + 14
 )
 
+const (
+	MethodIImsConfigAddImsConfigCallback               = "addImsConfigCallback"
+	MethodIImsConfigRemoveImsConfigCallback            = "removeImsConfigCallback"
+	MethodIImsConfigGetConfigInt                       = "getConfigInt"
+	MethodIImsConfigGetConfigString                    = "getConfigString"
+	MethodIImsConfigSetConfigInt                       = "setConfigInt"
+	MethodIImsConfigSetConfigString                    = "setConfigString"
+	MethodIImsConfigUpdateImsCarrierConfigs            = "updateImsCarrierConfigs"
+	MethodIImsConfigNotifyRcsAutoConfigurationReceived = "notifyRcsAutoConfigurationReceived"
+	MethodIImsConfigNotifyRcsAutoConfigurationRemoved  = "notifyRcsAutoConfigurationRemoved"
+	MethodIImsConfigAddRcsConfigCallback               = "addRcsConfigCallback"
+	MethodIImsConfigRemoveRcsConfigCallback            = "removeRcsConfigCallback"
+	MethodIImsConfigTriggerRcsReconfiguration          = "triggerRcsReconfiguration"
+	MethodIImsConfigSetRcsClientConfiguration          = "setRcsClientConfiguration"
+	MethodIImsConfigNotifyIntImsConfigChanged          = "notifyIntImsConfigChanged"
+	MethodIImsConfigNotifyStringImsConfigChanged       = "notifyStringImsConfigChanged"
+)
+
 type IImsConfig interface {
 	AsBinder() binder.IBinder
 	AddImsConfigCallback(ctx context.Context, c IImsConfigCallback) error
@@ -50,17 +68,17 @@ type IImsConfig interface {
 }
 
 type ImsConfigProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsConfigProxy(
 	remote binder.IBinder,
 ) *ImsConfigProxy {
-	return &ImsConfigProxy{remote: remote}
+	return &ImsConfigProxy{Remote: remote}
 }
 
 func (p *ImsConfigProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsConfig = (*ImsConfigProxy)(nil)
@@ -71,14 +89,14 @@ func (p *ImsConfigProxy) AddImsConfigCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "addImsConfigCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigAddImsConfigCallback)
 	if _err != nil {
-		_code = TransactionIImsConfigAddImsConfigCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigAddImsConfigCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,14 +115,14 @@ func (p *ImsConfigProxy) RemoveImsConfigCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "removeImsConfigCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigRemoveImsConfigCallback)
 	if _err != nil {
-		_code = TransactionIImsConfigRemoveImsConfigCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigRemoveImsConfigCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,12 +144,12 @@ func (p *ImsConfigProxy) GetConfigInt(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getConfigInt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetConfigInt)
 	if _err != nil {
-		_code = TransactionIImsConfigGetConfigInt
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetConfigInt, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -157,12 +175,12 @@ func (p *ImsConfigProxy) GetConfigString(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getConfigString")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigGetConfigString)
 	if _err != nil {
-		_code = TransactionIImsConfigGetConfigString
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigGetConfigString, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -190,12 +208,12 @@ func (p *ImsConfigProxy) SetConfigInt(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setConfigInt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetConfigInt)
 	if _err != nil {
-		_code = TransactionIImsConfigSetConfigInt
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetConfigInt, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -223,12 +241,12 @@ func (p *ImsConfigProxy) SetConfigString(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setConfigString")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetConfigString)
 	if _err != nil {
-		_code = TransactionIImsConfigSetConfigString
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetConfigString, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -252,12 +270,12 @@ func (p *ImsConfigProxy) UpdateImsCarrierConfigs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "updateImsCarrierConfigs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigUpdateImsCarrierConfigs)
 	if _err != nil {
-		_code = TransactionIImsConfigUpdateImsCarrierConfigs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigUpdateImsCarrierConfigs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -287,12 +305,12 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationReceived(
 	}
 	_data.WriteBool(isCompressed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyRcsAutoConfigurationReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigNotifyRcsAutoConfigurationReceived)
 	if _err != nil {
-		_code = TransactionIImsConfigNotifyRcsAutoConfigurationReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigNotifyRcsAutoConfigurationReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -311,12 +329,12 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyRcsAutoConfigurationRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigNotifyRcsAutoConfigurationRemoved)
 	if _err != nil {
-		_code = TransactionIImsConfigNotifyRcsAutoConfigurationRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigNotifyRcsAutoConfigurationRemoved, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -335,14 +353,14 @@ func (p *ImsConfigProxy) AddRcsConfigCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "addRcsConfigCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigAddRcsConfigCallback)
 	if _err != nil {
-		_code = TransactionIImsConfigAddRcsConfigCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigAddRcsConfigCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -361,14 +379,14 @@ func (p *ImsConfigProxy) RemoveRcsConfigCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "removeRcsConfigCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigRemoveRcsConfigCallback)
 	if _err != nil {
-		_code = TransactionIImsConfigRemoveRcsConfigCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigRemoveRcsConfigCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -387,12 +405,12 @@ func (p *ImsConfigProxy) TriggerRcsReconfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "triggerRcsReconfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigTriggerRcsReconfiguration)
 	if _err != nil {
-		_code = TransactionIImsConfigTriggerRcsReconfiguration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigTriggerRcsReconfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -416,12 +434,12 @@ func (p *ImsConfigProxy) SetRcsClientConfiguration(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setRcsClientConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigSetRcsClientConfiguration)
 	if _err != nil {
-		_code = TransactionIImsConfigSetRcsClientConfiguration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigSetRcsClientConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -444,12 +462,12 @@ func (p *ImsConfigProxy) NotifyIntImsConfigChanged(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyIntImsConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigNotifyIntImsConfigChanged)
 	if _err != nil {
-		_code = TransactionIImsConfigNotifyIntImsConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigNotifyIntImsConfigChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -472,12 +490,12 @@ func (p *ImsConfigProxy) NotifyStringImsConfigChanged(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyStringImsConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfig, MethodIImsConfigNotifyStringImsConfigChanged)
 	if _err != nil {
-		_code = TransactionIImsConfigNotifyStringImsConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfig, MethodIImsConfigNotifyStringImsConfigChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -497,6 +515,10 @@ type ImsConfigStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
+
+func (s *ImsConfigStub) Descriptor() string {
+	return DescriptorIImsConfig
+}
 
 func (s *ImsConfigStub) OnTransaction(
 	ctx context.Context,

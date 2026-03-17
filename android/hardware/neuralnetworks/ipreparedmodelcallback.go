@@ -15,23 +15,27 @@ const (
 	TransactionIPreparedModelCallbackNotify = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPreparedModelCallbackNotify = "notify"
+)
+
 type IPreparedModelCallback interface {
 	AsBinder() binder.IBinder
 	Notify(ctx context.Context, status ErrorStatus, preparedModel IPreparedModel) error
 }
 
 type PreparedModelCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPreparedModelCallbackProxy(
 	remote binder.IBinder,
 ) *PreparedModelCallbackProxy {
-	return &PreparedModelCallbackProxy{remote: remote}
+	return &PreparedModelCallbackProxy{Remote: remote}
 }
 
 func (p *PreparedModelCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPreparedModelCallback = (*PreparedModelCallbackProxy)(nil)
@@ -44,14 +48,14 @@ func (p *PreparedModelCallbackProxy) Notify(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModelCallback)
 	_data.WriteInt32(int32(status))
-	binder.WriteBinderToParcel(ctx, _data, preparedModel.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, preparedModel.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModelCallback, "notify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModelCallback, MethodIPreparedModelCallbackNotify)
 	if _err != nil {
-		_code = TransactionIPreparedModelCallbackNotify
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModelCallback, MethodIPreparedModelCallbackNotify, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,6 +75,10 @@ type PreparedModelCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PreparedModelCallbackStub)(nil)
+
+func (s *PreparedModelCallbackStub) Descriptor() string {
+	return DescriptorIPreparedModelCallback
+}
 
 func (s *PreparedModelCallbackStub) OnTransaction(
 	ctx context.Context,

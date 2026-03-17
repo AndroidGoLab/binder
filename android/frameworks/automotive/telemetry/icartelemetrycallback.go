@@ -15,23 +15,27 @@ const (
 	TransactionICarTelemetryCallbackOnChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICarTelemetryCallbackOnChange = "onChange"
+)
+
 type ICarTelemetryCallback interface {
 	AsBinder() binder.IBinder
 	OnChange(ctx context.Context, ids []int32) error
 }
 
 type CarTelemetryCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarTelemetryCallbackProxy(
 	remote binder.IBinder,
 ) *CarTelemetryCallbackProxy {
-	return &CarTelemetryCallbackProxy{remote: remote}
+	return &CarTelemetryCallbackProxy{Remote: remote}
 }
 
 func (p *CarTelemetryCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarTelemetryCallback = (*CarTelemetryCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *CarTelemetryCallbackProxy) OnChange(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetryCallback, "onChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarTelemetryCallback, MethodICarTelemetryCallbackOnChange)
 	if _err != nil {
-		_code = TransactionICarTelemetryCallbackOnChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarTelemetryCallback, MethodICarTelemetryCallbackOnChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,6 +80,10 @@ type CarTelemetryCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarTelemetryCallbackStub)(nil)
+
+func (s *CarTelemetryCallbackStub) Descriptor() string {
+	return DescriptorICarTelemetryCallback
+}
 
 func (s *CarTelemetryCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -17,6 +17,11 @@ const (
 	TransactionICompanionDeviceDiscoveryServiceOnAssociationCreated = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICompanionDeviceDiscoveryServiceStartDiscovery       = "startDiscovery"
+	MethodICompanionDeviceDiscoveryServiceOnAssociationCreated = "onAssociationCreated"
+)
+
 type ICompanionDeviceDiscoveryService interface {
 	AsBinder() binder.IBinder
 	StartDiscovery(ctx context.Context, request AssociationRequest, applicationCallback IAssociationRequestCallback, serviceCallback infra.AndroidFuture) error
@@ -24,17 +29,17 @@ type ICompanionDeviceDiscoveryService interface {
 }
 
 type CompanionDeviceDiscoveryServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCompanionDeviceDiscoveryServiceProxy(
 	remote binder.IBinder,
 ) *CompanionDeviceDiscoveryServiceProxy {
-	return &CompanionDeviceDiscoveryServiceProxy{remote: remote}
+	return &CompanionDeviceDiscoveryServiceProxy{Remote: remote}
 }
 
 func (p *CompanionDeviceDiscoveryServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICompanionDeviceDiscoveryService = (*CompanionDeviceDiscoveryServiceProxy)(nil)
@@ -45,7 +50,7 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 	applicationCallback IAssociationRequestCallback,
 	serviceCallback infra.AndroidFuture,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
 	_data.WriteInt32(1)
@@ -53,18 +58,18 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 		return _err
 	}
 	_data.WriteString16(_identity.PackageName)
-	binder.WriteBinderToParcel(ctx, _data, applicationCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, applicationCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := serviceCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceDiscoveryService, "startDiscovery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceStartDiscovery)
 	if _err != nil {
-		_code = TransactionICompanionDeviceDiscoveryServiceStartDiscovery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceStartDiscovery, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +79,12 @@ func (p *CompanionDeviceDiscoveryServiceProxy) OnAssociationCreated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceDiscoveryService, "onAssociationCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceOnAssociationCreated)
 	if _err != nil {
-		_code = TransactionICompanionDeviceDiscoveryServiceOnAssociationCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceDiscoveryService, MethodICompanionDeviceDiscoveryServiceOnAssociationCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,6 +95,10 @@ type CompanionDeviceDiscoveryServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CompanionDeviceDiscoveryServiceStub)(nil)
+
+func (s *CompanionDeviceDiscoveryServiceStub) Descriptor() string {
+	return DescriptorICompanionDeviceDiscoveryService
+}
 
 func (s *CompanionDeviceDiscoveryServiceStub) OnTransaction(
 	ctx context.Context,

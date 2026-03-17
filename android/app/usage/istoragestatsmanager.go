@@ -28,6 +28,22 @@ const (
 	TransactionIStorageStatsManagerQueryCratesForUser        = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIStorageStatsManagerIsQuotaSupported          = "isQuotaSupported"
+	MethodIStorageStatsManagerIsReservedSupported       = "isReservedSupported"
+	MethodIStorageStatsManagerGetTotalBytes             = "getTotalBytes"
+	MethodIStorageStatsManagerGetFreeBytes              = "getFreeBytes"
+	MethodIStorageStatsManagerGetCacheBytes             = "getCacheBytes"
+	MethodIStorageStatsManagerGetCacheQuotaBytes        = "getCacheQuotaBytes"
+	MethodIStorageStatsManagerQueryStatsForPackage      = "queryStatsForPackage"
+	MethodIStorageStatsManagerQueryStatsForUid          = "queryStatsForUid"
+	MethodIStorageStatsManagerQueryStatsForUser         = "queryStatsForUser"
+	MethodIStorageStatsManagerQueryExternalStatsForUser = "queryExternalStatsForUser"
+	MethodIStorageStatsManagerQueryCratesForPackage     = "queryCratesForPackage"
+	MethodIStorageStatsManagerQueryCratesForUid         = "queryCratesForUid"
+	MethodIStorageStatsManagerQueryCratesForUser        = "queryCratesForUser"
+)
+
 type IStorageStatsManager interface {
 	AsBinder() binder.IBinder
 	IsQuotaSupported(ctx context.Context, volumeUuid string) (bool, error)
@@ -46,17 +62,17 @@ type IStorageStatsManager interface {
 }
 
 type StorageStatsManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageStatsManagerProxy(
 	remote binder.IBinder,
 ) *StorageStatsManagerProxy {
-	return &StorageStatsManagerProxy{remote: remote}
+	return &StorageStatsManagerProxy{Remote: remote}
 }
 
 func (p *StorageStatsManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorageStatsManager = (*StorageStatsManagerProxy)(nil)
@@ -66,18 +82,18 @@ func (p *StorageStatsManagerProxy) IsQuotaSupported(
 	volumeUuid string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "isQuotaSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsQuotaSupported)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerIsQuotaSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsQuotaSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,18 +115,18 @@ func (p *StorageStatsManagerProxy) IsReservedSupported(
 	volumeUuid string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "isReservedSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsReservedSupported)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerIsReservedSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerIsReservedSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,18 +148,18 @@ func (p *StorageStatsManagerProxy) GetTotalBytes(
 	volumeUuid string,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getTotalBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetTotalBytes)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerGetTotalBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetTotalBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -165,18 +181,18 @@ func (p *StorageStatsManagerProxy) GetFreeBytes(
 	volumeUuid string,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getFreeBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetFreeBytes)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerGetFreeBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetFreeBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -198,18 +214,18 @@ func (p *StorageStatsManagerProxy) GetCacheBytes(
 	volumeUuid string,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getCacheBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheBytes)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerGetCacheBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -232,19 +248,19 @@ func (p *StorageStatsManagerProxy) GetCacheQuotaBytes(
 	uid int32,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getCacheQuotaBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheQuotaBytes)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerGetCacheQuotaBytes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerGetCacheQuotaBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -267,7 +283,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForPackage(
 	packageName string,
 ) (StorageStats, error) {
 	var _result StorageStats
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
@@ -275,12 +291,12 @@ func (p *StorageStatsManagerProxy) QueryStatsForPackage(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryStatsForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForPackage)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryStatsForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -308,19 +324,19 @@ func (p *StorageStatsManagerProxy) QueryStatsForUid(
 	uid int32,
 ) (StorageStats, error) {
 	var _result StorageStats
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryStatsForUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUid)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryStatsForUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -347,19 +363,19 @@ func (p *StorageStatsManagerProxy) QueryStatsForUser(
 	volumeUuid string,
 ) (StorageStats, error) {
 	var _result StorageStats
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryStatsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUser)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryStatsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryStatsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -386,19 +402,19 @@ func (p *StorageStatsManagerProxy) QueryExternalStatsForUser(
 	volumeUuid string,
 ) (ExternalStorageStats, error) {
 	var _result ExternalStorageStats
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryExternalStatsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryExternalStatsForUser)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryExternalStatsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryExternalStatsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -426,7 +442,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForPackage(
 	packageName string,
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
@@ -434,12 +450,12 @@ func (p *StorageStatsManagerProxy) QueryCratesForPackage(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryCratesForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForPackage)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryCratesForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -467,19 +483,19 @@ func (p *StorageStatsManagerProxy) QueryCratesForUid(
 	uid int32,
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(uid)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryCratesForUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUid)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryCratesForUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -506,19 +522,19 @@ func (p *StorageStatsManagerProxy) QueryCratesForUser(
 	volumeUuid string,
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageStatsManager)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryCratesForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUser)
 	if _err != nil {
-		_code = TransactionIStorageStatsManagerQueryCratesForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageStatsManager, MethodIStorageStatsManagerQueryCratesForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -547,6 +563,10 @@ type StorageStatsManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageStatsManagerStub)(nil)
+
+func (s *StorageStatsManagerStub) Descriptor() string {
+	return DescriptorIStorageStatsManager
+}
 
 func (s *StorageStatsManagerStub) OnTransaction(
 	ctx context.Context,

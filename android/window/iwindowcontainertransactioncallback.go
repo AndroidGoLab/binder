@@ -16,23 +16,27 @@ const (
 	TransactionIWindowContainerTransactionCallbackOnTransactionReady = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWindowContainerTransactionCallbackOnTransactionReady = "onTransactionReady"
+)
+
 type IWindowContainerTransactionCallback interface {
 	AsBinder() binder.IBinder
 	OnTransactionReady(ctx context.Context, id int32, t view.SurfaceControlTransaction) error
 }
 
 type WindowContainerTransactionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowContainerTransactionCallbackProxy(
 	remote binder.IBinder,
 ) *WindowContainerTransactionCallbackProxy {
-	return &WindowContainerTransactionCallbackProxy{remote: remote}
+	return &WindowContainerTransactionCallbackProxy{Remote: remote}
 }
 
 func (p *WindowContainerTransactionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowContainerTransactionCallback = (*WindowContainerTransactionCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowContainerTransactionCallback, "onTransactionReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowContainerTransactionCallback, MethodIWindowContainerTransactionCallbackOnTransactionReady)
 	if _err != nil {
-		_code = TransactionIWindowContainerTransactionCallbackOnTransactionReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowContainerTransactionCallback, MethodIWindowContainerTransactionCallbackOnTransactionReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type WindowContainerTransactionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowContainerTransactionCallbackStub)(nil)
+
+func (s *WindowContainerTransactionCallbackStub) Descriptor() string {
+	return DescriptorIWindowContainerTransactionCallback
+}
 
 func (s *WindowContainerTransactionCallbackStub) OnTransaction(
 	ctx context.Context,

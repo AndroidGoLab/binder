@@ -25,32 +25,11 @@ func (s *NanTransmitFollowupRequest) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(s.DiscoverySessionId)
 	p.WriteInt32(s.PeerId)
-	if s.Addr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Addr)))
-		for _, _item := range s.Addr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Addr, 6)
 	p.WriteBool(s.IsHighPriority)
 	p.WriteBool(s.ShouldUseDiscoveryWindow)
-	if s.ServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceSpecificInfo)))
-		for _, _item := range s.ServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ExtendedServiceSpecificInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ExtendedServiceSpecificInfo)))
-		for _, _item := range s.ExtendedServiceSpecificInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ServiceSpecificInfo)
+	p.WriteByteArray(s.ExtendedServiceSpecificInfo)
 	p.WriteBool(s.DisableFollowupResultIndication)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -75,19 +54,9 @@ func (s *NanTransmitFollowupRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Addr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Addr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Addr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.IsHighPriority, _err = p.ReadBool()
@@ -100,34 +69,14 @@ func (s *NanTransmitFollowupRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ServiceSpecificInfo = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.ExtendedServiceSpecificInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.ExtendedServiceSpecificInfo = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.ExtendedServiceSpecificInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DisableFollowupResultIndication, _err = p.ReadBool()

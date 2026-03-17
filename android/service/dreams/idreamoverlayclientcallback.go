@@ -15,23 +15,27 @@ const (
 	TransactionIDreamOverlayClientCallbackOnDreamOverlayClient = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDreamOverlayClientCallbackOnDreamOverlayClient = "onDreamOverlayClient"
+)
+
 type IDreamOverlayClientCallback interface {
 	AsBinder() binder.IBinder
 	OnDreamOverlayClient(ctx context.Context, client IDreamOverlayClient) error
 }
 
 type DreamOverlayClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDreamOverlayClientCallbackProxy(
 	remote binder.IBinder,
 ) *DreamOverlayClientCallbackProxy {
-	return &DreamOverlayClientCallbackProxy{remote: remote}
+	return &DreamOverlayClientCallbackProxy{Remote: remote}
 }
 
 func (p *DreamOverlayClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDreamOverlayClientCallback = (*DreamOverlayClientCallbackProxy)(nil)
@@ -42,14 +46,14 @@ func (p *DreamOverlayClientCallbackProxy) OnDreamOverlayClient(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClientCallback)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClientCallback, "onDreamOverlayClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClientCallback, MethodIDreamOverlayClientCallbackOnDreamOverlayClient)
 	if _err != nil {
-		_code = TransactionIDreamOverlayClientCallbackOnDreamOverlayClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamOverlayClientCallback, MethodIDreamOverlayClientCallbackOnDreamOverlayClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type DreamOverlayClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayClientCallbackStub)(nil)
+
+func (s *DreamOverlayClientCallbackStub) Descriptor() string {
+	return DescriptorIDreamOverlayClientCallback
+}
 
 func (s *DreamOverlayClientCallbackStub) OnTransaction(
 	ctx context.Context,

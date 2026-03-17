@@ -19,6 +19,14 @@ const (
 	TransactionIPictureProfileCallbackOnError                    = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPictureProfileCallbackOnPictureProfileAdded      = "onPictureProfileAdded"
+	MethodIPictureProfileCallbackOnPictureProfileUpdated    = "onPictureProfileUpdated"
+	MethodIPictureProfileCallbackOnPictureProfileRemoved    = "onPictureProfileRemoved"
+	MethodIPictureProfileCallbackOnParamCapabilitiesChanged = "onParamCapabilitiesChanged"
+	MethodIPictureProfileCallbackOnError                    = "onError"
+)
+
 type IPictureProfileCallback interface {
 	AsBinder() binder.IBinder
 	OnPictureProfileAdded(ctx context.Context, id string, p_ PictureProfile) error
@@ -29,17 +37,17 @@ type IPictureProfileCallback interface {
 }
 
 type PictureProfileCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPictureProfileCallbackProxy(
 	remote binder.IBinder,
 ) *PictureProfileCallbackProxy {
-	return &PictureProfileCallbackProxy{remote: remote}
+	return &PictureProfileCallbackProxy{Remote: remote}
 }
 
 func (p *PictureProfileCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPictureProfileCallback = (*PictureProfileCallbackProxy)(nil)
@@ -57,12 +65,12 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onPictureProfileAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnPictureProfileAdded)
 	if _err != nil {
-		_code = TransactionIPictureProfileCallbackOnPictureProfileAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnPictureProfileAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +87,12 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onPictureProfileUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnPictureProfileUpdated)
 	if _err != nil {
-		_code = TransactionIPictureProfileCallbackOnPictureProfileUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnPictureProfileUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +109,12 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileRemoved(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onPictureProfileRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnPictureProfileRemoved)
 	if _err != nil {
-		_code = TransactionIPictureProfileCallbackOnPictureProfileRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnPictureProfileRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,18 +131,19 @@ func (p *PictureProfileCallbackProxy) OnParamCapabilitiesChanged(
 	} else {
 		_data.WriteInt32(int32(len(caps)))
 		for _, _item := range caps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onParamCapabilitiesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnParamCapabilitiesChanged)
 	if _err != nil {
-		_code = TransactionIPictureProfileCallbackOnParamCapabilitiesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnParamCapabilitiesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,12 +157,12 @@ func (p *PictureProfileCallbackProxy) OnError(
 	_data.WriteString16(id)
 	_data.WriteInt32(err)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnError)
 	if _err != nil {
-		_code = TransactionIPictureProfileCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileCallback, MethodIPictureProfileCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -164,6 +173,10 @@ type PictureProfileCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PictureProfileCallbackStub)(nil)
+
+func (s *PictureProfileCallbackStub) Descriptor() string {
+	return DescriptorIPictureProfileCallback
+}
 
 func (s *PictureProfileCallbackStub) OnTransaction(
 	ctx context.Context,

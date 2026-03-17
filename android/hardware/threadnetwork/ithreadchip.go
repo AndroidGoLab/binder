@@ -18,6 +18,13 @@ const (
 	TransactionIThreadChipSendSpinelFrame = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIThreadChipOpen            = "open"
+	MethodIThreadChipClose           = "close"
+	MethodIThreadChipHardwareReset   = "hardwareReset"
+	MethodIThreadChipSendSpinelFrame = "sendSpinelFrame"
+)
+
 type IThreadChip interface {
 	AsBinder() binder.IBinder
 	Open(ctx context.Context, callback IThreadChipCallback) error
@@ -33,17 +40,17 @@ const (
 )
 
 type ThreadChipProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewThreadChipProxy(
 	remote binder.IBinder,
 ) *ThreadChipProxy {
-	return &ThreadChipProxy{remote: remote}
+	return &ThreadChipProxy{Remote: remote}
 }
 
 func (p *ThreadChipProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IThreadChip = (*ThreadChipProxy)(nil)
@@ -54,14 +61,14 @@ func (p *ThreadChipProxy) Open(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThreadChip, "open")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipOpen)
 	if _err != nil {
-		_code = TransactionIThreadChipOpen
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThreadChip, MethodIThreadChipOpen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +87,12 @@ func (p *ThreadChipProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThreadChip, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipClose)
 	if _err != nil {
-		_code = TransactionIThreadChipClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThreadChip, MethodIThreadChipClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,12 +111,12 @@ func (p *ThreadChipProxy) HardwareReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThreadChip)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThreadChip, "hardwareReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipHardwareReset)
 	if _err != nil {
-		_code = TransactionIThreadChipHardwareReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThreadChip, MethodIThreadChipHardwareReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,12 +144,12 @@ func (p *ThreadChipProxy) SendSpinelFrame(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThreadChip, "sendSpinelFrame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThreadChip, MethodIThreadChipSendSpinelFrame)
 	if _err != nil {
-		_code = TransactionIThreadChipSendSpinelFrame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThreadChip, MethodIThreadChipSendSpinelFrame, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,6 +169,10 @@ type ThreadChipStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ThreadChipStub)(nil)
+
+func (s *ThreadChipStub) Descriptor() string {
+	return DescriptorIThreadChip
+}
 
 func (s *ThreadChipStub) OnTransaction(
 	ctx context.Context,

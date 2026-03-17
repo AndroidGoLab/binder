@@ -17,6 +17,12 @@ const (
 	TransactionIMediaProjectionWatcherCallbackOnRecordingSessionSet = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMediaProjectionWatcherCallbackOnStart               = "onStart"
+	MethodIMediaProjectionWatcherCallbackOnStop                = "onStop"
+	MethodIMediaProjectionWatcherCallbackOnRecordingSessionSet = "onRecordingSessionSet"
+)
+
 type IMediaProjectionWatcherCallback interface {
 	AsBinder() binder.IBinder
 	OnStart(ctx context.Context, info MediaProjectionInfo) error
@@ -25,17 +31,17 @@ type IMediaProjectionWatcherCallback interface {
 }
 
 type MediaProjectionWatcherCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaProjectionWatcherCallbackProxy(
 	remote binder.IBinder,
 ) *MediaProjectionWatcherCallbackProxy {
-	return &MediaProjectionWatcherCallbackProxy{remote: remote}
+	return &MediaProjectionWatcherCallbackProxy{Remote: remote}
 }
 
 func (p *MediaProjectionWatcherCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaProjectionWatcherCallback = (*MediaProjectionWatcherCallbackProxy)(nil)
@@ -51,12 +57,12 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStart(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionWatcherCallback, "onStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStart)
 	if _err != nil {
-		_code = TransactionIMediaProjectionWatcherCallbackOnStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +77,12 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStop(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionWatcherCallback, "onStop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStop)
 	if _err != nil {
-		_code = TransactionIMediaProjectionWatcherCallbackOnStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +98,12 @@ func (p *MediaProjectionWatcherCallbackProxy) OnRecordingSessionSet(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionWatcherCallback, "onRecordingSessionSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnRecordingSessionSet)
 	if _err != nil {
-		_code = TransactionIMediaProjectionWatcherCallbackOnRecordingSessionSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionWatcherCallback, MethodIMediaProjectionWatcherCallbackOnRecordingSessionSet, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,6 +114,10 @@ type MediaProjectionWatcherCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionWatcherCallbackStub)(nil)
+
+func (s *MediaProjectionWatcherCallbackStub) Descriptor() string {
+	return DescriptorIMediaProjectionWatcherCallback
+}
 
 func (s *MediaProjectionWatcherCallbackStub) OnTransaction(
 	ctx context.Context,

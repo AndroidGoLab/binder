@@ -75,14 +75,17 @@ func (u *Transport) MarshalParcel(
 
 	switch u.Tag {
 	case TransportTagLeAudio:
+		p.WriteInt32(1)
 		if _err := u.LeAudio.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case TransportTagA2dp:
+		p.WriteInt32(1)
 		if _err := u.A2dp.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case TransportTagHfp:
+		p.WriteInt32(1)
 		if _err := u.Hfp.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -109,14 +112,23 @@ func (u *Transport) UnmarshalParcel(
 
 	switch u.Tag {
 	case TransportTagLeAudio:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.LeAudio.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case TransportTagA2dp:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.A2dp.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case TransportTagHfp:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Hfp.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

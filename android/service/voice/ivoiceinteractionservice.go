@@ -22,6 +22,17 @@ const (
 	TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred  = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIVoiceInteractionServiceReady                            = "ready"
+	MethodIVoiceInteractionServiceSoundModelsChanged               = "soundModelsChanged"
+	MethodIVoiceInteractionServiceShutdown                         = "shutdown"
+	MethodIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard    = "launchVoiceAssistFromKeyguard"
+	MethodIVoiceInteractionServiceGetActiveServiceSupportedActions = "getActiveServiceSupportedActions"
+	MethodIVoiceInteractionServicePrepareToShowSession             = "prepareToShowSession"
+	MethodIVoiceInteractionServiceShowSessionFailed                = "showSessionFailed"
+	MethodIVoiceInteractionServiceDetectorRemoteExceptionOccurred  = "detectorRemoteExceptionOccurred"
+)
+
 type IVoiceInteractionService interface {
 	AsBinder() binder.IBinder
 	Ready(ctx context.Context) error
@@ -35,17 +46,17 @@ type IVoiceInteractionService interface {
 }
 
 type VoiceInteractionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractionServiceProxy(
 	remote binder.IBinder,
 ) *VoiceInteractionServiceProxy {
-	return &VoiceInteractionServiceProxy{remote: remote}
+	return &VoiceInteractionServiceProxy{Remote: remote}
 }
 
 func (p *VoiceInteractionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractionService = (*VoiceInteractionServiceProxy)(nil)
@@ -56,12 +67,12 @@ func (p *VoiceInteractionServiceProxy) Ready(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "ready")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceReady)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +82,12 @@ func (p *VoiceInteractionServiceProxy) SoundModelsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "soundModelsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceSoundModelsChanged)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceSoundModelsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceSoundModelsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +97,12 @@ func (p *VoiceInteractionServiceProxy) Shutdown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "shutdown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceShutdown)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceShutdown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceShutdown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +112,12 @@ func (p *VoiceInteractionServiceProxy) LaunchVoiceAssistFromKeyguard(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "launchVoiceAssistFromKeyguard")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +137,12 @@ func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "getActiveServiceSupportedActions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceGetActiveServiceSupportedActions)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceGetActiveServiceSupportedActions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceGetActiveServiceSupportedActions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -144,12 +155,12 @@ func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "prepareToShowSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServicePrepareToShowSession)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServicePrepareToShowSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServicePrepareToShowSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,12 +171,12 @@ func (p *VoiceInteractionServiceProxy) ShowSessionFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "showSessionFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceShowSessionFailed)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceShowSessionFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceShowSessionFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,15 +187,15 @@ func (p *VoiceInteractionServiceProxy) DetectorRemoteExceptionOccurred(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(detectorType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "detectorRemoteExceptionOccurred")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceDetectorRemoteExceptionOccurred)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionService, MethodIVoiceInteractionServiceDetectorRemoteExceptionOccurred, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -195,6 +206,10 @@ type VoiceInteractionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionServiceStub)(nil)
+
+func (s *VoiceInteractionServiceStub) Descriptor() string {
+	return DescriptorIVoiceInteractionService
+}
 
 func (s *VoiceInteractionServiceStub) OnTransaction(
 	ctx context.Context,

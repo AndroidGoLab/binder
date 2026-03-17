@@ -15,23 +15,27 @@ const (
 	TransactionIOnMediaKeyListenerOnMediaKey = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnMediaKeyListenerOnMediaKey = "onMediaKey"
+)
+
 type IOnMediaKeyListener interface {
 	AsBinder() binder.IBinder
 	OnMediaKey(ctx context.Context, event interface{}, result interface{}) error
 }
 
 type OnMediaKeyListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnMediaKeyListenerProxy(
 	remote binder.IBinder,
 ) *OnMediaKeyListenerProxy {
-	return &OnMediaKeyListenerProxy{remote: remote}
+	return &OnMediaKeyListenerProxy{Remote: remote}
 }
 
 func (p *OnMediaKeyListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnMediaKeyListener = (*OnMediaKeyListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *OnMediaKeyListenerProxy) OnMediaKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnMediaKeyListener, "onMediaKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnMediaKeyListener, MethodIOnMediaKeyListenerOnMediaKey)
 	if _err != nil {
-		_code = TransactionIOnMediaKeyListenerOnMediaKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnMediaKeyListener, MethodIOnMediaKeyListenerOnMediaKey, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type OnMediaKeyListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnMediaKeyListenerStub)(nil)
+
+func (s *OnMediaKeyListenerStub) Descriptor() string {
+	return DescriptorIOnMediaKeyListener
+}
 
 func (s *OnMediaKeyListenerStub) OnTransaction(
 	ctx context.Context,

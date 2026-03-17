@@ -18,6 +18,12 @@ const (
 	TransactionISyncAdapterCancelSync          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISyncAdapterOnUnsyncableAccount = "onUnsyncableAccount"
+	MethodISyncAdapterStartSync           = "startSync"
+	MethodISyncAdapterCancelSync          = "cancelSync"
+)
+
 type ISyncAdapter interface {
 	AsBinder() binder.IBinder
 	OnUnsyncableAccount(ctx context.Context, cb ISyncAdapterUnsyncableAccountCallback) error
@@ -26,17 +32,17 @@ type ISyncAdapter interface {
 }
 
 type SyncAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSyncAdapterProxy(
 	remote binder.IBinder,
 ) *SyncAdapterProxy {
-	return &SyncAdapterProxy{remote: remote}
+	return &SyncAdapterProxy{Remote: remote}
 }
 
 func (p *SyncAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISyncAdapter = (*SyncAdapterProxy)(nil)
@@ -47,14 +53,14 @@ func (p *SyncAdapterProxy) OnUnsyncableAccount(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "onUnsyncableAccount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncAdapter, MethodISyncAdapterOnUnsyncableAccount)
 	if _err != nil {
-		_code = TransactionISyncAdapterOnUnsyncableAccount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncAdapter, MethodISyncAdapterOnUnsyncableAccount, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,19 +73,19 @@ func (p *SyncAdapterProxy) StartSync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
-	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(authority)
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "startSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncAdapter, MethodISyncAdapterStartSync)
 	if _err != nil {
-		_code = TransactionISyncAdapterStartSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncAdapter, MethodISyncAdapterStartSync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,14 +95,14 @@ func (p *SyncAdapterProxy) CancelSync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
-	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, syncContext.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "cancelSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncAdapter, MethodISyncAdapterCancelSync)
 	if _err != nil {
-		_code = TransactionISyncAdapterCancelSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncAdapter, MethodISyncAdapterCancelSync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +113,10 @@ type SyncAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SyncAdapterStub)(nil)
+
+func (s *SyncAdapterStub) Descriptor() string {
+	return DescriptorISyncAdapter
+}
 
 func (s *SyncAdapterStub) OnTransaction(
 	ctx context.Context,

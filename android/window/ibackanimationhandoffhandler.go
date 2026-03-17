@@ -16,23 +16,27 @@ const (
 	TransactionIBackAnimationHandoffHandlerHandOffAnimation = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBackAnimationHandoffHandlerHandOffAnimation = "handOffAnimation"
+)
+
 type IBackAnimationHandoffHandler interface {
 	AsBinder() binder.IBinder
 	HandOffAnimation(ctx context.Context, targets []view.RemoteAnimationTarget, states []WindowAnimationState) error
 }
 
 type BackAnimationHandoffHandlerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackAnimationHandoffHandlerProxy(
 	remote binder.IBinder,
 ) *BackAnimationHandoffHandlerProxy {
-	return &BackAnimationHandoffHandlerProxy{remote: remote}
+	return &BackAnimationHandoffHandlerProxy{Remote: remote}
 }
 
 func (p *BackAnimationHandoffHandlerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackAnimationHandoffHandler = (*BackAnimationHandoffHandlerProxy)(nil)
@@ -49,6 +53,7 @@ func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 	} else {
 		_data.WriteInt32(int32(len(targets)))
 		for _, _item := range targets {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -59,18 +64,19 @@ func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 	} else {
 		_data.WriteInt32(int32(len(states)))
 		for _, _item := range states {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimationHandoffHandler, "handOffAnimation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimationHandoffHandler, MethodIBackAnimationHandoffHandlerHandOffAnimation)
 	if _err != nil {
-		_code = TransactionIBackAnimationHandoffHandlerHandOffAnimation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimationHandoffHandler, MethodIBackAnimationHandoffHandlerHandOffAnimation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +87,10 @@ type BackAnimationHandoffHandlerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationHandoffHandlerStub)(nil)
+
+func (s *BackAnimationHandoffHandlerStub) Descriptor() string {
+	return DescriptorIBackAnimationHandoffHandler
+}
 
 func (s *BackAnimationHandoffHandlerStub) OnTransaction(
 	ctx context.Context,

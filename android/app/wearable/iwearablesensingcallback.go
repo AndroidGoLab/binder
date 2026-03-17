@@ -16,23 +16,27 @@ const (
 	TransactionIWearableSensingCallbackOpenFile = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWearableSensingCallbackOpenFile = "openFile"
+)
+
 type IWearableSensingCallback interface {
 	AsBinder() binder.IBinder
 	OpenFile(ctx context.Context, filename string, future infra.AndroidFuture) error
 }
 
 type WearableSensingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWearableSensingCallbackProxy(
 	remote binder.IBinder,
 ) *WearableSensingCallbackProxy {
-	return &WearableSensingCallbackProxy{remote: remote}
+	return &WearableSensingCallbackProxy{Remote: remote}
 }
 
 func (p *WearableSensingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWearableSensingCallback = (*WearableSensingCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *WearableSensingCallbackProxy) OpenFile(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWearableSensingCallback, "openFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWearableSensingCallback, MethodIWearableSensingCallbackOpenFile)
 	if _err != nil {
-		_code = TransactionIWearableSensingCallbackOpenFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWearableSensingCallback, MethodIWearableSensingCallbackOpenFile, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type WearableSensingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WearableSensingCallbackStub)(nil)
+
+func (s *WearableSensingCallbackStub) Descriptor() string {
+	return DescriptorIWearableSensingCallback
+}
 
 func (s *WearableSensingCallbackStub) OnTransaction(
 	ctx context.Context,

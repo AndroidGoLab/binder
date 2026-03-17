@@ -58,10 +58,12 @@ func (u *PrimitivePwle) MarshalParcel(
 
 	switch u.Tag {
 	case PrimitivePwleTagActive:
+		p.WriteInt32(1)
 		if _err := u.Active.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case PrimitivePwleTagBraking:
+		p.WriteInt32(1)
 		if _err := u.Braking.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *PrimitivePwle) UnmarshalParcel(
 
 	switch u.Tag {
 	case PrimitivePwleTagActive:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Active.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case PrimitivePwleTagBraking:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Braking.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -20,6 +20,15 @@ const (
 	TransactionIBinderNdkUnitTestSetCustomActiveServicesCallback = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIBinderNdkUnitTestRepeatInt                       = "repeatInt"
+	MethodIBinderNdkUnitTestTakeInterface                   = "takeInterface"
+	MethodIBinderNdkUnitTestForceFlushCommands              = "forceFlushCommands"
+	MethodIBinderNdkUnitTestGetsRequestedSid                = "getsRequestedSid"
+	MethodIBinderNdkUnitTestForcePersist                    = "forcePersist"
+	MethodIBinderNdkUnitTestSetCustomActiveServicesCallback = "setCustomActiveServicesCallback"
+)
+
 type IBinderNdkUnitTest interface {
 	AsBinder() binder.IBinder
 	RepeatInt(ctx context.Context, a int32) (int32, error)
@@ -31,17 +40,17 @@ type IBinderNdkUnitTest interface {
 }
 
 type BinderNdkUnitTestProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderNdkUnitTestProxy(
 	remote binder.IBinder,
 ) *BinderNdkUnitTestProxy {
-	return &BinderNdkUnitTestProxy{remote: remote}
+	return &BinderNdkUnitTestProxy{Remote: remote}
 }
 
 func (p *BinderNdkUnitTestProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderNdkUnitTest = (*BinderNdkUnitTestProxy)(nil)
@@ -55,12 +64,12 @@ func (p *BinderNdkUnitTestProxy) RepeatInt(
 	_data.WriteInterfaceToken(DescriptorIBinderNdkUnitTest)
 	_data.WriteInt32(a)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "repeatInt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestRepeatInt)
 	if _err != nil {
-		_code = TransactionIBinderNdkUnitTestRepeatInt
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestRepeatInt, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,14 +92,14 @@ func (p *BinderNdkUnitTestProxy) TakeInterface(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderNdkUnitTest)
-	binder.WriteBinderToParcel(ctx, _data, test.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, test.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "takeInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestTakeInterface)
 	if _err != nil {
-		_code = TransactionIBinderNdkUnitTestTakeInterface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestTakeInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +118,12 @@ func (p *BinderNdkUnitTestProxy) ForceFlushCommands(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderNdkUnitTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "forceFlushCommands")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestForceFlushCommands)
 	if _err != nil {
-		_code = TransactionIBinderNdkUnitTestForceFlushCommands
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestForceFlushCommands, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,12 +143,12 @@ func (p *BinderNdkUnitTestProxy) GetsRequestedSid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderNdkUnitTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "getsRequestedSid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestGetsRequestedSid)
 	if _err != nil {
-		_code = TransactionIBinderNdkUnitTestGetsRequestedSid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestGetsRequestedSid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,12 +173,12 @@ func (p *BinderNdkUnitTestProxy) ForcePersist(
 	_data.WriteInterfaceToken(DescriptorIBinderNdkUnitTest)
 	_data.WriteBool(persist)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "forcePersist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestForcePersist)
 	if _err != nil {
-		_code = TransactionIBinderNdkUnitTestForcePersist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestForcePersist, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,12 +197,12 @@ func (p *BinderNdkUnitTestProxy) SetCustomActiveServicesCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderNdkUnitTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "setCustomActiveServicesCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestSetCustomActiveServicesCallback)
 	if _err != nil {
-		_code = TransactionIBinderNdkUnitTestSetCustomActiveServicesCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderNdkUnitTest, MethodIBinderNdkUnitTestSetCustomActiveServicesCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -213,6 +222,10 @@ type BinderNdkUnitTestStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderNdkUnitTestStub)(nil)
+
+func (s *BinderNdkUnitTestStub) Descriptor() string {
+	return DescriptorIBinderNdkUnitTest
+}
 
 func (s *BinderNdkUnitTestStub) OnTransaction(
 	ctx context.Context,

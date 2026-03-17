@@ -21,14 +21,7 @@ func (s *OpusCapabilities) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.PcmBitDepth == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PcmBitDepth)))
-		for _, _item := range s.PcmBitDepth {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.PcmBitDepth)
 	if s.SamplingFrequencyHz == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -53,14 +46,7 @@ func (s *OpusCapabilities) MarshalParcel(
 			p.WriteInt32(_item)
 		}
 	}
-	if s.BlocksPerSdu == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BlocksPerSdu)))
-		for _, _item := range s.BlocksPerSdu {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.BlocksPerSdu)
 	if s.ChannelMode == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -82,19 +68,9 @@ func (s *OpusCapabilities) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PcmBitDepth, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PcmBitDepth = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PcmBitDepth[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -142,19 +118,9 @@ func (s *OpusCapabilities) UnmarshalParcel(
 		}
 	}
 
-	var _count4 int32
-	_count4, _err = p.ReadInt32()
+	s.BlocksPerSdu, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count4 >= 0 {
-		s.BlocksPerSdu = make([]byte, _count4)
-		for _i := int32(0); _i < _count4; _i++ {
-			s.BlocksPerSdu[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count5 int32

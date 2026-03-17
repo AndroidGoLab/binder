@@ -16,6 +16,11 @@ const (
 	TransactionIExternalVibrationControllerUnmute = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIExternalVibrationControllerMute   = "mute"
+	MethodIExternalVibrationControllerUnmute = "unmute"
+)
+
 type IExternalVibrationController interface {
 	AsBinder() binder.IBinder
 	Mute(ctx context.Context) (bool, error)
@@ -23,17 +28,17 @@ type IExternalVibrationController interface {
 }
 
 type ExternalVibrationControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewExternalVibrationControllerProxy(
 	remote binder.IBinder,
 ) *ExternalVibrationControllerProxy {
-	return &ExternalVibrationControllerProxy{remote: remote}
+	return &ExternalVibrationControllerProxy{Remote: remote}
 }
 
 func (p *ExternalVibrationControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IExternalVibrationController = (*ExternalVibrationControllerProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ExternalVibrationControllerProxy) Mute(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExternalVibrationController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibrationController, "mute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibrationController, MethodIExternalVibrationControllerMute)
 	if _err != nil {
-		_code = TransactionIExternalVibrationControllerMute
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalVibrationController, MethodIExternalVibrationControllerMute, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,12 +79,12 @@ func (p *ExternalVibrationControllerProxy) Unmute(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExternalVibrationController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibrationController, "unmute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalVibrationController, MethodIExternalVibrationControllerUnmute)
 	if _err != nil {
-		_code = TransactionIExternalVibrationControllerUnmute
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalVibrationController, MethodIExternalVibrationControllerUnmute, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,6 +108,10 @@ type ExternalVibrationControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ExternalVibrationControllerStub)(nil)
+
+func (s *ExternalVibrationControllerStub) Descriptor() string {
+	return DescriptorIExternalVibrationController
+}
 
 func (s *ExternalVibrationControllerStub) OnTransaction(
 	ctx context.Context,

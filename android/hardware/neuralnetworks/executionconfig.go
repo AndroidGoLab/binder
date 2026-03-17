@@ -26,6 +26,7 @@ func (s *ExecutionConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExecutionHints)))
 		for _, _item := range s.ExecutionHints {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -36,6 +37,7 @@ func (s *ExecutionConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExtensionNameToPrefix)))
 		for _, _item := range s.ExtensionNameToPrefix {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +74,9 @@ func (s *ExecutionConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.ExecutionHints = make([]TokenValuePair, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExecutionHints[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -86,6 +91,9 @@ func (s *ExecutionConfig) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.ExtensionNameToPrefix = make([]ExtensionNameAndPrefix, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExtensionNameToPrefix[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

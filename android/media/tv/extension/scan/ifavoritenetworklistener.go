@@ -16,23 +16,27 @@ const (
 	TransactionIFavoriteNetworkListenerOnDetectFavoriteNetwork = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFavoriteNetworkListenerOnDetectFavoriteNetwork = "onDetectFavoriteNetwork"
+)
+
 type IFavoriteNetworkListener interface {
 	AsBinder() binder.IBinder
 	OnDetectFavoriteNetwork(ctx context.Context, detectFavoriteNetworks os.Bundle) error
 }
 
 type FavoriteNetworkListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFavoriteNetworkListenerProxy(
 	remote binder.IBinder,
 ) *FavoriteNetworkListenerProxy {
-	return &FavoriteNetworkListenerProxy{remote: remote}
+	return &FavoriteNetworkListenerProxy{Remote: remote}
 }
 
 func (p *FavoriteNetworkListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFavoriteNetworkListener = (*FavoriteNetworkListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *FavoriteNetworkListenerProxy) OnDetectFavoriteNetwork(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFavoriteNetworkListener, "onDetectFavoriteNetwork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFavoriteNetworkListener, MethodIFavoriteNetworkListenerOnDetectFavoriteNetwork)
 	if _err != nil {
-		_code = TransactionIFavoriteNetworkListenerOnDetectFavoriteNetwork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFavoriteNetworkListener, MethodIFavoriteNetworkListenerOnDetectFavoriteNetwork, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type FavoriteNetworkListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FavoriteNetworkListenerStub)(nil)
+
+func (s *FavoriteNetworkListenerStub) Descriptor() string {
+	return DescriptorIFavoriteNetworkListener
+}
 
 func (s *FavoriteNetworkListenerStub) OnTransaction(
 	ctx context.Context,

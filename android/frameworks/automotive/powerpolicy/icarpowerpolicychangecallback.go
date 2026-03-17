@@ -15,23 +15,27 @@ const (
 	TransactionICarPowerPolicyChangeCallbackOnPolicyChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICarPowerPolicyChangeCallbackOnPolicyChanged = "onPolicyChanged"
+)
+
 type ICarPowerPolicyChangeCallback interface {
 	AsBinder() binder.IBinder
 	OnPolicyChanged(ctx context.Context, policy CarPowerPolicy) error
 }
 
 type CarPowerPolicyChangeCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarPowerPolicyChangeCallbackProxy(
 	remote binder.IBinder,
 ) *CarPowerPolicyChangeCallbackProxy {
-	return &CarPowerPolicyChangeCallbackProxy{remote: remote}
+	return &CarPowerPolicyChangeCallbackProxy{Remote: remote}
 }
 
 func (p *CarPowerPolicyChangeCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarPowerPolicyChangeCallback = (*CarPowerPolicyChangeCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *CarPowerPolicyChangeCallbackProxy) OnPolicyChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyChangeCallback, "onPolicyChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarPowerPolicyChangeCallback, MethodICarPowerPolicyChangeCallbackOnPolicyChanged)
 	if _err != nil {
-		_code = TransactionICarPowerPolicyChangeCallbackOnPolicyChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarPowerPolicyChangeCallback, MethodICarPowerPolicyChangeCallbackOnPolicyChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type CarPowerPolicyChangeCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarPowerPolicyChangeCallbackStub)(nil)
+
+func (s *CarPowerPolicyChangeCallbackStub) Descriptor() string {
+	return DescriptorICarPowerPolicyChangeCallback
+}
 
 func (s *CarPowerPolicyChangeCallbackStub) OnTransaction(
 	ctx context.Context,

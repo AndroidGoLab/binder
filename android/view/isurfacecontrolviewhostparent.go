@@ -16,6 +16,11 @@ const (
 	TransactionISurfaceControlViewHostParentForwardBackKeyToParent = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISurfaceControlViewHostParentUpdateParams           = "updateParams"
+	MethodISurfaceControlViewHostParentForwardBackKeyToParent = "forwardBackKeyToParent"
+)
+
 type ISurfaceControlViewHostParent interface {
 	AsBinder() binder.IBinder
 	UpdateParams(ctx context.Context, childAttrs []WindowManagerLayoutParams) error
@@ -23,17 +28,17 @@ type ISurfaceControlViewHostParent interface {
 }
 
 type SurfaceControlViewHostParentProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSurfaceControlViewHostParentProxy(
 	remote binder.IBinder,
 ) *SurfaceControlViewHostParentProxy {
-	return &SurfaceControlViewHostParentProxy{remote: remote}
+	return &SurfaceControlViewHostParentProxy{Remote: remote}
 }
 
 func (p *SurfaceControlViewHostParentProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISurfaceControlViewHostParent = (*SurfaceControlViewHostParentProxy)(nil)
@@ -49,18 +54,19 @@ func (p *SurfaceControlViewHostParentProxy) UpdateParams(
 	} else {
 		_data.WriteInt32(int32(len(childAttrs)))
 		for _, _item := range childAttrs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHostParent, "updateParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHostParent, MethodISurfaceControlViewHostParentUpdateParams)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostParentUpdateParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHostParent, MethodISurfaceControlViewHostParentUpdateParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +81,12 @@ func (p *SurfaceControlViewHostParentProxy) ForwardBackKeyToParent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHostParent, "forwardBackKeyToParent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHostParent, MethodISurfaceControlViewHostParentForwardBackKeyToParent)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostParentForwardBackKeyToParent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHostParent, MethodISurfaceControlViewHostParentForwardBackKeyToParent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +97,10 @@ type SurfaceControlViewHostParentStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SurfaceControlViewHostParentStub)(nil)
+
+func (s *SurfaceControlViewHostParentStub) Descriptor() string {
+	return DescriptorISurfaceControlViewHostParent
+}
 
 func (s *SurfaceControlViewHostParentStub) OnTransaction(
 	ctx context.Context,

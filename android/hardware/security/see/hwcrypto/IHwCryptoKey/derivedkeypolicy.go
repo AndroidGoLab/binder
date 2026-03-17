@@ -58,18 +58,12 @@ func (u *DerivedKeyPolicy) MarshalParcel(
 
 	switch u.Tag {
 	case DerivedKeyPolicyTagClearKeyPolicy:
+		p.WriteInt32(1)
 		if _err := u.ClearKeyPolicy.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DerivedKeyPolicyTagOpaqueKey:
-		if u.OpaqueKey == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.OpaqueKey)))
-			for _, _item := range u.OpaqueKey {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.OpaqueKey)
 	default:
 		return fmt.Errorf("unknown union tag %d for DerivedKeyPolicy", u.Tag)
 	}
@@ -93,24 +87,17 @@ func (u *DerivedKeyPolicy) UnmarshalParcel(
 
 	switch u.Tag {
 	case DerivedKeyPolicyTagClearKeyPolicy:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ClearKeyPolicy.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DerivedKeyPolicyTagOpaqueKey:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.OpaqueKey, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.OpaqueKey = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.OpaqueKey[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for DerivedKeyPolicy", u.Tag)

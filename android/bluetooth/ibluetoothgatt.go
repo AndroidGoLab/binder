@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	le "github.com/xaionaro-go/binder/android/bluetooth/le"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -13,94 +14,216 @@ import (
 const DescriptorIBluetoothGatt = "android.bluetooth.IBluetoothGatt"
 
 const (
-	TransactionIBluetoothGattGetDevicesMatchingConnectionStates = binder.FirstCallTransaction + 0
-	TransactionIBluetoothGattRegisterClient                     = binder.FirstCallTransaction + 1
-	TransactionIBluetoothGattUnregisterClient                   = binder.FirstCallTransaction + 2
-	TransactionIBluetoothGattClientConnect                      = binder.FirstCallTransaction + 3
-	TransactionIBluetoothGattClientDisconnect                   = binder.FirstCallTransaction + 4
-	TransactionIBluetoothGattClientSetPreferredPhy              = binder.FirstCallTransaction + 5
-	TransactionIBluetoothGattClientReadPhy                      = binder.FirstCallTransaction + 6
-	TransactionIBluetoothGattRefreshDevice                      = binder.FirstCallTransaction + 7
-	TransactionIBluetoothGattDiscoverServices                   = binder.FirstCallTransaction + 8
-	TransactionIBluetoothGattDiscoverServiceByUuid              = binder.FirstCallTransaction + 9
-	TransactionIBluetoothGattReadCharacteristic                 = binder.FirstCallTransaction + 10
-	TransactionIBluetoothGattReadUsingCharacteristicUuid        = binder.FirstCallTransaction + 11
-	TransactionIBluetoothGattWriteCharacteristic                = binder.FirstCallTransaction + 12
-	TransactionIBluetoothGattReadDescriptor                     = binder.FirstCallTransaction + 13
-	TransactionIBluetoothGattWriteDescriptor                    = binder.FirstCallTransaction + 14
-	TransactionIBluetoothGattRegisterForNotification            = binder.FirstCallTransaction + 15
-	TransactionIBluetoothGattBeginReliableWrite                 = binder.FirstCallTransaction + 16
-	TransactionIBluetoothGattEndReliableWrite                   = binder.FirstCallTransaction + 17
-	TransactionIBluetoothGattReadRemoteRssi                     = binder.FirstCallTransaction + 18
-	TransactionIBluetoothGattConfigureMTU                       = binder.FirstCallTransaction + 19
-	TransactionIBluetoothGattConnectionParameterUpdate          = binder.FirstCallTransaction + 20
-	TransactionIBluetoothGattLeConnectionUpdate                 = binder.FirstCallTransaction + 21
-	TransactionIBluetoothGattRegisterServer                     = binder.FirstCallTransaction + 22
-	TransactionIBluetoothGattUnregisterServer                   = binder.FirstCallTransaction + 23
-	TransactionIBluetoothGattServerConnect                      = binder.FirstCallTransaction + 24
-	TransactionIBluetoothGattServerDisconnect                   = binder.FirstCallTransaction + 25
-	TransactionIBluetoothGattServerSetPreferredPhy              = binder.FirstCallTransaction + 26
-	TransactionIBluetoothGattServerReadPhy                      = binder.FirstCallTransaction + 27
-	TransactionIBluetoothGattAddService                         = binder.FirstCallTransaction + 28
-	TransactionIBluetoothGattRemoveService                      = binder.FirstCallTransaction + 29
-	TransactionIBluetoothGattClearServices                      = binder.FirstCallTransaction + 30
-	TransactionIBluetoothGattSendResponse                       = binder.FirstCallTransaction + 31
-	TransactionIBluetoothGattSendNotification                   = binder.FirstCallTransaction + 32
-	TransactionIBluetoothGattDisconnectAll                      = binder.FirstCallTransaction + 33
-	TransactionIBluetoothGattSubrateModeRequest                 = binder.FirstCallTransaction + 34
+	TransactionIBluetoothGattGetDevicesMatchingConnectionStates               = binder.FirstCallTransaction + 0
+	TransactionIBluetoothGattRegisterScanner                                  = binder.FirstCallTransaction + 1
+	TransactionIBluetoothGattUnregisterScanner                                = binder.FirstCallTransaction + 2
+	TransactionIBluetoothGattStartScan                                        = binder.FirstCallTransaction + 3
+	TransactionIBluetoothGattStartScanForIntent                               = binder.FirstCallTransaction + 4
+	TransactionIBluetoothGattStopScanForIntent                                = binder.FirstCallTransaction + 5
+	TransactionIBluetoothGattStopScan                                         = binder.FirstCallTransaction + 6
+	TransactionIBluetoothGattFlushPendingBatchResults                         = binder.FirstCallTransaction + 7
+	TransactionIBluetoothGattStartAdvertisingSet                              = binder.FirstCallTransaction + 8
+	TransactionIBluetoothGattStopAdvertisingSet                               = binder.FirstCallTransaction + 9
+	TransactionIBluetoothGattGetOwnAddress                                    = binder.FirstCallTransaction + 10
+	TransactionIBluetoothGattEnableAdvertisingSet                             = binder.FirstCallTransaction + 11
+	TransactionIBluetoothGattSetAdvertisingData                               = binder.FirstCallTransaction + 12
+	TransactionIBluetoothGattSetScanResponseData                              = binder.FirstCallTransaction + 13
+	TransactionIBluetoothGattSetAdvertisingParameters                         = binder.FirstCallTransaction + 14
+	TransactionIBluetoothGattSetPeriodicAdvertisingParameters                 = binder.FirstCallTransaction + 15
+	TransactionIBluetoothGattSetPeriodicAdvertisingData                       = binder.FirstCallTransaction + 16
+	TransactionIBluetoothGattSetPeriodicAdvertisingEnable                     = binder.FirstCallTransaction + 17
+	TransactionIBluetoothGattRegisterSync                                     = binder.FirstCallTransaction + 18
+	TransactionIBluetoothGattUnregisterSync                                   = binder.FirstCallTransaction + 19
+	TransactionIBluetoothGattTransferSync                                     = binder.FirstCallTransaction + 20
+	TransactionIBluetoothGattTransferSetInfo                                  = binder.FirstCallTransaction + 21
+	TransactionIBluetoothGattRegisterClient                                   = binder.FirstCallTransaction + 22
+	TransactionIBluetoothGattUnregisterClient                                 = binder.FirstCallTransaction + 23
+	TransactionIBluetoothGattClientConnect                                    = binder.FirstCallTransaction + 24
+	TransactionIBluetoothGattClientDisconnect                                 = binder.FirstCallTransaction + 25
+	TransactionIBluetoothGattClientSetPreferredPhy                            = binder.FirstCallTransaction + 26
+	TransactionIBluetoothGattClientReadPhy                                    = binder.FirstCallTransaction + 27
+	TransactionIBluetoothGattRefreshDevice                                    = binder.FirstCallTransaction + 28
+	TransactionIBluetoothGattDiscoverServices                                 = binder.FirstCallTransaction + 29
+	TransactionIBluetoothGattDiscoverServiceByUuid                            = binder.FirstCallTransaction + 30
+	TransactionIBluetoothGattReadCharacteristic                               = binder.FirstCallTransaction + 31
+	TransactionIBluetoothGattReadUsingCharacteristicUuid                      = binder.FirstCallTransaction + 32
+	TransactionIBluetoothGattWriteCharacteristic                              = binder.FirstCallTransaction + 33
+	TransactionIBluetoothGattReadDescriptor                                   = binder.FirstCallTransaction + 34
+	TransactionIBluetoothGattWriteDescriptor                                  = binder.FirstCallTransaction + 35
+	TransactionIBluetoothGattRegisterForNotification                          = binder.FirstCallTransaction + 36
+	TransactionIBluetoothGattBeginReliableWrite                               = binder.FirstCallTransaction + 37
+	TransactionIBluetoothGattEndReliableWrite                                 = binder.FirstCallTransaction + 38
+	TransactionIBluetoothGattReadRemoteRssi                                   = binder.FirstCallTransaction + 39
+	TransactionIBluetoothGattConfigureMTU                                     = binder.FirstCallTransaction + 40
+	TransactionIBluetoothGattConnectionParameterUpdate                        = binder.FirstCallTransaction + 41
+	TransactionIBluetoothGattLeConnectionUpdate                               = binder.FirstCallTransaction + 42
+	TransactionIBluetoothGattRegisterServer                                   = binder.FirstCallTransaction + 43
+	TransactionIBluetoothGattUnregisterServer                                 = binder.FirstCallTransaction + 44
+	TransactionIBluetoothGattServerConnect                                    = binder.FirstCallTransaction + 45
+	TransactionIBluetoothGattServerDisconnect                                 = binder.FirstCallTransaction + 46
+	TransactionIBluetoothGattServerSetPreferredPhy                            = binder.FirstCallTransaction + 47
+	TransactionIBluetoothGattServerReadPhy                                    = binder.FirstCallTransaction + 48
+	TransactionIBluetoothGattAddService                                       = binder.FirstCallTransaction + 49
+	TransactionIBluetoothGattRemoveService                                    = binder.FirstCallTransaction + 50
+	TransactionIBluetoothGattClearServices                                    = binder.FirstCallTransaction + 51
+	TransactionIBluetoothGattSendResponse                                     = binder.FirstCallTransaction + 52
+	TransactionIBluetoothGattSendNotification                                 = binder.FirstCallTransaction + 53
+	TransactionIBluetoothGattDisconnectAll                                    = binder.FirstCallTransaction + 54
+	TransactionIBluetoothGattNumHwTrackFiltersAvailable                       = binder.FirstCallTransaction + 55
+	TransactionIBluetoothGattLeSubrateRequest                                 = binder.FirstCallTransaction + 56
+	TransactionIBluetoothGattSubrateModeRequest                               = binder.FirstCallTransaction + 57
+	TransactionIBluetoothGattGetSupportedDistanceMeasurementMethods           = binder.FirstCallTransaction + 58
+	TransactionIBluetoothGattStartDistanceMeasurement                         = binder.FirstCallTransaction + 59
+	TransactionIBluetoothGattStopDistanceMeasurement                          = binder.FirstCallTransaction + 60
+	TransactionIBluetoothGattGetChannelSoundingMaxSupportedSecurityLevel      = binder.FirstCallTransaction + 61
+	TransactionIBluetoothGattGetLocalChannelSoundingMaxSupportedSecurityLevel = binder.FirstCallTransaction + 62
+)
+
+const (
+	MethodIBluetoothGattGetDevicesMatchingConnectionStates               = "getDevicesMatchingConnectionStates"
+	MethodIBluetoothGattRegisterScanner                                  = "registerScanner"
+	MethodIBluetoothGattUnregisterScanner                                = "unregisterScanner"
+	MethodIBluetoothGattStartScan                                        = "startScan"
+	MethodIBluetoothGattStartScanForIntent                               = "startScanForIntent"
+	MethodIBluetoothGattStopScanForIntent                                = "stopScanForIntent"
+	MethodIBluetoothGattStopScan                                         = "stopScan"
+	MethodIBluetoothGattFlushPendingBatchResults                         = "flushPendingBatchResults"
+	MethodIBluetoothGattStartAdvertisingSet                              = "startAdvertisingSet"
+	MethodIBluetoothGattStopAdvertisingSet                               = "stopAdvertisingSet"
+	MethodIBluetoothGattGetOwnAddress                                    = "getOwnAddress"
+	MethodIBluetoothGattEnableAdvertisingSet                             = "enableAdvertisingSet"
+	MethodIBluetoothGattSetAdvertisingData                               = "setAdvertisingData"
+	MethodIBluetoothGattSetScanResponseData                              = "setScanResponseData"
+	MethodIBluetoothGattSetAdvertisingParameters                         = "setAdvertisingParameters"
+	MethodIBluetoothGattSetPeriodicAdvertisingParameters                 = "setPeriodicAdvertisingParameters"
+	MethodIBluetoothGattSetPeriodicAdvertisingData                       = "setPeriodicAdvertisingData"
+	MethodIBluetoothGattSetPeriodicAdvertisingEnable                     = "setPeriodicAdvertisingEnable"
+	MethodIBluetoothGattRegisterSync                                     = "registerSync"
+	MethodIBluetoothGattUnregisterSync                                   = "unregisterSync"
+	MethodIBluetoothGattTransferSync                                     = "transferSync"
+	MethodIBluetoothGattTransferSetInfo                                  = "transferSetInfo"
+	MethodIBluetoothGattRegisterClient                                   = "registerClient"
+	MethodIBluetoothGattUnregisterClient                                 = "unregisterClient"
+	MethodIBluetoothGattClientConnect                                    = "clientConnect"
+	MethodIBluetoothGattClientDisconnect                                 = "clientDisconnect"
+	MethodIBluetoothGattClientSetPreferredPhy                            = "clientSetPreferredPhy"
+	MethodIBluetoothGattClientReadPhy                                    = "clientReadPhy"
+	MethodIBluetoothGattRefreshDevice                                    = "refreshDevice"
+	MethodIBluetoothGattDiscoverServices                                 = "discoverServices"
+	MethodIBluetoothGattDiscoverServiceByUuid                            = "discoverServiceByUuid"
+	MethodIBluetoothGattReadCharacteristic                               = "readCharacteristic"
+	MethodIBluetoothGattReadUsingCharacteristicUuid                      = "readUsingCharacteristicUuid"
+	MethodIBluetoothGattWriteCharacteristic                              = "writeCharacteristic"
+	MethodIBluetoothGattReadDescriptor                                   = "readDescriptor"
+	MethodIBluetoothGattWriteDescriptor                                  = "writeDescriptor"
+	MethodIBluetoothGattRegisterForNotification                          = "registerForNotification"
+	MethodIBluetoothGattBeginReliableWrite                               = "beginReliableWrite"
+	MethodIBluetoothGattEndReliableWrite                                 = "endReliableWrite"
+	MethodIBluetoothGattReadRemoteRssi                                   = "readRemoteRssi"
+	MethodIBluetoothGattConfigureMTU                                     = "configureMTU"
+	MethodIBluetoothGattConnectionParameterUpdate                        = "connectionParameterUpdate"
+	MethodIBluetoothGattLeConnectionUpdate                               = "leConnectionUpdate"
+	MethodIBluetoothGattRegisterServer                                   = "registerServer"
+	MethodIBluetoothGattUnregisterServer                                 = "unregisterServer"
+	MethodIBluetoothGattServerConnect                                    = "serverConnect"
+	MethodIBluetoothGattServerDisconnect                                 = "serverDisconnect"
+	MethodIBluetoothGattServerSetPreferredPhy                            = "serverSetPreferredPhy"
+	MethodIBluetoothGattServerReadPhy                                    = "serverReadPhy"
+	MethodIBluetoothGattAddService                                       = "addService"
+	MethodIBluetoothGattRemoveService                                    = "removeService"
+	MethodIBluetoothGattClearServices                                    = "clearServices"
+	MethodIBluetoothGattSendResponse                                     = "sendResponse"
+	MethodIBluetoothGattSendNotification                                 = "sendNotification"
+	MethodIBluetoothGattDisconnectAll                                    = "disconnectAll"
+	MethodIBluetoothGattNumHwTrackFiltersAvailable                       = "numHwTrackFiltersAvailable"
+	MethodIBluetoothGattLeSubrateRequest                                 = "leSubrateRequest"
+	MethodIBluetoothGattSubrateModeRequest                               = "subrateModeRequest"
+	MethodIBluetoothGattGetSupportedDistanceMeasurementMethods           = "getSupportedDistanceMeasurementMethods"
+	MethodIBluetoothGattStartDistanceMeasurement                         = "startDistanceMeasurement"
+	MethodIBluetoothGattStopDistanceMeasurement                          = "stopDistanceMeasurement"
+	MethodIBluetoothGattGetChannelSoundingMaxSupportedSecurityLevel      = "getChannelSoundingMaxSupportedSecurityLevel"
+	MethodIBluetoothGattGetLocalChannelSoundingMaxSupportedSecurityLevel = "getLocalChannelSoundingMaxSupportedSecurityLevel"
 )
 
 type IBluetoothGatt interface {
 	AsBinder() binder.IBinder
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	RegisterClient(ctx context.Context, appId interface{}, callback IBluetoothGattCallback, eatt_support bool, attributionSource content.AttributionSource) error
-	UnregisterClient(ctx context.Context, clientIf int32, attributionSource content.AttributionSource) error
-	ClientConnect(ctx context.Context, clientIf int32, address string, addressType int32, isDirect bool, transport int32, opportunistic bool, phy int32, attributionSource content.AttributionSource) error
-	ClientDisconnect(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	ClientSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource) error
-	ClientReadPhy(ctx context.Context, clientIf int32, address string, attributionSources content.AttributionSource) error
-	RefreshDevice(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	DiscoverServices(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	DiscoverServiceByUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, attributionSource content.AttributionSource) error
-	ReadCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource) error
-	ReadUsingCharacteristicUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, startHandle int32, endHandle int32, authReq int32, attributionSource content.AttributionSource) error
-	WriteCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, writeType int32, authReq int32, value []byte, attributionSource content.AttributionSource) (int32, error)
-	ReadDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource) error
-	WriteDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, value []byte, attributionSource content.AttributionSource) (int32, error)
-	RegisterForNotification(ctx context.Context, clientIf int32, address string, handle int32, enable bool, attributionSource content.AttributionSource) error
-	BeginReliableWrite(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	EndReliableWrite(ctx context.Context, clientIf int32, address string, execute bool, attributionSource content.AttributionSource) error
-	ReadRemoteRssi(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	ConfigureMTU(ctx context.Context, clientIf int32, address string, mtu int32, attributionSource content.AttributionSource) error
-	ConnectionParameterUpdate(ctx context.Context, clientIf int32, address string, connectionPriority int32, attributionSource content.AttributionSource) error
-	LeConnectionUpdate(ctx context.Context, clientIf int32, address string, minInterval int32, maxInterval int32, peripheralLatency int32, supervisionTimeout int32, minConnectionEventLen int32, maxConnectionEventLen int32, attributionSource content.AttributionSource) error
-	RegisterServer(ctx context.Context, appId interface{}, callback IBluetoothGattServerCallback, eatt_support bool, attributionSource content.AttributionSource) error
-	UnregisterServer(ctx context.Context, serverIf int32, attributionSource content.AttributionSource) error
-	ServerConnect(ctx context.Context, serverIf int32, address string, addressType int32, isDirect bool, transport int32, attributionSource content.AttributionSource) error
-	ServerDisconnect(ctx context.Context, serverIf int32, address string, attributionSource content.AttributionSource) error
-	ServerSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource) error
-	ServerReadPhy(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	AddService(ctx context.Context, serverIf int32, service BluetoothGattService, attributionSource content.AttributionSource) error
-	RemoveService(ctx context.Context, serverIf int32, handle int32, attributionSource content.AttributionSource) error
-	ClearServices(ctx context.Context, serverIf int32, attributionSource content.AttributionSource) error
-	SendResponse(ctx context.Context, serverIf int32, address string, requestId int32, status int32, offset int32, value []byte, attributionSource content.AttributionSource) error
-	SendNotification(ctx context.Context, serverIf int32, address string, handle int32, confirm bool, value []byte, attributionSource content.AttributionSource) (int32, error)
-	DisconnectAll(ctx context.Context, attributionSource content.AttributionSource) error
-	SubrateModeRequest(ctx context.Context, clientIf int32, device BluetoothDevice, subrateMode int32, attributionSource content.AttributionSource) (int32, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterScanner(ctx context.Context, callback le.IScannerCallback, workSource interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterScanner(ctx context.Context, scannerId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	StartScan(ctx context.Context, scannerId int32, settings le.ScanSettings, filters []le.ScanFilter, attributionSource content.AttributionSource, receiver interface{}) error
+	StartScanForIntent(ctx context.Context, intent interface{}, settings le.ScanSettings, filters []le.ScanFilter, attributionSource content.AttributionSource, receiver interface{}) error
+	StopScanForIntent(ctx context.Context, intent interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	StopScan(ctx context.Context, scannerId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	FlushPendingBatchResults(ctx context.Context, scannerId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	StartAdvertisingSet(ctx context.Context, parameters le.AdvertisingSetParameters, advertiseData le.AdvertiseData, scanResponse le.AdvertiseData, periodicParameters le.PeriodicAdvertisingParameters, periodicData le.AdvertiseData, duration int32, maxExtAdvEvents int32, gattServerIf int32, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	StopAdvertisingSet(ctx context.Context, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	GetOwnAddress(ctx context.Context, advertiserId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	EnableAdvertisingSet(ctx context.Context, advertiserId int32, enable bool, duration int32, maxExtAdvEvents int32, attributionSource content.AttributionSource, receiver interface{}) error
+	SetAdvertisingData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource, receiver interface{}) error
+	SetScanResponseData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource, receiver interface{}) error
+	SetAdvertisingParameters(ctx context.Context, advertiserId int32, parameters le.AdvertisingSetParameters, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPeriodicAdvertisingParameters(ctx context.Context, advertiserId int32, parameters le.PeriodicAdvertisingParameters, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPeriodicAdvertisingData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPeriodicAdvertisingEnable(ctx context.Context, advertiserId int32, enable bool, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterSync(ctx context.Context, scanResult le.ScanResult, skip int32, timeout int32, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterSync(ctx context.Context, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	TransferSync(ctx context.Context, bda BluetoothDevice, serviceData int32, syncHandle int32, attributionSource content.AttributionSource, receiver interface{}) error
+	TransferSetInfo(ctx context.Context, bda BluetoothDevice, serviceData int32, advertisingHandle int32, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterClient(ctx context.Context, appId interface{}, callback IBluetoothGattCallback, eatt_support bool, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterClient(ctx context.Context, clientIf int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientConnect(ctx context.Context, clientIf int32, address string, addressType int32, isDirect bool, transport int32, opportunistic bool, phy int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientDisconnect(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientReadPhy(ctx context.Context, clientIf int32, addres string, attributionSources content.AttributionSource, receiver interface{}) error
+	RefreshDevice(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	DiscoverServices(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	DiscoverServiceByUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadUsingCharacteristicUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, startHandle int32, endHandle int32, authReq int32, attributionSource content.AttributionSource, receiver interface{}) error
+	WriteCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, writeType int32, authReq int32, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource, receiver interface{}) error
+	WriteDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterForNotification(ctx context.Context, clientIf int32, address string, handle int32, enable bool, attributionSource content.AttributionSource, receiver interface{}) error
+	BeginReliableWrite(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	EndReliableWrite(ctx context.Context, clientIf int32, address string, execute bool, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadRemoteRssi(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	ConfigureMTU(ctx context.Context, clientIf int32, address string, mtu int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ConnectionParameterUpdate(ctx context.Context, clientIf int32, address string, connectionPriority int32, attributionSource content.AttributionSource, receiver interface{}) error
+	LeConnectionUpdate(ctx context.Context, clientIf int32, address string, minInterval int32, maxInterval int32, peripheralLatency int32, supervisionTimeout int32, minConnectionEventLen int32, maxConnectionEventLen int32, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterServer(ctx context.Context, appId interface{}, callback IBluetoothGattServerCallback, eatt_support bool, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterServer(ctx context.Context, serverIf int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerConnect(ctx context.Context, serverIf int32, address string, isDirect bool, transport int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerDisconnect(ctx context.Context, serverIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerReadPhy(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	AddService(ctx context.Context, serverIf int32, service BluetoothGattService, attributionSource content.AttributionSource, receiver interface{}) error
+	RemoveService(ctx context.Context, serverIf int32, handle int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClearServices(ctx context.Context, serverIf int32, attributionSource content.AttributionSource, receiver interface{}) error
+	SendResponse(ctx context.Context, serverIf int32, address string, requestId int32, status int32, offset int32, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	SendNotification(ctx context.Context, serverIf int32, address string, handle int32, confirm bool, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	DisconnectAll(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	NumHwTrackFiltersAvailable(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	LeSubrateRequest(ctx context.Context, clientIf int32, address string, subrateMin int32, subrateMax int32, maxLatency int32, contNumber int32, supervisionTimeout int32, attributionSource content.AttributionSource, receiver interface{}) error
+	SubrateModeRequest(ctx context.Context, clientIf int32, address string, subrateMode int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetSupportedDistanceMeasurementMethods(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	StartDistanceMeasurement(ctx context.Context, uuid interface{}, params le.DistanceMeasurementParams, callback le.IDistanceMeasurementCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	StopDistanceMeasurement(ctx context.Context, uuid interface{}, device BluetoothDevice, method int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetChannelSoundingMaxSupportedSecurityLevel(ctx context.Context, remoteDevice BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetLocalChannelSoundingMaxSupportedSecurityLevel(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type BluetoothGattProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothGattProxy(
 	remote binder.IBinder,
 ) *BluetoothGattProxy {
-	return &BluetoothGattProxy{remote: remote}
+	return &BluetoothGattProxy{Remote: remote}
 }
 
 func (p *BluetoothGattProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothGatt = (*BluetoothGattProxy)(nil)
@@ -109,8 +232,8 @@ func (p *BluetoothGattProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	if states == nil {
@@ -123,38 +246,621 @@ func (p *BluetoothGattProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "getDevicesMatchingConnectionStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		_code = TransactionIBluetoothGattGetDevicesMatchingConnectionStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) RegisterScanner(
+	ctx context.Context,
+	callback le.IScannerCallback,
+	workSource interface{},
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterScanner)
 	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterScanner, _err)
 	}
 
-	_count, _err := _reply.ReadInt32()
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) UnregisterScanner(
+	ctx context.Context,
+	scannerId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterScanner)
 	if _err != nil {
-		return _result, _err
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterScanner, _err)
 	}
 
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StartScan(
+	ctx context.Context,
+	scannerId int32,
+	settings le.ScanSettings,
+	filters []le.ScanFilter,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := settings.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	if filters == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(filters)))
+		for _, _item := range filters {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
 			}
 		}
 	}
-	return _result, nil
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStartScan)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStartScan, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StartScanForIntent(
+	ctx context.Context,
+	intent interface{},
+	settings le.ScanSettings,
+	filters []le.ScanFilter,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := settings.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	if filters == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(filters)))
+		for _, _item := range filters {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStartScanForIntent)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStartScanForIntent, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StopScanForIntent(
+	ctx context.Context,
+	intent interface{},
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStopScanForIntent)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStopScanForIntent, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StopScan(
+	ctx context.Context,
+	scannerId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStopScan)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStopScan, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) FlushPendingBatchResults(
+	ctx context.Context,
+	scannerId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattFlushPendingBatchResults)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattFlushPendingBatchResults, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StartAdvertisingSet(
+	ctx context.Context,
+	parameters le.AdvertisingSetParameters,
+	advertiseData le.AdvertiseData,
+	scanResponse le.AdvertiseData,
+	periodicParameters le.PeriodicAdvertisingParameters,
+	periodicData le.AdvertiseData,
+	duration int32,
+	maxExtAdvEvents int32,
+	gattServerIf int32,
+	callback le.IAdvertisingSetCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := parameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := advertiseData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := scanResponse.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := periodicParameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := periodicData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(duration)
+	_data.WriteInt32(maxExtAdvEvents)
+	_data.WriteInt32(gattServerIf)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStartAdvertisingSet)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStartAdvertisingSet, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StopAdvertisingSet(
+	ctx context.Context,
+	callback le.IAdvertisingSetCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStopAdvertisingSet)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStopAdvertisingSet, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) GetOwnAddress(
+	ctx context.Context,
+	advertiserId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattGetOwnAddress)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattGetOwnAddress, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) EnableAdvertisingSet(
+	ctx context.Context,
+	advertiserId int32,
+	enable bool,
+	duration int32,
+	maxExtAdvEvents int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteBool(enable)
+	_data.WriteInt32(duration)
+	_data.WriteInt32(maxExtAdvEvents)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattEnableAdvertisingSet)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattEnableAdvertisingSet, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) SetAdvertisingData(
+	ctx context.Context,
+	advertiserId int32,
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSetAdvertisingData)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSetAdvertisingData, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) SetScanResponseData(
+	ctx context.Context,
+	advertiserId int32,
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSetScanResponseData)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSetScanResponseData, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) SetAdvertisingParameters(
+	ctx context.Context,
+	advertiserId int32,
+	parameters le.AdvertisingSetParameters,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := parameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSetAdvertisingParameters)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSetAdvertisingParameters, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) SetPeriodicAdvertisingParameters(
+	ctx context.Context,
+	advertiserId int32,
+	parameters le.PeriodicAdvertisingParameters,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := parameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSetPeriodicAdvertisingParameters)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSetPeriodicAdvertisingParameters, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) SetPeriodicAdvertisingData(
+	ctx context.Context,
+	advertiserId int32,
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSetPeriodicAdvertisingData)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSetPeriodicAdvertisingData, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) SetPeriodicAdvertisingEnable(
+	ctx context.Context,
+	advertiserId int32,
+	enable bool,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(advertiserId)
+	_data.WriteBool(enable)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSetPeriodicAdvertisingEnable)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSetPeriodicAdvertisingEnable, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) RegisterSync(
+	ctx context.Context,
+	scanResult le.ScanResult,
+	skip int32,
+	timeout int32,
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := scanResult.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(skip)
+	_data.WriteInt32(timeout)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterSync)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterSync, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) UnregisterSync(
+	ctx context.Context,
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterSync)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterSync, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) TransferSync(
+	ctx context.Context,
+	bda BluetoothDevice,
+	serviceData int32,
+	syncHandle int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := bda.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(serviceData)
+	_data.WriteInt32(syncHandle)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattTransferSync)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattTransferSync, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) TransferSetInfo(
+	ctx context.Context,
+	bda BluetoothDevice,
+	serviceData int32,
+	advertisingHandle int32,
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := bda.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(serviceData)
+	_data.WriteInt32(advertisingHandle)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattTransferSetInfo)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattTransferSetInfo, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) RegisterClient(
@@ -163,38 +869,31 @@ func (p *BluetoothGattProxy) RegisterClient(
 	callback IBluetoothGattCallback,
 	eatt_support bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(eatt_support)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "registerClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterClient)
 	if _err != nil {
-		_code = TransactionIBluetoothGattRegisterClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) UnregisterClient(
 	ctx context.Context,
 	clientIf int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -204,22 +903,13 @@ func (p *BluetoothGattProxy) UnregisterClient(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "unregisterClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterClient)
 	if _err != nil {
-		_code = TransactionIBluetoothGattUnregisterClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ClientConnect(
@@ -232,6 +922,7 @@ func (p *BluetoothGattProxy) ClientConnect(
 	opportunistic bool,
 	phy int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -247,22 +938,13 @@ func (p *BluetoothGattProxy) ClientConnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientConnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattClientConnect)
 	if _err != nil {
-		_code = TransactionIBluetoothGattClientConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattClientConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ClientDisconnect(
@@ -270,6 +952,7 @@ func (p *BluetoothGattProxy) ClientDisconnect(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -280,22 +963,13 @@ func (p *BluetoothGattProxy) ClientDisconnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientDisconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattClientDisconnect)
 	if _err != nil {
-		_code = TransactionIBluetoothGattClientDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattClientDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ClientSetPreferredPhy(
@@ -306,6 +980,7 @@ func (p *BluetoothGattProxy) ClientSetPreferredPhy(
 	rxPhy int32,
 	phyOptions int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -319,55 +994,38 @@ func (p *BluetoothGattProxy) ClientSetPreferredPhy(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientSetPreferredPhy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattClientSetPreferredPhy)
 	if _err != nil {
-		_code = TransactionIBluetoothGattClientSetPreferredPhy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattClientSetPreferredPhy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ClientReadPhy(
 	ctx context.Context,
 	clientIf int32,
-	address string,
+	addres string,
 	attributionSources content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	_data.WriteInt32(clientIf)
-	_data.WriteString16(address)
+	_data.WriteString16(addres)
 	_data.WriteInt32(1)
 	if _err := attributionSources.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientReadPhy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattClientReadPhy)
 	if _err != nil {
-		_code = TransactionIBluetoothGattClientReadPhy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattClientReadPhy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) RefreshDevice(
@@ -375,6 +1033,7 @@ func (p *BluetoothGattProxy) RefreshDevice(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -385,22 +1044,13 @@ func (p *BluetoothGattProxy) RefreshDevice(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "refreshDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRefreshDevice)
 	if _err != nil {
-		_code = TransactionIBluetoothGattRefreshDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRefreshDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) DiscoverServices(
@@ -408,6 +1058,7 @@ func (p *BluetoothGattProxy) DiscoverServices(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -418,22 +1069,13 @@ func (p *BluetoothGattProxy) DiscoverServices(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "discoverServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattDiscoverServices)
 	if _err != nil {
-		_code = TransactionIBluetoothGattDiscoverServices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattDiscoverServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) DiscoverServiceByUuid(
@@ -442,6 +1084,7 @@ func (p *BluetoothGattProxy) DiscoverServiceByUuid(
 	address string,
 	uuid interface{},
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -452,22 +1095,13 @@ func (p *BluetoothGattProxy) DiscoverServiceByUuid(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "discoverServiceByUuid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattDiscoverServiceByUuid)
 	if _err != nil {
-		_code = TransactionIBluetoothGattDiscoverServiceByUuid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattDiscoverServiceByUuid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ReadCharacteristic(
@@ -477,6 +1111,7 @@ func (p *BluetoothGattProxy) ReadCharacteristic(
 	handle int32,
 	authReq int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -489,22 +1124,13 @@ func (p *BluetoothGattProxy) ReadCharacteristic(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readCharacteristic")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattReadCharacteristic)
 	if _err != nil {
-		_code = TransactionIBluetoothGattReadCharacteristic
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattReadCharacteristic, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ReadUsingCharacteristicUuid(
@@ -516,6 +1142,7 @@ func (p *BluetoothGattProxy) ReadUsingCharacteristicUuid(
 	endHandle int32,
 	authReq int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -529,22 +1156,13 @@ func (p *BluetoothGattProxy) ReadUsingCharacteristicUuid(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readUsingCharacteristicUuid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattReadUsingCharacteristicUuid)
 	if _err != nil {
-		_code = TransactionIBluetoothGattReadUsingCharacteristicUuid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattReadUsingCharacteristicUuid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) WriteCharacteristic(
@@ -556,8 +1174,8 @@ func (p *BluetoothGattProxy) WriteCharacteristic(
 	authReq int32,
 	value []byte,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	_data.WriteInt32(clientIf)
@@ -575,29 +1193,16 @@ func (p *BluetoothGattProxy) WriteCharacteristic(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "writeCharacteristic")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattWriteCharacteristic)
 	if _err != nil {
-		_code = TransactionIBluetoothGattWriteCharacteristic
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattWriteCharacteristic, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ReadDescriptor(
@@ -607,6 +1212,7 @@ func (p *BluetoothGattProxy) ReadDescriptor(
 	handle int32,
 	authReq int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -619,22 +1225,13 @@ func (p *BluetoothGattProxy) ReadDescriptor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattReadDescriptor)
 	if _err != nil {
-		_code = TransactionIBluetoothGattReadDescriptor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattReadDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) WriteDescriptor(
@@ -645,8 +1242,8 @@ func (p *BluetoothGattProxy) WriteDescriptor(
 	authReq int32,
 	value []byte,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	_data.WriteInt32(clientIf)
@@ -663,29 +1260,16 @@ func (p *BluetoothGattProxy) WriteDescriptor(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "writeDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattWriteDescriptor)
 	if _err != nil {
-		_code = TransactionIBluetoothGattWriteDescriptor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattWriteDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) RegisterForNotification(
@@ -695,6 +1279,7 @@ func (p *BluetoothGattProxy) RegisterForNotification(
 	handle int32,
 	enable bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -707,22 +1292,13 @@ func (p *BluetoothGattProxy) RegisterForNotification(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "registerForNotification")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterForNotification)
 	if _err != nil {
-		_code = TransactionIBluetoothGattRegisterForNotification
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterForNotification, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) BeginReliableWrite(
@@ -730,6 +1306,7 @@ func (p *BluetoothGattProxy) BeginReliableWrite(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -740,22 +1317,13 @@ func (p *BluetoothGattProxy) BeginReliableWrite(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "beginReliableWrite")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattBeginReliableWrite)
 	if _err != nil {
-		_code = TransactionIBluetoothGattBeginReliableWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattBeginReliableWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) EndReliableWrite(
@@ -764,6 +1332,7 @@ func (p *BluetoothGattProxy) EndReliableWrite(
 	address string,
 	execute bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -775,22 +1344,13 @@ func (p *BluetoothGattProxy) EndReliableWrite(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "endReliableWrite")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattEndReliableWrite)
 	if _err != nil {
-		_code = TransactionIBluetoothGattEndReliableWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattEndReliableWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ReadRemoteRssi(
@@ -798,6 +1358,7 @@ func (p *BluetoothGattProxy) ReadRemoteRssi(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -808,22 +1369,13 @@ func (p *BluetoothGattProxy) ReadRemoteRssi(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readRemoteRssi")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattReadRemoteRssi)
 	if _err != nil {
-		_code = TransactionIBluetoothGattReadRemoteRssi
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattReadRemoteRssi, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ConfigureMTU(
@@ -832,6 +1384,7 @@ func (p *BluetoothGattProxy) ConfigureMTU(
 	address string,
 	mtu int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -843,22 +1396,13 @@ func (p *BluetoothGattProxy) ConfigureMTU(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "configureMTU")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattConfigureMTU)
 	if _err != nil {
-		_code = TransactionIBluetoothGattConfigureMTU
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattConfigureMTU, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ConnectionParameterUpdate(
@@ -867,6 +1411,7 @@ func (p *BluetoothGattProxy) ConnectionParameterUpdate(
 	address string,
 	connectionPriority int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -878,22 +1423,13 @@ func (p *BluetoothGattProxy) ConnectionParameterUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "connectionParameterUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattConnectionParameterUpdate)
 	if _err != nil {
-		_code = TransactionIBluetoothGattConnectionParameterUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattConnectionParameterUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) LeConnectionUpdate(
@@ -907,6 +1443,7 @@ func (p *BluetoothGattProxy) LeConnectionUpdate(
 	minConnectionEventLen int32,
 	maxConnectionEventLen int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -923,22 +1460,13 @@ func (p *BluetoothGattProxy) LeConnectionUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "leConnectionUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattLeConnectionUpdate)
 	if _err != nil {
-		_code = TransactionIBluetoothGattLeConnectionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattLeConnectionUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) RegisterServer(
@@ -947,38 +1475,31 @@ func (p *BluetoothGattProxy) RegisterServer(
 	callback IBluetoothGattServerCallback,
 	eatt_support bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(eatt_support)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "registerServer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterServer)
 	if _err != nil {
-		_code = TransactionIBluetoothGattRegisterServer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRegisterServer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) UnregisterServer(
 	ctx context.Context,
 	serverIf int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -988,38 +1509,28 @@ func (p *BluetoothGattProxy) UnregisterServer(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "unregisterServer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterServer)
 	if _err != nil {
-		_code = TransactionIBluetoothGattUnregisterServer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattUnregisterServer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ServerConnect(
 	ctx context.Context,
 	serverIf int32,
 	address string,
-	addressType int32,
 	isDirect bool,
 	transport int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	_data.WriteInt32(serverIf)
 	_data.WriteString16(address)
-	_data.WriteInt32(addressType)
 	_data.WriteBool(isDirect)
 	_data.WriteInt32(transport)
 	_data.WriteInt32(1)
@@ -1027,22 +1538,13 @@ func (p *BluetoothGattProxy) ServerConnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverConnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattServerConnect)
 	if _err != nil {
-		_code = TransactionIBluetoothGattServerConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattServerConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ServerDisconnect(
@@ -1050,6 +1552,7 @@ func (p *BluetoothGattProxy) ServerDisconnect(
 	serverIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1060,22 +1563,13 @@ func (p *BluetoothGattProxy) ServerDisconnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverDisconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattServerDisconnect)
 	if _err != nil {
-		_code = TransactionIBluetoothGattServerDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattServerDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ServerSetPreferredPhy(
@@ -1086,6 +1580,7 @@ func (p *BluetoothGattProxy) ServerSetPreferredPhy(
 	rxPhy int32,
 	phyOptions int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1099,22 +1594,13 @@ func (p *BluetoothGattProxy) ServerSetPreferredPhy(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverSetPreferredPhy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattServerSetPreferredPhy)
 	if _err != nil {
-		_code = TransactionIBluetoothGattServerSetPreferredPhy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattServerSetPreferredPhy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ServerReadPhy(
@@ -1122,6 +1608,7 @@ func (p *BluetoothGattProxy) ServerReadPhy(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1132,22 +1619,13 @@ func (p *BluetoothGattProxy) ServerReadPhy(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverReadPhy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattServerReadPhy)
 	if _err != nil {
-		_code = TransactionIBluetoothGattServerReadPhy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattServerReadPhy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) AddService(
@@ -1155,6 +1633,7 @@ func (p *BluetoothGattProxy) AddService(
 	serverIf int32,
 	service BluetoothGattService,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1168,22 +1647,13 @@ func (p *BluetoothGattProxy) AddService(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "addService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattAddService)
 	if _err != nil {
-		_code = TransactionIBluetoothGattAddService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattAddService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) RemoveService(
@@ -1191,6 +1661,7 @@ func (p *BluetoothGattProxy) RemoveService(
 	serverIf int32,
 	handle int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1201,28 +1672,20 @@ func (p *BluetoothGattProxy) RemoveService(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "removeService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattRemoveService)
 	if _err != nil {
-		_code = TransactionIBluetoothGattRemoveService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattRemoveService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) ClearServices(
 	ctx context.Context,
 	serverIf int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1232,22 +1695,13 @@ func (p *BluetoothGattProxy) ClearServices(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clearServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattClearServices)
 	if _err != nil {
-		_code = TransactionIBluetoothGattClearServices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattClearServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) SendResponse(
@@ -1259,6 +1713,7 @@ func (p *BluetoothGattProxy) SendResponse(
 	offset int32,
 	value []byte,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1280,22 +1735,13 @@ func (p *BluetoothGattProxy) SendResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "sendResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSendResponse)
 	if _err != nil {
-		_code = TransactionIBluetoothGattSendResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSendResponse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) SendNotification(
@@ -1306,8 +1752,8 @@ func (p *BluetoothGattProxy) SendNotification(
 	confirm bool,
 	value []byte,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	_data.WriteInt32(serverIf)
@@ -1324,34 +1770,22 @@ func (p *BluetoothGattProxy) SendNotification(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "sendNotification")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSendNotification)
 	if _err != nil {
-		_code = TransactionIBluetoothGattSendNotification
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSendNotification, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) DisconnectAll(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
@@ -1360,65 +1794,222 @@ func (p *BluetoothGattProxy) DisconnectAll(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "disconnectAll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattDisconnectAll)
 	if _err != nil {
-		_code = TransactionIBluetoothGattDisconnectAll
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattDisconnectAll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) NumHwTrackFiltersAvailable(
+	ctx context.Context,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	defer _reply.Recycle()
 
-	if _err = binder.ReadStatus(_reply); _err != nil {
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattNumHwTrackFiltersAvailable)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattNumHwTrackFiltersAvailable, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) LeSubrateRequest(
+	ctx context.Context,
+	clientIf int32,
+	address string,
+	subrateMin int32,
+	subrateMax int32,
+	maxLatency int32,
+	contNumber int32,
+	supervisionTimeout int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(clientIf)
+	_data.WriteString16(address)
+	_data.WriteInt32(subrateMin)
+	_data.WriteInt32(subrateMax)
+	_data.WriteInt32(maxLatency)
+	_data.WriteInt32(contNumber)
+	_data.WriteInt32(supervisionTimeout)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	return nil
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattLeSubrateRequest)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattLeSubrateRequest, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothGattProxy) SubrateModeRequest(
 	ctx context.Context,
 	clientIf int32,
-	device BluetoothDevice,
+	address string,
 	subrateMode int32,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
 	_data.WriteInt32(clientIf)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	_data.WriteString16(address)
 	_data.WriteInt32(subrateMode)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "subrateModeRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattSubrateModeRequest)
 	if _err != nil {
-		_code = TransactionIBluetoothGattSubrateModeRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattSubrateModeRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) GetSupportedDistanceMeasurementMethods(
+	ctx context.Context,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattGetSupportedDistanceMeasurementMethods)
 	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattGetSupportedDistanceMeasurementMethods, _err)
 	}
 
-	_result, _err = _reply.ReadInt32()
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StartDistanceMeasurement(
+	ctx context.Context,
+	uuid interface{},
+	params le.DistanceMeasurementParams,
+	callback le.IDistanceMeasurementCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStartDistanceMeasurement)
 	if _err != nil {
-		return _result, _err
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStartDistanceMeasurement, _err)
 	}
-	return _result, nil
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) StopDistanceMeasurement(
+	ctx context.Context,
+	uuid interface{},
+	device BluetoothDevice,
+	method int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(method)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattStopDistanceMeasurement)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattStopDistanceMeasurement, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) GetChannelSoundingMaxSupportedSecurityLevel(
+	ctx context.Context,
+	remoteDevice BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := remoteDevice.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattGetChannelSoundingMaxSupportedSecurityLevel)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattGetChannelSoundingMaxSupportedSecurityLevel, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothGattProxy) GetLocalChannelSoundingMaxSupportedSecurityLevel(
+	ctx context.Context,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothGatt)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothGatt, MethodIBluetoothGattGetLocalChannelSoundingMaxSupportedSecurityLevel)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothGatt, MethodIBluetoothGattGetLocalChannelSoundingMaxSupportedSecurityLevel, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // BluetoothGattStub dispatches incoming binder transactions
@@ -1428,6 +2019,10 @@ type BluetoothGattStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothGattStub)(nil)
+
+func (s *BluetoothGattStub) Descriptor() string {
+	return DescriptorIBluetoothGatt
+}
 
 func (s *BluetoothGattStub) OnTransaction(
 	ctx context.Context,
@@ -1454,16 +2049,737 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattRegisterScanner:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
 		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IScannerCallback
+		_ = _arg_callback
+		var _arg_workSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.RegisterScanner(ctx, _arg_callback, _arg_workSource, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattUnregisterScanner:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_scannerId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.UnregisterScanner(ctx, _arg_scannerId, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStartScan:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_scannerId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_settings le.ScanSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_filters []le.ScanFilter
+		_ = _arg_filters
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.StartScan(ctx, _arg_scannerId, _arg_settings, _arg_filters, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStartScanForIntent:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent interface{}
+		var _arg_settings le.ScanSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_filters []le.ScanFilter
+		_ = _arg_filters
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.StartScanForIntent(ctx, _arg_intent, _arg_settings, _arg_filters, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStopScanForIntent:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.StopScanForIntent(ctx, _arg_intent, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStopScan:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_scannerId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.StopScan(ctx, _arg_scannerId, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattFlushPendingBatchResults:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_scannerId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.FlushPendingBatchResults(ctx, _arg_scannerId, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStartAdvertisingSet:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_parameters le.AdvertisingSetParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_advertiseData le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_advertiseData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_scanResponse le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanResponse.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_periodicParameters le.PeriodicAdvertisingParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_periodicParameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_periodicData le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_periodicData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_duration, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxExtAdvEvents, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gattServerIf, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IAdvertisingSetCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.StartAdvertisingSet(ctx, _arg_parameters, _arg_advertiseData, _arg_scanResponse, _arg_periodicParameters, _arg_periodicData, _arg_duration, _arg_maxExtAdvEvents, _arg_gattServerIf, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStopAdvertisingSet:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IAdvertisingSetCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.StopAdvertisingSet(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattGetOwnAddress:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.GetOwnAddress(ctx, _arg_advertiserId, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattEnableAdvertisingSet:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxExtAdvEvents, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.EnableAdvertisingSet(ctx, _arg_advertiserId, _arg_enable, _arg_duration, _arg_maxExtAdvEvents, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattSetAdvertisingData:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.SetAdvertisingData(ctx, _arg_advertiserId, _arg_data, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattSetScanResponseData:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.SetScanResponseData(ctx, _arg_advertiserId, _arg_data, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattSetAdvertisingParameters:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_parameters le.AdvertisingSetParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.SetAdvertisingParameters(ctx, _arg_advertiserId, _arg_parameters, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattSetPeriodicAdvertisingParameters:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_parameters le.PeriodicAdvertisingParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.SetPeriodicAdvertisingParameters(ctx, _arg_advertiserId, _arg_parameters, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattSetPeriodicAdvertisingData:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.SetPeriodicAdvertisingData(ctx, _arg_advertiserId, _arg_data, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattSetPeriodicAdvertisingEnable:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_advertiserId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.SetPeriodicAdvertisingEnable(ctx, _arg_advertiserId, _arg_enable, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattRegisterSync:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_scanResult le.ScanResult
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanResult.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_skip, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeout, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IPeriodicAdvertisingCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.RegisterSync(ctx, _arg_scanResult, _arg_skip, _arg_timeout, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattUnregisterSync:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IPeriodicAdvertisingCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.UnregisterSync(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattTransferSync:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bda BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bda.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_serviceData, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_syncHandle, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.TransferSync(ctx, _arg_bda, _arg_serviceData, _arg_syncHandle, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattTransferSetInfo:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bda BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bda.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_serviceData, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_advertisingHandle, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IPeriodicAdvertisingCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.TransferSetInfo(ctx, _arg_bda, _arg_serviceData, _arg_advertisingHandle, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattRegisterClient:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1488,14 +2804,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.RegisterClient(ctx, _arg_appId, _arg_callback, _arg_eatt_support, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.RegisterClient(ctx, _arg_appId, _arg_callback, _arg_eatt_support, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattUnregisterClient:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1516,14 +2828,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.UnregisterClient(ctx, _arg_clientIf, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.UnregisterClient(ctx, _arg_clientIf, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattClientConnect:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1568,14 +2876,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ClientConnect(ctx, _arg_clientIf, _arg_address, _arg_addressType, _arg_isDirect, _arg_transport, _arg_opportunistic, _arg_phy, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ClientConnect(ctx, _arg_clientIf, _arg_address, _arg_addressType, _arg_isDirect, _arg_transport, _arg_opportunistic, _arg_phy, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattClientDisconnect:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1600,14 +2904,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ClientDisconnect(ctx, _arg_clientIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ClientDisconnect(ctx, _arg_clientIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattClientSetPreferredPhy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1644,14 +2944,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ClientSetPreferredPhy(ctx, _arg_clientIf, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_phyOptions, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ClientSetPreferredPhy(ctx, _arg_clientIf, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_phyOptions, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattClientReadPhy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1660,7 +2956,7 @@ func (s *BluetoothGattStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := _data.ReadString16()
+		_arg_addres, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1676,14 +2972,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ClientReadPhy(ctx, _arg_clientIf, _arg_address, _arg_attributionSources)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ClientReadPhy(ctx, _arg_clientIf, _arg_addres, _arg_attributionSources, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattRefreshDevice:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1708,14 +3000,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.RefreshDevice(ctx, _arg_clientIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.RefreshDevice(ctx, _arg_clientIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattDiscoverServices:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1740,14 +3028,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.DiscoverServices(ctx, _arg_clientIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.DiscoverServices(ctx, _arg_clientIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattDiscoverServiceByUuid:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1773,14 +3057,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.DiscoverServiceByUuid(ctx, _arg_clientIf, _arg_address, _arg_uuid, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.DiscoverServiceByUuid(ctx, _arg_clientIf, _arg_address, _arg_uuid, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattReadCharacteristic:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1813,14 +3093,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ReadCharacteristic(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_authReq, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ReadCharacteristic(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_authReq, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattReadUsingCharacteristicUuid:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1858,14 +3134,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ReadUsingCharacteristicUuid(ctx, _arg_clientIf, _arg_address, _arg_uuid, _arg_startHandle, _arg_endHandle, _arg_authReq, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ReadUsingCharacteristicUuid(ctx, _arg_clientIf, _arg_address, _arg_uuid, _arg_startHandle, _arg_endHandle, _arg_authReq, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattWriteCharacteristic:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1905,15 +3177,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.WriteCharacteristic(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_writeType, _arg_authReq, _arg_value, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.WriteCharacteristic(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_writeType, _arg_authReq, _arg_value, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattReadDescriptor:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1946,14 +3213,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ReadDescriptor(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_authReq, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ReadDescriptor(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_authReq, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattWriteDescriptor:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1989,15 +3252,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.WriteDescriptor(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_authReq, _arg_value, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.WriteDescriptor(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_authReq, _arg_value, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattRegisterForNotification:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2030,14 +3288,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.RegisterForNotification(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_enable, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.RegisterForNotification(ctx, _arg_clientIf, _arg_address, _arg_handle, _arg_enable, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattBeginReliableWrite:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2062,14 +3316,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.BeginReliableWrite(ctx, _arg_clientIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.BeginReliableWrite(ctx, _arg_clientIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattEndReliableWrite:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2098,14 +3348,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.EndReliableWrite(ctx, _arg_clientIf, _arg_address, _arg_execute, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.EndReliableWrite(ctx, _arg_clientIf, _arg_address, _arg_execute, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattReadRemoteRssi:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2130,14 +3376,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ReadRemoteRssi(ctx, _arg_clientIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ReadRemoteRssi(ctx, _arg_clientIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattConfigureMTU:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2166,14 +3408,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ConfigureMTU(ctx, _arg_clientIf, _arg_address, _arg_mtu, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ConfigureMTU(ctx, _arg_clientIf, _arg_address, _arg_mtu, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattConnectionParameterUpdate:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2202,14 +3440,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ConnectionParameterUpdate(ctx, _arg_clientIf, _arg_address, _arg_connectionPriority, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ConnectionParameterUpdate(ctx, _arg_clientIf, _arg_address, _arg_connectionPriority, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattLeConnectionUpdate:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2258,14 +3492,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.LeConnectionUpdate(ctx, _arg_clientIf, _arg_address, _arg_minInterval, _arg_maxInterval, _arg_peripheralLatency, _arg_supervisionTimeout, _arg_minConnectionEventLen, _arg_maxConnectionEventLen, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.LeConnectionUpdate(ctx, _arg_clientIf, _arg_address, _arg_minInterval, _arg_maxInterval, _arg_peripheralLatency, _arg_supervisionTimeout, _arg_minConnectionEventLen, _arg_maxConnectionEventLen, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattRegisterServer:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2290,14 +3520,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.RegisterServer(ctx, _arg_appId, _arg_callback, _arg_eatt_support, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.RegisterServer(ctx, _arg_appId, _arg_callback, _arg_eatt_support, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattUnregisterServer:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2318,14 +3544,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.UnregisterServer(ctx, _arg_serverIf, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.UnregisterServer(ctx, _arg_serverIf, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattServerConnect:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2335,10 +3557,6 @@ func (s *BluetoothGattStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_address, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_addressType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2362,14 +3580,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ServerConnect(ctx, _arg_serverIf, _arg_address, _arg_addressType, _arg_isDirect, _arg_transport, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ServerConnect(ctx, _arg_serverIf, _arg_address, _arg_isDirect, _arg_transport, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattServerDisconnect:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2394,14 +3608,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ServerDisconnect(ctx, _arg_serverIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ServerDisconnect(ctx, _arg_serverIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattServerSetPreferredPhy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2438,14 +3648,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ServerSetPreferredPhy(ctx, _arg_clientIf, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_phyOptions, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ServerSetPreferredPhy(ctx, _arg_clientIf, _arg_address, _arg_txPhy, _arg_rxPhy, _arg_phyOptions, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattServerReadPhy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2470,14 +3676,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ServerReadPhy(ctx, _arg_clientIf, _arg_address, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ServerReadPhy(ctx, _arg_clientIf, _arg_address, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattAddService:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2510,14 +3712,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.AddService(ctx, _arg_serverIf, _arg_service, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.AddService(ctx, _arg_serverIf, _arg_service, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattRemoveService:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2542,14 +3740,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.RemoveService(ctx, _arg_serverIf, _arg_handle, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.RemoveService(ctx, _arg_serverIf, _arg_handle, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattClearServices:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2570,14 +3764,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.ClearServices(ctx, _arg_serverIf, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.ClearServices(ctx, _arg_serverIf, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattSendResponse:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2617,14 +3807,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.SendResponse(ctx, _arg_serverIf, _arg_address, _arg_requestId, _arg_status, _arg_offset, _arg_value, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SendResponse(ctx, _arg_serverIf, _arg_address, _arg_requestId, _arg_status, _arg_offset, _arg_value, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattSendNotification:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2660,15 +3846,10 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.SendNotification(ctx, _arg_serverIf, _arg_address, _arg_handle, _arg_confirm, _arg_value, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SendNotification(ctx, _arg_serverIf, _arg_address, _arg_handle, _arg_confirm, _arg_value, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattDisconnectAll:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2685,14 +3866,78 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.DisconnectAll(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.DisconnectAll(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattNumHwTrackFiltersAvailable:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
 		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.NumHwTrackFiltersAvailable(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattLeSubrateRequest:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_clientIf, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_address, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subrateMin, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subrateMax, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxLatency, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_contNumber, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_supervisionTimeout, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.LeSubrateRequest(ctx, _arg_clientIf, _arg_address, _arg_subrateMin, _arg_subrateMax, _arg_maxLatency, _arg_contNumber, _arg_supervisionTimeout, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothGattSubrateModeRequest:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2701,17 +3946,9 @@ func (s *BluetoothGattStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_device BluetoothDevice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
+		_arg_address, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
 		}
 		_arg_subrateMode, _err := _data.ReadInt32()
 		if _err != nil {
@@ -2729,15 +3966,155 @@ func (s *BluetoothGattStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.SubrateModeRequest(ctx, _arg_clientIf, _arg_device, _arg_subrateMode, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SubrateModeRequest(ctx, _arg_clientIf, _arg_address, _arg_subrateMode, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattGetSupportedDistanceMeasurementMethods:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
 		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.GetSupportedDistanceMeasurementMethods(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStartDistanceMeasurement:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		var _arg_params le.DistanceMeasurementParams
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IDistanceMeasurementCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.StartDistanceMeasurement(ctx, _arg_uuid, _arg_params, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattStopDistanceMeasurement:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_method, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.StopDistanceMeasurement(ctx, _arg_uuid, _arg_device, _arg_method, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattGetChannelSoundingMaxSupportedSecurityLevel:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteDevice BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteDevice.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.GetChannelSoundingMaxSupportedSecurityLevel(ctx, _arg_remoteDevice, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothGattGetLocalChannelSoundingMaxSupportedSecurityLevel:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.GetLocalChannelSoundingMaxSupportedSecurityLevel(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2747,41 +4124,69 @@ func (s *BluetoothGattStub) OnTransaction(
 // provide to NewBluetoothGattStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothGattServer interface {
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	RegisterClient(ctx context.Context, appId interface{}, callback IBluetoothGattCallback, eatt_support bool, attributionSource content.AttributionSource) error
-	UnregisterClient(ctx context.Context, clientIf int32, attributionSource content.AttributionSource) error
-	ClientConnect(ctx context.Context, clientIf int32, address string, addressType int32, isDirect bool, transport int32, opportunistic bool, phy int32, attributionSource content.AttributionSource) error
-	ClientDisconnect(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	ClientSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource) error
-	ClientReadPhy(ctx context.Context, clientIf int32, address string, attributionSources content.AttributionSource) error
-	RefreshDevice(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	DiscoverServices(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	DiscoverServiceByUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, attributionSource content.AttributionSource) error
-	ReadCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource) error
-	ReadUsingCharacteristicUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, startHandle int32, endHandle int32, authReq int32, attributionSource content.AttributionSource) error
-	WriteCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, writeType int32, authReq int32, value []byte, attributionSource content.AttributionSource) (int32, error)
-	ReadDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource) error
-	WriteDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, value []byte, attributionSource content.AttributionSource) (int32, error)
-	RegisterForNotification(ctx context.Context, clientIf int32, address string, handle int32, enable bool, attributionSource content.AttributionSource) error
-	BeginReliableWrite(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	EndReliableWrite(ctx context.Context, clientIf int32, address string, execute bool, attributionSource content.AttributionSource) error
-	ReadRemoteRssi(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	ConfigureMTU(ctx context.Context, clientIf int32, address string, mtu int32, attributionSource content.AttributionSource) error
-	ConnectionParameterUpdate(ctx context.Context, clientIf int32, address string, connectionPriority int32, attributionSource content.AttributionSource) error
-	LeConnectionUpdate(ctx context.Context, clientIf int32, address string, minInterval int32, maxInterval int32, peripheralLatency int32, supervisionTimeout int32, minConnectionEventLen int32, maxConnectionEventLen int32, attributionSource content.AttributionSource) error
-	RegisterServer(ctx context.Context, appId interface{}, callback IBluetoothGattServerCallback, eatt_support bool, attributionSource content.AttributionSource) error
-	UnregisterServer(ctx context.Context, serverIf int32, attributionSource content.AttributionSource) error
-	ServerConnect(ctx context.Context, serverIf int32, address string, addressType int32, isDirect bool, transport int32, attributionSource content.AttributionSource) error
-	ServerDisconnect(ctx context.Context, serverIf int32, address string, attributionSource content.AttributionSource) error
-	ServerSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource) error
-	ServerReadPhy(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource) error
-	AddService(ctx context.Context, serverIf int32, service BluetoothGattService, attributionSource content.AttributionSource) error
-	RemoveService(ctx context.Context, serverIf int32, handle int32, attributionSource content.AttributionSource) error
-	ClearServices(ctx context.Context, serverIf int32, attributionSource content.AttributionSource) error
-	SendResponse(ctx context.Context, serverIf int32, address string, requestId int32, status int32, offset int32, value []byte, attributionSource content.AttributionSource) error
-	SendNotification(ctx context.Context, serverIf int32, address string, handle int32, confirm bool, value []byte, attributionSource content.AttributionSource) (int32, error)
-	DisconnectAll(ctx context.Context, attributionSource content.AttributionSource) error
-	SubrateModeRequest(ctx context.Context, clientIf int32, device BluetoothDevice, subrateMode int32, attributionSource content.AttributionSource) (int32, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterScanner(ctx context.Context, callback le.IScannerCallback, workSource interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterScanner(ctx context.Context, scannerId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	StartScan(ctx context.Context, scannerId int32, settings le.ScanSettings, filters []le.ScanFilter, attributionSource content.AttributionSource, receiver interface{}) error
+	StartScanForIntent(ctx context.Context, intent interface{}, settings le.ScanSettings, filters []le.ScanFilter, attributionSource content.AttributionSource, receiver interface{}) error
+	StopScanForIntent(ctx context.Context, intent interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	StopScan(ctx context.Context, scannerId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	FlushPendingBatchResults(ctx context.Context, scannerId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	StartAdvertisingSet(ctx context.Context, parameters le.AdvertisingSetParameters, advertiseData le.AdvertiseData, scanResponse le.AdvertiseData, periodicParameters le.PeriodicAdvertisingParameters, periodicData le.AdvertiseData, duration int32, maxExtAdvEvents int32, gattServerIf int32, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	StopAdvertisingSet(ctx context.Context, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	GetOwnAddress(ctx context.Context, advertiserId int32, attributionSource content.AttributionSource, receiver interface{}) error
+	EnableAdvertisingSet(ctx context.Context, advertiserId int32, enable bool, duration int32, maxExtAdvEvents int32, attributionSource content.AttributionSource, receiver interface{}) error
+	SetAdvertisingData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource, receiver interface{}) error
+	SetScanResponseData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource, receiver interface{}) error
+	SetAdvertisingParameters(ctx context.Context, advertiserId int32, parameters le.AdvertisingSetParameters, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPeriodicAdvertisingParameters(ctx context.Context, advertiserId int32, parameters le.PeriodicAdvertisingParameters, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPeriodicAdvertisingData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPeriodicAdvertisingEnable(ctx context.Context, advertiserId int32, enable bool, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterSync(ctx context.Context, scanResult le.ScanResult, skip int32, timeout int32, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterSync(ctx context.Context, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	TransferSync(ctx context.Context, bda BluetoothDevice, serviceData int32, syncHandle int32, attributionSource content.AttributionSource, receiver interface{}) error
+	TransferSetInfo(ctx context.Context, bda BluetoothDevice, serviceData int32, advertisingHandle int32, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterClient(ctx context.Context, appId interface{}, callback IBluetoothGattCallback, eatt_support bool, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterClient(ctx context.Context, clientIf int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientConnect(ctx context.Context, clientIf int32, address string, addressType int32, isDirect bool, transport int32, opportunistic bool, phy int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientDisconnect(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClientReadPhy(ctx context.Context, clientIf int32, addres string, attributionSources content.AttributionSource, receiver interface{}) error
+	RefreshDevice(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	DiscoverServices(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	DiscoverServiceByUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadUsingCharacteristicUuid(ctx context.Context, clientIf int32, address string, uuid interface{}, startHandle int32, endHandle int32, authReq int32, attributionSource content.AttributionSource, receiver interface{}) error
+	WriteCharacteristic(ctx context.Context, clientIf int32, address string, handle int32, writeType int32, authReq int32, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, attributionSource content.AttributionSource, receiver interface{}) error
+	WriteDescriptor(ctx context.Context, clientIf int32, address string, handle int32, authReq int32, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterForNotification(ctx context.Context, clientIf int32, address string, handle int32, enable bool, attributionSource content.AttributionSource, receiver interface{}) error
+	BeginReliableWrite(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	EndReliableWrite(ctx context.Context, clientIf int32, address string, execute bool, attributionSource content.AttributionSource, receiver interface{}) error
+	ReadRemoteRssi(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	ConfigureMTU(ctx context.Context, clientIf int32, address string, mtu int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ConnectionParameterUpdate(ctx context.Context, clientIf int32, address string, connectionPriority int32, attributionSource content.AttributionSource, receiver interface{}) error
+	LeConnectionUpdate(ctx context.Context, clientIf int32, address string, minInterval int32, maxInterval int32, peripheralLatency int32, supervisionTimeout int32, minConnectionEventLen int32, maxConnectionEventLen int32, attributionSource content.AttributionSource, receiver interface{}) error
+	RegisterServer(ctx context.Context, appId interface{}, callback IBluetoothGattServerCallback, eatt_support bool, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterServer(ctx context.Context, serverIf int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerConnect(ctx context.Context, serverIf int32, address string, isDirect bool, transport int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerDisconnect(ctx context.Context, serverIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerSetPreferredPhy(ctx context.Context, clientIf int32, address string, txPhy int32, rxPhy int32, phyOptions int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ServerReadPhy(ctx context.Context, clientIf int32, address string, attributionSource content.AttributionSource, receiver interface{}) error
+	AddService(ctx context.Context, serverIf int32, service BluetoothGattService, attributionSource content.AttributionSource, receiver interface{}) error
+	RemoveService(ctx context.Context, serverIf int32, handle int32, attributionSource content.AttributionSource, receiver interface{}) error
+	ClearServices(ctx context.Context, serverIf int32, attributionSource content.AttributionSource, receiver interface{}) error
+	SendResponse(ctx context.Context, serverIf int32, address string, requestId int32, status int32, offset int32, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	SendNotification(ctx context.Context, serverIf int32, address string, handle int32, confirm bool, value []byte, attributionSource content.AttributionSource, receiver interface{}) error
+	DisconnectAll(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	NumHwTrackFiltersAvailable(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	LeSubrateRequest(ctx context.Context, clientIf int32, address string, subrateMin int32, subrateMax int32, maxLatency int32, contNumber int32, supervisionTimeout int32, attributionSource content.AttributionSource, receiver interface{}) error
+	SubrateModeRequest(ctx context.Context, clientIf int32, address string, subrateMode int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetSupportedDistanceMeasurementMethods(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	StartDistanceMeasurement(ctx context.Context, uuid interface{}, params le.DistanceMeasurementParams, callback le.IDistanceMeasurementCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	StopDistanceMeasurement(ctx context.Context, uuid interface{}, device BluetoothDevice, method int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetChannelSoundingMaxSupportedSecurityLevel(ctx context.Context, remoteDevice BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetLocalChannelSoundingMaxSupportedSecurityLevel(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type bluetoothGattStubWrapper struct {
@@ -2797,8 +4202,228 @@ func (w *bluetoothGattStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) RegisterScanner(
+	ctx context.Context,
+	callback le.IScannerCallback,
+	workSource interface{},
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.RegisterScanner(ctx, callback, workSource, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) UnregisterScanner(
+	ctx context.Context,
+	scannerId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.UnregisterScanner(ctx, scannerId, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StartScan(
+	ctx context.Context,
+	scannerId int32,
+	settings le.ScanSettings,
+	filters []le.ScanFilter,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StartScan(ctx, scannerId, settings, filters, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StartScanForIntent(
+	ctx context.Context,
+	intent interface{},
+	settings le.ScanSettings,
+	filters []le.ScanFilter,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StartScanForIntent(ctx, intent, settings, filters, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StopScanForIntent(
+	ctx context.Context,
+	intent interface{},
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StopScanForIntent(ctx, intent, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StopScan(
+	ctx context.Context,
+	scannerId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StopScan(ctx, scannerId, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) FlushPendingBatchResults(
+	ctx context.Context,
+	scannerId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.FlushPendingBatchResults(ctx, scannerId, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StartAdvertisingSet(
+	ctx context.Context,
+	parameters le.AdvertisingSetParameters,
+	advertiseData le.AdvertiseData,
+	scanResponse le.AdvertiseData,
+	periodicParameters le.PeriodicAdvertisingParameters,
+	periodicData le.AdvertiseData,
+	duration int32,
+	maxExtAdvEvents int32,
+	gattServerIf int32,
+	callback le.IAdvertisingSetCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StartAdvertisingSet(ctx, parameters, advertiseData, scanResponse, periodicParameters, periodicData, duration, maxExtAdvEvents, gattServerIf, callback, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StopAdvertisingSet(
+	ctx context.Context,
+	callback le.IAdvertisingSetCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StopAdvertisingSet(ctx, callback, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) GetOwnAddress(
+	ctx context.Context,
+	advertiserId int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.GetOwnAddress(ctx, advertiserId, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) EnableAdvertisingSet(
+	ctx context.Context,
+	advertiserId int32,
+	enable bool,
+	duration int32,
+	maxExtAdvEvents int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.EnableAdvertisingSet(ctx, advertiserId, enable, duration, maxExtAdvEvents, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) SetAdvertisingData(
+	ctx context.Context,
+	advertiserId int32,
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.SetAdvertisingData(ctx, advertiserId, data, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) SetScanResponseData(
+	ctx context.Context,
+	advertiserId int32,
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.SetScanResponseData(ctx, advertiserId, data, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) SetAdvertisingParameters(
+	ctx context.Context,
+	advertiserId int32,
+	parameters le.AdvertisingSetParameters,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.SetAdvertisingParameters(ctx, advertiserId, parameters, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) SetPeriodicAdvertisingParameters(
+	ctx context.Context,
+	advertiserId int32,
+	parameters le.PeriodicAdvertisingParameters,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.SetPeriodicAdvertisingParameters(ctx, advertiserId, parameters, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) SetPeriodicAdvertisingData(
+	ctx context.Context,
+	advertiserId int32,
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.SetPeriodicAdvertisingData(ctx, advertiserId, data, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) SetPeriodicAdvertisingEnable(
+	ctx context.Context,
+	advertiserId int32,
+	enable bool,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.SetPeriodicAdvertisingEnable(ctx, advertiserId, enable, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) RegisterSync(
+	ctx context.Context,
+	scanResult le.ScanResult,
+	skip int32,
+	timeout int32,
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.RegisterSync(ctx, scanResult, skip, timeout, callback, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) UnregisterSync(
+	ctx context.Context,
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.UnregisterSync(ctx, callback, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) TransferSync(
+	ctx context.Context,
+	bda BluetoothDevice,
+	serviceData int32,
+	syncHandle int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.TransferSync(ctx, bda, serviceData, syncHandle, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) TransferSetInfo(
+	ctx context.Context,
+	bda BluetoothDevice,
+	serviceData int32,
+	advertisingHandle int32,
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.TransferSetInfo(ctx, bda, serviceData, advertisingHandle, callback, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) RegisterClient(
@@ -2807,16 +4432,18 @@ func (w *bluetoothGattStubWrapper) RegisterClient(
 	callback IBluetoothGattCallback,
 	eatt_support bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.RegisterClient(ctx, appId, callback, eatt_support, attributionSource)
+	return w.impl.RegisterClient(ctx, appId, callback, eatt_support, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) UnregisterClient(
 	ctx context.Context,
 	clientIf int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.UnregisterClient(ctx, clientIf, attributionSource)
+	return w.impl.UnregisterClient(ctx, clientIf, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ClientConnect(
@@ -2829,8 +4456,9 @@ func (w *bluetoothGattStubWrapper) ClientConnect(
 	opportunistic bool,
 	phy int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ClientConnect(ctx, clientIf, address, addressType, isDirect, transport, opportunistic, phy, attributionSource)
+	return w.impl.ClientConnect(ctx, clientIf, address, addressType, isDirect, transport, opportunistic, phy, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ClientDisconnect(
@@ -2838,8 +4466,9 @@ func (w *bluetoothGattStubWrapper) ClientDisconnect(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ClientDisconnect(ctx, clientIf, address, attributionSource)
+	return w.impl.ClientDisconnect(ctx, clientIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ClientSetPreferredPhy(
@@ -2850,17 +4479,19 @@ func (w *bluetoothGattStubWrapper) ClientSetPreferredPhy(
 	rxPhy int32,
 	phyOptions int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ClientSetPreferredPhy(ctx, clientIf, address, txPhy, rxPhy, phyOptions, attributionSource)
+	return w.impl.ClientSetPreferredPhy(ctx, clientIf, address, txPhy, rxPhy, phyOptions, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ClientReadPhy(
 	ctx context.Context,
 	clientIf int32,
-	address string,
+	addres string,
 	attributionSources content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ClientReadPhy(ctx, clientIf, address, attributionSources)
+	return w.impl.ClientReadPhy(ctx, clientIf, addres, attributionSources, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) RefreshDevice(
@@ -2868,8 +4499,9 @@ func (w *bluetoothGattStubWrapper) RefreshDevice(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.RefreshDevice(ctx, clientIf, address, attributionSource)
+	return w.impl.RefreshDevice(ctx, clientIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) DiscoverServices(
@@ -2877,8 +4509,9 @@ func (w *bluetoothGattStubWrapper) DiscoverServices(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.DiscoverServices(ctx, clientIf, address, attributionSource)
+	return w.impl.DiscoverServices(ctx, clientIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) DiscoverServiceByUuid(
@@ -2887,8 +4520,9 @@ func (w *bluetoothGattStubWrapper) DiscoverServiceByUuid(
 	address string,
 	uuid interface{},
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.DiscoverServiceByUuid(ctx, clientIf, address, uuid, attributionSource)
+	return w.impl.DiscoverServiceByUuid(ctx, clientIf, address, uuid, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ReadCharacteristic(
@@ -2898,8 +4532,9 @@ func (w *bluetoothGattStubWrapper) ReadCharacteristic(
 	handle int32,
 	authReq int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ReadCharacteristic(ctx, clientIf, address, handle, authReq, attributionSource)
+	return w.impl.ReadCharacteristic(ctx, clientIf, address, handle, authReq, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ReadUsingCharacteristicUuid(
@@ -2911,8 +4546,9 @@ func (w *bluetoothGattStubWrapper) ReadUsingCharacteristicUuid(
 	endHandle int32,
 	authReq int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ReadUsingCharacteristicUuid(ctx, clientIf, address, uuid, startHandle, endHandle, authReq, attributionSource)
+	return w.impl.ReadUsingCharacteristicUuid(ctx, clientIf, address, uuid, startHandle, endHandle, authReq, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) WriteCharacteristic(
@@ -2924,8 +4560,9 @@ func (w *bluetoothGattStubWrapper) WriteCharacteristic(
 	authReq int32,
 	value []byte,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.WriteCharacteristic(ctx, clientIf, address, handle, writeType, authReq, value, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.WriteCharacteristic(ctx, clientIf, address, handle, writeType, authReq, value, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ReadDescriptor(
@@ -2935,8 +4572,9 @@ func (w *bluetoothGattStubWrapper) ReadDescriptor(
 	handle int32,
 	authReq int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ReadDescriptor(ctx, clientIf, address, handle, authReq, attributionSource)
+	return w.impl.ReadDescriptor(ctx, clientIf, address, handle, authReq, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) WriteDescriptor(
@@ -2947,8 +4585,9 @@ func (w *bluetoothGattStubWrapper) WriteDescriptor(
 	authReq int32,
 	value []byte,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.WriteDescriptor(ctx, clientIf, address, handle, authReq, value, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.WriteDescriptor(ctx, clientIf, address, handle, authReq, value, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) RegisterForNotification(
@@ -2958,8 +4597,9 @@ func (w *bluetoothGattStubWrapper) RegisterForNotification(
 	handle int32,
 	enable bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.RegisterForNotification(ctx, clientIf, address, handle, enable, attributionSource)
+	return w.impl.RegisterForNotification(ctx, clientIf, address, handle, enable, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) BeginReliableWrite(
@@ -2967,8 +4607,9 @@ func (w *bluetoothGattStubWrapper) BeginReliableWrite(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.BeginReliableWrite(ctx, clientIf, address, attributionSource)
+	return w.impl.BeginReliableWrite(ctx, clientIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) EndReliableWrite(
@@ -2977,8 +4618,9 @@ func (w *bluetoothGattStubWrapper) EndReliableWrite(
 	address string,
 	execute bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.EndReliableWrite(ctx, clientIf, address, execute, attributionSource)
+	return w.impl.EndReliableWrite(ctx, clientIf, address, execute, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ReadRemoteRssi(
@@ -2986,8 +4628,9 @@ func (w *bluetoothGattStubWrapper) ReadRemoteRssi(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ReadRemoteRssi(ctx, clientIf, address, attributionSource)
+	return w.impl.ReadRemoteRssi(ctx, clientIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ConfigureMTU(
@@ -2996,8 +4639,9 @@ func (w *bluetoothGattStubWrapper) ConfigureMTU(
 	address string,
 	mtu int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ConfigureMTU(ctx, clientIf, address, mtu, attributionSource)
+	return w.impl.ConfigureMTU(ctx, clientIf, address, mtu, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ConnectionParameterUpdate(
@@ -3006,8 +4650,9 @@ func (w *bluetoothGattStubWrapper) ConnectionParameterUpdate(
 	address string,
 	connectionPriority int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ConnectionParameterUpdate(ctx, clientIf, address, connectionPriority, attributionSource)
+	return w.impl.ConnectionParameterUpdate(ctx, clientIf, address, connectionPriority, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) LeConnectionUpdate(
@@ -3021,8 +4666,9 @@ func (w *bluetoothGattStubWrapper) LeConnectionUpdate(
 	minConnectionEventLen int32,
 	maxConnectionEventLen int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.LeConnectionUpdate(ctx, clientIf, address, minInterval, maxInterval, peripheralLatency, supervisionTimeout, minConnectionEventLen, maxConnectionEventLen, attributionSource)
+	return w.impl.LeConnectionUpdate(ctx, clientIf, address, minInterval, maxInterval, peripheralLatency, supervisionTimeout, minConnectionEventLen, maxConnectionEventLen, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) RegisterServer(
@@ -3031,28 +4677,30 @@ func (w *bluetoothGattStubWrapper) RegisterServer(
 	callback IBluetoothGattServerCallback,
 	eatt_support bool,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.RegisterServer(ctx, appId, callback, eatt_support, attributionSource)
+	return w.impl.RegisterServer(ctx, appId, callback, eatt_support, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) UnregisterServer(
 	ctx context.Context,
 	serverIf int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.UnregisterServer(ctx, serverIf, attributionSource)
+	return w.impl.UnregisterServer(ctx, serverIf, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ServerConnect(
 	ctx context.Context,
 	serverIf int32,
 	address string,
-	addressType int32,
 	isDirect bool,
 	transport int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ServerConnect(ctx, serverIf, address, addressType, isDirect, transport, attributionSource)
+	return w.impl.ServerConnect(ctx, serverIf, address, isDirect, transport, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ServerDisconnect(
@@ -3060,8 +4708,9 @@ func (w *bluetoothGattStubWrapper) ServerDisconnect(
 	serverIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ServerDisconnect(ctx, serverIf, address, attributionSource)
+	return w.impl.ServerDisconnect(ctx, serverIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ServerSetPreferredPhy(
@@ -3072,8 +4721,9 @@ func (w *bluetoothGattStubWrapper) ServerSetPreferredPhy(
 	rxPhy int32,
 	phyOptions int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ServerSetPreferredPhy(ctx, clientIf, address, txPhy, rxPhy, phyOptions, attributionSource)
+	return w.impl.ServerSetPreferredPhy(ctx, clientIf, address, txPhy, rxPhy, phyOptions, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ServerReadPhy(
@@ -3081,8 +4731,9 @@ func (w *bluetoothGattStubWrapper) ServerReadPhy(
 	clientIf int32,
 	address string,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ServerReadPhy(ctx, clientIf, address, attributionSource)
+	return w.impl.ServerReadPhy(ctx, clientIf, address, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) AddService(
@@ -3090,8 +4741,9 @@ func (w *bluetoothGattStubWrapper) AddService(
 	serverIf int32,
 	service BluetoothGattService,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.AddService(ctx, serverIf, service, attributionSource)
+	return w.impl.AddService(ctx, serverIf, service, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) RemoveService(
@@ -3099,16 +4751,18 @@ func (w *bluetoothGattStubWrapper) RemoveService(
 	serverIf int32,
 	handle int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.RemoveService(ctx, serverIf, handle, attributionSource)
+	return w.impl.RemoveService(ctx, serverIf, handle, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) ClearServices(
 	ctx context.Context,
 	serverIf int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.ClearServices(ctx, serverIf, attributionSource)
+	return w.impl.ClearServices(ctx, serverIf, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) SendResponse(
@@ -3120,8 +4774,9 @@ func (w *bluetoothGattStubWrapper) SendResponse(
 	offset int32,
 	value []byte,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.SendResponse(ctx, serverIf, address, requestId, status, offset, value, attributionSource)
+	return w.impl.SendResponse(ctx, serverIf, address, requestId, status, offset, value, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) SendNotification(
@@ -3132,25 +4787,98 @@ func (w *bluetoothGattStubWrapper) SendNotification(
 	confirm bool,
 	value []byte,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.SendNotification(ctx, serverIf, address, handle, confirm, value, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.SendNotification(ctx, serverIf, address, handle, confirm, value, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) DisconnectAll(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.DisconnectAll(ctx, attributionSource)
+	return w.impl.DisconnectAll(ctx, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) NumHwTrackFiltersAvailable(
+	ctx context.Context,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.NumHwTrackFiltersAvailable(ctx, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) LeSubrateRequest(
+	ctx context.Context,
+	clientIf int32,
+	address string,
+	subrateMin int32,
+	subrateMax int32,
+	maxLatency int32,
+	contNumber int32,
+	supervisionTimeout int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.LeSubrateRequest(ctx, clientIf, address, subrateMin, subrateMax, maxLatency, contNumber, supervisionTimeout, attributionSource, receiver)
 }
 
 func (w *bluetoothGattStubWrapper) SubrateModeRequest(
 	ctx context.Context,
 	clientIf int32,
-	device BluetoothDevice,
+	address string,
 	subrateMode int32,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.SubrateModeRequest(ctx, clientIf, device, subrateMode, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.SubrateModeRequest(ctx, clientIf, address, subrateMode, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) GetSupportedDistanceMeasurementMethods(
+	ctx context.Context,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.GetSupportedDistanceMeasurementMethods(ctx, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StartDistanceMeasurement(
+	ctx context.Context,
+	uuid interface{},
+	params le.DistanceMeasurementParams,
+	callback le.IDistanceMeasurementCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StartDistanceMeasurement(ctx, uuid, params, callback, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) StopDistanceMeasurement(
+	ctx context.Context,
+	uuid interface{},
+	device BluetoothDevice,
+	method int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.StopDistanceMeasurement(ctx, uuid, device, method, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) GetChannelSoundingMaxSupportedSecurityLevel(
+	ctx context.Context,
+	remoteDevice BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.GetChannelSoundingMaxSupportedSecurityLevel(ctx, remoteDevice, attributionSource, receiver)
+}
+
+func (w *bluetoothGattStubWrapper) GetLocalChannelSoundingMaxSupportedSecurityLevel(
+	ctx context.Context,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.GetLocalChannelSoundingMaxSupportedSecurityLevel(ctx, attributionSource, receiver)
 }
 
 var _ IBluetoothGatt = (*bluetoothGattStubWrapper)(nil)

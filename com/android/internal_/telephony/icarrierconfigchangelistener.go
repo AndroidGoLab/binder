@@ -15,23 +15,27 @@ const (
 	TransactionICarrierConfigChangeListenerOnCarrierConfigChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICarrierConfigChangeListenerOnCarrierConfigChanged = "onCarrierConfigChanged"
+)
+
 type ICarrierConfigChangeListener interface {
 	AsBinder() binder.IBinder
 	OnCarrierConfigChanged(ctx context.Context, slotIndex int32, subId int32, carrierId int32, specificCarrierId int32) error
 }
 
 type CarrierConfigChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierConfigChangeListenerProxy(
 	remote binder.IBinder,
 ) *CarrierConfigChangeListenerProxy {
-	return &CarrierConfigChangeListenerProxy{remote: remote}
+	return &CarrierConfigChangeListenerProxy{Remote: remote}
 }
 
 func (p *CarrierConfigChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierConfigChangeListener = (*CarrierConfigChangeListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *CarrierConfigChangeListenerProxy) OnCarrierConfigChanged(
 	_data.WriteInt32(carrierId)
 	_data.WriteInt32(specificCarrierId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigChangeListener, "onCarrierConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierConfigChangeListener, MethodICarrierConfigChangeListenerOnCarrierConfigChanged)
 	if _err != nil {
-		_code = TransactionICarrierConfigChangeListenerOnCarrierConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierConfigChangeListener, MethodICarrierConfigChangeListenerOnCarrierConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type CarrierConfigChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierConfigChangeListenerStub)(nil)
+
+func (s *CarrierConfigChangeListenerStub) Descriptor() string {
+	return DescriptorICarrierConfigChangeListener
+}
 
 func (s *CarrierConfigChangeListenerStub) OnTransaction(
 	ctx context.Context,

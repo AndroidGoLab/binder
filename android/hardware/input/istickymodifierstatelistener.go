@@ -15,23 +15,27 @@ const (
 	TransactionIStickyModifierStateListenerOnStickyModifierStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStickyModifierStateListenerOnStickyModifierStateChanged = "onStickyModifierStateChanged"
+)
+
 type IStickyModifierStateListener interface {
 	AsBinder() binder.IBinder
 	OnStickyModifierStateChanged(ctx context.Context, modifierState int32, lockedModifierState int32) error
 }
 
 type StickyModifierStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStickyModifierStateListenerProxy(
 	remote binder.IBinder,
 ) *StickyModifierStateListenerProxy {
-	return &StickyModifierStateListenerProxy{remote: remote}
+	return &StickyModifierStateListenerProxy{Remote: remote}
 }
 
 func (p *StickyModifierStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStickyModifierStateListener = (*StickyModifierStateListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 	_data.WriteInt32(modifierState)
 	_data.WriteInt32(lockedModifierState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStickyModifierStateListener, "onStickyModifierStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStickyModifierStateListener, MethodIStickyModifierStateListenerOnStickyModifierStateChanged)
 	if _err != nil {
-		_code = TransactionIStickyModifierStateListenerOnStickyModifierStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStickyModifierStateListener, MethodIStickyModifierStateListenerOnStickyModifierStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type StickyModifierStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StickyModifierStateListenerStub)(nil)
+
+func (s *StickyModifierStateListenerStub) Descriptor() string {
+	return DescriptorIStickyModifierStateListener
+}
 
 func (s *StickyModifierStateListenerStub) OnTransaction(
 	ctx context.Context,

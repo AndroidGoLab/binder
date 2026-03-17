@@ -319,6 +319,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.VendorExtension)))
 			for _, _item := range u.VendorExtension {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -330,6 +331,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.AcousticEchoCanceler)))
 			for _, _item := range u.AcousticEchoCanceler {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -341,6 +343,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.AutomaticGainControlV1)))
 			for _, _item := range u.AutomaticGainControlV1 {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -352,6 +355,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.AutomaticGainControlV2)))
 			for _, _item := range u.AutomaticGainControlV2 {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -363,6 +367,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.BassBoost)))
 			for _, _item := range u.BassBoost {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -374,6 +379,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Downmix)))
 			for _, _item := range u.Downmix {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -385,6 +391,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.DynamicsProcessing)))
 			for _, _item := range u.DynamicsProcessing {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -396,6 +403,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.EnvironmentalReverb)))
 			for _, _item := range u.EnvironmentalReverb {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -407,6 +415,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Equalizer)))
 			for _, _item := range u.Equalizer {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -418,6 +427,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.HapticGenerator)))
 			for _, _item := range u.HapticGenerator {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -429,6 +439,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.LoudnessEnhancer)))
 			for _, _item := range u.LoudnessEnhancer {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -440,6 +451,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.NoiseSuppression)))
 			for _, _item := range u.NoiseSuppression {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -451,6 +463,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.PresetReverb)))
 			for _, _item := range u.PresetReverb {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -462,6 +475,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Virtualizer)))
 			for _, _item := range u.Virtualizer {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -473,6 +487,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Visualizer)))
 			for _, _item := range u.Visualizer {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -484,6 +499,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Volume)))
 			for _, _item := range u.Volume {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -495,6 +511,7 @@ func (u *Range) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Spatializer)))
 			for _, _item := range u.Spatializer {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -532,6 +549,9 @@ func (u *Range) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.VendorExtension = make([]effectRange.VendorExtensionRange, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.VendorExtension[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -547,6 +567,9 @@ func (u *Range) UnmarshalParcel(
 		if _count1 >= 0 {
 			u.AcousticEchoCanceler = make([]effectRange.AcousticEchoCancelerRange, _count1)
 			for _i := int32(0); _i < _count1; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.AcousticEchoCanceler[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -562,6 +585,9 @@ func (u *Range) UnmarshalParcel(
 		if _count2 >= 0 {
 			u.AutomaticGainControlV1 = make([]effectRange.AutomaticGainControlV1Range, _count2)
 			for _i := int32(0); _i < _count2; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.AutomaticGainControlV1[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -577,6 +603,9 @@ func (u *Range) UnmarshalParcel(
 		if _count3 >= 0 {
 			u.AutomaticGainControlV2 = make([]effectRange.AutomaticGainControlV2Range, _count3)
 			for _i := int32(0); _i < _count3; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.AutomaticGainControlV2[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -592,6 +621,9 @@ func (u *Range) UnmarshalParcel(
 		if _count4 >= 0 {
 			u.BassBoost = make([]effectRange.BassBoostRange, _count4)
 			for _i := int32(0); _i < _count4; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.BassBoost[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -607,6 +639,9 @@ func (u *Range) UnmarshalParcel(
 		if _count5 >= 0 {
 			u.Downmix = make([]effectRange.DownmixRange, _count5)
 			for _i := int32(0); _i < _count5; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Downmix[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -622,6 +657,9 @@ func (u *Range) UnmarshalParcel(
 		if _count6 >= 0 {
 			u.DynamicsProcessing = make([]effectRange.DynamicsProcessingRange, _count6)
 			for _i := int32(0); _i < _count6; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.DynamicsProcessing[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -637,6 +675,9 @@ func (u *Range) UnmarshalParcel(
 		if _count7 >= 0 {
 			u.EnvironmentalReverb = make([]effectRange.EnvironmentalReverbRange, _count7)
 			for _i := int32(0); _i < _count7; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.EnvironmentalReverb[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -652,6 +693,9 @@ func (u *Range) UnmarshalParcel(
 		if _count8 >= 0 {
 			u.Equalizer = make([]effectRange.EqualizerRange, _count8)
 			for _i := int32(0); _i < _count8; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Equalizer[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -667,6 +711,9 @@ func (u *Range) UnmarshalParcel(
 		if _count9 >= 0 {
 			u.HapticGenerator = make([]effectRange.HapticGeneratorRange, _count9)
 			for _i := int32(0); _i < _count9; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.HapticGenerator[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -682,6 +729,9 @@ func (u *Range) UnmarshalParcel(
 		if _count10 >= 0 {
 			u.LoudnessEnhancer = make([]effectRange.LoudnessEnhancerRange, _count10)
 			for _i := int32(0); _i < _count10; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.LoudnessEnhancer[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -697,6 +747,9 @@ func (u *Range) UnmarshalParcel(
 		if _count11 >= 0 {
 			u.NoiseSuppression = make([]effectRange.NoiseSuppressionRange, _count11)
 			for _i := int32(0); _i < _count11; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.NoiseSuppression[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -712,6 +765,9 @@ func (u *Range) UnmarshalParcel(
 		if _count12 >= 0 {
 			u.PresetReverb = make([]effectRange.PresetReverbRange, _count12)
 			for _i := int32(0); _i < _count12; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.PresetReverb[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -727,6 +783,9 @@ func (u *Range) UnmarshalParcel(
 		if _count13 >= 0 {
 			u.Virtualizer = make([]effectRange.VirtualizerRange, _count13)
 			for _i := int32(0); _i < _count13; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Virtualizer[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -742,6 +801,9 @@ func (u *Range) UnmarshalParcel(
 		if _count14 >= 0 {
 			u.Visualizer = make([]effectRange.VisualizerRange, _count14)
 			for _i := int32(0); _i < _count14; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Visualizer[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -757,6 +819,9 @@ func (u *Range) UnmarshalParcel(
 		if _count15 >= 0 {
 			u.Volume = make([]effectRange.VolumeRange, _count15)
 			for _i := int32(0); _i < _count15; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Volume[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -772,6 +837,9 @@ func (u *Range) UnmarshalParcel(
 		if _count16 >= 0 {
 			u.Spatializer = make([]effectRange.SpatializerRange, _count16)
 			for _i := int32(0); _i < _count16; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Spatializer[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}

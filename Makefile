@@ -9,11 +9,11 @@ GO_PACKAGES = $(shell go list -e ./... | grep -v /3rdparty/)
 
 # Regenerate version-aware transaction code tables from AOSP tags.
 genversions:
-	go run ./tools/cmd/genversions
+	go run ./tools/cmd/genaidl -3rdparty tools/pkg/3rdparty -output . -codes-output binder/versionaware/codes_gen.go -versions
 
 # Generate all Go code from AOSP AIDL definitions.
 generate:
-	go run ./tools/cmd/aospgen -3rdparty tools/pkg/3rdparty -output . -smoke-tests
+	go run ./tools/cmd/genaidl -3rdparty tools/pkg/3rdparty -output . -smoke-tests
 
 # Run unit tests (compiler + runtime packages).
 test:

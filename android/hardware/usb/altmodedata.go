@@ -42,6 +42,7 @@ func (u *AltModeData) MarshalParcel(
 
 	switch u.Tag {
 	case AltModeDataTagDisplayPortAltModeData:
+		p.WriteInt32(1)
 		if _err := u.DisplayPortAltModeData.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -68,6 +69,9 @@ func (u *AltModeData) UnmarshalParcel(
 
 	switch u.Tag {
 	case AltModeDataTagDisplayPortAltModeData:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DisplayPortAltModeData.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

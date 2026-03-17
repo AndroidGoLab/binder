@@ -31,18 +31,37 @@ const (
 	TransactionITunerServiceGetMaxNumberOfFrontends = binder.FirstCallTransaction + 15
 )
 
+const (
+	MethodITunerServiceGetFrontendIds          = "getFrontendIds"
+	MethodITunerServiceGetFrontendInfo         = "getFrontendInfo"
+	MethodITunerServiceOpenFrontend            = "openFrontend"
+	MethodITunerServiceOpenLnb                 = "openLnb"
+	MethodITunerServiceOpenLnbByName           = "openLnbByName"
+	MethodITunerServiceOpenDemux               = "openDemux"
+	MethodITunerServiceGetDemuxInfo            = "getDemuxInfo"
+	MethodITunerServiceGetDemuxInfoList        = "getDemuxInfoList"
+	MethodITunerServiceGetDemuxCaps            = "getDemuxCaps"
+	MethodITunerServiceOpenDescrambler         = "openDescrambler"
+	MethodITunerServiceGetTunerHalVersion      = "getTunerHalVersion"
+	MethodITunerServiceOpenSharedFilter        = "openSharedFilter"
+	MethodITunerServiceIsLnaSupported          = "isLnaSupported"
+	MethodITunerServiceSetLna                  = "setLna"
+	MethodITunerServiceSetMaxNumberOfFrontends = "setMaxNumberOfFrontends"
+	MethodITunerServiceGetMaxNumberOfFrontends = "getMaxNumberOfFrontends"
+)
+
 type ITunerService interface {
 	AsBinder() binder.IBinder
 	GetFrontendIds(ctx context.Context, ids []int32) error
 	GetFrontendInfo(ctx context.Context, frontendId int32) (tvTuner.FrontendInfo, error)
-	OpenFrontend(ctx context.Context, frontendHandle int64) (ITunerFrontend, error)
-	OpenLnb(ctx context.Context, lnbHandle int64) (ITunerLnb, error)
+	OpenFrontend(ctx context.Context, frontendHandle int32) (ITunerFrontend, error)
+	OpenLnb(ctx context.Context, lnbHandle int32) (ITunerLnb, error)
 	OpenLnbByName(ctx context.Context, lnbName string) (ITunerLnb, error)
-	OpenDemux(ctx context.Context, demuxHandle int64) (ITunerDemux, error)
-	GetDemuxInfo(ctx context.Context, demuxHandle int64) (tvTuner.DemuxInfo, error)
+	OpenDemux(ctx context.Context, demuxHandle int32) (ITunerDemux, error)
+	GetDemuxInfo(ctx context.Context, demuxHandle int32) (tvTuner.DemuxInfo, error)
 	GetDemuxInfoList(ctx context.Context) ([]tvTuner.DemuxInfo, error)
 	GetDemuxCaps(ctx context.Context) (tvTuner.DemuxCapabilities, error)
-	OpenDescrambler(ctx context.Context, descramblerHandle int64) (ITunerDescrambler, error)
+	OpenDescrambler(ctx context.Context, descramblerHandle int32) (ITunerDescrambler, error)
 	GetTunerHalVersion(ctx context.Context) (int32, error)
 	OpenSharedFilter(ctx context.Context, filterToken string, cb ITunerFilterCallback) (ITunerFilter, error)
 	IsLnaSupported(ctx context.Context) (bool, error)
@@ -52,17 +71,17 @@ type ITunerService interface {
 }
 
 type TunerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerServiceProxy(
 	remote binder.IBinder,
 ) *TunerServiceProxy {
-	return &TunerServiceProxy{remote: remote}
+	return &TunerServiceProxy{Remote: remote}
 }
 
 func (p *TunerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerService = (*TunerServiceProxy)(nil)
@@ -74,12 +93,12 @@ func (p *TunerServiceProxy) GetFrontendIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getFrontendIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetFrontendIds)
 	if _err != nil {
-		_code = TransactionITunerServiceGetFrontendIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetFrontendIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,12 +133,12 @@ func (p *TunerServiceProxy) GetFrontendInfo(
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(frontendId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getFrontendInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetFrontendInfo)
 	if _err != nil {
-		_code = TransactionITunerServiceGetFrontendInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetFrontendInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,19 +162,19 @@ func (p *TunerServiceProxy) GetFrontendInfo(
 
 func (p *TunerServiceProxy) OpenFrontend(
 	ctx context.Context,
-	frontendHandle int64,
+	frontendHandle int32,
 ) (ITunerFrontend, error) {
 	var _result ITunerFrontend
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
-	_data.WriteInt64(frontendHandle)
+	_data.WriteInt32(frontendHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "openFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceOpenFrontend)
 	if _err != nil {
-		_code = TransactionITunerServiceOpenFrontend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceOpenFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,25 +188,25 @@ func (p *TunerServiceProxy) OpenFrontend(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerFrontendProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerFrontendProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *TunerServiceProxy) OpenLnb(
 	ctx context.Context,
-	lnbHandle int64,
+	lnbHandle int32,
 ) (ITunerLnb, error) {
 	var _result ITunerLnb
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
-	_data.WriteInt64(lnbHandle)
+	_data.WriteInt32(lnbHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "openLnb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceOpenLnb)
 	if _err != nil {
-		_code = TransactionITunerServiceOpenLnb
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceOpenLnb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -201,7 +220,7 @@ func (p *TunerServiceProxy) OpenLnb(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerLnbProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerLnbProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -214,12 +233,12 @@ func (p *TunerServiceProxy) OpenLnbByName(
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteString16(lnbName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "openLnbByName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceOpenLnbByName)
 	if _err != nil {
-		_code = TransactionITunerServiceOpenLnbByName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceOpenLnbByName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -233,25 +252,25 @@ func (p *TunerServiceProxy) OpenLnbByName(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerLnbProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerLnbProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *TunerServiceProxy) OpenDemux(
 	ctx context.Context,
-	demuxHandle int64,
+	demuxHandle int32,
 ) (ITunerDemux, error) {
 	var _result ITunerDemux
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
-	_data.WriteInt64(demuxHandle)
+	_data.WriteInt32(demuxHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "openDemux")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceOpenDemux)
 	if _err != nil {
-		_code = TransactionITunerServiceOpenDemux
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceOpenDemux, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -265,25 +284,25 @@ func (p *TunerServiceProxy) OpenDemux(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerDemuxProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerDemuxProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *TunerServiceProxy) GetDemuxInfo(
 	ctx context.Context,
-	demuxHandle int64,
+	demuxHandle int32,
 ) (tvTuner.DemuxInfo, error) {
 	var _result tvTuner.DemuxInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
-	_data.WriteInt64(demuxHandle)
+	_data.WriteInt32(demuxHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getDemuxInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetDemuxInfo)
 	if _err != nil {
-		_code = TransactionITunerServiceGetDemuxInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetDemuxInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -312,12 +331,12 @@ func (p *TunerServiceProxy) GetDemuxInfoList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getDemuxInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetDemuxInfoList)
 	if _err != nil {
-		_code = TransactionITunerServiceGetDemuxInfoList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetDemuxInfoList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -335,6 +354,9 @@ func (p *TunerServiceProxy) GetDemuxInfoList(
 	if _count >= 0 {
 		_result = make([]tvTuner.DemuxInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -350,12 +372,12 @@ func (p *TunerServiceProxy) GetDemuxCaps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getDemuxCaps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetDemuxCaps)
 	if _err != nil {
-		_code = TransactionITunerServiceGetDemuxCaps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetDemuxCaps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -379,19 +401,19 @@ func (p *TunerServiceProxy) GetDemuxCaps(
 
 func (p *TunerServiceProxy) OpenDescrambler(
 	ctx context.Context,
-	descramblerHandle int64,
+	descramblerHandle int32,
 ) (ITunerDescrambler, error) {
 	var _result ITunerDescrambler
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
-	_data.WriteInt64(descramblerHandle)
+	_data.WriteInt32(descramblerHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "openDescrambler")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceOpenDescrambler)
 	if _err != nil {
-		_code = TransactionITunerServiceOpenDescrambler
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceOpenDescrambler, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -405,7 +427,7 @@ func (p *TunerServiceProxy) OpenDescrambler(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerDescramblerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerDescramblerProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -416,12 +438,12 @@ func (p *TunerServiceProxy) GetTunerHalVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getTunerHalVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetTunerHalVersion)
 	if _err != nil {
-		_code = TransactionITunerServiceGetTunerHalVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetTunerHalVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -447,14 +469,14 @@ func (p *TunerServiceProxy) OpenSharedFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteString16(filterToken)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "openSharedFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceOpenSharedFilter)
 	if _err != nil {
-		_code = TransactionITunerServiceOpenSharedFilter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceOpenSharedFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -468,7 +490,7 @@ func (p *TunerServiceProxy) OpenSharedFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerFilterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -479,12 +501,12 @@ func (p *TunerServiceProxy) IsLnaSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "isLnaSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceIsLnaSupported)
 	if _err != nil {
-		_code = TransactionITunerServiceIsLnaSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceIsLnaSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -509,12 +531,12 @@ func (p *TunerServiceProxy) SetLna(
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteBool(bEnable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "setLna")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceSetLna)
 	if _err != nil {
-		_code = TransactionITunerServiceSetLna
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceSetLna, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -537,12 +559,12 @@ func (p *TunerServiceProxy) SetMaxNumberOfFrontends(
 	_data.WriteInt32(int32(frontendType))
 	_data.WriteInt32(maxNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "setMaxNumberOfFrontends")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceSetMaxNumberOfFrontends)
 	if _err != nil {
-		_code = TransactionITunerServiceSetMaxNumberOfFrontends
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceSetMaxNumberOfFrontends, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -564,12 +586,12 @@ func (p *TunerServiceProxy) GetMaxNumberOfFrontends(
 	_data.WriteInterfaceToken(DescriptorITunerService)
 	_data.WriteInt32(int32(frontendType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerService, "getMaxNumberOfFrontends")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerService, MethodITunerServiceGetMaxNumberOfFrontends)
 	if _err != nil {
-		_code = TransactionITunerServiceGetMaxNumberOfFrontends
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerService, MethodITunerServiceGetMaxNumberOfFrontends, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -593,6 +615,10 @@ type TunerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerServiceStub)(nil)
+
+func (s *TunerServiceStub) Descriptor() string {
+	return DescriptorITunerService
+}
 
 func (s *TunerServiceStub) OnTransaction(
 	ctx context.Context,
@@ -637,7 +663,7 @@ func (s *TunerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendHandle, _err := _data.ReadInt64()
+		_arg_frontendHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -655,7 +681,7 @@ func (s *TunerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lnbHandle, _err := _data.ReadInt64()
+		_arg_lnbHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -691,7 +717,7 @@ func (s *TunerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxHandle, _err := _data.ReadInt64()
+		_arg_demuxHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -709,7 +735,7 @@ func (s *TunerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxHandle, _err := _data.ReadInt64()
+		_arg_demuxHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -759,7 +785,7 @@ func (s *TunerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_descramblerHandle, _err := _data.ReadInt64()
+		_arg_descramblerHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -886,14 +912,14 @@ func (s *TunerServiceStub) OnTransaction(
 type ITunerServiceServer interface {
 	GetFrontendIds(ctx context.Context, ids []int32) error
 	GetFrontendInfo(ctx context.Context, frontendId int32) (tvTuner.FrontendInfo, error)
-	OpenFrontend(ctx context.Context, frontendHandle int64) (ITunerFrontend, error)
-	OpenLnb(ctx context.Context, lnbHandle int64) (ITunerLnb, error)
+	OpenFrontend(ctx context.Context, frontendHandle int32) (ITunerFrontend, error)
+	OpenLnb(ctx context.Context, lnbHandle int32) (ITunerLnb, error)
 	OpenLnbByName(ctx context.Context, lnbName string) (ITunerLnb, error)
-	OpenDemux(ctx context.Context, demuxHandle int64) (ITunerDemux, error)
-	GetDemuxInfo(ctx context.Context, demuxHandle int64) (tvTuner.DemuxInfo, error)
+	OpenDemux(ctx context.Context, demuxHandle int32) (ITunerDemux, error)
+	GetDemuxInfo(ctx context.Context, demuxHandle int32) (tvTuner.DemuxInfo, error)
 	GetDemuxInfoList(ctx context.Context) ([]tvTuner.DemuxInfo, error)
 	GetDemuxCaps(ctx context.Context) (tvTuner.DemuxCapabilities, error)
-	OpenDescrambler(ctx context.Context, descramblerHandle int64) (ITunerDescrambler, error)
+	OpenDescrambler(ctx context.Context, descramblerHandle int32) (ITunerDescrambler, error)
 	GetTunerHalVersion(ctx context.Context) (int32, error)
 	OpenSharedFilter(ctx context.Context, filterToken string, cb ITunerFilterCallback) (ITunerFilter, error)
 	IsLnaSupported(ctx context.Context) (bool, error)
@@ -927,14 +953,14 @@ func (w *tunerServiceStubWrapper) GetFrontendInfo(
 
 func (w *tunerServiceStubWrapper) OpenFrontend(
 	ctx context.Context,
-	frontendHandle int64,
+	frontendHandle int32,
 ) (ITunerFrontend, error) {
 	return w.impl.OpenFrontend(ctx, frontendHandle)
 }
 
 func (w *tunerServiceStubWrapper) OpenLnb(
 	ctx context.Context,
-	lnbHandle int64,
+	lnbHandle int32,
 ) (ITunerLnb, error) {
 	return w.impl.OpenLnb(ctx, lnbHandle)
 }
@@ -948,14 +974,14 @@ func (w *tunerServiceStubWrapper) OpenLnbByName(
 
 func (w *tunerServiceStubWrapper) OpenDemux(
 	ctx context.Context,
-	demuxHandle int64,
+	demuxHandle int32,
 ) (ITunerDemux, error) {
 	return w.impl.OpenDemux(ctx, demuxHandle)
 }
 
 func (w *tunerServiceStubWrapper) GetDemuxInfo(
 	ctx context.Context,
-	demuxHandle int64,
+	demuxHandle int32,
 ) (tvTuner.DemuxInfo, error) {
 	return w.impl.GetDemuxInfo(ctx, demuxHandle)
 }
@@ -974,7 +1000,7 @@ func (w *tunerServiceStubWrapper) GetDemuxCaps(
 
 func (w *tunerServiceStubWrapper) OpenDescrambler(
 	ctx context.Context,
-	descramblerHandle int64,
+	descramblerHandle int32,
 ) (ITunerDescrambler, error) {
 	return w.impl.OpenDescrambler(ctx, descramblerHandle)
 }

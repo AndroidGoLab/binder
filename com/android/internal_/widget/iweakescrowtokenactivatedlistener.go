@@ -15,23 +15,27 @@ const (
 	TransactionIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated = "onWeakEscrowTokenActivated"
+)
+
 type IWeakEscrowTokenActivatedListener interface {
 	AsBinder() binder.IBinder
 	OnWeakEscrowTokenActivated(ctx context.Context, handle int64) error
 }
 
 type WeakEscrowTokenActivatedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWeakEscrowTokenActivatedListenerProxy(
 	remote binder.IBinder,
 ) *WeakEscrowTokenActivatedListenerProxy {
-	return &WeakEscrowTokenActivatedListenerProxy{remote: remote}
+	return &WeakEscrowTokenActivatedListenerProxy{Remote: remote}
 }
 
 func (p *WeakEscrowTokenActivatedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWeakEscrowTokenActivatedListener = (*WeakEscrowTokenActivatedListenerProxy)(nil)
@@ -40,18 +44,18 @@ func (p *WeakEscrowTokenActivatedListenerProxy) OnWeakEscrowTokenActivated(
 	ctx context.Context,
 	handle int64,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWeakEscrowTokenActivatedListener)
 	_data.WriteInt64(handle)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWeakEscrowTokenActivatedListener, "onWeakEscrowTokenActivated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWeakEscrowTokenActivatedListener, MethodIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated)
 	if _err != nil {
-		_code = TransactionIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWeakEscrowTokenActivatedListener, MethodIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type WeakEscrowTokenActivatedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WeakEscrowTokenActivatedListenerStub)(nil)
+
+func (s *WeakEscrowTokenActivatedListenerStub) Descriptor() string {
+	return DescriptorIWeakEscrowTokenActivatedListener
+}
 
 func (s *WeakEscrowTokenActivatedListenerStub) OnTransaction(
 	ctx context.Context,

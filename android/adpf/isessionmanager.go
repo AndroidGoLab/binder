@@ -16,6 +16,11 @@ const (
 	TransactionISessionManagerTrackedSessionsDied      = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISessionManagerAssociateSessionToLayers = "associateSessionToLayers"
+	MethodISessionManagerTrackedSessionsDied      = "trackedSessionsDied"
+)
+
 type ISessionManager interface {
 	AsBinder() binder.IBinder
 	AssociateSessionToLayers(ctx context.Context, sessionId int32, ownerUid int32, layers []binder.IBinder) error
@@ -23,17 +28,17 @@ type ISessionManager interface {
 }
 
 type SessionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSessionManagerProxy(
 	remote binder.IBinder,
 ) *SessionManagerProxy {
-	return &SessionManagerProxy{remote: remote}
+	return &SessionManagerProxy{Remote: remote}
 }
 
 func (p *SessionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISessionManager = (*SessionManagerProxy)(nil)
@@ -57,12 +62,12 @@ func (p *SessionManagerProxy) AssociateSessionToLayers(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "associateSessionToLayers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerAssociateSessionToLayers)
 	if _err != nil {
-		_code = TransactionISessionManagerAssociateSessionToLayers
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionManager, MethodISessionManagerAssociateSessionToLayers, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +86,12 @@ func (p *SessionManagerProxy) TrackedSessionsDied(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "trackedSessionsDied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionManager, MethodISessionManagerTrackedSessionsDied)
 	if _err != nil {
-		_code = TransactionISessionManagerTrackedSessionsDied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionManager, MethodISessionManagerTrackedSessionsDied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,6 +102,10 @@ type SessionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SessionManagerStub)(nil)
+
+func (s *SessionManagerStub) Descriptor() string {
+	return DescriptorISessionManager
+}
 
 func (s *SessionManagerStub) OnTransaction(
 	ctx context.Context,

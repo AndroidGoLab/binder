@@ -16,6 +16,11 @@ const (
 	TransactionIChannelTunedInterfaceRemoveChannelTunedListener = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIChannelTunedInterfaceAddChannelTunedListener    = "addChannelTunedListener"
+	MethodIChannelTunedInterfaceRemoveChannelTunedListener = "removeChannelTunedListener"
+)
+
 type IChannelTunedInterface interface {
 	AsBinder() binder.IBinder
 	AddChannelTunedListener(ctx context.Context, listener IChannelTunedListener) error
@@ -23,17 +28,17 @@ type IChannelTunedInterface interface {
 }
 
 type ChannelTunedInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewChannelTunedInterfaceProxy(
 	remote binder.IBinder,
 ) *ChannelTunedInterfaceProxy {
-	return &ChannelTunedInterfaceProxy{remote: remote}
+	return &ChannelTunedInterfaceProxy{Remote: remote}
 }
 
 func (p *ChannelTunedInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IChannelTunedInterface = (*ChannelTunedInterfaceProxy)(nil)
@@ -44,14 +49,14 @@ func (p *ChannelTunedInterfaceProxy) AddChannelTunedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIChannelTunedInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChannelTunedInterface, "addChannelTunedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChannelTunedInterface, MethodIChannelTunedInterfaceAddChannelTunedListener)
 	if _err != nil {
-		_code = TransactionIChannelTunedInterfaceAddChannelTunedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChannelTunedInterface, MethodIChannelTunedInterfaceAddChannelTunedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,14 +75,14 @@ func (p *ChannelTunedInterfaceProxy) RemoveChannelTunedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIChannelTunedInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChannelTunedInterface, "removeChannelTunedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChannelTunedInterface, MethodIChannelTunedInterfaceRemoveChannelTunedListener)
 	if _err != nil {
-		_code = TransactionIChannelTunedInterfaceRemoveChannelTunedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChannelTunedInterface, MethodIChannelTunedInterfaceRemoveChannelTunedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,6 +102,10 @@ type ChannelTunedInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ChannelTunedInterfaceStub)(nil)
+
+func (s *ChannelTunedInterfaceStub) Descriptor() string {
+	return DescriptorIChannelTunedInterface
+}
 
 func (s *ChannelTunedInterfaceStub) OnTransaction(
 	ctx context.Context,

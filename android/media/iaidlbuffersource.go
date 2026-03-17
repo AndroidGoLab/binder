@@ -19,6 +19,14 @@ const (
 	TransactionIAidlBufferSourceOnInputBufferEmptied = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIAidlBufferSourceOnStart              = "onStart"
+	MethodIAidlBufferSourceOnStop               = "onStop"
+	MethodIAidlBufferSourceOnRelease            = "onRelease"
+	MethodIAidlBufferSourceOnInputBufferAdded   = "onInputBufferAdded"
+	MethodIAidlBufferSourceOnInputBufferEmptied = "onInputBufferEmptied"
+)
+
 type IAidlBufferSource interface {
 	AsBinder() binder.IBinder
 	OnStart(ctx context.Context) error
@@ -29,17 +37,17 @@ type IAidlBufferSource interface {
 }
 
 type AidlBufferSourceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAidlBufferSourceProxy(
 	remote binder.IBinder,
 ) *AidlBufferSourceProxy {
-	return &AidlBufferSourceProxy{remote: remote}
+	return &AidlBufferSourceProxy{Remote: remote}
 }
 
 func (p *AidlBufferSourceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAidlBufferSource = (*AidlBufferSourceProxy)(nil)
@@ -50,12 +58,12 @@ func (p *AidlBufferSourceProxy) OnStart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnStart)
 	if _err != nil {
-		_code = TransactionIAidlBufferSourceOnStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,12 +82,12 @@ func (p *AidlBufferSourceProxy) OnStop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onStop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnStop)
 	if _err != nil {
-		_code = TransactionIAidlBufferSourceOnStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,12 +106,12 @@ func (p *AidlBufferSourceProxy) OnRelease(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onRelease")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnRelease)
 	if _err != nil {
-		_code = TransactionIAidlBufferSourceOnRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,12 +132,12 @@ func (p *AidlBufferSourceProxy) OnInputBufferAdded(
 	_data.WriteInterfaceToken(DescriptorIAidlBufferSource)
 	_data.WriteInt32(bufferID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onInputBufferAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnInputBufferAdded)
 	if _err != nil {
-		_code = TransactionIAidlBufferSourceOnInputBufferAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnInputBufferAdded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -156,12 +164,12 @@ func (p *AidlBufferSourceProxy) OnInputBufferEmptied(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onInputBufferEmptied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnInputBufferEmptied)
 	if _err != nil {
-		_code = TransactionIAidlBufferSourceOnInputBufferEmptied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlBufferSource, MethodIAidlBufferSourceOnInputBufferEmptied, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -181,6 +189,10 @@ type AidlBufferSourceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AidlBufferSourceStub)(nil)
+
+func (s *AidlBufferSourceStub) Descriptor() string {
+	return DescriptorIAidlBufferSource
+}
 
 func (s *AidlBufferSourceStub) OnTransaction(
 	ctx context.Context,

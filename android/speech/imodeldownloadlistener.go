@@ -18,6 +18,13 @@ const (
 	TransactionIModelDownloadListenerOnError     = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIModelDownloadListenerOnProgress  = "onProgress"
+	MethodIModelDownloadListenerOnSuccess   = "onSuccess"
+	MethodIModelDownloadListenerOnScheduled = "onScheduled"
+	MethodIModelDownloadListenerOnError     = "onError"
+)
+
 type IModelDownloadListener interface {
 	AsBinder() binder.IBinder
 	OnProgress(ctx context.Context, completedPercent int32) error
@@ -27,17 +34,17 @@ type IModelDownloadListener interface {
 }
 
 type ModelDownloadListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewModelDownloadListenerProxy(
 	remote binder.IBinder,
 ) *ModelDownloadListenerProxy {
-	return &ModelDownloadListenerProxy{remote: remote}
+	return &ModelDownloadListenerProxy{Remote: remote}
 }
 
 func (p *ModelDownloadListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IModelDownloadListener = (*ModelDownloadListenerProxy)(nil)
@@ -50,12 +57,12 @@ func (p *ModelDownloadListenerProxy) OnProgress(
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 	_data.WriteInt32(completedPercent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnProgress)
 	if _err != nil {
-		_code = TransactionIModelDownloadListenerOnProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +72,12 @@ func (p *ModelDownloadListenerProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnSuccess)
 	if _err != nil {
-		_code = TransactionIModelDownloadListenerOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +87,12 @@ func (p *ModelDownloadListenerProxy) OnScheduled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onScheduled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnScheduled)
 	if _err != nil {
-		_code = TransactionIModelDownloadListenerOnScheduled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnScheduled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +104,12 @@ func (p *ModelDownloadListenerProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnError)
 	if _err != nil {
-		_code = TransactionIModelDownloadListenerOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIModelDownloadListener, MethodIModelDownloadListenerOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +120,10 @@ type ModelDownloadListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ModelDownloadListenerStub)(nil)
+
+func (s *ModelDownloadListenerStub) Descriptor() string {
+	return DescriptorIModelDownloadListener
+}
 
 func (s *ModelDownloadListenerStub) OnTransaction(
 	ctx context.Context,

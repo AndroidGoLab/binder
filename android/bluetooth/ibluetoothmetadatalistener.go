@@ -15,23 +15,27 @@ const (
 	TransactionIBluetoothMetadataListenerOnMetadataChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothMetadataListenerOnMetadataChanged = "onMetadataChanged"
+)
+
 type IBluetoothMetadataListener interface {
 	AsBinder() binder.IBinder
 	OnMetadataChanged(ctx context.Context, devices BluetoothDevice, key int32, value []byte) error
 }
 
 type BluetoothMetadataListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothMetadataListenerProxy(
 	remote binder.IBinder,
 ) *BluetoothMetadataListenerProxy {
-	return &BluetoothMetadataListenerProxy{remote: remote}
+	return &BluetoothMetadataListenerProxy{Remote: remote}
 }
 
 func (p *BluetoothMetadataListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothMetadataListener = (*BluetoothMetadataListenerProxy)(nil)
@@ -58,12 +62,12 @@ func (p *BluetoothMetadataListenerProxy) OnMetadataChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMetadataListener, "onMetadataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMetadataListener, MethodIBluetoothMetadataListenerOnMetadataChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothMetadataListenerOnMetadataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMetadataListener, MethodIBluetoothMetadataListenerOnMetadataChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +78,10 @@ type BluetoothMetadataListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothMetadataListenerStub)(nil)
+
+func (s *BluetoothMetadataListenerStub) Descriptor() string {
+	return DescriptorIBluetoothMetadataListener
+}
 
 func (s *BluetoothMetadataListenerStub) OnTransaction(
 	ctx context.Context,

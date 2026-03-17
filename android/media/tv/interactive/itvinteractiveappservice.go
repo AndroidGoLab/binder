@@ -22,6 +22,15 @@ const (
 	TransactionITvInteractiveAppServiceSendAppLinkCommand    = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodITvInteractiveAppServiceRegisterCallback      = "registerCallback"
+	MethodITvInteractiveAppServiceUnregisterCallback    = "unregisterCallback"
+	MethodITvInteractiveAppServiceCreateSession         = "createSession"
+	MethodITvInteractiveAppServiceRegisterAppLinkInfo   = "registerAppLinkInfo"
+	MethodITvInteractiveAppServiceUnregisterAppLinkInfo = "unregisterAppLinkInfo"
+	MethodITvInteractiveAppServiceSendAppLinkCommand    = "sendAppLinkCommand"
+)
+
 type ITvInteractiveAppService interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback ITvInteractiveAppServiceCallback) error
@@ -33,17 +42,17 @@ type ITvInteractiveAppService interface {
 }
 
 type TvInteractiveAppServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInteractiveAppServiceProxy(
 	remote binder.IBinder,
 ) *TvInteractiveAppServiceProxy {
-	return &TvInteractiveAppServiceProxy{remote: remote}
+	return &TvInteractiveAppServiceProxy{Remote: remote}
 }
 
 func (p *TvInteractiveAppServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInteractiveAppService = (*TvInteractiveAppServiceProxy)(nil)
@@ -54,14 +63,14 @@ func (p *TvInteractiveAppServiceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceRegisterCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,14 +80,14 @@ func (p *TvInteractiveAppServiceProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceUnregisterCallback)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceUnregisterCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,16 +104,16 @@ func (p *TvInteractiveAppServiceProxy) CreateSession(
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(iAppServiceId)
 	_data.WriteInt32(type_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceCreateSession)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceCreateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceCreateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +128,12 @@ func (p *TvInteractiveAppServiceProxy) RegisterAppLinkInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "registerAppLinkInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceRegisterAppLinkInfo)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceRegisterAppLinkInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceRegisterAppLinkInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,12 +148,12 @@ func (p *TvInteractiveAppServiceProxy) UnregisterAppLinkInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "unregisterAppLinkInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceUnregisterAppLinkInfo)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceUnregisterAppLinkInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceUnregisterAppLinkInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,12 +168,12 @@ func (p *TvInteractiveAppServiceProxy) SendAppLinkCommand(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "sendAppLinkCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceSendAppLinkCommand)
 	if _err != nil {
-		_code = TransactionITvInteractiveAppServiceSendAppLinkCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInteractiveAppService, MethodITvInteractiveAppServiceSendAppLinkCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,6 +184,10 @@ type TvInteractiveAppServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInteractiveAppServiceStub)(nil)
+
+func (s *TvInteractiveAppServiceStub) Descriptor() string {
+	return DescriptorITvInteractiveAppService
+}
 
 func (s *TvInteractiveAppServiceStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIImsConfigCallbackOnStringConfigChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIImsConfigCallbackOnIntConfigChanged    = "onIntConfigChanged"
+	MethodIImsConfigCallbackOnStringConfigChanged = "onStringConfigChanged"
+)
+
 type IImsConfigCallback interface {
 	AsBinder() binder.IBinder
 	OnIntConfigChanged(ctx context.Context, item int32, value int32) error
@@ -23,17 +28,17 @@ type IImsConfigCallback interface {
 }
 
 type ImsConfigCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsConfigCallbackProxy(
 	remote binder.IBinder,
 ) *ImsConfigCallbackProxy {
-	return &ImsConfigCallbackProxy{remote: remote}
+	return &ImsConfigCallbackProxy{Remote: remote}
 }
 
 func (p *ImsConfigCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsConfigCallback = (*ImsConfigCallbackProxy)(nil)
@@ -48,12 +53,12 @@ func (p *ImsConfigCallbackProxy) OnIntConfigChanged(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfigCallback, "onIntConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfigCallback, MethodIImsConfigCallbackOnIntConfigChanged)
 	if _err != nil {
-		_code = TransactionIImsConfigCallbackOnIntConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfigCallback, MethodIImsConfigCallbackOnIntConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *ImsConfigCallbackProxy) OnStringConfigChanged(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsConfigCallback, "onStringConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsConfigCallback, MethodIImsConfigCallbackOnStringConfigChanged)
 	if _err != nil {
-		_code = TransactionIImsConfigCallbackOnStringConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsConfigCallback, MethodIImsConfigCallbackOnStringConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type ImsConfigCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsConfigCallbackStub)(nil)
+
+func (s *ImsConfigCallbackStub) Descriptor() string {
+	return DescriptorIImsConfigCallback
+}
 
 func (s *ImsConfigCallbackStub) OnTransaction(
 	ctx context.Context,

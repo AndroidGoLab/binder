@@ -153,14 +153,7 @@ func (u *Primitive) MarshalParcel(
 	case PrimitiveTagStringValue:
 		p.WriteString16(u.StringValue)
 	case PrimitiveTagBytesValue:
-		if u.BytesValue == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.BytesValue)))
-			for _, _item := range u.BytesValue {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.BytesValue)
 	case PrimitiveTagStringArrayValue:
 		if u.StringArrayValue == nil {
 			p.WriteInt32(-1)
@@ -219,19 +212,9 @@ func (u *Primitive) UnmarshalParcel(
 		}
 	case PrimitiveTagBytesValue:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.BytesValue, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.BytesValue = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.BytesValue[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case PrimitiveTagStringArrayValue:
 

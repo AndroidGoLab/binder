@@ -16,6 +16,11 @@ const (
 	TransactionIClearCredentialStateCallbackOnError   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIClearCredentialStateCallbackOnSuccess = "onSuccess"
+	MethodIClearCredentialStateCallbackOnError   = "onError"
+)
+
 type IClearCredentialStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context) error
@@ -23,17 +28,17 @@ type IClearCredentialStateCallback interface {
 }
 
 type ClearCredentialStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewClearCredentialStateCallbackProxy(
 	remote binder.IBinder,
 ) *ClearCredentialStateCallbackProxy {
-	return &ClearCredentialStateCallbackProxy{remote: remote}
+	return &ClearCredentialStateCallbackProxy{Remote: remote}
 }
 
 func (p *ClearCredentialStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IClearCredentialStateCallback = (*ClearCredentialStateCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *ClearCredentialStateCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClearCredentialStateCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClearCredentialStateCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClearCredentialStateCallback, MethodIClearCredentialStateCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIClearCredentialStateCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIClearCredentialStateCallback, MethodIClearCredentialStateCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *ClearCredentialStateCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClearCredentialStateCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClearCredentialStateCallback, MethodIClearCredentialStateCallbackOnError)
 	if _err != nil {
-		_code = TransactionIClearCredentialStateCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIClearCredentialStateCallback, MethodIClearCredentialStateCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type ClearCredentialStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ClearCredentialStateCallbackStub)(nil)
+
+func (s *ClearCredentialStateCallbackStub) Descriptor() string {
+	return DescriptorIClearCredentialStateCallback
+}
 
 func (s *ClearCredentialStateCallbackStub) OnTransaction(
 	ctx context.Context,

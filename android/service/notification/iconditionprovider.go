@@ -18,6 +18,12 @@ const (
 	TransactionIConditionProviderOnUnsubscribe = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIConditionProviderOnConnected   = "onConnected"
+	MethodIConditionProviderOnSubscribe   = "onSubscribe"
+	MethodIConditionProviderOnUnsubscribe = "onUnsubscribe"
+)
+
 type IConditionProvider interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context) error
@@ -26,17 +32,17 @@ type IConditionProvider interface {
 }
 
 type ConditionProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConditionProviderProxy(
 	remote binder.IBinder,
 ) *ConditionProviderProxy {
-	return &ConditionProviderProxy{remote: remote}
+	return &ConditionProviderProxy{Remote: remote}
 }
 
 func (p *ConditionProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConditionProvider = (*ConditionProviderProxy)(nil)
@@ -47,12 +53,12 @@ func (p *ConditionProviderProxy) OnConnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConditionProvider, MethodIConditionProviderOnConnected)
 	if _err != nil {
-		_code = TransactionIConditionProviderOnConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConditionProvider, MethodIConditionProviderOnConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +73,12 @@ func (p *ConditionProviderProxy) OnSubscribe(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onSubscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConditionProvider, MethodIConditionProviderOnSubscribe)
 	if _err != nil {
-		_code = TransactionIConditionProviderOnSubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConditionProvider, MethodIConditionProviderOnSubscribe, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,12 +93,12 @@ func (p *ConditionProviderProxy) OnUnsubscribe(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onUnsubscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConditionProvider, MethodIConditionProviderOnUnsubscribe)
 	if _err != nil {
-		_code = TransactionIConditionProviderOnUnsubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConditionProvider, MethodIConditionProviderOnUnsubscribe, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +109,10 @@ type ConditionProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConditionProviderStub)(nil)
+
+func (s *ConditionProviderStub) Descriptor() string {
+	return DescriptorIConditionProvider
+}
 
 func (s *ConditionProviderStub) OnTransaction(
 	ctx context.Context,

@@ -20,6 +20,15 @@ const (
 	TransactionITranscodingClientUnregister       = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodITranscodingClientSubmitRequest    = "submitRequest"
+	MethodITranscodingClientCancelSession    = "cancelSession"
+	MethodITranscodingClientGetSessionWithId = "getSessionWithId"
+	MethodITranscodingClientAddClientUid     = "addClientUid"
+	MethodITranscodingClientGetClientUids    = "getClientUids"
+	MethodITranscodingClientUnregister       = "unregister"
+)
+
 type ITranscodingClient interface {
 	AsBinder() binder.IBinder
 	SubmitRequest(ctx context.Context, request TranscodingRequestParcel, session TranscodingSessionParcel) (bool, error)
@@ -31,17 +40,17 @@ type ITranscodingClient interface {
 }
 
 type TranscodingClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTranscodingClientProxy(
 	remote binder.IBinder,
 ) *TranscodingClientProxy {
-	return &TranscodingClientProxy{remote: remote}
+	return &TranscodingClientProxy{Remote: remote}
 }
 
 func (p *TranscodingClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITranscodingClient = (*TranscodingClientProxy)(nil)
@@ -59,12 +68,12 @@ func (p *TranscodingClientProxy) SubmitRequest(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "submitRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientSubmitRequest)
 	if _err != nil {
-		_code = TransactionITranscodingClientSubmitRequest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClient, MethodITranscodingClientSubmitRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,12 +102,12 @@ func (p *TranscodingClientProxy) CancelSession(
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "cancelSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientCancelSession)
 	if _err != nil {
-		_code = TransactionITranscodingClientCancelSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClient, MethodITranscodingClientCancelSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,12 +134,12 @@ func (p *TranscodingClientProxy) GetSessionWithId(
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "getSessionWithId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientGetSessionWithId)
 	if _err != nil {
-		_code = TransactionITranscodingClientGetSessionWithId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClient, MethodITranscodingClientGetSessionWithId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,12 +170,12 @@ func (p *TranscodingClientProxy) AddClientUid(
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(clientUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "addClientUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientAddClientUid)
 	if _err != nil {
-		_code = TransactionITranscodingClientAddClientUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClient, MethodITranscodingClientAddClientUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -192,12 +201,12 @@ func (p *TranscodingClientProxy) GetClientUids(
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "getClientUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientGetClientUids)
 	if _err != nil {
-		_code = TransactionITranscodingClientGetClientUids
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClient, MethodITranscodingClientGetClientUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -230,12 +239,12 @@ func (p *TranscodingClientProxy) Unregister(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranscodingClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "unregister")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClient, MethodITranscodingClientUnregister)
 	if _err != nil {
-		_code = TransactionITranscodingClientUnregister
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClient, MethodITranscodingClientUnregister, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -255,6 +264,10 @@ type TranscodingClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TranscodingClientStub)(nil)
+
+func (s *TranscodingClientStub) Descriptor() string {
+	return DescriptorITranscodingClient
+}
 
 func (s *TranscodingClientStub) OnTransaction(
 	ctx context.Context,

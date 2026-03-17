@@ -77,11 +77,13 @@ func (u *BaseBlock) MarshalParcel(
 
 	switch u.Tag {
 	case BaseBlockTagNativeBlock:
+		p.WriteInt32(1)
 		if _err := u.NativeBlock.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case BaseBlockTagHwbBlock:
 	case BaseBlockTagPooledBlock:
+		p.WriteInt32(1)
 		if _err := u.PooledBlock.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -108,11 +110,17 @@ func (u *BaseBlock) UnmarshalParcel(
 
 	switch u.Tag {
 	case BaseBlockTagNativeBlock:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.NativeBlock.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case BaseBlockTagHwbBlock:
 	case BaseBlockTagPooledBlock:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PooledBlock.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

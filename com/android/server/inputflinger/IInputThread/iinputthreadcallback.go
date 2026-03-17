@@ -15,23 +15,27 @@ const (
 	TransactionIInputThreadCallbackLoopOnce = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInputThreadCallbackLoopOnce = "loopOnce"
+)
+
 type IInputThreadCallback interface {
 	AsBinder() binder.IBinder
 	LoopOnce(ctx context.Context) error
 }
 
 type InputThreadCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputThreadCallbackProxy(
 	remote binder.IBinder,
 ) *InputThreadCallbackProxy {
-	return &InputThreadCallbackProxy{remote: remote}
+	return &InputThreadCallbackProxy{Remote: remote}
 }
 
 func (p *InputThreadCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputThreadCallback = (*InputThreadCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *InputThreadCallbackProxy) LoopOnce(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputThreadCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputThreadCallback, "loopOnce")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputThreadCallback, MethodIInputThreadCallbackLoopOnce)
 	if _err != nil {
-		_code = TransactionIInputThreadCallbackLoopOnce
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputThreadCallback, MethodIInputThreadCallbackLoopOnce, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type InputThreadCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputThreadCallbackStub)(nil)
+
+func (s *InputThreadCallbackStub) Descriptor() string {
+	return DescriptorIInputThreadCallback
+}
 
 func (s *InputThreadCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -26,6 +26,7 @@ func (s *ProgramListChunk) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Modified)))
 		for _, _item := range s.Modified {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -36,6 +37,7 @@ func (s *ProgramListChunk) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Removed)))
 		for _, _item := range s.Removed {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +74,9 @@ func (s *ProgramListChunk) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Modified = make([]ProgramInfo, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Modified[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -86,6 +91,9 @@ func (s *ProgramListChunk) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Removed = make([]ProgramIdentifier, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Removed[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

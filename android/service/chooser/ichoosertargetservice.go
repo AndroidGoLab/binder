@@ -16,23 +16,27 @@ const (
 	TransactionIChooserTargetServiceGetChooserTargets = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIChooserTargetServiceGetChooserTargets = "getChooserTargets"
+)
+
 type IChooserTargetService interface {
 	AsBinder() binder.IBinder
 	GetChooserTargets(ctx context.Context, targetComponentName content.ComponentName, matchedFilter content.IntentFilter, result IChooserTargetResult) error
 }
 
 type ChooserTargetServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewChooserTargetServiceProxy(
 	remote binder.IBinder,
 ) *ChooserTargetServiceProxy {
-	return &ChooserTargetServiceProxy{remote: remote}
+	return &ChooserTargetServiceProxy{Remote: remote}
 }
 
 func (p *ChooserTargetServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IChooserTargetService = (*ChooserTargetServiceProxy)(nil)
@@ -53,14 +57,14 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 	if _err := matchedFilter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChooserTargetService, "getChooserTargets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChooserTargetService, MethodIChooserTargetServiceGetChooserTargets)
 	if _err != nil {
-		_code = TransactionIChooserTargetServiceGetChooserTargets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChooserTargetService, MethodIChooserTargetServiceGetChooserTargets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +75,10 @@ type ChooserTargetServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ChooserTargetServiceStub)(nil)
+
+func (s *ChooserTargetServiceStub) Descriptor() string {
+	return DescriptorIChooserTargetService
+}
 
 func (s *ChooserTargetServiceStub) OnTransaction(
 	ctx context.Context,

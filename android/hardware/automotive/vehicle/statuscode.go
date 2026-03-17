@@ -5,16 +5,15 @@ package vehicle
 type StatusCode int32
 
 const (
-	StatusCodeOK                                StatusCode = 0
-	StatusCodeTryAgain                          StatusCode = 1
-	StatusCodeInvalidArg                        StatusCode = 2
-	StatusCodeNotAvailable                      StatusCode = 3
-	StatusCodeAccessDenied                      StatusCode = 4
-	StatusCodeInternalError                     StatusCode = 5
-	StatusCodeNotAvailableDisabled              StatusCode = 6
-	StatusCodeNotAvailableSpeedLow              StatusCode = 7
-	StatusCodeNotAvailableSpeedHigh             StatusCode = 8
-	StatusCodeNotAvailablePoorVisibility        StatusCode = 9
-	StatusCodeNotAvailableSafety                StatusCode = 10
-	StatusCodeNotAvailableSubsystemNotConnected StatusCode = 11
+	StatusCodeOK                         StatusCode = 0
+	StatusCodeTryAgain                   StatusCode = 1
+	StatusCodeInvalidArg                 StatusCode = 2
+	StatusCodeNotAvailable               StatusCode = 3
+	StatusCodeAccessDenied               StatusCode = 4
+	StatusCodeInternalError              StatusCode = 5
+	StatusCodeNotAvailableDisabled       StatusCode = 6
+	StatusCodeNotAvailableSpeedLow       StatusCode = 7
+	StatusCodeNotAvailableSpeedHigh      StatusCode = 8
+	StatusCodeNotAvailablePoorVisibility StatusCode = 9
+	StatusCodeNotAvailableSafety         StatusCode = 10
 )

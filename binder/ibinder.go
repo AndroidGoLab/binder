@@ -20,6 +20,7 @@ type IBinder interface {
 	// Returns an error if the method cannot be resolved (unsupported
 	// device version or unknown method).
 	ResolveCode(
+		ctx context.Context,
 		descriptor string,
 		method string,
 	) (TransactionCode, error)

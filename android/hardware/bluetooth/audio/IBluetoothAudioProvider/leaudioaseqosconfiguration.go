@@ -1,7 +1,6 @@
 package IBluetoothAudioProvider
 
 import (
-	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type LeAudioAseQosConfiguration struct {
 	SduIntervalUs         int32
 	Framing               Framing
-	Phy                   []audio.Phy
+	Phy                   []interface{}
 	MaxTransportLatencyMs int32
 	MaxSdu                int32
 	RetransmissionNum     int32
@@ -28,9 +27,6 @@ func (s *LeAudioAseQosConfiguration) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Phy)))
-		for _, _item := range s.Phy {
-			p.WritePaddedByte(byte(_item))
-		}
 	}
 	p.WriteInt32(s.MaxTransportLatencyMs)
 	p.WriteInt32(s.MaxSdu)
@@ -65,13 +61,8 @@ func (s *LeAudioAseQosConfiguration) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.Phy = make([]audio.Phy, _count0)
+		s.Phy = make([]interface{}, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
-			_raw, _err := p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-			s.Phy[_i] = audio.Phy(_raw)
 		}
 	}
 

@@ -15,23 +15,27 @@ const (
 	TransactionIParcelFileDescriptorRetrieverGetPfd = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIParcelFileDescriptorRetrieverGetPfd = "getPfd"
+)
+
 type IParcelFileDescriptorRetriever interface {
 	AsBinder() binder.IBinder
 	GetPfd(ctx context.Context) (int32, error)
 }
 
 type ParcelFileDescriptorRetrieverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewParcelFileDescriptorRetrieverProxy(
 	remote binder.IBinder,
 ) *ParcelFileDescriptorRetrieverProxy {
-	return &ParcelFileDescriptorRetrieverProxy{remote: remote}
+	return &ParcelFileDescriptorRetrieverProxy{Remote: remote}
 }
 
 func (p *ParcelFileDescriptorRetrieverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IParcelFileDescriptorRetriever = (*ParcelFileDescriptorRetrieverProxy)(nil)
@@ -43,12 +47,12 @@ func (p *ParcelFileDescriptorRetrieverProxy) GetPfd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIParcelFileDescriptorRetriever)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIParcelFileDescriptorRetriever, "getPfd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIParcelFileDescriptorRetriever, MethodIParcelFileDescriptorRetrieverGetPfd)
 	if _err != nil {
-		_code = TransactionIParcelFileDescriptorRetrieverGetPfd
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIParcelFileDescriptorRetriever, MethodIParcelFileDescriptorRetrieverGetPfd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type ParcelFileDescriptorRetrieverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ParcelFileDescriptorRetrieverStub)(nil)
+
+func (s *ParcelFileDescriptorRetrieverStub) Descriptor() string {
+	return DescriptorIParcelFileDescriptorRetriever
+}
 
 func (s *ParcelFileDescriptorRetrieverStub) OnTransaction(
 	ctx context.Context,

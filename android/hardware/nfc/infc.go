@@ -22,7 +22,19 @@ const (
 	TransactionINfcWrite                   = binder.FirstCallTransaction + 7
 	TransactionINfcSetEnableVerboseLogging = binder.FirstCallTransaction + 8
 	TransactionINfcIsVerboseLoggingEnabled = binder.FirstCallTransaction + 9
-	TransactionINfcControlGranted          = binder.FirstCallTransaction + 10
+)
+
+const (
+	MethodINfcOpen                    = "open"
+	MethodINfcClose                   = "close"
+	MethodINfcCoreInitialized         = "coreInitialized"
+	MethodINfcFactoryReset            = "factoryReset"
+	MethodINfcGetConfig               = "getConfig"
+	MethodINfcPowerCycle              = "powerCycle"
+	MethodINfcPreDiscover             = "preDiscover"
+	MethodINfcWrite                   = "write"
+	MethodINfcSetEnableVerboseLogging = "setEnableVerboseLogging"
+	MethodINfcIsVerboseLoggingEnabled = "isVerboseLoggingEnabled"
 )
 
 type INfc interface {
@@ -37,21 +49,20 @@ type INfc interface {
 	Write(ctx context.Context, data []byte) (int32, error)
 	SetEnableVerboseLogging(ctx context.Context, enable bool) error
 	IsVerboseLoggingEnabled(ctx context.Context) (bool, error)
-	ControlGranted(ctx context.Context) (NfcStatus, error)
 }
 
 type NfcProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNfcProxy(
 	remote binder.IBinder,
 ) *NfcProxy {
-	return &NfcProxy{remote: remote}
+	return &NfcProxy{Remote: remote}
 }
 
 func (p *NfcProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INfc = (*NfcProxy)(nil)
@@ -62,14 +73,14 @@ func (p *NfcProxy) Open(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
-	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "open")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcOpen)
 	if _err != nil {
-		_code = TransactionINfcOpen
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcOpen, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,12 +101,12 @@ func (p *NfcProxy) Close(
 	_data.WriteInterfaceToken(DescriptorINfc)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcClose)
 	if _err != nil {
-		_code = TransactionINfcClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,12 +125,12 @@ func (p *NfcProxy) CoreInitialized(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "coreInitialized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcCoreInitialized)
 	if _err != nil {
-		_code = TransactionINfcCoreInitialized
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcCoreInitialized, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,12 +149,12 @@ func (p *NfcProxy) FactoryReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "factoryReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcFactoryReset)
 	if _err != nil {
-		_code = TransactionINfcFactoryReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcFactoryReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -163,12 +174,12 @@ func (p *NfcProxy) GetConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "getConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcGetConfig)
 	if _err != nil {
-		_code = TransactionINfcGetConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcGetConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,12 +207,12 @@ func (p *NfcProxy) PowerCycle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "powerCycle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcPowerCycle)
 	if _err != nil {
-		_code = TransactionINfcPowerCycle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcPowerCycle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -220,12 +231,12 @@ func (p *NfcProxy) PreDiscover(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "preDiscover")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcPreDiscover)
 	if _err != nil {
-		_code = TransactionINfcPreDiscover
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcPreDiscover, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -254,12 +265,12 @@ func (p *NfcProxy) Write(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcWrite)
 	if _err != nil {
-		_code = TransactionINfcWrite
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -284,12 +295,12 @@ func (p *NfcProxy) SetEnableVerboseLogging(
 	_data.WriteInterfaceToken(DescriptorINfc)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "setEnableVerboseLogging")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcSetEnableVerboseLogging)
 	if _err != nil {
-		_code = TransactionINfcSetEnableVerboseLogging
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcSetEnableVerboseLogging, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -309,12 +320,12 @@ func (p *NfcProxy) IsVerboseLoggingEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINfc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "isVerboseLoggingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINfc, MethodINfcIsVerboseLoggingEnabled)
 	if _err != nil {
-		_code = TransactionINfcIsVerboseLoggingEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINfc, MethodINfcIsVerboseLoggingEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -331,36 +342,6 @@ func (p *NfcProxy) IsVerboseLoggingEnabled(
 	return _result, nil
 }
 
-func (p *NfcProxy) ControlGranted(
-	ctx context.Context,
-) (NfcStatus, error) {
-	var _result NfcStatus
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorINfc)
-
-	_code, _err := p.remote.ResolveCode(DescriptorINfc, "controlGranted")
-	if _err != nil {
-		_code = TransactionINfcControlGranted
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_raw, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = NfcStatus(_raw)
-	return _result, nil
-}
-
 // NfcStub dispatches incoming binder transactions
 // to a typed INfc implementation.
 type NfcStub struct {
@@ -368,6 +349,10 @@ type NfcStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NfcStub)(nil)
+
+func (s *NfcStub) Descriptor() string {
+	return DescriptorINfc
+}
 
 func (s *NfcStub) OnTransaction(
 	ctx context.Context,
@@ -516,19 +501,6 @@ func (s *NfcStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionINfcControlGranted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.ControlGranted(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -548,7 +520,6 @@ type INfcServer interface {
 	Write(ctx context.Context, data []byte) (int32, error)
 	SetEnableVerboseLogging(ctx context.Context, enable bool) error
 	IsVerboseLoggingEnabled(ctx context.Context) (bool, error)
-	ControlGranted(ctx context.Context) (NfcStatus, error)
 }
 
 type nfcStubWrapper struct {
@@ -622,12 +593,6 @@ func (w *nfcStubWrapper) IsVerboseLoggingEnabled(
 	ctx context.Context,
 ) (bool, error) {
 	return w.impl.IsVerboseLoggingEnabled(ctx)
-}
-
-func (w *nfcStubWrapper) ControlGranted(
-	ctx context.Context,
-) (NfcStatus, error) {
-	return w.impl.ControlGranted(ctx)
 }
 
 var _ INfc = (*nfcStubWrapper)(nil)

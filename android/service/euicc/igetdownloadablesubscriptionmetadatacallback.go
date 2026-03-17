@@ -15,23 +15,27 @@ const (
 	TransactionIGetDownloadableSubscriptionMetadataCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetDownloadableSubscriptionMetadataCallbackOnComplete = "onComplete"
+)
+
 type IGetDownloadableSubscriptionMetadataCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result GetDownloadableSubscriptionMetadataResult) error
 }
 
 type GetDownloadableSubscriptionMetadataCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetDownloadableSubscriptionMetadataCallbackProxy(
 	remote binder.IBinder,
 ) *GetDownloadableSubscriptionMetadataCallbackProxy {
-	return &GetDownloadableSubscriptionMetadataCallbackProxy{remote: remote}
+	return &GetDownloadableSubscriptionMetadataCallbackProxy{Remote: remote}
 }
 
 func (p *GetDownloadableSubscriptionMetadataCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetDownloadableSubscriptionMetadataCallback = (*GetDownloadableSubscriptionMetadataCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *GetDownloadableSubscriptionMetadataCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetDownloadableSubscriptionMetadataCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetDownloadableSubscriptionMetadataCallback, MethodIGetDownloadableSubscriptionMetadataCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetDownloadableSubscriptionMetadataCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetDownloadableSubscriptionMetadataCallback, MethodIGetDownloadableSubscriptionMetadataCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type GetDownloadableSubscriptionMetadataCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetDownloadableSubscriptionMetadataCallbackStub)(nil)
+
+func (s *GetDownloadableSubscriptionMetadataCallbackStub) Descriptor() string {
+	return DescriptorIGetDownloadableSubscriptionMetadataCallback
+}
 
 func (s *GetDownloadableSubscriptionMetadataCallbackStub) OnTransaction(
 	ctx context.Context,

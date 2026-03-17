@@ -16,6 +16,11 @@ const (
 	TransactionIResourceManagerClientGetName         = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIResourceManagerClientReclaimResource = "reclaimResource"
+	MethodIResourceManagerClientGetName         = "getName"
+)
+
 type IResourceManagerClient interface {
 	AsBinder() binder.IBinder
 	ReclaimResource(ctx context.Context) (bool, error)
@@ -23,17 +28,17 @@ type IResourceManagerClient interface {
 }
 
 type ResourceManagerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResourceManagerClientProxy(
 	remote binder.IBinder,
 ) *ResourceManagerClientProxy {
-	return &ResourceManagerClientProxy{remote: remote}
+	return &ResourceManagerClientProxy{Remote: remote}
 }
 
 func (p *ResourceManagerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResourceManagerClient = (*ResourceManagerClientProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ResourceManagerClientProxy) ReclaimResource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerClient, "reclaimResource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerClient, MethodIResourceManagerClientReclaimResource)
 	if _err != nil {
-		_code = TransactionIResourceManagerClientReclaimResource
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerClient, MethodIResourceManagerClientReclaimResource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,12 +79,12 @@ func (p *ResourceManagerClientProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourceManagerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerClient, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourceManagerClient, MethodIResourceManagerClientGetName)
 	if _err != nil {
-		_code = TransactionIResourceManagerClientGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIResourceManagerClient, MethodIResourceManagerClientGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,6 +108,10 @@ type ResourceManagerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResourceManagerClientStub)(nil)
+
+func (s *ResourceManagerClientStub) Descriptor() string {
+	return DescriptorIResourceManagerClient
+}
 
 func (s *ResourceManagerClientStub) OnTransaction(
 	ctx context.Context,

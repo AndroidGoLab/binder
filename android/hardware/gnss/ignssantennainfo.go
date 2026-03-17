@@ -16,6 +16,11 @@ const (
 	TransactionIGnssAntennaInfoClose       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssAntennaInfoSetCallback = "setCallback"
+	MethodIGnssAntennaInfoClose       = "close"
+)
+
 type IGnssAntennaInfo interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssAntennaInfoCallback) error
@@ -23,17 +28,17 @@ type IGnssAntennaInfo interface {
 }
 
 type GnssAntennaInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssAntennaInfoProxy(
 	remote binder.IBinder,
 ) *GnssAntennaInfoProxy {
-	return &GnssAntennaInfoProxy{remote: remote}
+	return &GnssAntennaInfoProxy{Remote: remote}
 }
 
 func (p *GnssAntennaInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssAntennaInfo = (*GnssAntennaInfoProxy)(nil)
@@ -44,14 +49,14 @@ func (p *GnssAntennaInfoProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssAntennaInfo)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfo, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAntennaInfo, MethodIGnssAntennaInfoSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssAntennaInfoSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAntennaInfo, MethodIGnssAntennaInfoSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *GnssAntennaInfoProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssAntennaInfo)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfo, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAntennaInfo, MethodIGnssAntennaInfoClose)
 	if _err != nil {
-		_code = TransactionIGnssAntennaInfoClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAntennaInfo, MethodIGnssAntennaInfoClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +100,10 @@ type GnssAntennaInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssAntennaInfoStub)(nil)
+
+func (s *GnssAntennaInfoStub) Descriptor() string {
+	return DescriptorIGnssAntennaInfo
+}
 
 func (s *GnssAntennaInfoStub) OnTransaction(
 	ctx context.Context,

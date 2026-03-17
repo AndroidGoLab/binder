@@ -2,7 +2,7 @@ package StreamDescriptor
 
 import (
 	"fmt"
-	types "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -22,13 +22,13 @@ const (
 type Command struct {
 	Tag             int32
 	HalReservedExit int32
-	GetStatus       types.Void
-	Start           types.Void
+	GetStatus       common.Void
+	Start           common.Void
 	Burst           int32
 	Drain           DrainMode
-	Standby         types.Void
-	Pause           types.Void
-	Flush           types.Void
+	Standby         common.Void
+	Pause           common.Void
+	Flush           common.Void
 }
 
 var _ parcel.Parcelable = (*Command)(nil)
@@ -48,31 +48,31 @@ func (u *Command) SetHalReservedExit(
 	u.HalReservedExit = v
 }
 
-func (u *Command) GetGetStatus() (types.Void, bool) {
+func (u *Command) GetGetStatus() (common.Void, bool) {
 	if u.Tag != CommandTagGetStatus {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.GetStatus, true
 }
 
 func (u *Command) SetGetStatus(
-	v types.Void,
+	v common.Void,
 ) {
 	u.Tag = CommandTagGetStatus
 	u.GetStatus = v
 }
 
-func (u *Command) GetStart() (types.Void, bool) {
+func (u *Command) GetStart() (common.Void, bool) {
 	if u.Tag != CommandTagStart {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.Start, true
 }
 
 func (u *Command) SetStart(
-	v types.Void,
+	v common.Void,
 ) {
 	u.Tag = CommandTagStart
 	u.Start = v
@@ -108,46 +108,46 @@ func (u *Command) SetDrain(
 	u.Drain = v
 }
 
-func (u *Command) GetStandby() (types.Void, bool) {
+func (u *Command) GetStandby() (common.Void, bool) {
 	if u.Tag != CommandTagStandby {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.Standby, true
 }
 
 func (u *Command) SetStandby(
-	v types.Void,
+	v common.Void,
 ) {
 	u.Tag = CommandTagStandby
 	u.Standby = v
 }
 
-func (u *Command) GetPause() (types.Void, bool) {
+func (u *Command) GetPause() (common.Void, bool) {
 	if u.Tag != CommandTagPause {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.Pause, true
 }
 
 func (u *Command) SetPause(
-	v types.Void,
+	v common.Void,
 ) {
 	u.Tag = CommandTagPause
 	u.Pause = v
 }
 
-func (u *Command) GetFlush() (types.Void, bool) {
+func (u *Command) GetFlush() (common.Void, bool) {
 	if u.Tag != CommandTagFlush {
-		var _zero types.Void
+		var _zero common.Void
 		return _zero, false
 	}
 	return u.Flush, true
 }
 
 func (u *Command) SetFlush(
-	v types.Void,
+	v common.Void,
 ) {
 	u.Tag = CommandTagFlush
 	u.Flush = v
@@ -163,10 +163,12 @@ func (u *Command) MarshalParcel(
 	case CommandTagHalReservedExit:
 		p.WriteInt32(u.HalReservedExit)
 	case CommandTagGetStatus:
+		p.WriteInt32(1)
 		if _err := u.GetStatus.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandTagStart:
+		p.WriteInt32(1)
 		if _err := u.Start.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -175,14 +177,17 @@ func (u *Command) MarshalParcel(
 	case CommandTagDrain:
 		p.WritePaddedByte(byte(u.Drain))
 	case CommandTagStandby:
+		p.WriteInt32(1)
 		if _err := u.Standby.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandTagPause:
+		p.WriteInt32(1)
 		if _err := u.Pause.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandTagFlush:
+		p.WriteInt32(1)
 		if _err := u.Flush.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -214,10 +219,16 @@ func (u *Command) UnmarshalParcel(
 			return _err
 		}
 	case CommandTagGetStatus:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.GetStatus.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandTagStart:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Start.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -233,14 +244,23 @@ func (u *Command) UnmarshalParcel(
 		}
 		u.Drain = DrainMode(_raw)
 	case CommandTagStandby:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Standby.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandTagPause:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Pause.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CommandTagFlush:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Flush.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

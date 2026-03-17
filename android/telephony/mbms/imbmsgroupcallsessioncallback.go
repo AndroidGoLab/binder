@@ -18,6 +18,13 @@ const (
 	TransactionIMbmsGroupCallSessionCallbackOnMiddlewareReady           = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIMbmsGroupCallSessionCallbackOnError                     = "onError"
+	MethodIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated      = "onAvailableSaisUpdated"
+	MethodIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable = "onServiceInterfaceAvailable"
+	MethodIMbmsGroupCallSessionCallbackOnMiddlewareReady           = "onMiddlewareReady"
+)
+
 type IMbmsGroupCallSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, errorCode int32, message string) error
@@ -27,17 +34,17 @@ type IMbmsGroupCallSessionCallback interface {
 }
 
 type MbmsGroupCallSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMbmsGroupCallSessionCallbackProxy(
 	remote binder.IBinder,
 ) *MbmsGroupCallSessionCallbackProxy {
-	return &MbmsGroupCallSessionCallbackProxy{remote: remote}
+	return &MbmsGroupCallSessionCallbackProxy{Remote: remote}
 }
 
 func (p *MbmsGroupCallSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMbmsGroupCallSessionCallback = (*MbmsGroupCallSessionCallbackProxy)(nil)
@@ -52,12 +59,12 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnError)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallSessionCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +86,12 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnAvailableSaisUpdated(
 		_data.WriteInt32(int32(len(availableSais)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onAvailableSaisUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +105,12 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnServiceInterfaceAvailable(
 	_data.WriteString16(interfaceName)
 	_data.WriteInt32(index)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onServiceInterfaceAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,12 +120,12 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnMiddlewareReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onMiddlewareReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnMiddlewareReady)
 	if _err != nil {
-		_code = TransactionIMbmsGroupCallSessionCallbackOnMiddlewareReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsGroupCallSessionCallback, MethodIMbmsGroupCallSessionCallbackOnMiddlewareReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,6 +136,10 @@ type MbmsGroupCallSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MbmsGroupCallSessionCallbackStub)(nil)
+
+func (s *MbmsGroupCallSessionCallbackStub) Descriptor() string {
+	return DescriptorIMbmsGroupCallSessionCallback
+}
 
 func (s *MbmsGroupCallSessionCallbackStub) OnTransaction(
 	ctx context.Context,

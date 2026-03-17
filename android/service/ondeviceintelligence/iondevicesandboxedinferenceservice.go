@@ -22,6 +22,14 @@ const (
 	TransactionIOnDeviceSandboxedInferenceServiceUpdateProcessingState        = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIOnDeviceSandboxedInferenceServiceRegisterRemoteStorageService = "registerRemoteStorageService"
+	MethodIOnDeviceSandboxedInferenceServiceRequestTokenInfo             = "requestTokenInfo"
+	MethodIOnDeviceSandboxedInferenceServiceProcessRequest               = "processRequest"
+	MethodIOnDeviceSandboxedInferenceServiceProcessRequestStreaming      = "processRequestStreaming"
+	MethodIOnDeviceSandboxedInferenceServiceUpdateProcessingState        = "updateProcessingState"
+)
+
 type IOnDeviceSandboxedInferenceService interface {
 	AsBinder() binder.IBinder
 	RegisterRemoteStorageService(ctx context.Context, storageService IRemoteStorageService, remoteCallback appOndeviceintelligence.IRemoteCallback) error
@@ -32,17 +40,17 @@ type IOnDeviceSandboxedInferenceService interface {
 }
 
 type OnDeviceSandboxedInferenceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnDeviceSandboxedInferenceServiceProxy(
 	remote binder.IBinder,
 ) *OnDeviceSandboxedInferenceServiceProxy {
-	return &OnDeviceSandboxedInferenceServiceProxy{remote: remote}
+	return &OnDeviceSandboxedInferenceServiceProxy{Remote: remote}
 }
 
 func (p *OnDeviceSandboxedInferenceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnDeviceSandboxedInferenceService = (*OnDeviceSandboxedInferenceServiceProxy)(nil)
@@ -54,15 +62,15 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) RegisterRemoteStorageService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceSandboxedInferenceService)
-	binder.WriteBinderToParcel(ctx, _data, storageService.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, remoteCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, storageService.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, remoteCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "registerRemoteStorageService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceRegisterRemoteStorageService)
 	if _err != nil {
-		_code = TransactionIOnDeviceSandboxedInferenceServiceRegisterRemoteStorageService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceRegisterRemoteStorageService, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,14 +97,14 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) RequestTokenInfo(
 	if _err := cancellationSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, tokenInfoCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tokenInfoCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "requestTokenInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceRequestTokenInfo)
 	if _err != nil {
-		_code = TransactionIOnDeviceSandboxedInferenceServiceRequestTokenInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceRequestTokenInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,14 +138,14 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) ProcessRequest(
 	if _err := processingSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "processRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceProcessRequest)
 	if _err != nil {
-		_code = TransactionIOnDeviceSandboxedInferenceServiceProcessRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceProcessRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,14 +179,14 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) ProcessRequestStreaming(
 	if _err := processingSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "processRequestStreaming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceProcessRequestStreaming)
 	if _err != nil {
-		_code = TransactionIOnDeviceSandboxedInferenceServiceProcessRequestStreaming
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceProcessRequestStreaming, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -193,14 +201,14 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) UpdateProcessingState(
 	if _err := processingState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "updateProcessingState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceUpdateProcessingState)
 	if _err != nil {
-		_code = TransactionIOnDeviceSandboxedInferenceServiceUpdateProcessingState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnDeviceSandboxedInferenceService, MethodIOnDeviceSandboxedInferenceServiceUpdateProcessingState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -211,6 +219,10 @@ type OnDeviceSandboxedInferenceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnDeviceSandboxedInferenceServiceStub)(nil)
+
+func (s *OnDeviceSandboxedInferenceServiceStub) Descriptor() string {
+	return DescriptorIOnDeviceSandboxedInferenceService
+}
 
 func (s *OnDeviceSandboxedInferenceServiceStub) OnTransaction(
 	ctx context.Context,

@@ -17,6 +17,12 @@ const (
 	TransactionIScreenModeSettingsGetSupportApplyOverScan = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIScreenModeSettingsSetScreenModeSettings   = "setScreenModeSettings"
+	MethodIScreenModeSettingsGetOverScanIndex        = "getOverScanIndex"
+	MethodIScreenModeSettingsGetSupportApplyOverScan = "getSupportApplyOverScan"
+)
+
 type IScreenModeSettings interface {
 	AsBinder() binder.IBinder
 	SetScreenModeSettings(ctx context.Context, sessionToken string, setting string) error
@@ -25,17 +31,17 @@ type IScreenModeSettings interface {
 }
 
 type ScreenModeSettingsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScreenModeSettingsProxy(
 	remote binder.IBinder,
 ) *ScreenModeSettingsProxy {
-	return &ScreenModeSettingsProxy{remote: remote}
+	return &ScreenModeSettingsProxy{Remote: remote}
 }
 
 func (p *ScreenModeSettingsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScreenModeSettings = (*ScreenModeSettingsProxy)(nil)
@@ -50,12 +56,12 @@ func (p *ScreenModeSettingsProxy) SetScreenModeSettings(
 	_data.WriteString16(sessionToken)
 	_data.WriteString16(setting)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenModeSettings, "setScreenModeSettings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenModeSettings, MethodIScreenModeSettingsSetScreenModeSettings)
 	if _err != nil {
-		_code = TransactionIScreenModeSettingsSetScreenModeSettings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenModeSettings, MethodIScreenModeSettingsSetScreenModeSettings, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +83,12 @@ func (p *ScreenModeSettingsProxy) GetOverScanIndex(
 	_data.WriteInterfaceToken(DescriptorIScreenModeSettings)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenModeSettings, "getOverScanIndex")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenModeSettings, MethodIScreenModeSettingsGetOverScanIndex)
 	if _err != nil {
-		_code = TransactionIScreenModeSettingsGetOverScanIndex
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenModeSettings, MethodIScreenModeSettingsGetOverScanIndex, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,12 +114,12 @@ func (p *ScreenModeSettingsProxy) GetSupportApplyOverScan(
 	_data.WriteInterfaceToken(DescriptorIScreenModeSettings)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenModeSettings, "getSupportApplyOverScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenModeSettings, MethodIScreenModeSettingsGetSupportApplyOverScan)
 	if _err != nil {
-		_code = TransactionIScreenModeSettingsGetSupportApplyOverScan
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenModeSettings, MethodIScreenModeSettingsGetSupportApplyOverScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,6 +143,10 @@ type ScreenModeSettingsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScreenModeSettingsStub)(nil)
+
+func (s *ScreenModeSettingsStub) Descriptor() string {
+	return DescriptorIScreenModeSettings
+}
 
 func (s *ScreenModeSettingsStub) OnTransaction(
 	ctx context.Context,

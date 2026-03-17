@@ -18,6 +18,13 @@ const (
 	TransactionIAttentionServiceOnStopProximityUpdates  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAttentionServiceCheckAttention          = "checkAttention"
+	MethodIAttentionServiceCancelAttentionCheck    = "cancelAttentionCheck"
+	MethodIAttentionServiceOnStartProximityUpdates = "onStartProximityUpdates"
+	MethodIAttentionServiceOnStopProximityUpdates  = "onStopProximityUpdates"
+)
+
 type IAttentionService interface {
 	AsBinder() binder.IBinder
 	CheckAttention(ctx context.Context, callback IAttentionCallback) error
@@ -27,17 +34,17 @@ type IAttentionService interface {
 }
 
 type AttentionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAttentionServiceProxy(
 	remote binder.IBinder,
 ) *AttentionServiceProxy {
-	return &AttentionServiceProxy{remote: remote}
+	return &AttentionServiceProxy{Remote: remote}
 }
 
 func (p *AttentionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAttentionService = (*AttentionServiceProxy)(nil)
@@ -48,14 +55,14 @@ func (p *AttentionServiceProxy) CheckAttention(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "checkAttention")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionService, MethodIAttentionServiceCheckAttention)
 	if _err != nil {
-		_code = TransactionIAttentionServiceCheckAttention
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttentionService, MethodIAttentionServiceCheckAttention, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,14 +72,14 @@ func (p *AttentionServiceProxy) CancelAttentionCheck(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "cancelAttentionCheck")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionService, MethodIAttentionServiceCancelAttentionCheck)
 	if _err != nil {
-		_code = TransactionIAttentionServiceCancelAttentionCheck
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttentionService, MethodIAttentionServiceCancelAttentionCheck, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,14 +89,14 @@ func (p *AttentionServiceProxy) OnStartProximityUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "onStartProximityUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionService, MethodIAttentionServiceOnStartProximityUpdates)
 	if _err != nil {
-		_code = TransactionIAttentionServiceOnStartProximityUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttentionService, MethodIAttentionServiceOnStartProximityUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +106,12 @@ func (p *AttentionServiceProxy) OnStopProximityUpdates(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "onStopProximityUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttentionService, MethodIAttentionServiceOnStopProximityUpdates)
 	if _err != nil {
-		_code = TransactionIAttentionServiceOnStopProximityUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttentionService, MethodIAttentionServiceOnStopProximityUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,6 +122,10 @@ type AttentionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AttentionServiceStub)(nil)
+
+func (s *AttentionServiceStub) Descriptor() string {
+	return DescriptorIAttentionService
+}
 
 func (s *AttentionServiceStub) OnTransaction(
 	ctx context.Context,

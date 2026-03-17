@@ -15,23 +15,27 @@ const (
 	TransactionICaptureStateListenerSetCaptureState = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICaptureStateListenerSetCaptureState = "setCaptureState"
+)
+
 type ICaptureStateListener interface {
 	AsBinder() binder.IBinder
 	SetCaptureState(ctx context.Context, active bool) error
 }
 
 type CaptureStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCaptureStateListenerProxy(
 	remote binder.IBinder,
 ) *CaptureStateListenerProxy {
-	return &CaptureStateListenerProxy{remote: remote}
+	return &CaptureStateListenerProxy{Remote: remote}
 }
 
 func (p *CaptureStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICaptureStateListener = (*CaptureStateListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *CaptureStateListenerProxy) SetCaptureState(
 	_data.WriteInterfaceToken(DescriptorICaptureStateListener)
 	_data.WriteBool(active)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICaptureStateListener, "setCaptureState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICaptureStateListener, MethodICaptureStateListenerSetCaptureState)
 	if _err != nil {
-		_code = TransactionICaptureStateListenerSetCaptureState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICaptureStateListener, MethodICaptureStateListenerSetCaptureState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type CaptureStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CaptureStateListenerStub)(nil)
+
+func (s *CaptureStateListenerStub) Descriptor() string {
+	return DescriptorICaptureStateListener
+}
 
 func (s *CaptureStateListenerStub) OnTransaction(
 	ctx context.Context,

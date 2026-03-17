@@ -16,6 +16,11 @@ const (
 	TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged  = "dispatchDeviceVolumeChanged"
+	MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted = "dispatchDeviceVolumeAdjusted"
+)
+
 type IAudioDeviceVolumeDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchDeviceVolumeChanged(ctx context.Context, device AudioDeviceAttributes, vol VolumeInfo) error
@@ -23,17 +28,17 @@ type IAudioDeviceVolumeDispatcher interface {
 }
 
 type AudioDeviceVolumeDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioDeviceVolumeDispatcherProxy(
 	remote binder.IBinder,
 ) *AudioDeviceVolumeDispatcherProxy {
-	return &AudioDeviceVolumeDispatcherProxy{remote: remote}
+	return &AudioDeviceVolumeDispatcherProxy{Remote: remote}
 }
 
 func (p *AudioDeviceVolumeDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioDeviceVolumeDispatcher = (*AudioDeviceVolumeDispatcherProxy)(nil)
@@ -54,12 +59,12 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioDeviceVolumeDispatcher, "dispatchDeviceVolumeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged)
 	if _err != nil {
-		_code = TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +88,12 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeAdjusted(
 	_data.WriteInt32(direction)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioDeviceVolumeDispatcher, "dispatchDeviceVolumeAdjusted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted)
 	if _err != nil {
-		_code = TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioDeviceVolumeDispatcher, MethodIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +104,10 @@ type AudioDeviceVolumeDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioDeviceVolumeDispatcherStub)(nil)
+
+func (s *AudioDeviceVolumeDispatcherStub) Descriptor() string {
+	return DescriptorIAudioDeviceVolumeDispatcher
+}
 
 func (s *AudioDeviceVolumeDispatcherStub) OnTransaction(
 	ctx context.Context,

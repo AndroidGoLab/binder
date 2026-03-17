@@ -16,6 +16,11 @@ const (
 	TransactionIConvertCredentialCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIConvertCredentialCallbackOnSuccess = "onSuccess"
+	MethodIConvertCredentialCallbackOnFailure = "onFailure"
+)
+
 type IConvertCredentialCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, convertCredentialResponse ConvertCredentialResponse) error
@@ -23,17 +28,17 @@ type IConvertCredentialCallback interface {
 }
 
 type ConvertCredentialCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConvertCredentialCallbackProxy(
 	remote binder.IBinder,
 ) *ConvertCredentialCallbackProxy {
-	return &ConvertCredentialCallbackProxy{remote: remote}
+	return &ConvertCredentialCallbackProxy{Remote: remote}
 }
 
 func (p *ConvertCredentialCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConvertCredentialCallback = (*ConvertCredentialCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *ConvertCredentialCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConvertCredentialCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConvertCredentialCallback, MethodIConvertCredentialCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIConvertCredentialCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConvertCredentialCallback, MethodIConvertCredentialCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *ConvertCredentialCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConvertCredentialCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConvertCredentialCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConvertCredentialCallback, MethodIConvertCredentialCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIConvertCredentialCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConvertCredentialCallback, MethodIConvertCredentialCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type ConvertCredentialCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConvertCredentialCallbackStub)(nil)
+
+func (s *ConvertCredentialCallbackStub) Descriptor() string {
+	return DescriptorIConvertCredentialCallback
+}
 
 func (s *ConvertCredentialCallbackStub) OnTransaction(
 	ctx context.Context,

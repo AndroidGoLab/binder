@@ -16,6 +16,11 @@ const (
 	TransactionIScreenshotProxyDismissKeyguard             = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIScreenshotProxyIsNotificationShadeExpanded = "isNotificationShadeExpanded"
+	MethodIScreenshotProxyDismissKeyguard             = "dismissKeyguard"
+)
+
 type IScreenshotProxy interface {
 	AsBinder() binder.IBinder
 	IsNotificationShadeExpanded(ctx context.Context) (bool, error)
@@ -23,17 +28,17 @@ type IScreenshotProxy interface {
 }
 
 type ScreenshotProxyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScreenshotProxyProxy(
 	remote binder.IBinder,
 ) *ScreenshotProxyProxy {
-	return &ScreenshotProxyProxy{remote: remote}
+	return &ScreenshotProxyProxy{Remote: remote}
 }
 
 func (p *ScreenshotProxyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScreenshotProxy = (*ScreenshotProxyProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ScreenshotProxyProxy) IsNotificationShadeExpanded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScreenshotProxy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenshotProxy, "isNotificationShadeExpanded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenshotProxy, MethodIScreenshotProxyIsNotificationShadeExpanded)
 	if _err != nil {
-		_code = TransactionIScreenshotProxyIsNotificationShadeExpanded
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenshotProxy, MethodIScreenshotProxyIsNotificationShadeExpanded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,14 +78,14 @@ func (p *ScreenshotProxyProxy) DismissKeyguard(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScreenshotProxy)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenshotProxy, "dismissKeyguard")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenshotProxy, MethodIScreenshotProxyDismissKeyguard)
 	if _err != nil {
-		_code = TransactionIScreenshotProxyDismissKeyguard
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenshotProxy, MethodIScreenshotProxyDismissKeyguard, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,6 +105,10 @@ type ScreenshotProxyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScreenshotProxyStub)(nil)
+
+func (s *ScreenshotProxyStub) Descriptor() string {
+	return DescriptorIScreenshotProxy
+}
 
 func (s *ScreenshotProxyStub) OnTransaction(
 	ctx context.Context,

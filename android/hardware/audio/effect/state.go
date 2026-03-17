@@ -8,5 +8,4 @@ const (
 	StateINIT       State = 0
 	StateIDLE       State = 1
 	StatePROCESSING State = 2
-	StateDRAINING   State = 3
 )

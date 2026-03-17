@@ -16,6 +16,11 @@ const (
 	TransactionINonStandardCertCallbackListAliases = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINonStandardCertCallbackGetBlob     = "getBlob"
+	MethodINonStandardCertCallbackListAliases = "listAliases"
+)
+
 type INonStandardCertCallback interface {
 	AsBinder() binder.IBinder
 	GetBlob(ctx context.Context, alias string) ([]byte, error)
@@ -23,17 +28,17 @@ type INonStandardCertCallback interface {
 }
 
 type NonStandardCertCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNonStandardCertCallbackProxy(
 	remote binder.IBinder,
 ) *NonStandardCertCallbackProxy {
-	return &NonStandardCertCallbackProxy{remote: remote}
+	return &NonStandardCertCallbackProxy{Remote: remote}
 }
 
 func (p *NonStandardCertCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INonStandardCertCallback = (*NonStandardCertCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *NonStandardCertCallbackProxy) GetBlob(
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
 	_data.WriteString16(alias)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINonStandardCertCallback, "getBlob")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackGetBlob)
 	if _err != nil {
-		_code = TransactionINonStandardCertCallbackGetBlob
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackGetBlob, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -88,12 +93,12 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
 	_data.WriteString16(prefix)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINonStandardCertCallback, "listAliases")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackListAliases)
 	if _err != nil {
-		_code = TransactionINonStandardCertCallbackListAliases
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINonStandardCertCallback, MethodINonStandardCertCallbackListAliases, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,6 +132,10 @@ type NonStandardCertCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NonStandardCertCallbackStub)(nil)
+
+func (s *NonStandardCertCallbackStub) Descriptor() string {
+	return DescriptorINonStandardCertCallback
+}
 
 func (s *NonStandardCertCallbackStub) OnTransaction(
 	ctx context.Context,

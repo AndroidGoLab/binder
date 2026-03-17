@@ -15,23 +15,27 @@ const (
 	TransactionIOnAssociationsChangedListenerOnAssociationsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnAssociationsChangedListenerOnAssociationsChanged = "onAssociationsChanged"
+)
+
 type IOnAssociationsChangedListener interface {
 	AsBinder() binder.IBinder
 	OnAssociationsChanged(ctx context.Context, associations []AssociationInfo) error
 }
 
 type OnAssociationsChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnAssociationsChangedListenerProxy(
 	remote binder.IBinder,
 ) *OnAssociationsChangedListenerProxy {
-	return &OnAssociationsChangedListenerProxy{remote: remote}
+	return &OnAssociationsChangedListenerProxy{Remote: remote}
 }
 
 func (p *OnAssociationsChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnAssociationsChangedListener = (*OnAssociationsChangedListenerProxy)(nil)
@@ -47,19 +51,29 @@ func (p *OnAssociationsChangedListenerProxy) OnAssociationsChanged(
 	} else {
 		_data.WriteInt32(int32(len(associations)))
 		for _, _item := range associations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnAssociationsChangedListener, "onAssociationsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnAssociationsChangedListener, MethodIOnAssociationsChangedListenerOnAssociationsChanged)
 	if _err != nil {
-		_code = TransactionIOnAssociationsChangedListenerOnAssociationsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnAssociationsChangedListener, MethodIOnAssociationsChangedListenerOnAssociationsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 // OnAssociationsChangedListenerStub dispatches incoming binder transactions
@@ -69,6 +83,10 @@ type OnAssociationsChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnAssociationsChangedListenerStub)(nil)
+
+func (s *OnAssociationsChangedListenerStub) Descriptor() string {
+	return DescriptorIOnAssociationsChangedListener
+}
 
 func (s *OnAssociationsChangedListenerStub) OnTransaction(
 	ctx context.Context,
@@ -84,8 +102,13 @@ func (s *OnAssociationsChangedListenerStub) OnTransaction(
 		var _arg_associations []AssociationInfo
 		_ = _arg_associations
 		_err := s.Impl.OnAssociationsChanged(ctx, _arg_associations)
-		_ = _err
-		return nil, nil
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}

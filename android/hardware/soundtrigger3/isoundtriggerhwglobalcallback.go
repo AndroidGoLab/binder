@@ -15,23 +15,27 @@ const (
 	TransactionISoundTriggerHwGlobalCallbackOnResourcesAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISoundTriggerHwGlobalCallbackOnResourcesAvailable = "onResourcesAvailable"
+)
+
 type ISoundTriggerHwGlobalCallback interface {
 	AsBinder() binder.IBinder
 	OnResourcesAvailable(ctx context.Context) error
 }
 
 type SoundTriggerHwGlobalCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundTriggerHwGlobalCallbackProxy(
 	remote binder.IBinder,
 ) *SoundTriggerHwGlobalCallbackProxy {
-	return &SoundTriggerHwGlobalCallbackProxy{remote: remote}
+	return &SoundTriggerHwGlobalCallbackProxy{Remote: remote}
 }
 
 func (p *SoundTriggerHwGlobalCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundTriggerHwGlobalCallback = (*SoundTriggerHwGlobalCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *SoundTriggerHwGlobalCallbackProxy) OnResourcesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwGlobalCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHwGlobalCallback, "onResourcesAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerHwGlobalCallback, MethodISoundTriggerHwGlobalCallbackOnResourcesAvailable)
 	if _err != nil {
-		_code = TransactionISoundTriggerHwGlobalCallbackOnResourcesAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerHwGlobalCallback, MethodISoundTriggerHwGlobalCallbackOnResourcesAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type SoundTriggerHwGlobalCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerHwGlobalCallbackStub)(nil)
+
+func (s *SoundTriggerHwGlobalCallbackStub) Descriptor() string {
+	return DescriptorISoundTriggerHwGlobalCallback
+}
 
 func (s *SoundTriggerHwGlobalCallbackStub) OnTransaction(
 	ctx context.Context,

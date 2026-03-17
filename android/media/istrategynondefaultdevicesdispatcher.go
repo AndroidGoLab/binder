@@ -15,23 +15,27 @@ const (
 	TransactionIStrategyNonDefaultDevicesDispatcherDispatchNonDefDevicesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStrategyNonDefaultDevicesDispatcherDispatchNonDefDevicesChanged = "dispatchNonDefDevicesChanged"
+)
+
 type IStrategyNonDefaultDevicesDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchNonDefDevicesChanged(ctx context.Context, strategyId int32, devices []AudioDeviceAttributes) error
 }
 
 type StrategyNonDefaultDevicesDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStrategyNonDefaultDevicesDispatcherProxy(
 	remote binder.IBinder,
 ) *StrategyNonDefaultDevicesDispatcherProxy {
-	return &StrategyNonDefaultDevicesDispatcherProxy{remote: remote}
+	return &StrategyNonDefaultDevicesDispatcherProxy{Remote: remote}
 }
 
 func (p *StrategyNonDefaultDevicesDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStrategyNonDefaultDevicesDispatcher = (*StrategyNonDefaultDevicesDispatcherProxy)(nil)
@@ -49,18 +53,19 @@ func (p *StrategyNonDefaultDevicesDispatcherProxy) DispatchNonDefDevicesChanged(
 	} else {
 		_data.WriteInt32(int32(len(devices)))
 		for _, _item := range devices {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStrategyNonDefaultDevicesDispatcher, "dispatchNonDefDevicesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStrategyNonDefaultDevicesDispatcher, MethodIStrategyNonDefaultDevicesDispatcherDispatchNonDefDevicesChanged)
 	if _err != nil {
-		_code = TransactionIStrategyNonDefaultDevicesDispatcherDispatchNonDefDevicesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStrategyNonDefaultDevicesDispatcher, MethodIStrategyNonDefaultDevicesDispatcherDispatchNonDefDevicesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +76,10 @@ type StrategyNonDefaultDevicesDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StrategyNonDefaultDevicesDispatcherStub)(nil)
+
+func (s *StrategyNonDefaultDevicesDispatcherStub) Descriptor() string {
+	return DescriptorIStrategyNonDefaultDevicesDispatcher
+}
 
 func (s *StrategyNonDefaultDevicesDispatcherStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIServiceListEditListenerOnCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIServiceListEditListenerOnCompleted = "onCompleted"
+)
+
 type IServiceListEditListener interface {
 	AsBinder() binder.IBinder
 	OnCompleted(ctx context.Context, requestId int32, result int32) error
 }
 
 type ServiceListEditListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListEditListenerProxy(
 	remote binder.IBinder,
 ) *ServiceListEditListenerProxy {
-	return &ServiceListEditListenerProxy{remote: remote}
+	return &ServiceListEditListenerProxy{Remote: remote}
 }
 
 func (p *ServiceListEditListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListEditListener = (*ServiceListEditListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *ServiceListEditListenerProxy) OnCompleted(
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListEditListener, "onCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListEditListener, MethodIServiceListEditListenerOnCompleted)
 	if _err != nil {
-		_code = TransactionIServiceListEditListenerOnCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListEditListener, MethodIServiceListEditListenerOnCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type ServiceListEditListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListEditListenerStub)(nil)
+
+func (s *ServiceListEditListenerStub) Descriptor() string {
+	return DescriptorIServiceListEditListener
+}
 
 func (s *ServiceListEditListenerStub) OnTransaction(
 	ctx context.Context,

@@ -26,6 +26,7 @@ func (s *AudioZoneConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VolumeGroups)))
 		for _, _item := range s.VolumeGroups {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -65,6 +66,9 @@ func (s *AudioZoneConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.VolumeGroups = make([]VolumeGroupConfig, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VolumeGroups[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

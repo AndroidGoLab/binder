@@ -15,23 +15,27 @@ const (
 	TransactionIUserRestrictionsListenerOnUserRestrictionsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUserRestrictionsListenerOnUserRestrictionsChanged = "onUserRestrictionsChanged"
+)
+
 type IUserRestrictionsListener interface {
 	AsBinder() binder.IBinder
 	OnUserRestrictionsChanged(ctx context.Context, newRestrictions Bundle, prevRestrictions Bundle) error
 }
 
 type UserRestrictionsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUserRestrictionsListenerProxy(
 	remote binder.IBinder,
 ) *UserRestrictionsListenerProxy {
-	return &UserRestrictionsListenerProxy{remote: remote}
+	return &UserRestrictionsListenerProxy{Remote: remote}
 }
 
 func (p *UserRestrictionsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUserRestrictionsListener = (*UserRestrictionsListenerProxy)(nil)
@@ -41,7 +45,7 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 	newRestrictions Bundle,
 	prevRestrictions Bundle,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserRestrictionsListener)
 	_data.WriteInt32(_identity.UserID)
@@ -54,12 +58,12 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserRestrictionsListener, "onUserRestrictionsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserRestrictionsListener, MethodIUserRestrictionsListenerOnUserRestrictionsChanged)
 	if _err != nil {
-		_code = TransactionIUserRestrictionsListenerOnUserRestrictionsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserRestrictionsListener, MethodIUserRestrictionsListenerOnUserRestrictionsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +74,10 @@ type UserRestrictionsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UserRestrictionsListenerStub)(nil)
+
+func (s *UserRestrictionsListenerStub) Descriptor() string {
+	return DescriptorIUserRestrictionsListener
+}
 
 func (s *UserRestrictionsListenerStub) OnTransaction(
 	ctx context.Context,

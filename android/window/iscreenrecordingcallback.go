@@ -15,23 +15,27 @@ const (
 	TransactionIScreenRecordingCallbackOnScreenRecordingStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIScreenRecordingCallbackOnScreenRecordingStateChanged = "onScreenRecordingStateChanged"
+)
+
 type IScreenRecordingCallback interface {
 	AsBinder() binder.IBinder
 	OnScreenRecordingStateChanged(ctx context.Context, visibleInScreenRecording bool) error
 }
 
 type ScreenRecordingCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScreenRecordingCallbackProxy(
 	remote binder.IBinder,
 ) *ScreenRecordingCallbackProxy {
-	return &ScreenRecordingCallbackProxy{remote: remote}
+	return &ScreenRecordingCallbackProxy{Remote: remote}
 }
 
 func (p *ScreenRecordingCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScreenRecordingCallback = (*ScreenRecordingCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ScreenRecordingCallbackProxy) OnScreenRecordingStateChanged(
 	_data.WriteInterfaceToken(DescriptorIScreenRecordingCallback)
 	_data.WriteBool(visibleInScreenRecording)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScreenRecordingCallback, "onScreenRecordingStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScreenRecordingCallback, MethodIScreenRecordingCallbackOnScreenRecordingStateChanged)
 	if _err != nil {
-		_code = TransactionIScreenRecordingCallbackOnScreenRecordingStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScreenRecordingCallback, MethodIScreenRecordingCallbackOnScreenRecordingStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ScreenRecordingCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScreenRecordingCallbackStub)(nil)
+
+func (s *ScreenRecordingCallbackStub) Descriptor() string {
+	return DescriptorIScreenRecordingCallback
+}
 
 func (s *ScreenRecordingCallbackStub) OnTransaction(
 	ctx context.Context,

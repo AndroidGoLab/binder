@@ -92,6 +92,7 @@ func (u *AutomaticGainControlV1) MarshalParcel(
 
 	switch u.Tag {
 	case AutomaticGainControlV1TagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -124,6 +125,9 @@ func (u *AutomaticGainControlV1) UnmarshalParcel(
 
 	switch u.Tag {
 	case AutomaticGainControlV1TagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

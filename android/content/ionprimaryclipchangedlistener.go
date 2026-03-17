@@ -15,23 +15,27 @@ const (
 	TransactionIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged = "dispatchPrimaryClipChanged"
+)
+
 type IOnPrimaryClipChangedListener interface {
 	AsBinder() binder.IBinder
 	DispatchPrimaryClipChanged(ctx context.Context) error
 }
 
 type OnPrimaryClipChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnPrimaryClipChangedListenerProxy(
 	remote binder.IBinder,
 ) *OnPrimaryClipChangedListenerProxy {
-	return &OnPrimaryClipChangedListenerProxy{remote: remote}
+	return &OnPrimaryClipChangedListenerProxy{Remote: remote}
 }
 
 func (p *OnPrimaryClipChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnPrimaryClipChangedListener = (*OnPrimaryClipChangedListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *OnPrimaryClipChangedListenerProxy) DispatchPrimaryClipChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnPrimaryClipChangedListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnPrimaryClipChangedListener, "dispatchPrimaryClipChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnPrimaryClipChangedListener, MethodIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged)
 	if _err != nil {
-		_code = TransactionIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnPrimaryClipChangedListener, MethodIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type OnPrimaryClipChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnPrimaryClipChangedListenerStub)(nil)
+
+func (s *OnPrimaryClipChangedListenerStub) Descriptor() string {
+	return DescriptorIOnPrimaryClipChangedListener
+}
 
 func (s *OnPrimaryClipChangedListenerStub) OnTransaction(
 	ctx context.Context,

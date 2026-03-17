@@ -27,35 +27,14 @@ func (s *QosPolicyClassifierParams) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(byte(s.IpVersion))
 	p.WriteInt32(int32(s.ClassifierParamMask))
-	if s.SrcIp == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SrcIp)))
-		for _, _item := range s.SrcIp {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.DstIp == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DstIp)))
-		for _, _item := range s.DstIp {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.SrcIp)
+	p.WriteByteArray(s.DstIp)
 	p.WriteInt32(s.SrcPort)
 	if _err := s.DstPortRange.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	p.WritePaddedByte(byte(s.ProtocolNextHdr))
-	if s.FlowLabelIpv6 == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.FlowLabelIpv6)))
-		for _, _item := range s.FlowLabelIpv6 {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.FlowLabelIpv6)
 	p.WriteString16(s.DomainName)
 	p.WritePaddedByte(s.Dscp)
 
@@ -83,34 +62,14 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 	}
 	s.ClassifierParamMask = QosPolicyClassifierParamsMask(_classifierParamMaskRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.SrcIp, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.SrcIp = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.SrcIp[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.DstIp, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.DstIp = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.DstIp[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.SrcPort, _err = p.ReadInt32()
@@ -128,19 +87,9 @@ func (s *QosPolicyClassifierParams) UnmarshalParcel(
 	}
 	s.ProtocolNextHdr = ProtocolNextHeader(_protocolNextHdrRaw)
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.FlowLabelIpv6, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.FlowLabelIpv6 = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.FlowLabelIpv6[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DomainName, _err = p.ReadString16()

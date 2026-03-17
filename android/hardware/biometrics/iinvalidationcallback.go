@@ -15,23 +15,27 @@ const (
 	TransactionIInvalidationCallbackOnCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInvalidationCallbackOnCompleted = "onCompleted"
+)
+
 type IInvalidationCallback interface {
 	AsBinder() binder.IBinder
 	OnCompleted(ctx context.Context) error
 }
 
 type InvalidationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInvalidationCallbackProxy(
 	remote binder.IBinder,
 ) *InvalidationCallbackProxy {
-	return &InvalidationCallbackProxy{remote: remote}
+	return &InvalidationCallbackProxy{Remote: remote}
 }
 
 func (p *InvalidationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInvalidationCallback = (*InvalidationCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *InvalidationCallbackProxy) OnCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInvalidationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInvalidationCallback, "onCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInvalidationCallback, MethodIInvalidationCallbackOnCompleted)
 	if _err != nil {
-		_code = TransactionIInvalidationCallbackOnCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInvalidationCallback, MethodIInvalidationCallbackOnCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type InvalidationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InvalidationCallbackStub)(nil)
+
+func (s *InvalidationCallbackStub) Descriptor() string {
+	return DescriptorIInvalidationCallback
+}
 
 func (s *InvalidationCallbackStub) OnTransaction(
 	ctx context.Context,

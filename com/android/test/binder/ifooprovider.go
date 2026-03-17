@@ -17,6 +17,12 @@ const (
 	TransactionIFooProviderKillProcess           = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIFooProviderCreateFoo             = "createFoo"
+	MethodIFooProviderIsFooGarbageCollected = "isFooGarbageCollected"
+	MethodIFooProviderKillProcess           = "killProcess"
+)
+
 type IFooProvider interface {
 	AsBinder() binder.IBinder
 	CreateFoo(ctx context.Context) (IFoo, error)
@@ -25,17 +31,17 @@ type IFooProvider interface {
 }
 
 type FooProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFooProviderProxy(
 	remote binder.IBinder,
 ) *FooProviderProxy {
-	return &FooProviderProxy{remote: remote}
+	return &FooProviderProxy{Remote: remote}
 }
 
 func (p *FooProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFooProvider = (*FooProviderProxy)(nil)
@@ -47,12 +53,12 @@ func (p *FooProviderProxy) CreateFoo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFooProvider, "createFoo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFooProvider, MethodIFooProviderCreateFoo)
 	if _err != nil {
-		_code = TransactionIFooProviderCreateFoo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFooProvider, MethodIFooProviderCreateFoo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -66,7 +72,7 @@ func (p *FooProviderProxy) CreateFoo(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewFooProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewFooProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -77,12 +83,12 @@ func (p *FooProviderProxy) IsFooGarbageCollected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFooProvider, "isFooGarbageCollected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFooProvider, MethodIFooProviderIsFooGarbageCollected)
 	if _err != nil {
-		_code = TransactionIFooProviderIsFooGarbageCollected
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFooProvider, MethodIFooProviderIsFooGarbageCollected, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,12 +111,12 @@ func (p *FooProviderProxy) KillProcess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFooProvider, "killProcess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFooProvider, MethodIFooProviderKillProcess)
 	if _err != nil {
-		_code = TransactionIFooProviderKillProcess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFooProvider, MethodIFooProviderKillProcess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,6 +127,10 @@ type FooProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FooProviderStub)(nil)
+
+func (s *FooProviderStub) Descriptor() string {
+	return DescriptorIFooProvider
+}
 
 func (s *FooProviderStub) OnTransaction(
 	ctx context.Context,

@@ -16,23 +16,27 @@ const (
 	TransactionISoundDoseFactoryGetSoundDose = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISoundDoseFactoryGetSoundDose = "getSoundDose"
+)
+
 type ISoundDoseFactory interface {
 	AsBinder() binder.IBinder
 	GetSoundDose(ctx context.Context, module string) (coreSounddose.ISoundDose, error)
 }
 
 type SoundDoseFactoryProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundDoseFactoryProxy(
 	remote binder.IBinder,
 ) *SoundDoseFactoryProxy {
-	return &SoundDoseFactoryProxy{remote: remote}
+	return &SoundDoseFactoryProxy{Remote: remote}
 }
 
 func (p *SoundDoseFactoryProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundDoseFactory = (*SoundDoseFactoryProxy)(nil)
@@ -46,12 +50,12 @@ func (p *SoundDoseFactoryProxy) GetSoundDose(
 	_data.WriteInterfaceToken(DescriptorISoundDoseFactory)
 	_data.WriteString16(module)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDoseFactory, "getSoundDose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseFactory, MethodISoundDoseFactoryGetSoundDose)
 	if _err != nil {
-		_code = TransactionISoundDoseFactoryGetSoundDose
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDoseFactory, MethodISoundDoseFactoryGetSoundDose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -65,7 +69,7 @@ func (p *SoundDoseFactoryProxy) GetSoundDose(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = coreSounddose.NewSoundDoseProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = coreSounddose.NewSoundDoseProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -76,6 +80,10 @@ type SoundDoseFactoryStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseFactoryStub)(nil)
+
+func (s *SoundDoseFactoryStub) Descriptor() string {
+	return DescriptorISoundDoseFactory
+}
 
 func (s *SoundDoseFactoryStub) OnTransaction(
 	ctx context.Context,

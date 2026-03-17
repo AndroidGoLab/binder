@@ -16,17 +16,17 @@ type IWindowContainerToken interface {
 }
 
 type WindowContainerTokenProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowContainerTokenProxy(
 	remote binder.IBinder,
 ) *WindowContainerTokenProxy {
-	return &WindowContainerTokenProxy{remote: remote}
+	return &WindowContainerTokenProxy{Remote: remote}
 }
 
 func (p *WindowContainerTokenProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowContainerToken = (*WindowContainerTokenProxy)(nil)
@@ -38,6 +38,10 @@ type WindowContainerTokenStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowContainerTokenStub)(nil)
+
+func (s *WindowContainerTokenStub) Descriptor() string {
+	return DescriptorIWindowContainerToken
+}
 
 func (s *WindowContainerTokenStub) OnTransaction(
 	ctx context.Context,

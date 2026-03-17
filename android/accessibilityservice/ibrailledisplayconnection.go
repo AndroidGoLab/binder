@@ -16,6 +16,11 @@ const (
 	TransactionIBrailleDisplayConnectionWrite      = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBrailleDisplayConnectionDisconnect = "disconnect"
+	MethodIBrailleDisplayConnectionWrite      = "write"
+)
+
 type IBrailleDisplayConnection interface {
 	AsBinder() binder.IBinder
 	Disconnect(ctx context.Context) error
@@ -23,17 +28,17 @@ type IBrailleDisplayConnection interface {
 }
 
 type BrailleDisplayConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBrailleDisplayConnectionProxy(
 	remote binder.IBinder,
 ) *BrailleDisplayConnectionProxy {
-	return &BrailleDisplayConnectionProxy{remote: remote}
+	return &BrailleDisplayConnectionProxy{Remote: remote}
 }
 
 func (p *BrailleDisplayConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBrailleDisplayConnection = (*BrailleDisplayConnectionProxy)(nil)
@@ -44,12 +49,12 @@ func (p *BrailleDisplayConnectionProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayConnection, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionDisconnect)
 	if _err != nil {
-		_code = TransactionIBrailleDisplayConnectionDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionDisconnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *BrailleDisplayConnectionProxy) Write(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayConnection, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionWrite)
 	if _err != nil {
-		_code = TransactionIBrailleDisplayConnectionWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBrailleDisplayConnection, MethodIBrailleDisplayConnectionWrite, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type BrailleDisplayConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BrailleDisplayConnectionStub)(nil)
+
+func (s *BrailleDisplayConnectionStub) Descriptor() string {
+	return DescriptorIBrailleDisplayConnection
+}
 
 func (s *BrailleDisplayConnectionStub) OnTransaction(
 	ctx context.Context,

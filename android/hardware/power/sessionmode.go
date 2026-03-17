@@ -5,8 +5,5 @@ package power
 type SessionMode int32
 
 const (
-	SessionModePowerEfficiency  SessionMode = 0
-	SessionModeGraphicsPipeline SessionMode = 1
-	SessionModeAutoCpu          SessionMode = 2
-	SessionModeAutoGpu          SessionMode = 3
+	SessionModePowerEfficiency SessionMode = 0
 )

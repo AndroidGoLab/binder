@@ -32,6 +32,7 @@ func (s *CaptureResult) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.OutputBuffers)))
 		for _, _item := range s.OutputBuffers {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -46,6 +47,7 @@ func (s *CaptureResult) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PhysicalCameraMetadata)))
 		for _, _item := range s.PhysicalCameraMetadata {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -86,6 +88,9 @@ func (s *CaptureResult) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.OutputBuffers = make([]StreamBuffer, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.OutputBuffers[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -109,6 +114,9 @@ func (s *CaptureResult) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.PhysicalCameraMetadata = make([]PhysicalCameraMetadata, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PhysicalCameraMetadata[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

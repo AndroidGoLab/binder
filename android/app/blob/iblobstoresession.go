@@ -26,6 +26,21 @@ const (
 	TransactionIBlobStoreSessionCommit                       = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodIBlobStoreSessionOpenWrite                    = "openWrite"
+	MethodIBlobStoreSessionOpenRead                     = "openRead"
+	MethodIBlobStoreSessionAllowPackageAccess           = "allowPackageAccess"
+	MethodIBlobStoreSessionAllowSameSignatureAccess     = "allowSameSignatureAccess"
+	MethodIBlobStoreSessionAllowPublicAccess            = "allowPublicAccess"
+	MethodIBlobStoreSessionIsPackageAccessAllowed       = "isPackageAccessAllowed"
+	MethodIBlobStoreSessionIsSameSignatureAccessAllowed = "isSameSignatureAccessAllowed"
+	MethodIBlobStoreSessionIsPublicAccessAllowed        = "isPublicAccessAllowed"
+	MethodIBlobStoreSessionGetSize                      = "getSize"
+	MethodIBlobStoreSessionClose                        = "close"
+	MethodIBlobStoreSessionAbandon                      = "abandon"
+	MethodIBlobStoreSessionCommit                       = "commit"
+)
+
 type IBlobStoreSession interface {
 	AsBinder() binder.IBinder
 	OpenWrite(ctx context.Context, offsetBytes int64, lengthBytes int64) (int32, error)
@@ -43,17 +58,17 @@ type IBlobStoreSession interface {
 }
 
 type BlobStoreSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBlobStoreSessionProxy(
 	remote binder.IBinder,
 ) *BlobStoreSessionProxy {
-	return &BlobStoreSessionProxy{remote: remote}
+	return &BlobStoreSessionProxy{Remote: remote}
 }
 
 func (p *BlobStoreSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBlobStoreSession = (*BlobStoreSessionProxy)(nil)
@@ -69,12 +84,12 @@ func (p *BlobStoreSessionProxy) OpenWrite(
 	_data.WriteInt64(offsetBytes)
 	_data.WriteInt64(lengthBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "openWrite")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenWrite)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionOpenWrite
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,12 +113,12 @@ func (p *BlobStoreSessionProxy) OpenRead(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "openRead")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenRead)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionOpenRead
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionOpenRead, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,12 +152,12 @@ func (p *BlobStoreSessionProxy) AllowPackageAccess(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "allowPackageAccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPackageAccess)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionAllowPackageAccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPackageAccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,12 +176,12 @@ func (p *BlobStoreSessionProxy) AllowSameSignatureAccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "allowSameSignatureAccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowSameSignatureAccess)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionAllowSameSignatureAccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowSameSignatureAccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,12 +200,12 @@ func (p *BlobStoreSessionProxy) AllowPublicAccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "allowPublicAccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPublicAccess)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionAllowPublicAccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionAllowPublicAccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,12 +236,12 @@ func (p *BlobStoreSessionProxy) IsPackageAccessAllowed(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "isPackageAccessAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPackageAccessAllowed)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionIsPackageAccessAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPackageAccessAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,12 +265,12 @@ func (p *BlobStoreSessionProxy) IsSameSignatureAccessAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "isSameSignatureAccessAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsSameSignatureAccessAllowed)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionIsSameSignatureAccessAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsSameSignatureAccessAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,12 +294,12 @@ func (p *BlobStoreSessionProxy) IsPublicAccessAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "isPublicAccessAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPublicAccessAllowed)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionIsPublicAccessAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionIsPublicAccessAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -308,12 +323,12 @@ func (p *BlobStoreSessionProxy) GetSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "getSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionGetSize)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionGetSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionGetSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -336,12 +351,12 @@ func (p *BlobStoreSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionClose)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -360,12 +375,12 @@ func (p *BlobStoreSessionProxy) Abandon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "abandon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionAbandon)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionAbandon
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionAbandon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -384,14 +399,14 @@ func (p *BlobStoreSessionProxy) Commit(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreSession)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBlobStoreSession, "commit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBlobStoreSession, MethodIBlobStoreSessionCommit)
 	if _err != nil {
-		_code = TransactionIBlobStoreSessionCommit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBlobStoreSession, MethodIBlobStoreSessionCommit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -411,6 +426,10 @@ type BlobStoreSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BlobStoreSessionStub)(nil)
+
+func (s *BlobStoreSessionStub) Descriptor() string {
+	return DescriptorIBlobStoreSession
+}
 
 func (s *BlobStoreSessionStub) OnTransaction(
 	ctx context.Context,

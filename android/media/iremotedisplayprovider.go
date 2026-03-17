@@ -20,6 +20,15 @@ const (
 	TransactionIRemoteDisplayProviderAdjustVolume     = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIRemoteDisplayProviderSetCallback      = "setCallback"
+	MethodIRemoteDisplayProviderSetDiscoveryMode = "setDiscoveryMode"
+	MethodIRemoteDisplayProviderConnect          = "connect"
+	MethodIRemoteDisplayProviderDisconnect       = "disconnect"
+	MethodIRemoteDisplayProviderSetVolume        = "setVolume"
+	MethodIRemoteDisplayProviderAdjustVolume     = "adjustVolume"
+)
+
 type IRemoteDisplayProvider interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IRemoteDisplayCallback) error
@@ -31,17 +40,17 @@ type IRemoteDisplayProvider interface {
 }
 
 type RemoteDisplayProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteDisplayProviderProxy(
 	remote binder.IBinder,
 ) *RemoteDisplayProviderProxy {
-	return &RemoteDisplayProviderProxy{remote: remote}
+	return &RemoteDisplayProviderProxy{Remote: remote}
 }
 
 func (p *RemoteDisplayProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteDisplayProvider = (*RemoteDisplayProviderProxy)(nil)
@@ -52,14 +61,14 @@ func (p *RemoteDisplayProviderProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetCallback)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayProviderSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +80,12 @@ func (p *RemoteDisplayProviderProxy) SetDiscoveryMode(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setDiscoveryMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetDiscoveryMode)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayProviderSetDiscoveryMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetDiscoveryMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +97,12 @@ func (p *RemoteDisplayProviderProxy) Connect(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "connect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderConnect)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayProviderConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderConnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +114,12 @@ func (p *RemoteDisplayProviderProxy) Disconnect(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderDisconnect)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayProviderDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderDisconnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,12 +133,12 @@ func (p *RemoteDisplayProviderProxy) SetVolume(
 	_data.WriteString16(id)
 	_data.WriteInt32(volume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetVolume)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayProviderSetVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderSetVolume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,12 +152,12 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 	_data.WriteString16(id)
 	_data.WriteInt32(delta)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "adjustVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderAdjustVolume)
 	if _err != nil {
-		_code = TransactionIRemoteDisplayProviderAdjustVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteDisplayProvider, MethodIRemoteDisplayProviderAdjustVolume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,6 +168,10 @@ type RemoteDisplayProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteDisplayProviderStub)(nil)
+
+func (s *RemoteDisplayProviderStub) Descriptor() string {
+	return DescriptorIRemoteDisplayProvider
+}
 
 func (s *RemoteDisplayProviderStub) OnTransaction(
 	ctx context.Context,

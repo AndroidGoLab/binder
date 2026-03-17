@@ -15,23 +15,27 @@ const (
 	TransactionIWallpaperVisibilityListenerOnWallpaperVisibilityChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWallpaperVisibilityListenerOnWallpaperVisibilityChanged = "onWallpaperVisibilityChanged"
+)
+
 type IWallpaperVisibilityListener interface {
 	AsBinder() binder.IBinder
 	OnWallpaperVisibilityChanged(ctx context.Context, visible bool, displayId int32) error
 }
 
 type WallpaperVisibilityListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperVisibilityListenerProxy(
 	remote binder.IBinder,
 ) *WallpaperVisibilityListenerProxy {
-	return &WallpaperVisibilityListenerProxy{remote: remote}
+	return &WallpaperVisibilityListenerProxy{Remote: remote}
 }
 
 func (p *WallpaperVisibilityListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperVisibilityListener = (*WallpaperVisibilityListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *WallpaperVisibilityListenerProxy) OnWallpaperVisibilityChanged(
 	_data.WriteBool(visible)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperVisibilityListener, "onWallpaperVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperVisibilityListener, MethodIWallpaperVisibilityListenerOnWallpaperVisibilityChanged)
 	if _err != nil {
-		_code = TransactionIWallpaperVisibilityListenerOnWallpaperVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperVisibilityListener, MethodIWallpaperVisibilityListenerOnWallpaperVisibilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type WallpaperVisibilityListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperVisibilityListenerStub)(nil)
+
+func (s *WallpaperVisibilityListenerStub) Descriptor() string {
+	return DescriptorIWallpaperVisibilityListener
+}
 
 func (s *WallpaperVisibilityListenerStub) OnTransaction(
 	ctx context.Context,

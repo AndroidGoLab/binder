@@ -16,6 +16,11 @@ const (
 	TransactionITestSessionCallbackOnCleanupFinished = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITestSessionCallbackOnCleanupStarted  = "onCleanupStarted"
+	MethodITestSessionCallbackOnCleanupFinished = "onCleanupFinished"
+)
+
 type ITestSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnCleanupStarted(ctx context.Context) error
@@ -23,17 +28,17 @@ type ITestSessionCallback interface {
 }
 
 type TestSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestSessionCallbackProxy(
 	remote binder.IBinder,
 ) *TestSessionCallbackProxy {
-	return &TestSessionCallbackProxy{remote: remote}
+	return &TestSessionCallbackProxy{Remote: remote}
 }
 
 func (p *TestSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestSessionCallback = (*TestSessionCallbackProxy)(nil)
@@ -41,34 +46,34 @@ var _ ITestSessionCallback = (*TestSessionCallbackProxy)(nil)
 func (p *TestSessionCallbackProxy) OnCleanupStarted(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSessionCallback)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSessionCallback, "onCleanupStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSessionCallback, MethodITestSessionCallbackOnCleanupStarted)
 	if _err != nil {
-		_code = TransactionITestSessionCallbackOnCleanupStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSessionCallback, MethodITestSessionCallbackOnCleanupStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *TestSessionCallbackProxy) OnCleanupFinished(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSessionCallback)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestSessionCallback, "onCleanupFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestSessionCallback, MethodITestSessionCallbackOnCleanupFinished)
 	if _err != nil {
-		_code = TransactionITestSessionCallbackOnCleanupFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestSessionCallback, MethodITestSessionCallbackOnCleanupFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type TestSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestSessionCallbackStub)(nil)
+
+func (s *TestSessionCallbackStub) Descriptor() string {
+	return DescriptorITestSessionCallback
+}
 
 func (s *TestSessionCallbackStub) OnTransaction(
 	ctx context.Context,

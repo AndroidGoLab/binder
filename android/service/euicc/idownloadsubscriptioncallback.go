@@ -15,23 +15,27 @@ const (
 	TransactionIDownloadSubscriptionCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDownloadSubscriptionCallbackOnComplete = "onComplete"
+)
+
 type IDownloadSubscriptionCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result DownloadSubscriptionResult) error
 }
 
 type DownloadSubscriptionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDownloadSubscriptionCallbackProxy(
 	remote binder.IBinder,
 ) *DownloadSubscriptionCallbackProxy {
-	return &DownloadSubscriptionCallbackProxy{remote: remote}
+	return &DownloadSubscriptionCallbackProxy{Remote: remote}
 }
 
 func (p *DownloadSubscriptionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDownloadSubscriptionCallback = (*DownloadSubscriptionCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *DownloadSubscriptionCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadSubscriptionCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadSubscriptionCallback, MethodIDownloadSubscriptionCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIDownloadSubscriptionCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadSubscriptionCallback, MethodIDownloadSubscriptionCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type DownloadSubscriptionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DownloadSubscriptionCallbackStub)(nil)
+
+func (s *DownloadSubscriptionCallbackStub) Descriptor() string {
+	return DescriptorIDownloadSubscriptionCallback
+}
 
 func (s *DownloadSubscriptionCallbackStub) OnTransaction(
 	ctx context.Context,

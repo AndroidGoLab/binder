@@ -16,6 +16,11 @@ const (
 	TransactionIUwbClientCallbackOnHalEvent   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIUwbClientCallbackOnUciMessage = "onUciMessage"
+	MethodIUwbClientCallbackOnHalEvent   = "onHalEvent"
+)
+
 type IUwbClientCallback interface {
 	AsBinder() binder.IBinder
 	OnUciMessage(ctx context.Context, data []byte) error
@@ -23,17 +28,17 @@ type IUwbClientCallback interface {
 }
 
 type UwbClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUwbClientCallbackProxy(
 	remote binder.IBinder,
 ) *UwbClientCallbackProxy {
-	return &UwbClientCallbackProxy{remote: remote}
+	return &UwbClientCallbackProxy{Remote: remote}
 }
 
 func (p *UwbClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUwbClientCallback = (*UwbClientCallbackProxy)(nil)
@@ -53,12 +58,12 @@ func (p *UwbClientCallbackProxy) OnUciMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbClientCallback, "onUciMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbClientCallback, MethodIUwbClientCallbackOnUciMessage)
 	if _err != nil {
-		_code = TransactionIUwbClientCallbackOnUciMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbClientCallback, MethodIUwbClientCallbackOnUciMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +77,12 @@ func (p *UwbClientCallbackProxy) OnHalEvent(
 	_data.WriteInt32(int32(event))
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwbClientCallback, "onHalEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwbClientCallback, MethodIUwbClientCallbackOnHalEvent)
 	if _err != nil {
-		_code = TransactionIUwbClientCallbackOnHalEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUwbClientCallback, MethodIUwbClientCallbackOnHalEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +93,10 @@ type UwbClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UwbClientCallbackStub)(nil)
+
+func (s *UwbClientCallbackStub) Descriptor() string {
+	return DescriptorIUwbClientCallback
+}
 
 func (s *UwbClientCallbackStub) OnTransaction(
 	ctx context.Context,

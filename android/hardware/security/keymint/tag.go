@@ -61,7 +61,6 @@ const (
 	TagIdentityCredentialKey       Tag = (Tag(TagTypeBOOL) | 721)
 	TagStorageKey                  Tag = (Tag(TagTypeBOOL) | 722)
 	TagAttestationIdSecondImei     Tag = -1879047469
-	TagModuleHash                  Tag = -1879047468
 	TagAssociatedData              Tag = -1879047192
 	TagNONCE                       Tag = -1879047191
 	TagMacLength                   Tag = (Tag(TagTypeUINT) | 1003)

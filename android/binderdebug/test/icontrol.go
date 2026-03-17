@@ -15,23 +15,27 @@ const (
 	TransactionIControlContinue = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIControlContinue = "Continue"
+)
+
 type IControl interface {
 	AsBinder() binder.IBinder
 	Continue(ctx context.Context) error
 }
 
 type ControlProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewControlProxy(
 	remote binder.IBinder,
 ) *ControlProxy {
-	return &ControlProxy{remote: remote}
+	return &ControlProxy{Remote: remote}
 }
 
 func (p *ControlProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IControl = (*ControlProxy)(nil)
@@ -42,12 +46,12 @@ func (p *ControlProxy) Continue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControl, "Continue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControl, MethodIControlContinue)
 	if _err != nil {
-		_code = TransactionIControlContinue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControl, MethodIControlContinue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type ControlStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ControlStub)(nil)
+
+func (s *ControlStub) Descriptor() string {
+	return DescriptorIControl
+}
 
 func (s *ControlStub) OnTransaction(
 	ctx context.Context,

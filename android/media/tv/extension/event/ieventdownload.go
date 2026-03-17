@@ -16,23 +16,27 @@ const (
 	TransactionIEventDownloadCreateSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEventDownloadCreateSession = "createSession"
+)
+
 type IEventDownload interface {
 	AsBinder() binder.IBinder
 	CreateSession(ctx context.Context, eventDownloadParams os.Bundle, listener IEventDownloadListener) (binder.IBinder, error)
 }
 
 type EventDownloadProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventDownloadProxy(
 	remote binder.IBinder,
 ) *EventDownloadProxy {
-	return &EventDownloadProxy{remote: remote}
+	return &EventDownloadProxy{Remote: remote}
 }
 
 func (p *EventDownloadProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventDownload = (*EventDownloadProxy)(nil)
@@ -49,14 +53,14 @@ func (p *EventDownloadProxy) CreateSession(
 	if _err := eventDownloadParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownload, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownload, MethodIEventDownloadCreateSession)
 	if _err != nil {
-		_code = TransactionIEventDownloadCreateSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownload, MethodIEventDownloadCreateSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,7 +74,7 @@ func (p *EventDownloadProxy) CreateSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -81,6 +85,10 @@ type EventDownloadStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventDownloadStub)(nil)
+
+func (s *EventDownloadStub) Descriptor() string {
+	return DescriptorIEventDownload
+}
 
 func (s *EventDownloadStub) OnTransaction(
 	ctx context.Context,

@@ -19,6 +19,13 @@ const (
 	TransactionIImsServiceFeatureCallbackUpdateCapabilities = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIImsServiceFeatureCallbackImsFeatureCreated  = "imsFeatureCreated"
+	MethodIImsServiceFeatureCallbackImsFeatureRemoved  = "imsFeatureRemoved"
+	MethodIImsServiceFeatureCallbackImsStatusChanged   = "imsStatusChanged"
+	MethodIImsServiceFeatureCallbackUpdateCapabilities = "updateCapabilities"
+)
+
 type IImsServiceFeatureCallback interface {
 	AsBinder() binder.IBinder
 	ImsFeatureCreated(ctx context.Context, feature ims.ImsFeatureContainer, subId int32) error
@@ -28,17 +35,17 @@ type IImsServiceFeatureCallback interface {
 }
 
 type ImsServiceFeatureCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsServiceFeatureCallbackProxy(
 	remote binder.IBinder,
 ) *ImsServiceFeatureCallbackProxy {
-	return &ImsServiceFeatureCallbackProxy{remote: remote}
+	return &ImsServiceFeatureCallbackProxy{Remote: remote}
 }
 
 func (p *ImsServiceFeatureCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsServiceFeatureCallback = (*ImsServiceFeatureCallbackProxy)(nil)
@@ -56,12 +63,12 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureCreated(
 	}
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsFeatureCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureCreated)
 	if _err != nil {
-		_code = TransactionIImsServiceFeatureCallbackImsFeatureCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +80,12 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureRemoved(
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsFeatureRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureRemoved)
 	if _err != nil {
-		_code = TransactionIImsServiceFeatureCallbackImsFeatureRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsFeatureRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +99,12 @@ func (p *ImsServiceFeatureCallbackProxy) ImsStatusChanged(
 	_data.WriteInt32(status)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsStatusChanged)
 	if _err != nil {
-		_code = TransactionIImsServiceFeatureCallbackImsStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackImsStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +116,12 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt64(capabilities)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "updateCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackUpdateCapabilities)
 	if _err != nil {
-		_code = TransactionIImsServiceFeatureCallbackUpdateCapabilities
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsServiceFeatureCallback, MethodIImsServiceFeatureCallbackUpdateCapabilities, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,6 +132,10 @@ type ImsServiceFeatureCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsServiceFeatureCallbackStub)(nil)
+
+func (s *ImsServiceFeatureCallbackStub) Descriptor() string {
+	return DescriptorIImsServiceFeatureCallback
+}
 
 func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 	ctx context.Context,

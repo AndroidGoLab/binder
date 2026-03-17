@@ -18,6 +18,12 @@ const (
 	TransactionIRcsUceControllerCallbackOnError                = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRcsUceControllerCallbackOnCapabilitiesReceived = "onCapabilitiesReceived"
+	MethodIRcsUceControllerCallbackOnComplete             = "onComplete"
+	MethodIRcsUceControllerCallbackOnError                = "onError"
+)
+
 type IRcsUceControllerCallback interface {
 	AsBinder() binder.IBinder
 	OnCapabilitiesReceived(ctx context.Context, contactCapabilities []ims.RcsContactUceCapability) error
@@ -26,17 +32,17 @@ type IRcsUceControllerCallback interface {
 }
 
 type RcsUceControllerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRcsUceControllerCallbackProxy(
 	remote binder.IBinder,
 ) *RcsUceControllerCallbackProxy {
-	return &RcsUceControllerCallbackProxy{remote: remote}
+	return &RcsUceControllerCallbackProxy{Remote: remote}
 }
 
 func (p *RcsUceControllerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRcsUceControllerCallback = (*RcsUceControllerCallbackProxy)(nil)
@@ -52,18 +58,19 @@ func (p *RcsUceControllerCallbackProxy) OnCapabilitiesReceived(
 	} else {
 		_data.WriteInt32(int32(len(contactCapabilities)))
 		for _, _item := range contactCapabilities {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onCapabilitiesReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsUceControllerCallback, MethodIRcsUceControllerCallbackOnCapabilitiesReceived)
 	if _err != nil {
-		_code = TransactionIRcsUceControllerCallbackOnCapabilitiesReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsUceControllerCallback, MethodIRcsUceControllerCallbackOnCapabilitiesReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +85,12 @@ func (p *RcsUceControllerCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsUceControllerCallback, MethodIRcsUceControllerCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIRcsUceControllerCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsUceControllerCallback, MethodIRcsUceControllerCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +109,12 @@ func (p *RcsUceControllerCallbackProxy) OnError(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRcsUceControllerCallback, MethodIRcsUceControllerCallbackOnError)
 	if _err != nil {
-		_code = TransactionIRcsUceControllerCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRcsUceControllerCallback, MethodIRcsUceControllerCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,6 +125,10 @@ type RcsUceControllerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RcsUceControllerCallbackStub)(nil)
+
+func (s *RcsUceControllerCallbackStub) Descriptor() string {
+	return DescriptorIRcsUceControllerCallback
+}
 
 func (s *RcsUceControllerCallbackStub) OnTransaction(
 	ctx context.Context,

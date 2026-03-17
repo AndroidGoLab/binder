@@ -15,33 +15,61 @@ import (
 const DescriptorIGnss = "android.hardware.gnss.IGnss"
 
 const (
-	TransactionIGnssSetCallback                         = binder.FirstCallTransaction + 0
-	TransactionIGnssClose                               = binder.FirstCallTransaction + 1
-	TransactionIGnssGetExtensionPsds                    = binder.FirstCallTransaction + 2
-	TransactionIGnssGetExtensionGnssConfiguration       = binder.FirstCallTransaction + 3
-	TransactionIGnssGetExtensionGnssMeasurement         = binder.FirstCallTransaction + 4
-	TransactionIGnssGetExtensionGnssPowerIndication     = binder.FirstCallTransaction + 5
-	TransactionIGnssGetExtensionGnssBatching            = binder.FirstCallTransaction + 6
-	TransactionIGnssGetExtensionGnssGeofence            = binder.FirstCallTransaction + 7
-	TransactionIGnssGetExtensionGnssNavigationMessage   = binder.FirstCallTransaction + 8
-	TransactionIGnssGetExtensionAGnss                   = binder.FirstCallTransaction + 9
-	TransactionIGnssGetExtensionAGnssRil                = binder.FirstCallTransaction + 10
-	TransactionIGnssGetExtensionGnssDebug               = binder.FirstCallTransaction + 11
-	TransactionIGnssGetExtensionGnssVisibilityControl   = binder.FirstCallTransaction + 12
-	TransactionIGnssStart                               = binder.FirstCallTransaction + 13
-	TransactionIGnssStop                                = binder.FirstCallTransaction + 14
-	TransactionIGnssInjectTime                          = binder.FirstCallTransaction + 15
-	TransactionIGnssInjectLocation                      = binder.FirstCallTransaction + 16
-	TransactionIGnssInjectBestLocation                  = binder.FirstCallTransaction + 17
-	TransactionIGnssDeleteAidingData                    = binder.FirstCallTransaction + 18
-	TransactionIGnssSetPositionMode                     = binder.FirstCallTransaction + 19
-	TransactionIGnssGetExtensionGnssAntennaInfo         = binder.FirstCallTransaction + 20
-	TransactionIGnssGetExtensionMeasurementCorrections  = binder.FirstCallTransaction + 21
-	TransactionIGnssStartSvStatus                       = binder.FirstCallTransaction + 22
-	TransactionIGnssStopSvStatus                        = binder.FirstCallTransaction + 23
-	TransactionIGnssStartNmea                           = binder.FirstCallTransaction + 24
-	TransactionIGnssStopNmea                            = binder.FirstCallTransaction + 25
-	TransactionIGnssGetExtensionGnssAssistanceInterface = binder.FirstCallTransaction + 26
+	TransactionIGnssSetCallback                        = binder.FirstCallTransaction + 0
+	TransactionIGnssClose                              = binder.FirstCallTransaction + 1
+	TransactionIGnssGetExtensionPsds                   = binder.FirstCallTransaction + 2
+	TransactionIGnssGetExtensionGnssConfiguration      = binder.FirstCallTransaction + 3
+	TransactionIGnssGetExtensionGnssMeasurement        = binder.FirstCallTransaction + 4
+	TransactionIGnssGetExtensionGnssPowerIndication    = binder.FirstCallTransaction + 5
+	TransactionIGnssGetExtensionGnssBatching           = binder.FirstCallTransaction + 6
+	TransactionIGnssGetExtensionGnssGeofence           = binder.FirstCallTransaction + 7
+	TransactionIGnssGetExtensionGnssNavigationMessage  = binder.FirstCallTransaction + 8
+	TransactionIGnssGetExtensionAGnss                  = binder.FirstCallTransaction + 9
+	TransactionIGnssGetExtensionAGnssRil               = binder.FirstCallTransaction + 10
+	TransactionIGnssGetExtensionGnssDebug              = binder.FirstCallTransaction + 11
+	TransactionIGnssGetExtensionGnssVisibilityControl  = binder.FirstCallTransaction + 12
+	TransactionIGnssStart                              = binder.FirstCallTransaction + 13
+	TransactionIGnssStop                               = binder.FirstCallTransaction + 14
+	TransactionIGnssInjectTime                         = binder.FirstCallTransaction + 15
+	TransactionIGnssInjectLocation                     = binder.FirstCallTransaction + 16
+	TransactionIGnssInjectBestLocation                 = binder.FirstCallTransaction + 17
+	TransactionIGnssDeleteAidingData                   = binder.FirstCallTransaction + 18
+	TransactionIGnssSetPositionMode                    = binder.FirstCallTransaction + 19
+	TransactionIGnssGetExtensionGnssAntennaInfo        = binder.FirstCallTransaction + 20
+	TransactionIGnssGetExtensionMeasurementCorrections = binder.FirstCallTransaction + 21
+	TransactionIGnssStartSvStatus                      = binder.FirstCallTransaction + 22
+	TransactionIGnssStopSvStatus                       = binder.FirstCallTransaction + 23
+	TransactionIGnssStartNmea                          = binder.FirstCallTransaction + 24
+	TransactionIGnssStopNmea                           = binder.FirstCallTransaction + 25
+)
+
+const (
+	MethodIGnssSetCallback                        = "setCallback"
+	MethodIGnssClose                              = "close"
+	MethodIGnssGetExtensionPsds                   = "getExtensionPsds"
+	MethodIGnssGetExtensionGnssConfiguration      = "getExtensionGnssConfiguration"
+	MethodIGnssGetExtensionGnssMeasurement        = "getExtensionGnssMeasurement"
+	MethodIGnssGetExtensionGnssPowerIndication    = "getExtensionGnssPowerIndication"
+	MethodIGnssGetExtensionGnssBatching           = "getExtensionGnssBatching"
+	MethodIGnssGetExtensionGnssGeofence           = "getExtensionGnssGeofence"
+	MethodIGnssGetExtensionGnssNavigationMessage  = "getExtensionGnssNavigationMessage"
+	MethodIGnssGetExtensionAGnss                  = "getExtensionAGnss"
+	MethodIGnssGetExtensionAGnssRil               = "getExtensionAGnssRil"
+	MethodIGnssGetExtensionGnssDebug              = "getExtensionGnssDebug"
+	MethodIGnssGetExtensionGnssVisibilityControl  = "getExtensionGnssVisibilityControl"
+	MethodIGnssStart                              = "start"
+	MethodIGnssStop                               = "stop"
+	MethodIGnssInjectTime                         = "injectTime"
+	MethodIGnssInjectLocation                     = "injectLocation"
+	MethodIGnssInjectBestLocation                 = "injectBestLocation"
+	MethodIGnssDeleteAidingData                   = "deleteAidingData"
+	MethodIGnssSetPositionMode                    = "setPositionMode"
+	MethodIGnssGetExtensionGnssAntennaInfo        = "getExtensionGnssAntennaInfo"
+	MethodIGnssGetExtensionMeasurementCorrections = "getExtensionMeasurementCorrections"
+	MethodIGnssStartSvStatus                      = "startSvStatus"
+	MethodIGnssStopSvStatus                       = "stopSvStatus"
+	MethodIGnssStartNmea                          = "startNmea"
+	MethodIGnssStopNmea                           = "stopNmea"
 )
 
 type IGnss interface {
@@ -72,7 +100,6 @@ type IGnss interface {
 	StopSvStatus(ctx context.Context) error
 	StartNmea(ctx context.Context) error
 	StopNmea(ctx context.Context) error
-	GetExtensionGnssAssistanceInterface(ctx context.Context) (interface{}, error)
 }
 
 const (
@@ -82,17 +109,17 @@ const (
 )
 
 type GnssProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssProxy(
 	remote binder.IBinder,
 ) *GnssProxy {
-	return &GnssProxy{remote: remote}
+	return &GnssProxy{Remote: remote}
 }
 
 func (p *GnssProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnss = (*GnssProxy)(nil)
@@ -103,14 +130,14 @@ func (p *GnssProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -129,12 +156,12 @@ func (p *GnssProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssClose)
 	if _err != nil {
-		_code = TransactionIGnssClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,12 +181,12 @@ func (p *GnssProxy) GetExtensionPsds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionPsds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionPsds)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionPsds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionPsds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -173,7 +200,7 @@ func (p *GnssProxy) GetExtensionPsds(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssPsdsProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssPsdsProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -184,12 +211,12 @@ func (p *GnssProxy) GetExtensionGnssConfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssConfiguration)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssConfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,7 +230,7 @@ func (p *GnssProxy) GetExtensionGnssConfiguration(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssConfigurationProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssConfigurationProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -214,12 +241,12 @@ func (p *GnssProxy) GetExtensionGnssMeasurement(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssMeasurement")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssMeasurement)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssMeasurement
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssMeasurement, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -233,7 +260,7 @@ func (p *GnssProxy) GetExtensionGnssMeasurement(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssMeasurementInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssMeasurementInterfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -244,12 +271,12 @@ func (p *GnssProxy) GetExtensionGnssPowerIndication(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssPowerIndication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssPowerIndication)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssPowerIndication
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssPowerIndication, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -263,7 +290,7 @@ func (p *GnssProxy) GetExtensionGnssPowerIndication(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssPowerIndicationProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssPowerIndicationProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -274,12 +301,12 @@ func (p *GnssProxy) GetExtensionGnssBatching(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssBatching")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssBatching)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssBatching
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssBatching, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -293,7 +320,7 @@ func (p *GnssProxy) GetExtensionGnssBatching(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssBatchingProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssBatchingProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -304,12 +331,12 @@ func (p *GnssProxy) GetExtensionGnssGeofence(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssGeofence)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssGeofence
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -323,7 +350,7 @@ func (p *GnssProxy) GetExtensionGnssGeofence(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssGeofenceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssGeofenceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -334,12 +361,12 @@ func (p *GnssProxy) GetExtensionGnssNavigationMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssNavigationMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssNavigationMessage)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssNavigationMessage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssNavigationMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -353,7 +380,7 @@ func (p *GnssProxy) GetExtensionGnssNavigationMessage(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssNavigationMessageInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssNavigationMessageInterfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -364,12 +391,12 @@ func (p *GnssProxy) GetExtensionAGnss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionAGnss")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionAGnss)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionAGnss
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionAGnss, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -383,7 +410,7 @@ func (p *GnssProxy) GetExtensionAGnss(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewAGnssProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewAGnssProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -394,12 +421,12 @@ func (p *GnssProxy) GetExtensionAGnssRil(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionAGnssRil")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionAGnssRil)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionAGnssRil
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionAGnssRil, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -413,7 +440,7 @@ func (p *GnssProxy) GetExtensionAGnssRil(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewAGnssRilProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewAGnssRilProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -424,12 +451,12 @@ func (p *GnssProxy) GetExtensionGnssDebug(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssDebug")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssDebug)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssDebug
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssDebug, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -443,7 +470,7 @@ func (p *GnssProxy) GetExtensionGnssDebug(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssDebugProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssDebugProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -454,12 +481,12 @@ func (p *GnssProxy) GetExtensionGnssVisibilityControl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssVisibilityControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssVisibilityControl)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssVisibilityControl
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssVisibilityControl, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -473,7 +500,7 @@ func (p *GnssProxy) GetExtensionGnssVisibilityControl(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = visibility_control.NewGnssVisibilityControlProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = visibility_control.NewGnssVisibilityControlProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -483,12 +510,12 @@ func (p *GnssProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStart)
 	if _err != nil {
-		_code = TransactionIGnssStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -507,12 +534,12 @@ func (p *GnssProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStop)
 	if _err != nil {
-		_code = TransactionIGnssStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -537,12 +564,12 @@ func (p *GnssProxy) InjectTime(
 	_data.WriteInt64(timeReferenceMs)
 	_data.WriteInt32(uncertaintyMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "injectTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssInjectTime)
 	if _err != nil {
-		_code = TransactionIGnssInjectTime
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssInjectTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -566,12 +593,12 @@ func (p *GnssProxy) InjectLocation(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "injectLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssInjectLocation)
 	if _err != nil {
-		_code = TransactionIGnssInjectLocation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssInjectLocation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -595,12 +622,12 @@ func (p *GnssProxy) InjectBestLocation(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "injectBestLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssInjectBestLocation)
 	if _err != nil {
-		_code = TransactionIGnssInjectBestLocation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssInjectBestLocation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -621,12 +648,12 @@ func (p *GnssProxy) DeleteAidingData(
 	_data.WriteInterfaceToken(DescriptorIGnss)
 	_data.WriteInt32(int32(aidingDataFlags))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "deleteAidingData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssDeleteAidingData)
 	if _err != nil {
-		_code = TransactionIGnssDeleteAidingData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssDeleteAidingData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -650,12 +677,12 @@ func (p *GnssProxy) SetPositionMode(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "setPositionMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssSetPositionMode)
 	if _err != nil {
-		_code = TransactionIGnssSetPositionMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssSetPositionMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -675,12 +702,12 @@ func (p *GnssProxy) GetExtensionGnssAntennaInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssAntennaInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionGnssAntennaInfo)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssAntennaInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionGnssAntennaInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -694,7 +721,7 @@ func (p *GnssProxy) GetExtensionGnssAntennaInfo(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssAntennaInfoProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewGnssAntennaInfoProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -705,12 +732,12 @@ func (p *GnssProxy) GetExtensionMeasurementCorrections(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionMeasurementCorrections")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssGetExtensionMeasurementCorrections)
 	if _err != nil {
-		_code = TransactionIGnssGetExtensionMeasurementCorrections
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssGetExtensionMeasurementCorrections, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -724,7 +751,7 @@ func (p *GnssProxy) GetExtensionMeasurementCorrections(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = measurement_corrections.NewMeasurementCorrectionsInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = measurement_corrections.NewMeasurementCorrectionsInterfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -734,12 +761,12 @@ func (p *GnssProxy) StartSvStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "startSvStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStartSvStatus)
 	if _err != nil {
-		_code = TransactionIGnssStartSvStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssStartSvStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -758,12 +785,12 @@ func (p *GnssProxy) StopSvStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "stopSvStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStopSvStatus)
 	if _err != nil {
-		_code = TransactionIGnssStopSvStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssStopSvStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -782,12 +809,12 @@ func (p *GnssProxy) StartNmea(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "startNmea")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStartNmea)
 	if _err != nil {
-		_code = TransactionIGnssStartNmea
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssStartNmea, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -806,12 +833,12 @@ func (p *GnssProxy) StopNmea(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "stopNmea")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnss, MethodIGnssStopNmea)
 	if _err != nil {
-		_code = TransactionIGnssStopNmea
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnss, MethodIGnssStopNmea, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -824,31 +851,6 @@ func (p *GnssProxy) StopNmea(
 	return nil
 }
 
-func (p *GnssProxy) GetExtensionGnssAssistanceInterface(
-	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIGnss)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssAssistanceInterface")
-	if _err != nil {
-		_code = TransactionIGnssGetExtensionGnssAssistanceInterface
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	return _result, nil
-}
-
 // GnssStub dispatches incoming binder transactions
 // to a typed IGnss implementation.
 type GnssStub struct {
@@ -856,6 +858,10 @@ type GnssStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssStub)(nil)
+
+func (s *GnssStub) Descriptor() string {
+	return DescriptorIGnss
+}
 
 func (s *GnssStub) OnTransaction(
 	ctx context.Context,
@@ -1257,19 +1263,6 @@ func (s *GnssStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIGnssGetExtensionGnssAssistanceInterface:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetExtensionGnssAssistanceInterface(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1305,7 +1298,6 @@ type IGnssServer interface {
 	StopSvStatus(ctx context.Context) error
 	StartNmea(ctx context.Context) error
 	StopNmea(ctx context.Context) error
-	GetExtensionGnssAssistanceInterface(ctx context.Context) (interface{}, error)
 }
 
 type gnssStubWrapper struct {
@@ -1479,12 +1471,6 @@ func (w *gnssStubWrapper) StopNmea(
 	ctx context.Context,
 ) error {
 	return w.impl.StopNmea(ctx)
-}
-
-func (w *gnssStubWrapper) GetExtensionGnssAssistanceInterface(
-	ctx context.Context,
-) (interface{}, error) {
-	return w.impl.GetExtensionGnssAssistanceInterface(ctx)
 }
 
 var _ IGnss = (*gnssStubWrapper)(nil)

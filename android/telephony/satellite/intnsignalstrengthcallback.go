@@ -15,23 +15,27 @@ const (
 	TransactionINtnSignalStrengthCallbackOnNtnSignalStrengthChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodINtnSignalStrengthCallbackOnNtnSignalStrengthChanged = "onNtnSignalStrengthChanged"
+)
+
 type INtnSignalStrengthCallback interface {
 	AsBinder() binder.IBinder
 	OnNtnSignalStrengthChanged(ctx context.Context, ntnSignalStrength NtnSignalStrength) error
 }
 
 type NtnSignalStrengthCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNtnSignalStrengthCallbackProxy(
 	remote binder.IBinder,
 ) *NtnSignalStrengthCallbackProxy {
-	return &NtnSignalStrengthCallbackProxy{remote: remote}
+	return &NtnSignalStrengthCallbackProxy{Remote: remote}
 }
 
 func (p *NtnSignalStrengthCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INtnSignalStrengthCallback = (*NtnSignalStrengthCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *NtnSignalStrengthCallbackProxy) OnNtnSignalStrengthChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINtnSignalStrengthCallback, "onNtnSignalStrengthChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINtnSignalStrengthCallback, MethodINtnSignalStrengthCallbackOnNtnSignalStrengthChanged)
 	if _err != nil {
-		_code = TransactionINtnSignalStrengthCallbackOnNtnSignalStrengthChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINtnSignalStrengthCallback, MethodINtnSignalStrengthCallbackOnNtnSignalStrengthChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type NtnSignalStrengthCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NtnSignalStrengthCallbackStub)(nil)
+
+func (s *NtnSignalStrengthCallbackStub) Descriptor() string {
+	return DescriptorINtnSignalStrengthCallback
+}
 
 func (s *NtnSignalStrengthCallbackStub) OnTransaction(
 	ctx context.Context,

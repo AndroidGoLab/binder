@@ -17,6 +17,11 @@ const (
 	TransactionIContextualSearchCallbackOnError  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIContextualSearchCallbackOnResult = "onResult"
+	MethodIContextualSearchCallbackOnError  = "onError"
+)
+
 type IContextualSearchCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, state ContextualSearchState) error
@@ -24,17 +29,17 @@ type IContextualSearchCallback interface {
 }
 
 type ContextualSearchCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextualSearchCallbackProxy(
 	remote binder.IBinder,
 ) *ContextualSearchCallbackProxy {
-	return &ContextualSearchCallbackProxy{remote: remote}
+	return &ContextualSearchCallbackProxy{Remote: remote}
 }
 
 func (p *ContextualSearchCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextualSearchCallback = (*ContextualSearchCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *ContextualSearchCallbackProxy) OnResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextualSearchCallback, MethodIContextualSearchCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIContextualSearchCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextualSearchCallback, MethodIContextualSearchCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +75,12 @@ func (p *ContextualSearchCallbackProxy) OnError(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextualSearchCallback, MethodIContextualSearchCallbackOnError)
 	if _err != nil {
-		_code = TransactionIContextualSearchCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextualSearchCallback, MethodIContextualSearchCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +91,10 @@ type ContextualSearchCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextualSearchCallbackStub)(nil)
+
+func (s *ContextualSearchCallbackStub) Descriptor() string {
+	return DescriptorIContextualSearchCallback
+}
 
 func (s *ContextualSearchCallbackStub) OnTransaction(
 	ctx context.Context,

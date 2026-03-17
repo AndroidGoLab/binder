@@ -44,14 +44,7 @@ func (s *RawPropValues) MarshalParcel(
 			p.WriteInt64(_item)
 		}
 	}
-	if s.ByteValues == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ByteValues)))
-		for _, _item := range s.ByteValues {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ByteValues)
 	p.WriteString16(s.StringValue)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -111,19 +104,9 @@ func (s *RawPropValues) UnmarshalParcel(
 		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.ByteValues, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.ByteValues = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.ByteValues[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.StringValue, _err = p.ReadString16()

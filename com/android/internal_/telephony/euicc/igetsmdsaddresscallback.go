@@ -15,23 +15,27 @@ const (
 	TransactionIGetSmdsAddressCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetSmdsAddressCallbackOnComplete = "onComplete"
+)
+
 type IGetSmdsAddressCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, address string) error
 }
 
 type GetSmdsAddressCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetSmdsAddressCallbackProxy(
 	remote binder.IBinder,
 ) *GetSmdsAddressCallbackProxy {
-	return &GetSmdsAddressCallbackProxy{remote: remote}
+	return &GetSmdsAddressCallbackProxy{Remote: remote}
 }
 
 func (p *GetSmdsAddressCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetSmdsAddressCallback = (*GetSmdsAddressCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *GetSmdsAddressCallbackProxy) OnComplete(
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(address)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetSmdsAddressCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetSmdsAddressCallback, MethodIGetSmdsAddressCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetSmdsAddressCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetSmdsAddressCallback, MethodIGetSmdsAddressCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type GetSmdsAddressCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetSmdsAddressCallbackStub)(nil)
+
+func (s *GetSmdsAddressCallbackStub) Descriptor() string {
+	return DescriptorIGetSmdsAddressCallback
+}
 
 func (s *GetSmdsAddressCallbackStub) OnTransaction(
 	ctx context.Context,

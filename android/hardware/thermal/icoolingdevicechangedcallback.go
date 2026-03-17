@@ -15,23 +15,27 @@ const (
 	TransactionICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged = "notifyCoolingDeviceChanged"
+)
+
 type ICoolingDeviceChangedCallback interface {
 	AsBinder() binder.IBinder
 	NotifyCoolingDeviceChanged(ctx context.Context, coolingDevice CoolingDevice) error
 }
 
 type CoolingDeviceChangedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCoolingDeviceChangedCallbackProxy(
 	remote binder.IBinder,
 ) *CoolingDeviceChangedCallbackProxy {
-	return &CoolingDeviceChangedCallbackProxy{remote: remote}
+	return &CoolingDeviceChangedCallbackProxy{Remote: remote}
 }
 
 func (p *CoolingDeviceChangedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICoolingDeviceChangedCallback = (*CoolingDeviceChangedCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *CoolingDeviceChangedCallbackProxy) NotifyCoolingDeviceChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICoolingDeviceChangedCallback, "notifyCoolingDeviceChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICoolingDeviceChangedCallback, MethodICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged)
 	if _err != nil {
-		_code = TransactionICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICoolingDeviceChangedCallback, MethodICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type CoolingDeviceChangedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CoolingDeviceChangedCallbackStub)(nil)
+
+func (s *CoolingDeviceChangedCallbackStub) Descriptor() string {
+	return DescriptorICoolingDeviceChangedCallback
+}
 
 func (s *CoolingDeviceChangedCallbackStub) OnTransaction(
 	ctx context.Context,

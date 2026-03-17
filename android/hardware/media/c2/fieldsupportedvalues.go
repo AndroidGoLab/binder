@@ -94,6 +94,7 @@ func (u *FieldSupportedValues) MarshalParcel(
 	case FieldSupportedValuesTagEmpty:
 		p.WriteBool(u.Empty)
 	case FieldSupportedValuesTagRange:
+		p.WriteInt32(1)
 		if _err := u.Range.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -143,6 +144,9 @@ func (u *FieldSupportedValues) UnmarshalParcel(
 			return _err
 		}
 	case FieldSupportedValuesTagRange:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Range.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

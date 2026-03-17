@@ -17,6 +17,11 @@ const (
 	TransactionIObbBackupServiceRestoreObbFile = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIObbBackupServiceBackupObbs     = "backupObbs"
+	MethodIObbBackupServiceRestoreObbFile = "restoreObbFile"
+)
+
 type IObbBackupService interface {
 	AsBinder() binder.IBinder
 	BackupObbs(ctx context.Context, packageName string, data int32, token int32, callbackBinder appBackup.IBackupManager) error
@@ -24,17 +29,17 @@ type IObbBackupService interface {
 }
 
 type ObbBackupServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewObbBackupServiceProxy(
 	remote binder.IBinder,
 ) *ObbBackupServiceProxy {
-	return &ObbBackupServiceProxy{remote: remote}
+	return &ObbBackupServiceProxy{Remote: remote}
 }
 
 func (p *ObbBackupServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IObbBackupService = (*ObbBackupServiceProxy)(nil)
@@ -51,14 +56,14 @@ func (p *ObbBackupServiceProxy) BackupObbs(
 	_data.WriteString16(packageName)
 	_data.WriteFileDescriptor(data)
 	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIObbBackupService, "backupObbs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObbBackupService, MethodIObbBackupServiceBackupObbs)
 	if _err != nil {
-		_code = TransactionIObbBackupServiceBackupObbs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIObbBackupService, MethodIObbBackupServiceBackupObbs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,14 +89,14 @@ func (p *ObbBackupServiceProxy) RestoreObbFile(
 	_data.WriteInt64(mode)
 	_data.WriteInt64(mtime)
 	_data.WriteInt32(token)
-	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbackBinder.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIObbBackupService, "restoreObbFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObbBackupService, MethodIObbBackupServiceRestoreObbFile)
 	if _err != nil {
-		_code = TransactionIObbBackupServiceRestoreObbFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIObbBackupService, MethodIObbBackupServiceRestoreObbFile, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +107,10 @@ type ObbBackupServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ObbBackupServiceStub)(nil)
+
+func (s *ObbBackupServiceStub) Descriptor() string {
+	return DescriptorIObbBackupService
+}
 
 func (s *ObbBackupServiceStub) OnTransaction(
 	ctx context.Context,

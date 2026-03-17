@@ -19,6 +19,13 @@ const (
 	TransactionISpellCheckerSessionOnClose                          = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodISpellCheckerSessionOnGetSuggestionsMultiple         = "onGetSuggestionsMultiple"
+	MethodISpellCheckerSessionOnGetSentenceSuggestionsMultiple = "onGetSentenceSuggestionsMultiple"
+	MethodISpellCheckerSessionOnCancel                         = "onCancel"
+	MethodISpellCheckerSessionOnClose                          = "onClose"
+)
+
 type ISpellCheckerSession interface {
 	AsBinder() binder.IBinder
 	OnGetSuggestionsMultiple(ctx context.Context, textInfos []viewTextservice.TextInfo, suggestionsLimit int32, multipleWords bool) error
@@ -28,17 +35,17 @@ type ISpellCheckerSession interface {
 }
 
 type SpellCheckerSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpellCheckerSessionProxy(
 	remote binder.IBinder,
 ) *SpellCheckerSessionProxy {
-	return &SpellCheckerSessionProxy{remote: remote}
+	return &SpellCheckerSessionProxy{Remote: remote}
 }
 
 func (p *SpellCheckerSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpellCheckerSession = (*SpellCheckerSessionProxy)(nil)
@@ -56,6 +63,7 @@ func (p *SpellCheckerSessionProxy) OnGetSuggestionsMultiple(
 	} else {
 		_data.WriteInt32(int32(len(textInfos)))
 		for _, _item := range textInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -64,12 +72,12 @@ func (p *SpellCheckerSessionProxy) OnGetSuggestionsMultiple(
 	_data.WriteInt32(suggestionsLimit)
 	_data.WriteBool(multipleWords)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onGetSuggestionsMultiple")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSuggestionsMultiple)
 	if _err != nil {
-		_code = TransactionISpellCheckerSessionOnGetSuggestionsMultiple
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSuggestionsMultiple, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +93,7 @@ func (p *SpellCheckerSessionProxy) OnGetSentenceSuggestionsMultiple(
 	} else {
 		_data.WriteInt32(int32(len(textInfos)))
 		for _, _item := range textInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -92,12 +101,12 @@ func (p *SpellCheckerSessionProxy) OnGetSentenceSuggestionsMultiple(
 	}
 	_data.WriteInt32(suggestionsLimit)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onGetSentenceSuggestionsMultiple")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSentenceSuggestionsMultiple)
 	if _err != nil {
-		_code = TransactionISpellCheckerSessionOnGetSentenceSuggestionsMultiple
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnGetSentenceSuggestionsMultiple, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +116,12 @@ func (p *SpellCheckerSessionProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onCancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnCancel)
 	if _err != nil {
-		_code = TransactionISpellCheckerSessionOnCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +131,12 @@ func (p *SpellCheckerSessionProxy) OnClose(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onClose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnClose)
 	if _err != nil {
-		_code = TransactionISpellCheckerSessionOnClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerSession, MethodISpellCheckerSessionOnClose, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,6 +147,10 @@ type SpellCheckerSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerSessionStub)(nil)
+
+func (s *SpellCheckerSessionStub) Descriptor() string {
+	return DescriptorISpellCheckerSession
+}
 
 func (s *SpellCheckerSessionStub) OnTransaction(
 	ctx context.Context,

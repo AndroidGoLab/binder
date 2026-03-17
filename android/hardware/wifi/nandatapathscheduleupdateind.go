@@ -18,19 +18,13 @@ func (s *NanDataPathScheduleUpdateInd) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.PeerDiscoveryAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerDiscoveryAddress)))
-		for _, _item := range s.PeerDiscoveryAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerDiscoveryAddress, 6)
 	if s.ChannelInfo == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.ChannelInfo)))
 		for _, _item := range s.ChannelInfo {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -57,19 +51,9 @@ func (s *NanDataPathScheduleUpdateInd) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerDiscoveryAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerDiscoveryAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerDiscoveryAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -80,6 +64,9 @@ func (s *NanDataPathScheduleUpdateInd) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.ChannelInfo = make([]NanDataPathChannelInfo, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ChannelInfo[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

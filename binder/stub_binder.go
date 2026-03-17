@@ -54,6 +54,7 @@ func (s *StubBinder) Transact(
 
 // ResolveCode is not supported on local stubs.
 func (s *StubBinder) ResolveCode(
+	_ context.Context,
 	_ string,
 	_ string,
 ) (TransactionCode, error) {

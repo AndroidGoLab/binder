@@ -40,14 +40,7 @@ func (s *AptxAdaptiveCapabilities) MarshalParcel(
 			p.WriteInt32(int32(_item))
 		}
 	}
-	if s.BitsPerSample == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BitsPerSample)))
-		for _, _item := range s.BitsPerSample {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.BitsPerSample)
 	if s.AptxMode == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -64,14 +57,7 @@ func (s *AptxAdaptiveCapabilities) MarshalParcel(
 	}
 	p.WriteInt32(int32(s.InputMode))
 	p.WriteInt32(s.InputFadeDurationMs)
-	if s.AptxAdaptiveConfigStream == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.AptxAdaptiveConfigStream)))
-		for _, _item := range s.AptxAdaptiveConfigStream {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.AptxAdaptiveConfigStream)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -116,19 +102,9 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.BitsPerSample, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.BitsPerSample = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.BitsPerSample[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count3 int32
@@ -166,19 +142,9 @@ func (s *AptxAdaptiveCapabilities) UnmarshalParcel(
 		return _err
 	}
 
-	var _count4 int32
-	_count4, _err = p.ReadInt32()
+	s.AptxAdaptiveConfigStream, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count4 >= 0 {
-		s.AptxAdaptiveConfigStream = make([]byte, _count4)
-		for _i := int32(0); _i < _count4; _i++ {
-			s.AptxAdaptiveConfigStream[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

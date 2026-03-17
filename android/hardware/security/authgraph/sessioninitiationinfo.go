@@ -25,14 +25,7 @@ func (s *SessionInitiationInfo) MarshalParcel(
 	if _err := s.Identity.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.Nonce == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Nonce)))
-		for _, _item := range s.Nonce {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Nonce)
 	p.WriteInt32(s.Version)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -55,19 +48,9 @@ func (s *SessionInitiationInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Nonce, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Nonce = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Nonce[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Version, _err = p.ReadInt32()

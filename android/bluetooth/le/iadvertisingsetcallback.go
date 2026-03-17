@@ -24,9 +24,22 @@ const (
 	TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled           = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodIAdvertisingSetCallbackOnAdvertisingSetStarted                = "onAdvertisingSetStarted"
+	MethodIAdvertisingSetCallbackOnOwnAddressRead                       = "onOwnAddressRead"
+	MethodIAdvertisingSetCallbackOnAdvertisingSetStopped                = "onAdvertisingSetStopped"
+	MethodIAdvertisingSetCallbackOnAdvertisingEnabled                   = "onAdvertisingEnabled"
+	MethodIAdvertisingSetCallbackOnAdvertisingDataSet                   = "onAdvertisingDataSet"
+	MethodIAdvertisingSetCallbackOnScanResponseDataSet                  = "onScanResponseDataSet"
+	MethodIAdvertisingSetCallbackOnAdvertisingParametersUpdated         = "onAdvertisingParametersUpdated"
+	MethodIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated = "onPeriodicAdvertisingParametersUpdated"
+	MethodIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet           = "onPeriodicAdvertisingDataSet"
+	MethodIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled           = "onPeriodicAdvertisingEnabled"
+)
+
 type IAdvertisingSetCallback interface {
 	AsBinder() binder.IBinder
-	OnAdvertisingSetStarted(ctx context.Context, advertiseBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
+	OnAdvertisingSetStarted(ctx context.Context, gattBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
 	OnOwnAddressRead(ctx context.Context, advertiserId int32, addressType int32, address string) error
 	OnAdvertisingSetStopped(ctx context.Context, advertiserId int32) error
 	OnAdvertisingEnabled(ctx context.Context, advertiserId int32, enable bool, status int32) error
@@ -39,41 +52,41 @@ type IAdvertisingSetCallback interface {
 }
 
 type AdvertisingSetCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAdvertisingSetCallbackProxy(
 	remote binder.IBinder,
 ) *AdvertisingSetCallbackProxy {
-	return &AdvertisingSetCallbackProxy{remote: remote}
+	return &AdvertisingSetCallbackProxy{Remote: remote}
 }
 
 func (p *AdvertisingSetCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAdvertisingSetCallback = (*AdvertisingSetCallbackProxy)(nil)
 
 func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStarted(
 	ctx context.Context,
-	advertiseBinder binder.IBinder,
+	gattBinder binder.IBinder,
 	advertiserId int32,
 	tx_power int32,
 	status int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
-	binder.WriteBinderToParcel(ctx, _data, advertiseBinder, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, gattBinder, p.Remote.Transport())
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(tx_power)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingSetStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStarted)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnAdvertisingSetStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +102,12 @@ func (p *AdvertisingSetCallbackProxy) OnOwnAddressRead(
 	_data.WriteInt32(addressType)
 	_data.WriteString16(address)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onOwnAddressRead")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnOwnAddressRead)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnOwnAddressRead
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnOwnAddressRead, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,12 +119,12 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStopped(
 	_data.WriteInterfaceToken(DescriptorIAdvertisingSetCallback)
 	_data.WriteInt32(advertiserId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingSetStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStopped)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnAdvertisingSetStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingSetStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,12 +140,12 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingEnabled(
 	_data.WriteBool(enable)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingEnabled)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnAdvertisingEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,12 +159,12 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingDataSet(
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingDataSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingDataSet)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnAdvertisingDataSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingDataSet, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,12 +178,12 @@ func (p *AdvertisingSetCallbackProxy) OnScanResponseDataSet(
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onScanResponseDataSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnScanResponseDataSet)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnScanResponseDataSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnScanResponseDataSet, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -186,12 +199,12 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingParametersUpdated(
 	_data.WriteInt32(tx_power)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingParametersUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingParametersUpdated)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnAdvertisingParametersUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnAdvertisingParametersUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -205,12 +218,12 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingParametersUpdated(
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onPeriodicAdvertisingParametersUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -224,12 +237,12 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingDataSet(
 	_data.WriteInt32(advertiserId)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onPeriodicAdvertisingDataSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -245,12 +258,12 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingEnabled(
 	_data.WriteBool(enable)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onPeriodicAdvertisingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled)
 	if _err != nil {
-		_code = TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvertisingSetCallback, MethodIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -261,6 +274,10 @@ type AdvertisingSetCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AdvertisingSetCallbackStub)(nil)
+
+func (s *AdvertisingSetCallbackStub) Descriptor() string {
+	return DescriptorIAdvertisingSetCallback
+}
 
 func (s *AdvertisingSetCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -273,8 +290,8 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_advertiseBinder binder.IBinder
-		_ = _arg_advertiseBinder
+		var _arg_gattBinder binder.IBinder
+		_ = _arg_gattBinder
 		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -287,7 +304,7 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnAdvertisingSetStarted(ctx, _arg_advertiseBinder, _arg_advertiserId, _arg_tx_power, _arg_status)
+		_err = s.Impl.OnAdvertisingSetStarted(ctx, _arg_gattBinder, _arg_advertiserId, _arg_tx_power, _arg_status)
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnOwnAddressRead:
@@ -446,7 +463,7 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 // provide to NewAdvertisingSetCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAdvertisingSetCallbackServer interface {
-	OnAdvertisingSetStarted(ctx context.Context, advertiseBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
+	OnAdvertisingSetStarted(ctx context.Context, gattBinder binder.IBinder, advertiserId int32, tx_power int32, status int32) error
 	OnOwnAddressRead(ctx context.Context, advertiserId int32, addressType int32, address string) error
 	OnAdvertisingSetStopped(ctx context.Context, advertiserId int32) error
 	OnAdvertisingEnabled(ctx context.Context, advertiserId int32, enable bool, status int32) error
@@ -469,12 +486,12 @@ func (w *advertisingSetCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *advertisingSetCallbackStubWrapper) OnAdvertisingSetStarted(
 	ctx context.Context,
-	advertiseBinder binder.IBinder,
+	gattBinder binder.IBinder,
 	advertiserId int32,
 	tx_power int32,
 	status int32,
 ) error {
-	return w.impl.OnAdvertisingSetStarted(ctx, advertiseBinder, advertiserId, tx_power, status)
+	return w.impl.OnAdvertisingSetStarted(ctx, gattBinder, advertiserId, tx_power, status)
 }
 
 func (w *advertisingSetCallbackStubWrapper) OnOwnAddressRead(

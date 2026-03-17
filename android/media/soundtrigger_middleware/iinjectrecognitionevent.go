@@ -17,6 +17,11 @@ const (
 	TransactionIInjectRecognitionEventTriggerAbortRecognition = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInjectRecognitionEventTriggerRecognitionEvent = "triggerRecognitionEvent"
+	MethodIInjectRecognitionEventTriggerAbortRecognition = "triggerAbortRecognition"
+)
+
 type IInjectRecognitionEvent interface {
 	AsBinder() binder.IBinder
 	TriggerRecognitionEvent(ctx context.Context, data []byte, phraseExtras []soundtrigger.PhraseRecognitionExtra) error
@@ -24,17 +29,17 @@ type IInjectRecognitionEvent interface {
 }
 
 type InjectRecognitionEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInjectRecognitionEventProxy(
 	remote binder.IBinder,
 ) *InjectRecognitionEventProxy {
-	return &InjectRecognitionEventProxy{remote: remote}
+	return &InjectRecognitionEventProxy{Remote: remote}
 }
 
 func (p *InjectRecognitionEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInjectRecognitionEvent = (*InjectRecognitionEventProxy)(nil)
@@ -59,18 +64,19 @@ func (p *InjectRecognitionEventProxy) TriggerRecognitionEvent(
 	} else {
 		_data.WriteInt32(int32(len(phraseExtras)))
 		for _, _item := range phraseExtras {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerRecognitionEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectRecognitionEvent, MethodIInjectRecognitionEventTriggerRecognitionEvent)
 	if _err != nil {
-		_code = TransactionIInjectRecognitionEventTriggerRecognitionEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInjectRecognitionEvent, MethodIInjectRecognitionEventTriggerRecognitionEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *InjectRecognitionEventProxy) TriggerAbortRecognition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectRecognitionEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerAbortRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectRecognitionEvent, MethodIInjectRecognitionEventTriggerAbortRecognition)
 	if _err != nil {
-		_code = TransactionIInjectRecognitionEventTriggerAbortRecognition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInjectRecognitionEvent, MethodIInjectRecognitionEventTriggerAbortRecognition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +102,10 @@ type InjectRecognitionEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InjectRecognitionEventStub)(nil)
+
+func (s *InjectRecognitionEventStub) Descriptor() string {
+	return DescriptorIInjectRecognitionEvent
+}
 
 func (s *InjectRecognitionEventStub) OnTransaction(
 	ctx context.Context,

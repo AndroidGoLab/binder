@@ -93,18 +93,22 @@ func (u *AudioHalCapParameter) MarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapParameterTagSelectedStrategyDevice:
+		p.WriteInt32(1)
 		if _err := u.SelectedStrategyDevice.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapParameterTagSelectedInputSourceDevice:
+		p.WriteInt32(1)
 		if _err := u.SelectedInputSourceDevice.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapParameterTagStrategyDeviceAddress:
+		p.WriteInt32(1)
 		if _err := u.StrategyDeviceAddress.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapParameterTagStreamVolumeProfile:
+		p.WriteInt32(1)
 		if _err := u.StreamVolumeProfile.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -131,18 +135,30 @@ func (u *AudioHalCapParameter) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapParameterTagSelectedStrategyDevice:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SelectedStrategyDevice.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapParameterTagSelectedInputSourceDevice:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SelectedInputSourceDevice.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapParameterTagStrategyDeviceAddress:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.StrategyDeviceAddress.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapParameterTagStreamVolumeProfile:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.StreamVolumeProfile.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

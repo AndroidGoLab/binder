@@ -15,23 +15,27 @@ const (
 	TransactionIKeyguardLockedStateListenerOnKeyguardLockedStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIKeyguardLockedStateListenerOnKeyguardLockedStateChanged = "onKeyguardLockedStateChanged"
+)
+
 type IKeyguardLockedStateListener interface {
 	AsBinder() binder.IBinder
 	OnKeyguardLockedStateChanged(ctx context.Context, isKeyguardLocked bool) error
 }
 
 type KeyguardLockedStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyguardLockedStateListenerProxy(
 	remote binder.IBinder,
 ) *KeyguardLockedStateListenerProxy {
-	return &KeyguardLockedStateListenerProxy{remote: remote}
+	return &KeyguardLockedStateListenerProxy{Remote: remote}
 }
 
 func (p *KeyguardLockedStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyguardLockedStateListener = (*KeyguardLockedStateListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *KeyguardLockedStateListenerProxy) OnKeyguardLockedStateChanged(
 	_data.WriteInterfaceToken(DescriptorIKeyguardLockedStateListener)
 	_data.WriteBool(isKeyguardLocked)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardLockedStateListener, "onKeyguardLockedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardLockedStateListener, MethodIKeyguardLockedStateListenerOnKeyguardLockedStateChanged)
 	if _err != nil {
-		_code = TransactionIKeyguardLockedStateListenerOnKeyguardLockedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardLockedStateListener, MethodIKeyguardLockedStateListenerOnKeyguardLockedStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type KeyguardLockedStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyguardLockedStateListenerStub)(nil)
+
+func (s *KeyguardLockedStateListenerStub) Descriptor() string {
+	return DescriptorIKeyguardLockedStateListener
+}
 
 func (s *KeyguardLockedStateListenerStub) OnTransaction(
 	ctx context.Context,

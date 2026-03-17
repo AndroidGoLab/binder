@@ -20,6 +20,15 @@ const (
 	TransactionISecureElementChannelSelectNext        = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodISecureElementChannelClose             = "close"
+	MethodISecureElementChannelIsClosed          = "isClosed"
+	MethodISecureElementChannelIsBasicChannel    = "isBasicChannel"
+	MethodISecureElementChannelGetSelectResponse = "getSelectResponse"
+	MethodISecureElementChannelTransmit          = "transmit"
+	MethodISecureElementChannelSelectNext        = "selectNext"
+)
+
 type ISecureElementChannel interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
@@ -31,17 +40,17 @@ type ISecureElementChannel interface {
 }
 
 type SecureElementChannelProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureElementChannelProxy(
 	remote binder.IBinder,
 ) *SecureElementChannelProxy {
-	return &SecureElementChannelProxy{remote: remote}
+	return &SecureElementChannelProxy{Remote: remote}
 }
 
 func (p *SecureElementChannelProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureElementChannel = (*SecureElementChannelProxy)(nil)
@@ -52,12 +61,12 @@ func (p *SecureElementChannelProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelClose)
 	if _err != nil {
-		_code = TransactionISecureElementChannelClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementChannel, MethodISecureElementChannelClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +86,12 @@ func (p *SecureElementChannelProxy) IsClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "isClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelIsClosed)
 	if _err != nil {
-		_code = TransactionISecureElementChannelIsClosed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementChannel, MethodISecureElementChannelIsClosed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,12 +115,12 @@ func (p *SecureElementChannelProxy) IsBasicChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "isBasicChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelIsBasicChannel)
 	if _err != nil {
-		_code = TransactionISecureElementChannelIsBasicChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementChannel, MethodISecureElementChannelIsBasicChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -135,12 +144,12 @@ func (p *SecureElementChannelProxy) GetSelectResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "getSelectResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelGetSelectResponse)
 	if _err != nil {
-		_code = TransactionISecureElementChannelGetSelectResponse
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementChannel, MethodISecureElementChannelGetSelectResponse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -183,12 +192,12 @@ func (p *SecureElementChannelProxy) Transmit(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "transmit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelTransmit)
 	if _err != nil {
-		_code = TransactionISecureElementChannelTransmit
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementChannel, MethodISecureElementChannelTransmit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -222,12 +231,12 @@ func (p *SecureElementChannelProxy) SelectNext(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "selectNext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementChannel, MethodISecureElementChannelSelectNext)
 	if _err != nil {
-		_code = TransactionISecureElementChannelSelectNext
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementChannel, MethodISecureElementChannelSelectNext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -251,6 +260,10 @@ type SecureElementChannelStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureElementChannelStub)(nil)
+
+func (s *SecureElementChannelStub) Descriptor() string {
+	return DescriptorISecureElementChannel
+}
 
 func (s *SecureElementChannelStub) OnTransaction(
 	ctx context.Context,

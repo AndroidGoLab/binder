@@ -20,6 +20,14 @@ const (
 	TransactionIPinItemRequestGetExtras                = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPinItemRequestIsValid                  = "isValid"
+	MethodIPinItemRequestAccept                   = "accept"
+	MethodIPinItemRequestGetShortcutInfo          = "getShortcutInfo"
+	MethodIPinItemRequestGetAppWidgetProviderInfo = "getAppWidgetProviderInfo"
+	MethodIPinItemRequestGetExtras                = "getExtras"
+)
+
 type IPinItemRequest interface {
 	AsBinder() binder.IBinder
 	IsValid(ctx context.Context) (bool, error)
@@ -30,17 +38,17 @@ type IPinItemRequest interface {
 }
 
 type PinItemRequestProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPinItemRequestProxy(
 	remote binder.IBinder,
 ) *PinItemRequestProxy {
-	return &PinItemRequestProxy{remote: remote}
+	return &PinItemRequestProxy{Remote: remote}
 }
 
 func (p *PinItemRequestProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPinItemRequest = (*PinItemRequestProxy)(nil)
@@ -52,12 +60,12 @@ func (p *PinItemRequestProxy) IsValid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "isValid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestIsValid)
 	if _err != nil {
-		_code = TransactionIPinItemRequestIsValid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPinItemRequest, MethodIPinItemRequestIsValid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +90,12 @@ func (p *PinItemRequestProxy) Accept(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestAccept)
 	if _err != nil {
-		_code = TransactionIPinItemRequestAccept
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPinItemRequest, MethodIPinItemRequestAccept, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,12 +119,12 @@ func (p *PinItemRequestProxy) GetShortcutInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "getShortcutInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestGetShortcutInfo)
 	if _err != nil {
-		_code = TransactionIPinItemRequestGetShortcutInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPinItemRequest, MethodIPinItemRequestGetShortcutInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,12 +153,12 @@ func (p *PinItemRequestProxy) GetAppWidgetProviderInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "getAppWidgetProviderInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestGetAppWidgetProviderInfo)
 	if _err != nil {
-		_code = TransactionIPinItemRequestGetAppWidgetProviderInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPinItemRequest, MethodIPinItemRequestGetAppWidgetProviderInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,12 +187,12 @@ func (p *PinItemRequestProxy) GetExtras(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPinItemRequest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "getExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinItemRequest, MethodIPinItemRequestGetExtras)
 	if _err != nil {
-		_code = TransactionIPinItemRequestGetExtras
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPinItemRequest, MethodIPinItemRequestGetExtras, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -204,6 +212,10 @@ type PinItemRequestStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PinItemRequestStub)(nil)
+
+func (s *PinItemRequestStub) Descriptor() string {
+	return DescriptorIPinItemRequest
+}
 
 func (s *PinItemRequestStub) OnTransaction(
 	ctx context.Context,

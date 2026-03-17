@@ -15,23 +15,27 @@ const (
 	TransactionIProximityUpdateCallbackOnProximityUpdate = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProximityUpdateCallbackOnProximityUpdate = "onProximityUpdate"
+)
+
 type IProximityUpdateCallback interface {
 	AsBinder() binder.IBinder
 	OnProximityUpdate(ctx context.Context, distance float64) error
 }
 
 type ProximityUpdateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProximityUpdateCallbackProxy(
 	remote binder.IBinder,
 ) *ProximityUpdateCallbackProxy {
-	return &ProximityUpdateCallbackProxy{remote: remote}
+	return &ProximityUpdateCallbackProxy{Remote: remote}
 }
 
 func (p *ProximityUpdateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProximityUpdateCallback = (*ProximityUpdateCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ProximityUpdateCallbackProxy) OnProximityUpdate(
 	_data.WriteInterfaceToken(DescriptorIProximityUpdateCallback)
 	_data.WriteFloat64(distance)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProximityUpdateCallback, "onProximityUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProximityUpdateCallback, MethodIProximityUpdateCallbackOnProximityUpdate)
 	if _err != nil {
-		_code = TransactionIProximityUpdateCallbackOnProximityUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProximityUpdateCallback, MethodIProximityUpdateCallbackOnProximityUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ProximityUpdateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProximityUpdateCallbackStub)(nil)
+
+func (s *ProximityUpdateCallbackStub) Descriptor() string {
+	return DescriptorIProximityUpdateCallback
+}
 
 func (s *ProximityUpdateCallbackStub) OnTransaction(
 	ctx context.Context,

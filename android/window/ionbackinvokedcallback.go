@@ -12,12 +12,17 @@ import (
 const DescriptorIOnBackInvokedCallback = "android.window.IOnBackInvokedCallback"
 
 const (
-	TransactionIOnBackInvokedCallbackOnBackStarted     = binder.FirstCallTransaction + 0
-	TransactionIOnBackInvokedCallbackOnBackProgressed  = binder.FirstCallTransaction + 1
-	TransactionIOnBackInvokedCallbackOnBackCancelled   = binder.FirstCallTransaction + 2
-	TransactionIOnBackInvokedCallbackOnBackInvoked     = binder.FirstCallTransaction + 3
-	TransactionIOnBackInvokedCallbackSetTriggerBack    = binder.FirstCallTransaction + 4
-	TransactionIOnBackInvokedCallbackSetHandoffHandler = binder.FirstCallTransaction + 5
+	TransactionIOnBackInvokedCallbackOnBackStarted    = binder.FirstCallTransaction + 0
+	TransactionIOnBackInvokedCallbackOnBackProgressed = binder.FirstCallTransaction + 1
+	TransactionIOnBackInvokedCallbackOnBackCancelled  = binder.FirstCallTransaction + 2
+	TransactionIOnBackInvokedCallbackOnBackInvoked    = binder.FirstCallTransaction + 3
+)
+
+const (
+	MethodIOnBackInvokedCallbackOnBackStarted    = "onBackStarted"
+	MethodIOnBackInvokedCallbackOnBackProgressed = "onBackProgressed"
+	MethodIOnBackInvokedCallbackOnBackCancelled  = "onBackCancelled"
+	MethodIOnBackInvokedCallbackOnBackInvoked    = "onBackInvoked"
 )
 
 type IOnBackInvokedCallback interface {
@@ -26,22 +31,20 @@ type IOnBackInvokedCallback interface {
 	OnBackProgressed(ctx context.Context, backMotionEvent BackMotionEvent) error
 	OnBackCancelled(ctx context.Context) error
 	OnBackInvoked(ctx context.Context) error
-	SetTriggerBack(ctx context.Context, triggerBack bool) error
-	SetHandoffHandler(ctx context.Context, handoffHandler IBackAnimationHandoffHandler) error
 }
 
 type OnBackInvokedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnBackInvokedCallbackProxy(
 	remote binder.IBinder,
 ) *OnBackInvokedCallbackProxy {
-	return &OnBackInvokedCallbackProxy{remote: remote}
+	return &OnBackInvokedCallbackProxy{Remote: remote}
 }
 
 func (p *OnBackInvokedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnBackInvokedCallback = (*OnBackInvokedCallbackProxy)(nil)
@@ -57,12 +60,12 @@ func (p *OnBackInvokedCallbackProxy) OnBackStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackStarted)
 	if _err != nil {
-		_code = TransactionIOnBackInvokedCallbackOnBackStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +80,12 @@ func (p *OnBackInvokedCallbackProxy) OnBackProgressed(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackProgressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackProgressed)
 	if _err != nil {
-		_code = TransactionIOnBackInvokedCallbackOnBackProgressed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackProgressed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +95,12 @@ func (p *OnBackInvokedCallbackProxy) OnBackCancelled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackCancelled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackCancelled)
 	if _err != nil {
-		_code = TransactionIOnBackInvokedCallbackOnBackCancelled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackCancelled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,46 +110,12 @@ func (p *OnBackInvokedCallbackProxy) OnBackInvoked(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackInvoked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackInvoked)
 	if _err != nil {
-		_code = TransactionIOnBackInvokedCallbackOnBackInvoked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnBackInvokedCallback, MethodIOnBackInvokedCallbackOnBackInvoked, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *OnBackInvokedCallbackProxy) SetTriggerBack(
-	ctx context.Context,
-	triggerBack bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
-	_data.WriteBool(triggerBack)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "setTriggerBack")
-	if _err != nil {
-		_code = TransactionIOnBackInvokedCallbackSetTriggerBack
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *OnBackInvokedCallbackProxy) SetHandoffHandler(
-	ctx context.Context,
-	handoffHandler IBackAnimationHandoffHandler,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
-	binder.WriteBinderToParcel(ctx, _data, handoffHandler.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "setHandoffHandler")
-	if _err != nil {
-		_code = TransactionIOnBackInvokedCallbackSetHandoffHandler
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -157,6 +126,10 @@ type OnBackInvokedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnBackInvokedCallbackStub)(nil)
+
+func (s *OnBackInvokedCallbackStub) Descriptor() string {
+	return DescriptorIOnBackInvokedCallback
+}
 
 func (s *OnBackInvokedCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -216,27 +189,6 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 		_err := s.Impl.OnBackInvoked(ctx)
 		_ = _err
 		return nil, nil
-	case TransactionIOnBackInvokedCallbackSetTriggerBack:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_triggerBack, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetTriggerBack(ctx, _arg_triggerBack)
-		_ = _err
-		return nil, nil
-	case TransactionIOnBackInvokedCallbackSetHandoffHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_handoffHandler IBackAnimationHandoffHandler
-		_ = _arg_handoffHandler
-		_err := s.Impl.SetHandoffHandler(ctx, _arg_handoffHandler)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -250,8 +202,6 @@ type IOnBackInvokedCallbackServer interface {
 	OnBackProgressed(ctx context.Context, backMotionEvent BackMotionEvent) error
 	OnBackCancelled(ctx context.Context) error
 	OnBackInvoked(ctx context.Context) error
-	SetTriggerBack(ctx context.Context, triggerBack bool) error
-	SetHandoffHandler(ctx context.Context, handoffHandler IBackAnimationHandoffHandler) error
 }
 
 type onBackInvokedCallbackStubWrapper struct {
@@ -287,20 +237,6 @@ func (w *onBackInvokedCallbackStubWrapper) OnBackInvoked(
 	ctx context.Context,
 ) error {
 	return w.impl.OnBackInvoked(ctx)
-}
-
-func (w *onBackInvokedCallbackStubWrapper) SetTriggerBack(
-	ctx context.Context,
-	triggerBack bool,
-) error {
-	return w.impl.SetTriggerBack(ctx, triggerBack)
-}
-
-func (w *onBackInvokedCallbackStubWrapper) SetHandoffHandler(
-	ctx context.Context,
-	handoffHandler IBackAnimationHandoffHandler,
-) error {
-	return w.impl.SetHandoffHandler(ctx, handoffHandler)
 }
 
 var _ IOnBackInvokedCallback = (*onBackInvokedCallbackStubWrapper)(nil)

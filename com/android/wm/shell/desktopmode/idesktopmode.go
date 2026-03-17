@@ -6,7 +6,6 @@ import (
 	app "github.com/xaionaro-go/binder/android/app"
 	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
-	sharedDesktopmode "github.com/xaionaro-go/binder/com/android/wm/shell/shared/desktopmode"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -22,9 +21,16 @@ const (
 	TransactionIDesktopModeGetVisibleTaskCount              = binder.FirstCallTransaction + 4
 	TransactionIDesktopModeOnDesktopSplitSelectAnimComplete = binder.FirstCallTransaction + 5
 	TransactionIDesktopModeSetTaskListener                  = binder.FirstCallTransaction + 6
-	TransactionIDesktopModeMoveToDesktop                    = binder.FirstCallTransaction + 7
-	TransactionIDesktopModeRemoveDesktop                    = binder.FirstCallTransaction + 8
-	TransactionIDesktopModeMoveToExternalDisplay            = binder.FirstCallTransaction + 9
+)
+
+const (
+	MethodIDesktopModeShowDesktopApps                  = "showDesktopApps"
+	MethodIDesktopModeStashDesktopApps                 = "stashDesktopApps"
+	MethodIDesktopModeHideStashedDesktopApps           = "hideStashedDesktopApps"
+	MethodIDesktopModeShowDesktopApp                   = "showDesktopApp"
+	MethodIDesktopModeGetVisibleTaskCount              = "getVisibleTaskCount"
+	MethodIDesktopModeOnDesktopSplitSelectAnimComplete = "onDesktopSplitSelectAnimComplete"
+	MethodIDesktopModeSetTaskListener                  = "setTaskListener"
 )
 
 type IDesktopMode interface {
@@ -32,27 +38,24 @@ type IDesktopMode interface {
 	ShowDesktopApps(ctx context.Context, displayId int32, remoteTransition window.RemoteTransition) error
 	StashDesktopApps(ctx context.Context, displayId int32) error
 	HideStashedDesktopApps(ctx context.Context, displayId int32) error
-	ShowDesktopApp(ctx context.Context, taskId int32, remoteTransition *window.RemoteTransition) error
+	ShowDesktopApp(ctx context.Context, taskId int32) error
 	GetVisibleTaskCount(ctx context.Context, displayId int32) (int32, error)
 	OnDesktopSplitSelectAnimComplete(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	SetTaskListener(ctx context.Context, listener IDesktopTaskListener) error
-	MoveToDesktop(ctx context.Context, taskId int32, transitionSource sharedDesktopmode.DesktopModeTransitionSource, remoteTransition *window.RemoteTransition) error
-	RemoveDesktop(ctx context.Context, displayId int32) error
-	MoveToExternalDisplay(ctx context.Context, taskId int32) error
 }
 
 type DesktopModeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDesktopModeProxy(
 	remote binder.IBinder,
 ) *DesktopModeProxy {
-	return &DesktopModeProxy{remote: remote}
+	return &DesktopModeProxy{Remote: remote}
 }
 
 func (p *DesktopModeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDesktopMode = (*DesktopModeProxy)(nil)
@@ -70,12 +73,12 @@ func (p *DesktopModeProxy) ShowDesktopApps(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "showDesktopApps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApps)
 	if _err != nil {
-		_code = TransactionIDesktopModeShowDesktopApps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,12 +99,12 @@ func (p *DesktopModeProxy) StashDesktopApps(
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "stashDesktopApps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeStashDesktopApps)
 	if _err != nil {
-		_code = TransactionIDesktopModeStashDesktopApps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeStashDesktopApps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,12 +125,12 @@ func (p *DesktopModeProxy) HideStashedDesktopApps(
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "hideStashedDesktopApps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeHideStashedDesktopApps)
 	if _err != nil {
-		_code = TransactionIDesktopModeHideStashedDesktopApps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeHideStashedDesktopApps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,25 +146,17 @@ func (p *DesktopModeProxy) HideStashedDesktopApps(
 func (p *DesktopModeProxy) ShowDesktopApp(
 	ctx context.Context,
 	taskId int32,
-	remoteTransition *window.RemoteTransition,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(taskId)
-	if remoteTransition != nil {
-		if _err := (*remoteTransition).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "showDesktopApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApp)
 	if _err != nil {
-		_code = TransactionIDesktopModeShowDesktopApp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeShowDesktopApp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,12 +169,12 @@ func (p *DesktopModeProxy) GetVisibleTaskCount(
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "getVisibleTaskCount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeGetVisibleTaskCount)
 	if _err != nil {
-		_code = TransactionIDesktopModeGetVisibleTaskCount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeGetVisibleTaskCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -207,12 +202,12 @@ func (p *DesktopModeProxy) OnDesktopSplitSelectAnimComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "onDesktopSplitSelectAnimComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeOnDesktopSplitSelectAnimComplete)
 	if _err != nil {
-		_code = TransactionIDesktopModeOnDesktopSplitSelectAnimComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeOnDesktopSplitSelectAnimComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -222,97 +217,15 @@ func (p *DesktopModeProxy) SetTaskListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "setTaskListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDesktopMode, MethodIDesktopModeSetTaskListener)
 	if _err != nil {
-		_code = TransactionIDesktopModeSetTaskListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDesktopMode, MethodIDesktopModeSetTaskListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
-}
-
-func (p *DesktopModeProxy) MoveToDesktop(
-	ctx context.Context,
-	taskId int32,
-	transitionSource sharedDesktopmode.DesktopModeTransitionSource,
-	remoteTransition *window.RemoteTransition,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(taskId)
-	_data.WriteInt32(1)
-	if _err := transitionSource.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if remoteTransition != nil {
-		if _err := (*remoteTransition).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "moveToDesktop")
-	if _err != nil {
-		_code = TransactionIDesktopModeMoveToDesktop
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *DesktopModeProxy) RemoveDesktop(
-	ctx context.Context,
-	displayId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "removeDesktop")
-	if _err != nil {
-		_code = TransactionIDesktopModeRemoveDesktop
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DesktopModeProxy) MoveToExternalDisplay(
-	ctx context.Context,
-	taskId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDesktopMode)
-	_data.WriteInt32(taskId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDesktopMode, "moveToExternalDisplay")
-	if _err != nil {
-		_code = TransactionIDesktopModeMoveToExternalDisplay
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
 }
 
 // DesktopModeStub dispatches incoming binder transactions
@@ -322,6 +235,10 @@ type DesktopModeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DesktopModeStub)(nil)
+
+func (s *DesktopModeStub) Descriptor() string {
+	return DescriptorIDesktopMode
+}
 
 func (s *DesktopModeStub) OnTransaction(
 	ctx context.Context,
@@ -397,19 +314,7 @@ func (s *DesktopModeStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_remoteTransition *window.RemoteTransition
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.ShowDesktopApp(ctx, _arg_taskId, _arg_remoteTransition)
+		_err = s.Impl.ShowDesktopApp(ctx, _arg_taskId)
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopModeGetVisibleTaskCount:
@@ -458,73 +363,6 @@ func (s *DesktopModeStub) OnTransaction(
 		_err := s.Impl.SetTaskListener(ctx, _arg_listener)
 		_ = _err
 		return nil, nil
-	case TransactionIDesktopModeMoveToDesktop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_taskId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_transitionSource sharedDesktopmode.DesktopModeTransitionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_transitionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_remoteTransition *window.RemoteTransition
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.MoveToDesktop(ctx, _arg_taskId, _arg_transitionSource, _arg_remoteTransition)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIDesktopModeRemoveDesktop:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.RemoveDesktop(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
-	case TransactionIDesktopModeMoveToExternalDisplay:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_taskId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.MoveToExternalDisplay(ctx, _arg_taskId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -537,13 +375,10 @@ type IDesktopModeServer interface {
 	ShowDesktopApps(ctx context.Context, displayId int32, remoteTransition window.RemoteTransition) error
 	StashDesktopApps(ctx context.Context, displayId int32) error
 	HideStashedDesktopApps(ctx context.Context, displayId int32) error
-	ShowDesktopApp(ctx context.Context, taskId int32, remoteTransition *window.RemoteTransition) error
+	ShowDesktopApp(ctx context.Context, taskId int32) error
 	GetVisibleTaskCount(ctx context.Context, displayId int32) (int32, error)
 	OnDesktopSplitSelectAnimComplete(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	SetTaskListener(ctx context.Context, listener IDesktopTaskListener) error
-	MoveToDesktop(ctx context.Context, taskId int32, transitionSource sharedDesktopmode.DesktopModeTransitionSource, remoteTransition *window.RemoteTransition) error
-	RemoveDesktop(ctx context.Context, displayId int32) error
-	MoveToExternalDisplay(ctx context.Context, taskId int32) error
 }
 
 type desktopModeStubWrapper struct {
@@ -580,9 +415,8 @@ func (w *desktopModeStubWrapper) HideStashedDesktopApps(
 func (w *desktopModeStubWrapper) ShowDesktopApp(
 	ctx context.Context,
 	taskId int32,
-	remoteTransition *window.RemoteTransition,
 ) error {
-	return w.impl.ShowDesktopApp(ctx, taskId, remoteTransition)
+	return w.impl.ShowDesktopApp(ctx, taskId)
 }
 
 func (w *desktopModeStubWrapper) GetVisibleTaskCount(
@@ -604,29 +438,6 @@ func (w *desktopModeStubWrapper) SetTaskListener(
 	listener IDesktopTaskListener,
 ) error {
 	return w.impl.SetTaskListener(ctx, listener)
-}
-
-func (w *desktopModeStubWrapper) MoveToDesktop(
-	ctx context.Context,
-	taskId int32,
-	transitionSource sharedDesktopmode.DesktopModeTransitionSource,
-	remoteTransition *window.RemoteTransition,
-) error {
-	return w.impl.MoveToDesktop(ctx, taskId, transitionSource, remoteTransition)
-}
-
-func (w *desktopModeStubWrapper) RemoveDesktop(
-	ctx context.Context,
-	displayId int32,
-) error {
-	return w.impl.RemoveDesktop(ctx, displayId)
-}
-
-func (w *desktopModeStubWrapper) MoveToExternalDisplay(
-	ctx context.Context,
-	taskId int32,
-) error {
-	return w.impl.MoveToExternalDisplay(ctx, taskId)
 }
 
 var _ IDesktopMode = (*desktopModeStubWrapper)(nil)

@@ -16,6 +16,11 @@ const (
 	TransactionIAudioFocusDispatcherDispatchFocusResultFromExtPolicy = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAudioFocusDispatcherDispatchAudioFocusChange         = "dispatchAudioFocusChange"
+	MethodIAudioFocusDispatcherDispatchFocusResultFromExtPolicy = "dispatchFocusResultFromExtPolicy"
+)
+
 type IAudioFocusDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchAudioFocusChange(ctx context.Context, focusChange int32, clientId string) error
@@ -23,17 +28,17 @@ type IAudioFocusDispatcher interface {
 }
 
 type AudioFocusDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioFocusDispatcherProxy(
 	remote binder.IBinder,
 ) *AudioFocusDispatcherProxy {
-	return &AudioFocusDispatcherProxy{remote: remote}
+	return &AudioFocusDispatcherProxy{Remote: remote}
 }
 
 func (p *AudioFocusDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioFocusDispatcher = (*AudioFocusDispatcherProxy)(nil)
@@ -48,12 +53,12 @@ func (p *AudioFocusDispatcherProxy) DispatchAudioFocusChange(
 	_data.WriteInt32(focusChange)
 	_data.WriteString16(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioFocusDispatcher, "dispatchAudioFocusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchAudioFocusChange)
 	if _err != nil {
-		_code = TransactionIAudioFocusDispatcherDispatchAudioFocusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchAudioFocusChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *AudioFocusDispatcherProxy) DispatchFocusResultFromExtPolicy(
 	_data.WriteInt32(requestResult)
 	_data.WriteString16(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioFocusDispatcher, "dispatchFocusResultFromExtPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchFocusResultFromExtPolicy)
 	if _err != nil {
-		_code = TransactionIAudioFocusDispatcherDispatchFocusResultFromExtPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioFocusDispatcher, MethodIAudioFocusDispatcherDispatchFocusResultFromExtPolicy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type AudioFocusDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioFocusDispatcherStub)(nil)
+
+func (s *AudioFocusDispatcherStub) Descriptor() string {
+	return DescriptorIAudioFocusDispatcher
+}
 
 func (s *AudioFocusDispatcherStub) OnTransaction(
 	ctx context.Context,

@@ -21,6 +21,16 @@ const (
 	TransactionIAudioPolicyCallbackNotifyUnregistration    = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIAudioPolicyCallbackNotifyAudioFocusGrant   = "notifyAudioFocusGrant"
+	MethodIAudioPolicyCallbackNotifyAudioFocusLoss    = "notifyAudioFocusLoss"
+	MethodIAudioPolicyCallbackNotifyAudioFocusRequest = "notifyAudioFocusRequest"
+	MethodIAudioPolicyCallbackNotifyAudioFocusAbandon = "notifyAudioFocusAbandon"
+	MethodIAudioPolicyCallbackNotifyMixStateUpdate    = "notifyMixStateUpdate"
+	MethodIAudioPolicyCallbackNotifyVolumeAdjust      = "notifyVolumeAdjust"
+	MethodIAudioPolicyCallbackNotifyUnregistration    = "notifyUnregistration"
+)
+
 type IAudioPolicyCallback interface {
 	AsBinder() binder.IBinder
 	NotifyAudioFocusGrant(ctx context.Context, afi interface{}, requestResult int32) error
@@ -33,17 +43,17 @@ type IAudioPolicyCallback interface {
 }
 
 type AudioPolicyCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioPolicyCallbackProxy(
 	remote binder.IBinder,
 ) *AudioPolicyCallbackProxy {
-	return &AudioPolicyCallbackProxy{remote: remote}
+	return &AudioPolicyCallbackProxy{Remote: remote}
 }
 
 func (p *AudioPolicyCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioPolicyCallback = (*AudioPolicyCallbackProxy)(nil)
@@ -57,12 +67,12 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(requestResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusGrant")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusGrant)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusGrant
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusGrant, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +85,12 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteBool(wasNotified)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusLoss")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusLoss)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusLoss
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusLoss, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +103,12 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(requestResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusRequest)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,12 +119,12 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusAbandon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusAbandon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusAbandon)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyAudioFocusAbandon, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,12 +138,12 @@ func (p *AudioPolicyCallbackProxy) NotifyMixStateUpdate(
 	_data.WriteString16(regId)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyMixStateUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyMixStateUpdate)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyMixStateUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyMixStateUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,12 +155,12 @@ func (p *AudioPolicyCallbackProxy) NotifyVolumeAdjust(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(adjustment)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyVolumeAdjust")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyVolumeAdjust)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyVolumeAdjust
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyVolumeAdjust, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,12 +170,12 @@ func (p *AudioPolicyCallbackProxy) NotifyUnregistration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyUnregistration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyUnregistration)
 	if _err != nil {
-		_code = TransactionIAudioPolicyCallbackNotifyUnregistration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyCallback, MethodIAudioPolicyCallbackNotifyUnregistration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,6 +186,10 @@ type AudioPolicyCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioPolicyCallbackStub)(nil)
+
+func (s *AudioPolicyCallbackStub) Descriptor() string {
+	return DescriptorIAudioPolicyCallback
+}
 
 func (s *AudioPolicyCallbackStub) OnTransaction(
 	ctx context.Context,

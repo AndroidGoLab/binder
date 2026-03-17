@@ -16,23 +16,27 @@ const (
 	TransactionIDetectorSessionStorageServiceOpenFile = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDetectorSessionStorageServiceOpenFile = "openFile"
+)
+
 type IDetectorSessionStorageService interface {
 	AsBinder() binder.IBinder
 	OpenFile(ctx context.Context, filename string, future infra.AndroidFuture) error
 }
 
 type DetectorSessionStorageServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDetectorSessionStorageServiceProxy(
 	remote binder.IBinder,
 ) *DetectorSessionStorageServiceProxy {
-	return &DetectorSessionStorageServiceProxy{remote: remote}
+	return &DetectorSessionStorageServiceProxy{Remote: remote}
 }
 
 func (p *DetectorSessionStorageServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDetectorSessionStorageService = (*DetectorSessionStorageServiceProxy)(nil)
@@ -50,12 +54,12 @@ func (p *DetectorSessionStorageServiceProxy) OpenFile(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDetectorSessionStorageService, "openFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDetectorSessionStorageService, MethodIDetectorSessionStorageServiceOpenFile)
 	if _err != nil {
-		_code = TransactionIDetectorSessionStorageServiceOpenFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDetectorSessionStorageService, MethodIDetectorSessionStorageServiceOpenFile, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type DetectorSessionStorageServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DetectorSessionStorageServiceStub)(nil)
+
+func (s *DetectorSessionStorageServiceStub) Descriptor() string {
+	return DescriptorIDetectorSessionStorageService
+}
 
 func (s *DetectorSessionStorageServiceStub) OnTransaction(
 	ctx context.Context,

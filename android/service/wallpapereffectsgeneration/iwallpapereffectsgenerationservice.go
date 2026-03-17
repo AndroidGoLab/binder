@@ -16,23 +16,27 @@ const (
 	TransactionIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect = "onGenerateCinematicEffect"
+)
+
 type IWallpaperEffectsGenerationService interface {
 	AsBinder() binder.IBinder
 	OnGenerateCinematicEffect(ctx context.Context, request appWallpapereffectsgeneration.CinematicEffectRequest) error
 }
 
 type WallpaperEffectsGenerationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperEffectsGenerationServiceProxy(
 	remote binder.IBinder,
 ) *WallpaperEffectsGenerationServiceProxy {
-	return &WallpaperEffectsGenerationServiceProxy{remote: remote}
+	return &WallpaperEffectsGenerationServiceProxy{Remote: remote}
 }
 
 func (p *WallpaperEffectsGenerationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperEffectsGenerationService = (*WallpaperEffectsGenerationServiceProxy)(nil)
@@ -48,12 +52,12 @@ func (p *WallpaperEffectsGenerationServiceProxy) OnGenerateCinematicEffect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEffectsGenerationService, "onGenerateCinematicEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEffectsGenerationService, MethodIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect)
 	if _err != nil {
-		_code = TransactionIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEffectsGenerationService, MethodIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type WallpaperEffectsGenerationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperEffectsGenerationServiceStub)(nil)
+
+func (s *WallpaperEffectsGenerationServiceStub) Descriptor() string {
+	return DescriptorIWallpaperEffectsGenerationService
+}
 
 func (s *WallpaperEffectsGenerationServiceStub) OnTransaction(
 	ctx context.Context,

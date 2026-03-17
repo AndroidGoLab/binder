@@ -16,6 +16,11 @@ const (
 	TransactionIGnssNavigationMessageListenerOnStatusChanged                 = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssNavigationMessageListenerOnGnssNavigationMessageReceived = "onGnssNavigationMessageReceived"
+	MethodIGnssNavigationMessageListenerOnStatusChanged                 = "onStatusChanged"
+)
+
 type IGnssNavigationMessageListener interface {
 	AsBinder() binder.IBinder
 	OnGnssNavigationMessageReceived(ctx context.Context, event GnssNavigationMessage) error
@@ -23,17 +28,17 @@ type IGnssNavigationMessageListener interface {
 }
 
 type GnssNavigationMessageListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssNavigationMessageListenerProxy(
 	remote binder.IBinder,
 ) *GnssNavigationMessageListenerProxy {
-	return &GnssNavigationMessageListenerProxy{remote: remote}
+	return &GnssNavigationMessageListenerProxy{Remote: remote}
 }
 
 func (p *GnssNavigationMessageListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssNavigationMessageListener = (*GnssNavigationMessageListenerProxy)(nil)
@@ -49,12 +54,12 @@ func (p *GnssNavigationMessageListenerProxy) OnGnssNavigationMessageReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageListener, "onGnssNavigationMessageReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNavigationMessageListener, MethodIGnssNavigationMessageListenerOnGnssNavigationMessageReceived)
 	if _err != nil {
-		_code = TransactionIGnssNavigationMessageListenerOnGnssNavigationMessageReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssNavigationMessageListener, MethodIGnssNavigationMessageListenerOnGnssNavigationMessageReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *GnssNavigationMessageListenerProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageListener)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageListener, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNavigationMessageListener, MethodIGnssNavigationMessageListenerOnStatusChanged)
 	if _err != nil {
-		_code = TransactionIGnssNavigationMessageListenerOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssNavigationMessageListener, MethodIGnssNavigationMessageListenerOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type GnssNavigationMessageListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssNavigationMessageListenerStub)(nil)
+
+func (s *GnssNavigationMessageListenerStub) Descriptor() string {
+	return DescriptorIGnssNavigationMessageListener
+}
 
 func (s *GnssNavigationMessageListenerStub) OnTransaction(
 	ctx context.Context,

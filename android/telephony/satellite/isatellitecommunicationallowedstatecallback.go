@@ -13,27 +13,29 @@ const DescriptorISatelliteCommunicationAllowedStateCallback = "android.telephony
 
 const (
 	TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged = binder.FirstCallTransaction + 0
-	TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteAccessConfigurationChanged       = binder.FirstCallTransaction + 1
+)
+
+const (
+	MethodISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged = "onSatelliteCommunicationAllowedStateChanged"
 )
 
 type ISatelliteCommunicationAllowedStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteCommunicationAllowedStateChanged(ctx context.Context, isAllowed bool) error
-	OnSatelliteAccessConfigurationChanged(ctx context.Context, satelliteAccessConfiguration SatelliteAccessConfiguration) error
 }
 
 type SatelliteCommunicationAllowedStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteCommunicationAllowedStateCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteCommunicationAllowedStateCallbackProxy {
-	return &SatelliteCommunicationAllowedStateCallbackProxy{remote: remote}
+	return &SatelliteCommunicationAllowedStateCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteCommunicationAllowedStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteCommunicationAllowedStateCallback = (*SatelliteCommunicationAllowedStateCallbackProxy)(nil)
@@ -46,32 +48,12 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteCommunicati
 	_data.WriteInterfaceToken(DescriptorISatelliteCommunicationAllowedStateCallback)
 	_data.WriteBool(isAllowed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCommunicationAllowedStateCallback, "onSatelliteCommunicationAllowedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteCommunicationAllowedStateCallback, MethodISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteCommunicationAllowedStateCallback, MethodISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteAccessConfigurationChanged(
-	ctx context.Context,
-	satelliteAccessConfiguration SatelliteAccessConfiguration,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatelliteCommunicationAllowedStateCallback)
-	_data.WriteInt32(1)
-	if _err := satelliteAccessConfiguration.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCommunicationAllowedStateCallback, "onSatelliteAccessConfigurationChanged")
-	if _err != nil {
-		_code = TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteAccessConfigurationChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +64,10 @@ type SatelliteCommunicationAllowedStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteCommunicationAllowedStateCallbackStub)(nil)
+
+func (s *SatelliteCommunicationAllowedStateCallbackStub) Descriptor() string {
+	return DescriptorISatelliteCommunicationAllowedStateCallback
+}
 
 func (s *SatelliteCommunicationAllowedStateCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -100,25 +86,6 @@ func (s *SatelliteCommunicationAllowedStateCallbackStub) OnTransaction(
 		_err = s.Impl.OnSatelliteCommunicationAllowedStateChanged(ctx, _arg_isAllowed)
 		_ = _err
 		return nil, nil
-	case TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteAccessConfigurationChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_satelliteAccessConfiguration SatelliteAccessConfiguration
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_satelliteAccessConfiguration.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnSatelliteAccessConfigurationChanged(ctx, _arg_satelliteAccessConfiguration)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -129,7 +96,6 @@ func (s *SatelliteCommunicationAllowedStateCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISatelliteCommunicationAllowedStateCallbackServer interface {
 	OnSatelliteCommunicationAllowedStateChanged(ctx context.Context, isAllowed bool) error
-	OnSatelliteAccessConfigurationChanged(ctx context.Context, satelliteAccessConfiguration SatelliteAccessConfiguration) error
 }
 
 type satelliteCommunicationAllowedStateCallbackStubWrapper struct {
@@ -146,13 +112,6 @@ func (w *satelliteCommunicationAllowedStateCallbackStubWrapper) OnSatelliteCommu
 	isAllowed bool,
 ) error {
 	return w.impl.OnSatelliteCommunicationAllowedStateChanged(ctx, isAllowed)
-}
-
-func (w *satelliteCommunicationAllowedStateCallbackStubWrapper) OnSatelliteAccessConfigurationChanged(
-	ctx context.Context,
-	satelliteAccessConfiguration SatelliteAccessConfiguration,
-) error {
-	return w.impl.OnSatelliteAccessConfigurationChanged(ctx, satelliteAccessConfiguration)
 }
 
 var _ ISatelliteCommunicationAllowedStateCallback = (*satelliteCommunicationAllowedStateCallbackStubWrapper)(nil)

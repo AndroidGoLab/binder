@@ -18,6 +18,13 @@ const (
 	TransactionIAccessibilityManagerClientSetFocusAppearance         = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAccessibilityManagerClientSetState                   = "setState"
+	MethodIAccessibilityManagerClientNotifyServicesStateChanged = "notifyServicesStateChanged"
+	MethodIAccessibilityManagerClientSetRelevantEventTypes      = "setRelevantEventTypes"
+	MethodIAccessibilityManagerClientSetFocusAppearance         = "setFocusAppearance"
+)
+
 type IAccessibilityManagerClient interface {
 	AsBinder() binder.IBinder
 	SetState(ctx context.Context, stateFlags int32) error
@@ -27,17 +34,17 @@ type IAccessibilityManagerClient interface {
 }
 
 type AccessibilityManagerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessibilityManagerClientProxy(
 	remote binder.IBinder,
 ) *AccessibilityManagerClientProxy {
-	return &AccessibilityManagerClientProxy{remote: remote}
+	return &AccessibilityManagerClientProxy{Remote: remote}
 }
 
 func (p *AccessibilityManagerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessibilityManagerClient = (*AccessibilityManagerClientProxy)(nil)
@@ -50,12 +57,12 @@ func (p *AccessibilityManagerClientProxy) SetState(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(stateFlags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetState)
 	if _err != nil {
-		_code = TransactionIAccessibilityManagerClientSetState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *AccessibilityManagerClientProxy) NotifyServicesStateChanged(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt64(updatedUiTimeout)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "notifyServicesStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientNotifyServicesStateChanged)
 	if _err != nil {
-		_code = TransactionIAccessibilityManagerClientNotifyServicesStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientNotifyServicesStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +91,12 @@ func (p *AccessibilityManagerClientProxy) SetRelevantEventTypes(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(eventTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setRelevantEventTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetRelevantEventTypes)
 	if _err != nil {
-		_code = TransactionIAccessibilityManagerClientSetRelevantEventTypes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetRelevantEventTypes, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +110,12 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 	_data.WriteInt32(strokeWidth)
 	_data.WriteInt32(color)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setFocusAppearance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetFocusAppearance)
 	if _err != nil {
-		_code = TransactionIAccessibilityManagerClientSetFocusAppearance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityManagerClient, MethodIAccessibilityManagerClientSetFocusAppearance, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +126,10 @@ type AccessibilityManagerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityManagerClientStub)(nil)
+
+func (s *AccessibilityManagerClientStub) Descriptor() string {
+	return DescriptorIAccessibilityManagerClient
+}
 
 func (s *AccessibilityManagerClientStub) OnTransaction(
 	ctx context.Context,

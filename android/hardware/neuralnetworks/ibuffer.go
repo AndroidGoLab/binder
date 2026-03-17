@@ -16,6 +16,11 @@ const (
 	TransactionIBufferCopyTo   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBufferCopyFrom = "copyFrom"
+	MethodIBufferCopyTo   = "copyTo"
+)
+
 type IBuffer interface {
 	AsBinder() binder.IBinder
 	CopyFrom(ctx context.Context, src Memory, dimensions []int32) error
@@ -23,17 +28,17 @@ type IBuffer interface {
 }
 
 type BufferProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBufferProxy(
 	remote binder.IBinder,
 ) *BufferProxy {
-	return &BufferProxy{remote: remote}
+	return &BufferProxy{Remote: remote}
 }
 
 func (p *BufferProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBuffer = (*BufferProxy)(nil)
@@ -58,12 +63,12 @@ func (p *BufferProxy) CopyFrom(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBuffer, "copyFrom")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBuffer, MethodIBufferCopyFrom)
 	if _err != nil {
-		_code = TransactionIBufferCopyFrom
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBuffer, MethodIBufferCopyFrom, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -87,12 +92,12 @@ func (p *BufferProxy) CopyTo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBuffer, "copyTo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBuffer, MethodIBufferCopyTo)
 	if _err != nil {
-		_code = TransactionIBufferCopyTo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBuffer, MethodIBufferCopyTo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,6 +117,10 @@ type BufferStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BufferStub)(nil)
+
+func (s *BufferStub) Descriptor() string {
+	return DescriptorIBuffer
+}
 
 func (s *BufferStub) OnTransaction(
 	ctx context.Context,

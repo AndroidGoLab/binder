@@ -5,9 +5,8 @@ package wifi
 type RttType int32
 
 const (
-	RttTypeOneSided              RttType = 1
-	RttTypeTwoSided              RttType = 2
-	RttTypeTwoSided11mc          RttType = RttTypeTwoSided
-	RttTypeTwoSided11azNtb       RttType = 3
-	RttTypeTwoSided11azNtbSecure RttType = 4
+	RttTypeOneSided        RttType = 1
+	RttTypeTwoSided        RttType = 2
+	RttTypeTwoSided11mc    RttType = RttTypeTwoSided
+	RttTypeTwoSided11azNtb RttType = 3
 )

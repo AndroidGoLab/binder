@@ -31,6 +31,7 @@ func (s *AudioHalVolumeGroup) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VolumeCurves)))
 		for _, _item := range s.VolumeCurves {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +73,9 @@ func (s *AudioHalVolumeGroup) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.VolumeCurves = make([]AudioHalVolumeCurve, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VolumeCurves[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

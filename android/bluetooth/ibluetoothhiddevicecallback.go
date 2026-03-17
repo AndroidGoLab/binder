@@ -21,6 +21,16 @@ const (
 	TransactionIBluetoothHidDeviceCallbackOnVirtualCableUnplug     = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIBluetoothHidDeviceCallbackOnAppStatusChanged       = "onAppStatusChanged"
+	MethodIBluetoothHidDeviceCallbackOnConnectionStateChanged = "onConnectionStateChanged"
+	MethodIBluetoothHidDeviceCallbackOnGetReport              = "onGetReport"
+	MethodIBluetoothHidDeviceCallbackOnSetReport              = "onSetReport"
+	MethodIBluetoothHidDeviceCallbackOnSetProtocol            = "onSetProtocol"
+	MethodIBluetoothHidDeviceCallbackOnInterruptData          = "onInterruptData"
+	MethodIBluetoothHidDeviceCallbackOnVirtualCableUnplug     = "onVirtualCableUnplug"
+)
+
 type IBluetoothHidDeviceCallback interface {
 	AsBinder() binder.IBinder
 	OnAppStatusChanged(ctx context.Context, device BluetoothDevice, registered bool) error
@@ -33,17 +43,17 @@ type IBluetoothHidDeviceCallback interface {
 }
 
 type BluetoothHidDeviceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothHidDeviceCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothHidDeviceCallbackProxy {
-	return &BluetoothHidDeviceCallbackProxy{remote: remote}
+	return &BluetoothHidDeviceCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothHidDeviceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothHidDeviceCallback = (*BluetoothHidDeviceCallbackProxy)(nil)
@@ -61,12 +71,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnAppStatusChanged(
 	}
 	_data.WriteBool(registered)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onAppStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnAppStatusChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnAppStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnAppStatusChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +102,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnConnectionStateChanged(
 	}
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onConnectionStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnConnectionStateChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnConnectionStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnConnectionStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,12 +137,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnGetReport(
 	_data.WritePaddedByte(id)
 	_data.WriteInt32(bufferSize)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onGetReport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnGetReport)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnGetReport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnGetReport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,12 +179,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetReport(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onSetReport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnSetReport)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnSetReport
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnSetReport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,12 +210,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetProtocol(
 	}
 	_data.WritePaddedByte(protocol)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onSetProtocol")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnSetProtocol)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnSetProtocol
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnSetProtocol, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -240,12 +250,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnInterruptData(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onInterruptData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnInterruptData)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnInterruptData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnInterruptData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,12 +279,12 @@ func (p *BluetoothHidDeviceCallbackProxy) OnVirtualCableUnplug(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onVirtualCableUnplug")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnVirtualCableUnplug)
 	if _err != nil {
-		_code = TransactionIBluetoothHidDeviceCallbackOnVirtualCableUnplug
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHidDeviceCallback, MethodIBluetoothHidDeviceCallbackOnVirtualCableUnplug, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -294,6 +304,10 @@ type BluetoothHidDeviceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHidDeviceCallbackStub)(nil)
+
+func (s *BluetoothHidDeviceCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothHidDeviceCallback
+}
 
 func (s *BluetoothHidDeviceCallbackStub) OnTransaction(
 	ctx context.Context,

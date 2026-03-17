@@ -18,6 +18,12 @@ const (
 	TransactionIGraphicBufferAllocatorGetWaitableFd = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGraphicBufferAllocatorAllocate      = "allocate"
+	MethodIGraphicBufferAllocatorDeallocate    = "deallocate"
+	MethodIGraphicBufferAllocatorGetWaitableFd = "getWaitableFd"
+)
+
 type IGraphicBufferAllocator interface {
 	AsBinder() binder.IBinder
 	Allocate(ctx context.Context, desc c2IGraphicBufferAllocator.Description) (c2IGraphicBufferAllocator.Allocation, error)
@@ -26,17 +32,17 @@ type IGraphicBufferAllocator interface {
 }
 
 type GraphicBufferAllocatorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGraphicBufferAllocatorProxy(
 	remote binder.IBinder,
 ) *GraphicBufferAllocatorProxy {
-	return &GraphicBufferAllocatorProxy{remote: remote}
+	return &GraphicBufferAllocatorProxy{Remote: remote}
 }
 
 func (p *GraphicBufferAllocatorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGraphicBufferAllocator = (*GraphicBufferAllocatorProxy)(nil)
@@ -53,12 +59,12 @@ func (p *GraphicBufferAllocatorProxy) Allocate(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferAllocator, "allocate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorAllocate)
 	if _err != nil {
-		_code = TransactionIGraphicBufferAllocatorAllocate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorAllocate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,12 +95,12 @@ func (p *GraphicBufferAllocatorProxy) Deallocate(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferAllocator)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferAllocator, "deallocate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorDeallocate)
 	if _err != nil {
-		_code = TransactionIGraphicBufferAllocatorDeallocate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorDeallocate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,12 +124,12 @@ func (p *GraphicBufferAllocatorProxy) GetWaitableFd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferAllocator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferAllocator, "getWaitableFd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorGetWaitableFd)
 	if _err != nil {
-		_code = TransactionIGraphicBufferAllocatorGetWaitableFd
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferAllocator, MethodIGraphicBufferAllocatorGetWaitableFd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,6 +153,10 @@ type GraphicBufferAllocatorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GraphicBufferAllocatorStub)(nil)
+
+func (s *GraphicBufferAllocatorStub) Descriptor() string {
+	return DescriptorIGraphicBufferAllocator
+}
 
 func (s *GraphicBufferAllocatorStub) OnTransaction(
 	ctx context.Context,

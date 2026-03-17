@@ -18,6 +18,12 @@ const (
 	TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBiometricContextListenerOnFoldChanged                  = "onFoldChanged"
+	MethodIBiometricContextListenerOnDisplayStateChanged          = "onDisplayStateChanged"
+	MethodIBiometricContextListenerOnHardwareIgnoreTouchesChanged = "onHardwareIgnoreTouchesChanged"
+)
+
 type IBiometricContextListener interface {
 	AsBinder() binder.IBinder
 	OnFoldChanged(ctx context.Context, FoldState biometricsIBiometricContextListener.FoldState) error
@@ -26,17 +32,17 @@ type IBiometricContextListener interface {
 }
 
 type BiometricContextListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricContextListenerProxy(
 	remote binder.IBinder,
 ) *BiometricContextListenerProxy {
-	return &BiometricContextListenerProxy{remote: remote}
+	return &BiometricContextListenerProxy{Remote: remote}
 }
 
 func (p *BiometricContextListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricContextListener = (*BiometricContextListenerProxy)(nil)
@@ -49,12 +55,12 @@ func (p *BiometricContextListenerProxy) OnFoldChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteInt32(int32(FoldState))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricContextListener, "onFoldChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnFoldChanged)
 	if _err != nil {
-		_code = TransactionIBiometricContextListenerOnFoldChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnFoldChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +72,12 @@ func (p *BiometricContextListenerProxy) OnDisplayStateChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteInt32(displayState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricContextListener, "onDisplayStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnDisplayStateChanged)
 	if _err != nil {
-		_code = TransactionIBiometricContextListenerOnDisplayStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnDisplayStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +89,12 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteBool(shouldIgnore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricContextListener, "onHardwareIgnoreTouchesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnHardwareIgnoreTouchesChanged)
 	if _err != nil {
-		_code = TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricContextListener, MethodIBiometricContextListenerOnHardwareIgnoreTouchesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +105,10 @@ type BiometricContextListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricContextListenerStub)(nil)
+
+func (s *BiometricContextListenerStub) Descriptor() string {
+	return DescriptorIBiometricContextListener
+}
 
 func (s *BiometricContextListenerStub) OnTransaction(
 	ctx context.Context,

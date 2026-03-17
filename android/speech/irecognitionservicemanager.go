@@ -17,6 +17,11 @@ const (
 	TransactionIRecognitionServiceManagerSetTemporaryComponent = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRecognitionServiceManagerCreateSession         = "createSession"
+	MethodIRecognitionServiceManagerSetTemporaryComponent = "setTemporaryComponent"
+)
+
 type IRecognitionServiceManager interface {
 	AsBinder() binder.IBinder
 	CreateSession(ctx context.Context, componentName content.ComponentName, clientToken binder.IBinder, onDevice bool, callback IRecognitionServiceManagerCallback) error
@@ -24,17 +29,17 @@ type IRecognitionServiceManager interface {
 }
 
 type RecognitionServiceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecognitionServiceManagerProxy(
 	remote binder.IBinder,
 ) *RecognitionServiceManagerProxy {
-	return &RecognitionServiceManagerProxy{remote: remote}
+	return &RecognitionServiceManagerProxy{Remote: remote}
 }
 
 func (p *RecognitionServiceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecognitionServiceManager = (*RecognitionServiceManagerProxy)(nil)
@@ -52,16 +57,16 @@ func (p *RecognitionServiceManagerProxy) CreateSession(
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	_data.WriteBool(onDevice)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionServiceManager, MethodIRecognitionServiceManagerCreateSession)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceManagerCreateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionServiceManager, MethodIRecognitionServiceManagerCreateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +81,12 @@ func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "setTemporaryComponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionServiceManager, MethodIRecognitionServiceManagerSetTemporaryComponent)
 	if _err != nil {
-		_code = TransactionIRecognitionServiceManagerSetTemporaryComponent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionServiceManager, MethodIRecognitionServiceManagerSetTemporaryComponent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +97,10 @@ type RecognitionServiceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecognitionServiceManagerStub)(nil)
+
+func (s *RecognitionServiceManagerStub) Descriptor() string {
+	return DescriptorIRecognitionServiceManager
+}
 
 func (s *RecognitionServiceManagerStub) OnTransaction(
 	ctx context.Context,

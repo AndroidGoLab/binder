@@ -15,23 +15,27 @@ const (
 	TransactionIOnSubscriptionsChangedListenerOnSubscriptionsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnSubscriptionsChangedListenerOnSubscriptionsChanged = "onSubscriptionsChanged"
+)
+
 type IOnSubscriptionsChangedListener interface {
 	AsBinder() binder.IBinder
 	OnSubscriptionsChanged(ctx context.Context) error
 }
 
 type OnSubscriptionsChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnSubscriptionsChangedListenerProxy(
 	remote binder.IBinder,
 ) *OnSubscriptionsChangedListenerProxy {
-	return &OnSubscriptionsChangedListenerProxy{remote: remote}
+	return &OnSubscriptionsChangedListenerProxy{Remote: remote}
 }
 
 func (p *OnSubscriptionsChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnSubscriptionsChangedListener = (*OnSubscriptionsChangedListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *OnSubscriptionsChangedListenerProxy) OnSubscriptionsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnSubscriptionsChangedListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnSubscriptionsChangedListener, "onSubscriptionsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnSubscriptionsChangedListener, MethodIOnSubscriptionsChangedListenerOnSubscriptionsChanged)
 	if _err != nil {
-		_code = TransactionIOnSubscriptionsChangedListenerOnSubscriptionsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnSubscriptionsChangedListener, MethodIOnSubscriptionsChangedListenerOnSubscriptionsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type OnSubscriptionsChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnSubscriptionsChangedListenerStub)(nil)
+
+func (s *OnSubscriptionsChangedListenerStub) Descriptor() string {
+	return DescriptorIOnSubscriptionsChangedListener
+}
 
 func (s *OnSubscriptionsChangedListenerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIStatusBarNotificationHolderGet = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStatusBarNotificationHolderGet = "get"
+)
+
 type IStatusBarNotificationHolder interface {
 	AsBinder() binder.IBinder
 	Get(ctx context.Context) (StatusBarNotification, error)
 }
 
 type StatusBarNotificationHolderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStatusBarNotificationHolderProxy(
 	remote binder.IBinder,
 ) *StatusBarNotificationHolderProxy {
-	return &StatusBarNotificationHolderProxy{remote: remote}
+	return &StatusBarNotificationHolderProxy{Remote: remote}
 }
 
 func (p *StatusBarNotificationHolderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStatusBarNotificationHolder = (*StatusBarNotificationHolderProxy)(nil)
@@ -43,12 +47,12 @@ func (p *StatusBarNotificationHolderProxy) Get(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBarNotificationHolder)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStatusBarNotificationHolder, "get")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStatusBarNotificationHolder, MethodIStatusBarNotificationHolderGet)
 	if _err != nil {
-		_code = TransactionIStatusBarNotificationHolderGet
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStatusBarNotificationHolder, MethodIStatusBarNotificationHolderGet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,6 +81,10 @@ type StatusBarNotificationHolderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StatusBarNotificationHolderStub)(nil)
+
+func (s *StatusBarNotificationHolderStub) Descriptor() string {
+	return DescriptorIStatusBarNotificationHolder
+}
 
 func (s *StatusBarNotificationHolderStub) OnTransaction(
 	ctx context.Context,

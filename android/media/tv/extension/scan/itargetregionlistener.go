@@ -16,23 +16,27 @@ const (
 	TransactionITargetRegionListenerOnDetectTargetRegion = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITargetRegionListenerOnDetectTargetRegion = "onDetectTargetRegion"
+)
+
 type ITargetRegionListener interface {
 	AsBinder() binder.IBinder
 	OnDetectTargetRegion(ctx context.Context, detectTargetRegions os.Bundle) error
 }
 
 type TargetRegionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTargetRegionListenerProxy(
 	remote binder.IBinder,
 ) *TargetRegionListenerProxy {
-	return &TargetRegionListenerProxy{remote: remote}
+	return &TargetRegionListenerProxy{Remote: remote}
 }
 
 func (p *TargetRegionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITargetRegionListener = (*TargetRegionListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *TargetRegionListenerProxy) OnDetectTargetRegion(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITargetRegionListener, "onDetectTargetRegion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITargetRegionListener, MethodITargetRegionListenerOnDetectTargetRegion)
 	if _err != nil {
-		_code = TransactionITargetRegionListenerOnDetectTargetRegion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITargetRegionListener, MethodITargetRegionListenerOnDetectTargetRegion, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type TargetRegionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TargetRegionListenerStub)(nil)
+
+func (s *TargetRegionListenerStub) Descriptor() string {
+	return DescriptorITargetRegionListener
+}
 
 func (s *TargetRegionListenerStub) OnTransaction(
 	ctx context.Context,

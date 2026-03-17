@@ -15,23 +15,27 @@ const (
 	TransactionIImsStreamMediaSessionClose = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIImsStreamMediaSessionClose = "close"
+)
+
 type IImsStreamMediaSession interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
 }
 
 type ImsStreamMediaSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsStreamMediaSessionProxy(
 	remote binder.IBinder,
 ) *ImsStreamMediaSessionProxy {
-	return &ImsStreamMediaSessionProxy{remote: remote}
+	return &ImsStreamMediaSessionProxy{Remote: remote}
 }
 
 func (p *ImsStreamMediaSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsStreamMediaSession = (*ImsStreamMediaSessionProxy)(nil)
@@ -42,12 +46,12 @@ func (p *ImsStreamMediaSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsStreamMediaSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsStreamMediaSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsStreamMediaSession, MethodIImsStreamMediaSessionClose)
 	if _err != nil {
-		_code = TransactionIImsStreamMediaSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsStreamMediaSession, MethodIImsStreamMediaSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type ImsStreamMediaSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsStreamMediaSessionStub)(nil)
+
+func (s *ImsStreamMediaSessionStub) Descriptor() string {
+	return DescriptorIImsStreamMediaSession
+}
 
 func (s *ImsStreamMediaSessionStub) OnTransaction(
 	ctx context.Context,

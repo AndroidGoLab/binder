@@ -15,23 +15,27 @@ const (
 	TransactionIResourcesManagerDumpResources = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIResourcesManagerDumpResources = "dumpResources"
+)
+
 type IResourcesManager interface {
 	AsBinder() binder.IBinder
 	DumpResources(ctx context.Context, process string, fd int32, finishCallback interface{}) (bool, error)
 }
 
 type ResourcesManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResourcesManagerProxy(
 	remote binder.IBinder,
 ) *ResourcesManagerProxy {
-	return &ResourcesManagerProxy{remote: remote}
+	return &ResourcesManagerProxy{Remote: remote}
 }
 
 func (p *ResourcesManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResourcesManager = (*ResourcesManagerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *ResourcesManagerProxy) DumpResources(
 	_data.WriteString16(process)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResourcesManager, "dumpResources")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResourcesManager, MethodIResourcesManagerDumpResources)
 	if _err != nil {
-		_code = TransactionIResourcesManagerDumpResources
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIResourcesManager, MethodIResourcesManagerDumpResources, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,6 +81,10 @@ type ResourcesManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResourcesManagerStub)(nil)
+
+func (s *ResourcesManagerStub) Descriptor() string {
+	return DescriptorIResourcesManager
+}
 
 func (s *ResourcesManagerStub) OnTransaction(
 	ctx context.Context,

@@ -17,23 +17,27 @@ const (
 	TransactionICallScreeningAdapterOnScreeningResponse = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICallScreeningAdapterOnScreeningResponse = "onScreeningResponse"
+)
+
 type ICallScreeningAdapter interface {
 	AsBinder() binder.IBinder
 	OnScreeningResponse(ctx context.Context, callId string, componentName content.ComponentName, response androidTelecom.CallScreeningServiceParcelableCallResponse) error
 }
 
 type CallScreeningAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallScreeningAdapterProxy(
 	remote binder.IBinder,
 ) *CallScreeningAdapterProxy {
-	return &CallScreeningAdapterProxy{remote: remote}
+	return &CallScreeningAdapterProxy{Remote: remote}
 }
 
 func (p *CallScreeningAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallScreeningAdapter = (*CallScreeningAdapterProxy)(nil)
@@ -56,12 +60,12 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallScreeningAdapter, "onScreeningResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallScreeningAdapter, MethodICallScreeningAdapterOnScreeningResponse)
 	if _err != nil {
-		_code = TransactionICallScreeningAdapterOnScreeningResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallScreeningAdapter, MethodICallScreeningAdapterOnScreeningResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +76,10 @@ type CallScreeningAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallScreeningAdapterStub)(nil)
+
+func (s *CallScreeningAdapterStub) Descriptor() string {
+	return DescriptorICallScreeningAdapter
+}
 
 func (s *CallScreeningAdapterStub) OnTransaction(
 	ctx context.Context,

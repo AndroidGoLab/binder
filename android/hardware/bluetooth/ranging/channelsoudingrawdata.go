@@ -42,14 +42,7 @@ func (s *ChannelSoudingRawData) MarshalParcel(
 	if _err := s.ReflectorData.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.StepChannels == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.StepChannels)))
-		for _, _item := range s.StepChannels {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.StepChannels)
 	if s.ToaTodInitiator == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -122,19 +115,9 @@ func (s *ChannelSoudingRawData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.StepChannels, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.StepChannels = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.StepChannels[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count2 int32

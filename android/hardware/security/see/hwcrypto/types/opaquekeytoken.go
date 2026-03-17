@@ -16,14 +16,7 @@ func (s *OpaqueKeyToken) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.KeyToken == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.KeyToken)))
-		for _, _item := range s.KeyToken {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.KeyToken)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -37,19 +30,9 @@ func (s *OpaqueKeyToken) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.KeyToken, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.KeyToken = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.KeyToken[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

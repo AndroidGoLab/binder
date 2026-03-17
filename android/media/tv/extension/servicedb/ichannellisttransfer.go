@@ -16,6 +16,11 @@ const (
 	TransactionIChannelListTransferExportChannelList = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIChannelListTransferImportChannelList = "importChannelList"
+	MethodIChannelListTransferExportChannelList = "exportChannelList"
+)
+
 type IChannelListTransfer interface {
 	AsBinder() binder.IBinder
 	ImportChannelList(ctx context.Context, pfd int32) error
@@ -23,17 +28,17 @@ type IChannelListTransfer interface {
 }
 
 type ChannelListTransferProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewChannelListTransferProxy(
 	remote binder.IBinder,
 ) *ChannelListTransferProxy {
-	return &ChannelListTransferProxy{remote: remote}
+	return &ChannelListTransferProxy{Remote: remote}
 }
 
 func (p *ChannelListTransferProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IChannelListTransfer = (*ChannelListTransferProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ChannelListTransferProxy) ImportChannelList(
 	_data.WriteInterfaceToken(DescriptorIChannelListTransfer)
 	_data.WriteFileDescriptor(pfd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChannelListTransfer, "importChannelList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChannelListTransfer, MethodIChannelListTransferImportChannelList)
 	if _err != nil {
-		_code = TransactionIChannelListTransferImportChannelList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChannelListTransfer, MethodIChannelListTransferImportChannelList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,12 +77,12 @@ func (p *ChannelListTransferProxy) ExportChannelList(
 	_data.WriteInterfaceToken(DescriptorIChannelListTransfer)
 	_data.WriteFileDescriptor(pfd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChannelListTransfer, "exportChannelList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChannelListTransfer, MethodIChannelListTransferExportChannelList)
 	if _err != nil {
-		_code = TransactionIChannelListTransferExportChannelList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChannelListTransfer, MethodIChannelListTransferExportChannelList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,6 +102,10 @@ type ChannelListTransferStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ChannelListTransferStub)(nil)
+
+func (s *ChannelListTransferStub) Descriptor() string {
+	return DescriptorIChannelListTransfer
+}
 
 func (s *ChannelListTransferStub) OnTransaction(
 	ctx context.Context,

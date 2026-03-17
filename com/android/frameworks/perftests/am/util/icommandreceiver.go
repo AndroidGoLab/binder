@@ -16,23 +16,27 @@ const (
 	TransactionICommandReceiverSendCommand = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICommandReceiverSendCommand = "sendCommand"
+)
+
 type ICommandReceiver interface {
 	AsBinder() binder.IBinder
 	SendCommand(ctx context.Context, command int32, seq int32, sourcePackage string, targetPackage string, flags int32, bundle os.Bundle) error
 }
 
 type CommandReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCommandReceiverProxy(
 	remote binder.IBinder,
 ) *CommandReceiverProxy {
-	return &CommandReceiverProxy{remote: remote}
+	return &CommandReceiverProxy{Remote: remote}
 }
 
 func (p *CommandReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICommandReceiver = (*CommandReceiverProxy)(nil)
@@ -58,12 +62,12 @@ func (p *CommandReceiverProxy) SendCommand(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICommandReceiver, "sendCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICommandReceiver, MethodICommandReceiverSendCommand)
 	if _err != nil {
-		_code = TransactionICommandReceiverSendCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICommandReceiver, MethodICommandReceiverSendCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +78,10 @@ type CommandReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CommandReceiverStub)(nil)
+
+func (s *CommandReceiverStub) Descriptor() string {
+	return DescriptorICommandReceiver
+}
 
 func (s *CommandReceiverStub) OnTransaction(
 	ctx context.Context,

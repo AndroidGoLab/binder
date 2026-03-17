@@ -16,6 +16,11 @@ const (
 	TransactionITokenInfoCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITokenInfoCallbackOnSuccess = "onSuccess"
+	MethodITokenInfoCallbackOnFailure = "onFailure"
+)
+
 type ITokenInfoCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, tokenInfo TokenInfo) error
@@ -23,17 +28,17 @@ type ITokenInfoCallback interface {
 }
 
 type TokenInfoCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTokenInfoCallbackProxy(
 	remote binder.IBinder,
 ) *TokenInfoCallbackProxy {
-	return &TokenInfoCallbackProxy{remote: remote}
+	return &TokenInfoCallbackProxy{Remote: remote}
 }
 
 func (p *TokenInfoCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITokenInfoCallback = (*TokenInfoCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *TokenInfoCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITokenInfoCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITokenInfoCallback, MethodITokenInfoCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionITokenInfoCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITokenInfoCallback, MethodITokenInfoCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *TokenInfoCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITokenInfoCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITokenInfoCallback, MethodITokenInfoCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionITokenInfoCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITokenInfoCallback, MethodITokenInfoCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type TokenInfoCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TokenInfoCallbackStub)(nil)
+
+func (s *TokenInfoCallbackStub) Descriptor() string {
+	return DescriptorITokenInfoCallback
+}
 
 func (s *TokenInfoCallbackStub) OnTransaction(
 	ctx context.Context,

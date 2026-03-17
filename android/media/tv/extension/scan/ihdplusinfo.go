@@ -15,23 +15,27 @@ const (
 	TransactionIHDPlusInfoSetHDPlusInfo = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHDPlusInfoSetHDPlusInfo = "setHDPlusInfo"
+)
+
 type IHDPlusInfo interface {
 	AsBinder() binder.IBinder
 	SetHDPlusInfo(ctx context.Context, isBlindScanContinue string, isHDMode string) (int32, error)
 }
 
 type HDPlusInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHDPlusInfoProxy(
 	remote binder.IBinder,
 ) *HDPlusInfoProxy {
-	return &HDPlusInfoProxy{remote: remote}
+	return &HDPlusInfoProxy{Remote: remote}
 }
 
 func (p *HDPlusInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHDPlusInfo = (*HDPlusInfoProxy)(nil)
@@ -47,12 +51,12 @@ func (p *HDPlusInfoProxy) SetHDPlusInfo(
 	_data.WriteString16(isBlindScanContinue)
 	_data.WriteString16(isHDMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHDPlusInfo, "setHDPlusInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHDPlusInfo, MethodIHDPlusInfoSetHDPlusInfo)
 	if _err != nil {
-		_code = TransactionIHDPlusInfoSetHDPlusInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIHDPlusInfo, MethodIHDPlusInfoSetHDPlusInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,6 +80,10 @@ type HDPlusInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HDPlusInfoStub)(nil)
+
+func (s *HDPlusInfoStub) Descriptor() string {
+	return DescriptorIHDPlusInfo
+}
 
 func (s *HDPlusInfoStub) OnTransaction(
 	ctx context.Context,

@@ -58,10 +58,12 @@ func (u *AesCipherMode) MarshalParcel(
 
 	switch u.Tag {
 	case AesCipherModeTagCbc:
+		p.WriteInt32(1)
 		if _err := u.Cbc.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AesCipherModeTagCtr:
+		p.WriteInt32(1)
 		if _err := u.Ctr.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *AesCipherMode) UnmarshalParcel(
 
 	switch u.Tag {
 	case AesCipherModeTagCbc:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Cbc.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AesCipherModeTagCtr:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Ctr.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

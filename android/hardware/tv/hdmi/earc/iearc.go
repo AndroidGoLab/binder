@@ -19,6 +19,14 @@ const (
 	TransactionIEArcGetLastReportedAudioCapabilities = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIEArcSetEArcEnabled                   = "setEArcEnabled"
+	MethodIEArcIsEArcEnabled                    = "isEArcEnabled"
+	MethodIEArcSetCallback                      = "setCallback"
+	MethodIEArcGetState                         = "getState"
+	MethodIEArcGetLastReportedAudioCapabilities = "getLastReportedAudioCapabilities"
+)
+
 type IEArc interface {
 	AsBinder() binder.IBinder
 	SetEArcEnabled(ctx context.Context, enabled bool) error
@@ -29,17 +37,17 @@ type IEArc interface {
 }
 
 type EArcProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEArcProxy(
 	remote binder.IBinder,
 ) *EArcProxy {
-	return &EArcProxy{remote: remote}
+	return &EArcProxy{Remote: remote}
 }
 
 func (p *EArcProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEArc = (*EArcProxy)(nil)
@@ -52,12 +60,12 @@ func (p *EArcProxy) SetEArcEnabled(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "setEArcEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArc, MethodIEArcSetEArcEnabled)
 	if _err != nil {
-		_code = TransactionIEArcSetEArcEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEArc, MethodIEArcSetEArcEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +85,12 @@ func (p *EArcProxy) IsEArcEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "isEArcEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArc, MethodIEArcIsEArcEnabled)
 	if _err != nil {
-		_code = TransactionIEArcIsEArcEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEArc, MethodIEArcIsEArcEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,14 +113,14 @@ func (p *EArcProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEArc)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArc, MethodIEArcSetCallback)
 	if _err != nil {
-		_code = TransactionIEArcSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEArc, MethodIEArcSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,12 +142,12 @@ func (p *EArcProxy) GetState(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "getState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArc, MethodIEArcGetState)
 	if _err != nil {
-		_code = TransactionIEArcGetState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEArc, MethodIEArcGetState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,12 +174,12 @@ func (p *EArcProxy) GetLastReportedAudioCapabilities(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "getLastReportedAudioCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArc, MethodIEArcGetLastReportedAudioCapabilities)
 	if _err != nil {
-		_code = TransactionIEArcGetLastReportedAudioCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEArc, MethodIEArcGetLastReportedAudioCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,6 +213,10 @@ type EArcStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EArcStub)(nil)
+
+func (s *EArcStub) Descriptor() string {
+	return DescriptorIEArc
+}
 
 func (s *EArcStub) OnTransaction(
 	ctx context.Context,

@@ -1,7 +1,6 @@
 package media
 
 import (
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,8 +19,8 @@ type CreateRecordResponse struct {
 	Buffers                SharedFileRegion
 	PortId                 int32
 	AudioRecord            IAudioRecord
-	ServerConfig           common.AudioConfigBase
-	HalConfig              common.AudioConfigBase
+	ServerConfig           interface{}
+	HalConfig              interface{}
 }
 
 var _ parcel.Parcelable = (*CreateRecordResponse)(nil)
@@ -48,12 +47,6 @@ func (s *CreateRecordResponse) MarshalParcel(
 		p.WriteNullStrongBinder()
 	} else {
 		p.WriteStrongBinder(s.AudioRecord.AsBinder().Handle())
-	}
-	if _err := s.ServerConfig.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _err := s.HalConfig.MarshalParcel(p); _err != nil {
-		return _err
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -121,14 +114,6 @@ func (s *CreateRecordResponse) UnmarshalParcel(
 		return _err
 	}
 	s.AudioRecord = NewAudioRecordProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _audioRecordHandle))
-
-	if _err = s.ServerConfig.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	if _err = s.HalConfig.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

@@ -31,6 +31,26 @@ const (
 	TransactionIBroadcastRadioRegisterAnnouncementListener = binder.FirstCallTransaction + 16
 )
 
+const (
+	MethodIBroadcastRadioGetProperties                = "getProperties"
+	MethodIBroadcastRadioGetAmFmRegionConfig          = "getAmFmRegionConfig"
+	MethodIBroadcastRadioGetDabRegionConfig           = "getDabRegionConfig"
+	MethodIBroadcastRadioSetTunerCallback             = "setTunerCallback"
+	MethodIBroadcastRadioUnsetTunerCallback           = "unsetTunerCallback"
+	MethodIBroadcastRadioTune                         = "tune"
+	MethodIBroadcastRadioSeek                         = "seek"
+	MethodIBroadcastRadioStep                         = "step"
+	MethodIBroadcastRadioCancel                       = "cancel"
+	MethodIBroadcastRadioStartProgramListUpdates      = "startProgramListUpdates"
+	MethodIBroadcastRadioStopProgramListUpdates       = "stopProgramListUpdates"
+	MethodIBroadcastRadioIsConfigFlagSet              = "isConfigFlagSet"
+	MethodIBroadcastRadioSetConfigFlag                = "setConfigFlag"
+	MethodIBroadcastRadioSetParameters                = "setParameters"
+	MethodIBroadcastRadioGetParameters                = "getParameters"
+	MethodIBroadcastRadioGetImage                     = "getImage"
+	MethodIBroadcastRadioRegisterAnnouncementListener = "registerAnnouncementListener"
+)
+
 type IBroadcastRadio interface {
 	AsBinder() binder.IBinder
 	GetProperties(ctx context.Context) (Properties, error)
@@ -60,17 +80,17 @@ const (
 )
 
 type BroadcastRadioProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBroadcastRadioProxy(
 	remote binder.IBinder,
 ) *BroadcastRadioProxy {
-	return &BroadcastRadioProxy{remote: remote}
+	return &BroadcastRadioProxy{Remote: remote}
 }
 
 func (p *BroadcastRadioProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBroadcastRadio = (*BroadcastRadioProxy)(nil)
@@ -82,12 +102,12 @@ func (p *BroadcastRadioProxy) GetProperties(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "getProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetProperties)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioGetProperties
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioGetProperties, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,12 +138,12 @@ func (p *BroadcastRadioProxy) GetAmFmRegionConfig(
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteBool(full)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "getAmFmRegionConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetAmFmRegionConfig)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioGetAmFmRegionConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioGetAmFmRegionConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,12 +172,12 @@ func (p *BroadcastRadioProxy) GetDabRegionConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "getDabRegionConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetDabRegionConfig)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioGetDabRegionConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioGetDabRegionConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,6 +195,9 @@ func (p *BroadcastRadioProxy) GetDabRegionConfig(
 	if _count >= 0 {
 		_result = make([]DabTableEntry, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -189,14 +212,14 @@ func (p *BroadcastRadioProxy) SetTunerCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "setTunerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioSetTunerCallback)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioSetTunerCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioSetTunerCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -215,12 +238,12 @@ func (p *BroadcastRadioProxy) UnsetTunerCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "unsetTunerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioUnsetTunerCallback)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioUnsetTunerCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioUnsetTunerCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -244,12 +267,12 @@ func (p *BroadcastRadioProxy) Tune(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "tune")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioTune)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioTune
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioTune, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -272,12 +295,12 @@ func (p *BroadcastRadioProxy) Seek(
 	_data.WriteBool(directionUp)
 	_data.WriteBool(skipSubChannel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "seek")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioSeek)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioSeek
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioSeek, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -298,12 +321,12 @@ func (p *BroadcastRadioProxy) Step(
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteBool(directionUp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "step")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioStep)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioStep
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioStep, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -322,12 +345,12 @@ func (p *BroadcastRadioProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioCancel)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioCancel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -351,12 +374,12 @@ func (p *BroadcastRadioProxy) StartProgramListUpdates(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "startProgramListUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioStartProgramListUpdates)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioStartProgramListUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioStartProgramListUpdates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -375,12 +398,12 @@ func (p *BroadcastRadioProxy) StopProgramListUpdates(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "stopProgramListUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioStopProgramListUpdates)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioStopProgramListUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioStopProgramListUpdates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -402,12 +425,12 @@ func (p *BroadcastRadioProxy) IsConfigFlagSet(
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(int32(flag))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "isConfigFlagSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioIsConfigFlagSet)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioIsConfigFlagSet
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioIsConfigFlagSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -434,12 +457,12 @@ func (p *BroadcastRadioProxy) SetConfigFlag(
 	_data.WriteInt32(int32(flag))
 	_data.WriteBool(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "setConfigFlag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioSetConfigFlag)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioSetConfigFlag
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioSetConfigFlag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -464,18 +487,19 @@ func (p *BroadcastRadioProxy) SetParameters(
 	} else {
 		_data.WriteInt32(int32(len(parameters)))
 		for _, _item := range parameters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "setParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioSetParameters)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioSetParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioSetParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -493,6 +517,9 @@ func (p *BroadcastRadioProxy) SetParameters(
 	if _count >= 0 {
 		_result = make([]VendorKeyValue, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -517,12 +544,12 @@ func (p *BroadcastRadioProxy) GetParameters(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "getParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetParameters)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioGetParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioGetParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -540,6 +567,9 @@ func (p *BroadcastRadioProxy) GetParameters(
 	if _count >= 0 {
 		_result = make([]VendorKeyValue, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -557,12 +587,12 @@ func (p *BroadcastRadioProxy) GetImage(
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "getImage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioGetImage)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioGetImage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioGetImage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -597,7 +627,7 @@ func (p *BroadcastRadioProxy) RegisterAnnouncementListener(
 	var _result ICloseHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	if enabled == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -607,12 +637,12 @@ func (p *BroadcastRadioProxy) RegisterAnnouncementListener(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastRadio, "registerAnnouncementListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBroadcastRadio, MethodIBroadcastRadioRegisterAnnouncementListener)
 	if _err != nil {
-		_code = TransactionIBroadcastRadioRegisterAnnouncementListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBroadcastRadio, MethodIBroadcastRadioRegisterAnnouncementListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -626,7 +656,7 @@ func (p *BroadcastRadioProxy) RegisterAnnouncementListener(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -637,6 +667,10 @@ type BroadcastRadioStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BroadcastRadioStub)(nil)
+
+func (s *BroadcastRadioStub) Descriptor() string {
+	return DescriptorIBroadcastRadio
+}
 
 func (s *BroadcastRadioStub) OnTransaction(
 	ctx context.Context,

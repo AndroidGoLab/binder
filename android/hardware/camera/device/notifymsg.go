@@ -58,10 +58,12 @@ func (u *NotifyMsg) MarshalParcel(
 
 	switch u.Tag {
 	case NotifyMsgTagError:
+		p.WriteInt32(1)
 		if _err := u.Error.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case NotifyMsgTagShutter:
+		p.WriteInt32(1)
 		if _err := u.Shutter.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *NotifyMsg) UnmarshalParcel(
 
 	switch u.Tag {
 	case NotifyMsgTagError:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Error.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case NotifyMsgTagShutter:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Shutter.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -42,15 +42,49 @@ const (
 	TransactionIAppWidgetServiceBindAppWidgetId                   = binder.FirstCallTransaction + 21
 	TransactionIAppWidgetServiceBindRemoteViewsService            = binder.FirstCallTransaction + 22
 	TransactionIAppWidgetServiceNotifyProviderInheritance         = binder.FirstCallTransaction + 23
-	TransactionIAppWidgetServiceGetMaxBitmapMemory                = binder.FirstCallTransaction + 24
-	TransactionIAppWidgetServiceGetAppWidgetIds                   = binder.FirstCallTransaction + 25
-	TransactionIAppWidgetServiceIsBoundWidgetPackage              = binder.FirstCallTransaction + 26
-	TransactionIAppWidgetServiceRequestPinAppWidget               = binder.FirstCallTransaction + 27
-	TransactionIAppWidgetServiceIsRequestPinAppWidgetSupported    = binder.FirstCallTransaction + 28
-	TransactionIAppWidgetServiceNoteAppWidgetTapped               = binder.FirstCallTransaction + 29
-	TransactionIAppWidgetServiceSetWidgetPreview                  = binder.FirstCallTransaction + 30
-	TransactionIAppWidgetServiceGetWidgetPreview                  = binder.FirstCallTransaction + 31
-	TransactionIAppWidgetServiceRemoveWidgetPreview               = binder.FirstCallTransaction + 32
+	TransactionIAppWidgetServiceGetAppWidgetIds                   = binder.FirstCallTransaction + 24
+	TransactionIAppWidgetServiceIsBoundWidgetPackage              = binder.FirstCallTransaction + 25
+	TransactionIAppWidgetServiceRequestPinAppWidget               = binder.FirstCallTransaction + 26
+	TransactionIAppWidgetServiceIsRequestPinAppWidgetSupported    = binder.FirstCallTransaction + 27
+	TransactionIAppWidgetServiceNoteAppWidgetTapped               = binder.FirstCallTransaction + 28
+	TransactionIAppWidgetServiceSetWidgetPreview                  = binder.FirstCallTransaction + 29
+	TransactionIAppWidgetServiceGetWidgetPreview                  = binder.FirstCallTransaction + 30
+	TransactionIAppWidgetServiceRemoveWidgetPreview               = binder.FirstCallTransaction + 31
+)
+
+const (
+	MethodIAppWidgetServiceStartListening                    = "startListening"
+	MethodIAppWidgetServiceStopListening                     = "stopListening"
+	MethodIAppWidgetServiceAllocateAppWidgetId               = "allocateAppWidgetId"
+	MethodIAppWidgetServiceDeleteAppWidgetId                 = "deleteAppWidgetId"
+	MethodIAppWidgetServiceDeleteHost                        = "deleteHost"
+	MethodIAppWidgetServiceDeleteAllHosts                    = "deleteAllHosts"
+	MethodIAppWidgetServiceGetAppWidgetViews                 = "getAppWidgetViews"
+	MethodIAppWidgetServiceGetAppWidgetIdsForHost            = "getAppWidgetIdsForHost"
+	MethodIAppWidgetServiceSetAppWidgetHidden                = "setAppWidgetHidden"
+	MethodIAppWidgetServiceCreateAppWidgetConfigIntentSender = "createAppWidgetConfigIntentSender"
+	MethodIAppWidgetServiceUpdateAppWidgetIds                = "updateAppWidgetIds"
+	MethodIAppWidgetServiceUpdateAppWidgetOptions            = "updateAppWidgetOptions"
+	MethodIAppWidgetServiceGetAppWidgetOptions               = "getAppWidgetOptions"
+	MethodIAppWidgetServicePartiallyUpdateAppWidgetIds       = "partiallyUpdateAppWidgetIds"
+	MethodIAppWidgetServiceUpdateAppWidgetProvider           = "updateAppWidgetProvider"
+	MethodIAppWidgetServiceUpdateAppWidgetProviderInfo       = "updateAppWidgetProviderInfo"
+	MethodIAppWidgetServiceNotifyAppWidgetViewDataChanged    = "notifyAppWidgetViewDataChanged"
+	MethodIAppWidgetServiceGetInstalledProvidersForProfile   = "getInstalledProvidersForProfile"
+	MethodIAppWidgetServiceGetAppWidgetInfo                  = "getAppWidgetInfo"
+	MethodIAppWidgetServiceHasBindAppWidgetPermission        = "hasBindAppWidgetPermission"
+	MethodIAppWidgetServiceSetBindAppWidgetPermission        = "setBindAppWidgetPermission"
+	MethodIAppWidgetServiceBindAppWidgetId                   = "bindAppWidgetId"
+	MethodIAppWidgetServiceBindRemoteViewsService            = "bindRemoteViewsService"
+	MethodIAppWidgetServiceNotifyProviderInheritance         = "notifyProviderInheritance"
+	MethodIAppWidgetServiceGetAppWidgetIds                   = "getAppWidgetIds"
+	MethodIAppWidgetServiceIsBoundWidgetPackage              = "isBoundWidgetPackage"
+	MethodIAppWidgetServiceRequestPinAppWidget               = "requestPinAppWidget"
+	MethodIAppWidgetServiceIsRequestPinAppWidgetSupported    = "isRequestPinAppWidgetSupported"
+	MethodIAppWidgetServiceNoteAppWidgetTapped               = "noteAppWidgetTapped"
+	MethodIAppWidgetServiceSetWidgetPreview                  = "setWidgetPreview"
+	MethodIAppWidgetServiceGetWidgetPreview                  = "getWidgetPreview"
+	MethodIAppWidgetServiceRemoveWidgetPreview               = "removeWidgetPreview"
 )
 
 type IAppWidgetService interface {
@@ -79,29 +113,28 @@ type IAppWidgetService interface {
 	BindAppWidgetId(ctx context.Context, appWidgetId int32, providerProfileId int32, providerComponent content.ComponentName, options os.Bundle) (bool, error)
 	BindRemoteViewsService(ctx context.Context, appWidgetId int32, intent content.Intent, caller app.IApplicationThread, token binder.IBinder, connection app.IServiceConnection, flags int64) (bool, error)
 	NotifyProviderInheritance(ctx context.Context, componentNames []content.ComponentName) error
-	GetMaxBitmapMemory(ctx context.Context) (int32, error)
 	GetAppWidgetIds(ctx context.Context, providerComponent content.ComponentName) ([]int32, error)
 	IsBoundWidgetPackage(ctx context.Context, packageName string) (bool, error)
 	RequestPinAppWidget(ctx context.Context, packageName string, providerComponent content.ComponentName, extras os.Bundle, resultIntent content.IntentSender) (bool, error)
 	IsRequestPinAppWidgetSupported(ctx context.Context) (bool, error)
 	NoteAppWidgetTapped(ctx context.Context, appWidgetId int32) error
-	SetWidgetPreview(ctx context.Context, providerComponent content.ComponentName, widgetCategories int32, preview widget.RemoteViews) (bool, error)
+	SetWidgetPreview(ctx context.Context, providerComponent content.ComponentName, widgetCategories int32, preview widget.RemoteViews) error
 	GetWidgetPreview(ctx context.Context, providerComponent content.ComponentName, profileId int32, widgetCategory int32) (widget.RemoteViews, error)
 	RemoveWidgetPreview(ctx context.Context, providerComponent content.ComponentName, widgetCategories int32) error
 }
 
 type AppWidgetServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppWidgetServiceProxy(
 	remote binder.IBinder,
 ) *AppWidgetServiceProxy {
-	return &AppWidgetServiceProxy{remote: remote}
+	return &AppWidgetServiceProxy{Remote: remote}
 }
 
 func (p *AppWidgetServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppWidgetService = (*AppWidgetServiceProxy)(nil)
@@ -113,10 +146,10 @@ func (p *AppWidgetServiceProxy) StartListening(
 	appWidgetIds []int32,
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
-	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, host.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
 	if appWidgetIds == nil {
@@ -128,12 +161,12 @@ func (p *AppWidgetServiceProxy) StartListening(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "startListening")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceStartListening)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceStartListening
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceStartListening, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,18 +192,18 @@ func (p *AppWidgetServiceProxy) StopListening(
 	ctx context.Context,
 	hostId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "stopListening")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceStopListening)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceStopListening
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceStopListening, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,18 +221,18 @@ func (p *AppWidgetServiceProxy) AllocateAppWidgetId(
 	hostId int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "allocateAppWidgetId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceAllocateAppWidgetId)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceAllocateAppWidgetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceAllocateAppWidgetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,18 +253,18 @@ func (p *AppWidgetServiceProxy) DeleteAppWidgetId(
 	ctx context.Context,
 	appWidgetId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "deleteAppWidgetId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteAppWidgetId)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceDeleteAppWidgetId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteAppWidgetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -254,12 +287,12 @@ func (p *AppWidgetServiceProxy) DeleteHost(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(hostId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "deleteHost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteHost)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceDeleteHost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteHost, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -278,12 +311,12 @@ func (p *AppWidgetServiceProxy) DeleteAllHosts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "deleteAllHosts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteAllHosts)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceDeleteAllHosts
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceDeleteAllHosts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -301,18 +334,18 @@ func (p *AppWidgetServiceProxy) GetAppWidgetViews(
 	appWidgetId int32,
 ) (widget.RemoteViews, error) {
 	var _result widget.RemoteViews
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getAppWidgetViews")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetViews)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetAppWidgetViews
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetViews, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -339,18 +372,18 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIdsForHost(
 	hostId int32,
 ) ([]int32, error) {
 	var _result []int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getAppWidgetIdsForHost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetIdsForHost)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetAppWidgetIdsForHost
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetIdsForHost, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -381,18 +414,18 @@ func (p *AppWidgetServiceProxy) SetAppWidgetHidden(
 	ctx context.Context,
 	hostId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(hostId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "setAppWidgetHidden")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceSetAppWidgetHidden)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceSetAppWidgetHidden
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceSetAppWidgetHidden, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -411,19 +444,19 @@ func (p *AppWidgetServiceProxy) CreateAppWidgetConfigIntentSender(
 	intentFlags int32,
 ) (content.IntentSender, error) {
 	var _result content.IntentSender
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
 	_data.WriteInt32(intentFlags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "createAppWidgetConfigIntentSender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceCreateAppWidgetConfigIntentSender)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceCreateAppWidgetConfigIntentSender
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceCreateAppWidgetConfigIntentSender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -450,7 +483,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetIds(
 	appWidgetIds []int32,
 	views widget.RemoteViews,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
@@ -467,12 +500,12 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetIds(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "updateAppWidgetIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetIds)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceUpdateAppWidgetIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -490,7 +523,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetOptions(
 	appWidgetId int32,
 	extras os.Bundle,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
@@ -500,12 +533,12 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetOptions(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "updateAppWidgetOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetOptions)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceUpdateAppWidgetOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -523,18 +556,18 @@ func (p *AppWidgetServiceProxy) GetAppWidgetOptions(
 	appWidgetId int32,
 ) (os.Bundle, error) {
 	var _result os.Bundle
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getAppWidgetOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetOptions)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetAppWidgetOptions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -561,7 +594,7 @@ func (p *AppWidgetServiceProxy) PartiallyUpdateAppWidgetIds(
 	appWidgetIds []int32,
 	views widget.RemoteViews,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
@@ -578,12 +611,12 @@ func (p *AppWidgetServiceProxy) PartiallyUpdateAppWidgetIds(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "partiallyUpdateAppWidgetIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServicePartiallyUpdateAppWidgetIds)
 	if _err != nil {
-		_code = TransactionIAppWidgetServicePartiallyUpdateAppWidgetIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServicePartiallyUpdateAppWidgetIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -612,12 +645,12 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetProvider(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "updateAppWidgetProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetProvider)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceUpdateAppWidgetProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -643,12 +676,12 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetProviderInfo(
 	}
 	_data.WriteString16(metadataKey)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "updateAppWidgetProviderInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetProviderInfo)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceUpdateAppWidgetProviderInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceUpdateAppWidgetProviderInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -680,12 +713,12 @@ func (p *AppWidgetServiceProxy) NotifyAppWidgetViewDataChanged(
 	}
 	_data.WriteInt32(viewId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "notifyAppWidgetViewDataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceNotifyAppWidgetViewDataChanged)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceNotifyAppWidgetViewDataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceNotifyAppWidgetViewDataChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -711,12 +744,12 @@ func (p *AppWidgetServiceProxy) GetInstalledProvidersForProfile(
 	_data.WriteInt32(profileId)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getInstalledProvidersForProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetInstalledProvidersForProfile)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetInstalledProvidersForProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetInstalledProvidersForProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -743,18 +776,18 @@ func (p *AppWidgetServiceProxy) GetAppWidgetInfo(
 	appWidgetId int32,
 ) (androidAppwidget.AppWidgetProviderInfo, error) {
 	var _result androidAppwidget.AppWidgetProviderInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getAppWidgetInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetInfo)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetAppWidgetInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -781,18 +814,18 @@ func (p *AppWidgetServiceProxy) HasBindAppWidgetPermission(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "hasBindAppWidgetPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceHasBindAppWidgetPermission)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceHasBindAppWidgetPermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceHasBindAppWidgetPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -814,19 +847,19 @@ func (p *AppWidgetServiceProxy) SetBindAppWidgetPermission(
 	packageName string,
 	permission bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(permission)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "setBindAppWidgetPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceSetBindAppWidgetPermission)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceSetBindAppWidgetPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceSetBindAppWidgetPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -847,7 +880,7 @@ func (p *AppWidgetServiceProxy) BindAppWidgetId(
 	options os.Bundle,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
@@ -862,12 +895,12 @@ func (p *AppWidgetServiceProxy) BindAppWidgetId(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "bindAppWidgetId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceBindAppWidgetId)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceBindAppWidgetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceBindAppWidgetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -894,7 +927,7 @@ func (p *AppWidgetServiceProxy) BindRemoteViewsService(
 	flags int64,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
@@ -903,17 +936,17 @@ func (p *AppWidgetServiceProxy) BindRemoteViewsService(
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "bindRemoteViewsService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceBindRemoteViewsService)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceBindRemoteViewsService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceBindRemoteViewsService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -941,18 +974,19 @@ func (p *AppWidgetServiceProxy) NotifyProviderInheritance(
 	} else {
 		_data.WriteInt32(int32(len(componentNames)))
 		for _, _item := range componentNames {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "notifyProviderInheritance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceNotifyProviderInheritance)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceNotifyProviderInheritance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceNotifyProviderInheritance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -963,35 +997,6 @@ func (p *AppWidgetServiceProxy) NotifyProviderInheritance(
 	}
 
 	return nil
-}
-
-func (p *AppWidgetServiceProxy) GetMaxBitmapMemory(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getMaxBitmapMemory")
-	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetMaxBitmapMemory
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
 }
 
 func (p *AppWidgetServiceProxy) GetAppWidgetIds(
@@ -1006,12 +1011,12 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIds(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getAppWidgetIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetIds)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetAppWidgetIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetAppWidgetIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1043,18 +1048,18 @@ func (p *AppWidgetServiceProxy) IsBoundWidgetPackage(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "isBoundWidgetPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceIsBoundWidgetPackage)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceIsBoundWidgetPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceIsBoundWidgetPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1095,12 +1100,12 @@ func (p *AppWidgetServiceProxy) RequestPinAppWidget(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "requestPinAppWidget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceRequestPinAppWidget)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceRequestPinAppWidget
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceRequestPinAppWidget, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1124,12 +1129,12 @@ func (p *AppWidgetServiceProxy) IsRequestPinAppWidgetSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "isRequestPinAppWidgetSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceIsRequestPinAppWidgetSupported)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceIsRequestPinAppWidgetSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceIsRequestPinAppWidgetSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1150,18 +1155,18 @@ func (p *AppWidgetServiceProxy) NoteAppWidgetTapped(
 	ctx context.Context,
 	appWidgetId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "noteAppWidgetTapped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceNoteAppWidgetTapped)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceNoteAppWidgetTapped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceNoteAppWidgetTapped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1170,40 +1175,35 @@ func (p *AppWidgetServiceProxy) SetWidgetPreview(
 	providerComponent content.ComponentName,
 	widgetCategories int32,
 	preview widget.RemoteViews,
-) (bool, error) {
-	var _result bool
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(widgetCategories)
 	_data.WriteInt32(1)
 	if _err := preview.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "setWidgetPreview")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceSetWidgetPreview)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceSetWidgetPreview
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceSetWidgetPreview, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return _result, _err
+		return _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	return nil
 }
 
 func (p *AppWidgetServiceProxy) GetWidgetPreview(
@@ -1213,7 +1213,7 @@ func (p *AppWidgetServiceProxy) GetWidgetPreview(
 	widgetCategory int32,
 ) (widget.RemoteViews, error) {
 	var _result widget.RemoteViews
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(_identity.PackageName)
@@ -1224,12 +1224,12 @@ func (p *AppWidgetServiceProxy) GetWidgetPreview(
 	_data.WriteInt32(profileId)
 	_data.WriteInt32(widgetCategory)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "getWidgetPreview")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceGetWidgetPreview)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceGetWidgetPreview
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceGetWidgetPreview, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1264,12 +1264,12 @@ func (p *AppWidgetServiceProxy) RemoveWidgetPreview(
 	}
 	_data.WriteInt32(widgetCategories)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetService, "removeWidgetPreview")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetService, MethodIAppWidgetServiceRemoveWidgetPreview)
 	if _err != nil {
-		_code = TransactionIAppWidgetServiceRemoveWidgetPreview
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetService, MethodIAppWidgetServiceRemoveWidgetPreview, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1289,6 +1289,10 @@ type AppWidgetServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppWidgetServiceStub)(nil)
+
+func (s *AppWidgetServiceStub) Descriptor() string {
+	return DescriptorIAppWidgetService
+}
 
 func (s *AppWidgetServiceStub) OnTransaction(
 	ctx context.Context,
@@ -1908,19 +1912,6 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIAppWidgetServiceGetMaxBitmapMemory:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetMaxBitmapMemory(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetIds:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -2079,14 +2070,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.SetWidgetPreview(ctx, _arg_providerComponent, _arg_widgetCategories, _arg_preview)
+		_err = s.Impl.SetWidgetPreview(ctx, _arg_providerComponent, _arg_widgetCategories, _arg_preview)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetWidgetPreview:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2188,13 +2178,12 @@ type IAppWidgetServiceServer interface {
 	BindAppWidgetId(ctx context.Context, appWidgetId int32, providerProfileId int32, providerComponent content.ComponentName, options os.Bundle) (bool, error)
 	BindRemoteViewsService(ctx context.Context, appWidgetId int32, intent content.Intent, caller app.IApplicationThread, token binder.IBinder, connection app.IServiceConnection, flags int64) (bool, error)
 	NotifyProviderInheritance(ctx context.Context, componentNames []content.ComponentName) error
-	GetMaxBitmapMemory(ctx context.Context) (int32, error)
 	GetAppWidgetIds(ctx context.Context, providerComponent content.ComponentName) ([]int32, error)
 	IsBoundWidgetPackage(ctx context.Context, packageName string) (bool, error)
 	RequestPinAppWidget(ctx context.Context, packageName string, providerComponent content.ComponentName, extras os.Bundle, resultIntent content.IntentSender) (bool, error)
 	IsRequestPinAppWidgetSupported(ctx context.Context) (bool, error)
 	NoteAppWidgetTapped(ctx context.Context, appWidgetId int32) error
-	SetWidgetPreview(ctx context.Context, providerComponent content.ComponentName, widgetCategories int32, preview widget.RemoteViews) (bool, error)
+	SetWidgetPreview(ctx context.Context, providerComponent content.ComponentName, widgetCategories int32, preview widget.RemoteViews) error
 	GetWidgetPreview(ctx context.Context, providerComponent content.ComponentName, profileId int32, widgetCategory int32) (widget.RemoteViews, error)
 	RemoveWidgetPreview(ctx context.Context, providerComponent content.ComponentName, widgetCategories int32) error
 }
@@ -2397,12 +2386,6 @@ func (w *appWidgetServiceStubWrapper) NotifyProviderInheritance(
 	return w.impl.NotifyProviderInheritance(ctx, componentNames)
 }
 
-func (w *appWidgetServiceStubWrapper) GetMaxBitmapMemory(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetMaxBitmapMemory(ctx)
-}
-
 func (w *appWidgetServiceStubWrapper) GetAppWidgetIds(
 	ctx context.Context,
 	providerComponent content.ComponentName,
@@ -2445,7 +2428,7 @@ func (w *appWidgetServiceStubWrapper) SetWidgetPreview(
 	providerComponent content.ComponentName,
 	widgetCategories int32,
 	preview widget.RemoteViews,
-) (bool, error) {
+) error {
 	return w.impl.SetWidgetPreview(ctx, providerComponent, widgetCategories, preview)
 }
 

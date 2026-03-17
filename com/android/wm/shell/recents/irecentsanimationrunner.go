@@ -20,6 +20,12 @@ const (
 	TransactionIRecentsAnimationRunnerOnTasksAppeared     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRecentsAnimationRunnerOnAnimationCanceled = "onAnimationCanceled"
+	MethodIRecentsAnimationRunnerOnAnimationStart    = "onAnimationStart"
+	MethodIRecentsAnimationRunnerOnTasksAppeared     = "onTasksAppeared"
+)
+
 type IRecentsAnimationRunner interface {
 	AsBinder() binder.IBinder
 	OnAnimationCanceled(ctx context.Context, taskIds []int32, taskSnapshots []view.WindowManagerTaskSnapshot) error
@@ -28,17 +34,17 @@ type IRecentsAnimationRunner interface {
 }
 
 type RecentsAnimationRunnerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecentsAnimationRunnerProxy(
 	remote binder.IBinder,
 ) *RecentsAnimationRunnerProxy {
-	return &RecentsAnimationRunnerProxy{remote: remote}
+	return &RecentsAnimationRunnerProxy{Remote: remote}
 }
 
 func (p *RecentsAnimationRunnerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecentsAnimationRunner = (*RecentsAnimationRunnerProxy)(nil)
@@ -63,18 +69,19 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationCanceled(
 	} else {
 		_data.WriteInt32(int32(len(taskSnapshots)))
 		for _, _item := range taskSnapshots {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationRunner, "onAnimationCanceled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnAnimationCanceled)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationRunnerOnAnimationCanceled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnAnimationCanceled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +96,13 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationRunner)
-	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, controller.AsBinder(), p.Remote.Transport())
 	if apps == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(apps)))
 		for _, _item := range apps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -105,6 +113,7 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 	} else {
 		_data.WriteInt32(int32(len(wallpapers)))
 		for _, _item := range wallpapers {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -123,12 +132,12 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationRunner, "onAnimationStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnAnimationStart)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationRunnerOnAnimationStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnAnimationStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,18 +152,19 @@ func (p *RecentsAnimationRunnerProxy) OnTasksAppeared(
 	} else {
 		_data.WriteInt32(int32(len(app)))
 		for _, _item := range app {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationRunner, "onTasksAppeared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnTasksAppeared)
 	if _err != nil {
-		_code = TransactionIRecentsAnimationRunnerOnTasksAppeared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentsAnimationRunner, MethodIRecentsAnimationRunnerOnTasksAppeared, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,6 +175,10 @@ type RecentsAnimationRunnerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecentsAnimationRunnerStub)(nil)
+
+func (s *RecentsAnimationRunnerStub) Descriptor() string {
+	return DescriptorIRecentsAnimationRunner
+}
 
 func (s *RecentsAnimationRunnerStub) OnTransaction(
 	ctx context.Context,

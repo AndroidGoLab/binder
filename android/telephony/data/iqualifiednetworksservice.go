@@ -18,6 +18,13 @@ const (
 	TransactionIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIQualifiedNetworksServiceCreateNetworkAvailabilityProvider                   = "createNetworkAvailabilityProvider"
+	MethodIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider                   = "removeNetworkAvailabilityProvider"
+	MethodIQualifiedNetworksServiceReportThrottleStatusChanged                         = "reportThrottleStatusChanged"
+	MethodIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged = "reportEmergencyDataNetworkPreferredTransportChanged"
+)
+
 type IQualifiedNetworksService interface {
 	AsBinder() binder.IBinder
 	CreateNetworkAvailabilityProvider(ctx context.Context, slotId int32, callback IQualifiedNetworksServiceCallback) error
@@ -27,17 +34,17 @@ type IQualifiedNetworksService interface {
 }
 
 type QualifiedNetworksServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewQualifiedNetworksServiceProxy(
 	remote binder.IBinder,
 ) *QualifiedNetworksServiceProxy {
-	return &QualifiedNetworksServiceProxy{remote: remote}
+	return &QualifiedNetworksServiceProxy{Remote: remote}
 }
 
 func (p *QualifiedNetworksServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IQualifiedNetworksService = (*QualifiedNetworksServiceProxy)(nil)
@@ -50,14 +57,14 @@ func (p *QualifiedNetworksServiceProxy) CreateNetworkAvailabilityProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "createNetworkAvailabilityProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceCreateNetworkAvailabilityProvider)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceCreateNetworkAvailabilityProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceCreateNetworkAvailabilityProvider, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +76,12 @@ func (p *QualifiedNetworksServiceProxy) RemoveNetworkAvailabilityProvider(
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "removeNetworkAvailabilityProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,18 +98,19 @@ func (p *QualifiedNetworksServiceProxy) ReportThrottleStatusChanged(
 	} else {
 		_data.WriteInt32(int32(len(statuses)))
 		for _, _item := range statuses {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "reportThrottleStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportThrottleStatusChanged)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceReportThrottleStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportThrottleStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,12 +124,12 @@ func (p *QualifiedNetworksServiceProxy) ReportEmergencyDataNetworkPreferredTrans
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(transportType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "reportEmergencyDataNetworkPreferredTransportChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksService, MethodIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,6 +140,10 @@ type QualifiedNetworksServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*QualifiedNetworksServiceStub)(nil)
+
+func (s *QualifiedNetworksServiceStub) Descriptor() string {
+	return DescriptorIQualifiedNetworksService
+}
 
 func (s *QualifiedNetworksServiceStub) OnTransaction(
 	ctx context.Context,

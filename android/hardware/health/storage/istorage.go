@@ -15,23 +15,27 @@ const (
 	TransactionIStorageGarbageCollect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStorageGarbageCollect = "garbageCollect"
+)
+
 type IStorage interface {
 	AsBinder() binder.IBinder
 	GarbageCollect(ctx context.Context, timeoutSeconds int64, callback IGarbageCollectCallback) error
 }
 
 type StorageProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageProxy(
 	remote binder.IBinder,
 ) *StorageProxy {
-	return &StorageProxy{remote: remote}
+	return &StorageProxy{Remote: remote}
 }
 
 func (p *StorageProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorage = (*StorageProxy)(nil)
@@ -44,14 +48,14 @@ func (p *StorageProxy) GarbageCollect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorage)
 	_data.WriteInt64(timeoutSeconds)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorage, "garbageCollect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorage, MethodIStorageGarbageCollect)
 	if _err != nil {
-		_code = TransactionIStorageGarbageCollect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorage, MethodIStorageGarbageCollect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type StorageStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageStub)(nil)
+
+func (s *StorageStub) Descriptor() string {
+	return DescriptorIStorage
+}
 
 func (s *StorageStub) OnTransaction(
 	ctx context.Context,

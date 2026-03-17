@@ -21,6 +21,15 @@ const (
 	TransactionISearchUiServiceOnDestroy                                  = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodISearchUiServiceOnCreateSearchSession                      = "onCreateSearchSession"
+	MethodISearchUiServiceOnQuery                                    = "onQuery"
+	MethodISearchUiServiceOnNotifyEvent                              = "onNotifyEvent"
+	MethodISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback   = "onRegisterEmptyQueryResultUpdateCallback"
+	MethodISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback = "onUnregisterEmptyQueryResultUpdateCallback"
+	MethodISearchUiServiceOnDestroy                                  = "onDestroy"
+)
+
 type ISearchUiService interface {
 	AsBinder() binder.IBinder
 	OnCreateSearchSession(ctx context.Context, context_ appSearch.SearchContext, sessionId appSearch.SearchSessionId) error
@@ -32,17 +41,17 @@ type ISearchUiService interface {
 }
 
 type SearchUiServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSearchUiServiceProxy(
 	remote binder.IBinder,
 ) *SearchUiServiceProxy {
-	return &SearchUiServiceProxy{remote: remote}
+	return &SearchUiServiceProxy{Remote: remote}
 }
 
 func (p *SearchUiServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISearchUiService = (*SearchUiServiceProxy)(nil)
@@ -63,12 +72,12 @@ func (p *SearchUiServiceProxy) OnCreateSearchSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onCreateSearchSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiService, MethodISearchUiServiceOnCreateSearchSession)
 	if _err != nil {
-		_code = TransactionISearchUiServiceOnCreateSearchSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchUiService, MethodISearchUiServiceOnCreateSearchSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,14 +97,14 @@ func (p *SearchUiServiceProxy) OnQuery(
 	if _err := input.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onQuery")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiService, MethodISearchUiServiceOnQuery)
 	if _err != nil {
-		_code = TransactionISearchUiServiceOnQuery
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchUiService, MethodISearchUiServiceOnQuery, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,12 +129,12 @@ func (p *SearchUiServiceProxy) OnNotifyEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onNotifyEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiService, MethodISearchUiServiceOnNotifyEvent)
 	if _err != nil {
-		_code = TransactionISearchUiServiceOnNotifyEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchUiService, MethodISearchUiServiceOnNotifyEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,14 +149,14 @@ func (p *SearchUiServiceProxy) OnRegisterEmptyQueryResultUpdateCallback(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onRegisterEmptyQueryResultUpdateCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiService, MethodISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback)
 	if _err != nil {
-		_code = TransactionISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchUiService, MethodISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,14 +171,14 @@ func (p *SearchUiServiceProxy) OnUnregisterEmptyQueryResultUpdateCallback(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onUnregisterEmptyQueryResultUpdateCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiService, MethodISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback)
 	if _err != nil {
-		_code = TransactionISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchUiService, MethodISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -184,12 +193,12 @@ func (p *SearchUiServiceProxy) OnDestroy(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onDestroy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISearchUiService, MethodISearchUiServiceOnDestroy)
 	if _err != nil {
-		_code = TransactionISearchUiServiceOnDestroy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISearchUiService, MethodISearchUiServiceOnDestroy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,6 +209,10 @@ type SearchUiServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SearchUiServiceStub)(nil)
+
+func (s *SearchUiServiceStub) Descriptor() string {
+	return DescriptorISearchUiService
+}
 
 func (s *SearchUiServiceStub) OnTransaction(
 	ctx context.Context,

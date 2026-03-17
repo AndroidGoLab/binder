@@ -23,6 +23,18 @@ const (
 	TransactionIDemuxDisconnectCiCam       = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIDemuxSetFrontendDataSource = "setFrontendDataSource"
+	MethodIDemuxOpenFilter            = "openFilter"
+	MethodIDemuxOpenTimeFilter        = "openTimeFilter"
+	MethodIDemuxGetAvSyncHwId         = "getAvSyncHwId"
+	MethodIDemuxGetAvSyncTime         = "getAvSyncTime"
+	MethodIDemuxClose                 = "close"
+	MethodIDemuxOpenDvr               = "openDvr"
+	MethodIDemuxConnectCiCam          = "connectCiCam"
+	MethodIDemuxDisconnectCiCam       = "disconnectCiCam"
+)
+
 type IDemux interface {
 	AsBinder() binder.IBinder
 	SetFrontendDataSource(ctx context.Context, frontendId int32) error
@@ -37,17 +49,17 @@ type IDemux interface {
 }
 
 type DemuxProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDemuxProxy(
 	remote binder.IBinder,
 ) *DemuxProxy {
-	return &DemuxProxy{remote: remote}
+	return &DemuxProxy{Remote: remote}
 }
 
 func (p *DemuxProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDemux = (*DemuxProxy)(nil)
@@ -60,12 +72,12 @@ func (p *DemuxProxy) SetFrontendDataSource(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteInt32(frontendId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "setFrontendDataSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxSetFrontendDataSource)
 	if _err != nil {
-		_code = TransactionIDemuxSetFrontendDataSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxSetFrontendDataSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,14 +104,14 @@ func (p *DemuxProxy) OpenFilter(
 		return _result, _err
 	}
 	_data.WriteInt32(bufferSize)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "openFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxOpenFilter)
 	if _err != nil {
-		_code = TransactionIDemuxOpenFilter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxOpenFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,7 +125,7 @@ func (p *DemuxProxy) OpenFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewFilterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -124,12 +136,12 @@ func (p *DemuxProxy) OpenTimeFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "openTimeFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxOpenTimeFilter)
 	if _err != nil {
-		_code = TransactionIDemuxOpenTimeFilter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxOpenTimeFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,7 +155,7 @@ func (p *DemuxProxy) OpenTimeFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTimeFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTimeFilterProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -154,14 +166,14 @@ func (p *DemuxProxy) GetAvSyncHwId(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "getAvSyncHwId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxGetAvSyncHwId)
 	if _err != nil {
-		_code = TransactionIDemuxGetAvSyncHwId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxGetAvSyncHwId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -187,12 +199,12 @@ func (p *DemuxProxy) GetAvSyncTime(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteInt32(avSyncHwId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "getAvSyncTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxGetAvSyncTime)
 	if _err != nil {
-		_code = TransactionIDemuxGetAvSyncTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxGetAvSyncTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -215,12 +227,12 @@ func (p *DemuxProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxClose)
 	if _err != nil {
-		_code = TransactionIDemuxClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -244,14 +256,14 @@ func (p *DemuxProxy) OpenDvr(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WritePaddedByte(byte(type_))
 	_data.WriteInt32(bufferSize)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "openDvr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxOpenDvr)
 	if _err != nil {
-		_code = TransactionIDemuxOpenDvr
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxOpenDvr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -265,7 +277,7 @@ func (p *DemuxProxy) OpenDvr(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDvrProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDvrProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -277,12 +289,12 @@ func (p *DemuxProxy) ConnectCiCam(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteInt32(ciCamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "connectCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxConnectCiCam)
 	if _err != nil {
-		_code = TransactionIDemuxConnectCiCam
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxConnectCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -301,12 +313,12 @@ func (p *DemuxProxy) DisconnectCiCam(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "disconnectCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDemux, MethodIDemuxDisconnectCiCam)
 	if _err != nil {
-		_code = TransactionIDemuxDisconnectCiCam
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDemux, MethodIDemuxDisconnectCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -326,6 +338,10 @@ type DemuxStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DemuxStub)(nil)
+
+func (s *DemuxStub) Descriptor() string {
+	return DescriptorIDemux
+}
 
 func (s *DemuxStub) OnTransaction(
 	ctx context.Context,

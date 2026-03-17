@@ -15,23 +15,27 @@ const (
 	TransactionIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged = "onPreferredAudioProfilesChanged"
+)
+
 type IBluetoothPreferredAudioProfilesCallback interface {
 	AsBinder() binder.IBinder
 	OnPreferredAudioProfilesChanged(ctx context.Context, device BluetoothDevice, preferredAudioProfiles interface{}, status int32) error
 }
 
 type BluetoothPreferredAudioProfilesCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothPreferredAudioProfilesCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothPreferredAudioProfilesCallbackProxy {
-	return &BluetoothPreferredAudioProfilesCallbackProxy{remote: remote}
+	return &BluetoothPreferredAudioProfilesCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothPreferredAudioProfilesCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothPreferredAudioProfilesCallback = (*BluetoothPreferredAudioProfilesCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *BluetoothPreferredAudioProfilesCallbackProxy) OnPreferredAudioProfilesC
 	}
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPreferredAudioProfilesCallback, "onPreferredAudioProfilesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPreferredAudioProfilesCallback, MethodIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPreferredAudioProfilesCallback, MethodIBluetoothPreferredAudioProfilesCallbackOnPreferredAudioProfilesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type BluetoothPreferredAudioProfilesCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothPreferredAudioProfilesCallbackStub)(nil)
+
+func (s *BluetoothPreferredAudioProfilesCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothPreferredAudioProfilesCallback
+}
 
 func (s *BluetoothPreferredAudioProfilesCallbackStub) OnTransaction(
 	ctx context.Context,

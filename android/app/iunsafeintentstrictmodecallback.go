@@ -13,49 +13,51 @@ import (
 const DescriptorIUnsafeIntentStrictModeCallback = "android.app.IUnsafeIntentStrictModeCallback"
 
 const (
-	TransactionIUnsafeIntentStrictModeCallbackOnUnsafeIntent = binder.FirstCallTransaction + 0
+	TransactionIUnsafeIntentStrictModeCallbackOnImplicitIntentMatchedInternalComponent = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIUnsafeIntentStrictModeCallbackOnImplicitIntentMatchedInternalComponent = "onImplicitIntentMatchedInternalComponent"
 )
 
 type IUnsafeIntentStrictModeCallback interface {
 	AsBinder() binder.IBinder
-	OnUnsafeIntent(ctx context.Context, type_ int32, intent content.Intent) error
+	OnImplicitIntentMatchedInternalComponent(ctx context.Context, intent content.Intent) error
 }
 
 type UnsafeIntentStrictModeCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUnsafeIntentStrictModeCallbackProxy(
 	remote binder.IBinder,
 ) *UnsafeIntentStrictModeCallbackProxy {
-	return &UnsafeIntentStrictModeCallbackProxy{remote: remote}
+	return &UnsafeIntentStrictModeCallbackProxy{Remote: remote}
 }
 
 func (p *UnsafeIntentStrictModeCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUnsafeIntentStrictModeCallback = (*UnsafeIntentStrictModeCallbackProxy)(nil)
 
-func (p *UnsafeIntentStrictModeCallbackProxy) OnUnsafeIntent(
+func (p *UnsafeIntentStrictModeCallbackProxy) OnImplicitIntentMatchedInternalComponent(
 	ctx context.Context,
-	type_ int32,
 	intent content.Intent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnsafeIntentStrictModeCallback)
-	_data.WriteInt32(type_)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUnsafeIntentStrictModeCallback, "onUnsafeIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUnsafeIntentStrictModeCallback, MethodIUnsafeIntentStrictModeCallbackOnImplicitIntentMatchedInternalComponent)
 	if _err != nil {
-		_code = TransactionIUnsafeIntentStrictModeCallbackOnUnsafeIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUnsafeIntentStrictModeCallback, MethodIUnsafeIntentStrictModeCallbackOnImplicitIntentMatchedInternalComponent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,18 +69,18 @@ type UnsafeIntentStrictModeCallbackStub struct {
 
 var _ binder.TransactionReceiver = (*UnsafeIntentStrictModeCallbackStub)(nil)
 
+func (s *UnsafeIntentStrictModeCallbackStub) Descriptor() string {
+	return DescriptorIUnsafeIntentStrictModeCallback
+}
+
 func (s *UnsafeIntentStrictModeCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
-	case TransactionIUnsafeIntentStrictModeCallbackOnUnsafeIntent:
+	case TransactionIUnsafeIntentStrictModeCallbackOnImplicitIntentMatchedInternalComponent:
 		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_type_, _err := _data.ReadInt32()
-		if _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
@@ -93,7 +95,7 @@ func (s *UnsafeIntentStrictModeCallbackStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.OnUnsafeIntent(ctx, _arg_type_, _arg_intent)
+		_err := s.Impl.OnImplicitIntentMatchedInternalComponent(ctx, _arg_intent)
 		_ = _err
 		return nil, nil
 	default:
@@ -105,7 +107,7 @@ func (s *UnsafeIntentStrictModeCallbackStub) OnTransaction(
 // provide to NewUnsafeIntentStrictModeCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IUnsafeIntentStrictModeCallbackServer interface {
-	OnUnsafeIntent(ctx context.Context, type_ int32, intent content.Intent) error
+	OnImplicitIntentMatchedInternalComponent(ctx context.Context, intent content.Intent) error
 }
 
 type unsafeIntentStrictModeCallbackStubWrapper struct {
@@ -117,12 +119,11 @@ func (w *unsafeIntentStrictModeCallbackStubWrapper) AsBinder() binder.IBinder {
 	return w.stubBinder
 }
 
-func (w *unsafeIntentStrictModeCallbackStubWrapper) OnUnsafeIntent(
+func (w *unsafeIntentStrictModeCallbackStubWrapper) OnImplicitIntentMatchedInternalComponent(
 	ctx context.Context,
-	type_ int32,
 	intent content.Intent,
 ) error {
-	return w.impl.OnUnsafeIntent(ctx, type_, intent)
+	return w.impl.OnImplicitIntentMatchedInternalComponent(ctx, intent)
 }
 
 var _ IUnsafeIntentStrictModeCallback = (*unsafeIntentStrictModeCallbackStubWrapper)(nil)

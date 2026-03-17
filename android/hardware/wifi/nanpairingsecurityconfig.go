@@ -21,22 +21,8 @@ func (s *NanPairingSecurityConfig) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.SecurityType))
-	if s.Pmk == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Pmk)))
-		for _, _item := range s.Pmk {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Passphrase == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Passphrase)))
-		for _, _item := range s.Passphrase {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Pmk, 32)
+	p.WriteByteArray(s.Passphrase)
 	p.WriteInt32(int32(s.Akm))
 	p.WriteInt32(int32(s.CipherType))
 
@@ -58,34 +44,14 @@ func (s *NanPairingSecurityConfig) UnmarshalParcel(
 	}
 	s.SecurityType = NanPairingSecurityType(_securityTypeRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Pmk, _err = p.ReadFixedByteArray(32)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Pmk = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Pmk[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Passphrase, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Passphrase = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Passphrase[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_akmRaw, _err := p.ReadInt32()

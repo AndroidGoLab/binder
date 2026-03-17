@@ -22,27 +22,33 @@ func WriteParcelableHeader(
 	return headerPos
 }
 
-// WriteParcelableFooter patches the size at headerPos with the actual
-// number of bytes written since the header.
+// WriteParcelableFooter patches the size at headerPos. The size value
+// is the distance from headerPos to the current end of the parcel,
+// which includes the 4-byte size field itself. This matches the AIDL
+// NDK convention: writeToParcel writes size = end_pos - start_pos,
+// and readFromParcel skips to start_pos + size.
 func WriteParcelableFooter(
 	p *Parcel,
 	headerPos int,
 ) {
-	size := p.Len() - headerPos - 4
+	size := p.Len() - headerPos
 	binary.LittleEndian.PutUint32(p.data[headerPos:], uint32(size))
 }
 
 // ReadParcelableHeader reads the size of a parcelable payload and returns
 // the end position (the byte offset where this parcelable's data ends).
+// The size includes the 4-byte size field itself, so
+// endPos = (position before size) + size.
 func ReadParcelableHeader(
 	p *Parcel,
 ) (int, error) {
+	startPos := p.Position()
 	size, err := p.ReadInt32()
 	if err != nil {
 		return 0, fmt.Errorf("parcel: reading parcelable header: %w", err)
 	}
 
-	endPos := p.Position() + int(size)
+	endPos := startPos + int(size)
 	return endPos, nil
 }
 

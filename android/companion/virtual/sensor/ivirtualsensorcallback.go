@@ -19,6 +19,13 @@ const (
 	TransactionIVirtualSensorCallbackOnDirectChannelConfigured = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIVirtualSensorCallbackOnConfigurationChanged    = "onConfigurationChanged"
+	MethodIVirtualSensorCallbackOnDirectChannelCreated    = "onDirectChannelCreated"
+	MethodIVirtualSensorCallbackOnDirectChannelDestroyed  = "onDirectChannelDestroyed"
+	MethodIVirtualSensorCallbackOnDirectChannelConfigured = "onDirectChannelConfigured"
+)
+
 type IVirtualSensorCallback interface {
 	AsBinder() binder.IBinder
 	OnConfigurationChanged(ctx context.Context, sensor VirtualSensor, enabled bool, samplingPeriodMicros int32, batchReportLatencyMicros int32) error
@@ -28,17 +35,17 @@ type IVirtualSensorCallback interface {
 }
 
 type VirtualSensorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualSensorCallbackProxy(
 	remote binder.IBinder,
 ) *VirtualSensorCallbackProxy {
-	return &VirtualSensorCallbackProxy{remote: remote}
+	return &VirtualSensorCallbackProxy{Remote: remote}
 }
 
 func (p *VirtualSensorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualSensorCallback = (*VirtualSensorCallbackProxy)(nil)
@@ -60,12 +67,12 @@ func (p *VirtualSensorCallbackProxy) OnConfigurationChanged(
 	_data.WriteInt32(samplingPeriodMicros)
 	_data.WriteInt32(batchReportLatencyMicros)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnConfigurationChanged)
 	if _err != nil {
-		_code = TransactionIVirtualSensorCallbackOnConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnConfigurationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +89,12 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelCreated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onDirectChannelCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelCreated)
 	if _err != nil {
-		_code = TransactionIVirtualSensorCallbackOnDirectChannelCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +106,12 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelDestroyed(
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(channelHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onDirectChannelDestroyed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelDestroyed)
 	if _err != nil {
-		_code = TransactionIVirtualSensorCallbackOnDirectChannelDestroyed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelDestroyed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,12 +132,12 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelConfigured(
 	_data.WriteInt32(rateLevel)
 	_data.WriteInt32(reportToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onDirectChannelConfigured")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelConfigured)
 	if _err != nil {
-		_code = TransactionIVirtualSensorCallbackOnDirectChannelConfigured
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualSensorCallback, MethodIVirtualSensorCallbackOnDirectChannelConfigured, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,6 +148,10 @@ type VirtualSensorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualSensorCallbackStub)(nil)
+
+func (s *VirtualSensorCallbackStub) Descriptor() string {
+	return DescriptorIVirtualSensorCallback
+}
 
 func (s *VirtualSensorCallbackStub) OnTransaction(
 	ctx context.Context,

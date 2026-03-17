@@ -19,6 +19,14 @@ const (
 	TransactionIMediaCasServiceIsSystemIdSupported    = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIMediaCasServiceCreateDescrambler      = "createDescrambler"
+	MethodIMediaCasServiceCreatePlugin           = "createPlugin"
+	MethodIMediaCasServiceEnumeratePlugins       = "enumeratePlugins"
+	MethodIMediaCasServiceIsDescramblerSupported = "isDescramblerSupported"
+	MethodIMediaCasServiceIsSystemIdSupported    = "isSystemIdSupported"
+)
+
 type IMediaCasService interface {
 	AsBinder() binder.IBinder
 	CreateDescrambler(ctx context.Context, CA_system_id int32) (IDescrambler, error)
@@ -29,17 +37,17 @@ type IMediaCasService interface {
 }
 
 type MediaCasServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaCasServiceProxy(
 	remote binder.IBinder,
 ) *MediaCasServiceProxy {
-	return &MediaCasServiceProxy{remote: remote}
+	return &MediaCasServiceProxy{Remote: remote}
 }
 
 func (p *MediaCasServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaCasService = (*MediaCasServiceProxy)(nil)
@@ -53,12 +61,12 @@ func (p *MediaCasServiceProxy) CreateDescrambler(
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "createDescrambler")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceCreateDescrambler)
 	if _err != nil {
-		_code = TransactionIMediaCasServiceCreateDescrambler
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaCasService, MethodIMediaCasServiceCreateDescrambler, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,7 +80,7 @@ func (p *MediaCasServiceProxy) CreateDescrambler(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDescramblerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDescramblerProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -85,14 +93,14 @@ func (p *MediaCasServiceProxy) CreatePlugin(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "createPlugin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceCreatePlugin)
 	if _err != nil {
-		_code = TransactionIMediaCasServiceCreatePlugin
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaCasService, MethodIMediaCasServiceCreatePlugin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,7 +114,7 @@ func (p *MediaCasServiceProxy) CreatePlugin(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCasProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewCasProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -117,12 +125,12 @@ func (p *MediaCasServiceProxy) EnumeratePlugins(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "enumeratePlugins")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceEnumeratePlugins)
 	if _err != nil {
-		_code = TransactionIMediaCasServiceEnumeratePlugins
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaCasService, MethodIMediaCasServiceEnumeratePlugins, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,6 +148,9 @@ func (p *MediaCasServiceProxy) EnumeratePlugins(
 	if _count >= 0 {
 		_result = make([]AidlCasPluginDescriptor, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -157,12 +168,12 @@ func (p *MediaCasServiceProxy) IsDescramblerSupported(
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "isDescramblerSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceIsDescramblerSupported)
 	if _err != nil {
-		_code = TransactionIMediaCasServiceIsDescramblerSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaCasService, MethodIMediaCasServiceIsDescramblerSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,12 +199,12 @@ func (p *MediaCasServiceProxy) IsSystemIdSupported(
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "isSystemIdSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaCasService, MethodIMediaCasServiceIsSystemIdSupported)
 	if _err != nil {
-		_code = TransactionIMediaCasServiceIsSystemIdSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaCasService, MethodIMediaCasServiceIsSystemIdSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -217,6 +228,10 @@ type MediaCasServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaCasServiceStub)(nil)
+
+func (s *MediaCasServiceStub) Descriptor() string {
+	return DescriptorIMediaCasService
+}
 
 func (s *MediaCasServiceStub) OnTransaction(
 	ctx context.Context,

@@ -16,23 +16,27 @@ const (
 	TransactionIVirtualDeviceIntentInterceptorOnIntentIntercepted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVirtualDeviceIntentInterceptorOnIntentIntercepted = "onIntentIntercepted"
+)
+
 type IVirtualDeviceIntentInterceptor interface {
 	AsBinder() binder.IBinder
 	OnIntentIntercepted(ctx context.Context, intent content.Intent) error
 }
 
 type VirtualDeviceIntentInterceptorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDeviceIntentInterceptorProxy(
 	remote binder.IBinder,
 ) *VirtualDeviceIntentInterceptorProxy {
-	return &VirtualDeviceIntentInterceptorProxy{remote: remote}
+	return &VirtualDeviceIntentInterceptorProxy{Remote: remote}
 }
 
 func (p *VirtualDeviceIntentInterceptorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDeviceIntentInterceptor = (*VirtualDeviceIntentInterceptorProxy)(nil)
@@ -48,12 +52,12 @@ func (p *VirtualDeviceIntentInterceptorProxy) OnIntentIntercepted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceIntentInterceptor, "onIntentIntercepted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceIntentInterceptor, MethodIVirtualDeviceIntentInterceptorOnIntentIntercepted)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceIntentInterceptorOnIntentIntercepted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceIntentInterceptor, MethodIVirtualDeviceIntentInterceptorOnIntentIntercepted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type VirtualDeviceIntentInterceptorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceIntentInterceptorStub)(nil)
+
+func (s *VirtualDeviceIntentInterceptorStub) Descriptor() string {
+	return DescriptorIVirtualDeviceIntentInterceptor
+}
 
 func (s *VirtualDeviceIntentInterceptorStub) OnTransaction(
 	ctx context.Context,

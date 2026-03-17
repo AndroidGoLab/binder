@@ -16,23 +16,27 @@ const (
 	TransactionIImsServiceControllerListenerOnUpdateSupportedImsFeatures = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIImsServiceControllerListenerOnUpdateSupportedImsFeatures = "onUpdateSupportedImsFeatures"
+)
+
 type IImsServiceControllerListener interface {
 	AsBinder() binder.IBinder
 	OnUpdateSupportedImsFeatures(ctx context.Context, c stub.ImsFeatureConfiguration) error
 }
 
 type ImsServiceControllerListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsServiceControllerListenerProxy(
 	remote binder.IBinder,
 ) *ImsServiceControllerListenerProxy {
-	return &ImsServiceControllerListenerProxy{remote: remote}
+	return &ImsServiceControllerListenerProxy{Remote: remote}
 }
 
 func (p *ImsServiceControllerListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsServiceControllerListener = (*ImsServiceControllerListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *ImsServiceControllerListenerProxy) OnUpdateSupportedImsFeatures(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceControllerListener, "onUpdateSupportedImsFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsServiceControllerListener, MethodIImsServiceControllerListenerOnUpdateSupportedImsFeatures)
 	if _err != nil {
-		_code = TransactionIImsServiceControllerListenerOnUpdateSupportedImsFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsServiceControllerListener, MethodIImsServiceControllerListenerOnUpdateSupportedImsFeatures, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type ImsServiceControllerListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsServiceControllerListenerStub)(nil)
+
+func (s *ImsServiceControllerListenerStub) Descriptor() string {
+	return DescriptorIImsServiceControllerListener
+}
 
 func (s *ImsServiceControllerListenerStub) OnTransaction(
 	ctx context.Context,

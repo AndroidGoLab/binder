@@ -27,6 +27,7 @@ func (s *AudioHalCapConfiguration) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ParameterSettings)))
 		for _, _item := range s.ParameterSettings {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -62,6 +63,9 @@ func (s *AudioHalCapConfiguration) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.ParameterSettings = make([]AudioHalCapParameter, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ParameterSettings[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -15,23 +15,27 @@ const (
 	TransactionIJankListenerOnJankData = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIJankListenerOnJankData = "onJankData"
+)
+
 type IJankListener interface {
 	AsBinder() binder.IBinder
 	OnJankData(ctx context.Context, data []JankData) error
 }
 
 type JankListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewJankListenerProxy(
 	remote binder.IBinder,
 ) *JankListenerProxy {
-	return &JankListenerProxy{remote: remote}
+	return &JankListenerProxy{Remote: remote}
 }
 
 func (p *JankListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IJankListener = (*JankListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *JankListenerProxy) OnJankData(
 	} else {
 		_data.WriteInt32(int32(len(data)))
 		for _, _item := range data {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIJankListener, "onJankData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIJankListener, MethodIJankListenerOnJankData)
 	if _err != nil {
-		_code = TransactionIJankListenerOnJankData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIJankListener, MethodIJankListenerOnJankData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +83,10 @@ type JankListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*JankListenerStub)(nil)
+
+func (s *JankListenerStub) Descriptor() string {
+	return DescriptorIJankListener
+}
 
 func (s *JankListenerStub) OnTransaction(
 	ctx context.Context,

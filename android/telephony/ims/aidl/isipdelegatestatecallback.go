@@ -20,6 +20,14 @@ const (
 	TransactionISipDelegateStateCallbackOnDestroyed                     = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodISipDelegateStateCallbackOnCreated                       = "onCreated"
+	MethodISipDelegateStateCallbackOnFeatureTagRegistrationChanged = "onFeatureTagRegistrationChanged"
+	MethodISipDelegateStateCallbackOnImsConfigurationChanged       = "onImsConfigurationChanged"
+	MethodISipDelegateStateCallbackOnConfigurationChanged          = "onConfigurationChanged"
+	MethodISipDelegateStateCallbackOnDestroyed                     = "onDestroyed"
+)
+
 type ISipDelegateStateCallback interface {
 	AsBinder() binder.IBinder
 	OnCreated(ctx context.Context, c ISipDelegate, deniedFeatureTags []ims.FeatureTagState) error
@@ -30,17 +38,17 @@ type ISipDelegateStateCallback interface {
 }
 
 type SipDelegateStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSipDelegateStateCallbackProxy(
 	remote binder.IBinder,
 ) *SipDelegateStateCallbackProxy {
-	return &SipDelegateStateCallbackProxy{remote: remote}
+	return &SipDelegateStateCallbackProxy{Remote: remote}
 }
 
 func (p *SipDelegateStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISipDelegateStateCallback = (*SipDelegateStateCallbackProxy)(nil)
@@ -52,24 +60,25 @@ func (p *SipDelegateStateCallbackProxy) OnCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 	if deniedFeatureTags == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(deniedFeatureTags)))
 		for _, _item := range deniedFeatureTags {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateStateCallback, "onCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnCreated)
 	if _err != nil {
-		_code = TransactionISipDelegateStateCallbackOnCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,12 +93,12 @@ func (p *SipDelegateStateCallbackProxy) OnFeatureTagRegistrationChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateStateCallback, "onFeatureTagRegistrationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnFeatureTagRegistrationChanged)
 	if _err != nil {
-		_code = TransactionISipDelegateStateCallbackOnFeatureTagRegistrationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnFeatureTagRegistrationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,12 +113,12 @@ func (p *SipDelegateStateCallbackProxy) OnImsConfigurationChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateStateCallback, "onImsConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnImsConfigurationChanged)
 	if _err != nil {
-		_code = TransactionISipDelegateStateCallbackOnImsConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnImsConfigurationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,12 +133,12 @@ func (p *SipDelegateStateCallbackProxy) OnConfigurationChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateStateCallback, "onConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnConfigurationChanged)
 	if _err != nil {
-		_code = TransactionISipDelegateStateCallbackOnConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnConfigurationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,12 +150,12 @@ func (p *SipDelegateStateCallbackProxy) OnDestroyed(
 	_data.WriteInterfaceToken(DescriptorISipDelegateStateCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateStateCallback, "onDestroyed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnDestroyed)
 	if _err != nil {
-		_code = TransactionISipDelegateStateCallbackOnDestroyed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDelegateStateCallback, MethodISipDelegateStateCallbackOnDestroyed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -157,6 +166,10 @@ type SipDelegateStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SipDelegateStateCallbackStub)(nil)
+
+func (s *SipDelegateStateCallbackStub) Descriptor() string {
+	return DescriptorISipDelegateStateCallback
+}
 
 func (s *SipDelegateStateCallbackStub) OnTransaction(
 	ctx context.Context,

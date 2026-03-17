@@ -3,8 +3,8 @@ package view
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,26 +20,33 @@ const (
 	TransactionIScrollCaptureConnectionClose        = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIScrollCaptureConnectionStartCapture = "startCapture"
+	MethodIScrollCaptureConnectionRequestImage = "requestImage"
+	MethodIScrollCaptureConnectionEndCapture   = "endCapture"
+	MethodIScrollCaptureConnectionClose        = "close"
+)
+
 type IScrollCaptureConnection interface {
 	AsBinder() binder.IBinder
-	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (ondeviceintelligence.ICancellationSignal, error)
-	RequestImage(ctx context.Context, captureArea graphics.Rect) (ondeviceintelligence.ICancellationSignal, error)
-	EndCapture(ctx context.Context) (ondeviceintelligence.ICancellationSignal, error)
+	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
+	RequestImage(ctx context.Context, captureArea graphics.Rect) (common.ICancellationSignal, error)
+	EndCapture(ctx context.Context) (common.ICancellationSignal, error)
 	Close(ctx context.Context) error
 }
 
 type ScrollCaptureConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScrollCaptureConnectionProxy(
 	remote binder.IBinder,
 ) *ScrollCaptureConnectionProxy {
-	return &ScrollCaptureConnectionProxy{remote: remote}
+	return &ScrollCaptureConnectionProxy{Remote: remote}
 }
 
 func (p *ScrollCaptureConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScrollCaptureConnection = (*ScrollCaptureConnectionProxy)(nil)
@@ -48,18 +55,18 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 	ctx context.Context,
 	surface interface{},
 	callbacks IScrollCaptureCallbacks,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "startCapture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionStartCapture)
 	if _err != nil {
-		_code = TransactionIScrollCaptureConnectionStartCapture
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionStartCapture, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,15 +80,15 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ScrollCaptureConnectionProxy) RequestImage(
 	ctx context.Context,
 	captureArea graphics.Rect,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 	_data.WriteInt32(1)
@@ -89,12 +96,12 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "requestImage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionRequestImage)
 	if _err != nil {
-		_code = TransactionIScrollCaptureConnectionRequestImage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionRequestImage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,23 +115,23 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ScrollCaptureConnectionProxy) EndCapture(
 	ctx context.Context,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "endCapture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionEndCapture)
 	if _err != nil {
-		_code = TransactionIScrollCaptureConnectionEndCapture
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionEndCapture, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,7 +145,7 @@ func (p *ScrollCaptureConnectionProxy) EndCapture(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -148,12 +155,12 @@ func (p *ScrollCaptureConnectionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionClose)
 	if _err != nil {
-		_code = TransactionIScrollCaptureConnectionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScrollCaptureConnection, MethodIScrollCaptureConnectionClose, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -164,6 +171,10 @@ type ScrollCaptureConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScrollCaptureConnectionStub)(nil)
+
+func (s *ScrollCaptureConnectionStub) Descriptor() string {
+	return DescriptorIScrollCaptureConnection
+}
 
 func (s *ScrollCaptureConnectionStub) OnTransaction(
 	ctx context.Context,
@@ -245,9 +256,9 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 // provide to NewScrollCaptureConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IScrollCaptureConnectionServer interface {
-	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (ondeviceintelligence.ICancellationSignal, error)
-	RequestImage(ctx context.Context, captureArea graphics.Rect) (ondeviceintelligence.ICancellationSignal, error)
-	EndCapture(ctx context.Context) (ondeviceintelligence.ICancellationSignal, error)
+	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
+	RequestImage(ctx context.Context, captureArea graphics.Rect) (common.ICancellationSignal, error)
+	EndCapture(ctx context.Context) (common.ICancellationSignal, error)
 	Close(ctx context.Context) error
 }
 
@@ -264,20 +275,20 @@ func (w *scrollCaptureConnectionStubWrapper) StartCapture(
 	ctx context.Context,
 	surface interface{},
 	callbacks IScrollCaptureCallbacks,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.StartCapture(ctx, surface, callbacks)
 }
 
 func (w *scrollCaptureConnectionStubWrapper) RequestImage(
 	ctx context.Context,
 	captureArea graphics.Rect,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.RequestImage(ctx, captureArea)
 }
 
 func (w *scrollCaptureConnectionStubWrapper) EndCapture(
 	ctx context.Context,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.EndCapture(ctx)
 }
 

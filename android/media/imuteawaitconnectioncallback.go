@@ -16,6 +16,11 @@ const (
 	TransactionIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent         = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection = "dispatchOnMutedUntilConnection"
+	MethodIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent         = "dispatchOnUnmutedEvent"
+)
+
 type IMuteAwaitConnectionCallback interface {
 	AsBinder() binder.IBinder
 	DispatchOnMutedUntilConnection(ctx context.Context, device AudioDeviceAttributes, mutedUsages []int32) error
@@ -23,17 +28,17 @@ type IMuteAwaitConnectionCallback interface {
 }
 
 type MuteAwaitConnectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMuteAwaitConnectionCallbackProxy(
 	remote binder.IBinder,
 ) *MuteAwaitConnectionCallbackProxy {
-	return &MuteAwaitConnectionCallbackProxy{remote: remote}
+	return &MuteAwaitConnectionCallbackProxy{Remote: remote}
 }
 
 func (p *MuteAwaitConnectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMuteAwaitConnectionCallback = (*MuteAwaitConnectionCallbackProxy)(nil)
@@ -58,12 +63,12 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnMutedUntilConnection(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuteAwaitConnectionCallback, "dispatchOnMutedUntilConnection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuteAwaitConnectionCallback, MethodIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection)
 	if _err != nil {
-		_code = TransactionIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMuteAwaitConnectionCallback, MethodIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +94,12 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnUnmutedEvent(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuteAwaitConnectionCallback, "dispatchOnUnmutedEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuteAwaitConnectionCallback, MethodIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent)
 	if _err != nil {
-		_code = TransactionIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMuteAwaitConnectionCallback, MethodIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,6 +110,10 @@ type MuteAwaitConnectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MuteAwaitConnectionCallbackStub)(nil)
+
+func (s *MuteAwaitConnectionCallbackStub) Descriptor() string {
+	return DescriptorIMuteAwaitConnectionCallback
+}
 
 func (s *MuteAwaitConnectionCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -23,6 +23,18 @@ const (
 	TransactionIPowerHintSessionGetSessionConfig         = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIPowerHintSessionUpdateTargetWorkDuration = "updateTargetWorkDuration"
+	MethodIPowerHintSessionReportActualWorkDuration = "reportActualWorkDuration"
+	MethodIPowerHintSessionPause                    = "pause"
+	MethodIPowerHintSessionResume                   = "resume"
+	MethodIPowerHintSessionClose                    = "close"
+	MethodIPowerHintSessionSendHint                 = "sendHint"
+	MethodIPowerHintSessionSetThreads               = "setThreads"
+	MethodIPowerHintSessionSetMode                  = "setMode"
+	MethodIPowerHintSessionGetSessionConfig         = "getSessionConfig"
+)
+
 type IPowerHintSession interface {
 	AsBinder() binder.IBinder
 	UpdateTargetWorkDuration(ctx context.Context, targetDurationNanos int64) error
@@ -37,17 +49,17 @@ type IPowerHintSession interface {
 }
 
 type PowerHintSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPowerHintSessionProxy(
 	remote binder.IBinder,
 ) *PowerHintSessionProxy {
-	return &PowerHintSessionProxy{remote: remote}
+	return &PowerHintSessionProxy{Remote: remote}
 }
 
 func (p *PowerHintSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPowerHintSession = (*PowerHintSessionProxy)(nil)
@@ -60,12 +72,12 @@ func (p *PowerHintSessionProxy) UpdateTargetWorkDuration(
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	_data.WriteInt64(targetDurationNanos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "updateTargetWorkDuration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionUpdateTargetWorkDuration)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionUpdateTargetWorkDuration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionUpdateTargetWorkDuration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,18 +92,19 @@ func (p *PowerHintSessionProxy) ReportActualWorkDuration(
 	} else {
 		_data.WriteInt32(int32(len(durations)))
 		for _, _item := range durations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "reportActualWorkDuration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionReportActualWorkDuration)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionReportActualWorkDuration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionReportActualWorkDuration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +114,12 @@ func (p *PowerHintSessionProxy) Pause(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "pause")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionPause)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionPause
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionPause, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,12 +129,12 @@ func (p *PowerHintSessionProxy) Resume(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "resume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionResume)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionResume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionResume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,12 +144,12 @@ func (p *PowerHintSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionClose)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionClose, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,12 +161,12 @@ func (p *PowerHintSessionProxy) SendHint(
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 	_data.WriteInt32(int32(hint))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "sendHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSendHint)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionSendHint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionSendHint, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,12 +185,12 @@ func (p *PowerHintSessionProxy) SetThreads(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "setThreads")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSetThreads)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionSetThreads
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionSetThreads, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,12 +213,12 @@ func (p *PowerHintSessionProxy) SetMode(
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "setMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionSetMode)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionSetMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionSetMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,12 +229,12 @@ func (p *PowerHintSessionProxy) GetSessionConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerHintSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "getSessionConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPowerHintSession, MethodIPowerHintSessionGetSessionConfig)
 	if _err != nil {
-		_code = TransactionIPowerHintSessionGetSessionConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPowerHintSession, MethodIPowerHintSessionGetSessionConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,6 +263,10 @@ type PowerHintSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PowerHintSessionStub)(nil)
+
+func (s *PowerHintSessionStub) Descriptor() string {
+	return DescriptorIPowerHintSession
+}
 
 func (s *PowerHintSessionStub) OnTransaction(
 	ctx context.Context,

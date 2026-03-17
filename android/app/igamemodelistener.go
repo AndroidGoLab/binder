@@ -15,23 +15,27 @@ const (
 	TransactionIGameModeListenerOnGameModeChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGameModeListenerOnGameModeChanged = "onGameModeChanged"
+)
+
 type IGameModeListener interface {
 	AsBinder() binder.IBinder
 	OnGameModeChanged(ctx context.Context, packageName string, gameModeFrom int32, gameModeTo int32) error
 }
 
 type GameModeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameModeListenerProxy(
 	remote binder.IBinder,
 ) *GameModeListenerProxy {
-	return &GameModeListenerProxy{remote: remote}
+	return &GameModeListenerProxy{Remote: remote}
 }
 
 func (p *GameModeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameModeListener = (*GameModeListenerProxy)(nil)
@@ -42,7 +46,7 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 	gameModeFrom int32,
 	gameModeTo int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameModeListener)
 	_data.WriteString16(packageName)
@@ -50,12 +54,12 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 	_data.WriteInt32(gameModeTo)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameModeListener, "onGameModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameModeListener, MethodIGameModeListenerOnGameModeChanged)
 	if _err != nil {
-		_code = TransactionIGameModeListenerOnGameModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameModeListener, MethodIGameModeListenerOnGameModeChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,6 +79,10 @@ type GameModeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameModeListenerStub)(nil)
+
+func (s *GameModeListenerStub) Descriptor() string {
+	return DescriptorIGameModeListener
+}
 
 func (s *GameModeListenerStub) OnTransaction(
 	ctx context.Context,

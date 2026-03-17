@@ -15,23 +15,27 @@ const (
 	TransactionIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable = "onBluetoothActivityEnergyInfoAvailable"
+)
+
 type IBluetoothActivityEnergyInfoListener interface {
 	AsBinder() binder.IBinder
 	OnBluetoothActivityEnergyInfoAvailable(ctx context.Context, info BluetoothActivityEnergyInfo) error
 }
 
 type BluetoothActivityEnergyInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothActivityEnergyInfoListenerProxy(
 	remote binder.IBinder,
 ) *BluetoothActivityEnergyInfoListenerProxy {
-	return &BluetoothActivityEnergyInfoListenerProxy{remote: remote}
+	return &BluetoothActivityEnergyInfoListenerProxy{Remote: remote}
 }
 
 func (p *BluetoothActivityEnergyInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothActivityEnergyInfoListener = (*BluetoothActivityEnergyInfoListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *BluetoothActivityEnergyInfoListenerProxy) OnBluetoothActivityEnergyInfo
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothActivityEnergyInfoListener, "onBluetoothActivityEnergyInfoAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothActivityEnergyInfoListener, MethodIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable)
 	if _err != nil {
-		_code = TransactionIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothActivityEnergyInfoListener, MethodIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type BluetoothActivityEnergyInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothActivityEnergyInfoListenerStub)(nil)
+
+func (s *BluetoothActivityEnergyInfoListenerStub) Descriptor() string {
+	return DescriptorIBluetoothActivityEnergyInfoListener
+}
 
 func (s *BluetoothActivityEnergyInfoListenerStub) OnTransaction(
 	ctx context.Context,

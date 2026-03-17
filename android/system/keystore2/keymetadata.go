@@ -31,27 +31,14 @@ func (s *KeyMetadata) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Authorizations)))
 		for _, _item := range s.Authorizations {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.Certificate == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Certificate)))
-		for _, _item := range s.Certificate {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.CertificateChain == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CertificateChain)))
-		for _, _item := range s.CertificateChain {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Certificate)
+	p.WriteByteArray(s.CertificateChain)
 	p.WriteInt64(s.ModificationTimeMs)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -84,40 +71,23 @@ func (s *KeyMetadata) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Authorizations = make([]Authorization, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Authorizations[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Certificate, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Certificate = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Certificate[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.CertificateChain, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.CertificateChain = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.CertificateChain[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.ModificationTimeMs, _err = p.ReadInt64()

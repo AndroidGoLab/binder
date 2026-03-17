@@ -16,6 +16,11 @@ const (
 	TransactionIS2CellIdsCallbackOnError  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIS2CellIdsCallbackOnResult = "onResult"
+	MethodIS2CellIdsCallbackOnError  = "onError"
+)
+
 type IS2CellIdsCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, s2CellIds []int64) error
@@ -23,17 +28,17 @@ type IS2CellIdsCallback interface {
 }
 
 type S2CellIdsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewS2CellIdsCallbackProxy(
 	remote binder.IBinder,
 ) *S2CellIdsCallbackProxy {
-	return &S2CellIdsCallbackProxy{remote: remote}
+	return &S2CellIdsCallbackProxy{Remote: remote}
 }
 
 func (p *S2CellIdsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IS2CellIdsCallback = (*S2CellIdsCallbackProxy)(nil)
@@ -53,12 +58,12 @@ func (p *S2CellIdsCallbackProxy) OnResult(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIS2CellIdsCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIS2CellIdsCallback, MethodIS2CellIdsCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIS2CellIdsCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIS2CellIdsCallback, MethodIS2CellIdsCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *S2CellIdsCallbackProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIS2CellIdsCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIS2CellIdsCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIS2CellIdsCallback, MethodIS2CellIdsCallbackOnError)
 	if _err != nil {
-		_code = TransactionIS2CellIdsCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIS2CellIdsCallback, MethodIS2CellIdsCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type S2CellIdsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*S2CellIdsCallbackStub)(nil)
+
+func (s *S2CellIdsCallbackStub) Descriptor() string {
+	return DescriptorIS2CellIdsCallback
+}
 
 func (s *S2CellIdsCallbackStub) OnTransaction(
 	ctx context.Context,

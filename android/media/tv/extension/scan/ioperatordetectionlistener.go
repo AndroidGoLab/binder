@@ -16,23 +16,27 @@ const (
 	TransactionIOperatorDetectionListenerOnDetectOperatorDetectionList = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOperatorDetectionListenerOnDetectOperatorDetectionList = "onDetectOperatorDetectionList"
+)
+
 type IOperatorDetectionListener interface {
 	AsBinder() binder.IBinder
 	OnDetectOperatorDetectionList(ctx context.Context, detectOperatorDetectionList []os.Bundle) error
 }
 
 type OperatorDetectionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOperatorDetectionListenerProxy(
 	remote binder.IBinder,
 ) *OperatorDetectionListenerProxy {
-	return &OperatorDetectionListenerProxy{remote: remote}
+	return &OperatorDetectionListenerProxy{Remote: remote}
 }
 
 func (p *OperatorDetectionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOperatorDetectionListener = (*OperatorDetectionListenerProxy)(nil)
@@ -48,18 +52,19 @@ func (p *OperatorDetectionListenerProxy) OnDetectOperatorDetectionList(
 	} else {
 		_data.WriteInt32(int32(len(detectOperatorDetectionList)))
 		for _, _item := range detectOperatorDetectionList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOperatorDetectionListener, "onDetectOperatorDetectionList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOperatorDetectionListener, MethodIOperatorDetectionListenerOnDetectOperatorDetectionList)
 	if _err != nil {
-		_code = TransactionIOperatorDetectionListenerOnDetectOperatorDetectionList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOperatorDetectionListener, MethodIOperatorDetectionListenerOnDetectOperatorDetectionList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +75,10 @@ type OperatorDetectionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OperatorDetectionListenerStub)(nil)
+
+func (s *OperatorDetectionListenerStub) Descriptor() string {
+	return DescriptorIOperatorDetectionListener
+}
 
 func (s *OperatorDetectionListenerStub) OnTransaction(
 	ctx context.Context,

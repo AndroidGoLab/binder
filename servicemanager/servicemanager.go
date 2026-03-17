@@ -45,7 +45,7 @@ func (sm *ServiceManager) GetService(
 	logger.Tracef(ctx, "GetService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
 
-	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "getService")
+	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "getService")
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
 	}
@@ -80,7 +80,7 @@ func (sm *ServiceManager) CheckService(
 	logger.Tracef(ctx, "CheckService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/CheckService(%q): %v", name, _err) }()
 
-	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "checkService")
+	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "checkService")
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
 	}
@@ -117,7 +117,7 @@ func (sm *ServiceManager) ListServices(
 	logger.Tracef(ctx, "ListServices")
 	defer func() { logger.Tracef(ctx, "/ListServices: %d services, err=%v", len(_services), _err) }()
 
-	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "listServices")
+	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "listServices")
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
 	}
@@ -160,7 +160,7 @@ func (sm *ServiceManager) IsDeclared(
 	logger.Tracef(ctx, "IsDeclared(%q)", name)
 	defer func() { logger.Tracef(ctx, "/IsDeclared(%q): %v, err=%v", name, _declared, _err) }()
 
-	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "isDeclared")
+	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "isDeclared")
 	if err != nil {
 		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
 	}
@@ -203,7 +203,7 @@ func (sm *ServiceManager) AddService(
 	stub := binder.NewStubBinder(service)
 	stub.RegisterWithTransport(ctx, transport)
 
-	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "addService")
+	code, err := sm.remote.ResolveCode(ctx, serviceManagerDescriptor, "addService")
 	if err != nil {
 		return fmt.Errorf("servicemanager: AddService(%q): %w", name, err)
 	}

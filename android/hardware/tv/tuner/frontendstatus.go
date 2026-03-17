@@ -55,7 +55,6 @@ const (
 	FrontendStatusTagIptvPacketsLost      int32 = 44
 	FrontendStatusTagIptvWorstJitterMs    int32 = 45
 	FrontendStatusTagIptvAverageJitterMs  int32 = 46
-	FrontendStatusTagStandardExt          int32 = 47
 )
 
 type FrontendStatus struct {
@@ -107,7 +106,6 @@ type FrontendStatus struct {
 	IptvPacketsLost      int64
 	IptvWorstJitterMs    int32
 	IptvAverageJitterMs  int32
-	StandardExt          FrontendStandardExt
 }
 
 var _ parcel.Parcelable = (*FrontendStatus)(nil)
@@ -817,21 +815,6 @@ func (u *FrontendStatus) SetIptvAverageJitterMs(
 	u.IptvAverageJitterMs = v
 }
 
-func (u *FrontendStatus) GetStandardExt() (FrontendStandardExt, bool) {
-	if u.Tag != FrontendStatusTagStandardExt {
-		var _zero FrontendStandardExt
-		return _zero, false
-	}
-	return u.StandardExt, true
-}
-
-func (u *FrontendStatus) SetStandardExt(
-	v FrontendStandardExt,
-) {
-	u.Tag = FrontendStatusTagStandardExt
-	u.StandardExt = v
-}
-
 func (u *FrontendStatus) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -858,6 +841,7 @@ func (u *FrontendStatus) MarshalParcel(
 	case FrontendStatusTagInnerFec:
 		p.WriteInt64(int64(u.InnerFec))
 	case FrontendStatusTagModulationStatus:
+		p.WriteInt32(1)
 		if _err := u.ModulationStatus.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -896,6 +880,7 @@ func (u *FrontendStatus) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.PlpInfo)))
 			for _, _item := range u.PlpInfo {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -907,6 +892,7 @@ func (u *FrontendStatus) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Modulations)))
 			for _, _item := range u.Modulations {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -931,14 +917,17 @@ func (u *FrontendStatus) MarshalParcel(
 			}
 		}
 	case FrontendStatusTagBandwidth:
+		p.WriteInt32(1)
 		if _err := u.Bandwidth.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendStatusTagInterval:
+		p.WriteInt32(1)
 		if _err := u.Interval.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendStatusTagTransmissionMode:
+		p.WriteInt32(1)
 		if _err := u.TransmissionMode.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -952,6 +941,7 @@ func (u *FrontendStatus) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Interleaving)))
 			for _, _item := range u.Interleaving {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -976,6 +966,7 @@ func (u *FrontendStatus) MarshalParcel(
 			}
 		}
 	case FrontendStatusTagRollOff:
+		p.WriteInt32(1)
 		if _err := u.RollOff.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -1013,6 +1004,7 @@ func (u *FrontendStatus) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.AllPlpInfo)))
 			for _, _item := range u.AllPlpInfo {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -1028,10 +1020,6 @@ func (u *FrontendStatus) MarshalParcel(
 		p.WriteInt32(u.IptvWorstJitterMs)
 	case FrontendStatusTagIptvAverageJitterMs:
 		p.WriteInt32(u.IptvAverageJitterMs)
-	case FrontendStatusTagStandardExt:
-		if _err := u.StandardExt.MarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for FrontendStatus", u.Tag)
 	}
@@ -1101,6 +1089,9 @@ func (u *FrontendStatus) UnmarshalParcel(
 		}
 		u.InnerFec = FrontendInnerFec(_raw)
 	case FrontendStatusTagModulationStatus:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ModulationStatus.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -1183,6 +1174,9 @@ func (u *FrontendStatus) UnmarshalParcel(
 		if _count1 >= 0 {
 			u.PlpInfo = make([]FrontendStatusAtsc3PlpInfo, _count1)
 			for _i := int32(0); _i < _count1; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.PlpInfo[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -1198,6 +1192,9 @@ func (u *FrontendStatus) UnmarshalParcel(
 		if _count2 >= 0 {
 			u.Modulations = make([]FrontendModulation, _count2)
 			for _i := int32(0); _i < _count2; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Modulations[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -1237,14 +1234,23 @@ func (u *FrontendStatus) UnmarshalParcel(
 			}
 		}
 	case FrontendStatusTagBandwidth:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Bandwidth.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendStatusTagInterval:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Interval.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendStatusTagTransmissionMode:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.TransmissionMode.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -1268,6 +1274,9 @@ func (u *FrontendStatus) UnmarshalParcel(
 		if _count5 >= 0 {
 			u.Interleaving = make([]FrontendInterleaveMode, _count5)
 			for _i := int32(0); _i < _count5; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Interleaving[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -1306,6 +1315,9 @@ func (u *FrontendStatus) UnmarshalParcel(
 			}
 		}
 	case FrontendStatusTagRollOff:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.RollOff.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -1378,6 +1390,9 @@ func (u *FrontendStatus) UnmarshalParcel(
 		if _count10 >= 0 {
 			u.AllPlpInfo = make([]FrontendScanAtsc3PlpInfo, _count10)
 			for _i := int32(0); _i < _count10; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.AllPlpInfo[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -1406,10 +1421,6 @@ func (u *FrontendStatus) UnmarshalParcel(
 	case FrontendStatusTagIptvAverageJitterMs:
 		u.IptvAverageJitterMs, _err = p.ReadInt32()
 		if _err != nil {
-			return _err
-		}
-	case FrontendStatusTagStandardExt:
-		if _err = u.StandardExt.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:

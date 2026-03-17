@@ -19,6 +19,12 @@ const (
 	TransactionICameraProviderCallbackPhysicalCameraDeviceStatusChange = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICameraProviderCallbackCameraDeviceStatusChange         = "cameraDeviceStatusChange"
+	MethodICameraProviderCallbackTorchModeStatusChange            = "torchModeStatusChange"
+	MethodICameraProviderCallbackPhysicalCameraDeviceStatusChange = "physicalCameraDeviceStatusChange"
+)
+
 type ICameraProviderCallback interface {
 	AsBinder() binder.IBinder
 	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus service.CameraDeviceStatus) error
@@ -27,17 +33,17 @@ type ICameraProviderCallback interface {
 }
 
 type CameraProviderCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraProviderCallbackProxy(
 	remote binder.IBinder,
 ) *CameraProviderCallbackProxy {
-	return &CameraProviderCallbackProxy{remote: remote}
+	return &CameraProviderCallbackProxy{Remote: remote}
 }
 
 func (p *CameraProviderCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraProviderCallback = (*CameraProviderCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *CameraProviderCallbackProxy) CameraDeviceStatusChange(
 	_data.WriteString16(cameraDeviceName)
 	_data.WriteInt32(int32(newStatus))
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "cameraDeviceStatusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProviderCallback, MethodICameraProviderCallbackCameraDeviceStatusChange)
 	if _err != nil {
-		_code = TransactionICameraProviderCallbackCameraDeviceStatusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProviderCallback, MethodICameraProviderCallbackCameraDeviceStatusChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +86,12 @@ func (p *CameraProviderCallbackProxy) TorchModeStatusChange(
 	_data.WriteString16(cameraDeviceName)
 	_data.WriteInt32(int32(newStatus))
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "torchModeStatusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProviderCallback, MethodICameraProviderCallbackTorchModeStatusChange)
 	if _err != nil {
-		_code = TransactionICameraProviderCallbackTorchModeStatusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProviderCallback, MethodICameraProviderCallbackTorchModeStatusChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,12 +116,12 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 	_data.WriteString16(physicalCameraDeviceName)
 	_data.WriteInt32(int32(newStatus))
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "physicalCameraDeviceStatusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProviderCallback, MethodICameraProviderCallbackPhysicalCameraDeviceStatusChange)
 	if _err != nil {
-		_code = TransactionICameraProviderCallbackPhysicalCameraDeviceStatusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProviderCallback, MethodICameraProviderCallbackPhysicalCameraDeviceStatusChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -135,6 +141,10 @@ type CameraProviderCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraProviderCallbackStub)(nil)
+
+func (s *CameraProviderCallbackStub) Descriptor() string {
+	return DescriptorICameraProviderCallback
+}
 
 func (s *CameraProviderCallbackStub) OnTransaction(
 	ctx context.Context,

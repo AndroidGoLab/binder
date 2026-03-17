@@ -18,6 +18,12 @@ const (
 	TransactionIInputProcessorResetDevice = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInputProcessorClassify    = "classify"
+	MethodIInputProcessorReset       = "reset"
+	MethodIInputProcessorResetDevice = "resetDevice"
+)
+
 type IInputProcessor interface {
 	AsBinder() binder.IBinder
 	Classify(ctx context.Context, event common.MotionEvent) (common.Classification, error)
@@ -26,17 +32,17 @@ type IInputProcessor interface {
 }
 
 type InputProcessorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputProcessorProxy(
 	remote binder.IBinder,
 ) *InputProcessorProxy {
-	return &InputProcessorProxy{remote: remote}
+	return &InputProcessorProxy{Remote: remote}
 }
 
 func (p *InputProcessorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputProcessor = (*InputProcessorProxy)(nil)
@@ -53,12 +59,12 @@ func (p *InputProcessorProxy) Classify(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputProcessor, "classify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputProcessor, MethodIInputProcessorClassify)
 	if _err != nil {
-		_code = TransactionIInputProcessorClassify
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputProcessor, MethodIInputProcessorClassify, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +88,12 @@ func (p *InputProcessorProxy) Reset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputProcessor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputProcessor, "reset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputProcessor, MethodIInputProcessorReset)
 	if _err != nil {
-		_code = TransactionIInputProcessorReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputProcessor, MethodIInputProcessorReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,12 +114,12 @@ func (p *InputProcessorProxy) ResetDevice(
 	_data.WriteInterfaceToken(DescriptorIInputProcessor)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputProcessor, "resetDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputProcessor, MethodIInputProcessorResetDevice)
 	if _err != nil {
-		_code = TransactionIInputProcessorResetDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputProcessor, MethodIInputProcessorResetDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,6 +139,10 @@ type InputProcessorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputProcessorStub)(nil)
+
+func (s *InputProcessorStub) Descriptor() string {
+	return DescriptorIInputProcessor
+}
 
 func (s *InputProcessorStub) OnTransaction(
 	ctx context.Context,

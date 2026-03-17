@@ -15,23 +15,27 @@ const (
 	TransactionISliceListenerOnSliceUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISliceListenerOnSliceUpdated = "onSliceUpdated"
+)
+
 type ISliceListener interface {
 	AsBinder() binder.IBinder
 	OnSliceUpdated(ctx context.Context, s_ Slice) error
 }
 
 type SliceListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSliceListenerProxy(
 	remote binder.IBinder,
 ) *SliceListenerProxy {
-	return &SliceListenerProxy{remote: remote}
+	return &SliceListenerProxy{Remote: remote}
 }
 
 func (p *SliceListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISliceListener = (*SliceListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *SliceListenerProxy) OnSliceUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISliceListener, "onSliceUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISliceListener, MethodISliceListenerOnSliceUpdated)
 	if _err != nil {
-		_code = TransactionISliceListenerOnSliceUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISliceListener, MethodISliceListenerOnSliceUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type SliceListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SliceListenerStub)(nil)
+
+func (s *SliceListenerStub) Descriptor() string {
+	return DescriptorISliceListener
+}
 
 func (s *SliceListenerStub) OnTransaction(
 	ctx context.Context,

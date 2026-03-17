@@ -24,6 +24,7 @@ func (s *UrspRule) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.TrafficDescriptors)))
 		for _, _item := range s.TrafficDescriptors {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -34,6 +35,7 @@ func (s *UrspRule) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.RouteSelectionDescriptor)))
 		for _, _item := range s.RouteSelectionDescriptor {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -65,6 +67,9 @@ func (s *UrspRule) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.TrafficDescriptors = make([]TrafficDescriptor, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.TrafficDescriptors[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -79,6 +84,9 @@ func (s *UrspRule) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.RouteSelectionDescriptor = make([]RouteSelectionDescriptor, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.RouteSelectionDescriptor[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

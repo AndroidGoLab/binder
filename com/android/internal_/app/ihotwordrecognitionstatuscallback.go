@@ -30,6 +30,22 @@ const (
 	TransactionIHotwordRecognitionStatusCallbackOnOpenFile                            = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected                   = "onKeyphraseDetected"
+	MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource = "onKeyphraseDetectedFromExternalSource"
+	MethodIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected         = "onGenericSoundTriggerDetected"
+	MethodIHotwordRecognitionStatusCallbackOnRejected                            = "onRejected"
+	MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure      = "onHotwordDetectionServiceFailure"
+	MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure  = "onVisualQueryDetectionServiceFailure"
+	MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure                 = "onSoundTriggerFailure"
+	MethodIHotwordRecognitionStatusCallbackOnUnknownFailure                      = "onUnknownFailure"
+	MethodIHotwordRecognitionStatusCallbackOnRecognitionPaused                   = "onRecognitionPaused"
+	MethodIHotwordRecognitionStatusCallbackOnRecognitionResumed                  = "onRecognitionResumed"
+	MethodIHotwordRecognitionStatusCallbackOnStatusReported                      = "onStatusReported"
+	MethodIHotwordRecognitionStatusCallbackOnProcessRestarted                    = "onProcessRestarted"
+	MethodIHotwordRecognitionStatusCallbackOnOpenFile                            = "onOpenFile"
+)
+
 type IHotwordRecognitionStatusCallback interface {
 	AsBinder() binder.IBinder
 	OnKeyphraseDetected(ctx context.Context, recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent, result voice.HotwordDetectedResult) error
@@ -48,17 +64,17 @@ type IHotwordRecognitionStatusCallback interface {
 }
 
 type HotwordRecognitionStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHotwordRecognitionStatusCallbackProxy(
 	remote binder.IBinder,
 ) *HotwordRecognitionStatusCallbackProxy {
-	return &HotwordRecognitionStatusCallbackProxy{remote: remote}
+	return &HotwordRecognitionStatusCallbackProxy{Remote: remote}
 }
 
 func (p *HotwordRecognitionStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHotwordRecognitionStatusCallback = (*HotwordRecognitionStatusCallbackProxy)(nil)
@@ -79,12 +95,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onKeyphraseDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +115,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetectedFromExternalS
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onKeyphraseDetectedFromExternalSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +135,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onGenericSoundTriggerDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,12 +155,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRejected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onRejected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRejected)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnRejected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRejected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,12 +175,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnHotwordDetectionServiceFailure
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onHotwordDetectionServiceFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,12 +195,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnVisualQueryDetectionServiceFai
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onVisualQueryDetectionServiceFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -199,12 +215,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnSoundTriggerFailure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onSoundTriggerFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnSoundTriggerFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnSoundTriggerFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,12 +232,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnUnknownFailure(
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onUnknownFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnUnknownFailure)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnUnknownFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnUnknownFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -231,12 +247,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRecognitionPaused(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onRecognitionPaused")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRecognitionPaused)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnRecognitionPaused
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRecognitionPaused, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -246,12 +262,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRecognitionResumed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onRecognitionResumed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRecognitionResumed)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnRecognitionResumed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnRecognitionResumed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -263,12 +279,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnStatusReported(
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onStatusReported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnStatusReported)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnStatusReported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnStatusReported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -278,12 +294,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnProcessRestarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onProcessRestarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnProcessRestarted)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnProcessRestarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnProcessRestarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -300,12 +316,12 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onOpenFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnOpenFile)
 	if _err != nil {
-		_code = TransactionIHotwordRecognitionStatusCallbackOnOpenFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHotwordRecognitionStatusCallback, MethodIHotwordRecognitionStatusCallbackOnOpenFile, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -316,6 +332,10 @@ type HotwordRecognitionStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HotwordRecognitionStatusCallbackStub)(nil)
+
+func (s *HotwordRecognitionStatusCallbackStub) Descriptor() string {
+	return DescriptorIHotwordRecognitionStatusCallback
+}
 
 func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 	ctx context.Context,

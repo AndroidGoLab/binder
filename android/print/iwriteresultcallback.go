@@ -3,7 +3,7 @@ package print
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,46 +19,53 @@ const (
 	TransactionIWriteResultCallbackOnWriteCanceled = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIWriteResultCallbackOnWriteStarted  = "onWriteStarted"
+	MethodIWriteResultCallbackOnWriteFinished = "onWriteFinished"
+	MethodIWriteResultCallbackOnWriteFailed   = "onWriteFailed"
+	MethodIWriteResultCallbackOnWriteCanceled = "onWriteCanceled"
+)
+
 type IWriteResultCallback interface {
 	AsBinder() binder.IBinder
-	OnWriteStarted(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal, sequence int32) error
+	OnWriteStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnWriteFinished(ctx context.Context, pages []PageRange, sequence int32) error
 	OnWriteFailed(ctx context.Context, error_ interface{}, sequence int32) error
 	OnWriteCanceled(ctx context.Context, sequence int32) error
 }
 
 type WriteResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWriteResultCallbackProxy(
 	remote binder.IBinder,
 ) *WriteResultCallbackProxy {
-	return &WriteResultCallbackProxy{remote: remote}
+	return &WriteResultCallbackProxy{Remote: remote}
 }
 
 func (p *WriteResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWriteResultCallback = (*WriteResultCallbackProxy)(nil)
 
 func (p *WriteResultCallbackProxy) OnWriteStarted(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteStarted)
 	if _err != nil {
-		_code = TransactionIWriteResultCallbackOnWriteStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +81,7 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 	} else {
 		_data.WriteInt32(int32(len(pages)))
 		for _, _item := range pages {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -81,12 +89,12 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 	}
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFinished)
 	if _err != nil {
-		_code = TransactionIWriteResultCallbackOnWriteFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +107,12 @@ func (p *WriteResultCallbackProxy) OnWriteFailed(
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFailed)
 	if _err != nil {
-		_code = TransactionIWriteResultCallbackOnWriteFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,12 +124,12 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteCanceled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteCanceled)
 	if _err != nil {
-		_code = TransactionIWriteResultCallbackOnWriteCanceled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWriteResultCallback, MethodIWriteResultCallbackOnWriteCanceled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,6 +140,10 @@ type WriteResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WriteResultCallbackStub)(nil)
+
+func (s *WriteResultCallbackStub) Descriptor() string {
+	return DescriptorIWriteResultCallback
+}
 
 func (s *WriteResultCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -144,7 +156,7 @@ func (s *WriteResultCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
@@ -199,7 +211,7 @@ func (s *WriteResultCallbackStub) OnTransaction(
 // provide to NewWriteResultCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWriteResultCallbackServer interface {
-	OnWriteStarted(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal, sequence int32) error
+	OnWriteStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnWriteFinished(ctx context.Context, pages []PageRange, sequence int32) error
 	OnWriteFailed(ctx context.Context, error_ interface{}, sequence int32) error
 	OnWriteCanceled(ctx context.Context, sequence int32) error
@@ -216,7 +228,7 @@ func (w *writeResultCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *writeResultCallbackStubWrapper) OnWriteStarted(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 	sequence int32,
 ) error {
 	return w.impl.OnWriteStarted(ctx, cancellation, sequence)

@@ -19,6 +19,14 @@ const (
 	TransactionIBluetoothHciCallbacksScoDataReceived        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBluetoothHciCallbacksAclDataReceived        = "aclDataReceived"
+	MethodIBluetoothHciCallbacksHciEventReceived       = "hciEventReceived"
+	MethodIBluetoothHciCallbacksInitializationComplete = "initializationComplete"
+	MethodIBluetoothHciCallbacksIsoDataReceived        = "isoDataReceived"
+	MethodIBluetoothHciCallbacksScoDataReceived        = "scoDataReceived"
+)
+
 type IBluetoothHciCallbacks interface {
 	AsBinder() binder.IBinder
 	AclDataReceived(ctx context.Context, data []byte) error
@@ -29,17 +37,17 @@ type IBluetoothHciCallbacks interface {
 }
 
 type BluetoothHciCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothHciCallbacksProxy(
 	remote binder.IBinder,
 ) *BluetoothHciCallbacksProxy {
-	return &BluetoothHciCallbacksProxy{remote: remote}
+	return &BluetoothHciCallbacksProxy{Remote: remote}
 }
 
 func (p *BluetoothHciCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothHciCallbacks = (*BluetoothHciCallbacksProxy)(nil)
@@ -59,12 +67,12 @@ func (p *BluetoothHciCallbacksProxy) AclDataReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "aclDataReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksAclDataReceived)
 	if _err != nil {
-		_code = TransactionIBluetoothHciCallbacksAclDataReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksAclDataReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +100,12 @@ func (p *BluetoothHciCallbacksProxy) HciEventReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "hciEventReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksHciEventReceived)
 	if _err != nil {
-		_code = TransactionIBluetoothHciCallbacksHciEventReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksHciEventReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,12 +126,12 @@ func (p *BluetoothHciCallbacksProxy) InitializationComplete(
 	_data.WriteInterfaceToken(DescriptorIBluetoothHciCallbacks)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "initializationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksInitializationComplete)
 	if _err != nil {
-		_code = TransactionIBluetoothHciCallbacksInitializationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksInitializationComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,12 +159,12 @@ func (p *BluetoothHciCallbacksProxy) IsoDataReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "isoDataReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksIsoDataReceived)
 	if _err != nil {
-		_code = TransactionIBluetoothHciCallbacksIsoDataReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksIsoDataReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -184,12 +192,12 @@ func (p *BluetoothHciCallbacksProxy) ScoDataReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "scoDataReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksScoDataReceived)
 	if _err != nil {
-		_code = TransactionIBluetoothHciCallbacksScoDataReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHciCallbacks, MethodIBluetoothHciCallbacksScoDataReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -209,6 +217,10 @@ type BluetoothHciCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHciCallbacksStub)(nil)
+
+func (s *BluetoothHciCallbacksStub) Descriptor() string {
+	return DescriptorIBluetoothHciCallbacks
+}
 
 func (s *BluetoothHciCallbacksStub) OnTransaction(
 	ctx context.Context,

@@ -28,5 +28,4 @@ const (
 	AudioUsageSAFETY                                      AudioUsage = 1001
 	AudioUsageVehicleStatus                               AudioUsage = 1002
 	AudioUsageANNOUNCEMENT                                AudioUsage = 1003
-	AudioUsageSpeakerCleanup                              AudioUsage = 1004
 )

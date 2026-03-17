@@ -51,6 +51,43 @@ const (
 	TransactionIInCallAdapterHandoverTo                     = binder.FirstCallTransaction + 33
 )
 
+const (
+	MethodIInCallAdapterAnswerCall                     = "answerCall"
+	MethodIInCallAdapterDeflectCall                    = "deflectCall"
+	MethodIInCallAdapterRejectCall                     = "rejectCall"
+	MethodIInCallAdapterRejectCallWithReason           = "rejectCallWithReason"
+	MethodIInCallAdapterTransferCall                   = "transferCall"
+	MethodIInCallAdapterConsultativeTransfer           = "consultativeTransfer"
+	MethodIInCallAdapterDisconnectCall                 = "disconnectCall"
+	MethodIInCallAdapterHoldCall                       = "holdCall"
+	MethodIInCallAdapterUnholdCall                     = "unholdCall"
+	MethodIInCallAdapterMute                           = "mute"
+	MethodIInCallAdapterSetAudioRoute                  = "setAudioRoute"
+	MethodIInCallAdapterRequestCallEndpointChange      = "requestCallEndpointChange"
+	MethodIInCallAdapterEnterBackgroundAudioProcessing = "enterBackgroundAudioProcessing"
+	MethodIInCallAdapterExitBackgroundAudioProcessing  = "exitBackgroundAudioProcessing"
+	MethodIInCallAdapterPlayDtmfTone                   = "playDtmfTone"
+	MethodIInCallAdapterStopDtmfTone                   = "stopDtmfTone"
+	MethodIInCallAdapterPostDialContinue               = "postDialContinue"
+	MethodIInCallAdapterPhoneAccountSelected           = "phoneAccountSelected"
+	MethodIInCallAdapterConference                     = "conference"
+	MethodIInCallAdapterSplitFromConference            = "splitFromConference"
+	MethodIInCallAdapterMergeConference                = "mergeConference"
+	MethodIInCallAdapterSwapConference                 = "swapConference"
+	MethodIInCallAdapterAddConferenceParticipants      = "addConferenceParticipants"
+	MethodIInCallAdapterTurnOnProximitySensor          = "turnOnProximitySensor"
+	MethodIInCallAdapterTurnOffProximitySensor         = "turnOffProximitySensor"
+	MethodIInCallAdapterPullExternalCall               = "pullExternalCall"
+	MethodIInCallAdapterSendCallEvent                  = "sendCallEvent"
+	MethodIInCallAdapterPutExtras                      = "putExtras"
+	MethodIInCallAdapterRemoveExtras                   = "removeExtras"
+	MethodIInCallAdapterSendRttRequest                 = "sendRttRequest"
+	MethodIInCallAdapterRespondToRttRequest            = "respondToRttRequest"
+	MethodIInCallAdapterStopRtt                        = "stopRtt"
+	MethodIInCallAdapterSetRttMode                     = "setRttMode"
+	MethodIInCallAdapterHandoverTo                     = "handoverTo"
+)
+
 type IInCallAdapter interface {
 	AsBinder() binder.IBinder
 	AnswerCall(ctx context.Context, callId string, videoState int32) error
@@ -90,17 +127,17 @@ type IInCallAdapter interface {
 }
 
 type InCallAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInCallAdapterProxy(
 	remote binder.IBinder,
 ) *InCallAdapterProxy {
-	return &InCallAdapterProxy{remote: remote}
+	return &InCallAdapterProxy{Remote: remote}
 }
 
 func (p *InCallAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInCallAdapter = (*InCallAdapterProxy)(nil)
@@ -115,12 +152,12 @@ func (p *InCallAdapterProxy) AnswerCall(
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "answerCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterAnswerCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterAnswerCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterAnswerCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,12 +174,12 @@ func (p *InCallAdapterProxy) DeflectCall(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "deflectCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterDeflectCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterDeflectCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterDeflectCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,12 +195,12 @@ func (p *InCallAdapterProxy) RejectCall(
 	_data.WriteBool(rejectWithMessage)
 	_data.WriteString16(textMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "rejectCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterRejectCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterRejectCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterRejectCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -177,12 +214,12 @@ func (p *InCallAdapterProxy) RejectCallWithReason(
 	_data.WriteString16(callId)
 	_data.WriteInt32(rejectReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "rejectCallWithReason")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterRejectCallWithReason)
 	if _err != nil {
-		_code = TransactionIInCallAdapterRejectCallWithReason
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterRejectCallWithReason, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -201,12 +238,12 @@ func (p *InCallAdapterProxy) TransferCall(
 	}
 	_data.WriteBool(isConfirmationRequired)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "transferCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterTransferCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterTransferCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterTransferCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -220,12 +257,12 @@ func (p *InCallAdapterProxy) ConsultativeTransfer(
 	_data.WriteString16(callId)
 	_data.WriteString16(otherCallId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "consultativeTransfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterConsultativeTransfer)
 	if _err != nil {
-		_code = TransactionIInCallAdapterConsultativeTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterConsultativeTransfer, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -237,12 +274,12 @@ func (p *InCallAdapterProxy) DisconnectCall(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "disconnectCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterDisconnectCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterDisconnectCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterDisconnectCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -254,12 +291,12 @@ func (p *InCallAdapterProxy) HoldCall(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "holdCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterHoldCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterHoldCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterHoldCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -271,12 +308,12 @@ func (p *InCallAdapterProxy) UnholdCall(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "unholdCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterUnholdCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterUnholdCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterUnholdCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,12 +325,12 @@ func (p *InCallAdapterProxy) Mute(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteBool(shouldMute)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "mute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterMute)
 	if _err != nil {
-		_code = TransactionIInCallAdapterMute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterMute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -307,12 +344,12 @@ func (p *InCallAdapterProxy) SetAudioRoute(
 	_data.WriteInt32(route)
 	_data.WriteString16(bluetoothAddress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "setAudioRoute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterSetAudioRoute)
 	if _err != nil {
-		_code = TransactionIInCallAdapterSetAudioRoute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterSetAudioRoute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -332,12 +369,12 @@ func (p *InCallAdapterProxy) RequestCallEndpointChange(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "requestCallEndpointChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterRequestCallEndpointChange)
 	if _err != nil {
-		_code = TransactionIInCallAdapterRequestCallEndpointChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterRequestCallEndpointChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -349,12 +386,12 @@ func (p *InCallAdapterProxy) EnterBackgroundAudioProcessing(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "enterBackgroundAudioProcessing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterEnterBackgroundAudioProcessing)
 	if _err != nil {
-		_code = TransactionIInCallAdapterEnterBackgroundAudioProcessing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterEnterBackgroundAudioProcessing, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -368,12 +405,12 @@ func (p *InCallAdapterProxy) ExitBackgroundAudioProcessing(
 	_data.WriteString16(callId)
 	_data.WriteBool(shouldRing)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "exitBackgroundAudioProcessing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterExitBackgroundAudioProcessing)
 	if _err != nil {
-		_code = TransactionIInCallAdapterExitBackgroundAudioProcessing
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterExitBackgroundAudioProcessing, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -387,12 +424,12 @@ func (p *InCallAdapterProxy) PlayDtmfTone(
 	_data.WriteString16(callId)
 	_data.WriteInt32(int32(digit))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "playDtmfTone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterPlayDtmfTone)
 	if _err != nil {
-		_code = TransactionIInCallAdapterPlayDtmfTone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterPlayDtmfTone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -404,12 +441,12 @@ func (p *InCallAdapterProxy) StopDtmfTone(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "stopDtmfTone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterStopDtmfTone)
 	if _err != nil {
-		_code = TransactionIInCallAdapterStopDtmfTone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterStopDtmfTone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -423,12 +460,12 @@ func (p *InCallAdapterProxy) PostDialContinue(
 	_data.WriteString16(callId)
 	_data.WriteBool(proceed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "postDialContinue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterPostDialContinue)
 	if _err != nil {
-		_code = TransactionIInCallAdapterPostDialContinue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterPostDialContinue, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -447,12 +484,12 @@ func (p *InCallAdapterProxy) PhoneAccountSelected(
 	}
 	_data.WriteBool(setDefault)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "phoneAccountSelected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterPhoneAccountSelected)
 	if _err != nil {
-		_code = TransactionIInCallAdapterPhoneAccountSelected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterPhoneAccountSelected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -466,12 +503,12 @@ func (p *InCallAdapterProxy) Conference(
 	_data.WriteString16(callId)
 	_data.WriteString16(otherCallId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "conference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterConference)
 	if _err != nil {
-		_code = TransactionIInCallAdapterConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterConference, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -483,12 +520,12 @@ func (p *InCallAdapterProxy) SplitFromConference(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "splitFromConference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterSplitFromConference)
 	if _err != nil {
-		_code = TransactionIInCallAdapterSplitFromConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterSplitFromConference, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -500,12 +537,12 @@ func (p *InCallAdapterProxy) MergeConference(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "mergeConference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterMergeConference)
 	if _err != nil {
-		_code = TransactionIInCallAdapterMergeConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterMergeConference, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -517,12 +554,12 @@ func (p *InCallAdapterProxy) SwapConference(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "swapConference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterSwapConference)
 	if _err != nil {
-		_code = TransactionIInCallAdapterSwapConference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterSwapConference, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -539,18 +576,19 @@ func (p *InCallAdapterProxy) AddConferenceParticipants(
 	} else {
 		_data.WriteInt32(int32(len(participants)))
 		for _, _item := range participants {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "addConferenceParticipants")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterAddConferenceParticipants)
 	if _err != nil {
-		_code = TransactionIInCallAdapterAddConferenceParticipants
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterAddConferenceParticipants, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -560,12 +598,12 @@ func (p *InCallAdapterProxy) TurnOnProximitySensor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "turnOnProximitySensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterTurnOnProximitySensor)
 	if _err != nil {
-		_code = TransactionIInCallAdapterTurnOnProximitySensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterTurnOnProximitySensor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -577,12 +615,12 @@ func (p *InCallAdapterProxy) TurnOffProximitySensor(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteBool(screenOnImmediately)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "turnOffProximitySensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterTurnOffProximitySensor)
 	if _err != nil {
-		_code = TransactionIInCallAdapterTurnOffProximitySensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterTurnOffProximitySensor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -594,12 +632,12 @@ func (p *InCallAdapterProxy) PullExternalCall(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "pullExternalCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterPullExternalCall)
 	if _err != nil {
-		_code = TransactionIInCallAdapterPullExternalCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterPullExternalCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -620,12 +658,12 @@ func (p *InCallAdapterProxy) SendCallEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "sendCallEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterSendCallEvent)
 	if _err != nil {
-		_code = TransactionIInCallAdapterSendCallEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterSendCallEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -642,12 +680,12 @@ func (p *InCallAdapterProxy) PutExtras(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "putExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterPutExtras)
 	if _err != nil {
-		_code = TransactionIInCallAdapterPutExtras
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterPutExtras, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -668,12 +706,12 @@ func (p *InCallAdapterProxy) RemoveExtras(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "removeExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterRemoveExtras)
 	if _err != nil {
-		_code = TransactionIInCallAdapterRemoveExtras
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterRemoveExtras, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -685,12 +723,12 @@ func (p *InCallAdapterProxy) SendRttRequest(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "sendRttRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterSendRttRequest)
 	if _err != nil {
-		_code = TransactionIInCallAdapterSendRttRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterSendRttRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -706,12 +744,12 @@ func (p *InCallAdapterProxy) RespondToRttRequest(
 	_data.WriteInt32(id)
 	_data.WriteBool(accept)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "respondToRttRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterRespondToRttRequest)
 	if _err != nil {
-		_code = TransactionIInCallAdapterRespondToRttRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterRespondToRttRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -723,12 +761,12 @@ func (p *InCallAdapterProxy) StopRtt(
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "stopRtt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterStopRtt)
 	if _err != nil {
-		_code = TransactionIInCallAdapterStopRtt
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterStopRtt, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -742,12 +780,12 @@ func (p *InCallAdapterProxy) SetRttMode(
 	_data.WriteString16(callId)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "setRttMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterSetRttMode)
 	if _err != nil {
-		_code = TransactionIInCallAdapterSetRttMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterSetRttMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -771,12 +809,12 @@ func (p *InCallAdapterProxy) HandoverTo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInCallAdapter, "handoverTo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInCallAdapter, MethodIInCallAdapterHandoverTo)
 	if _err != nil {
-		_code = TransactionIInCallAdapterHandoverTo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInCallAdapter, MethodIInCallAdapterHandoverTo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -787,6 +825,10 @@ type InCallAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InCallAdapterStub)(nil)
+
+func (s *InCallAdapterStub) Descriptor() string {
+	return DescriptorIInCallAdapter
+}
 
 func (s *InCallAdapterStub) OnTransaction(
 	ctx context.Context,

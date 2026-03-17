@@ -52,6 +52,44 @@ const (
 	TransactionISmsGetWapMessageSize                         = binder.FirstCallTransaction + 34
 )
 
+const (
+	MethodISmsGetAllMessagesFromIccEfForSubscriber      = "getAllMessagesFromIccEfForSubscriber"
+	MethodISmsUpdateMessageOnIccEfForSubscriber         = "updateMessageOnIccEfForSubscriber"
+	MethodISmsCopyMessageToIccEfForSubscriber           = "copyMessageToIccEfForSubscriber"
+	MethodISmsSendDataForSubscriber                     = "sendDataForSubscriber"
+	MethodISmsSendTextForSubscriber                     = "sendTextForSubscriber"
+	MethodISmsSendTextForSubscriberWithOptions          = "sendTextForSubscriberWithOptions"
+	MethodISmsInjectSmsPduForSubscriber                 = "injectSmsPduForSubscriber"
+	MethodISmsSendMultipartTextForSubscriber            = "sendMultipartTextForSubscriber"
+	MethodISmsSendMultipartTextForSubscriberWithOptions = "sendMultipartTextForSubscriberWithOptions"
+	MethodISmsEnableCellBroadcastForSubscriber          = "enableCellBroadcastForSubscriber"
+	MethodISmsDisableCellBroadcastForSubscriber         = "disableCellBroadcastForSubscriber"
+	MethodISmsEnableCellBroadcastRangeForSubscriber     = "enableCellBroadcastRangeForSubscriber"
+	MethodISmsDisableCellBroadcastRangeForSubscriber    = "disableCellBroadcastRangeForSubscriber"
+	MethodISmsGetPremiumSmsPermission                   = "getPremiumSmsPermission"
+	MethodISmsGetPremiumSmsPermissionForSubscriber      = "getPremiumSmsPermissionForSubscriber"
+	MethodISmsSetPremiumSmsPermission                   = "setPremiumSmsPermission"
+	MethodISmsSetPremiumSmsPermissionForSubscriber      = "setPremiumSmsPermissionForSubscriber"
+	MethodISmsIsImsSmsSupportedForSubscriber            = "isImsSmsSupportedForSubscriber"
+	MethodISmsIsSmsSimPickActivityNeeded                = "isSmsSimPickActivityNeeded"
+	MethodISmsGetPreferredSmsSubscription               = "getPreferredSmsSubscription"
+	MethodISmsGetImsSmsFormatForSubscriber              = "getImsSmsFormatForSubscriber"
+	MethodISmsIsSMSPromptEnabled                        = "isSMSPromptEnabled"
+	MethodISmsSendStoredText                            = "sendStoredText"
+	MethodISmsSendStoredMultipartText                   = "sendStoredMultipartText"
+	MethodISmsGetCarrierConfigValuesForSubscriber       = "getCarrierConfigValuesForSubscriber"
+	MethodISmsCreateAppSpecificSmsToken                 = "createAppSpecificSmsToken"
+	MethodISmsCreateAppSpecificSmsTokenWithPackageInfo  = "createAppSpecificSmsTokenWithPackageInfo"
+	MethodISmsSetStorageMonitorMemoryStatusOverride     = "setStorageMonitorMemoryStatusOverride"
+	MethodISmsClearStorageMonitorMemoryStatusOverride   = "clearStorageMonitorMemoryStatusOverride"
+	MethodISmsCheckSmsShortCodeDestination              = "checkSmsShortCodeDestination"
+	MethodISmsGetSmscAddressFromIccEfForSubscriber      = "getSmscAddressFromIccEfForSubscriber"
+	MethodISmsSetSmscAddressOnIccEfForSubscriber        = "setSmscAddressOnIccEfForSubscriber"
+	MethodISmsGetSmsCapacityOnIccForSubscriber          = "getSmsCapacityOnIccForSubscriber"
+	MethodISmsResetAllCellBroadcastRanges               = "resetAllCellBroadcastRanges"
+	MethodISmsGetWapMessageSize                         = "getWapMessageSize"
+)
+
 type ISms interface {
 	AsBinder() binder.IBinder
 	GetAllMessagesFromIccEfForSubscriber(ctx context.Context, subId int32, callingPkg string) ([]SmsRawData, error)
@@ -92,17 +130,17 @@ type ISms interface {
 }
 
 type SmsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSmsProxy(
 	remote binder.IBinder,
 ) *SmsProxy {
-	return &SmsProxy{remote: remote}
+	return &SmsProxy{Remote: remote}
 }
 
 func (p *SmsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISms = (*SmsProxy)(nil)
@@ -118,12 +156,12 @@ func (p *SmsProxy) GetAllMessagesFromIccEfForSubscriber(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getAllMessagesFromIccEfForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetAllMessagesFromIccEfForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsGetAllMessagesFromIccEfForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetAllMessagesFromIccEfForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,6 +179,9 @@ func (p *SmsProxy) GetAllMessagesFromIccEfForSubscriber(
 	if _count >= 0 {
 		_result = make([]SmsRawData, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -173,12 +214,12 @@ func (p *SmsProxy) UpdateMessageOnIccEfForSubscriber(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "updateMessageOnIccEfForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsUpdateMessageOnIccEfForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsUpdateMessageOnIccEfForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsUpdateMessageOnIccEfForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -226,12 +267,12 @@ func (p *SmsProxy) CopyMessageToIccEfForSubscriber(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "copyMessageToIccEfForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCopyMessageToIccEfForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsCopyMessageToIccEfForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsCopyMessageToIccEfForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -285,12 +326,12 @@ func (p *SmsProxy) SendDataForSubscriber(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendDataForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendDataForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsSendDataForSubscriber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendDataForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -335,12 +376,12 @@ func (p *SmsProxy) SendTextForSubscriber(
 	_data.WriteBool(persistMessageForNonDefaultSmsApp)
 	_data.WriteInt64(messageId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendTextForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendTextForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsSendTextForSubscriber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendTextForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -389,12 +430,12 @@ func (p *SmsProxy) SendTextForSubscriberWithOptions(
 	_data.WriteBool(expectMore)
 	_data.WriteInt32(validityPeriod)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendTextForSubscriberWithOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendTextForSubscriberWithOptions)
 	if _err != nil {
-		_code = TransactionISmsSendTextForSubscriberWithOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendTextForSubscriberWithOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -431,12 +472,12 @@ func (p *SmsProxy) InjectSmsPduForSubscriber(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "injectSmsPduForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsInjectSmsPduForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsInjectSmsPduForSubscriber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsInjectSmsPduForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -482,6 +523,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriber(
 	} else {
 		_data.WriteInt32(int32(len(sentIntents)))
 		for _, _item := range sentIntents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -492,6 +534,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriber(
 	} else {
 		_data.WriteInt32(int32(len(deliveryIntents)))
 		for _, _item := range deliveryIntents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -500,12 +543,12 @@ func (p *SmsProxy) SendMultipartTextForSubscriber(
 	_data.WriteBool(persistMessageForNonDefaultSmsApp)
 	_data.WriteInt64(messageId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendMultipartTextForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendMultipartTextForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsSendMultipartTextForSubscriber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendMultipartTextForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -553,6 +596,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriberWithOptions(
 	} else {
 		_data.WriteInt32(int32(len(sentIntents)))
 		for _, _item := range sentIntents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -563,6 +607,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriberWithOptions(
 	} else {
 		_data.WriteInt32(int32(len(deliveryIntents)))
 		for _, _item := range deliveryIntents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -573,12 +618,12 @@ func (p *SmsProxy) SendMultipartTextForSubscriberWithOptions(
 	_data.WriteBool(expectMore)
 	_data.WriteInt32(validityPeriod)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendMultipartTextForSubscriberWithOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendMultipartTextForSubscriberWithOptions)
 	if _err != nil {
-		_code = TransactionISmsSendMultipartTextForSubscriberWithOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendMultipartTextForSubscriberWithOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -604,12 +649,12 @@ func (p *SmsProxy) EnableCellBroadcastForSubscriber(
 	_data.WriteInt32(messageIdentifier)
 	_data.WriteInt32(ranType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "enableCellBroadcastForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsEnableCellBroadcastForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsEnableCellBroadcastForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsEnableCellBroadcastForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -639,12 +684,12 @@ func (p *SmsProxy) DisableCellBroadcastForSubscriber(
 	_data.WriteInt32(messageIdentifier)
 	_data.WriteInt32(ranType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "disableCellBroadcastForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsDisableCellBroadcastForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsDisableCellBroadcastForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsDisableCellBroadcastForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -676,12 +721,12 @@ func (p *SmsProxy) EnableCellBroadcastRangeForSubscriber(
 	_data.WriteInt32(endMessageId)
 	_data.WriteInt32(ranType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "enableCellBroadcastRangeForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsEnableCellBroadcastRangeForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsEnableCellBroadcastRangeForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsEnableCellBroadcastRangeForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -713,12 +758,12 @@ func (p *SmsProxy) DisableCellBroadcastRangeForSubscriber(
 	_data.WriteInt32(endMessageId)
 	_data.WriteInt32(ranType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "disableCellBroadcastRangeForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsDisableCellBroadcastRangeForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsDisableCellBroadcastRangeForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsDisableCellBroadcastRangeForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -744,12 +789,12 @@ func (p *SmsProxy) GetPremiumSmsPermission(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getPremiumSmsPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetPremiumSmsPermission)
 	if _err != nil {
-		_code = TransactionISmsGetPremiumSmsPermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetPremiumSmsPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -777,12 +822,12 @@ func (p *SmsProxy) GetPremiumSmsPermissionForSubscriber(
 	_data.WriteInt32(subId)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getPremiumSmsPermissionForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetPremiumSmsPermissionForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsGetPremiumSmsPermissionForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetPremiumSmsPermissionForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -809,12 +854,12 @@ func (p *SmsProxy) SetPremiumSmsPermission(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(permission)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "setPremiumSmsPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetPremiumSmsPermission)
 	if _err != nil {
-		_code = TransactionISmsSetPremiumSmsPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSetPremiumSmsPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -839,12 +884,12 @@ func (p *SmsProxy) SetPremiumSmsPermissionForSubscriber(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(permission)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "setPremiumSmsPermissionForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetPremiumSmsPermissionForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsSetPremiumSmsPermissionForSubscriber
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSetPremiumSmsPermissionForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -866,12 +911,12 @@ func (p *SmsProxy) IsImsSmsSupportedForSubscriber(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "isImsSmsSupportedForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsIsImsSmsSupportedForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsIsImsSmsSupportedForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsIsImsSmsSupportedForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -897,12 +942,12 @@ func (p *SmsProxy) IsSmsSimPickActivityNeeded(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "isSmsSimPickActivityNeeded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsIsSmsSimPickActivityNeeded)
 	if _err != nil {
-		_code = TransactionISmsIsSmsSimPickActivityNeeded
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsIsSmsSimPickActivityNeeded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -926,12 +971,12 @@ func (p *SmsProxy) GetPreferredSmsSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISms)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getPreferredSmsSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetPreferredSmsSubscription)
 	if _err != nil {
-		_code = TransactionISmsGetPreferredSmsSubscription
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetPreferredSmsSubscription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -957,12 +1002,12 @@ func (p *SmsProxy) GetImsSmsFormatForSubscriber(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getImsSmsFormatForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetImsSmsFormatForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsGetImsSmsFormatForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetImsSmsFormatForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -986,12 +1031,12 @@ func (p *SmsProxy) IsSMSPromptEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISms)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "isSMSPromptEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsIsSMSPromptEnabled)
 	if _err != nil {
-		_code = TransactionISmsIsSMSPromptEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsIsSMSPromptEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1037,12 +1082,12 @@ func (p *SmsProxy) SendStoredText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendStoredText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendStoredText)
 	if _err != nil {
-		_code = TransactionISmsSendStoredText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendStoredText, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1080,6 +1125,7 @@ func (p *SmsProxy) SendStoredMultipartText(
 	} else {
 		_data.WriteInt32(int32(len(sentIntents)))
 		for _, _item := range sentIntents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -1090,18 +1136,19 @@ func (p *SmsProxy) SendStoredMultipartText(
 	} else {
 		_data.WriteInt32(int32(len(deliveryIntents)))
 		for _, _item := range deliveryIntents {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendStoredMultipartText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSendStoredMultipartText)
 	if _err != nil {
-		_code = TransactionISmsSendStoredMultipartText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSendStoredMultipartText, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1123,12 +1170,12 @@ func (p *SmsProxy) GetCarrierConfigValuesForSubscriber(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getCarrierConfigValuesForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetCarrierConfigValuesForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsGetCarrierConfigValuesForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetCarrierConfigValuesForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1166,12 +1213,12 @@ func (p *SmsProxy) CreateAppSpecificSmsToken(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "createAppSpecificSmsToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCreateAppSpecificSmsToken)
 	if _err != nil {
-		_code = TransactionISmsCreateAppSpecificSmsToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsCreateAppSpecificSmsToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1206,12 +1253,12 @@ func (p *SmsProxy) CreateAppSpecificSmsTokenWithPackageInfo(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "createAppSpecificSmsTokenWithPackageInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCreateAppSpecificSmsTokenWithPackageInfo)
 	if _err != nil {
-		_code = TransactionISmsCreateAppSpecificSmsTokenWithPackageInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsCreateAppSpecificSmsTokenWithPackageInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1238,12 +1285,12 @@ func (p *SmsProxy) SetStorageMonitorMemoryStatusOverride(
 	_data.WriteInt32(subId)
 	_data.WriteBool(isStorageAvailable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "setStorageMonitorMemoryStatusOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetStorageMonitorMemoryStatusOverride)
 	if _err != nil {
-		_code = TransactionISmsSetStorageMonitorMemoryStatusOverride
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSetStorageMonitorMemoryStatusOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1264,12 +1311,12 @@ func (p *SmsProxy) ClearStorageMonitorMemoryStatusOverride(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "clearStorageMonitorMemoryStatusOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsClearStorageMonitorMemoryStatusOverride)
 	if _err != nil {
-		_code = TransactionISmsClearStorageMonitorMemoryStatusOverride
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsClearStorageMonitorMemoryStatusOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1290,7 +1337,7 @@ func (p *SmsProxy) CheckSmsShortCodeDestination(
 	countryIso string,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
@@ -1299,12 +1346,12 @@ func (p *SmsProxy) CheckSmsShortCodeDestination(
 	_data.WriteString16(destAddress)
 	_data.WriteString16(countryIso)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "checkSmsShortCodeDestination")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsCheckSmsShortCodeDestination)
 	if _err != nil {
-		_code = TransactionISmsCheckSmsShortCodeDestination
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsCheckSmsShortCodeDestination, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1326,18 +1373,18 @@ func (p *SmsProxy) GetSmscAddressFromIccEfForSubscriber(
 	subId int32,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getSmscAddressFromIccEfForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetSmscAddressFromIccEfForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsGetSmscAddressFromIccEfForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetSmscAddressFromIccEfForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1360,19 +1407,19 @@ func (p *SmsProxy) SetSmscAddressOnIccEfForSubscriber(
 	subId int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(smsc)
 	_data.WriteInt32(subId)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "setSmscAddressOnIccEfForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsSetSmscAddressOnIccEfForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsSetSmscAddressOnIccEfForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsSetSmscAddressOnIccEfForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1398,12 +1445,12 @@ func (p *SmsProxy) GetSmsCapacityOnIccForSubscriber(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getSmsCapacityOnIccForSubscriber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetSmsCapacityOnIccForSubscriber)
 	if _err != nil {
-		_code = TransactionISmsGetSmsCapacityOnIccForSubscriber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetSmsCapacityOnIccForSubscriber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1429,12 +1476,12 @@ func (p *SmsProxy) ResetAllCellBroadcastRanges(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "resetAllCellBroadcastRanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsResetAllCellBroadcastRanges)
 	if _err != nil {
-		_code = TransactionISmsResetAllCellBroadcastRanges
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsResetAllCellBroadcastRanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1460,12 +1507,12 @@ func (p *SmsProxy) GetWapMessageSize(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteString16(locationUrl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISms, "getWapMessageSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISms, MethodISmsGetWapMessageSize)
 	if _err != nil {
-		_code = TransactionISmsGetWapMessageSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISms, MethodISmsGetWapMessageSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1489,6 +1536,10 @@ type SmsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SmsStub)(nil)
+
+func (s *SmsStub) Descriptor() string {
+	return DescriptorISms
+}
 
 func (s *SmsStub) OnTransaction(
 	ctx context.Context,

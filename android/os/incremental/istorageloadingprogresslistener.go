@@ -15,23 +15,27 @@ const (
 	TransactionIStorageLoadingProgressListenerOnStorageLoadingProgressChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStorageLoadingProgressListenerOnStorageLoadingProgressChanged = "onStorageLoadingProgressChanged"
+)
+
 type IStorageLoadingProgressListener interface {
 	AsBinder() binder.IBinder
 	OnStorageLoadingProgressChanged(ctx context.Context, storageId int32, progress float32) error
 }
 
 type StorageLoadingProgressListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageLoadingProgressListenerProxy(
 	remote binder.IBinder,
 ) *StorageLoadingProgressListenerProxy {
-	return &StorageLoadingProgressListenerProxy{remote: remote}
+	return &StorageLoadingProgressListenerProxy{Remote: remote}
 }
 
 func (p *StorageLoadingProgressListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorageLoadingProgressListener = (*StorageLoadingProgressListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *StorageLoadingProgressListenerProxy) OnStorageLoadingProgressChanged(
 	_data.WriteInt32(storageId)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageLoadingProgressListener, "onStorageLoadingProgressChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageLoadingProgressListener, MethodIStorageLoadingProgressListenerOnStorageLoadingProgressChanged)
 	if _err != nil {
-		_code = TransactionIStorageLoadingProgressListenerOnStorageLoadingProgressChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageLoadingProgressListener, MethodIStorageLoadingProgressListenerOnStorageLoadingProgressChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type StorageLoadingProgressListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageLoadingProgressListenerStub)(nil)
+
+func (s *StorageLoadingProgressListenerStub) Descriptor() string {
+	return DescriptorIStorageLoadingProgressListener
+}
 
 func (s *StorageLoadingProgressListenerStub) OnTransaction(
 	ctx context.Context,

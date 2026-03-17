@@ -19,7 +19,14 @@ const (
 	TransactionICameraServiceGetCameraCharacteristics   = binder.FirstCallTransaction + 2
 	TransactionICameraServiceGetCameraVendorTagSections = binder.FirstCallTransaction + 3
 	TransactionICameraServiceRemoveListener             = binder.FirstCallTransaction + 4
-	TransactionICameraServiceConnectDeviceV2            = binder.FirstCallTransaction + 5
+)
+
+const (
+	MethodICameraServiceAddListener                = "addListener"
+	MethodICameraServiceConnectDevice              = "connectDevice"
+	MethodICameraServiceGetCameraCharacteristics   = "getCameraCharacteristics"
+	MethodICameraServiceGetCameraVendorTagSections = "getCameraVendorTagSections"
+	MethodICameraServiceRemoveListener             = "removeListener"
 )
 
 type ICameraService interface {
@@ -29,21 +36,20 @@ type ICameraService interface {
 	GetCameraCharacteristics(ctx context.Context, cameraId string) (device.CameraMetadata, error)
 	GetCameraVendorTagSections(ctx context.Context) ([]common.ProviderIdAndVendorTagSections, error)
 	RemoveListener(ctx context.Context, listener ICameraServiceListener) error
-	ConnectDeviceV2(ctx context.Context, callback device.ICameraDeviceCallback, cameraId string, sharedMode bool) (device.ICameraDeviceUser, error)
 }
 
 type CameraServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraServiceProxy(
 	remote binder.IBinder,
 ) *CameraServiceProxy {
-	return &CameraServiceProxy{remote: remote}
+	return &CameraServiceProxy{Remote: remote}
 }
 
 func (p *CameraServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraService = (*CameraServiceProxy)(nil)
@@ -55,14 +61,14 @@ func (p *CameraServiceProxy) AddListener(
 	var _result []CameraStatusAndId
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "addListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceAddListener)
 	if _err != nil {
-		_code = TransactionICameraServiceAddListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraService, MethodICameraServiceAddListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,6 +86,9 @@ func (p *CameraServiceProxy) AddListener(
 	if _count >= 0 {
 		_result = make([]CameraStatusAndId, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -96,15 +105,15 @@ func (p *CameraServiceProxy) ConnectDevice(
 	var _result device.ICameraDeviceUser
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(cameraId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connectDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceConnectDevice)
 	if _err != nil {
-		_code = TransactionICameraServiceConnectDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraService, MethodICameraServiceConnectDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,7 +127,7 @@ func (p *CameraServiceProxy) ConnectDevice(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = device.NewCameraDeviceUserProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = device.NewCameraDeviceUserProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -131,12 +140,12 @@ func (p *CameraServiceProxy) GetCameraCharacteristics(
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraCharacteristics")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceGetCameraCharacteristics)
 	if _err != nil {
-		_code = TransactionICameraServiceGetCameraCharacteristics
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraService, MethodICameraServiceGetCameraCharacteristics, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -165,12 +174,12 @@ func (p *CameraServiceProxy) GetCameraVendorTagSections(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraVendorTagSections")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceGetCameraVendorTagSections)
 	if _err != nil {
-		_code = TransactionICameraServiceGetCameraVendorTagSections
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraService, MethodICameraServiceGetCameraVendorTagSections, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,6 +197,9 @@ func (p *CameraServiceProxy) GetCameraVendorTagSections(
 	if _count >= 0 {
 		_result = make([]common.ProviderIdAndVendorTagSections, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -202,14 +214,14 @@ func (p *CameraServiceProxy) RemoveListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "removeListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraService, MethodICameraServiceRemoveListener)
 	if _err != nil {
-		_code = TransactionICameraServiceRemoveListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraService, MethodICameraServiceRemoveListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -222,42 +234,6 @@ func (p *CameraServiceProxy) RemoveListener(
 	return nil
 }
 
-func (p *CameraServiceProxy) ConnectDeviceV2(
-	ctx context.Context,
-	callback device.ICameraDeviceCallback,
-	cameraId string,
-	sharedMode bool,
-) (device.ICameraDeviceUser, error) {
-	var _result device.ICameraDeviceUser
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICameraService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	_data.WriteString16(cameraId)
-	_data.WriteBool(sharedMode)
-
-	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connectDeviceV2")
-	if _err != nil {
-		_code = TransactionICameraServiceConnectDeviceV2
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = device.NewCameraDeviceUserProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
-	return _result, nil
-}
-
 // CameraServiceStub dispatches incoming binder transactions
 // to a typed ICameraService implementation.
 type CameraServiceStub struct {
@@ -265,6 +241,10 @@ type CameraServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraServiceStub)(nil)
+
+func (s *CameraServiceStub) Descriptor() string {
+	return DescriptorICameraService
+}
 
 func (s *CameraServiceStub) OnTransaction(
 	ctx context.Context,
@@ -359,31 +339,6 @@ func (s *CameraServiceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionICameraServiceConnectDeviceV2:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback device.ICameraDeviceCallback
-		_ = _arg_callback
-		_arg_cameraId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_sharedMode, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.ConnectDeviceV2(ctx, _arg_callback, _arg_cameraId, _arg_sharedMode)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -398,7 +353,6 @@ type ICameraServiceServer interface {
 	GetCameraCharacteristics(ctx context.Context, cameraId string) (device.CameraMetadata, error)
 	GetCameraVendorTagSections(ctx context.Context) ([]common.ProviderIdAndVendorTagSections, error)
 	RemoveListener(ctx context.Context, listener ICameraServiceListener) error
-	ConnectDeviceV2(ctx context.Context, callback device.ICameraDeviceCallback, cameraId string, sharedMode bool) (device.ICameraDeviceUser, error)
 }
 
 type cameraServiceStubWrapper struct {
@@ -443,15 +397,6 @@ func (w *cameraServiceStubWrapper) RemoveListener(
 	listener ICameraServiceListener,
 ) error {
 	return w.impl.RemoveListener(ctx, listener)
-}
-
-func (w *cameraServiceStubWrapper) ConnectDeviceV2(
-	ctx context.Context,
-	callback device.ICameraDeviceCallback,
-	cameraId string,
-	sharedMode bool,
-) (device.ICameraDeviceUser, error) {
-	return w.impl.ConnectDeviceV2(ctx, callback, cameraId, sharedMode)
 }
 
 var _ ICameraService = (*cameraServiceStubWrapper)(nil)

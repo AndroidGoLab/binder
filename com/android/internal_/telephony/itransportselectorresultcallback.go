@@ -15,23 +15,27 @@ const (
 	TransactionITransportSelectorResultCallbackOnCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITransportSelectorResultCallbackOnCompleted = "onCompleted"
+)
+
 type ITransportSelectorResultCallback interface {
 	AsBinder() binder.IBinder
 	OnCompleted(ctx context.Context, cb IWwanSelectorCallback) error
 }
 
 type TransportSelectorResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransportSelectorResultCallbackProxy(
 	remote binder.IBinder,
 ) *TransportSelectorResultCallbackProxy {
-	return &TransportSelectorResultCallbackProxy{remote: remote}
+	return &TransportSelectorResultCallbackProxy{Remote: remote}
 }
 
 func (p *TransportSelectorResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransportSelectorResultCallback = (*TransportSelectorResultCallbackProxy)(nil)
@@ -42,14 +46,14 @@ func (p *TransportSelectorResultCallbackProxy) OnCompleted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransportSelectorResultCallback)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorResultCallback, "onCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportSelectorResultCallback, MethodITransportSelectorResultCallbackOnCompleted)
 	if _err != nil {
-		_code = TransactionITransportSelectorResultCallbackOnCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportSelectorResultCallback, MethodITransportSelectorResultCallbackOnCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type TransportSelectorResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransportSelectorResultCallbackStub)(nil)
+
+func (s *TransportSelectorResultCallbackStub) Descriptor() string {
+	return DescriptorITransportSelectorResultCallback
+}
 
 func (s *TransportSelectorResultCallbackStub) OnTransaction(
 	ctx context.Context,

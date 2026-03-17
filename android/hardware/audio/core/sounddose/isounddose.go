@@ -18,6 +18,12 @@ const (
 	TransactionISoundDoseRegisterSoundDoseCallback = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISoundDoseSetOutputRs2UpperBound    = "setOutputRs2UpperBound"
+	MethodISoundDoseGetOutputRs2UpperBound    = "getOutputRs2UpperBound"
+	MethodISoundDoseRegisterSoundDoseCallback = "registerSoundDoseCallback"
+)
+
 type ISoundDose interface {
 	AsBinder() binder.IBinder
 	SetOutputRs2UpperBound(ctx context.Context, rs2ValueDbA float32) error
@@ -31,17 +37,17 @@ const (
 )
 
 type SoundDoseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundDoseProxy(
 	remote binder.IBinder,
 ) *SoundDoseProxy {
-	return &SoundDoseProxy{remote: remote}
+	return &SoundDoseProxy{Remote: remote}
 }
 
 func (p *SoundDoseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundDose = (*SoundDoseProxy)(nil)
@@ -54,12 +60,12 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteFloat32(rs2ValueDbA)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "setOutputRs2UpperBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound)
 	if _err != nil {
-		_code = TransactionISoundDoseSetOutputRs2UpperBound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,12 +85,12 @@ func (p *SoundDoseProxy) GetOutputRs2UpperBound(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "getOutputRs2UpperBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseGetOutputRs2UpperBound)
 	if _err != nil {
-		_code = TransactionISoundDoseGetOutputRs2UpperBound
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseGetOutputRs2UpperBound, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,14 +113,14 @@ func (p *SoundDoseProxy) RegisterSoundDoseCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "registerSoundDoseCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseRegisterSoundDoseCallback)
 	if _err != nil {
-		_code = TransactionISoundDoseRegisterSoundDoseCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseRegisterSoundDoseCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,6 +140,10 @@ type SoundDoseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseStub)(nil)
+
+func (s *SoundDoseStub) Descriptor() string {
+	return DescriptorISoundDose
+}
 
 func (s *SoundDoseStub) OnTransaction(
 	ctx context.Context,

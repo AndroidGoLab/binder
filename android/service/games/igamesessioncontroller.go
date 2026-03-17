@@ -17,6 +17,11 @@ const (
 	TransactionIGameSessionControllerRestartGame    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGameSessionControllerTakeScreenshot = "takeScreenshot"
+	MethodIGameSessionControllerRestartGame    = "restartGame"
+)
+
 type IGameSessionController interface {
 	AsBinder() binder.IBinder
 	TakeScreenshot(ctx context.Context, taskId int32, gameScreenshotResultFuture infra.AndroidFuture) error
@@ -24,17 +29,17 @@ type IGameSessionController interface {
 }
 
 type GameSessionControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameSessionControllerProxy(
 	remote binder.IBinder,
 ) *GameSessionControllerProxy {
-	return &GameSessionControllerProxy{remote: remote}
+	return &GameSessionControllerProxy{Remote: remote}
 }
 
 func (p *GameSessionControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameSessionController = (*GameSessionControllerProxy)(nil)
@@ -52,12 +57,12 @@ func (p *GameSessionControllerProxy) TakeScreenshot(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameSessionController, "takeScreenshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSessionController, MethodIGameSessionControllerTakeScreenshot)
 	if _err != nil {
-		_code = TransactionIGameSessionControllerTakeScreenshot
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameSessionController, MethodIGameSessionControllerTakeScreenshot, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *GameSessionControllerProxy) RestartGame(
 	_data.WriteInterfaceToken(DescriptorIGameSessionController)
 	_data.WriteInt32(taskId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameSessionController, "restartGame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameSessionController, MethodIGameSessionControllerRestartGame)
 	if _err != nil {
-		_code = TransactionIGameSessionControllerRestartGame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameSessionController, MethodIGameSessionControllerRestartGame, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type GameSessionControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameSessionControllerStub)(nil)
+
+func (s *GameSessionControllerStub) Descriptor() string {
+	return DescriptorIGameSessionController
+}
 
 func (s *GameSessionControllerStub) OnTransaction(
 	ctx context.Context,

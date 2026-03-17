@@ -5,7 +5,6 @@ import (
 	"fmt"
 	biometrics "github.com/xaionaro-go/binder/android/hardware/biometrics"
 	"github.com/xaionaro-go/binder/binder"
-	policy "github.com/xaionaro-go/binder/com/android/internal_/policy"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,24 +13,39 @@ import (
 const DescriptorITrustManager = "android.app.trust.ITrustManager"
 
 const (
-	TransactionITrustManagerReportUnlockAttempt                 = binder.FirstCallTransaction + 0
-	TransactionITrustManagerReportUserRequestedUnlock           = binder.FirstCallTransaction + 1
-	TransactionITrustManagerReportUserMayRequestUnlock          = binder.FirstCallTransaction + 2
-	TransactionITrustManagerReportUnlockLockout                 = binder.FirstCallTransaction + 3
-	TransactionITrustManagerReportEnabledTrustAgentsChanged     = binder.FirstCallTransaction + 4
-	TransactionITrustManagerRegisterTrustListener               = binder.FirstCallTransaction + 5
-	TransactionITrustManagerUnregisterTrustListener             = binder.FirstCallTransaction + 6
-	TransactionITrustManagerReportKeyguardShowingChanged        = binder.FirstCallTransaction + 7
-	TransactionITrustManagerSetDeviceLockedForUser              = binder.FirstCallTransaction + 8
-	TransactionITrustManagerIsDeviceLocked                      = binder.FirstCallTransaction + 9
-	TransactionITrustManagerIsDeviceSecure                      = binder.FirstCallTransaction + 10
-	TransactionITrustManagerIsTrustUsuallyManaged               = binder.FirstCallTransaction + 11
-	TransactionITrustManagerUnlockedByBiometricForUser          = binder.FirstCallTransaction + 12
-	TransactionITrustManagerClearAllBiometricRecognized         = binder.FirstCallTransaction + 13
-	TransactionITrustManagerIsActiveUnlockRunning               = binder.FirstCallTransaction + 14
-	TransactionITrustManagerIsInSignificantPlace                = binder.FirstCallTransaction + 15
-	TransactionITrustManagerRegisterDeviceLockedStateListener   = binder.FirstCallTransaction + 16
-	TransactionITrustManagerUnregisterDeviceLockedStateListener = binder.FirstCallTransaction + 17
+	TransactionITrustManagerReportUnlockAttempt             = binder.FirstCallTransaction + 0
+	TransactionITrustManagerReportUserRequestedUnlock       = binder.FirstCallTransaction + 1
+	TransactionITrustManagerReportUserMayRequestUnlock      = binder.FirstCallTransaction + 2
+	TransactionITrustManagerReportUnlockLockout             = binder.FirstCallTransaction + 3
+	TransactionITrustManagerReportEnabledTrustAgentsChanged = binder.FirstCallTransaction + 4
+	TransactionITrustManagerRegisterTrustListener           = binder.FirstCallTransaction + 5
+	TransactionITrustManagerUnregisterTrustListener         = binder.FirstCallTransaction + 6
+	TransactionITrustManagerReportKeyguardShowingChanged    = binder.FirstCallTransaction + 7
+	TransactionITrustManagerSetDeviceLockedForUser          = binder.FirstCallTransaction + 8
+	TransactionITrustManagerIsDeviceLocked                  = binder.FirstCallTransaction + 9
+	TransactionITrustManagerIsDeviceSecure                  = binder.FirstCallTransaction + 10
+	TransactionITrustManagerIsTrustUsuallyManaged           = binder.FirstCallTransaction + 11
+	TransactionITrustManagerUnlockedByBiometricForUser      = binder.FirstCallTransaction + 12
+	TransactionITrustManagerClearAllBiometricRecognized     = binder.FirstCallTransaction + 13
+	TransactionITrustManagerIsActiveUnlockRunning           = binder.FirstCallTransaction + 14
+)
+
+const (
+	MethodITrustManagerReportUnlockAttempt             = "reportUnlockAttempt"
+	MethodITrustManagerReportUserRequestedUnlock       = "reportUserRequestedUnlock"
+	MethodITrustManagerReportUserMayRequestUnlock      = "reportUserMayRequestUnlock"
+	MethodITrustManagerReportUnlockLockout             = "reportUnlockLockout"
+	MethodITrustManagerReportEnabledTrustAgentsChanged = "reportEnabledTrustAgentsChanged"
+	MethodITrustManagerRegisterTrustListener           = "registerTrustListener"
+	MethodITrustManagerUnregisterTrustListener         = "unregisterTrustListener"
+	MethodITrustManagerReportKeyguardShowingChanged    = "reportKeyguardShowingChanged"
+	MethodITrustManagerSetDeviceLockedForUser          = "setDeviceLockedForUser"
+	MethodITrustManagerIsDeviceLocked                  = "isDeviceLocked"
+	MethodITrustManagerIsDeviceSecure                  = "isDeviceSecure"
+	MethodITrustManagerIsTrustUsuallyManaged           = "isTrustUsuallyManaged"
+	MethodITrustManagerUnlockedByBiometricForUser      = "unlockedByBiometricForUser"
+	MethodITrustManagerClearAllBiometricRecognized     = "clearAllBiometricRecognized"
+	MethodITrustManagerIsActiveUnlockRunning           = "isActiveUnlockRunning"
 )
 
 type ITrustManager interface {
@@ -51,23 +65,20 @@ type ITrustManager interface {
 	UnlockedByBiometricForUser(ctx context.Context, source biometrics.BiometricSourceType) error
 	ClearAllBiometricRecognized(ctx context.Context, target biometrics.BiometricSourceType, unlockedUser int32) error
 	IsActiveUnlockRunning(ctx context.Context) (bool, error)
-	IsInSignificantPlace(ctx context.Context) (bool, error)
-	RegisterDeviceLockedStateListener(ctx context.Context, listener policy.IDeviceLockedStateListener, deviceId int32) error
-	UnregisterDeviceLockedStateListener(ctx context.Context, listener policy.IDeviceLockedStateListener) error
 }
 
 type TrustManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTrustManagerProxy(
 	remote binder.IBinder,
 ) *TrustManagerProxy {
-	return &TrustManagerProxy{remote: remote}
+	return &TrustManagerProxy{Remote: remote}
 }
 
 func (p *TrustManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITrustManager = (*TrustManagerProxy)(nil)
@@ -76,18 +87,18 @@ func (p *TrustManagerProxy) ReportUnlockAttempt(
 	ctx context.Context,
 	successful bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteBool(successful)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUnlockAttempt")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportUnlockAttempt)
 	if _err != nil {
-		_code = TransactionITrustManagerReportUnlockAttempt
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerReportUnlockAttempt, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,18 +115,18 @@ func (p *TrustManagerProxy) ReportUserRequestedUnlock(
 	ctx context.Context,
 	dismissKeyguard bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(dismissKeyguard)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUserRequestedUnlock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportUserRequestedUnlock)
 	if _err != nil {
-		_code = TransactionITrustManagerReportUserRequestedUnlock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerReportUserRequestedUnlock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,17 +142,17 @@ func (p *TrustManagerProxy) ReportUserRequestedUnlock(
 func (p *TrustManagerProxy) ReportUserMayRequestUnlock(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUserMayRequestUnlock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportUserMayRequestUnlock)
 	if _err != nil {
-		_code = TransactionITrustManagerReportUserMayRequestUnlock
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerReportUserMayRequestUnlock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -158,18 +169,18 @@ func (p *TrustManagerProxy) ReportUnlockLockout(
 	ctx context.Context,
 	timeoutMs int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(timeoutMs)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUnlockLockout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportUnlockLockout)
 	if _err != nil {
-		_code = TransactionITrustManagerReportUnlockLockout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerReportUnlockLockout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,17 +196,17 @@ func (p *TrustManagerProxy) ReportUnlockLockout(
 func (p *TrustManagerProxy) ReportEnabledTrustAgentsChanged(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportEnabledTrustAgentsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportEnabledTrustAgentsChanged)
 	if _err != nil {
-		_code = TransactionITrustManagerReportEnabledTrustAgentsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerReportEnabledTrustAgentsChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,14 +225,14 @@ func (p *TrustManagerProxy) RegisterTrustListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
-	binder.WriteBinderToParcel(ctx, _data, trustListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, trustListener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "registerTrustListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerRegisterTrustListener)
 	if _err != nil {
-		_code = TransactionITrustManagerRegisterTrustListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerRegisterTrustListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -240,14 +251,14 @@ func (p *TrustManagerProxy) UnregisterTrustListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
-	binder.WriteBinderToParcel(ctx, _data, trustListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, trustListener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "unregisterTrustListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerUnregisterTrustListener)
 	if _err != nil {
-		_code = TransactionITrustManagerUnregisterTrustListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerUnregisterTrustListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -266,12 +277,12 @@ func (p *TrustManagerProxy) ReportKeyguardShowingChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportKeyguardShowingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerReportKeyguardShowingChanged)
 	if _err != nil {
-		_code = TransactionITrustManagerReportKeyguardShowingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerReportKeyguardShowingChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -288,18 +299,18 @@ func (p *TrustManagerProxy) SetDeviceLockedForUser(
 	ctx context.Context,
 	locked bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(locked)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "setDeviceLockedForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerSetDeviceLockedForUser)
 	if _err != nil {
-		_code = TransactionITrustManagerSetDeviceLockedForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerSetDeviceLockedForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -317,18 +328,18 @@ func (p *TrustManagerProxy) IsDeviceLocked(
 	deviceId int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isDeviceLocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerIsDeviceLocked)
 	if _err != nil {
-		_code = TransactionITrustManagerIsDeviceLocked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerIsDeviceLocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -350,18 +361,18 @@ func (p *TrustManagerProxy) IsDeviceSecure(
 	deviceId int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isDeviceSecure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerIsDeviceSecure)
 	if _err != nil {
-		_code = TransactionITrustManagerIsDeviceSecure
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerIsDeviceSecure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -382,17 +393,17 @@ func (p *TrustManagerProxy) IsTrustUsuallyManaged(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isTrustUsuallyManaged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerIsTrustUsuallyManaged)
 	if _err != nil {
-		_code = TransactionITrustManagerIsTrustUsuallyManaged
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerIsTrustUsuallyManaged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -413,7 +424,7 @@ func (p *TrustManagerProxy) UnlockedByBiometricForUser(
 	ctx context.Context,
 	source biometrics.BiometricSourceType,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
@@ -422,12 +433,12 @@ func (p *TrustManagerProxy) UnlockedByBiometricForUser(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "unlockedByBiometricForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerUnlockedByBiometricForUser)
 	if _err != nil {
-		_code = TransactionITrustManagerUnlockedByBiometricForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerUnlockedByBiometricForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -453,12 +464,12 @@ func (p *TrustManagerProxy) ClearAllBiometricRecognized(
 	}
 	_data.WriteInt32(unlockedUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "clearAllBiometricRecognized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerClearAllBiometricRecognized)
 	if _err != nil {
-		_code = TransactionITrustManagerClearAllBiometricRecognized
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerClearAllBiometricRecognized, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -475,46 +486,17 @@ func (p *TrustManagerProxy) IsActiveUnlockRunning(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isActiveUnlockRunning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustManager, MethodITrustManagerIsActiveUnlockRunning)
 	if _err != nil {
-		_code = TransactionITrustManagerIsActiveUnlockRunning
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITrustManager, MethodITrustManagerIsActiveUnlockRunning, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *TrustManagerProxy) IsInSignificantPlace(
-	ctx context.Context,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITrustManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isInSignificantPlace")
-	if _err != nil {
-		_code = TransactionITrustManagerIsInSignificantPlace
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -529,60 +511,6 @@ func (p *TrustManagerProxy) IsInSignificantPlace(
 		return _result, _err
 	}
 	return _result, nil
-}
-
-func (p *TrustManagerProxy) RegisterDeviceLockedStateListener(
-	ctx context.Context,
-	listener policy.IDeviceLockedStateListener,
-	deviceId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITrustManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(deviceId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "registerDeviceLockedStateListener")
-	if _err != nil {
-		_code = TransactionITrustManagerRegisterDeviceLockedStateListener
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *TrustManagerProxy) UnregisterDeviceLockedStateListener(
-	ctx context.Context,
-	listener policy.IDeviceLockedStateListener,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITrustManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "unregisterDeviceLockedStateListener")
-	if _err != nil {
-		_code = TransactionITrustManagerUnregisterDeviceLockedStateListener
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
 }
 
 // TrustManagerStub dispatches incoming binder transactions
@@ -592,6 +520,10 @@ type TrustManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TrustManagerStub)(nil)
+
+func (s *TrustManagerStub) Descriptor() string {
+	return DescriptorITrustManager
+}
 
 func (s *TrustManagerStub) OnTransaction(
 	ctx context.Context,
@@ -874,53 +806,6 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionITrustManagerIsInSignificantPlace:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.IsInSignificantPlace(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionITrustManagerRegisterDeviceLockedStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener policy.IDeviceLockedStateListener
-		_ = _arg_listener
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.RegisterDeviceLockedStateListener(ctx, _arg_listener, _arg_deviceId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionITrustManagerUnregisterDeviceLockedStateListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener policy.IDeviceLockedStateListener
-		_ = _arg_listener
-		_err := s.Impl.UnregisterDeviceLockedStateListener(ctx, _arg_listener)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -945,9 +830,6 @@ type ITrustManagerServer interface {
 	UnlockedByBiometricForUser(ctx context.Context, source biometrics.BiometricSourceType) error
 	ClearAllBiometricRecognized(ctx context.Context, target biometrics.BiometricSourceType, unlockedUser int32) error
 	IsActiveUnlockRunning(ctx context.Context) (bool, error)
-	IsInSignificantPlace(ctx context.Context) (bool, error)
-	RegisterDeviceLockedStateListener(ctx context.Context, listener policy.IDeviceLockedStateListener, deviceId int32) error
-	UnregisterDeviceLockedStateListener(ctx context.Context, listener policy.IDeviceLockedStateListener) error
 }
 
 type trustManagerStubWrapper struct {
@@ -1058,27 +940,6 @@ func (w *trustManagerStubWrapper) IsActiveUnlockRunning(
 	ctx context.Context,
 ) (bool, error) {
 	return w.impl.IsActiveUnlockRunning(ctx)
-}
-
-func (w *trustManagerStubWrapper) IsInSignificantPlace(
-	ctx context.Context,
-) (bool, error) {
-	return w.impl.IsInSignificantPlace(ctx)
-}
-
-func (w *trustManagerStubWrapper) RegisterDeviceLockedStateListener(
-	ctx context.Context,
-	listener policy.IDeviceLockedStateListener,
-	deviceId int32,
-) error {
-	return w.impl.RegisterDeviceLockedStateListener(ctx, listener, deviceId)
-}
-
-func (w *trustManagerStubWrapper) UnregisterDeviceLockedStateListener(
-	ctx context.Context,
-	listener policy.IDeviceLockedStateListener,
-) error {
-	return w.impl.UnregisterDeviceLockedStateListener(ctx, listener)
 }
 
 var _ ITrustManager = (*trustManagerStubWrapper)(nil)

@@ -53,6 +53,45 @@ const (
 	TransactionIRemoteInputConnectionForgetCancellationSignal            = binder.FirstCallTransaction + 35
 )
 
+const (
+	MethodIRemoteInputConnectionGetTextBeforeCursor                 = "getTextBeforeCursor"
+	MethodIRemoteInputConnectionGetTextAfterCursor                  = "getTextAfterCursor"
+	MethodIRemoteInputConnectionGetCursorCapsMode                   = "getCursorCapsMode"
+	MethodIRemoteInputConnectionGetExtractedText                    = "getExtractedText"
+	MethodIRemoteInputConnectionDeleteSurroundingText               = "deleteSurroundingText"
+	MethodIRemoteInputConnectionDeleteSurroundingTextInCodePoints   = "deleteSurroundingTextInCodePoints"
+	MethodIRemoteInputConnectionSetComposingText                    = "setComposingText"
+	MethodIRemoteInputConnectionSetComposingTextWithTextAttribute   = "setComposingTextWithTextAttribute"
+	MethodIRemoteInputConnectionFinishComposingText                 = "finishComposingText"
+	MethodIRemoteInputConnectionCommitText                          = "commitText"
+	MethodIRemoteInputConnectionCommitTextWithTextAttribute         = "commitTextWithTextAttribute"
+	MethodIRemoteInputConnectionCommitCompletion                    = "commitCompletion"
+	MethodIRemoteInputConnectionCommitCorrection                    = "commitCorrection"
+	MethodIRemoteInputConnectionSetSelection                        = "setSelection"
+	MethodIRemoteInputConnectionPerformEditorAction                 = "performEditorAction"
+	MethodIRemoteInputConnectionPerformContextMenuAction            = "performContextMenuAction"
+	MethodIRemoteInputConnectionBeginBatchEdit                      = "beginBatchEdit"
+	MethodIRemoteInputConnectionEndBatchEdit                        = "endBatchEdit"
+	MethodIRemoteInputConnectionSendKeyEvent                        = "sendKeyEvent"
+	MethodIRemoteInputConnectionClearMetaKeyStates                  = "clearMetaKeyStates"
+	MethodIRemoteInputConnectionPerformSpellCheck                   = "performSpellCheck"
+	MethodIRemoteInputConnectionPerformPrivateCommand               = "performPrivateCommand"
+	MethodIRemoteInputConnectionPerformHandwritingGesture           = "performHandwritingGesture"
+	MethodIRemoteInputConnectionPreviewHandwritingGesture           = "previewHandwritingGesture"
+	MethodIRemoteInputConnectionSetComposingRegion                  = "setComposingRegion"
+	MethodIRemoteInputConnectionSetComposingRegionWithTextAttribute = "setComposingRegionWithTextAttribute"
+	MethodIRemoteInputConnectionGetSelectedText                     = "getSelectedText"
+	MethodIRemoteInputConnectionRequestCursorUpdates                = "requestCursorUpdates"
+	MethodIRemoteInputConnectionRequestCursorUpdatesWithFilter      = "requestCursorUpdatesWithFilter"
+	MethodIRemoteInputConnectionRequestTextBoundsInfo               = "requestTextBoundsInfo"
+	MethodIRemoteInputConnectionCommitContent                       = "commitContent"
+	MethodIRemoteInputConnectionGetSurroundingText                  = "getSurroundingText"
+	MethodIRemoteInputConnectionSetImeConsumesInput                 = "setImeConsumesInput"
+	MethodIRemoteInputConnectionReplaceText                         = "replaceText"
+	MethodIRemoteInputConnectionCancelCancellationSignal            = "cancelCancellationSignal"
+	MethodIRemoteInputConnectionForgetCancellationSignal            = "forgetCancellationSignal"
+)
+
 type IRemoteInputConnection interface {
 	AsBinder() binder.IBinder
 	GetTextBeforeCursor(ctx context.Context, header InputConnectionCommandHeader, length int32, flags int32, future infra.AndroidFuture) error
@@ -94,17 +133,17 @@ type IRemoteInputConnection interface {
 }
 
 type RemoteInputConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteInputConnectionProxy(
 	remote binder.IBinder,
 ) *RemoteInputConnectionProxy {
-	return &RemoteInputConnectionProxy{remote: remote}
+	return &RemoteInputConnectionProxy{Remote: remote}
 }
 
 func (p *RemoteInputConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteInputConnection = (*RemoteInputConnectionProxy)(nil)
@@ -129,12 +168,12 @@ func (p *RemoteInputConnectionProxy) GetTextBeforeCursor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "getTextBeforeCursor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetTextBeforeCursor)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionGetTextBeforeCursor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetTextBeforeCursor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,12 +197,12 @@ func (p *RemoteInputConnectionProxy) GetTextAfterCursor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "getTextAfterCursor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetTextAfterCursor)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionGetTextAfterCursor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetTextAfterCursor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -185,12 +224,12 @@ func (p *RemoteInputConnectionProxy) GetCursorCapsMode(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "getCursorCapsMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetCursorCapsMode)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionGetCursorCapsMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetCursorCapsMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -217,12 +256,12 @@ func (p *RemoteInputConnectionProxy) GetExtractedText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "getExtractedText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetExtractedText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionGetExtractedText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetExtractedText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -241,12 +280,12 @@ func (p *RemoteInputConnectionProxy) DeleteSurroundingText(
 	_data.WriteInt32(beforeLength)
 	_data.WriteInt32(afterLength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "deleteSurroundingText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionDeleteSurroundingText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionDeleteSurroundingText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionDeleteSurroundingText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -265,12 +304,12 @@ func (p *RemoteInputConnectionProxy) DeleteSurroundingTextInCodePoints(
 	_data.WriteInt32(beforeLength)
 	_data.WriteInt32(afterLength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "deleteSurroundingTextInCodePoints")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionDeleteSurroundingTextInCodePoints)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionDeleteSurroundingTextInCodePoints
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionDeleteSurroundingTextInCodePoints, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,12 +327,12 @@ func (p *RemoteInputConnectionProxy) SetComposingText(
 	}
 	_data.WriteInt32(newCursorPosition)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "setComposingText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSetComposingText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -316,12 +355,12 @@ func (p *RemoteInputConnectionProxy) SetComposingTextWithTextAttribute(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "setComposingTextWithTextAttribute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingTextWithTextAttribute)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSetComposingTextWithTextAttribute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingTextWithTextAttribute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -336,12 +375,12 @@ func (p *RemoteInputConnectionProxy) FinishComposingText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "finishComposingText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionFinishComposingText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionFinishComposingText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionFinishComposingText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -359,12 +398,12 @@ func (p *RemoteInputConnectionProxy) CommitText(
 	}
 	_data.WriteInt32(newCursorPosition)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "commitText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionCommitText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -387,12 +426,12 @@ func (p *RemoteInputConnectionProxy) CommitTextWithTextAttribute(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "commitTextWithTextAttribute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitTextWithTextAttribute)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionCommitTextWithTextAttribute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitTextWithTextAttribute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -412,12 +451,12 @@ func (p *RemoteInputConnectionProxy) CommitCompletion(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "commitCompletion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitCompletion)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionCommitCompletion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitCompletion, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -437,12 +476,12 @@ func (p *RemoteInputConnectionProxy) CommitCorrection(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "commitCorrection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitCorrection)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionCommitCorrection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitCorrection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -461,12 +500,12 @@ func (p *RemoteInputConnectionProxy) SetSelection(
 	_data.WriteInt32(start)
 	_data.WriteInt32(end)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "setSelection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetSelection)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSetSelection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetSelection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -483,12 +522,12 @@ func (p *RemoteInputConnectionProxy) PerformEditorAction(
 	}
 	_data.WriteInt32(actionCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "performEditorAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformEditorAction)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionPerformEditorAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformEditorAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -505,12 +544,12 @@ func (p *RemoteInputConnectionProxy) PerformContextMenuAction(
 	}
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "performContextMenuAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformContextMenuAction)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionPerformContextMenuAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformContextMenuAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -525,12 +564,12 @@ func (p *RemoteInputConnectionProxy) BeginBatchEdit(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "beginBatchEdit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionBeginBatchEdit)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionBeginBatchEdit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionBeginBatchEdit, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -545,12 +584,12 @@ func (p *RemoteInputConnectionProxy) EndBatchEdit(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "endBatchEdit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionEndBatchEdit)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionEndBatchEdit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionEndBatchEdit, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -566,12 +605,12 @@ func (p *RemoteInputConnectionProxy) SendKeyEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "sendKeyEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSendKeyEvent)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSendKeyEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSendKeyEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -588,12 +627,12 @@ func (p *RemoteInputConnectionProxy) ClearMetaKeyStates(
 	}
 	_data.WriteInt32(states)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "clearMetaKeyStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionClearMetaKeyStates)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionClearMetaKeyStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionClearMetaKeyStates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -608,12 +647,12 @@ func (p *RemoteInputConnectionProxy) PerformSpellCheck(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "performSpellCheck")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformSpellCheck)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionPerformSpellCheck
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformSpellCheck, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -631,12 +670,12 @@ func (p *RemoteInputConnectionProxy) PerformPrivateCommand(
 	}
 	_data.WriteString16(action)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "performPrivateCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformPrivateCommand)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionPerformPrivateCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformPrivateCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -657,12 +696,12 @@ func (p *RemoteInputConnectionProxy) PerformHandwritingGesture(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "performHandwritingGesture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformHandwritingGesture)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionPerformHandwritingGesture
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPerformHandwritingGesture, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -682,14 +721,14 @@ func (p *RemoteInputConnectionProxy) PreviewHandwritingGesture(
 	if _err := gesture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, cancellationSignal, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellationSignal, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "previewHandwritingGesture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPreviewHandwritingGesture)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionPreviewHandwritingGesture
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionPreviewHandwritingGesture, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -708,12 +747,12 @@ func (p *RemoteInputConnectionProxy) SetComposingRegion(
 	_data.WriteInt32(start)
 	_data.WriteInt32(end)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "setComposingRegion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingRegion)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSetComposingRegion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingRegion, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -737,12 +776,12 @@ func (p *RemoteInputConnectionProxy) SetComposingRegionWithTextAttribute(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "setComposingRegionWithTextAttribute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingRegionWithTextAttribute)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSetComposingRegionWithTextAttribute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetComposingRegionWithTextAttribute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -764,12 +803,12 @@ func (p *RemoteInputConnectionProxy) GetSelectedText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "getSelectedText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetSelectedText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionGetSelectedText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetSelectedText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -793,12 +832,12 @@ func (p *RemoteInputConnectionProxy) RequestCursorUpdates(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "requestCursorUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionRequestCursorUpdates)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionRequestCursorUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionRequestCursorUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -824,12 +863,12 @@ func (p *RemoteInputConnectionProxy) RequestCursorUpdatesWithFilter(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "requestCursorUpdatesWithFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionRequestCursorUpdatesWithFilter)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionRequestCursorUpdatesWithFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionRequestCursorUpdatesWithFilter, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -850,12 +889,12 @@ func (p *RemoteInputConnectionProxy) RequestTextBoundsInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "requestTextBoundsInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionRequestTextBoundsInfo)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionRequestTextBoundsInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionRequestTextBoundsInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -883,12 +922,12 @@ func (p *RemoteInputConnectionProxy) CommitContent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "commitContent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitContent)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionCommitContent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCommitContent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -914,12 +953,12 @@ func (p *RemoteInputConnectionProxy) GetSurroundingText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "getSurroundingText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetSurroundingText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionGetSurroundingText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionGetSurroundingText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -936,12 +975,12 @@ func (p *RemoteInputConnectionProxy) SetImeConsumesInput(
 	}
 	_data.WriteBool(imeConsumesInput)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "setImeConsumesInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetImeConsumesInput)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionSetImeConsumesInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionSetImeConsumesInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -968,12 +1007,12 @@ func (p *RemoteInputConnectionProxy) ReplaceText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "replaceText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionReplaceText)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionReplaceText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionReplaceText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -983,14 +1022,14 @@ func (p *RemoteInputConnectionProxy) CancelCancellationSignal(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "cancelCancellationSignal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCancelCancellationSignal)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionCancelCancellationSignal
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionCancelCancellationSignal, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1000,14 +1039,14 @@ func (p *RemoteInputConnectionProxy) ForgetCancellationSignal(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "forgetCancellationSignal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionForgetCancellationSignal)
 	if _err != nil {
-		_code = TransactionIRemoteInputConnectionForgetCancellationSignal
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteInputConnection, MethodIRemoteInputConnectionForgetCancellationSignal, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1018,6 +1057,10 @@ type RemoteInputConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteInputConnectionStub)(nil)
+
+func (s *RemoteInputConnectionStub) Descriptor() string {
+	return DescriptorIRemoteInputConnection
+}
 
 func (s *RemoteInputConnectionStub) OnTransaction(
 	ctx context.Context,

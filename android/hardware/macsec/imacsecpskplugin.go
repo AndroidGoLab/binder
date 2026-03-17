@@ -19,6 +19,14 @@ const (
 	TransactionIMacsecPskPluginUnwrapSak   = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIMacsecPskPluginAddTestKey  = "addTestKey"
+	MethodIMacsecPskPluginCalcIcv     = "calcIcv"
+	MethodIMacsecPskPluginGenerateSak = "generateSak"
+	MethodIMacsecPskPluginWrapSak     = "wrapSak"
+	MethodIMacsecPskPluginUnwrapSak   = "unwrapSak"
+)
+
 type IMacsecPskPlugin interface {
 	AsBinder() binder.IBinder
 	AddTestKey(ctx context.Context, keyId []byte, CAK []byte, CKN []byte) error
@@ -29,17 +37,17 @@ type IMacsecPskPlugin interface {
 }
 
 type MacsecPskPluginProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMacsecPskPluginProxy(
 	remote binder.IBinder,
 ) *MacsecPskPluginProxy {
-	return &MacsecPskPluginProxy{remote: remote}
+	return &MacsecPskPluginProxy{Remote: remote}
 }
 
 func (p *MacsecPskPluginProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMacsecPskPlugin = (*MacsecPskPluginProxy)(nil)
@@ -77,12 +85,12 @@ func (p *MacsecPskPluginProxy) AddTestKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "addTestKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginAddTestKey)
 	if _err != nil {
-		_code = TransactionIMacsecPskPluginAddTestKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginAddTestKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,12 +128,12 @@ func (p *MacsecPskPluginProxy) CalcIcv(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "calcIcv")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginCalcIcv)
 	if _err != nil {
-		_code = TransactionIMacsecPskPluginCalcIcv
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginCalcIcv, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,12 +187,12 @@ func (p *MacsecPskPluginProxy) GenerateSak(
 	}
 	_data.WriteInt32(sakLength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "generateSak")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginGenerateSak)
 	if _err != nil {
-		_code = TransactionIMacsecPskPluginGenerateSak
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginGenerateSak, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -236,12 +244,12 @@ func (p *MacsecPskPluginProxy) WrapSak(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "wrapSak")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginWrapSak)
 	if _err != nil {
-		_code = TransactionIMacsecPskPluginWrapSak
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginWrapSak, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -293,12 +301,12 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "unwrapSak")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginUnwrapSak)
 	if _err != nil {
-		_code = TransactionIMacsecPskPluginUnwrapSak
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMacsecPskPlugin, MethodIMacsecPskPluginUnwrapSak, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -332,6 +340,10 @@ type MacsecPskPluginStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MacsecPskPluginStub)(nil)
+
+func (s *MacsecPskPluginStub) Descriptor() string {
+	return DescriptorIMacsecPskPlugin
+}
 
 func (s *MacsecPskPluginStub) OnTransaction(
 	ctx context.Context,

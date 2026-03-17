@@ -19,6 +19,12 @@ const (
 	TransactionIDomainSelectionServiceControllerUpdateBarringInfo  = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDomainSelectionServiceControllerSelectDomain       = "selectDomain"
+	MethodIDomainSelectionServiceControllerUpdateServiceState = "updateServiceState"
+	MethodIDomainSelectionServiceControllerUpdateBarringInfo  = "updateBarringInfo"
+)
+
 type IDomainSelectionServiceController interface {
 	AsBinder() binder.IBinder
 	SelectDomain(ctx context.Context, attr androidTelephony.DomainSelectionServiceSelectionAttributes, callback ITransportSelectorCallback) error
@@ -27,17 +33,17 @@ type IDomainSelectionServiceController interface {
 }
 
 type DomainSelectionServiceControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDomainSelectionServiceControllerProxy(
 	remote binder.IBinder,
 ) *DomainSelectionServiceControllerProxy {
-	return &DomainSelectionServiceControllerProxy{remote: remote}
+	return &DomainSelectionServiceControllerProxy{Remote: remote}
 }
 
 func (p *DomainSelectionServiceControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDomainSelectionServiceController = (*DomainSelectionServiceControllerProxy)(nil)
@@ -53,14 +59,14 @@ func (p *DomainSelectionServiceControllerProxy) SelectDomain(
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelectionServiceController, "selectDomain")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerSelectDomain)
 	if _err != nil {
-		_code = TransactionIDomainSelectionServiceControllerSelectDomain
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerSelectDomain, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +85,12 @@ func (p *DomainSelectionServiceControllerProxy) UpdateServiceState(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelectionServiceController, "updateServiceState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateServiceState)
 	if _err != nil {
-		_code = TransactionIDomainSelectionServiceControllerUpdateServiceState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateServiceState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +109,12 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelectionServiceController, "updateBarringInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateBarringInfo)
 	if _err != nil {
-		_code = TransactionIDomainSelectionServiceControllerUpdateBarringInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainSelectionServiceController, MethodIDomainSelectionServiceControllerUpdateBarringInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +125,10 @@ type DomainSelectionServiceControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DomainSelectionServiceControllerStub)(nil)
+
+func (s *DomainSelectionServiceControllerStub) Descriptor() string {
+	return DescriptorIDomainSelectionServiceController
+}
 
 func (s *DomainSelectionServiceControllerStub) OnTransaction(
 	ctx context.Context,

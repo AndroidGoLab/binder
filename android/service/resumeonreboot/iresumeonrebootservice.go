@@ -17,6 +17,11 @@ const (
 	TransactionIResumeOnRebootServiceUnwrap     = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIResumeOnRebootServiceWrapSecret = "wrapSecret"
+	MethodIResumeOnRebootServiceUnwrap     = "unwrap"
+)
+
 type IResumeOnRebootService interface {
 	AsBinder() binder.IBinder
 	WrapSecret(ctx context.Context, unwrappedBlob []byte, lifeTimeInMillis int64, resultCallback os.RemoteCallback) error
@@ -24,17 +29,17 @@ type IResumeOnRebootService interface {
 }
 
 type ResumeOnRebootServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResumeOnRebootServiceProxy(
 	remote binder.IBinder,
 ) *ResumeOnRebootServiceProxy {
-	return &ResumeOnRebootServiceProxy{remote: remote}
+	return &ResumeOnRebootServiceProxy{Remote: remote}
 }
 
 func (p *ResumeOnRebootServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResumeOnRebootService = (*ResumeOnRebootServiceProxy)(nil)
@@ -61,12 +66,12 @@ func (p *ResumeOnRebootServiceProxy) WrapSecret(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResumeOnRebootService, "wrapSecret")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceWrapSecret)
 	if _err != nil {
-		_code = TransactionIResumeOnRebootServiceWrapSecret
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceWrapSecret, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +95,12 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResumeOnRebootService, "unwrap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceUnwrap)
 	if _err != nil {
-		_code = TransactionIResumeOnRebootServiceUnwrap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResumeOnRebootService, MethodIResumeOnRebootServiceUnwrap, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +111,10 @@ type ResumeOnRebootServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResumeOnRebootServiceStub)(nil)
+
+func (s *ResumeOnRebootServiceStub) Descriptor() string {
+	return DescriptorIResumeOnRebootService
+}
 
 func (s *ResumeOnRebootServiceStub) OnTransaction(
 	ctx context.Context,

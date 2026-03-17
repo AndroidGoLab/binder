@@ -17,6 +17,11 @@ const (
 	TransactionIDomainSelectorFinishSelection = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDomainSelectorReselectDomain  = "reselectDomain"
+	MethodIDomainSelectorFinishSelection = "finishSelection"
+)
+
 type IDomainSelector interface {
 	AsBinder() binder.IBinder
 	ReselectDomain(ctx context.Context, attr androidTelephony.DomainSelectionServiceSelectionAttributes) error
@@ -24,17 +29,17 @@ type IDomainSelector interface {
 }
 
 type DomainSelectorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDomainSelectorProxy(
 	remote binder.IBinder,
 ) *DomainSelectorProxy {
-	return &DomainSelectorProxy{remote: remote}
+	return &DomainSelectorProxy{Remote: remote}
 }
 
 func (p *DomainSelectorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDomainSelector = (*DomainSelectorProxy)(nil)
@@ -50,12 +55,12 @@ func (p *DomainSelectorProxy) ReselectDomain(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelector, "reselectDomain")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelector, MethodIDomainSelectorReselectDomain)
 	if _err != nil {
-		_code = TransactionIDomainSelectorReselectDomain
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainSelector, MethodIDomainSelectorReselectDomain, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *DomainSelectorProxy) FinishSelection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainSelector)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelector, "finishSelection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDomainSelector, MethodIDomainSelectorFinishSelection)
 	if _err != nil {
-		_code = TransactionIDomainSelectorFinishSelection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDomainSelector, MethodIDomainSelectorFinishSelection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type DomainSelectorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DomainSelectorStub)(nil)
+
+func (s *DomainSelectorStub) Descriptor() string {
+	return DescriptorIDomainSelector
+}
 
 func (s *DomainSelectorStub) OnTransaction(
 	ctx context.Context,

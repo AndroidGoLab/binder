@@ -16,6 +16,11 @@ const (
 	TransactionISplitScreenListenerOnTaskStageChanged     = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISplitScreenListenerOnStagePositionChanged = "onStagePositionChanged"
+	MethodISplitScreenListenerOnTaskStageChanged     = "onTaskStageChanged"
+)
+
 type ISplitScreenListener interface {
 	AsBinder() binder.IBinder
 	OnStagePositionChanged(ctx context.Context, stage int32, position int32) error
@@ -23,17 +28,17 @@ type ISplitScreenListener interface {
 }
 
 type SplitScreenListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSplitScreenListenerProxy(
 	remote binder.IBinder,
 ) *SplitScreenListenerProxy {
-	return &SplitScreenListenerProxy{remote: remote}
+	return &SplitScreenListenerProxy{Remote: remote}
 }
 
 func (p *SplitScreenListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISplitScreenListener = (*SplitScreenListenerProxy)(nil)
@@ -48,12 +53,12 @@ func (p *SplitScreenListenerProxy) OnStagePositionChanged(
 	_data.WriteInt32(stage)
 	_data.WriteInt32(position)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISplitScreenListener, "onStagePositionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreenListener, MethodISplitScreenListenerOnStagePositionChanged)
 	if _err != nil {
-		_code = TransactionISplitScreenListenerOnStagePositionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISplitScreenListener, MethodISplitScreenListenerOnStagePositionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *SplitScreenListenerProxy) OnTaskStageChanged(
 	_data.WriteInt32(stage)
 	_data.WriteBool(visible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISplitScreenListener, "onTaskStageChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitScreenListener, MethodISplitScreenListenerOnTaskStageChanged)
 	if _err != nil {
-		_code = TransactionISplitScreenListenerOnTaskStageChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISplitScreenListener, MethodISplitScreenListenerOnTaskStageChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type SplitScreenListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SplitScreenListenerStub)(nil)
+
+func (s *SplitScreenListenerStub) Descriptor() string {
+	return DescriptorISplitScreenListener
+}
 
 func (s *SplitScreenListenerStub) OnTransaction(
 	ctx context.Context,

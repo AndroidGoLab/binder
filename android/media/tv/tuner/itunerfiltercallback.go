@@ -17,6 +17,11 @@ const (
 	TransactionITunerFilterCallbackOnFilterEvent  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITunerFilterCallbackOnFilterStatus = "onFilterStatus"
+	MethodITunerFilterCallbackOnFilterEvent  = "onFilterEvent"
+)
+
 type ITunerFilterCallback interface {
 	AsBinder() binder.IBinder
 	OnFilterStatus(ctx context.Context, status tvTuner.DemuxFilterStatus) error
@@ -24,17 +29,17 @@ type ITunerFilterCallback interface {
 }
 
 type TunerFilterCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerFilterCallbackProxy(
 	remote binder.IBinder,
 ) *TunerFilterCallbackProxy {
-	return &TunerFilterCallbackProxy{remote: remote}
+	return &TunerFilterCallbackProxy{Remote: remote}
 }
 
 func (p *TunerFilterCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerFilterCallback = (*TunerFilterCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *TunerFilterCallbackProxy) OnFilterStatus(
 	_data.WriteInterfaceToken(DescriptorITunerFilterCallback)
 	_data.WritePaddedByte(byte(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilterCallback, "onFilterStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilterCallback, MethodITunerFilterCallbackOnFilterStatus)
 	if _err != nil {
-		_code = TransactionITunerFilterCallbackOnFilterStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilterCallback, MethodITunerFilterCallbackOnFilterStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,18 +81,19 @@ func (p *TunerFilterCallbackProxy) OnFilterEvent(
 	} else {
 		_data.WriteInt32(int32(len(events)))
 		for _, _item := range events {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFilterCallback, "onFilterEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFilterCallback, MethodITunerFilterCallbackOnFilterEvent)
 	if _err != nil {
-		_code = TransactionITunerFilterCallbackOnFilterEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFilterCallback, MethodITunerFilterCallbackOnFilterEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,6 +113,10 @@ type TunerFilterCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerFilterCallbackStub)(nil)
+
+func (s *TunerFilterCallbackStub) Descriptor() string {
+	return DescriptorITunerFilterCallback
+}
 
 func (s *TunerFilterCallbackStub) OnTransaction(
 	ctx context.Context,

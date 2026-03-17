@@ -18,6 +18,12 @@ const (
 	TransactionIGnssMeasurementInterfaceSetCallbackWithOptions = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGnssMeasurementInterfaceSetCallback            = "setCallback"
+	MethodIGnssMeasurementInterfaceClose                  = "close"
+	MethodIGnssMeasurementInterfaceSetCallbackWithOptions = "setCallbackWithOptions"
+)
+
 type IGnssMeasurementInterface interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssMeasurementCallback, enableFullTracking bool, enableCorrVecOutputs bool) error
@@ -26,17 +32,17 @@ type IGnssMeasurementInterface interface {
 }
 
 type GnssMeasurementInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssMeasurementInterfaceProxy(
 	remote binder.IBinder,
 ) *GnssMeasurementInterfaceProxy {
-	return &GnssMeasurementInterfaceProxy{remote: remote}
+	return &GnssMeasurementInterfaceProxy{Remote: remote}
 }
 
 func (p *GnssMeasurementInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssMeasurementInterface = (*GnssMeasurementInterfaceProxy)(nil)
@@ -49,16 +55,16 @@ func (p *GnssMeasurementInterfaceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(enableFullTracking)
 	_data.WriteBool(enableCorrVecOutputs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementInterface, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssMeasurementInterfaceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +83,12 @@ func (p *GnssMeasurementInterfaceProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementInterface, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceClose)
 	if _err != nil {
-		_code = TransactionIGnssMeasurementInterfaceClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,18 +108,18 @@ func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementInterface, "setCallbackWithOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallbackWithOptions)
 	if _err != nil {
-		_code = TransactionIGnssMeasurementInterfaceSetCallbackWithOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssMeasurementInterface, MethodIGnssMeasurementInterfaceSetCallbackWithOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,6 +139,10 @@ type GnssMeasurementInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssMeasurementInterfaceStub)(nil)
+
+func (s *GnssMeasurementInterfaceStub) Descriptor() string {
+	return DescriptorIGnssMeasurementInterface
+}
 
 func (s *GnssMeasurementInterfaceStub) OnTransaction(
 	ctx context.Context,

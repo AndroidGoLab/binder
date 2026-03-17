@@ -16,23 +16,27 @@ const (
 	TransactionIProtoLogConfigurationServiceRegisterClient = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIProtoLogConfigurationServiceRegisterClient = "registerClient"
+)
+
 type IProtoLogConfigurationService interface {
 	AsBinder() binder.IBinder
 	RegisterClient(ctx context.Context, client IProtoLogClient, args protologIProtoLogConfigurationService.IRegisterClientArgs) error
 }
 
 type ProtoLogConfigurationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProtoLogConfigurationServiceProxy(
 	remote binder.IBinder,
 ) *ProtoLogConfigurationServiceProxy {
-	return &ProtoLogConfigurationServiceProxy{remote: remote}
+	return &ProtoLogConfigurationServiceProxy{Remote: remote}
 }
 
 func (p *ProtoLogConfigurationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProtoLogConfigurationService = (*ProtoLogConfigurationServiceProxy)(nil)
@@ -44,15 +48,15 @@ func (p *ProtoLogConfigurationServiceProxy) RegisterClient(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProtoLogConfigurationService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, args.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, args.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProtoLogConfigurationService, "registerClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProtoLogConfigurationService, MethodIProtoLogConfigurationServiceRegisterClient)
 	if _err != nil {
-		_code = TransactionIProtoLogConfigurationServiceRegisterClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProtoLogConfigurationService, MethodIProtoLogConfigurationServiceRegisterClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,6 +76,10 @@ type ProtoLogConfigurationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProtoLogConfigurationServiceStub)(nil)
+
+func (s *ProtoLogConfigurationServiceStub) Descriptor() string {
+	return DescriptorIProtoLogConfigurationService
+}
 
 func (s *ProtoLogConfigurationServiceStub) OnTransaction(
 	ctx context.Context,

@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,24 +16,29 @@ const (
 	TransactionIInstantAppResolverGetInstantAppIntentFilterList = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInstantAppResolverGetInstantAppResolveInfoList  = "getInstantAppResolveInfoList"
+	MethodIInstantAppResolverGetInstantAppIntentFilterList = "getInstantAppIntentFilterList"
+)
+
 type IInstantAppResolver interface {
 	AsBinder() binder.IBinder
-	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback ondeviceintelligence.IRemoteCallback) error
-	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback ondeviceintelligence.IRemoteCallback) error
+	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback interface{}) error
+	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback interface{}) error
 }
 
 type InstantAppResolverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInstantAppResolverProxy(
 	remote binder.IBinder,
 ) *InstantAppResolverProxy {
-	return &InstantAppResolverProxy{remote: remote}
+	return &InstantAppResolverProxy{Remote: remote}
 }
 
 func (p *InstantAppResolverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInstantAppResolver = (*InstantAppResolverProxy)(nil)
@@ -43,37 +47,35 @@ func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 	ctx context.Context,
 	request interface{},
 	sequence int32,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
 	_data.WriteInt32(sequence)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppResolveInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppResolveInfoList)
 	if _err != nil {
-		_code = TransactionIInstantAppResolverGetInstantAppResolveInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppResolveInfoList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 	ctx context.Context,
 	request interface{},
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppIntentFilterList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppIntentFilterList)
 	if _err != nil {
-		_code = TransactionIInstantAppResolverGetInstantAppIntentFilterList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInstantAppResolver, MethodIInstantAppResolverGetInstantAppIntentFilterList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +86,10 @@ type InstantAppResolverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InstantAppResolverStub)(nil)
+
+func (s *InstantAppResolverStub) Descriptor() string {
+	return DescriptorIInstantAppResolver
+}
 
 func (s *InstantAppResolverStub) OnTransaction(
 	ctx context.Context,
@@ -100,9 +106,7 @@ func (s *InstantAppResolverStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_err = s.Impl.GetInstantAppResolveInfoList(ctx, _arg_request, _arg_sequence, _arg_callback)
 		_ = _err
 		return nil, nil
@@ -111,9 +115,7 @@ func (s *InstantAppResolverStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_request interface{}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_err := s.Impl.GetInstantAppIntentFilterList(ctx, _arg_request, _arg_callback)
 		_ = _err
 		return nil, nil
@@ -126,8 +128,8 @@ func (s *InstantAppResolverStub) OnTransaction(
 // provide to NewInstantAppResolverStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IInstantAppResolverServer interface {
-	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback ondeviceintelligence.IRemoteCallback) error
-	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback ondeviceintelligence.IRemoteCallback) error
+	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback interface{}) error
+	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback interface{}) error
 }
 
 type instantAppResolverStubWrapper struct {
@@ -143,7 +145,7 @@ func (w *instantAppResolverStubWrapper) GetInstantAppResolveInfoList(
 	ctx context.Context,
 	request interface{},
 	sequence int32,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.GetInstantAppResolveInfoList(ctx, request, sequence, callback)
 }
@@ -151,7 +153,7 @@ func (w *instantAppResolverStubWrapper) GetInstantAppResolveInfoList(
 func (w *instantAppResolverStubWrapper) GetInstantAppIntentFilterList(
 	ctx context.Context,
 	request interface{},
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.GetInstantAppIntentFilterList(ctx, request, callback)
 }

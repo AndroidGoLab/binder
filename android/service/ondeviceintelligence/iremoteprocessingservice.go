@@ -16,23 +16,27 @@ const (
 	TransactionIRemoteProcessingServiceUpdateProcessingState = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteProcessingServiceUpdateProcessingState = "updateProcessingState"
+)
+
 type IRemoteProcessingService interface {
 	AsBinder() binder.IBinder
 	UpdateProcessingState(ctx context.Context, processingState os.Bundle, callback IProcessingUpdateStatusCallback) error
 }
 
 type RemoteProcessingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteProcessingServiceProxy(
 	remote binder.IBinder,
 ) *RemoteProcessingServiceProxy {
-	return &RemoteProcessingServiceProxy{remote: remote}
+	return &RemoteProcessingServiceProxy{Remote: remote}
 }
 
 func (p *RemoteProcessingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteProcessingService = (*RemoteProcessingServiceProxy)(nil)
@@ -48,14 +52,14 @@ func (p *RemoteProcessingServiceProxy) UpdateProcessingState(
 	if _err := processingState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteProcessingService, "updateProcessingState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteProcessingService, MethodIRemoteProcessingServiceUpdateProcessingState)
 	if _err != nil {
-		_code = TransactionIRemoteProcessingServiceUpdateProcessingState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteProcessingService, MethodIRemoteProcessingServiceUpdateProcessingState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type RemoteProcessingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteProcessingServiceStub)(nil)
+
+func (s *RemoteProcessingServiceStub) Descriptor() string {
+	return DescriptorIRemoteProcessingService
+}
 
 func (s *RemoteProcessingServiceStub) OnTransaction(
 	ctx context.Context,

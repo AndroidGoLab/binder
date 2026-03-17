@@ -18,6 +18,13 @@ const (
 	TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2 = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIRemotelyProvisionedComponentGetHardwareInfo              = "getHardwareInfo"
+	MethodIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair     = "generateEcdsaP256KeyPair"
+	MethodIRemotelyProvisionedComponentGenerateCertificateRequest   = "generateCertificateRequest"
+	MethodIRemotelyProvisionedComponentGenerateCertificateRequestV2 = "generateCertificateRequestV2"
+)
+
 type IRemotelyProvisionedComponent interface {
 	AsBinder() binder.IBinder
 	GetHardwareInfo(ctx context.Context) (RpcHardwareInfo, error)
@@ -36,17 +43,17 @@ const (
 )
 
 type RemotelyProvisionedComponentProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemotelyProvisionedComponentProxy(
 	remote binder.IBinder,
 ) *RemotelyProvisionedComponentProxy {
-	return &RemotelyProvisionedComponentProxy{remote: remote}
+	return &RemotelyProvisionedComponentProxy{Remote: remote}
 }
 
 func (p *RemotelyProvisionedComponentProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemotelyProvisionedComponent = (*RemotelyProvisionedComponentProxy)(nil)
@@ -58,12 +65,12 @@ func (p *RemotelyProvisionedComponentProxy) GetHardwareInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "getHardwareInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGetHardwareInfo)
 	if _err != nil {
-		_code = TransactionIRemotelyProvisionedComponentGetHardwareInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGetHardwareInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -95,12 +102,12 @@ func (p *RemotelyProvisionedComponentProxy) GenerateEcdsaP256KeyPair(
 	_data.WriteInterfaceToken(DescriptorIRemotelyProvisionedComponent)
 	_data.WriteBool(testMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "generateEcdsaP256KeyPair")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair)
 	if _err != nil {
-		_code = TransactionIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -148,6 +155,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 	} else {
 		_data.WriteInt32(int32(len(keysToSign)))
 		for _, _item := range keysToSign {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -170,12 +178,12 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "generateCertificateRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequest)
 	if _err != nil {
-		_code = TransactionIRemotelyProvisionedComponentGenerateCertificateRequest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -221,6 +229,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 	} else {
 		_data.WriteInt32(int32(len(keysToSign)))
 		for _, _item := range keysToSign {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -235,12 +244,12 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "generateCertificateRequestV2")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequestV2)
 	if _err != nil {
-		_code = TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRemotelyProvisionedComponent, MethodIRemotelyProvisionedComponentGenerateCertificateRequestV2, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -274,6 +283,10 @@ type RemotelyProvisionedComponentStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemotelyProvisionedComponentStub)(nil)
+
+func (s *RemotelyProvisionedComponentStub) Descriptor() string {
+	return DescriptorIRemotelyProvisionedComponent
+}
 
 func (s *RemotelyProvisionedComponentStub) OnTransaction(
 	ctx context.Context,

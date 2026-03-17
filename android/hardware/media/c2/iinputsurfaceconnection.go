@@ -16,6 +16,11 @@ const (
 	TransactionIInputSurfaceConnectionSignalEndOfStream = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInputSurfaceConnectionDisconnect        = "disconnect"
+	MethodIInputSurfaceConnectionSignalEndOfStream = "signalEndOfStream"
+)
+
 type IInputSurfaceConnection interface {
 	AsBinder() binder.IBinder
 	Disconnect(ctx context.Context) error
@@ -23,17 +28,17 @@ type IInputSurfaceConnection interface {
 }
 
 type InputSurfaceConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputSurfaceConnectionProxy(
 	remote binder.IBinder,
 ) *InputSurfaceConnectionProxy {
-	return &InputSurfaceConnectionProxy{remote: remote}
+	return &InputSurfaceConnectionProxy{Remote: remote}
 }
 
 func (p *InputSurfaceConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputSurfaceConnection = (*InputSurfaceConnectionProxy)(nil)
@@ -44,12 +49,12 @@ func (p *InputSurfaceConnectionProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurfaceConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSurfaceConnection, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurfaceConnection, MethodIInputSurfaceConnectionDisconnect)
 	if _err != nil {
-		_code = TransactionIInputSurfaceConnectionDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSurfaceConnection, MethodIInputSurfaceConnectionDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,12 +73,12 @@ func (p *InputSurfaceConnectionProxy) SignalEndOfStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurfaceConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSurfaceConnection, "signalEndOfStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurfaceConnection, MethodIInputSurfaceConnectionSignalEndOfStream)
 	if _err != nil {
-		_code = TransactionIInputSurfaceConnectionSignalEndOfStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSurfaceConnection, MethodIInputSurfaceConnectionSignalEndOfStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,6 +98,10 @@ type InputSurfaceConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputSurfaceConnectionStub)(nil)
+
+func (s *InputSurfaceConnectionStub) Descriptor() string {
+	return DescriptorIInputSurfaceConnection
+}
 
 func (s *InputSurfaceConnectionStub) OnTransaction(
 	ctx context.Context,

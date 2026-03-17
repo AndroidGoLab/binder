@@ -15,23 +15,27 @@ const (
 	TransactionIDisplayChangeWindowControllerOnDisplayChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDisplayChangeWindowControllerOnDisplayChange = "onDisplayChange"
+)
+
 type IDisplayChangeWindowController interface {
 	AsBinder() binder.IBinder
 	OnDisplayChange(ctx context.Context, displayId int32, fromRotation int32, toRotation int32, newDisplayAreaInfo interface{}, callback IDisplayChangeWindowCallback) error
 }
 
 type DisplayChangeWindowControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayChangeWindowControllerProxy(
 	remote binder.IBinder,
 ) *DisplayChangeWindowControllerProxy {
-	return &DisplayChangeWindowControllerProxy{remote: remote}
+	return &DisplayChangeWindowControllerProxy{Remote: remote}
 }
 
 func (p *DisplayChangeWindowControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayChangeWindowController = (*DisplayChangeWindowControllerProxy)(nil)
@@ -49,14 +53,14 @@ func (p *DisplayChangeWindowControllerProxy) OnDisplayChange(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(fromRotation)
 	_data.WriteInt32(toRotation)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayChangeWindowController, "onDisplayChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayChangeWindowController, MethodIDisplayChangeWindowControllerOnDisplayChange)
 	if _err != nil {
-		_code = TransactionIDisplayChangeWindowControllerOnDisplayChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayChangeWindowController, MethodIDisplayChangeWindowControllerOnDisplayChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type DisplayChangeWindowControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayChangeWindowControllerStub)(nil)
+
+func (s *DisplayChangeWindowControllerStub) Descriptor() string {
+	return DescriptorIDisplayChangeWindowController
+}
 
 func (s *DisplayChangeWindowControllerStub) OnTransaction(
 	ctx context.Context,

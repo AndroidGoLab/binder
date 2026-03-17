@@ -20,6 +20,15 @@ const (
 	TransactionIContextHubClientSendReliableMessageToNanoApp    = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIContextHubClientSendMessageToNanoApp            = "sendMessageToNanoApp"
+	MethodIContextHubClientClose                           = "close"
+	MethodIContextHubClientGetId                           = "getId"
+	MethodIContextHubClientCallbackFinished                = "callbackFinished"
+	MethodIContextHubClientReliableMessageCallbackFinished = "reliableMessageCallbackFinished"
+	MethodIContextHubClientSendReliableMessageToNanoApp    = "sendReliableMessageToNanoApp"
+)
+
 type IContextHubClient interface {
 	AsBinder() binder.IBinder
 	SendMessageToNanoApp(ctx context.Context, message NanoAppMessage) (int32, error)
@@ -31,17 +40,17 @@ type IContextHubClient interface {
 }
 
 type ContextHubClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubClientProxy(
 	remote binder.IBinder,
 ) *ContextHubClientProxy {
-	return &ContextHubClientProxy{remote: remote}
+	return &ContextHubClientProxy{Remote: remote}
 }
 
 func (p *ContextHubClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubClient = (*ContextHubClientProxy)(nil)
@@ -58,12 +67,12 @@ func (p *ContextHubClientProxy) SendMessageToNanoApp(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "sendMessageToNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientSendMessageToNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubClientSendMessageToNanoApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClient, MethodIContextHubClientSendMessageToNanoApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +95,12 @@ func (p *ContextHubClientProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientClose)
 	if _err != nil {
-		_code = TransactionIContextHubClientClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClient, MethodIContextHubClientClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -111,12 +120,12 @@ func (p *ContextHubClientProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "getId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientGetId)
 	if _err != nil {
-		_code = TransactionIContextHubClientGetId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClient, MethodIContextHubClientGetId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,12 +148,12 @@ func (p *ContextHubClientProxy) CallbackFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "callbackFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientCallbackFinished)
 	if _err != nil {
-		_code = TransactionIContextHubClientCallbackFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClient, MethodIContextHubClientCallbackFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -167,12 +176,12 @@ func (p *ContextHubClientProxy) ReliableMessageCallbackFinished(
 	_data.WriteInt32(messageSequenceNumber)
 	_data.WritePaddedByte(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "reliableMessageCallbackFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientReliableMessageCallbackFinished)
 	if _err != nil {
-		_code = TransactionIContextHubClientReliableMessageCallbackFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClient, MethodIContextHubClientReliableMessageCallbackFinished, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,14 +206,14 @@ func (p *ContextHubClientProxy) SendReliableMessageToNanoApp(
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "sendReliableMessageToNanoApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubClient, MethodIContextHubClientSendReliableMessageToNanoApp)
 	if _err != nil {
-		_code = TransactionIContextHubClientSendReliableMessageToNanoApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubClient, MethodIContextHubClientSendReliableMessageToNanoApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,6 +237,10 @@ type ContextHubClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubClientStub)(nil)
+
+func (s *ContextHubClientStub) Descriptor() string {
+	return DescriptorIContextHubClient
+}
 
 func (s *ContextHubClientStub) OnTransaction(
 	ctx context.Context,

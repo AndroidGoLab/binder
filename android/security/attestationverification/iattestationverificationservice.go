@@ -17,23 +17,27 @@ const (
 	TransactionIAttestationVerificationServiceOnVerifyAttestation = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAttestationVerificationServiceOnVerifyAttestation = "onVerifyAttestation"
+)
+
 type IAttestationVerificationService interface {
 	AsBinder() binder.IBinder
 	OnVerifyAttestation(ctx context.Context, requirements os.Bundle, attestation []byte, callback infra.AndroidFuture) error
 }
 
 type AttestationVerificationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAttestationVerificationServiceProxy(
 	remote binder.IBinder,
 ) *AttestationVerificationServiceProxy {
-	return &AttestationVerificationServiceProxy{remote: remote}
+	return &AttestationVerificationServiceProxy{Remote: remote}
 }
 
 func (p *AttestationVerificationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAttestationVerificationService = (*AttestationVerificationServiceProxy)(nil)
@@ -63,12 +67,12 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttestationVerificationService, "onVerifyAttestation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttestationVerificationService, MethodIAttestationVerificationServiceOnVerifyAttestation)
 	if _err != nil {
-		_code = TransactionIAttestationVerificationServiceOnVerifyAttestation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttestationVerificationService, MethodIAttestationVerificationServiceOnVerifyAttestation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +83,10 @@ type AttestationVerificationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AttestationVerificationServiceStub)(nil)
+
+func (s *AttestationVerificationServiceStub) Descriptor() string {
+	return DescriptorIAttestationVerificationService
+}
 
 func (s *AttestationVerificationServiceStub) OnTransaction(
 	ctx context.Context,

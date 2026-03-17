@@ -16,6 +16,11 @@ const (
 	TransactionISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISysuiUnlockAnimationControllerSetLauncherUnlockController      = "setLauncherUnlockController"
+	MethodISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated = "onLauncherSmartspaceStateUpdated"
+)
+
 type ISysuiUnlockAnimationController interface {
 	AsBinder() binder.IBinder
 	SetLauncherUnlockController(ctx context.Context, activityClass string, callback ILauncherUnlockAnimationController) error
@@ -23,17 +28,17 @@ type ISysuiUnlockAnimationController interface {
 }
 
 type SysuiUnlockAnimationControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSysuiUnlockAnimationControllerProxy(
 	remote binder.IBinder,
 ) *SysuiUnlockAnimationControllerProxy {
-	return &SysuiUnlockAnimationControllerProxy{remote: remote}
+	return &SysuiUnlockAnimationControllerProxy{Remote: remote}
 }
 
 func (p *SysuiUnlockAnimationControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISysuiUnlockAnimationController = (*SysuiUnlockAnimationControllerProxy)(nil)
@@ -46,14 +51,14 @@ func (p *SysuiUnlockAnimationControllerProxy) SetLauncherUnlockController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISysuiUnlockAnimationController)
 	_data.WriteString16(activityClass)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISysuiUnlockAnimationController, "setLauncherUnlockController")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerSetLauncherUnlockController)
 	if _err != nil {
-		_code = TransactionISysuiUnlockAnimationControllerSetLauncherUnlockController
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerSetLauncherUnlockController, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *SysuiUnlockAnimationControllerProxy) OnLauncherSmartspaceStateUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISysuiUnlockAnimationController, "onLauncherSmartspaceStateUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated)
 	if _err != nil {
-		_code = TransactionISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISysuiUnlockAnimationController, MethodISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type SysuiUnlockAnimationControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SysuiUnlockAnimationControllerStub)(nil)
+
+func (s *SysuiUnlockAnimationControllerStub) Descriptor() string {
+	return DescriptorISysuiUnlockAnimationController
+}
 
 func (s *SysuiUnlockAnimationControllerStub) OnTransaction(
 	ctx context.Context,

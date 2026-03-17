@@ -16,6 +16,11 @@ const (
 	TransactionIImsStateCallbackOnAvailable   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIImsStateCallbackOnUnavailable = "onUnavailable"
+	MethodIImsStateCallbackOnAvailable   = "onAvailable"
+)
+
 type IImsStateCallback interface {
 	AsBinder() binder.IBinder
 	OnUnavailable(ctx context.Context, reason int32) error
@@ -23,17 +28,17 @@ type IImsStateCallback interface {
 }
 
 type ImsStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsStateCallbackProxy(
 	remote binder.IBinder,
 ) *ImsStateCallbackProxy {
-	return &ImsStateCallbackProxy{remote: remote}
+	return &ImsStateCallbackProxy{Remote: remote}
 }
 
 func (p *ImsStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsStateCallback = (*ImsStateCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ImsStateCallbackProxy) OnUnavailable(
 	_data.WriteInterfaceToken(DescriptorIImsStateCallback)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsStateCallback, "onUnavailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsStateCallback, MethodIImsStateCallbackOnUnavailable)
 	if _err != nil {
-		_code = TransactionIImsStateCallbackOnUnavailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsStateCallback, MethodIImsStateCallbackOnUnavailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *ImsStateCallbackProxy) OnAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsStateCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsStateCallback, "onAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsStateCallback, MethodIImsStateCallbackOnAvailable)
 	if _err != nil {
-		_code = TransactionIImsStateCallbackOnAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsStateCallback, MethodIImsStateCallbackOnAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type ImsStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsStateCallbackStub)(nil)
+
+func (s *ImsStateCallbackStub) Descriptor() string {
+	return DescriptorIImsStateCallback
+}
 
 func (s *ImsStateCallbackStub) OnTransaction(
 	ctx context.Context,

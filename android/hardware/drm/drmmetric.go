@@ -24,6 +24,7 @@ func (s *DrmMetric) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Attributes)))
 		for _, _item := range s.Attributes {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -34,6 +35,7 @@ func (s *DrmMetric) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Values)))
 		for _, _item := range s.Values {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -65,6 +67,9 @@ func (s *DrmMetric) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Attributes = make([]DrmMetricNamedValue, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Attributes[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -79,6 +84,9 @@ func (s *DrmMetric) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Values = make([]DrmMetricNamedValue, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Values[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -20,6 +20,14 @@ const (
 	TransactionIExplicitHealthCheckServiceGetRequestedPackages = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIExplicitHealthCheckServiceSetCallback          = "setCallback"
+	MethodIExplicitHealthCheckServiceRequest              = "request"
+	MethodIExplicitHealthCheckServiceCancel               = "cancel"
+	MethodIExplicitHealthCheckServiceGetSupportedPackages = "getSupportedPackages"
+	MethodIExplicitHealthCheckServiceGetRequestedPackages = "getRequestedPackages"
+)
+
 type IExplicitHealthCheckService interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback *os.RemoteCallback) error
@@ -30,17 +38,17 @@ type IExplicitHealthCheckService interface {
 }
 
 type ExplicitHealthCheckServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewExplicitHealthCheckServiceProxy(
 	remote binder.IBinder,
 ) *ExplicitHealthCheckServiceProxy {
-	return &ExplicitHealthCheckServiceProxy{remote: remote}
+	return &ExplicitHealthCheckServiceProxy{Remote: remote}
 }
 
 func (p *ExplicitHealthCheckServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IExplicitHealthCheckService = (*ExplicitHealthCheckServiceProxy)(nil)
@@ -59,12 +67,12 @@ func (p *ExplicitHealthCheckServiceProxy) SetCallback(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceSetCallback)
 	if _err != nil {
-		_code = TransactionIExplicitHealthCheckServiceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceSetCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +84,12 @@ func (p *ExplicitHealthCheckServiceProxy) Request(
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "request")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceRequest)
 	if _err != nil {
-		_code = TransactionIExplicitHealthCheckServiceRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +101,12 @@ func (p *ExplicitHealthCheckServiceProxy) Cancel(
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceCancel)
 	if _err != nil {
-		_code = TransactionIExplicitHealthCheckServiceCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,12 +121,12 @@ func (p *ExplicitHealthCheckServiceProxy) GetSupportedPackages(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "getSupportedPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetSupportedPackages)
 	if _err != nil {
-		_code = TransactionIExplicitHealthCheckServiceGetSupportedPackages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetSupportedPackages, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,12 +141,12 @@ func (p *ExplicitHealthCheckServiceProxy) GetRequestedPackages(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "getRequestedPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetRequestedPackages)
 	if _err != nil {
-		_code = TransactionIExplicitHealthCheckServiceGetRequestedPackages
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExplicitHealthCheckService, MethodIExplicitHealthCheckServiceGetRequestedPackages, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,6 +157,10 @@ type ExplicitHealthCheckServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ExplicitHealthCheckServiceStub)(nil)
+
+func (s *ExplicitHealthCheckServiceStub) Descriptor() string {
+	return DescriptorIExplicitHealthCheckService
+}
 
 func (s *ExplicitHealthCheckServiceStub) OnTransaction(
 	ctx context.Context,

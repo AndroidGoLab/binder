@@ -17,6 +17,11 @@ const (
 	TransactionIPackageInstallObserver2OnPackageInstalled   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPackageInstallObserver2OnUserActionRequired = "onUserActionRequired"
+	MethodIPackageInstallObserver2OnPackageInstalled   = "onPackageInstalled"
+)
+
 type IPackageInstallObserver2 interface {
 	AsBinder() binder.IBinder
 	OnUserActionRequired(ctx context.Context, intent content.Intent) error
@@ -24,17 +29,17 @@ type IPackageInstallObserver2 interface {
 }
 
 type PackageInstallObserver2Proxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageInstallObserver2Proxy(
 	remote binder.IBinder,
 ) *PackageInstallObserver2Proxy {
-	return &PackageInstallObserver2Proxy{remote: remote}
+	return &PackageInstallObserver2Proxy{Remote: remote}
 }
 
 func (p *PackageInstallObserver2Proxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageInstallObserver2 = (*PackageInstallObserver2Proxy)(nil)
@@ -50,12 +55,12 @@ func (p *PackageInstallObserver2Proxy) OnUserActionRequired(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallObserver2, "onUserActionRequired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallObserver2, MethodIPackageInstallObserver2OnUserActionRequired)
 	if _err != nil {
-		_code = TransactionIPackageInstallObserver2OnUserActionRequired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallObserver2, MethodIPackageInstallObserver2OnUserActionRequired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +77,12 @@ func (p *PackageInstallObserver2Proxy) OnPackageInstalled(
 	_data.WriteInt32(returnCode)
 	_data.WriteString16(msg)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallObserver2, "onPackageInstalled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallObserver2, MethodIPackageInstallObserver2OnPackageInstalled)
 	if _err != nil {
-		_code = TransactionIPackageInstallObserver2OnPackageInstalled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallObserver2, MethodIPackageInstallObserver2OnPackageInstalled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +93,10 @@ type PackageInstallObserver2Stub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallObserver2Stub)(nil)
+
+func (s *PackageInstallObserver2Stub) Descriptor() string {
+	return DescriptorIPackageInstallObserver2
+}
 
 func (s *PackageInstallObserver2Stub) OnTransaction(
 	ctx context.Context,

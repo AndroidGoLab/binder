@@ -110,22 +110,27 @@ func (u *CodecSpecificCapabilitiesLtv) MarshalParcel(
 
 	switch u.Tag {
 	case CodecSpecificCapabilitiesLtvTagSupportedSamplingFrequencies:
+		p.WriteInt32(1)
 		if _err := u.SupportedSamplingFrequencies.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedFrameDurations:
+		p.WriteInt32(1)
 		if _err := u.SupportedFrameDurations.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedAudioChannelCounts:
+		p.WriteInt32(1)
 		if _err := u.SupportedAudioChannelCounts.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedOctetsPerCodecFrame:
+		p.WriteInt32(1)
 		if _err := u.SupportedOctetsPerCodecFrame.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedMaxCodecFramesPerSDU:
+		p.WriteInt32(1)
 		if _err := u.SupportedMaxCodecFramesPerSDU.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -152,22 +157,37 @@ func (u *CodecSpecificCapabilitiesLtv) UnmarshalParcel(
 
 	switch u.Tag {
 	case CodecSpecificCapabilitiesLtvTagSupportedSamplingFrequencies:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SupportedSamplingFrequencies.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedFrameDurations:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SupportedFrameDurations.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedAudioChannelCounts:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SupportedAudioChannelCounts.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedOctetsPerCodecFrame:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SupportedOctetsPerCodecFrame.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificCapabilitiesLtvTagSupportedMaxCodecFramesPerSDU:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SupportedMaxCodecFramesPerSDU.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

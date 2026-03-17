@@ -28,6 +28,23 @@ const (
 	TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested    = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodIAccountAuthenticatorAddAccount                      = "addAccount"
+	MethodIAccountAuthenticatorConfirmCredentials              = "confirmCredentials"
+	MethodIAccountAuthenticatorGetAuthToken                    = "getAuthToken"
+	MethodIAccountAuthenticatorGetAuthTokenLabel               = "getAuthTokenLabel"
+	MethodIAccountAuthenticatorUpdateCredentials               = "updateCredentials"
+	MethodIAccountAuthenticatorEditProperties                  = "editProperties"
+	MethodIAccountAuthenticatorHasFeatures                     = "hasFeatures"
+	MethodIAccountAuthenticatorGetAccountRemovalAllowed        = "getAccountRemovalAllowed"
+	MethodIAccountAuthenticatorGetAccountCredentialsForCloning = "getAccountCredentialsForCloning"
+	MethodIAccountAuthenticatorAddAccountFromCredentials       = "addAccountFromCredentials"
+	MethodIAccountAuthenticatorStartAddAccountSession          = "startAddAccountSession"
+	MethodIAccountAuthenticatorStartUpdateCredentialsSession   = "startUpdateCredentialsSession"
+	MethodIAccountAuthenticatorFinishSession                   = "finishSession"
+	MethodIAccountAuthenticatorIsCredentialsUpdateSuggested    = "isCredentialsUpdateSuggested"
+)
+
 type IAccountAuthenticator interface {
 	AsBinder() binder.IBinder
 	AddAccount(ctx context.Context, response IAccountAuthenticatorResponse, accountType string, authTokenType string, requiredFeatures []string, options interface{}) error
@@ -47,17 +64,17 @@ type IAccountAuthenticator interface {
 }
 
 type AccountAuthenticatorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccountAuthenticatorProxy(
 	remote binder.IBinder,
 ) *AccountAuthenticatorProxy {
-	return &AccountAuthenticatorProxy{remote: remote}
+	return &AccountAuthenticatorProxy{Remote: remote}
 }
 
 func (p *AccountAuthenticatorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccountAuthenticator = (*AccountAuthenticatorProxy)(nil)
@@ -72,7 +89,7 @@ func (p *AccountAuthenticatorProxy) AddAccount(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
 	_data.WriteString16(authTokenType)
 	if requiredFeatures == nil {
@@ -84,12 +101,12 @@ func (p *AccountAuthenticatorProxy) AddAccount(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "addAccount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccount)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorAddAccount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccount, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,18 +118,18 @@ func (p *AccountAuthenticatorProxy) ConfirmCredentials(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "confirmCredentials")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorConfirmCredentials)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorConfirmCredentials
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorConfirmCredentials, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,19 +142,19 @@ func (p *AccountAuthenticatorProxy) GetAuthToken(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(authTokenType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAuthToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthToken)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorGetAuthToken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthToken, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,15 +165,15 @@ func (p *AccountAuthenticatorProxy) GetAuthTokenLabel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(authTokenType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAuthTokenLabel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthTokenLabel)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorGetAuthTokenLabel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAuthTokenLabel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -169,19 +186,19 @@ func (p *AccountAuthenticatorProxy) UpdateCredentials(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(authTokenType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "updateCredentials")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorUpdateCredentials)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorUpdateCredentials
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorUpdateCredentials, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -192,15 +209,15 @@ func (p *AccountAuthenticatorProxy) EditProperties(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "editProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorEditProperties)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorEditProperties
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorEditProperties, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,7 +229,7 @@ func (p *AccountAuthenticatorProxy) HasFeatures(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
@@ -226,12 +243,12 @@ func (p *AccountAuthenticatorProxy) HasFeatures(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "hasFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorHasFeatures)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorHasFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorHasFeatures, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -242,18 +259,18 @@ func (p *AccountAuthenticatorProxy) GetAccountRemovalAllowed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAccountRemovalAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountRemovalAllowed)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorGetAccountRemovalAllowed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountRemovalAllowed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -264,18 +281,18 @@ func (p *AccountAuthenticatorProxy) GetAccountCredentialsForCloning(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAccountCredentialsForCloning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountCredentialsForCloning)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorGetAccountCredentialsForCloning
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorGetAccountCredentialsForCloning, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -287,18 +304,18 @@ func (p *AccountAuthenticatorProxy) AddAccountFromCredentials(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "addAccountFromCredentials")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccountFromCredentials)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorAddAccountFromCredentials
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorAddAccountFromCredentials, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -312,7 +329,7 @@ func (p *AccountAuthenticatorProxy) StartAddAccountSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
 	_data.WriteString16(authTokenType)
 	if requiredFeatures == nil {
@@ -324,12 +341,12 @@ func (p *AccountAuthenticatorProxy) StartAddAccountSession(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "startAddAccountSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartAddAccountSession)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorStartAddAccountSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartAddAccountSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -342,19 +359,19 @@ func (p *AccountAuthenticatorProxy) StartUpdateCredentialsSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(authTokenType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "startUpdateCredentialsSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartUpdateCredentialsSession)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorStartUpdateCredentialsSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorStartUpdateCredentialsSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -366,15 +383,15 @@ func (p *AccountAuthenticatorProxy) FinishSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(accountType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "finishSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorFinishSession)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorFinishSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorFinishSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -386,19 +403,19 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
-	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, response.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(statusToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "isCredentialsUpdateSuggested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorIsCredentialsUpdateSuggested)
 	if _err != nil {
-		_code = TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountAuthenticator, MethodIAccountAuthenticatorIsCredentialsUpdateSuggested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -409,6 +426,10 @@ type AccountAuthenticatorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccountAuthenticatorStub)(nil)
+
+func (s *AccountAuthenticatorStub) Descriptor() string {
+	return DescriptorIAccountAuthenticator
+}
 
 func (s *AccountAuthenticatorStub) OnTransaction(
 	ctx context.Context,

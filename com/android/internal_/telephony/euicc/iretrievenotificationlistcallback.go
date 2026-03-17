@@ -16,23 +16,27 @@ const (
 	TransactionIRetrieveNotificationListCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRetrieveNotificationListCallbackOnComplete = "onComplete"
+)
+
 type IRetrieveNotificationListCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, notifications []telephonyEuicc.EuiccNotification) error
 }
 
 type RetrieveNotificationListCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRetrieveNotificationListCallbackProxy(
 	remote binder.IBinder,
 ) *RetrieveNotificationListCallbackProxy {
-	return &RetrieveNotificationListCallbackProxy{remote: remote}
+	return &RetrieveNotificationListCallbackProxy{Remote: remote}
 }
 
 func (p *RetrieveNotificationListCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRetrieveNotificationListCallback = (*RetrieveNotificationListCallbackProxy)(nil)
@@ -50,18 +54,19 @@ func (p *RetrieveNotificationListCallbackProxy) OnComplete(
 	} else {
 		_data.WriteInt32(int32(len(notifications)))
 		for _, _item := range notifications {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRetrieveNotificationListCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRetrieveNotificationListCallback, MethodIRetrieveNotificationListCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIRetrieveNotificationListCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRetrieveNotificationListCallback, MethodIRetrieveNotificationListCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +77,10 @@ type RetrieveNotificationListCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RetrieveNotificationListCallbackStub)(nil)
+
+func (s *RetrieveNotificationListCallbackStub) Descriptor() string {
+	return DescriptorIRetrieveNotificationListCallback
+}
 
 func (s *RetrieveNotificationListCallbackStub) OnTransaction(
 	ctx context.Context,

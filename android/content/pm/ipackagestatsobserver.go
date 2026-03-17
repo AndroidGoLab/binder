@@ -15,23 +15,27 @@ const (
 	TransactionIPackageStatsObserverOnGetStatsCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPackageStatsObserverOnGetStatsCompleted = "onGetStatsCompleted"
+)
+
 type IPackageStatsObserver interface {
 	AsBinder() binder.IBinder
 	OnGetStatsCompleted(ctx context.Context, pStats PackageStats, succeeded bool) error
 }
 
 type PackageStatsObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageStatsObserverProxy(
 	remote binder.IBinder,
 ) *PackageStatsObserverProxy {
-	return &PackageStatsObserverProxy{remote: remote}
+	return &PackageStatsObserverProxy{Remote: remote}
 }
 
 func (p *PackageStatsObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageStatsObserver = (*PackageStatsObserverProxy)(nil)
@@ -49,12 +53,12 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 	}
 	_data.WriteBool(succeeded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageStatsObserver, "onGetStatsCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageStatsObserver, MethodIPackageStatsObserverOnGetStatsCompleted)
 	if _err != nil {
-		_code = TransactionIPackageStatsObserverOnGetStatsCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageStatsObserver, MethodIPackageStatsObserverOnGetStatsCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type PackageStatsObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageStatsObserverStub)(nil)
+
+func (s *PackageStatsObserverStub) Descriptor() string {
+	return DescriptorIPackageStatsObserver
+}
 
 func (s *PackageStatsObserverStub) OnTransaction(
 	ctx context.Context,

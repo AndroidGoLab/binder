@@ -15,23 +15,27 @@ const (
 	TransactionIUdfpsOverlayControllerCallbackOnUserCanceled = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUdfpsOverlayControllerCallbackOnUserCanceled = "onUserCanceled"
+)
+
 type IUdfpsOverlayControllerCallback interface {
 	AsBinder() binder.IBinder
 	OnUserCanceled(ctx context.Context) error
 }
 
 type UdfpsOverlayControllerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUdfpsOverlayControllerCallbackProxy(
 	remote binder.IBinder,
 ) *UdfpsOverlayControllerCallbackProxy {
-	return &UdfpsOverlayControllerCallbackProxy{remote: remote}
+	return &UdfpsOverlayControllerCallbackProxy{Remote: remote}
 }
 
 func (p *UdfpsOverlayControllerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUdfpsOverlayControllerCallback = (*UdfpsOverlayControllerCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *UdfpsOverlayControllerCallbackProxy) OnUserCanceled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayControllerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayControllerCallback, "onUserCanceled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayControllerCallback, MethodIUdfpsOverlayControllerCallbackOnUserCanceled)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerCallbackOnUserCanceled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayControllerCallback, MethodIUdfpsOverlayControllerCallbackOnUserCanceled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type UdfpsOverlayControllerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UdfpsOverlayControllerCallbackStub)(nil)
+
+func (s *UdfpsOverlayControllerCallbackStub) Descriptor() string {
+	return DescriptorIUdfpsOverlayControllerCallback
+}
 
 func (s *UdfpsOverlayControllerCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -19,27 +19,35 @@ const (
 	TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBpcTestServiceCmdServiceForceGc                     = "forceGc"
+	MethodIBpcTestServiceCmdServiceGetBinderProxyCount         = "getBinderProxyCount"
+	MethodIBpcTestServiceCmdServiceSetBinderProxyWatermarks    = "setBinderProxyWatermarks"
+	MethodIBpcTestServiceCmdServiceEnableBinderProxyLimit      = "enableBinderProxyLimit"
+	MethodIBpcTestServiceCmdServiceSetBinderProxyCountCallback = "setBinderProxyCountCallback"
+)
+
 type IBpcTestServiceCmdService interface {
 	AsBinder() binder.IBinder
 	ForceGc(ctx context.Context) error
 	GetBinderProxyCount(ctx context.Context, uid int32) (int32, error)
-	SetBinderProxyWatermarks(ctx context.Context, high int32, low int32, warning int32) error
+	SetBinderProxyWatermarks(ctx context.Context, high int32, low int32) error
 	EnableBinderProxyLimit(ctx context.Context, enable bool) error
 	SetBinderProxyCountCallback(ctx context.Context, observer IBpcCallbackObserver) error
 }
 
 type BpcTestServiceCmdServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBpcTestServiceCmdServiceProxy(
 	remote binder.IBinder,
 ) *BpcTestServiceCmdServiceProxy {
-	return &BpcTestServiceCmdServiceProxy{remote: remote}
+	return &BpcTestServiceCmdServiceProxy{Remote: remote}
 }
 
 func (p *BpcTestServiceCmdServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBpcTestServiceCmdService = (*BpcTestServiceCmdServiceProxy)(nil)
@@ -50,12 +58,12 @@ func (p *BpcTestServiceCmdServiceProxy) ForceGc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "forceGc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceForceGc)
 	if _err != nil {
-		_code = TransactionIBpcTestServiceCmdServiceForceGc
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceForceGc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +85,12 @@ func (p *BpcTestServiceCmdServiceProxy) GetBinderProxyCount(
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "getBinderProxyCount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceGetBinderProxyCount)
 	if _err != nil {
-		_code = TransactionIBpcTestServiceCmdServiceGetBinderProxyCount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceGetBinderProxyCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,20 +111,18 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyWatermarks(
 	ctx context.Context,
 	high int32,
 	low int32,
-	warning int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteInt32(high)
 	_data.WriteInt32(low)
-	_data.WriteInt32(warning)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "setBinderProxyWatermarks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyWatermarks)
 	if _err != nil {
-		_code = TransactionIBpcTestServiceCmdServiceSetBinderProxyWatermarks
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyWatermarks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,12 +143,12 @@ func (p *BpcTestServiceCmdServiceProxy) EnableBinderProxyLimit(
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "enableBinderProxyLimit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceEnableBinderProxyLimit)
 	if _err != nil {
-		_code = TransactionIBpcTestServiceCmdServiceEnableBinderProxyLimit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceEnableBinderProxyLimit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,14 +167,14 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "setBinderProxyCountCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyCountCallback)
 	if _err != nil {
-		_code = TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBpcTestServiceCmdService, MethodIBpcTestServiceCmdServiceSetBinderProxyCountCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,6 +194,10 @@ type BpcTestServiceCmdServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BpcTestServiceCmdServiceStub)(nil)
+
+func (s *BpcTestServiceCmdServiceStub) Descriptor() string {
+	return DescriptorIBpcTestServiceCmdService
+}
 
 func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 	ctx context.Context,
@@ -236,11 +246,7 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_warning, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetBinderProxyWatermarks(ctx, _arg_high, _arg_low, _arg_warning)
+		_err = s.Impl.SetBinderProxyWatermarks(ctx, _arg_high, _arg_low)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -290,7 +296,7 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 type IBpcTestServiceCmdServiceServer interface {
 	ForceGc(ctx context.Context) error
 	GetBinderProxyCount(ctx context.Context, uid int32) (int32, error)
-	SetBinderProxyWatermarks(ctx context.Context, high int32, low int32, warning int32) error
+	SetBinderProxyWatermarks(ctx context.Context, high int32, low int32) error
 	EnableBinderProxyLimit(ctx context.Context, enable bool) error
 	SetBinderProxyCountCallback(ctx context.Context, observer IBpcCallbackObserver) error
 }
@@ -321,9 +327,8 @@ func (w *bpcTestServiceCmdServiceStubWrapper) SetBinderProxyWatermarks(
 	ctx context.Context,
 	high int32,
 	low int32,
-	warning int32,
 ) error {
-	return w.impl.SetBinderProxyWatermarks(ctx, high, low, warning)
+	return w.impl.SetBinderProxyWatermarks(ctx, high, low)
 }
 
 func (w *bpcTestServiceCmdServiceStubWrapper) EnableBinderProxyLimit(

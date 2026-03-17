@@ -127,6 +127,7 @@ func (u *Equalizer) MarshalParcel(
 
 	switch u.Tag {
 	case EqualizerTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -136,6 +137,7 @@ func (u *Equalizer) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.BandLevels)))
 			for _, _item := range u.BandLevels {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -158,6 +160,7 @@ func (u *Equalizer) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.BandFrequencies)))
 			for _, _item := range u.BandFrequencies {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -169,6 +172,7 @@ func (u *Equalizer) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Presets)))
 			for _, _item := range u.Presets {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -197,6 +201,9 @@ func (u *Equalizer) UnmarshalParcel(
 
 	switch u.Tag {
 	case EqualizerTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -210,6 +217,9 @@ func (u *Equalizer) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.BandLevels = make([]effectEqualizer.BandLevel, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.BandLevels[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -246,6 +256,9 @@ func (u *Equalizer) UnmarshalParcel(
 		if _count2 >= 0 {
 			u.BandFrequencies = make([]effectEqualizer.BandFrequency, _count2)
 			for _i := int32(0); _i < _count2; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.BandFrequencies[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -261,6 +274,9 @@ func (u *Equalizer) UnmarshalParcel(
 		if _count3 >= 0 {
 			u.Presets = make([]effectEqualizer.Preset, _count3)
 			for _i := int32(0); _i < _count3; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Presets[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}

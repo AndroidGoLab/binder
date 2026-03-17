@@ -17,6 +17,11 @@ const (
 	TransactionIPrinterDiscoveryObserverOnPrintersRemoved = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPrinterDiscoveryObserverOnPrintersAdded   = "onPrintersAdded"
+	MethodIPrinterDiscoveryObserverOnPrintersRemoved = "onPrintersRemoved"
+)
+
 type IPrinterDiscoveryObserver interface {
 	AsBinder() binder.IBinder
 	OnPrintersAdded(ctx context.Context, printers pm.ParceledListSlice) error
@@ -24,17 +29,17 @@ type IPrinterDiscoveryObserver interface {
 }
 
 type PrinterDiscoveryObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrinterDiscoveryObserverProxy(
 	remote binder.IBinder,
 ) *PrinterDiscoveryObserverProxy {
-	return &PrinterDiscoveryObserverProxy{remote: remote}
+	return &PrinterDiscoveryObserverProxy{Remote: remote}
 }
 
 func (p *PrinterDiscoveryObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrinterDiscoveryObserver = (*PrinterDiscoveryObserverProxy)(nil)
@@ -50,12 +55,12 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrinterDiscoveryObserver, "onPrintersAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrinterDiscoveryObserver, MethodIPrinterDiscoveryObserverOnPrintersAdded)
 	if _err != nil {
-		_code = TransactionIPrinterDiscoveryObserverOnPrintersAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrinterDiscoveryObserver, MethodIPrinterDiscoveryObserverOnPrintersAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +75,12 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrinterDiscoveryObserver, "onPrintersRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrinterDiscoveryObserver, MethodIPrinterDiscoveryObserverOnPrintersRemoved)
 	if _err != nil {
-		_code = TransactionIPrinterDiscoveryObserverOnPrintersRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrinterDiscoveryObserver, MethodIPrinterDiscoveryObserverOnPrintersRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +91,10 @@ type PrinterDiscoveryObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrinterDiscoveryObserverStub)(nil)
+
+func (s *PrinterDiscoveryObserverStub) Descriptor() string {
+	return DescriptorIPrinterDiscoveryObserver
+}
 
 func (s *PrinterDiscoveryObserverStub) OnTransaction(
 	ctx context.Context,

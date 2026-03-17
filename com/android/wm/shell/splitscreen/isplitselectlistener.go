@@ -17,23 +17,27 @@ const (
 	TransactionISplitSelectListenerOnRequestSplitSelect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISplitSelectListenerOnRequestSplitSelect = "onRequestSplitSelect"
+)
+
 type ISplitSelectListener interface {
 	AsBinder() binder.IBinder
 	OnRequestSplitSelect(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, splitPosition int32, taskBounds graphics.Rect) (bool, error)
 }
 
 type SplitSelectListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSplitSelectListenerProxy(
 	remote binder.IBinder,
 ) *SplitSelectListenerProxy {
-	return &SplitSelectListenerProxy{remote: remote}
+	return &SplitSelectListenerProxy{Remote: remote}
 }
 
 func (p *SplitSelectListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISplitSelectListener = (*SplitSelectListenerProxy)(nil)
@@ -57,12 +61,12 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISplitSelectListener, "onRequestSplitSelect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISplitSelectListener, MethodISplitSelectListenerOnRequestSplitSelect)
 	if _err != nil {
-		_code = TransactionISplitSelectListenerOnRequestSplitSelect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISplitSelectListener, MethodISplitSelectListenerOnRequestSplitSelect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,6 +90,10 @@ type SplitSelectListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SplitSelectListenerStub)(nil)
+
+func (s *SplitSelectListenerStub) Descriptor() string {
+	return DescriptorISplitSelectListener
+}
 
 func (s *SplitSelectListenerStub) OnTransaction(
 	ctx context.Context,

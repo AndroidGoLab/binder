@@ -17,14 +17,7 @@ func (s *PullAtomData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Data == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Data)))
-		for _, _item := range s.Data {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Data)
 	p.WriteBool(s.Success)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -39,19 +32,9 @@ func (s *PullAtomData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Data, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Data = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Data[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Success, _err = p.ReadBool()

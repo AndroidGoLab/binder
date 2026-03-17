@@ -15,23 +15,27 @@ const (
 	TransactionITaskFpsCallbackOnFpsReported = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITaskFpsCallbackOnFpsReported = "onFpsReported"
+)
+
 type ITaskFpsCallback interface {
 	AsBinder() binder.IBinder
 	OnFpsReported(ctx context.Context, fps float32) error
 }
 
 type TaskFpsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTaskFpsCallbackProxy(
 	remote binder.IBinder,
 ) *TaskFpsCallbackProxy {
-	return &TaskFpsCallbackProxy{remote: remote}
+	return &TaskFpsCallbackProxy{Remote: remote}
 }
 
 func (p *TaskFpsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITaskFpsCallback = (*TaskFpsCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 	_data.WriteInterfaceToken(DescriptorITaskFpsCallback)
 	_data.WriteFloat32(fps)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFpsCallback, "onFpsReported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFpsCallback, MethodITaskFpsCallbackOnFpsReported)
 	if _err != nil {
-		_code = TransactionITaskFpsCallbackOnFpsReported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFpsCallback, MethodITaskFpsCallbackOnFpsReported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type TaskFpsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TaskFpsCallbackStub)(nil)
+
+func (s *TaskFpsCallbackStub) Descriptor() string {
+	return DescriptorITaskFpsCallback
+}
 
 func (s *TaskFpsCallbackStub) OnTransaction(
 	ctx context.Context,

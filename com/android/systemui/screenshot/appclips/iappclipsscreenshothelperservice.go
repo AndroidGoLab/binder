@@ -15,23 +15,27 @@ const (
 	TransactionIAppClipsScreenshotHelperServiceTakeScreenshot = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppClipsScreenshotHelperServiceTakeScreenshot = "takeScreenshot"
+)
+
 type IAppClipsScreenshotHelperService interface {
 	AsBinder() binder.IBinder
 	TakeScreenshot(ctx context.Context, displayId int32) (ScreenshotHardwareBufferInternal, error)
 }
 
 type AppClipsScreenshotHelperServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppClipsScreenshotHelperServiceProxy(
 	remote binder.IBinder,
 ) *AppClipsScreenshotHelperServiceProxy {
-	return &AppClipsScreenshotHelperServiceProxy{remote: remote}
+	return &AppClipsScreenshotHelperServiceProxy{Remote: remote}
 }
 
 func (p *AppClipsScreenshotHelperServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppClipsScreenshotHelperService = (*AppClipsScreenshotHelperServiceProxy)(nil)
@@ -45,12 +49,12 @@ func (p *AppClipsScreenshotHelperServiceProxy) TakeScreenshot(
 	_data.WriteInterfaceToken(DescriptorIAppClipsScreenshotHelperService)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppClipsScreenshotHelperService, "takeScreenshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppClipsScreenshotHelperService, MethodIAppClipsScreenshotHelperServiceTakeScreenshot)
 	if _err != nil {
-		_code = TransactionIAppClipsScreenshotHelperServiceTakeScreenshot
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAppClipsScreenshotHelperService, MethodIAppClipsScreenshotHelperServiceTakeScreenshot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,6 +83,10 @@ type AppClipsScreenshotHelperServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppClipsScreenshotHelperServiceStub)(nil)
+
+func (s *AppClipsScreenshotHelperServiceStub) Descriptor() string {
+	return DescriptorIAppClipsScreenshotHelperService
+}
 
 func (s *AppClipsScreenshotHelperServiceStub) OnTransaction(
 	ctx context.Context,

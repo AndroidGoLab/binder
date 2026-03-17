@@ -158,7 +158,7 @@ func writeMarshalParcel(
 		fieldType := fieldTypeWithAnnotations(field)
 
 		if fieldType.IsArray || fieldType.Name == "List" {
-			writeArrayFieldToParcel(f, fieldType, fieldAccess, "p", opts, typeRef)
+			writeArrayFieldToParcel(f, fieldType, fieldAccess, "p", structName, opts, typeRef)
 			continue
 		}
 
@@ -209,15 +209,37 @@ func writeMarshalParcel(
 }
 
 // writeArrayFieldToParcel writes array serialization code for a parcelable field.
+// structName is the Go name of the enclosing struct, used to qualify constant
+// references in fixed-size array dimensions (e.g. BYTE_SIZE_OF_CACHE_TOKEN
+// becomes PrepareModelConfigByteSizeOfCacheToken).
 func writeArrayFieldToParcel(
 	f *GoFile,
 	ts *parser.TypeSpecifier,
 	fieldAccess string,
 	parcelVar string,
+	structName string,
 	opts GenOptions,
 	typeRef *TypeRefResolver,
 ) {
 	elemType := elementTypeSpec(ts)
+
+	// Fixed-size byte arrays (e.g. byte[128]) use WriteFixedByteArray which
+	// writes int32(N) + exactly N raw bytes, matching the C++ Parcel::writeData
+	// for std::array<int8_t, N>.
+	if elemType.Name == "byte" && ts.FixedSize != "" {
+		goFixedSize := resolveFixedSizeExpr(ts.FixedSize, structName)
+		f.P("\t%s.WriteFixedByteArray(%s, %s)", parcelVar, fieldAccess, goFixedSize)
+		return
+	}
+
+	// The NDK AIDL backend uses AParcel_writeByteArray for byte[] which
+	// writes int32(len) + compact bytes (padded to 4 at the end), not
+	// per-element padded writes. Use WriteByteArray/ReadByteArray directly.
+	if elemType.Name == "byte" {
+		f.P("\t%s.WriteByteArray(%s)", parcelVar, fieldAccess)
+		return
+	}
+
 	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
 
 	f.P("\tif %s == nil {", fieldAccess)
@@ -231,6 +253,9 @@ func writeArrayFieldToParcel(
 		writeExpr = strings.ReplaceAll(writeExpr, "_data", parcelVar)
 		if strings.Contains(elemInfo.WriteExpr, ".MarshalParcel") {
 			writeExpr = fmt.Sprintf("_item.MarshalParcel(%s)", parcelVar)
+			// NDK AIDL wire format: int32(1) non-null indicator before each
+			// parcelable element, matching writeTypedObject semantics.
+			f.P("\t\t\t%s.WriteInt32(1)", parcelVar)
 			f.P("\t\t\tif _err := %s; _err != nil {", writeExpr)
 			f.P("\t\t\t\treturn _err")
 			f.P("\t\t\t}")
@@ -266,8 +291,17 @@ func writeUnmarshalParcel(
 		// so marshalForType sees them when choosing the read method.
 		fieldType := fieldTypeWithAnnotations(field)
 
+		// When the sender is from an older API level, the parcel may contain
+		// fewer fields than the current definition. Stop reading once we
+		// reach _endPos so the remaining fields keep their Go zero values.
+		f.P("")
+		f.P("\tif p.Position() >= _endPos {")
+		f.P("\t\tparcel.SkipToParcelableEnd(p, _endPos)")
+		f.P("\t\treturn nil")
+		f.P("\t}")
+
 		if fieldType.IsArray || fieldType.Name == "List" {
-			readArrayFieldFromParcel(f, fieldType, "s."+goFieldName, "p", arrayIdx, opts, typeRef)
+			readArrayFieldFromParcel(f, fieldType, "s."+goFieldName, "p", arrayIdx, structName, opts, typeRef)
 			arrayIdx++
 			continue
 		}
@@ -331,17 +365,44 @@ func writeUnmarshalParcel(
 
 // readArrayFieldFromParcel writes array deserialization code for a parcelable field.
 // arrayIdx is used to create unique variable names when multiple array fields exist.
+// structName is the Go name of the enclosing struct, used to qualify constant
+// references in fixed-size array dimensions.
 func readArrayFieldFromParcel(
 	f *GoFile,
 	ts *parser.TypeSpecifier,
 	fieldAccess string,
 	parcelVar string,
 	arrayIdx int,
+	structName string,
 	opts GenOptions,
 	typeRef *TypeRefResolver,
 ) {
 	goType := resolveTypeRef(typeRef, ts)
 	elemType := elementTypeSpec(ts)
+
+	// Fixed-size byte arrays (e.g. byte[128]) use ReadFixedByteArray which
+	// reads int32(N) + exactly N raw bytes.
+	if elemType.Name == "byte" && ts.FixedSize != "" {
+		goFixedSize := resolveFixedSizeExpr(ts.FixedSize, structName)
+		f.P("")
+		f.P("\t%s, _err = %s.ReadFixedByteArray(%s)", fieldAccess, parcelVar, goFixedSize)
+		f.P("\tif _err != nil {")
+		f.P("\t\treturn _err")
+		f.P("\t}")
+		return
+	}
+
+	// The NDK AIDL backend uses AParcel_readByteArray for byte[] which
+	// reads int32(len) + compact bytes, not per-element padded reads.
+	if elemType.Name == "byte" {
+		f.P("")
+		f.P("\t%s, _err = %s.ReadByteArray()", fieldAccess, parcelVar)
+		f.P("\tif _err != nil {")
+		f.P("\t\treturn _err")
+		f.P("\t}")
+		return
+	}
+
 	elemInfo := marshalForTypeWithCycleCheck(elemType, opts, typeRef)
 
 	// Use unique variable names per array to avoid redeclaration.
@@ -368,6 +429,11 @@ func readArrayFieldFromParcel(
 
 	switch {
 	case strings.Contains(elemInfo.ReadExpr, ".UnmarshalParcel"):
+		// NDK AIDL wire format: int32 non-null indicator before each
+		// parcelable element, matching readTypedObject semantics.
+		f.P("\t\t\tif _, _err = %s.ReadInt32(); _err != nil {", parcelVar)
+		f.P("\t\t\t\treturn _err")
+		f.P("\t\t\t}")
 		f.P("\t\t\tif _err = %s[_i].UnmarshalParcel(%s); _err != nil {", fieldAccess, parcelVar)
 		f.P("\t\t\t\treturn _err")
 		f.P("\t\t\t}")
@@ -522,4 +588,25 @@ func readMapFieldElem(
 		f.P("%s\treturn _err", indent)
 		f.P("%s}", indent)
 	}
+}
+
+// resolveFixedSizeExpr converts an AIDL fixed-size array dimension to a Go
+// expression. Numeric literals (e.g. "128") pass through unchanged. Constant
+// names (e.g. "BYTE_SIZE_OF_CACHE_TOKEN") are resolved to the Go form by
+// prepending the struct name prefix and wrapping in int() since
+// WriteFixedByteArray/ReadFixedByteArray take int, but AIDL constants are
+// typed as int32.
+func resolveFixedSizeExpr(
+	fixedSize string,
+	structName string,
+) string {
+	if len(fixedSize) == 0 {
+		return fixedSize
+	}
+	// Numeric literals start with a digit and need no transformation.
+	// Go untyped integer constants are compatible with int parameters.
+	if fixedSize[0] >= '0' && fixedSize[0] <= '9' {
+		return fixedSize
+	}
+	return "int(" + structName + AIDLToGoName(fixedSize) + ")"
 }

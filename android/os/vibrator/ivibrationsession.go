@@ -17,6 +17,12 @@ const (
 	TransactionIVibrationSessionCancelSession = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIVibrationSessionVibrate       = "vibrate"
+	MethodIVibrationSessionFinishSession = "finishSession"
+	MethodIVibrationSessionCancelSession = "cancelSession"
+)
+
 type IVibrationSession interface {
 	AsBinder() binder.IBinder
 	Vibrate(ctx context.Context, vibration interface{}, reason string) error
@@ -34,17 +40,17 @@ const (
 )
 
 type VibrationSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibrationSessionProxy(
 	remote binder.IBinder,
 ) *VibrationSessionProxy {
-	return &VibrationSessionProxy{remote: remote}
+	return &VibrationSessionProxy{Remote: remote}
 }
 
 func (p *VibrationSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibrationSession = (*VibrationSessionProxy)(nil)
@@ -58,12 +64,12 @@ func (p *VibrationSessionProxy) Vibrate(
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "vibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrationSession, MethodIVibrationSessionVibrate)
 	if _err != nil {
-		_code = TransactionIVibrationSessionVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrationSession, MethodIVibrationSessionVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +88,12 @@ func (p *VibrationSessionProxy) FinishSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "finishSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrationSession, MethodIVibrationSessionFinishSession)
 	if _err != nil {
-		_code = TransactionIVibrationSessionFinishSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrationSession, MethodIVibrationSessionFinishSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +112,12 @@ func (p *VibrationSessionProxy) CancelSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "cancelSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrationSession, MethodIVibrationSessionCancelSession)
 	if _err != nil {
-		_code = TransactionIVibrationSessionCancelSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrationSession, MethodIVibrationSessionCancelSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,6 +137,10 @@ type VibrationSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibrationSessionStub)(nil)
+
+func (s *VibrationSessionStub) Descriptor() string {
+	return DescriptorIVibrationSession
+}
 
 func (s *VibrationSessionStub) OnTransaction(
 	ctx context.Context,

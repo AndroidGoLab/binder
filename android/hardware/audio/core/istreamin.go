@@ -26,6 +26,18 @@ const (
 	TransactionIStreamInSetHwGain                   = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIStreamInGetStreamCommon             = "getStreamCommon"
+	MethodIStreamInGetActiveMicrophones        = "getActiveMicrophones"
+	MethodIStreamInGetMicrophoneDirection      = "getMicrophoneDirection"
+	MethodIStreamInSetMicrophoneDirection      = "setMicrophoneDirection"
+	MethodIStreamInGetMicrophoneFieldDimension = "getMicrophoneFieldDimension"
+	MethodIStreamInSetMicrophoneFieldDimension = "setMicrophoneFieldDimension"
+	MethodIStreamInUpdateMetadata              = "updateMetadata"
+	MethodIStreamInGetHwGain                   = "getHwGain"
+	MethodIStreamInSetHwGain                   = "setHwGain"
+)
+
 type IStreamIn interface {
 	AsBinder() binder.IBinder
 	GetStreamCommon(ctx context.Context) (IStreamCommon, error)
@@ -48,17 +60,17 @@ const (
 )
 
 type StreamInProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamInProxy(
 	remote binder.IBinder,
 ) *StreamInProxy {
-	return &StreamInProxy{remote: remote}
+	return &StreamInProxy{Remote: remote}
 }
 
 func (p *StreamInProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamIn = (*StreamInProxy)(nil)
@@ -70,12 +82,12 @@ func (p *StreamInProxy) GetStreamCommon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getStreamCommon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetStreamCommon)
 	if _err != nil {
-		_code = TransactionIStreamInGetStreamCommon
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInGetStreamCommon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,7 +101,7 @@ func (p *StreamInProxy) GetStreamCommon(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewStreamCommonProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewStreamCommonProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -100,12 +112,12 @@ func (p *StreamInProxy) GetActiveMicrophones(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getActiveMicrophones")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetActiveMicrophones)
 	if _err != nil {
-		_code = TransactionIStreamInGetActiveMicrophones
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInGetActiveMicrophones, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,6 +135,9 @@ func (p *StreamInProxy) GetActiveMicrophones(
 	if _count >= 0 {
 		_result = make([]common.MicrophoneDynamicInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -138,12 +153,12 @@ func (p *StreamInProxy) GetMicrophoneDirection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getMicrophoneDirection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetMicrophoneDirection)
 	if _err != nil {
-		_code = TransactionIStreamInGetMicrophoneDirection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInGetMicrophoneDirection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,12 +184,12 @@ func (p *StreamInProxy) SetMicrophoneDirection(
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteInt32(int32(direction))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "setMicrophoneDirection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInSetMicrophoneDirection)
 	if _err != nil {
-		_code = TransactionIStreamInSetMicrophoneDirection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInSetMicrophoneDirection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -194,12 +209,12 @@ func (p *StreamInProxy) GetMicrophoneFieldDimension(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getMicrophoneFieldDimension")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetMicrophoneFieldDimension)
 	if _err != nil {
-		_code = TransactionIStreamInGetMicrophoneFieldDimension
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInGetMicrophoneFieldDimension, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -224,12 +239,12 @@ func (p *StreamInProxy) SetMicrophoneFieldDimension(
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteFloat32(zoom)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "setMicrophoneFieldDimension")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInSetMicrophoneFieldDimension)
 	if _err != nil {
-		_code = TransactionIStreamInSetMicrophoneFieldDimension
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInSetMicrophoneFieldDimension, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -253,12 +268,12 @@ func (p *StreamInProxy) UpdateMetadata(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "updateMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInUpdateMetadata)
 	if _err != nil {
-		_code = TransactionIStreamInUpdateMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInUpdateMetadata, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -278,12 +293,12 @@ func (p *StreamInProxy) GetHwGain(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getHwGain")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInGetHwGain)
 	if _err != nil {
-		_code = TransactionIStreamInGetHwGain
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInGetHwGain, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -325,12 +340,12 @@ func (p *StreamInProxy) SetHwGain(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "setHwGain")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamIn, MethodIStreamInSetHwGain)
 	if _err != nil {
-		_code = TransactionIStreamInSetHwGain
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamIn, MethodIStreamInSetHwGain, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -350,6 +365,10 @@ type StreamInStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamInStub)(nil)
+
+func (s *StreamInStub) Descriptor() string {
+	return DescriptorIStreamIn
+}
 
 func (s *StreamInStub) OnTransaction(
 	ctx context.Context,

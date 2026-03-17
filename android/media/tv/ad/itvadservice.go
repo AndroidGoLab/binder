@@ -20,6 +20,13 @@ const (
 	TransactionITvAdServiceSendAppLinkCommand = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodITvAdServiceRegisterCallback   = "registerCallback"
+	MethodITvAdServiceUnregisterCallback = "unregisterCallback"
+	MethodITvAdServiceCreateSession      = "createSession"
+	MethodITvAdServiceSendAppLinkCommand = "sendAppLinkCommand"
+)
+
 type ITvAdService interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback ITvAdServiceCallback) error
@@ -29,17 +36,17 @@ type ITvAdService interface {
 }
 
 type TvAdServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvAdServiceProxy(
 	remote binder.IBinder,
 ) *TvAdServiceProxy {
-	return &TvAdServiceProxy{remote: remote}
+	return &TvAdServiceProxy{Remote: remote}
 }
 
 func (p *TvAdServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvAdService = (*TvAdServiceProxy)(nil)
@@ -50,14 +57,14 @@ func (p *TvAdServiceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdService, MethodITvAdServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionITvAdServiceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdService, MethodITvAdServiceRegisterCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,14 +74,14 @@ func (p *TvAdServiceProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdService, MethodITvAdServiceUnregisterCallback)
 	if _err != nil {
-		_code = TransactionITvAdServiceUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdService, MethodITvAdServiceUnregisterCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,16 +98,16 @@ func (p *TvAdServiceProxy) CreateSession(
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(serviceId)
 	_data.WriteString16(type_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdService, MethodITvAdServiceCreateSession)
 	if _err != nil {
-		_code = TransactionITvAdServiceCreateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdService, MethodITvAdServiceCreateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +122,12 @@ func (p *TvAdServiceProxy) SendAppLinkCommand(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "sendAppLinkCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvAdService, MethodITvAdServiceSendAppLinkCommand)
 	if _err != nil {
-		_code = TransactionITvAdServiceSendAppLinkCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvAdService, MethodITvAdServiceSendAppLinkCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,6 +138,10 @@ type TvAdServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvAdServiceStub)(nil)
+
+func (s *TvAdServiceStub) Descriptor() string {
+	return DescriptorITvAdService
+}
 
 func (s *TvAdServiceStub) OnTransaction(
 	ctx context.Context,

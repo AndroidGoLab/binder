@@ -17,6 +17,12 @@ const (
 	TransactionICompanionDeviceServiceOnDevicePresenceEvent = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICompanionDeviceServiceOnDeviceAppeared      = "onDeviceAppeared"
+	MethodICompanionDeviceServiceOnDeviceDisappeared   = "onDeviceDisappeared"
+	MethodICompanionDeviceServiceOnDevicePresenceEvent = "onDevicePresenceEvent"
+)
+
 type ICompanionDeviceService interface {
 	AsBinder() binder.IBinder
 	OnDeviceAppeared(ctx context.Context, associationInfo AssociationInfo) error
@@ -25,17 +31,17 @@ type ICompanionDeviceService interface {
 }
 
 type CompanionDeviceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCompanionDeviceServiceProxy(
 	remote binder.IBinder,
 ) *CompanionDeviceServiceProxy {
-	return &CompanionDeviceServiceProxy{remote: remote}
+	return &CompanionDeviceServiceProxy{Remote: remote}
 }
 
 func (p *CompanionDeviceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICompanionDeviceService = (*CompanionDeviceServiceProxy)(nil)
@@ -51,12 +57,12 @@ func (p *CompanionDeviceServiceProxy) OnDeviceAppeared(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceService, "onDeviceAppeared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceService, MethodICompanionDeviceServiceOnDeviceAppeared)
 	if _err != nil {
-		_code = TransactionICompanionDeviceServiceOnDeviceAppeared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceService, MethodICompanionDeviceServiceOnDeviceAppeared, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +77,12 @@ func (p *CompanionDeviceServiceProxy) OnDeviceDisappeared(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceService, "onDeviceDisappeared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceService, MethodICompanionDeviceServiceOnDeviceDisappeared)
 	if _err != nil {
-		_code = TransactionICompanionDeviceServiceOnDeviceDisappeared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceService, MethodICompanionDeviceServiceOnDeviceDisappeared, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,12 +97,12 @@ func (p *CompanionDeviceServiceProxy) OnDevicePresenceEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceService, "onDevicePresenceEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICompanionDeviceService, MethodICompanionDeviceServiceOnDevicePresenceEvent)
 	if _err != nil {
-		_code = TransactionICompanionDeviceServiceOnDevicePresenceEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICompanionDeviceService, MethodICompanionDeviceServiceOnDevicePresenceEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +113,10 @@ type CompanionDeviceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CompanionDeviceServiceStub)(nil)
+
+func (s *CompanionDeviceServiceStub) Descriptor() string {
+	return DescriptorICompanionDeviceService
+}
 
 func (s *CompanionDeviceServiceStub) OnTransaction(
 	ctx context.Context,

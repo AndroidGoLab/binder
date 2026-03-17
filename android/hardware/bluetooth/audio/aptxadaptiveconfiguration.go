@@ -36,14 +36,7 @@ func (s *AptxAdaptiveConfiguration) MarshalParcel(
 	}
 	p.WriteInt32(int32(s.InputMode))
 	p.WriteInt32(s.InputFadeDurationMs)
-	if s.AptxAdaptiveConfigStream == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.AptxAdaptiveConfigStream)))
-		for _, _item := range s.AptxAdaptiveConfigStream {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.AptxAdaptiveConfigStream)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -98,19 +91,9 @@ func (s *AptxAdaptiveConfiguration) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.AptxAdaptiveConfigStream, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.AptxAdaptiveConfigStream = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.AptxAdaptiveConfigStream[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

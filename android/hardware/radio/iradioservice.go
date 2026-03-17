@@ -17,6 +17,12 @@ const (
 	TransactionIRadioServiceAddAnnouncementListener = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRadioServiceListModules             = "listModules"
+	MethodIRadioServiceOpenTuner               = "openTuner"
+	MethodIRadioServiceAddAnnouncementListener = "addAnnouncementListener"
+)
+
 type IRadioService interface {
 	AsBinder() binder.IBinder
 	ListModules(ctx context.Context) ([]RadioManagerModuleProperties, error)
@@ -25,17 +31,17 @@ type IRadioService interface {
 }
 
 type RadioServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioServiceProxy(
 	remote binder.IBinder,
 ) *RadioServiceProxy {
-	return &RadioServiceProxy{remote: remote}
+	return &RadioServiceProxy{Remote: remote}
 }
 
 func (p *RadioServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioService = (*RadioServiceProxy)(nil)
@@ -47,12 +53,12 @@ func (p *RadioServiceProxy) ListModules(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioService, "listModules")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioService, MethodIRadioServiceListModules)
 	if _err != nil {
-		_code = TransactionIRadioServiceListModules
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioService, MethodIRadioServiceListModules, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,6 +76,9 @@ func (p *RadioServiceProxy) ListModules(
 	if _count >= 0 {
 		_result = make([]RadioManagerModuleProperties, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -94,14 +103,14 @@ func (p *RadioServiceProxy) OpenTuner(
 		return _result, _err
 	}
 	_data.WriteBool(withAudio)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioService, "openTuner")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioService, MethodIRadioServiceOpenTuner)
 	if _err != nil {
-		_code = TransactionIRadioServiceOpenTuner
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioService, MethodIRadioServiceOpenTuner, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,7 +124,7 @@ func (p *RadioServiceProxy) OpenTuner(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewTunerProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -135,14 +144,14 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 			_data.WriteInt32(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioService, "addAnnouncementListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioService, MethodIRadioServiceAddAnnouncementListener)
 	if _err != nil {
-		_code = TransactionIRadioServiceAddAnnouncementListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioService, MethodIRadioServiceAddAnnouncementListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,7 +165,7 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -167,6 +176,10 @@ type RadioServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioServiceStub)(nil)
+
+func (s *RadioServiceStub) Descriptor() string {
+	return DescriptorIRadioService
+}
 
 func (s *RadioServiceStub) OnTransaction(
 	ctx context.Context,

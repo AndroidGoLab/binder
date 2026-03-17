@@ -31,6 +31,24 @@ const (
 	TransactionITextToSpeechServiceGetDefaultVoiceNameFor     = binder.FirstCallTransaction + 14
 )
 
+const (
+	MethodITextToSpeechServiceSpeak                      = "speak"
+	MethodITextToSpeechServiceSynthesizeToFileDescriptor = "synthesizeToFileDescriptor"
+	MethodITextToSpeechServicePlayAudio                  = "playAudio"
+	MethodITextToSpeechServicePlaySilence                = "playSilence"
+	MethodITextToSpeechServiceIsSpeaking                 = "isSpeaking"
+	MethodITextToSpeechServiceStop                       = "stop"
+	MethodITextToSpeechServiceGetLanguage                = "getLanguage"
+	MethodITextToSpeechServiceGetClientDefaultLanguage   = "getClientDefaultLanguage"
+	MethodITextToSpeechServiceIsLanguageAvailable        = "isLanguageAvailable"
+	MethodITextToSpeechServiceGetFeaturesForLanguage     = "getFeaturesForLanguage"
+	MethodITextToSpeechServiceLoadLanguage               = "loadLanguage"
+	MethodITextToSpeechServiceSetCallback                = "setCallback"
+	MethodITextToSpeechServiceGetVoices                  = "getVoices"
+	MethodITextToSpeechServiceLoadVoice                  = "loadVoice"
+	MethodITextToSpeechServiceGetDefaultVoiceNameFor     = "getDefaultVoiceNameFor"
+)
+
 type ITextToSpeechService interface {
 	AsBinder() binder.IBinder
 	Speak(ctx context.Context, callingInstance binder.IBinder, text interface{}, queueMode int32, params os.Bundle, utteranceId string) (int32, error)
@@ -51,17 +69,17 @@ type ITextToSpeechService interface {
 }
 
 type TextToSpeechServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextToSpeechServiceProxy(
 	remote binder.IBinder,
 ) *TextToSpeechServiceProxy {
-	return &TextToSpeechServiceProxy{remote: remote}
+	return &TextToSpeechServiceProxy{Remote: remote}
 }
 
 func (p *TextToSpeechServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextToSpeechService = (*TextToSpeechServiceProxy)(nil)
@@ -77,7 +95,7 @@ func (p *TextToSpeechServiceProxy) Speak(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 	_data.WriteInt32(queueMode)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -85,12 +103,12 @@ func (p *TextToSpeechServiceProxy) Speak(
 	}
 	_data.WriteString16(utteranceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "speak")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSpeak)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceSpeak
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceSpeak, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,7 +136,7 @@ func (p *TextToSpeechServiceProxy) SynthesizeToFileDescriptor(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 	_data.WriteFileDescriptor(fileDescriptor)
 	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
@@ -126,12 +144,12 @@ func (p *TextToSpeechServiceProxy) SynthesizeToFileDescriptor(
 	}
 	_data.WriteString16(utteranceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "synthesizeToFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSynthesizeToFileDescriptor)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceSynthesizeToFileDescriptor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceSynthesizeToFileDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,7 +177,7 @@ func (p *TextToSpeechServiceProxy) PlayAudio(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := audioUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -171,12 +189,12 @@ func (p *TextToSpeechServiceProxy) PlayAudio(
 	}
 	_data.WriteString16(utteranceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "playAudio")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServicePlayAudio)
 	if _err != nil {
-		_code = TransactionITextToSpeechServicePlayAudio
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServicePlayAudio, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,17 +221,17 @@ func (p *TextToSpeechServiceProxy) PlaySilence(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 	_data.WriteInt64(duration)
 	_data.WriteInt32(queueMode)
 	_data.WriteString16(utteranceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "playSilence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServicePlaySilence)
 	if _err != nil {
-		_code = TransactionITextToSpeechServicePlaySilence
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServicePlaySilence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -237,12 +255,12 @@ func (p *TextToSpeechServiceProxy) IsSpeaking(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "isSpeaking")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceIsSpeaking)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceIsSpeaking
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceIsSpeaking, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -266,14 +284,14 @@ func (p *TextToSpeechServiceProxy) Stop(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callingInstance, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceStop)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceStop
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -297,12 +315,12 @@ func (p *TextToSpeechServiceProxy) GetLanguage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "getLanguage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetLanguage)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceGetLanguage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceGetLanguage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -336,12 +354,12 @@ func (p *TextToSpeechServiceProxy) GetClientDefaultLanguage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "getClientDefaultLanguage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetClientDefaultLanguage)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceGetClientDefaultLanguage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceGetClientDefaultLanguage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -381,12 +399,12 @@ func (p *TextToSpeechServiceProxy) IsLanguageAvailable(
 	_data.WriteString16(country)
 	_data.WriteString16(variant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "isLanguageAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceIsLanguageAvailable)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceIsLanguageAvailable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceIsLanguageAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -416,12 +434,12 @@ func (p *TextToSpeechServiceProxy) GetFeaturesForLanguage(
 	_data.WriteString16(country)
 	_data.WriteString16(variant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "getFeaturesForLanguage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetFeaturesForLanguage)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceGetFeaturesForLanguage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceGetFeaturesForLanguage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -458,17 +476,17 @@ func (p *TextToSpeechServiceProxy) LoadLanguage(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, caller, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
 	_data.WriteString16(lang)
 	_data.WriteString16(country)
 	_data.WriteString16(variant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "loadLanguage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadLanguage)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceLoadLanguage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadLanguage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -492,15 +510,15 @@ func (p *TextToSpeechServiceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, caller, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceSetCallback)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -520,12 +538,12 @@ func (p *TextToSpeechServiceProxy) GetVoices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "getVoices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetVoices)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceGetVoices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceGetVoices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -543,6 +561,9 @@ func (p *TextToSpeechServiceProxy) GetVoices(
 	if _count >= 0 {
 		_result = make([]Voice, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -559,15 +580,15 @@ func (p *TextToSpeechServiceProxy) LoadVoice(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
-	binder.WriteBinderToParcel(ctx, _data, caller, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, caller, p.Remote.Transport())
 	_data.WriteString16(voiceName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "loadVoice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadVoice)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceLoadVoice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceLoadVoice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -597,12 +618,12 @@ func (p *TextToSpeechServiceProxy) GetDefaultVoiceNameFor(
 	_data.WriteString16(country)
 	_data.WriteString16(variant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechService, "getDefaultVoiceNameFor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechService, MethodITextToSpeechServiceGetDefaultVoiceNameFor)
 	if _err != nil {
-		_code = TransactionITextToSpeechServiceGetDefaultVoiceNameFor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechService, MethodITextToSpeechServiceGetDefaultVoiceNameFor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -626,6 +647,10 @@ type TextToSpeechServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechServiceStub)(nil)
+
+func (s *TextToSpeechServiceStub) Descriptor() string {
+	return DescriptorITextToSpeechService
+}
 
 func (s *TextToSpeechServiceStub) OnTransaction(
 	ctx context.Context,

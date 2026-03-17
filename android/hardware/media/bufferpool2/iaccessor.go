@@ -16,23 +16,27 @@ const (
 	TransactionIAccessorConnect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAccessorConnect = "connect"
+)
+
 type IAccessor interface {
 	AsBinder() binder.IBinder
 	Connect(ctx context.Context, observer IObserver) (bufferpool2IAccessor.ConnectionInfo, error)
 }
 
 type AccessorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessorProxy(
 	remote binder.IBinder,
 ) *AccessorProxy {
-	return &AccessorProxy{remote: remote}
+	return &AccessorProxy{Remote: remote}
 }
 
 func (p *AccessorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessor = (*AccessorProxy)(nil)
@@ -44,14 +48,14 @@ func (p *AccessorProxy) Connect(
 	var _result bufferpool2IAccessor.ConnectionInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessor)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessor, "connect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessor, MethodIAccessorConnect)
 	if _err != nil {
-		_code = TransactionIAccessorConnect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessor, MethodIAccessorConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,6 +84,10 @@ type AccessorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessorStub)(nil)
+
+func (s *AccessorStub) Descriptor() string {
+	return DescriptorIAccessor
+}
 
 func (s *AccessorStub) OnTransaction(
 	ctx context.Context,

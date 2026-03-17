@@ -16,6 +16,11 @@ const (
 	TransactionICellInfoCallbackOnError    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICellInfoCallbackOnCellInfo = "onCellInfo"
+	MethodICellInfoCallbackOnError    = "onError"
+)
+
 type ICellInfoCallback interface {
 	AsBinder() binder.IBinder
 	OnCellInfo(ctx context.Context, state []CellInfo) error
@@ -23,17 +28,17 @@ type ICellInfoCallback interface {
 }
 
 type CellInfoCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCellInfoCallbackProxy(
 	remote binder.IBinder,
 ) *CellInfoCallbackProxy {
-	return &CellInfoCallbackProxy{remote: remote}
+	return &CellInfoCallbackProxy{Remote: remote}
 }
 
 func (p *CellInfoCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICellInfoCallback = (*CellInfoCallbackProxy)(nil)
@@ -49,18 +54,19 @@ func (p *CellInfoCallbackProxy) OnCellInfo(
 	} else {
 		_data.WriteInt32(int32(len(state)))
 		for _, _item := range state {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICellInfoCallback, "onCellInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellInfoCallback, MethodICellInfoCallbackOnCellInfo)
 	if _err != nil {
-		_code = TransactionICellInfoCallbackOnCellInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICellInfoCallback, MethodICellInfoCallbackOnCellInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +82,12 @@ func (p *CellInfoCallbackProxy) OnError(
 	_data.WriteString16(exceptionName)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICellInfoCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICellInfoCallback, MethodICellInfoCallbackOnError)
 	if _err != nil {
-		_code = TransactionICellInfoCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICellInfoCallback, MethodICellInfoCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +98,10 @@ type CellInfoCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CellInfoCallbackStub)(nil)
+
+func (s *CellInfoCallbackStub) Descriptor() string {
+	return DescriptorICellInfoCallback
+}
 
 func (s *CellInfoCallbackStub) OnTransaction(
 	ctx context.Context,

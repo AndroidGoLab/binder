@@ -19,6 +19,13 @@ const (
 	TransactionIMuxTuneSessionGetSessionToken = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIMuxTuneSessionStart           = "start"
+	MethodIMuxTuneSessionStop            = "stop"
+	MethodIMuxTuneSessionRelease         = "release"
+	MethodIMuxTuneSessionGetSessionToken = "getSessionToken"
+)
+
 type IMuxTuneSession interface {
 	AsBinder() binder.IBinder
 	Start(ctx context.Context, broadcastType int32, frequency int32, brandwith int32, muxTuneParams os.Bundle) error
@@ -28,17 +35,17 @@ type IMuxTuneSession interface {
 }
 
 type MuxTuneSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMuxTuneSessionProxy(
 	remote binder.IBinder,
 ) *MuxTuneSessionProxy {
-	return &MuxTuneSessionProxy{remote: remote}
+	return &MuxTuneSessionProxy{Remote: remote}
 }
 
 func (p *MuxTuneSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMuxTuneSession = (*MuxTuneSessionProxy)(nil)
@@ -60,12 +67,12 @@ func (p *MuxTuneSessionProxy) Start(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuxTuneSession, MethodIMuxTuneSessionStart)
 	if _err != nil {
-		_code = TransactionIMuxTuneSessionStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMuxTuneSession, MethodIMuxTuneSessionStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,12 +91,12 @@ func (p *MuxTuneSessionProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMuxTuneSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuxTuneSession, MethodIMuxTuneSessionStop)
 	if _err != nil {
-		_code = TransactionIMuxTuneSessionStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMuxTuneSession, MethodIMuxTuneSessionStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,12 +115,12 @@ func (p *MuxTuneSessionProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMuxTuneSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuxTuneSession, MethodIMuxTuneSessionRelease)
 	if _err != nil {
-		_code = TransactionIMuxTuneSessionRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMuxTuneSession, MethodIMuxTuneSessionRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,12 +140,12 @@ func (p *MuxTuneSessionProxy) GetSessionToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMuxTuneSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "getSessionToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuxTuneSession, MethodIMuxTuneSessionGetSessionToken)
 	if _err != nil {
-		_code = TransactionIMuxTuneSessionGetSessionToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMuxTuneSession, MethodIMuxTuneSessionGetSessionToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,6 +169,10 @@ type MuxTuneSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MuxTuneSessionStub)(nil)
+
+func (s *MuxTuneSessionStub) Descriptor() string {
+	return DescriptorIMuxTuneSession
+}
 
 func (s *MuxTuneSessionStub) OnTransaction(
 	ctx context.Context,

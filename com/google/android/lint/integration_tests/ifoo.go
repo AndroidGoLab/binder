@@ -15,23 +15,27 @@ const (
 	TransactionIFooMethod = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFooMethod = "Method"
+)
+
 type IFoo interface {
 	AsBinder() binder.IBinder
 	Method(ctx context.Context) error
 }
 
 type FooProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFooProxy(
 	remote binder.IBinder,
 ) *FooProxy {
-	return &FooProxy{remote: remote}
+	return &FooProxy{Remote: remote}
 }
 
 func (p *FooProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFoo = (*FooProxy)(nil)
@@ -42,12 +46,12 @@ func (p *FooProxy) Method(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFoo)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFoo, "Method")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFoo, MethodIFooMethod)
 	if _err != nil {
-		_code = TransactionIFooMethod
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFoo, MethodIFooMethod, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type FooStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FooStub)(nil)
+
+func (s *FooStub) Descriptor() string {
+	return DescriptorIFoo
+}
 
 func (s *FooStub) OnTransaction(
 	ctx context.Context,

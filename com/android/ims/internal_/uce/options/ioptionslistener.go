@@ -21,6 +21,15 @@ const (
 	TransactionIOptionsListenerIncomingOptions     = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIOptionsListenerGetVersionCb        = "getVersionCb"
+	MethodIOptionsListenerServiceAvailable    = "serviceAvailable"
+	MethodIOptionsListenerServiceUnavailable  = "serviceUnavailable"
+	MethodIOptionsListenerSipResponseReceived = "sipResponseReceived"
+	MethodIOptionsListenerCmdStatus           = "cmdStatus"
+	MethodIOptionsListenerIncomingOptions     = "incomingOptions"
+)
+
 type IOptionsListener interface {
 	AsBinder() binder.IBinder
 	GetVersionCb(ctx context.Context, version string) error
@@ -32,17 +41,17 @@ type IOptionsListener interface {
 }
 
 type OptionsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOptionsListenerProxy(
 	remote binder.IBinder,
 ) *OptionsListenerProxy {
-	return &OptionsListenerProxy{remote: remote}
+	return &OptionsListenerProxy{Remote: remote}
 }
 
 func (p *OptionsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOptionsListener = (*OptionsListenerProxy)(nil)
@@ -55,12 +64,12 @@ func (p *OptionsListenerProxy) GetVersionCb(
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteString16(version)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsListener, "getVersionCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerGetVersionCb)
 	if _err != nil {
-		_code = TransactionIOptionsListenerGetVersionCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsListener, MethodIOptionsListenerGetVersionCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,12 +90,12 @@ func (p *OptionsListenerProxy) ServiceAvailable(
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteInt32(int32(statusCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsListener, "serviceAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerServiceAvailable)
 	if _err != nil {
-		_code = TransactionIOptionsListenerServiceAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsListener, MethodIOptionsListenerServiceAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,12 +116,12 @@ func (p *OptionsListenerProxy) ServiceUnavailable(
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteInt32(int32(statusCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsListener, "serviceUnavailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerServiceUnavailable)
 	if _err != nil {
-		_code = TransactionIOptionsListenerServiceUnavailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsListener, MethodIOptionsListenerServiceUnavailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,12 +152,12 @@ func (p *OptionsListenerProxy) SipResponseReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsListener, "sipResponseReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerSipResponseReceived)
 	if _err != nil {
-		_code = TransactionIOptionsListenerSipResponseReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsListener, MethodIOptionsListenerSipResponseReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,12 +181,12 @@ func (p *OptionsListenerProxy) CmdStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsListener, "cmdStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerCmdStatus)
 	if _err != nil {
-		_code = TransactionIOptionsListenerCmdStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsListener, MethodIOptionsListenerCmdStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -205,12 +214,12 @@ func (p *OptionsListenerProxy) IncomingOptions(
 	}
 	_data.WriteInt32(tID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsListener, "incomingOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerIncomingOptions)
 	if _err != nil {
-		_code = TransactionIOptionsListenerIncomingOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsListener, MethodIOptionsListenerIncomingOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,6 +239,10 @@ type OptionsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OptionsListenerStub)(nil)
+
+func (s *OptionsListenerStub) Descriptor() string {
+	return DescriptorIOptionsListener
+}
 
 func (s *OptionsListenerStub) OnTransaction(
 	ctx context.Context,

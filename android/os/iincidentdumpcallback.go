@@ -15,23 +15,27 @@ const (
 	TransactionIIncidentDumpCallbackOnDumpSection = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIncidentDumpCallbackOnDumpSection = "onDumpSection"
+)
+
 type IIncidentDumpCallback interface {
 	AsBinder() binder.IBinder
 	OnDumpSection(ctx context.Context, fd int32) error
 }
 
 type IncidentDumpCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIncidentDumpCallbackProxy(
 	remote binder.IBinder,
 ) *IncidentDumpCallbackProxy {
-	return &IncidentDumpCallbackProxy{remote: remote}
+	return &IncidentDumpCallbackProxy{Remote: remote}
 }
 
 func (p *IncidentDumpCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIncidentDumpCallback = (*IncidentDumpCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *IncidentDumpCallbackProxy) OnDumpSection(
 	_data.WriteInterfaceToken(DescriptorIIncidentDumpCallback)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentDumpCallback, "onDumpSection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentDumpCallback, MethodIIncidentDumpCallbackOnDumpSection)
 	if _err != nil {
-		_code = TransactionIIncidentDumpCallbackOnDumpSection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentDumpCallback, MethodIIncidentDumpCallbackOnDumpSection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type IncidentDumpCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IncidentDumpCallbackStub)(nil)
+
+func (s *IncidentDumpCallbackStub) Descriptor() string {
+	return DescriptorIIncidentDumpCallback
+}
 
 func (s *IncidentDumpCallbackStub) OnTransaction(
 	ctx context.Context,

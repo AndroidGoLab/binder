@@ -89,7 +89,6 @@ const (
 	ErrorCodeInvalidIssuerSubject                ErrorCode = -83
 	ErrorCodeBootLevelExceeded                   ErrorCode = -84
 	ErrorCodeHardwareNotYetAvailable             ErrorCode = -85
-	ErrorCodeModuleHashAlreadySet                ErrorCode = -86
 	ErrorCodeUNIMPLEMENTED                       ErrorCode = -100
 	ErrorCodeVersionMismatch                     ErrorCode = -101
 	ErrorCodeUnknownError                        ErrorCode = -1000

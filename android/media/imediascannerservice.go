@@ -16,6 +16,11 @@ const (
 	TransactionIMediaScannerServiceScanFile        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMediaScannerServiceRequestScanFile = "requestScanFile"
+	MethodIMediaScannerServiceScanFile        = "scanFile"
+)
+
 type IMediaScannerService interface {
 	AsBinder() binder.IBinder
 	RequestScanFile(ctx context.Context, path string, mimeType string, listener IMediaScannerListener) error
@@ -23,17 +28,17 @@ type IMediaScannerService interface {
 }
 
 type MediaScannerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaScannerServiceProxy(
 	remote binder.IBinder,
 ) *MediaScannerServiceProxy {
-	return &MediaScannerServiceProxy{remote: remote}
+	return &MediaScannerServiceProxy{Remote: remote}
 }
 
 func (p *MediaScannerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaScannerService = (*MediaScannerServiceProxy)(nil)
@@ -48,14 +53,14 @@ func (p *MediaScannerServiceProxy) RequestScanFile(
 	_data.WriteInterfaceToken(DescriptorIMediaScannerService)
 	_data.WriteString16(path)
 	_data.WriteString16(mimeType)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerService, "requestScanFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaScannerService, MethodIMediaScannerServiceRequestScanFile)
 	if _err != nil {
-		_code = TransactionIMediaScannerServiceRequestScanFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaScannerService, MethodIMediaScannerServiceRequestScanFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +83,12 @@ func (p *MediaScannerServiceProxy) ScanFile(
 	_data.WriteString16(path)
 	_data.WriteString16(mimeType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerService, "scanFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaScannerService, MethodIMediaScannerServiceScanFile)
 	if _err != nil {
-		_code = TransactionIMediaScannerServiceScanFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaScannerService, MethodIMediaScannerServiceScanFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,6 +108,10 @@ type MediaScannerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaScannerServiceStub)(nil)
+
+func (s *MediaScannerServiceStub) Descriptor() string {
+	return DescriptorIMediaScannerService
+}
 
 func (s *MediaScannerServiceStub) OnTransaction(
 	ctx context.Context,

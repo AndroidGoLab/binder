@@ -22,23 +22,9 @@ func (s *NanBootstrappingRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.PeerId)
-	if s.PeerDiscMacAddr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerDiscMacAddr)))
-		for _, _item := range s.PeerDiscMacAddr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerDiscMacAddr, 6)
 	p.WriteInt32(int32(s.RequestBootstrappingMethod))
-	if s.Cookie == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Cookie)))
-		for _, _item := range s.Cookie {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Cookie)
 	p.WriteBool(s.IsComeback)
 	p.WritePaddedByte(s.DiscoverySessionId)
 
@@ -59,19 +45,9 @@ func (s *NanBootstrappingRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerDiscMacAddr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerDiscMacAddr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerDiscMacAddr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_requestBootstrappingMethodRaw, _err := p.ReadInt32()
@@ -80,19 +56,9 @@ func (s *NanBootstrappingRequest) UnmarshalParcel(
 	}
 	s.RequestBootstrappingMethod = NanBootstrappingMethod(_requestBootstrappingMethodRaw)
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Cookie, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Cookie = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Cookie[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.IsComeback, _err = p.ReadBool()

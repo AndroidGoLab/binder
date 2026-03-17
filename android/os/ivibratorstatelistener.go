@@ -15,23 +15,27 @@ const (
 	TransactionIVibratorStateListenerOnVibrating = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVibratorStateListenerOnVibrating = "onVibrating"
+)
+
 type IVibratorStateListener interface {
 	AsBinder() binder.IBinder
 	OnVibrating(ctx context.Context, vibrating bool) error
 }
 
 type VibratorStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorStateListenerProxy(
 	remote binder.IBinder,
 ) *VibratorStateListenerProxy {
-	return &VibratorStateListenerProxy{remote: remote}
+	return &VibratorStateListenerProxy{Remote: remote}
 }
 
 func (p *VibratorStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibratorStateListener = (*VibratorStateListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *VibratorStateListenerProxy) OnVibrating(
 	_data.WriteInterfaceToken(DescriptorIVibratorStateListener)
 	_data.WriteBool(vibrating)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorStateListener, "onVibrating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorStateListener, MethodIVibratorStateListenerOnVibrating)
 	if _err != nil {
-		_code = TransactionIVibratorStateListenerOnVibrating
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorStateListener, MethodIVibratorStateListenerOnVibrating, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type VibratorStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorStateListenerStub)(nil)
+
+func (s *VibratorStateListenerStub) Descriptor() string {
+	return DescriptorIVibratorStateListener
+}
 
 func (s *VibratorStateListenerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIVbiRatingListenerOnVbiRatingChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVbiRatingListenerOnVbiRatingChanged = "onVbiRatingChanged"
+)
+
 type IVbiRatingListener interface {
 	AsBinder() binder.IBinder
 	OnVbiRatingChanged(ctx context.Context, sessionToken string, newTvContentRating string) error
 }
 
 type VbiRatingListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVbiRatingListenerProxy(
 	remote binder.IBinder,
 ) *VbiRatingListenerProxy {
-	return &VbiRatingListenerProxy{remote: remote}
+	return &VbiRatingListenerProxy{Remote: remote}
 }
 
 func (p *VbiRatingListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVbiRatingListener = (*VbiRatingListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *VbiRatingListenerProxy) OnVbiRatingChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteString16(newTvContentRating)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVbiRatingListener, "onVbiRatingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVbiRatingListener, MethodIVbiRatingListenerOnVbiRatingChanged)
 	if _err != nil {
-		_code = TransactionIVbiRatingListenerOnVbiRatingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVbiRatingListener, MethodIVbiRatingListenerOnVbiRatingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type VbiRatingListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VbiRatingListenerStub)(nil)
+
+func (s *VbiRatingListenerStub) Descriptor() string {
+	return DescriptorIVbiRatingListener
+}
 
 func (s *VbiRatingListenerStub) OnTransaction(
 	ctx context.Context,

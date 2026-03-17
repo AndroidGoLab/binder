@@ -15,23 +15,27 @@ const (
 	TransactionIVoldCheckpointListenerOnCheckpointingComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVoldCheckpointListenerOnCheckpointingComplete = "onCheckpointingComplete"
+)
+
 type IVoldCheckpointListener interface {
 	AsBinder() binder.IBinder
 	OnCheckpointingComplete(ctx context.Context) error
 }
 
 type VoldCheckpointListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoldCheckpointListenerProxy(
 	remote binder.IBinder,
 ) *VoldCheckpointListenerProxy {
-	return &VoldCheckpointListenerProxy{remote: remote}
+	return &VoldCheckpointListenerProxy{Remote: remote}
 }
 
 func (p *VoldCheckpointListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoldCheckpointListener = (*VoldCheckpointListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *VoldCheckpointListenerProxy) OnCheckpointingComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoldCheckpointListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoldCheckpointListener, "onCheckpointingComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoldCheckpointListener, MethodIVoldCheckpointListenerOnCheckpointingComplete)
 	if _err != nil {
-		_code = TransactionIVoldCheckpointListenerOnCheckpointingComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoldCheckpointListener, MethodIVoldCheckpointListenerOnCheckpointingComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type VoldCheckpointListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoldCheckpointListenerStub)(nil)
+
+func (s *VoldCheckpointListenerStub) Descriptor() string {
+	return DescriptorIVoldCheckpointListener
+}
 
 func (s *VoldCheckpointListenerStub) OnTransaction(
 	ctx context.Context,

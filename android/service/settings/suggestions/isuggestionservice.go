@@ -17,6 +17,12 @@ const (
 	TransactionISuggestionServiceLaunchSuggestion  = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodISuggestionServiceGetSuggestions    = "getSuggestions"
+	MethodISuggestionServiceDismissSuggestion = "dismissSuggestion"
+	MethodISuggestionServiceLaunchSuggestion  = "launchSuggestion"
+)
+
 type ISuggestionService interface {
 	AsBinder() binder.IBinder
 	GetSuggestions(ctx context.Context) ([]Suggestion, error)
@@ -25,17 +31,17 @@ type ISuggestionService interface {
 }
 
 type SuggestionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSuggestionServiceProxy(
 	remote binder.IBinder,
 ) *SuggestionServiceProxy {
-	return &SuggestionServiceProxy{remote: remote}
+	return &SuggestionServiceProxy{Remote: remote}
 }
 
 func (p *SuggestionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISuggestionService = (*SuggestionServiceProxy)(nil)
@@ -47,12 +53,12 @@ func (p *SuggestionServiceProxy) GetSuggestions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuggestionService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuggestionService, "getSuggestions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuggestionService, MethodISuggestionServiceGetSuggestions)
 	if _err != nil {
-		_code = TransactionISuggestionServiceGetSuggestions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISuggestionService, MethodISuggestionServiceGetSuggestions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,6 +76,9 @@ func (p *SuggestionServiceProxy) GetSuggestions(
 	if _count >= 0 {
 		_result = make([]Suggestion, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -89,12 +98,12 @@ func (p *SuggestionServiceProxy) DismissSuggestion(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuggestionService, "dismissSuggestion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuggestionService, MethodISuggestionServiceDismissSuggestion)
 	if _err != nil {
-		_code = TransactionISuggestionServiceDismissSuggestion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISuggestionService, MethodISuggestionServiceDismissSuggestion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,12 +127,12 @@ func (p *SuggestionServiceProxy) LaunchSuggestion(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuggestionService, "launchSuggestion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuggestionService, MethodISuggestionServiceLaunchSuggestion)
 	if _err != nil {
-		_code = TransactionISuggestionServiceLaunchSuggestion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISuggestionService, MethodISuggestionServiceLaunchSuggestion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,6 +152,10 @@ type SuggestionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SuggestionServiceStub)(nil)
+
+func (s *SuggestionServiceStub) Descriptor() string {
+	return DescriptorISuggestionService
+}
 
 func (s *SuggestionServiceStub) OnTransaction(
 	ctx context.Context,

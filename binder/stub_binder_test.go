@@ -13,6 +13,10 @@ type testReceiver struct {
 	lastCode TransactionCode
 }
 
+func (r *testReceiver) Descriptor() string {
+	return "test.ITestReceiver"
+}
+
 func (r *testReceiver) OnTransaction(
 	_ context.Context,
 	code TransactionCode,

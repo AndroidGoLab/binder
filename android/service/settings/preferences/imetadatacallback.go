@@ -16,6 +16,11 @@ const (
 	TransactionIMetadataCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMetadataCallbackOnSuccess = "onSuccess"
+	MethodIMetadataCallbackOnFailure = "onFailure"
+)
+
 type IMetadataCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result MetadataResult) error
@@ -23,17 +28,17 @@ type IMetadataCallback interface {
 }
 
 type MetadataCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMetadataCallbackProxy(
 	remote binder.IBinder,
 ) *MetadataCallbackProxy {
-	return &MetadataCallbackProxy{remote: remote}
+	return &MetadataCallbackProxy{Remote: remote}
 }
 
 func (p *MetadataCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMetadataCallback = (*MetadataCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *MetadataCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMetadataCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMetadataCallback, MethodIMetadataCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIMetadataCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMetadataCallback, MethodIMetadataCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,12 +69,12 @@ func (p *MetadataCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMetadataCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMetadataCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMetadataCallback, MethodIMetadataCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIMetadataCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMetadataCallback, MethodIMetadataCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,6 +85,10 @@ type MetadataCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MetadataCallbackStub)(nil)
+
+func (s *MetadataCallbackStub) Descriptor() string {
+	return DescriptorIMetadataCallback
+}
 
 func (s *MetadataCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -17,6 +17,12 @@ const (
 	TransactionIRegisterClientArgsGetViewerConfigFile          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRegisterClientArgsGetGroups                    = "getGroups"
+	MethodIRegisterClientArgsGetGroupsDefaultLogcatStatus = "getGroupsDefaultLogcatStatus"
+	MethodIRegisterClientArgsGetViewerConfigFile          = "getViewerConfigFile"
+)
+
 type IRegisterClientArgs interface {
 	AsBinder() binder.IBinder
 	GetGroups(ctx context.Context) ([]string, error)
@@ -25,17 +31,17 @@ type IRegisterClientArgs interface {
 }
 
 type RegisterClientArgsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRegisterClientArgsProxy(
 	remote binder.IBinder,
 ) *RegisterClientArgsProxy {
-	return &RegisterClientArgsProxy{remote: remote}
+	return &RegisterClientArgsProxy{Remote: remote}
 }
 
 func (p *RegisterClientArgsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRegisterClientArgs = (*RegisterClientArgsProxy)(nil)
@@ -47,12 +53,12 @@ func (p *RegisterClientArgsProxy) GetGroups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRegisterClientArgs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegisterClientArgs, "getGroups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegisterClientArgs, MethodIRegisterClientArgsGetGroups)
 	if _err != nil {
-		_code = TransactionIRegisterClientArgsGetGroups
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRegisterClientArgs, MethodIRegisterClientArgsGetGroups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +92,12 @@ func (p *RegisterClientArgsProxy) GetGroupsDefaultLogcatStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRegisterClientArgs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegisterClientArgs, "getGroupsDefaultLogcatStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegisterClientArgs, MethodIRegisterClientArgsGetGroupsDefaultLogcatStatus)
 	if _err != nil {
-		_code = TransactionIRegisterClientArgsGetGroupsDefaultLogcatStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRegisterClientArgs, MethodIRegisterClientArgsGetGroupsDefaultLogcatStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,12 +131,12 @@ func (p *RegisterClientArgsProxy) GetViewerConfigFile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRegisterClientArgs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRegisterClientArgs, "getViewerConfigFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRegisterClientArgs, MethodIRegisterClientArgsGetViewerConfigFile)
 	if _err != nil {
-		_code = TransactionIRegisterClientArgsGetViewerConfigFile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRegisterClientArgs, MethodIRegisterClientArgsGetViewerConfigFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -154,6 +160,10 @@ type RegisterClientArgsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RegisterClientArgsStub)(nil)
+
+func (s *RegisterClientArgsStub) Descriptor() string {
+	return DescriptorIRegisterClientArgs
+}
 
 func (s *RegisterClientArgsStub) OnTransaction(
 	ctx context.Context,

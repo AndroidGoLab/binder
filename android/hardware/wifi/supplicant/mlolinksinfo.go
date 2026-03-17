@@ -23,20 +23,14 @@ func (s *MloLinksInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Links)))
 		for _, _item := range s.Links {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 	p.WriteInt32(s.ApMloLinkId)
-	if s.ApMldMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ApMldMacAddress)))
-		for _, _item := range s.ApMldMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.ApMldMacAddress, 6)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -58,6 +52,9 @@ func (s *MloLinksInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Links = make([]MloLink, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Links[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -69,19 +66,9 @@ func (s *MloLinksInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ApMldMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ApMldMacAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ApMldMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

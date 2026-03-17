@@ -16,6 +16,11 @@ const (
 	TransactionIAidlStuffCall      = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAidlStuffCallLocal = "callLocal"
+	MethodIAidlStuffCall      = "call"
+)
+
 type IAidlStuff interface {
 	AsBinder() binder.IBinder
 	CallLocal(ctx context.Context) error
@@ -23,17 +28,17 @@ type IAidlStuff interface {
 }
 
 type AidlStuffProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAidlStuffProxy(
 	remote binder.IBinder,
 ) *AidlStuffProxy {
-	return &AidlStuffProxy{remote: remote}
+	return &AidlStuffProxy{Remote: remote}
 }
 
 func (p *AidlStuffProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAidlStuff = (*AidlStuffProxy)(nil)
@@ -44,12 +49,12 @@ func (p *AidlStuffProxy) CallLocal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlStuff)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlStuff, "callLocal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlStuff, MethodIAidlStuffCallLocal)
 	if _err != nil {
-		_code = TransactionIAidlStuffCallLocal
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlStuff, MethodIAidlStuffCallLocal, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *AidlStuffProxy) Call(
 	_data.WriteInterfaceToken(DescriptorIAidlStuff)
 	_data.WriteInt32(idx)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlStuff, "call")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlStuff, MethodIAidlStuffCall)
 	if _err != nil {
-		_code = TransactionIAidlStuffCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlStuff, MethodIAidlStuffCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +100,10 @@ type AidlStuffStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AidlStuffStub)(nil)
+
+func (s *AidlStuffStub) Descriptor() string {
+	return DescriptorIAidlStuff
+}
 
 func (s *AidlStuffStub) OnTransaction(
 	ctx context.Context,

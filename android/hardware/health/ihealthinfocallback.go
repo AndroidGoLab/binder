@@ -15,23 +15,27 @@ const (
 	TransactionIHealthInfoCallbackHealthInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHealthInfoCallbackHealthInfoChanged = "healthInfoChanged"
+)
+
 type IHealthInfoCallback interface {
 	AsBinder() binder.IBinder
 	HealthInfoChanged(ctx context.Context, info HealthInfo) error
 }
 
 type HealthInfoCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHealthInfoCallbackProxy(
 	remote binder.IBinder,
 ) *HealthInfoCallbackProxy {
-	return &HealthInfoCallbackProxy{remote: remote}
+	return &HealthInfoCallbackProxy{Remote: remote}
 }
 
 func (p *HealthInfoCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHealthInfoCallback = (*HealthInfoCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *HealthInfoCallbackProxy) HealthInfoChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHealthInfoCallback, "healthInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHealthInfoCallback, MethodIHealthInfoCallbackHealthInfoChanged)
 	if _err != nil {
-		_code = TransactionIHealthInfoCallbackHealthInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHealthInfoCallback, MethodIHealthInfoCallbackHealthInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type HealthInfoCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HealthInfoCallbackStub)(nil)
+
+func (s *HealthInfoCallbackStub) Descriptor() string {
+	return DescriptorIHealthInfoCallback
+}
 
 func (s *HealthInfoCallbackStub) OnTransaction(
 	ctx context.Context,

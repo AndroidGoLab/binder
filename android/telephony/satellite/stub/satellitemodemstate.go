@@ -11,7 +11,7 @@ const (
 	SatelliteModemStateSatelliteModemStateDatagramRetrying     SatelliteModemState = 3
 	SatelliteModemStateSatelliteModemStateOff                  SatelliteModemState = 4
 	SatelliteModemStateSatelliteModemStateUnavailable          SatelliteModemState = 5
-	SatelliteModemStateSatelliteModemStateOutOfService         SatelliteModemState = 6
-	SatelliteModemStateSatelliteModemStateInService            SatelliteModemState = 7
+	SatelliteModemStateSatelliteModemStateNotConnected         SatelliteModemState = 6
+	SatelliteModemStateSatelliteModemStateConnected            SatelliteModemState = 7
 	SatelliteModemStateSatelliteModemStateUnknown              SatelliteModemState = -1
 )

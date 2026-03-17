@@ -27,9 +27,6 @@ type NanCapabilities struct {
 	SupportsPairing                     bool
 	SupportsSetClusterId                bool
 	SupportsSuspension                  bool
-	SupportsPeriodicRanging             bool
-	MaxSupportedBandwidth               RttBw
-	MaxNumRxChainsSupported             int32
 }
 
 var _ parcel.Parcelable = (*NanCapabilities)(nil)
@@ -58,9 +55,6 @@ func (s *NanCapabilities) MarshalParcel(
 	p.WriteBool(s.SupportsPairing)
 	p.WriteBool(s.SupportsSetClusterId)
 	p.WriteBool(s.SupportsSuspension)
-	p.WriteBool(s.SupportsPeriodicRanging)
-	p.WriteInt32(int32(s.MaxSupportedBandwidth))
-	p.WriteInt32(s.MaxNumRxChainsSupported)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -170,22 +164,6 @@ func (s *NanCapabilities) UnmarshalParcel(
 	}
 
 	s.SupportsSuspension, _err = p.ReadBool()
-	if _err != nil {
-		return _err
-	}
-
-	s.SupportsPeriodicRanging, _err = p.ReadBool()
-	if _err != nil {
-		return _err
-	}
-
-	_maxSupportedBandwidthRaw, _err := p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	s.MaxSupportedBandwidth = RttBw(_maxSupportedBandwidthRaw)
-
-	s.MaxNumRxChainsSupported, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}

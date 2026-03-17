@@ -15,23 +15,27 @@ const (
 	TransactionIRecoverySystemProgressListenerOnProgress = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRecoverySystemProgressListenerOnProgress = "onProgress"
+)
+
 type IRecoverySystemProgressListener interface {
 	AsBinder() binder.IBinder
 	OnProgress(ctx context.Context, progress int32) error
 }
 
 type RecoverySystemProgressListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecoverySystemProgressListenerProxy(
 	remote binder.IBinder,
 ) *RecoverySystemProgressListenerProxy {
-	return &RecoverySystemProgressListenerProxy{remote: remote}
+	return &RecoverySystemProgressListenerProxy{Remote: remote}
 }
 
 func (p *RecoverySystemProgressListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecoverySystemProgressListener = (*RecoverySystemProgressListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *RecoverySystemProgressListenerProxy) OnProgress(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystemProgressListener)
 	_data.WriteInt32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecoverySystemProgressListener, "onProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecoverySystemProgressListener, MethodIRecoverySystemProgressListenerOnProgress)
 	if _err != nil {
-		_code = TransactionIRecoverySystemProgressListenerOnProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecoverySystemProgressListener, MethodIRecoverySystemProgressListenerOnProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RecoverySystemProgressListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecoverySystemProgressListenerStub)(nil)
+
+func (s *RecoverySystemProgressListenerStub) Descriptor() string {
+	return DescriptorIRecoverySystemProgressListener
+}
 
 func (s *RecoverySystemProgressListenerStub) OnTransaction(
 	ctx context.Context,

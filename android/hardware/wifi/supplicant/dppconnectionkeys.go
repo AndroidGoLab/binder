@@ -18,30 +18,9 @@ func (s *DppConnectionKeys) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Connector == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Connector)))
-		for _, _item := range s.Connector {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.CSign == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CSign)))
-		for _, _item := range s.CSign {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.NetAccessKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.NetAccessKey)))
-		for _, _item := range s.NetAccessKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Connector)
+	p.WriteByteArray(s.CSign)
+	p.WriteByteArray(s.NetAccessKey)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -55,49 +34,19 @@ func (s *DppConnectionKeys) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Connector, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Connector = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Connector[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.CSign, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.CSign = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.CSign[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.NetAccessKey, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.NetAccessKey = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.NetAccessKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

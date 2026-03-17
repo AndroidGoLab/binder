@@ -18,6 +18,11 @@ const (
 	TransactionIMusicRecognitionServiceCallbackOnRecognitionFailed    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMusicRecognitionServiceCallbackOnRecognitionSucceeded = "onRecognitionSucceeded"
+	MethodIMusicRecognitionServiceCallbackOnRecognitionFailed    = "onRecognitionFailed"
+)
+
 type IMusicRecognitionServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnRecognitionSucceeded(ctx context.Context, result media.MediaMetadata, extras os.Bundle) error
@@ -25,17 +30,17 @@ type IMusicRecognitionServiceCallback interface {
 }
 
 type MusicRecognitionServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMusicRecognitionServiceCallbackProxy(
 	remote binder.IBinder,
 ) *MusicRecognitionServiceCallbackProxy {
-	return &MusicRecognitionServiceCallbackProxy{remote: remote}
+	return &MusicRecognitionServiceCallbackProxy{Remote: remote}
 }
 
 func (p *MusicRecognitionServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMusicRecognitionServiceCallback = (*MusicRecognitionServiceCallbackProxy)(nil)
@@ -56,12 +61,12 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionSucceeded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionServiceCallback, "onRecognitionSucceeded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionSucceeded)
 	if _err != nil {
-		_code = TransactionIMusicRecognitionServiceCallbackOnRecognitionSucceeded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionSucceeded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +78,12 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionFailed(
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionServiceCallback)
 	_data.WriteInt32(failureCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionServiceCallback, "onRecognitionFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionFailed)
 	if _err != nil {
-		_code = TransactionIMusicRecognitionServiceCallbackOnRecognitionFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMusicRecognitionServiceCallback, MethodIMusicRecognitionServiceCallbackOnRecognitionFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,6 +94,10 @@ type MusicRecognitionServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionServiceCallbackStub)(nil)
+
+func (s *MusicRecognitionServiceCallbackStub) Descriptor() string {
+	return DescriptorIMusicRecognitionServiceCallback
+}
 
 func (s *MusicRecognitionServiceCallbackStub) OnTransaction(
 	ctx context.Context,

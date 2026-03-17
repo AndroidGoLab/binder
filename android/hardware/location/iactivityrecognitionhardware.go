@@ -21,6 +21,16 @@ const (
 	TransactionIActivityRecognitionHardwareFlush                  = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIActivityRecognitionHardwareGetSupportedActivities = "getSupportedActivities"
+	MethodIActivityRecognitionHardwareIsActivitySupported    = "isActivitySupported"
+	MethodIActivityRecognitionHardwareRegisterSink           = "registerSink"
+	MethodIActivityRecognitionHardwareUnregisterSink         = "unregisterSink"
+	MethodIActivityRecognitionHardwareEnableActivityEvent    = "enableActivityEvent"
+	MethodIActivityRecognitionHardwareDisableActivityEvent   = "disableActivityEvent"
+	MethodIActivityRecognitionHardwareFlush                  = "flush"
+)
+
 type IActivityRecognitionHardware interface {
 	AsBinder() binder.IBinder
 	GetSupportedActivities(ctx context.Context) ([]string, error)
@@ -33,17 +43,17 @@ type IActivityRecognitionHardware interface {
 }
 
 type ActivityRecognitionHardwareProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityRecognitionHardwareProxy(
 	remote binder.IBinder,
 ) *ActivityRecognitionHardwareProxy {
-	return &ActivityRecognitionHardwareProxy{remote: remote}
+	return &ActivityRecognitionHardwareProxy{Remote: remote}
 }
 
 func (p *ActivityRecognitionHardwareProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityRecognitionHardware = (*ActivityRecognitionHardwareProxy)(nil)
@@ -55,12 +65,12 @@ func (p *ActivityRecognitionHardwareProxy) GetSupportedActivities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "getSupportedActivities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareGetSupportedActivities)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareGetSupportedActivities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareGetSupportedActivities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -96,12 +106,12 @@ func (p *ActivityRecognitionHardwareProxy) IsActivitySupported(
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteString16(activityType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "isActivitySupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareIsActivitySupported)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareIsActivitySupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareIsActivitySupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,14 +135,14 @@ func (p *ActivityRecognitionHardwareProxy) RegisterSink(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "registerSink")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareRegisterSink)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareRegisterSink
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareRegisterSink, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,14 +166,14 @@ func (p *ActivityRecognitionHardwareProxy) UnregisterSink(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
-	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "unregisterSink")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareUnregisterSink)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareUnregisterSink
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareUnregisterSink, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -193,12 +203,12 @@ func (p *ActivityRecognitionHardwareProxy) EnableActivityEvent(
 	_data.WriteInt32(eventType)
 	_data.WriteInt64(reportLatencyNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "enableActivityEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareEnableActivityEvent)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareEnableActivityEvent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareEnableActivityEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -226,12 +236,12 @@ func (p *ActivityRecognitionHardwareProxy) DisableActivityEvent(
 	_data.WriteString16(activityType)
 	_data.WriteInt32(eventType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "disableActivityEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareDisableActivityEvent)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareDisableActivityEvent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareDisableActivityEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -255,12 +265,12 @@ func (p *ActivityRecognitionHardwareProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareFlush)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareFlush
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardware, MethodIActivityRecognitionHardwareFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -284,6 +294,10 @@ type ActivityRecognitionHardwareStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareStub)(nil)
+
+func (s *ActivityRecognitionHardwareStub) Descriptor() string {
+	return DescriptorIActivityRecognitionHardware
+}
 
 func (s *ActivityRecognitionHardwareStub) OnTransaction(
 	ctx context.Context,

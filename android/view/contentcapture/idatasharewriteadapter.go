@@ -18,6 +18,13 @@ const (
 	TransactionIDataShareWriteAdapterFinish   = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDataShareWriteAdapterWrite    = "write"
+	MethodIDataShareWriteAdapterError    = "error"
+	MethodIDataShareWriteAdapterRejected = "rejected"
+	MethodIDataShareWriteAdapterFinish   = "finish"
+)
+
 type IDataShareWriteAdapter interface {
 	AsBinder() binder.IBinder
 	Write(ctx context.Context, destination int32) error
@@ -27,17 +34,17 @@ type IDataShareWriteAdapter interface {
 }
 
 type DataShareWriteAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataShareWriteAdapterProxy(
 	remote binder.IBinder,
 ) *DataShareWriteAdapterProxy {
-	return &DataShareWriteAdapterProxy{remote: remote}
+	return &DataShareWriteAdapterProxy{Remote: remote}
 }
 
 func (p *DataShareWriteAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataShareWriteAdapter = (*DataShareWriteAdapterProxy)(nil)
@@ -50,12 +57,12 @@ func (p *DataShareWriteAdapterProxy) Write(
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 	_data.WriteFileDescriptor(destination)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterWrite)
 	if _err != nil {
-		_code = TransactionIDataShareWriteAdapterWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterWrite, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *DataShareWriteAdapterProxy) Error(
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "error")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterError)
 	if _err != nil {
-		_code = TransactionIDataShareWriteAdapterError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +89,12 @@ func (p *DataShareWriteAdapterProxy) Rejected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "rejected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterRejected)
 	if _err != nil {
-		_code = TransactionIDataShareWriteAdapterRejected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterRejected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +104,12 @@ func (p *DataShareWriteAdapterProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterFinish)
 	if _err != nil {
-		_code = TransactionIDataShareWriteAdapterFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataShareWriteAdapter, MethodIDataShareWriteAdapterFinish, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +120,10 @@ type DataShareWriteAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataShareWriteAdapterStub)(nil)
+
+func (s *DataShareWriteAdapterStub) Descriptor() string {
+	return DescriptorIDataShareWriteAdapter
+}
 
 func (s *DataShareWriteAdapterStub) OnTransaction(
 	ctx context.Context,

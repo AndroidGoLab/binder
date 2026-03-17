@@ -26,6 +26,20 @@ const (
 	TransactionIAidlGraphicBufferSourceSignalEndOfInputStream        = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIAidlGraphicBufferSourceConfigure                     = "configure"
+	MethodIAidlGraphicBufferSourceSetSuspend                    = "setSuspend"
+	MethodIAidlGraphicBufferSourceSetRepeatPreviousFrameDelayUs = "setRepeatPreviousFrameDelayUs"
+	MethodIAidlGraphicBufferSourceSetMaxFps                     = "setMaxFps"
+	MethodIAidlGraphicBufferSourceSetTimeLapseConfig            = "setTimeLapseConfig"
+	MethodIAidlGraphicBufferSourceSetStartTimeUs                = "setStartTimeUs"
+	MethodIAidlGraphicBufferSourceSetStopTimeUs                 = "setStopTimeUs"
+	MethodIAidlGraphicBufferSourceGetStopTimeOffsetUs           = "getStopTimeOffsetUs"
+	MethodIAidlGraphicBufferSourceSetColorAspects               = "setColorAspects"
+	MethodIAidlGraphicBufferSourceSetTimeOffsetUs               = "setTimeOffsetUs"
+	MethodIAidlGraphicBufferSourceSignalEndOfInputStream        = "signalEndOfInputStream"
+)
+
 type IAidlGraphicBufferSource interface {
 	AsBinder() binder.IBinder
 	Configure(ctx context.Context, node IAidlNode, dataSpace common.Dataspace) error
@@ -42,17 +56,17 @@ type IAidlGraphicBufferSource interface {
 }
 
 type AidlGraphicBufferSourceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAidlGraphicBufferSourceProxy(
 	remote binder.IBinder,
 ) *AidlGraphicBufferSourceProxy {
-	return &AidlGraphicBufferSourceProxy{remote: remote}
+	return &AidlGraphicBufferSourceProxy{Remote: remote}
 }
 
 func (p *AidlGraphicBufferSourceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAidlGraphicBufferSource = (*AidlGraphicBufferSourceProxy)(nil)
@@ -64,15 +78,15 @@ func (p *AidlGraphicBufferSourceProxy) Configure(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
-	binder.WriteBinderToParcel(ctx, _data, node.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, node.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(int32(dataSpace))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceConfigure)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,12 +109,12 @@ func (p *AidlGraphicBufferSourceProxy) SetSuspend(
 	_data.WriteBool(suspend)
 	_data.WriteInt64(suspendTimeUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setSuspend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetSuspend)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetSuspend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetSuspend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,12 +135,12 @@ func (p *AidlGraphicBufferSourceProxy) SetRepeatPreviousFrameDelayUs(
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 	_data.WriteInt64(repeatAfterUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setRepeatPreviousFrameDelayUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetRepeatPreviousFrameDelayUs)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetRepeatPreviousFrameDelayUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetRepeatPreviousFrameDelayUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -147,12 +161,12 @@ func (p *AidlGraphicBufferSourceProxy) SetMaxFps(
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 	_data.WriteFloat32(maxFps)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setMaxFps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetMaxFps)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetMaxFps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetMaxFps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -175,12 +189,12 @@ func (p *AidlGraphicBufferSourceProxy) SetTimeLapseConfig(
 	_data.WriteFloat64(fps)
 	_data.WriteFloat64(captureFps)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setTimeLapseConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetTimeLapseConfig)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetTimeLapseConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetTimeLapseConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -201,12 +215,12 @@ func (p *AidlGraphicBufferSourceProxy) SetStartTimeUs(
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 	_data.WriteInt64(startTimeUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setStartTimeUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetStartTimeUs)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetStartTimeUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetStartTimeUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,12 +241,12 @@ func (p *AidlGraphicBufferSourceProxy) SetStopTimeUs(
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 	_data.WriteInt64(stopTimeUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setStopTimeUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetStopTimeUs)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetStopTimeUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetStopTimeUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -252,12 +266,12 @@ func (p *AidlGraphicBufferSourceProxy) GetStopTimeOffsetUs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "getStopTimeOffsetUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceGetStopTimeOffsetUs)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceGetStopTimeOffsetUs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceGetStopTimeOffsetUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -285,12 +299,12 @@ func (p *AidlGraphicBufferSourceProxy) SetColorAspects(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setColorAspects")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetColorAspects)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetColorAspects
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetColorAspects, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -311,12 +325,12 @@ func (p *AidlGraphicBufferSourceProxy) SetTimeOffsetUs(
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 	_data.WriteInt64(timeOffsetsUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setTimeOffsetUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetTimeOffsetUs)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSetTimeOffsetUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSetTimeOffsetUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -335,12 +349,12 @@ func (p *AidlGraphicBufferSourceProxy) SignalEndOfInputStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlGraphicBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "signalEndOfInputStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSignalEndOfInputStream)
 	if _err != nil {
-		_code = TransactionIAidlGraphicBufferSourceSignalEndOfInputStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAidlGraphicBufferSource, MethodIAidlGraphicBufferSourceSignalEndOfInputStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -360,6 +374,10 @@ type AidlGraphicBufferSourceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AidlGraphicBufferSourceStub)(nil)
+
+func (s *AidlGraphicBufferSourceStub) Descriptor() string {
+	return DescriptorIAidlGraphicBufferSource
+}
 
 func (s *AidlGraphicBufferSourceStub) OnTransaction(
 	ctx context.Context,

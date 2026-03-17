@@ -31,6 +31,7 @@ func (s *Capabilities) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.OperandPerformance)))
 		for _, _item := range s.OperandPerformance {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -71,6 +72,9 @@ func (s *Capabilities) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.OperandPerformance = make([]OperandPerformance, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.OperandPerformance[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

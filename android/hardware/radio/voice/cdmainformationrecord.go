@@ -44,6 +44,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Display)))
 		for _, _item := range s.Display {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -54,6 +55,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Number)))
 		for _, _item := range s.Number {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -64,6 +66,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Signal)))
 		for _, _item := range s.Signal {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -74,6 +77,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Redir)))
 		for _, _item := range s.Redir {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -84,6 +88,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.LineCtrl)))
 		for _, _item := range s.LineCtrl {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -94,6 +99,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Clir)))
 		for _, _item := range s.Clir {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -104,6 +110,7 @@ func (s *CdmaInformationRecord) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.AudioCtrl)))
 		for _, _item := range s.AudioCtrl {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -135,6 +142,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Display = make([]CdmaDisplayInfoRecord, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Display[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -149,6 +159,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Number = make([]CdmaNumberInfoRecord, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Number[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -163,6 +176,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Signal = make([]CdmaSignalInfoRecord, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Signal[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -177,6 +193,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.Redir = make([]CdmaRedirectingNumberInfoRecord, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Redir[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -191,6 +210,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.LineCtrl = make([]CdmaLineControlInfoRecord, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.LineCtrl[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -205,6 +227,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count5 >= 0 {
 		s.Clir = make([]CdmaT53ClirInfoRecord, _count5)
 		for _i := int32(0); _i < _count5; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Clir[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -219,6 +244,9 @@ func (s *CdmaInformationRecord) UnmarshalParcel(
 	if _count6 >= 0 {
 		s.AudioCtrl = make([]CdmaT53AudioControlInfoRecord, _count6)
 		for _i := int32(0); _i < _count6; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AudioCtrl[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

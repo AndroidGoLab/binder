@@ -15,23 +15,27 @@ const (
 	TransactionICloseHandleClose = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICloseHandleClose = "close"
+)
+
 type ICloseHandle interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
 }
 
 type CloseHandleProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCloseHandleProxy(
 	remote binder.IBinder,
 ) *CloseHandleProxy {
-	return &CloseHandleProxy{remote: remote}
+	return &CloseHandleProxy{Remote: remote}
 }
 
 func (p *CloseHandleProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICloseHandle = (*CloseHandleProxy)(nil)
@@ -42,12 +46,12 @@ func (p *CloseHandleProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICloseHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICloseHandle, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICloseHandle, MethodICloseHandleClose)
 	if _err != nil {
-		_code = TransactionICloseHandleClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICloseHandle, MethodICloseHandleClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type CloseHandleStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CloseHandleStub)(nil)
+
+func (s *CloseHandleStub) Descriptor() string {
+	return DescriptorICloseHandle
+}
 
 func (s *CloseHandleStub) OnTransaction(
 	ctx context.Context,

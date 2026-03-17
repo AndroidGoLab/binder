@@ -17,6 +17,11 @@ const (
 	TransactionIBluetoothProfileServiceConnectionOnServiceDisconnected = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothProfileServiceConnectionOnServiceConnected    = "onServiceConnected"
+	MethodIBluetoothProfileServiceConnectionOnServiceDisconnected = "onServiceDisconnected"
+)
+
 type IBluetoothProfileServiceConnection interface {
 	AsBinder() binder.IBinder
 	OnServiceConnected(ctx context.Context, comp content.ComponentName, service binder.IBinder) error
@@ -24,17 +29,17 @@ type IBluetoothProfileServiceConnection interface {
 }
 
 type BluetoothProfileServiceConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothProfileServiceConnectionProxy(
 	remote binder.IBinder,
 ) *BluetoothProfileServiceConnectionProxy {
-	return &BluetoothProfileServiceConnectionProxy{remote: remote}
+	return &BluetoothProfileServiceConnectionProxy{Remote: remote}
 }
 
 func (p *BluetoothProfileServiceConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothProfileServiceConnection = (*BluetoothProfileServiceConnectionProxy)(nil)
@@ -50,14 +55,14 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceConnected(
 	if _err := comp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, service, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, service, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothProfileServiceConnection, "onServiceConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceConnected)
 	if _err != nil {
-		_code = TransactionIBluetoothProfileServiceConnectionOnServiceConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +77,12 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceDisconnected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothProfileServiceConnection, "onServiceDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceDisconnected)
 	if _err != nil {
-		_code = TransactionIBluetoothProfileServiceConnectionOnServiceDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothProfileServiceConnection, MethodIBluetoothProfileServiceConnectionOnServiceDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +93,10 @@ type BluetoothProfileServiceConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothProfileServiceConnectionStub)(nil)
+
+func (s *BluetoothProfileServiceConnectionStub) Descriptor() string {
+	return DescriptorIBluetoothProfileServiceConnection
+}
 
 func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 	ctx context.Context,

@@ -94,14 +94,3 @@ func TestSmoke_RemoteMagnificationAnimationCallbackProxy(t *testing.T) {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)
 	}
 }
-
-func TestSmoke_UserInitializationCompleteCallbackProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewUserInitializationCompleteCallbackProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("UserInitializationCompleteCallbackProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}

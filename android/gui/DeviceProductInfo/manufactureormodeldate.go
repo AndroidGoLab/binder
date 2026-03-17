@@ -75,14 +75,17 @@ func (u *ManufactureOrModelDate) MarshalParcel(
 
 	switch u.Tag {
 	case ManufactureOrModelDateTagModelYear:
+		p.WriteInt32(1)
 		if _err := u.ModelYear.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ManufactureOrModelDateTagManufactureYear:
+		p.WriteInt32(1)
 		if _err := u.ManufactureYear.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ManufactureOrModelDateTagManufactureWeekAndYear:
+		p.WriteInt32(1)
 		if _err := u.ManufactureWeekAndYear.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -109,14 +112,23 @@ func (u *ManufactureOrModelDate) UnmarshalParcel(
 
 	switch u.Tag {
 	case ManufactureOrModelDateTagModelYear:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ModelYear.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ManufactureOrModelDateTagManufactureYear:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ManufactureYear.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ManufactureOrModelDateTagManufactureWeekAndYear:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ManufactureWeekAndYear.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

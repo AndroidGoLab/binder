@@ -22,6 +22,16 @@ const (
 	TransactionIStreamCommonRemoveEffect        = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIStreamCommonClose               = "close"
+	MethodIStreamCommonPrepareToClose      = "prepareToClose"
+	MethodIStreamCommonUpdateHwAvSyncId    = "updateHwAvSyncId"
+	MethodIStreamCommonGetVendorParameters = "getVendorParameters"
+	MethodIStreamCommonSetVendorParameters = "setVendorParameters"
+	MethodIStreamCommonAddEffect           = "addEffect"
+	MethodIStreamCommonRemoveEffect        = "removeEffect"
+)
+
 type IStreamCommon interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
@@ -34,17 +44,17 @@ type IStreamCommon interface {
 }
 
 type StreamCommonProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamCommonProxy(
 	remote binder.IBinder,
 ) *StreamCommonProxy {
-	return &StreamCommonProxy{remote: remote}
+	return &StreamCommonProxy{Remote: remote}
 }
 
 func (p *StreamCommonProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamCommon = (*StreamCommonProxy)(nil)
@@ -55,12 +65,12 @@ func (p *StreamCommonProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonClose)
 	if _err != nil {
-		_code = TransactionIStreamCommonClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,12 +89,12 @@ func (p *StreamCommonProxy) PrepareToClose(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "prepareToClose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonPrepareToClose)
 	if _err != nil {
-		_code = TransactionIStreamCommonPrepareToClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonPrepareToClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,12 +115,12 @@ func (p *StreamCommonProxy) UpdateHwAvSyncId(
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
 	_data.WriteInt32(hwAvSyncId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "updateHwAvSyncId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonUpdateHwAvSyncId)
 	if _err != nil {
-		_code = TransactionIStreamCommonUpdateHwAvSyncId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonUpdateHwAvSyncId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,12 +149,12 @@ func (p *StreamCommonProxy) GetVendorParameters(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "getVendorParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonGetVendorParameters)
 	if _err != nil {
-		_code = TransactionIStreamCommonGetVendorParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonGetVendorParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,6 +172,9 @@ func (p *StreamCommonProxy) GetVendorParameters(
 	if _count >= 0 {
 		_result = make([]VendorParameter, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -182,6 +195,7 @@ func (p *StreamCommonProxy) SetVendorParameters(
 	} else {
 		_data.WriteInt32(int32(len(parameters)))
 		for _, _item := range parameters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -189,12 +203,12 @@ func (p *StreamCommonProxy) SetVendorParameters(
 	}
 	_data.WriteBool(async)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "setVendorParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonSetVendorParameters)
 	if _err != nil {
-		_code = TransactionIStreamCommonSetVendorParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonSetVendorParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -213,14 +227,14 @@ func (p *StreamCommonProxy) AddEffect(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "addEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonAddEffect)
 	if _err != nil {
-		_code = TransactionIStreamCommonAddEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonAddEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -239,14 +253,14 @@ func (p *StreamCommonProxy) RemoveEffect(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
-	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, effect.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "removeEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCommon, MethodIStreamCommonRemoveEffect)
 	if _err != nil {
-		_code = TransactionIStreamCommonRemoveEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCommon, MethodIStreamCommonRemoveEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -266,6 +280,10 @@ type StreamCommonStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamCommonStub)(nil)
+
+func (s *StreamCommonStub) Descriptor() string {
+	return DescriptorIStreamCommon
+}
 
 func (s *StreamCommonStub) OnTransaction(
 	ctx context.Context,

@@ -44,6 +44,7 @@ func (s *SatelliteCapabilities) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.AntennaPositionValues)))
 		for _, _item := range s.AntennaPositionValues {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -111,6 +112,9 @@ func (s *SatelliteCapabilities) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.AntennaPositionValues = make([]satellite.AntennaPosition, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AntennaPositionValues[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

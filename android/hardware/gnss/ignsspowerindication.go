@@ -16,6 +16,11 @@ const (
 	TransactionIGnssPowerIndicationRequestGnssPowerStats = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssPowerIndicationSetCallback           = "setCallback"
+	MethodIGnssPowerIndicationRequestGnssPowerStats = "requestGnssPowerStats"
+)
+
 type IGnssPowerIndication interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssPowerIndicationCallback) error
@@ -23,17 +28,17 @@ type IGnssPowerIndication interface {
 }
 
 type GnssPowerIndicationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssPowerIndicationProxy(
 	remote binder.IBinder,
 ) *GnssPowerIndicationProxy {
-	return &GnssPowerIndicationProxy{remote: remote}
+	return &GnssPowerIndicationProxy{Remote: remote}
 }
 
 func (p *GnssPowerIndicationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssPowerIndication = (*GnssPowerIndicationProxy)(nil)
@@ -44,14 +49,14 @@ func (p *GnssPowerIndicationProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndication)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssPowerIndication, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPowerIndication, MethodIGnssPowerIndicationSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssPowerIndicationSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssPowerIndication, MethodIGnssPowerIndicationSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *GnssPowerIndicationProxy) RequestGnssPowerStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndication)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssPowerIndication, "requestGnssPowerStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssPowerIndication, MethodIGnssPowerIndicationRequestGnssPowerStats)
 	if _err != nil {
-		_code = TransactionIGnssPowerIndicationRequestGnssPowerStats
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssPowerIndication, MethodIGnssPowerIndicationRequestGnssPowerStats, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +91,10 @@ type GnssPowerIndicationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssPowerIndicationStub)(nil)
+
+func (s *GnssPowerIndicationStub) Descriptor() string {
+	return DescriptorIGnssPowerIndication
+}
 
 func (s *GnssPowerIndicationStub) OnTransaction(
 	ctx context.Context,

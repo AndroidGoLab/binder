@@ -77,10 +77,12 @@ func (u *Qos) MarshalParcel(
 	case QosTagNoinit:
 		p.WriteBool(u.Noinit)
 	case QosTagEps:
+		p.WriteInt32(1)
 		if _err := u.Eps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case QosTagNr:
+		p.WriteInt32(1)
 		if _err := u.Nr.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -112,10 +114,16 @@ func (u *Qos) UnmarshalParcel(
 			return _err
 		}
 	case QosTagEps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Eps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case QosTagNr:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Nr.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

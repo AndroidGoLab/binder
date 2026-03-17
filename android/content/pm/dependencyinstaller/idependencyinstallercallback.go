@@ -16,6 +16,11 @@ const (
 	TransactionIDependencyInstallerCallbackOnFailureToResolveAllDependencies = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDependencyInstallerCallbackOnAllDependenciesResolved         = "onAllDependenciesResolved"
+	MethodIDependencyInstallerCallbackOnFailureToResolveAllDependencies = "onFailureToResolveAllDependencies"
+)
+
 type IDependencyInstallerCallback interface {
 	AsBinder() binder.IBinder
 	OnAllDependenciesResolved(ctx context.Context, sessionIds []int32) error
@@ -23,17 +28,17 @@ type IDependencyInstallerCallback interface {
 }
 
 type DependencyInstallerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDependencyInstallerCallbackProxy(
 	remote binder.IBinder,
 ) *DependencyInstallerCallbackProxy {
-	return &DependencyInstallerCallbackProxy{remote: remote}
+	return &DependencyInstallerCallbackProxy{Remote: remote}
 }
 
 func (p *DependencyInstallerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDependencyInstallerCallback = (*DependencyInstallerCallbackProxy)(nil)
@@ -53,12 +58,12 @@ func (p *DependencyInstallerCallbackProxy) OnAllDependenciesResolved(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDependencyInstallerCallback, "onAllDependenciesResolved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDependencyInstallerCallback, MethodIDependencyInstallerCallbackOnAllDependenciesResolved)
 	if _err != nil {
-		_code = TransactionIDependencyInstallerCallbackOnAllDependenciesResolved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDependencyInstallerCallback, MethodIDependencyInstallerCallbackOnAllDependenciesResolved, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +82,12 @@ func (p *DependencyInstallerCallbackProxy) OnFailureToResolveAllDependencies(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDependencyInstallerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDependencyInstallerCallback, "onFailureToResolveAllDependencies")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDependencyInstallerCallback, MethodIDependencyInstallerCallbackOnFailureToResolveAllDependencies)
 	if _err != nil {
-		_code = TransactionIDependencyInstallerCallbackOnFailureToResolveAllDependencies
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDependencyInstallerCallback, MethodIDependencyInstallerCallbackOnFailureToResolveAllDependencies, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,6 +107,10 @@ type DependencyInstallerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DependencyInstallerCallbackStub)(nil)
+
+func (s *DependencyInstallerCallbackStub) Descriptor() string {
+	return DescriptorIDependencyInstallerCallback
+}
 
 func (s *DependencyInstallerCallbackStub) OnTransaction(
 	ctx context.Context,

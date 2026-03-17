@@ -15,23 +15,27 @@ const (
 	TransactionISignificantPlaceProviderManagerSetInSignificantPlace = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISignificantPlaceProviderManagerSetInSignificantPlace = "setInSignificantPlace"
+)
+
 type ISignificantPlaceProviderManager interface {
 	AsBinder() binder.IBinder
 	SetInSignificantPlace(ctx context.Context, inSignificantPlace bool) error
 }
 
 type SignificantPlaceProviderManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSignificantPlaceProviderManagerProxy(
 	remote binder.IBinder,
 ) *SignificantPlaceProviderManagerProxy {
-	return &SignificantPlaceProviderManagerProxy{remote: remote}
+	return &SignificantPlaceProviderManagerProxy{Remote: remote}
 }
 
 func (p *SignificantPlaceProviderManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISignificantPlaceProviderManager = (*SignificantPlaceProviderManagerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SignificantPlaceProviderManagerProxy) SetInSignificantPlace(
 	_data.WriteInterfaceToken(DescriptorISignificantPlaceProviderManager)
 	_data.WriteBool(inSignificantPlace)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISignificantPlaceProviderManager, "setInSignificantPlace")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISignificantPlaceProviderManager, MethodISignificantPlaceProviderManagerSetInSignificantPlace)
 	if _err != nil {
-		_code = TransactionISignificantPlaceProviderManagerSetInSignificantPlace
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISignificantPlaceProviderManager, MethodISignificantPlaceProviderManagerSetInSignificantPlace, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type SignificantPlaceProviderManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SignificantPlaceProviderManagerStub)(nil)
+
+func (s *SignificantPlaceProviderManagerStub) Descriptor() string {
+	return DescriptorISignificantPlaceProviderManager
+}
 
 func (s *SignificantPlaceProviderManagerStub) OnTransaction(
 	ctx context.Context,

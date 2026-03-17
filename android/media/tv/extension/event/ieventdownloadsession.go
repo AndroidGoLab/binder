@@ -22,6 +22,15 @@ const (
 	TransactionIEventDownloadSessionRelease                                     = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceType   = "isBarkerOrSequentialDownloadByServiceType"
+	MethodIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceRecord = "isBarkerOrSequentialDownloadByServiceRecord"
+	MethodIEventDownloadSessionStartTuningMultiplex                        = "startTuningMultiplex"
+	MethodIEventDownloadSessionSetActiveWindowChannelInfo                  = "setActiveWindowChannelInfo"
+	MethodIEventDownloadSessionCancel                                      = "cancel"
+	MethodIEventDownloadSessionRelease                                     = "release"
+)
+
 type IEventDownloadSession interface {
 	AsBinder() binder.IBinder
 	IsBarkerOrSequentialDownloadByServiceType(ctx context.Context, eventDownloadParams os.Bundle) (int32, error)
@@ -33,17 +42,17 @@ type IEventDownloadSession interface {
 }
 
 type EventDownloadSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventDownloadSessionProxy(
 	remote binder.IBinder,
 ) *EventDownloadSessionProxy {
-	return &EventDownloadSessionProxy{remote: remote}
+	return &EventDownloadSessionProxy{Remote: remote}
 }
 
 func (p *EventDownloadSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventDownloadSession = (*EventDownloadSessionProxy)(nil)
@@ -60,12 +69,12 @@ func (p *EventDownloadSessionProxy) IsBarkerOrSequentialDownloadByServiceType(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "isBarkerOrSequentialDownloadByServiceType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadSession, MethodIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceType)
 	if _err != nil {
-		_code = TransactionIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadSession, MethodIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,12 +103,12 @@ func (p *EventDownloadSessionProxy) IsBarkerOrSequentialDownloadByServiceRecord(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "isBarkerOrSequentialDownloadByServiceRecord")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadSession, MethodIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceRecord)
 	if _err != nil {
-		_code = TransactionIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceRecord
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadSession, MethodIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceRecord, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,12 +136,12 @@ func (p *EventDownloadSessionProxy) StartTuningMultiplex(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "startTuningMultiplex")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadSession, MethodIEventDownloadSessionStartTuningMultiplex)
 	if _err != nil {
-		_code = TransactionIEventDownloadSessionStartTuningMultiplex
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadSession, MethodIEventDownloadSessionStartTuningMultiplex, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -156,18 +165,19 @@ func (p *EventDownloadSessionProxy) SetActiveWindowChannelInfo(
 	} else {
 		_data.WriteInt32(int32(len(activeWinChannelInfos)))
 		for _, _item := range activeWinChannelInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "setActiveWindowChannelInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadSession, MethodIEventDownloadSessionSetActiveWindowChannelInfo)
 	if _err != nil {
-		_code = TransactionIEventDownloadSessionSetActiveWindowChannelInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadSession, MethodIEventDownloadSessionSetActiveWindowChannelInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -186,12 +196,12 @@ func (p *EventDownloadSessionProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownloadSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadSession, MethodIEventDownloadSessionCancel)
 	if _err != nil {
-		_code = TransactionIEventDownloadSessionCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadSession, MethodIEventDownloadSessionCancel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -210,12 +220,12 @@ func (p *EventDownloadSessionProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownloadSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventDownloadSession, MethodIEventDownloadSessionRelease)
 	if _err != nil {
-		_code = TransactionIEventDownloadSessionRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventDownloadSession, MethodIEventDownloadSessionRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -235,6 +245,10 @@ type EventDownloadSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventDownloadSessionStub)(nil)
+
+func (s *EventDownloadSessionStub) Descriptor() string {
+	return DescriptorIEventDownloadSession
+}
 
 func (s *EventDownloadSessionStub) OnTransaction(
 	ctx context.Context,

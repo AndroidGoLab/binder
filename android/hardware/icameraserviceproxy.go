@@ -12,36 +12,42 @@ import (
 const DescriptorICameraServiceProxy = "android.hardware.ICameraServiceProxy"
 
 const (
-	TransactionICameraServiceProxyPingForUserUpdate             = binder.FirstCallTransaction + 0
-	TransactionICameraServiceProxyNotifyCameraState             = binder.FirstCallTransaction + 1
-	TransactionICameraServiceProxyNotifyFeatureCombinationStats = binder.FirstCallTransaction + 2
-	TransactionICameraServiceProxyGetRotateAndCropOverride      = binder.FirstCallTransaction + 3
-	TransactionICameraServiceProxyGetAutoframingOverride        = binder.FirstCallTransaction + 4
-	TransactionICameraServiceProxyIsCameraDisabled              = binder.FirstCallTransaction + 5
+	TransactionICameraServiceProxyPingForUserUpdate        = binder.FirstCallTransaction + 0
+	TransactionICameraServiceProxyNotifyCameraState        = binder.FirstCallTransaction + 1
+	TransactionICameraServiceProxyGetRotateAndCropOverride = binder.FirstCallTransaction + 2
+	TransactionICameraServiceProxyGetAutoframingOverride   = binder.FirstCallTransaction + 3
+	TransactionICameraServiceProxyIsCameraDisabled         = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodICameraServiceProxyPingForUserUpdate        = "pingForUserUpdate"
+	MethodICameraServiceProxyNotifyCameraState        = "notifyCameraState"
+	MethodICameraServiceProxyGetRotateAndCropOverride = "getRotateAndCropOverride"
+	MethodICameraServiceProxyGetAutoframingOverride   = "getAutoframingOverride"
+	MethodICameraServiceProxyIsCameraDisabled         = "isCameraDisabled"
 )
 
 type ICameraServiceProxy interface {
 	AsBinder() binder.IBinder
 	PingForUserUpdate(ctx context.Context) error
 	NotifyCameraState(ctx context.Context, cameraSessionStats interface{}) error
-	NotifyFeatureCombinationStats(ctx context.Context, cameraFeatureCombinationStats CameraFeatureCombinationStats) error
 	GetRotateAndCropOverride(ctx context.Context, packageName string, lensFacing int32) (int32, error)
 	GetAutoframingOverride(ctx context.Context, packageName string) (int32, error)
 	IsCameraDisabled(ctx context.Context) (bool, error)
 }
 
 type CameraServiceProxyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraServiceProxyProxy(
 	remote binder.IBinder,
 ) *CameraServiceProxyProxy {
-	return &CameraServiceProxyProxy{remote: remote}
+	return &CameraServiceProxyProxy{Remote: remote}
 }
 
 func (p *CameraServiceProxyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraServiceProxy = (*CameraServiceProxyProxy)(nil)
@@ -52,12 +58,12 @@ func (p *CameraServiceProxyProxy) PingForUserUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "pingForUserUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyPingForUserUpdate)
 	if _err != nil {
-		_code = TransactionICameraServiceProxyPingForUserUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceProxy, MethodICameraServiceProxyPingForUserUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,32 +74,12 @@ func (p *CameraServiceProxyProxy) NotifyCameraState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "notifyCameraState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyNotifyCameraState)
 	if _err != nil {
-		_code = TransactionICameraServiceProxyNotifyCameraState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceProxy, MethodICameraServiceProxyNotifyCameraState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *CameraServiceProxyProxy) NotifyFeatureCombinationStats(
-	ctx context.Context,
-	cameraFeatureCombinationStats CameraFeatureCombinationStats,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
-	_data.WriteInt32(1)
-	if _err := cameraFeatureCombinationStats.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "notifyFeatureCombinationStats")
-	if _err != nil {
-		_code = TransactionICameraServiceProxyNotifyFeatureCombinationStats
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,19 +89,19 @@ func (p *CameraServiceProxyProxy) GetRotateAndCropOverride(
 	lensFacing int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(lensFacing)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "getRotateAndCropOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyGetRotateAndCropOverride)
 	if _err != nil {
-		_code = TransactionICameraServiceProxyGetRotateAndCropOverride
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceProxy, MethodICameraServiceProxyGetRotateAndCropOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,12 +127,12 @@ func (p *CameraServiceProxyProxy) GetAutoframingOverride(
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "getAutoframingOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyGetAutoframingOverride)
 	if _err != nil {
-		_code = TransactionICameraServiceProxyGetAutoframingOverride
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceProxy, MethodICameraServiceProxyGetAutoframingOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,17 +153,17 @@ func (p *CameraServiceProxyProxy) IsCameraDisabled(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraServiceProxy)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "isCameraDisabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraServiceProxy, MethodICameraServiceProxyIsCameraDisabled)
 	if _err != nil {
-		_code = TransactionICameraServiceProxyIsCameraDisabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraServiceProxy, MethodICameraServiceProxyIsCameraDisabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,6 +188,10 @@ type CameraServiceProxyStub struct {
 
 var _ binder.TransactionReceiver = (*CameraServiceProxyStub)(nil)
 
+func (s *CameraServiceProxyStub) Descriptor() string {
+	return DescriptorICameraServiceProxy
+}
+
 func (s *CameraServiceProxyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -221,25 +211,6 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		}
 		var _arg_cameraSessionStats interface{}
 		_err := s.Impl.NotifyCameraState(ctx, _arg_cameraSessionStats)
-		_ = _err
-		return nil, nil
-	case TransactionICameraServiceProxyNotifyFeatureCombinationStats:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_cameraFeatureCombinationStats CameraFeatureCombinationStats
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_cameraFeatureCombinationStats.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.NotifyFeatureCombinationStats(ctx, _arg_cameraFeatureCombinationStats)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceProxyGetRotateAndCropOverride:
@@ -310,7 +281,6 @@ func (s *CameraServiceProxyStub) OnTransaction(
 type ICameraServiceProxyServer interface {
 	PingForUserUpdate(ctx context.Context) error
 	NotifyCameraState(ctx context.Context, cameraSessionStats interface{}) error
-	NotifyFeatureCombinationStats(ctx context.Context, cameraFeatureCombinationStats CameraFeatureCombinationStats) error
 	GetRotateAndCropOverride(ctx context.Context, packageName string, lensFacing int32) (int32, error)
 	GetAutoframingOverride(ctx context.Context, packageName string) (int32, error)
 	IsCameraDisabled(ctx context.Context) (bool, error)
@@ -336,13 +306,6 @@ func (w *cameraServiceProxyStubWrapper) NotifyCameraState(
 	cameraSessionStats interface{},
 ) error {
 	return w.impl.NotifyCameraState(ctx, cameraSessionStats)
-}
-
-func (w *cameraServiceProxyStubWrapper) NotifyFeatureCombinationStats(
-	ctx context.Context,
-	cameraFeatureCombinationStats CameraFeatureCombinationStats,
-) error {
-	return w.impl.NotifyFeatureCombinationStats(ctx, cameraFeatureCombinationStats)
 }
 
 func (w *cameraServiceProxyStubWrapper) GetRotateAndCropOverride(

@@ -16,7 +16,13 @@ const (
 	TransactionIBluetoothChannelSoundingGetSupportedSessionTypes       = binder.FirstCallTransaction + 1
 	TransactionIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel = binder.FirstCallTransaction + 2
 	TransactionIBluetoothChannelSoundingOpenSession                    = binder.FirstCallTransaction + 3
-	TransactionIBluetoothChannelSoundingGetSupportedCsSecurityLevels   = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodIBluetoothChannelSoundingGetVendorSpecificData          = "getVendorSpecificData"
+	MethodIBluetoothChannelSoundingGetSupportedSessionTypes       = "getSupportedSessionTypes"
+	MethodIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel = "getMaxSupportedCsSecurityLevel"
+	MethodIBluetoothChannelSoundingOpenSession                    = "openSession"
 )
 
 type IBluetoothChannelSounding interface {
@@ -25,21 +31,20 @@ type IBluetoothChannelSounding interface {
 	GetSupportedSessionTypes(ctx context.Context) ([]SessionType, error)
 	GetMaxSupportedCsSecurityLevel(ctx context.Context) (CsSecurityLevel, error)
 	OpenSession(ctx context.Context, params BluetoothChannelSoundingParameters, callback IBluetoothChannelSoundingSessionCallback) (IBluetoothChannelSoundingSession, error)
-	GetSupportedCsSecurityLevels(ctx context.Context) ([]CsSecurityLevel, error)
 }
 
 type BluetoothChannelSoundingProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothChannelSoundingProxy(
 	remote binder.IBinder,
 ) *BluetoothChannelSoundingProxy {
-	return &BluetoothChannelSoundingProxy{remote: remote}
+	return &BluetoothChannelSoundingProxy{Remote: remote}
 }
 
 func (p *BluetoothChannelSoundingProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothChannelSounding = (*BluetoothChannelSoundingProxy)(nil)
@@ -51,12 +56,12 @@ func (p *BluetoothChannelSoundingProxy) GetVendorSpecificData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getVendorSpecificData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetVendorSpecificData)
 	if _err != nil {
-		_code = TransactionIBluetoothChannelSoundingGetVendorSpecificData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetVendorSpecificData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +79,9 @@ func (p *BluetoothChannelSoundingProxy) GetVendorSpecificData(
 	if _count >= 0 {
 		_result = make([]VendorSpecificData, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -89,12 +97,12 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedSessionTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getSupportedSessionTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetSupportedSessionTypes)
 	if _err != nil {
-		_code = TransactionIBluetoothChannelSoundingGetSupportedSessionTypes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetSupportedSessionTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,12 +137,12 @@ func (p *BluetoothChannelSoundingProxy) GetMaxSupportedCsSecurityLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getMaxSupportedCsSecurityLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel)
 	if _err != nil {
-		_code = TransactionIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,14 +172,14 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "openSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingOpenSession)
 	if _err != nil {
-		_code = TransactionIBluetoothChannelSoundingOpenSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothChannelSounding, MethodIBluetoothChannelSoundingOpenSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -185,47 +193,7 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBluetoothChannelSoundingSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
-	return _result, nil
-}
-
-func (p *BluetoothChannelSoundingProxy) GetSupportedCsSecurityLevels(
-	ctx context.Context,
-) ([]CsSecurityLevel, error) {
-	var _result []CsSecurityLevel
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getSupportedCsSecurityLevels")
-	if _err != nil {
-		_code = TransactionIBluetoothChannelSoundingGetSupportedCsSecurityLevels
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]CsSecurityLevel, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_raw, _err := _reply.ReadInt32()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_i] = CsSecurityLevel(_raw)
-		}
-	}
+	_result = NewBluetoothChannelSoundingSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -236,6 +204,10 @@ type BluetoothChannelSoundingStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothChannelSoundingStub)(nil)
+
+func (s *BluetoothChannelSoundingStub) Descriptor() string {
+	return DescriptorIBluetoothChannelSounding
+}
 
 func (s *BluetoothChannelSoundingStub) OnTransaction(
 	ctx context.Context,
@@ -313,20 +285,6 @@ func (s *BluetoothChannelSoundingStub) OnTransaction(
 		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
-	case TransactionIBluetoothChannelSoundingGetSupportedCsSecurityLevels:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetSupportedCsSecurityLevels(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -340,7 +298,6 @@ type IBluetoothChannelSoundingServer interface {
 	GetSupportedSessionTypes(ctx context.Context) ([]SessionType, error)
 	GetMaxSupportedCsSecurityLevel(ctx context.Context) (CsSecurityLevel, error)
 	OpenSession(ctx context.Context, params BluetoothChannelSoundingParameters, callback IBluetoothChannelSoundingSessionCallback) (IBluetoothChannelSoundingSession, error)
-	GetSupportedCsSecurityLevels(ctx context.Context) ([]CsSecurityLevel, error)
 }
 
 type bluetoothChannelSoundingStubWrapper struct {
@@ -376,12 +333,6 @@ func (w *bluetoothChannelSoundingStubWrapper) OpenSession(
 	callback IBluetoothChannelSoundingSessionCallback,
 ) (IBluetoothChannelSoundingSession, error) {
 	return w.impl.OpenSession(ctx, params, callback)
-}
-
-func (w *bluetoothChannelSoundingStubWrapper) GetSupportedCsSecurityLevels(
-	ctx context.Context,
-) ([]CsSecurityLevel, error) {
-	return w.impl.GetSupportedCsSecurityLevels(ctx)
 }
 
 var _ IBluetoothChannelSounding = (*bluetoothChannelSoundingStubWrapper)(nil)

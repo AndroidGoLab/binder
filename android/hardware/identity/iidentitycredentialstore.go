@@ -20,6 +20,14 @@ const (
 	TransactionIIdentityCredentialStoreGetRemotelyProvisionedComponent = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIIdentityCredentialStoreGetHardwareInformation          = "getHardwareInformation"
+	MethodIIdentityCredentialStoreCreateCredential                = "createCredential"
+	MethodIIdentityCredentialStoreGetCredential                   = "getCredential"
+	MethodIIdentityCredentialStoreCreatePresentationSession       = "createPresentationSession"
+	MethodIIdentityCredentialStoreGetRemotelyProvisionedComponent = "getRemotelyProvisionedComponent"
+)
+
 type IIdentityCredentialStore interface {
 	AsBinder() binder.IBinder
 	GetHardwareInformation(ctx context.Context) (HardwareInformation, error)
@@ -46,17 +54,17 @@ const (
 )
 
 type IdentityCredentialStoreProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIdentityCredentialStoreProxy(
 	remote binder.IBinder,
 ) *IdentityCredentialStoreProxy {
-	return &IdentityCredentialStoreProxy{remote: remote}
+	return &IdentityCredentialStoreProxy{Remote: remote}
 }
 
 func (p *IdentityCredentialStoreProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIdentityCredentialStore = (*IdentityCredentialStoreProxy)(nil)
@@ -68,12 +76,12 @@ func (p *IdentityCredentialStoreProxy) GetHardwareInformation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getHardwareInformation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetHardwareInformation)
 	if _err != nil {
-		_code = TransactionIIdentityCredentialStoreGetHardwareInformation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetHardwareInformation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,12 +114,12 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 	_data.WriteString16(docType)
 	_data.WriteBool(testCredential)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "createCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreateCredential)
 	if _err != nil {
-		_code = TransactionIIdentityCredentialStoreCreateCredential
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreateCredential, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,7 +133,7 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWritableIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewWritableIdentityCredentialProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -147,12 +155,12 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetCredential)
 	if _err != nil {
-		_code = TransactionIIdentityCredentialStoreGetCredential
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetCredential, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,7 +174,7 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewIdentityCredentialProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -179,12 +187,12 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 	_data.WriteInt32(int32(cipherSuite))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "createPresentationSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreatePresentationSession)
 	if _err != nil {
-		_code = TransactionIIdentityCredentialStoreCreatePresentationSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreCreatePresentationSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -198,7 +206,7 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPresentationSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewPresentationSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -209,12 +217,12 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getRemotelyProvisionedComponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetRemotelyProvisionedComponent)
 	if _err != nil {
-		_code = TransactionIIdentityCredentialStoreGetRemotelyProvisionedComponent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIdentityCredentialStore, MethodIIdentityCredentialStoreGetRemotelyProvisionedComponent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,7 +236,7 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = keymint.NewRemotelyProvisionedComponentProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = keymint.NewRemotelyProvisionedComponentProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -239,6 +247,10 @@ type IdentityCredentialStoreStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IdentityCredentialStoreStub)(nil)
+
+func (s *IdentityCredentialStoreStub) Descriptor() string {
+	return DescriptorIIdentityCredentialStore
+}
 
 func (s *IdentityCredentialStoreStub) OnTransaction(
 	ctx context.Context,

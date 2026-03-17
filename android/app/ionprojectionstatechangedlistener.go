@@ -15,23 +15,27 @@ const (
 	TransactionIOnProjectionStateChangedListenerOnProjectionStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnProjectionStateChangedListenerOnProjectionStateChanged = "onProjectionStateChanged"
+)
+
 type IOnProjectionStateChangedListener interface {
 	AsBinder() binder.IBinder
 	OnProjectionStateChanged(ctx context.Context, activeProjectionTypes int32, projectingPackages []string) error
 }
 
 type OnProjectionStateChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnProjectionStateChangedListenerProxy(
 	remote binder.IBinder,
 ) *OnProjectionStateChangedListenerProxy {
-	return &OnProjectionStateChangedListenerProxy{remote: remote}
+	return &OnProjectionStateChangedListenerProxy{Remote: remote}
 }
 
 func (p *OnProjectionStateChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnProjectionStateChangedListener = (*OnProjectionStateChangedListenerProxy)(nil)
@@ -53,12 +57,12 @@ func (p *OnProjectionStateChangedListenerProxy) OnProjectionStateChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnProjectionStateChangedListener, "onProjectionStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnProjectionStateChangedListener, MethodIOnProjectionStateChangedListenerOnProjectionStateChanged)
 	if _err != nil {
-		_code = TransactionIOnProjectionStateChangedListenerOnProjectionStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnProjectionStateChangedListener, MethodIOnProjectionStateChangedListenerOnProjectionStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type OnProjectionStateChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnProjectionStateChangedListenerStub)(nil)
+
+func (s *OnProjectionStateChangedListenerStub) Descriptor() string {
+	return DescriptorIOnProjectionStateChangedListener
+}
 
 func (s *OnProjectionStateChangedListenerStub) OnTransaction(
 	ctx context.Context,

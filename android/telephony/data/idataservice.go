@@ -29,6 +29,23 @@ const (
 	TransactionIDataServiceRequestNetworkValidation         = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodIDataServiceCreateDataServiceProvider        = "createDataServiceProvider"
+	MethodIDataServiceRemoveDataServiceProvider        = "removeDataServiceProvider"
+	MethodIDataServiceSetupDataCall                    = "setupDataCall"
+	MethodIDataServiceDeactivateDataCall               = "deactivateDataCall"
+	MethodIDataServiceSetInitialAttachApn              = "setInitialAttachApn"
+	MethodIDataServiceSetDataProfile                   = "setDataProfile"
+	MethodIDataServiceRequestDataCallList              = "requestDataCallList"
+	MethodIDataServiceRegisterForDataCallListChanged   = "registerForDataCallListChanged"
+	MethodIDataServiceUnregisterForDataCallListChanged = "unregisterForDataCallListChanged"
+	MethodIDataServiceStartHandover                    = "startHandover"
+	MethodIDataServiceCancelHandover                   = "cancelHandover"
+	MethodIDataServiceRegisterForUnthrottleApn         = "registerForUnthrottleApn"
+	MethodIDataServiceUnregisterForUnthrottleApn       = "unregisterForUnthrottleApn"
+	MethodIDataServiceRequestNetworkValidation         = "requestNetworkValidation"
+)
+
 type IDataService interface {
 	AsBinder() binder.IBinder
 	CreateDataServiceProvider(ctx context.Context, slotId int32) error
@@ -48,17 +65,17 @@ type IDataService interface {
 }
 
 type DataServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataServiceProxy(
 	remote binder.IBinder,
 ) *DataServiceProxy {
-	return &DataServiceProxy{remote: remote}
+	return &DataServiceProxy{Remote: remote}
 }
 
 func (p *DataServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataService = (*DataServiceProxy)(nil)
@@ -71,12 +88,12 @@ func (p *DataServiceProxy) CreateDataServiceProvider(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "createDataServiceProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceCreateDataServiceProvider)
 	if _err != nil {
-		_code = TransactionIDataServiceCreateDataServiceProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceCreateDataServiceProvider, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +105,12 @@ func (p *DataServiceProxy) RemoveDataServiceProvider(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "removeDataServiceProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRemoveDataServiceProvider)
 	if _err != nil {
-		_code = TransactionIDataServiceRemoveDataServiceProvider
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceRemoveDataServiceProvider, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,14 +150,14 @@ func (p *DataServiceProxy) SetupDataCall(
 		return _err
 	}
 	_data.WriteBool(matchAllRuleAllowed)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "setupDataCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceSetupDataCall)
 	if _err != nil {
-		_code = TransactionIDataServiceSetupDataCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceSetupDataCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,14 +173,14 @@ func (p *DataServiceProxy) DeactivateDataCall(
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
 	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "deactivateDataCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceDeactivateDataCall)
 	if _err != nil {
-		_code = TransactionIDataServiceDeactivateDataCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceDeactivateDataCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -182,14 +199,14 @@ func (p *DataServiceProxy) SetInitialAttachApn(
 		return _err
 	}
 	_data.WriteBool(isRoaming)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "setInitialAttachApn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceSetInitialAttachApn)
 	if _err != nil {
-		_code = TransactionIDataServiceSetInitialAttachApn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceSetInitialAttachApn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -208,20 +225,21 @@ func (p *DataServiceProxy) SetDataProfile(
 	} else {
 		_data.WriteInt32(int32(len(dps)))
 		for _, _item := range dps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 	_data.WriteBool(isRoaming)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "setDataProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceSetDataProfile)
 	if _err != nil {
-		_code = TransactionIDataServiceSetDataProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceSetDataProfile, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -233,14 +251,14 @@ func (p *DataServiceProxy) RequestDataCallList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "requestDataCallList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRequestDataCallList)
 	if _err != nil {
-		_code = TransactionIDataServiceRequestDataCallList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceRequestDataCallList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -252,14 +270,14 @@ func (p *DataServiceProxy) RegisterForDataCallListChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "registerForDataCallListChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRegisterForDataCallListChanged)
 	if _err != nil {
-		_code = TransactionIDataServiceRegisterForDataCallListChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceRegisterForDataCallListChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -271,14 +289,14 @@ func (p *DataServiceProxy) UnregisterForDataCallListChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "unregisterForDataCallListChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceUnregisterForDataCallListChanged)
 	if _err != nil {
-		_code = TransactionIDataServiceUnregisterForDataCallListChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceUnregisterForDataCallListChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -292,14 +310,14 @@ func (p *DataServiceProxy) StartHandover(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "startHandover")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceStartHandover)
 	if _err != nil {
-		_code = TransactionIDataServiceStartHandover
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceStartHandover, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -313,14 +331,14 @@ func (p *DataServiceProxy) CancelHandover(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "cancelHandover")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceCancelHandover)
 	if _err != nil {
-		_code = TransactionIDataServiceCancelHandover
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceCancelHandover, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -332,14 +350,14 @@ func (p *DataServiceProxy) RegisterForUnthrottleApn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotIndex)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "registerForUnthrottleApn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRegisterForUnthrottleApn)
 	if _err != nil {
-		_code = TransactionIDataServiceRegisterForUnthrottleApn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceRegisterForUnthrottleApn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -351,14 +369,14 @@ func (p *DataServiceProxy) UnregisterForUnthrottleApn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotIndex)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "unregisterForUnthrottleApn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceUnregisterForUnthrottleApn)
 	if _err != nil {
-		_code = TransactionIDataServiceUnregisterForUnthrottleApn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceUnregisterForUnthrottleApn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -372,14 +390,14 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(cid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "requestNetworkValidation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataService, MethodIDataServiceRequestNetworkValidation)
 	if _err != nil {
-		_code = TransactionIDataServiceRequestNetworkValidation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataService, MethodIDataServiceRequestNetworkValidation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -390,6 +408,10 @@ type DataServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataServiceStub)(nil)
+
+func (s *DataServiceStub) Descriptor() string {
+	return DescriptorIDataService
+}
 
 func (s *DataServiceStub) OnTransaction(
 	ctx context.Context,

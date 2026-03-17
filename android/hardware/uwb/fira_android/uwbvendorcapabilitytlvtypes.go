@@ -6,8 +6,6 @@ type UwbVendorCapabilityTlvTypes int32
 
 const (
 	UwbVendorCapabilityTlvTypesSupportedPowerStatsQuery                   UwbVendorCapabilityTlvTypes = 192
-	UwbVendorCapabilityTlvTypesSupportedAntennaModes                      UwbVendorCapabilityTlvTypes = 193
-	UwbVendorCapabilityTlvTypesSupportedMaxSessionCount                   UwbVendorCapabilityTlvTypes = 235
 	UwbVendorCapabilityTlvTypesCccSupportedChapsPerSlot                   UwbVendorCapabilityTlvTypes = 160
 	UwbVendorCapabilityTlvTypesCccSupportedSyncCodes                      UwbVendorCapabilityTlvTypes = 161
 	UwbVendorCapabilityTlvTypesCccSupportedHoppingConfigModesAndSequences UwbVendorCapabilityTlvTypes = 162

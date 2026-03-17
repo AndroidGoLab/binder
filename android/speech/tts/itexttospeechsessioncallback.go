@@ -17,6 +17,12 @@ const (
 	TransactionITextToSpeechSessionCallbackOnError        = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITextToSpeechSessionCallbackOnConnected    = "onConnected"
+	MethodITextToSpeechSessionCallbackOnDisconnected = "onDisconnected"
+	MethodITextToSpeechSessionCallbackOnError        = "onError"
+)
+
 type ITextToSpeechSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context, session ITextToSpeechSession, serviceBinder binder.IBinder) error
@@ -25,17 +31,17 @@ type ITextToSpeechSessionCallback interface {
 }
 
 type TextToSpeechSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextToSpeechSessionCallbackProxy(
 	remote binder.IBinder,
 ) *TextToSpeechSessionCallbackProxy {
-	return &TextToSpeechSessionCallbackProxy{remote: remote}
+	return &TextToSpeechSessionCallbackProxy{Remote: remote}
 }
 
 func (p *TextToSpeechSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextToSpeechSessionCallback = (*TextToSpeechSessionCallbackProxy)(nil)
@@ -47,15 +53,15 @@ func (p *TextToSpeechSessionCallbackProxy) OnConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
-	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, serviceBinder, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, session.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, serviceBinder, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSessionCallback, "onConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnConnected)
 	if _err != nil {
-		_code = TransactionITextToSpeechSessionCallbackOnConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *TextToSpeechSessionCallbackProxy) OnDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSessionCallback, "onDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnDisconnected)
 	if _err != nil {
-		_code = TransactionITextToSpeechSessionCallbackOnDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +88,12 @@ func (p *TextToSpeechSessionCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSessionCallback)
 	_data.WriteString16(errorInfo)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSessionCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnError)
 	if _err != nil {
-		_code = TransactionITextToSpeechSessionCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechSessionCallback, MethodITextToSpeechSessionCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +104,10 @@ type TextToSpeechSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechSessionCallbackStub)(nil)
+
+func (s *TextToSpeechSessionCallbackStub) Descriptor() string {
+	return DescriptorITextToSpeechSessionCallback
+}
 
 func (s *TextToSpeechSessionCallbackStub) OnTransaction(
 	ctx context.Context,

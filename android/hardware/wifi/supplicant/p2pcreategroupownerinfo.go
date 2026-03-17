@@ -11,7 +11,6 @@ type P2pCreateGroupOwnerInfo struct {
 	Persistent          bool
 	PersistentNetworkId int32
 	VendorData          []common.OuiKeyedData
-	IsP2pV2             bool
 }
 
 var _ parcel.Parcelable = (*P2pCreateGroupOwnerInfo)(nil)
@@ -27,12 +26,12 @@ func (s *P2pCreateGroupOwnerInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	p.WriteBool(s.IsP2pV2)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -64,15 +63,13 @@ func (s *P2pCreateGroupOwnerInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	s.IsP2pV2, _err = p.ReadBool()
-	if _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

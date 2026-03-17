@@ -50,6 +50,7 @@ type VersionAwareTransport interface {
 	// Returns an error if the method does not exist on the device's
 	// API level/revision.
 	ResolveCode(
+		ctx context.Context,
 		descriptor string,
 		method string,
 	) (TransactionCode, error)

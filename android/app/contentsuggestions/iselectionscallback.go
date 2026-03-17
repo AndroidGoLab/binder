@@ -15,23 +15,27 @@ const (
 	TransactionISelectionsCallbackOnContentSelectionsAvailable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISelectionsCallbackOnContentSelectionsAvailable = "onContentSelectionsAvailable"
+)
+
 type ISelectionsCallback interface {
 	AsBinder() binder.IBinder
 	OnContentSelectionsAvailable(ctx context.Context, statusCode int32, selections []ContentSelection) error
 }
 
 type SelectionsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSelectionsCallbackProxy(
 	remote binder.IBinder,
 ) *SelectionsCallbackProxy {
-	return &SelectionsCallbackProxy{remote: remote}
+	return &SelectionsCallbackProxy{Remote: remote}
 }
 
 func (p *SelectionsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISelectionsCallback = (*SelectionsCallbackProxy)(nil)
@@ -49,18 +53,19 @@ func (p *SelectionsCallbackProxy) OnContentSelectionsAvailable(
 	} else {
 		_data.WriteInt32(int32(len(selections)))
 		for _, _item := range selections {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISelectionsCallback, "onContentSelectionsAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISelectionsCallback, MethodISelectionsCallbackOnContentSelectionsAvailable)
 	if _err != nil {
-		_code = TransactionISelectionsCallbackOnContentSelectionsAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISelectionsCallback, MethodISelectionsCallbackOnContentSelectionsAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +76,10 @@ type SelectionsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SelectionsCallbackStub)(nil)
+
+func (s *SelectionsCallbackStub) Descriptor() string {
+	return DescriptorISelectionsCallback
+}
 
 func (s *SelectionsCallbackStub) OnTransaction(
 	ctx context.Context,

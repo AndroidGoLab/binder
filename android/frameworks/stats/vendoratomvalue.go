@@ -266,14 +266,7 @@ func (u *VendorAtomValue) MarshalParcel(
 			}
 		}
 	case VendorAtomValueTagByteArrayValue:
-		if u.ByteArrayValue == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.ByteArrayValue)))
-			for _, _item := range u.ByteArrayValue {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.ByteArrayValue)
 	default:
 		return fmt.Errorf("unknown union tag %d for VendorAtomValue", u.Tag)
 	}
@@ -403,19 +396,9 @@ func (u *VendorAtomValue) UnmarshalParcel(
 		}
 	case VendorAtomValueTagByteArrayValue:
 
-		var _count5 int32
-		_count5, _err = p.ReadInt32()
+		u.ByteArrayValue, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count5 >= 0 {
-			u.ByteArrayValue = make([]byte, _count5)
-			for _i := int32(0); _i < _count5; _i++ {
-				u.ByteArrayValue[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for VendorAtomValue", u.Tag)

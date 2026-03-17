@@ -15,23 +15,27 @@ const (
 	TransactionIFocusTransitionListenerOnFocusedDisplayChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFocusTransitionListenerOnFocusedDisplayChanged = "onFocusedDisplayChanged"
+)
+
 type IFocusTransitionListener interface {
 	AsBinder() binder.IBinder
 	OnFocusedDisplayChanged(ctx context.Context, displayId int32) error
 }
 
 type FocusTransitionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFocusTransitionListenerProxy(
 	remote binder.IBinder,
 ) *FocusTransitionListenerProxy {
-	return &FocusTransitionListenerProxy{remote: remote}
+	return &FocusTransitionListenerProxy{Remote: remote}
 }
 
 func (p *FocusTransitionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFocusTransitionListener = (*FocusTransitionListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *FocusTransitionListenerProxy) OnFocusedDisplayChanged(
 	_data.WriteInterfaceToken(DescriptorIFocusTransitionListener)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFocusTransitionListener, "onFocusedDisplayChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFocusTransitionListener, MethodIFocusTransitionListenerOnFocusedDisplayChanged)
 	if _err != nil {
-		_code = TransactionIFocusTransitionListenerOnFocusedDisplayChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFocusTransitionListener, MethodIFocusTransitionListenerOnFocusedDisplayChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type FocusTransitionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FocusTransitionListenerStub)(nil)
+
+func (s *FocusTransitionListenerStub) Descriptor() string {
+	return DescriptorIFocusTransitionListener
+}
 
 func (s *FocusTransitionListenerStub) OnTransaction(
 	ctx context.Context,

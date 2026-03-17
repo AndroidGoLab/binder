@@ -21,6 +21,16 @@ const (
 	TransactionIGnssConfigurationSetBlocklist                  = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIGnssConfigurationSetSuplVersion                = "setSuplVersion"
+	MethodIGnssConfigurationSetSuplMode                   = "setSuplMode"
+	MethodIGnssConfigurationSetLppProfile                 = "setLppProfile"
+	MethodIGnssConfigurationSetGlonassPositioningProtocol = "setGlonassPositioningProtocol"
+	MethodIGnssConfigurationSetEmergencySuplPdn           = "setEmergencySuplPdn"
+	MethodIGnssConfigurationSetEsExtensionSec             = "setEsExtensionSec"
+	MethodIGnssConfigurationSetBlocklist                  = "setBlocklist"
+)
+
 type IGnssConfiguration interface {
 	AsBinder() binder.IBinder
 	SetSuplVersion(ctx context.Context, version int32) error
@@ -43,17 +53,17 @@ const (
 )
 
 type GnssConfigurationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssConfigurationProxy(
 	remote binder.IBinder,
 ) *GnssConfigurationProxy {
-	return &GnssConfigurationProxy{remote: remote}
+	return &GnssConfigurationProxy{Remote: remote}
 }
 
 func (p *GnssConfigurationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssConfiguration = (*GnssConfigurationProxy)(nil)
@@ -66,12 +76,12 @@ func (p *GnssConfigurationProxy) SetSuplVersion(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(version)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setSuplVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplVersion)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetSuplVersion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +102,12 @@ func (p *GnssConfigurationProxy) SetSuplMode(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setSuplMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplMode)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetSuplMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetSuplMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,12 +128,12 @@ func (p *GnssConfigurationProxy) SetLppProfile(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(lppProfile)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setLppProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetLppProfile)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetLppProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetLppProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -144,12 +154,12 @@ func (p *GnssConfigurationProxy) SetGlonassPositioningProtocol(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(protocol)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setGlonassPositioningProtocol")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetGlonassPositioningProtocol)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetGlonassPositioningProtocol
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetGlonassPositioningProtocol, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,12 +180,12 @@ func (p *GnssConfigurationProxy) SetEmergencySuplPdn(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setEmergencySuplPdn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEmergencySuplPdn)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetEmergencySuplPdn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEmergencySuplPdn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -196,12 +206,12 @@ func (p *GnssConfigurationProxy) SetEsExtensionSec(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(emergencyExtensionSeconds)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setEsExtensionSec")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEsExtensionSec)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetEsExtensionSec
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetEsExtensionSec, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,18 +235,19 @@ func (p *GnssConfigurationProxy) SetBlocklist(
 	} else {
 		_data.WriteInt32(int32(len(blocklist)))
 		for _, _item := range blocklist {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setBlocklist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssConfiguration, MethodIGnssConfigurationSetBlocklist)
 	if _err != nil {
-		_code = TransactionIGnssConfigurationSetBlocklist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssConfiguration, MethodIGnssConfigurationSetBlocklist, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -256,6 +267,10 @@ type GnssConfigurationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssConfigurationStub)(nil)
+
+func (s *GnssConfigurationStub) Descriptor() string {
+	return DescriptorIGnssConfiguration
+}
 
 func (s *GnssConfigurationStub) OnTransaction(
 	ctx context.Context,

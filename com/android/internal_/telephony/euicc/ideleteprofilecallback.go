@@ -15,23 +15,27 @@ const (
 	TransactionIDeleteProfileCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeleteProfileCallbackOnComplete = "onComplete"
+)
+
 type IDeleteProfileCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32) error
 }
 
 type DeleteProfileCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeleteProfileCallbackProxy(
 	remote binder.IBinder,
 ) *DeleteProfileCallbackProxy {
-	return &DeleteProfileCallbackProxy{remote: remote}
+	return &DeleteProfileCallbackProxy{Remote: remote}
 }
 
 func (p *DeleteProfileCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeleteProfileCallback = (*DeleteProfileCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *DeleteProfileCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIDeleteProfileCallback)
 	_data.WriteInt32(resultCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeleteProfileCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeleteProfileCallback, MethodIDeleteProfileCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIDeleteProfileCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeleteProfileCallback, MethodIDeleteProfileCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type DeleteProfileCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeleteProfileCallbackStub)(nil)
+
+func (s *DeleteProfileCallbackStub) Descriptor() string {
+	return DescriptorIDeleteProfileCallback
+}
 
 func (s *DeleteProfileCallbackStub) OnTransaction(
 	ctx context.Context,

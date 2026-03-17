@@ -211,46 +211,57 @@ func (u *FrontendSettings) MarshalParcel(
 
 	switch u.Tag {
 	case FrontendSettingsTagAnalog:
+		p.WriteInt32(1)
 		if _err := u.Analog.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagAtsc:
+		p.WriteInt32(1)
 		if _err := u.Atsc.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagAtsc3:
+		p.WriteInt32(1)
 		if _err := u.Atsc3.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDvbs:
+		p.WriteInt32(1)
 		if _err := u.Dvbs.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDvbc:
+		p.WriteInt32(1)
 		if _err := u.Dvbc.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDvbt:
+		p.WriteInt32(1)
 		if _err := u.Dvbt.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIsdbs:
+		p.WriteInt32(1)
 		if _err := u.Isdbs.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIsdbs3:
+		p.WriteInt32(1)
 		if _err := u.Isdbs3.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIsdbt:
+		p.WriteInt32(1)
 		if _err := u.Isdbt.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDtmb:
+		p.WriteInt32(1)
 		if _err := u.Dtmb.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIptv:
+		p.WriteInt32(1)
 		if _err := u.Iptv.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -277,46 +288,79 @@ func (u *FrontendSettings) UnmarshalParcel(
 
 	switch u.Tag {
 	case FrontendSettingsTagAnalog:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Analog.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagAtsc:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Atsc.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagAtsc3:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Atsc3.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDvbs:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Dvbs.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDvbc:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Dvbc.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDvbt:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Dvbt.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIsdbs:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Isdbs.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIsdbs3:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Isdbs3.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIsdbt:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Isdbt.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagDtmb:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Dtmb.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendSettingsTagIptv:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Iptv.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

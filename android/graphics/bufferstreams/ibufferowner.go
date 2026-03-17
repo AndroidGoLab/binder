@@ -15,23 +15,27 @@ const (
 	TransactionIBufferOwnerOnBufferReleased = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBufferOwnerOnBufferReleased = "onBufferReleased"
+)
+
 type IBufferOwner interface {
 	AsBinder() binder.IBinder
 	OnBufferReleased(ctx context.Context, bufferId int64, releaseFence *int32) error
 }
 
 type BufferOwnerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBufferOwnerProxy(
 	remote binder.IBinder,
 ) *BufferOwnerProxy {
-	return &BufferOwnerProxy{remote: remote}
+	return &BufferOwnerProxy{Remote: remote}
 }
 
 func (p *BufferOwnerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBufferOwner = (*BufferOwnerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *BufferOwnerProxy) OnBufferReleased(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferOwner, "onBufferReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferOwner, MethodIBufferOwnerOnBufferReleased)
 	if _err != nil {
-		_code = TransactionIBufferOwnerOnBufferReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferOwner, MethodIBufferOwnerOnBufferReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type BufferOwnerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BufferOwnerStub)(nil)
+
+func (s *BufferOwnerStub) Descriptor() string {
+	return DescriptorIBufferOwner
+}
 
 func (s *BufferOwnerStub) OnTransaction(
 	ctx context.Context,

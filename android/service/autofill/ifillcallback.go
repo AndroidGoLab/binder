@@ -3,7 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,43 +18,49 @@ const (
 	TransactionIFillCallbackOnFailure     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIFillCallbackOnCancellable = "onCancellable"
+	MethodIFillCallbackOnSuccess     = "onSuccess"
+	MethodIFillCallbackOnFailure     = "onFailure"
+)
+
 type IFillCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FillResponse) error
 	OnFailure(ctx context.Context, requestId int32, message interface{}) error
 }
 
 type FillCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFillCallbackProxy(
 	remote binder.IBinder,
 ) *FillCallbackProxy {
-	return &FillCallbackProxy{remote: remote}
+	return &FillCallbackProxy{Remote: remote}
 }
 
 func (p *FillCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFillCallback = (*FillCallbackProxy)(nil)
 
 func (p *FillCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onCancellable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnCancellable)
 	if _err != nil {
-		_code = TransactionIFillCallbackOnCancellable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackOnCancellable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +75,12 @@ func (p *FillCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIFillCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,12 +93,12 @@ func (p *FillCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
 	_data.WriteInt32(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFillCallback, MethodIFillCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIFillCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFillCallback, MethodIFillCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +109,10 @@ type FillCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FillCallbackStub)(nil)
+
+func (s *FillCallbackStub) Descriptor() string {
+	return DescriptorIFillCallback
+}
 
 func (s *FillCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -115,7 +125,7 @@ func (s *FillCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_ = _err
@@ -160,7 +170,7 @@ func (s *FillCallbackStub) OnTransaction(
 // provide to NewFillCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IFillCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FillResponse) error
 	OnFailure(ctx context.Context, requestId int32, message interface{}) error
 }
@@ -176,7 +186,7 @@ func (w *fillCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *fillCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

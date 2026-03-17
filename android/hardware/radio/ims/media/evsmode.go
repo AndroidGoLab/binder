@@ -5,7 +5,6 @@ package media
 type EvsMode int32
 
 const (
-	EvsModeINVALID   EvsMode = 0
 	EvsModeEvsMode0  EvsMode = (1 << 0)
 	EvsModeEvsMode1  EvsMode = (1 << 1)
 	EvsModeEvsMode2  EvsMode = (1 << 2)

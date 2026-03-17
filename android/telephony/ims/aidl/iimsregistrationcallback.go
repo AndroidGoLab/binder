@@ -22,6 +22,15 @@ const (
 	TransactionIImsRegistrationCallbackOnSubscriberAssociatedUriChanged = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIImsRegistrationCallbackOnRegistered                     = "onRegistered"
+	MethodIImsRegistrationCallbackOnRegistering                    = "onRegistering"
+	MethodIImsRegistrationCallbackOnDeregistered                   = "onDeregistered"
+	MethodIImsRegistrationCallbackOnDeregisteredWithDetails        = "onDeregisteredWithDetails"
+	MethodIImsRegistrationCallbackOnTechnologyChangeFailed         = "onTechnologyChangeFailed"
+	MethodIImsRegistrationCallbackOnSubscriberAssociatedUriChanged = "onSubscriberAssociatedUriChanged"
+)
+
 type IImsRegistrationCallback interface {
 	AsBinder() binder.IBinder
 	OnRegistered(ctx context.Context, attr ims.ImsRegistrationAttributes) error
@@ -33,17 +42,17 @@ type IImsRegistrationCallback interface {
 }
 
 type ImsRegistrationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsRegistrationCallbackProxy(
 	remote binder.IBinder,
 ) *ImsRegistrationCallbackProxy {
-	return &ImsRegistrationCallbackProxy{remote: remote}
+	return &ImsRegistrationCallbackProxy{Remote: remote}
 }
 
 func (p *ImsRegistrationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsRegistrationCallback = (*ImsRegistrationCallbackProxy)(nil)
@@ -59,12 +68,12 @@ func (p *ImsRegistrationCallbackProxy) OnRegistered(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnRegistered)
 	if _err != nil {
-		_code = TransactionIImsRegistrationCallbackOnRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +88,12 @@ func (p *ImsRegistrationCallbackProxy) OnRegistering(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onRegistering")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnRegistering)
 	if _err != nil {
-		_code = TransactionIImsRegistrationCallbackOnRegistering
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnRegistering, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +112,12 @@ func (p *ImsRegistrationCallbackProxy) OnDeregistered(
 	_data.WriteInt32(suggestedAction)
 	_data.WriteInt32(imsRadioTech)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onDeregistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnDeregistered)
 	if _err != nil {
-		_code = TransactionIImsRegistrationCallbackOnDeregistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnDeregistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +141,12 @@ func (p *ImsRegistrationCallbackProxy) OnDeregisteredWithDetails(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onDeregisteredWithDetails")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnDeregisteredWithDetails)
 	if _err != nil {
-		_code = TransactionIImsRegistrationCallbackOnDeregisteredWithDetails
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnDeregisteredWithDetails, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,12 +163,12 @@ func (p *ImsRegistrationCallbackProxy) OnTechnologyChangeFailed(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onTechnologyChangeFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnTechnologyChangeFailed)
 	if _err != nil {
-		_code = TransactionIImsRegistrationCallbackOnTechnologyChangeFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnTechnologyChangeFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,18 +183,19 @@ func (p *ImsRegistrationCallbackProxy) OnSubscriberAssociatedUriChanged(
 	} else {
 		_data.WriteInt32(int32(len(uris)))
 		for _, _item := range uris {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onSubscriberAssociatedUriChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnSubscriberAssociatedUriChanged)
 	if _err != nil {
-		_code = TransactionIImsRegistrationCallbackOnSubscriberAssociatedUriChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsRegistrationCallback, MethodIImsRegistrationCallbackOnSubscriberAssociatedUriChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,6 +206,10 @@ type ImsRegistrationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsRegistrationCallbackStub)(nil)
+
+func (s *ImsRegistrationCallbackStub) Descriptor() string {
+	return DescriptorIImsRegistrationCallback
+}
 
 func (s *ImsRegistrationCallbackStub) OnTransaction(
 	ctx context.Context,

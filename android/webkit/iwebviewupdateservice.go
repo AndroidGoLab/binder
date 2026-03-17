@@ -20,7 +20,22 @@ const (
 	TransactionIWebViewUpdateServiceGetAllWebViewPackages        = binder.FirstCallTransaction + 4
 	TransactionIWebViewUpdateServiceGetCurrentWebViewPackageName = binder.FirstCallTransaction + 5
 	TransactionIWebViewUpdateServiceGetCurrentWebViewPackage     = binder.FirstCallTransaction + 6
-	TransactionIWebViewUpdateServiceGetDefaultWebViewPackage     = binder.FirstCallTransaction + 7
+	TransactionIWebViewUpdateServiceIsMultiProcessEnabled        = binder.FirstCallTransaction + 7
+	TransactionIWebViewUpdateServiceEnableMultiProcess           = binder.FirstCallTransaction + 8
+	TransactionIWebViewUpdateServiceGetDefaultWebViewPackage     = binder.FirstCallTransaction + 9
+)
+
+const (
+	MethodIWebViewUpdateServiceNotifyRelroCreationCompleted = "notifyRelroCreationCompleted"
+	MethodIWebViewUpdateServiceWaitForAndGetProvider        = "waitForAndGetProvider"
+	MethodIWebViewUpdateServiceChangeProviderAndSetting     = "changeProviderAndSetting"
+	MethodIWebViewUpdateServiceGetValidWebViewPackages      = "getValidWebViewPackages"
+	MethodIWebViewUpdateServiceGetAllWebViewPackages        = "getAllWebViewPackages"
+	MethodIWebViewUpdateServiceGetCurrentWebViewPackageName = "getCurrentWebViewPackageName"
+	MethodIWebViewUpdateServiceGetCurrentWebViewPackage     = "getCurrentWebViewPackage"
+	MethodIWebViewUpdateServiceIsMultiProcessEnabled        = "isMultiProcessEnabled"
+	MethodIWebViewUpdateServiceEnableMultiProcess           = "enableMultiProcess"
+	MethodIWebViewUpdateServiceGetDefaultWebViewPackage     = "getDefaultWebViewPackage"
 )
 
 type IWebViewUpdateService interface {
@@ -32,21 +47,23 @@ type IWebViewUpdateService interface {
 	GetAllWebViewPackages(ctx context.Context) ([]WebViewProviderInfo, error)
 	GetCurrentWebViewPackageName(ctx context.Context) (string, error)
 	GetCurrentWebViewPackage(ctx context.Context) (pm.PackageInfo, error)
+	IsMultiProcessEnabled(ctx context.Context) (bool, error)
+	EnableMultiProcess(ctx context.Context, enable bool) error
 	GetDefaultWebViewPackage(ctx context.Context) (WebViewProviderInfo, error)
 }
 
 type WebViewUpdateServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWebViewUpdateServiceProxy(
 	remote binder.IBinder,
 ) *WebViewUpdateServiceProxy {
-	return &WebViewUpdateServiceProxy{remote: remote}
+	return &WebViewUpdateServiceProxy{Remote: remote}
 }
 
 func (p *WebViewUpdateServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWebViewUpdateService = (*WebViewUpdateServiceProxy)(nil)
@@ -57,12 +74,12 @@ func (p *WebViewUpdateServiceProxy) NotifyRelroCreationCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "notifyRelroCreationCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceNotifyRelroCreationCompleted)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceNotifyRelroCreationCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceNotifyRelroCreationCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +99,12 @@ func (p *WebViewUpdateServiceProxy) WaitForAndGetProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "waitForAndGetProvider")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceWaitForAndGetProvider)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceWaitForAndGetProvider
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceWaitForAndGetProvider, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,12 +135,12 @@ func (p *WebViewUpdateServiceProxy) ChangeProviderAndSetting(
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 	_data.WriteString16(newProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "changeProviderAndSetting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceChangeProviderAndSetting)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceChangeProviderAndSetting
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceChangeProviderAndSetting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,12 +164,12 @@ func (p *WebViewUpdateServiceProxy) GetValidWebViewPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getValidWebViewPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetValidWebViewPackages)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceGetValidWebViewPackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetValidWebViewPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,6 +187,9 @@ func (p *WebViewUpdateServiceProxy) GetValidWebViewPackages(
 	if _count >= 0 {
 		_result = make([]WebViewProviderInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -185,12 +205,12 @@ func (p *WebViewUpdateServiceProxy) GetAllWebViewPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getAllWebViewPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetAllWebViewPackages)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceGetAllWebViewPackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetAllWebViewPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,6 +228,9 @@ func (p *WebViewUpdateServiceProxy) GetAllWebViewPackages(
 	if _count >= 0 {
 		_result = make([]WebViewProviderInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -223,12 +246,12 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getCurrentWebViewPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetCurrentWebViewPackageName)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceGetCurrentWebViewPackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetCurrentWebViewPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -252,12 +275,12 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getCurrentWebViewPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetCurrentWebViewPackage)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceGetCurrentWebViewPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetCurrentWebViewPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,6 +302,61 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackage(
 	return _result, nil
 }
 
+func (p *WebViewUpdateServiceProxy) IsMultiProcessEnabled(
+	ctx context.Context,
+) (bool, error) {
+	var _result bool
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceIsMultiProcessEnabled)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceIsMultiProcessEnabled, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *WebViewUpdateServiceProxy) EnableMultiProcess(
+	ctx context.Context,
+	enable bool,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
+	_data.WriteBool(enable)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceEnableMultiProcess)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceEnableMultiProcess, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
 func (p *WebViewUpdateServiceProxy) GetDefaultWebViewPackage(
 	ctx context.Context,
 ) (WebViewProviderInfo, error) {
@@ -286,12 +364,12 @@ func (p *WebViewUpdateServiceProxy) GetDefaultWebViewPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getDefaultWebViewPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetDefaultWebViewPackage)
 	if _err != nil {
-		_code = TransactionIWebViewUpdateServiceGetDefaultWebViewPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWebViewUpdateService, MethodIWebViewUpdateServiceGetDefaultWebViewPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -320,6 +398,10 @@ type WebViewUpdateServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WebViewUpdateServiceStub)(nil)
+
+func (s *WebViewUpdateServiceStub) Descriptor() string {
+	return DescriptorIWebViewUpdateService
+}
 
 func (s *WebViewUpdateServiceStub) OnTransaction(
 	ctx context.Context,
@@ -429,6 +511,35 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 			return nil, _err
 		}
 		return _reply, nil
+	case TransactionIWebViewUpdateServiceIsMultiProcessEnabled:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsMultiProcessEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWebViewUpdateServiceEnableMultiProcess:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := _data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EnableMultiProcess(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetDefaultWebViewPackage:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -461,6 +572,8 @@ type IWebViewUpdateServiceServer interface {
 	GetAllWebViewPackages(ctx context.Context) ([]WebViewProviderInfo, error)
 	GetCurrentWebViewPackageName(ctx context.Context) (string, error)
 	GetCurrentWebViewPackage(ctx context.Context) (pm.PackageInfo, error)
+	IsMultiProcessEnabled(ctx context.Context) (bool, error)
+	EnableMultiProcess(ctx context.Context, enable bool) error
 	GetDefaultWebViewPackage(ctx context.Context) (WebViewProviderInfo, error)
 }
 
@@ -514,6 +627,19 @@ func (w *webViewUpdateServiceStubWrapper) GetCurrentWebViewPackage(
 	ctx context.Context,
 ) (pm.PackageInfo, error) {
 	return w.impl.GetCurrentWebViewPackage(ctx)
+}
+
+func (w *webViewUpdateServiceStubWrapper) IsMultiProcessEnabled(
+	ctx context.Context,
+) (bool, error) {
+	return w.impl.IsMultiProcessEnabled(ctx)
+}
+
+func (w *webViewUpdateServiceStubWrapper) EnableMultiProcess(
+	ctx context.Context,
+	enable bool,
+) error {
+	return w.impl.EnableMultiProcess(ctx, enable)
 }
 
 func (w *webViewUpdateServiceStubWrapper) GetDefaultWebViewPackage(

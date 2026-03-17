@@ -16,23 +16,27 @@ const (
 	TransactionIOnControlsSettingsChangeListenerOnControlsSettingsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnControlsSettingsChangeListenerOnControlsSettingsChanged = "onControlsSettingsChanged"
+)
+
 type IOnControlsSettingsChangeListener interface {
 	AsBinder() binder.IBinder
 	OnControlsSettingsChanged(ctx context.Context, panelComponent content.ComponentName, allowTrivialControlsOnLockscreen bool) error
 }
 
 type OnControlsSettingsChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnControlsSettingsChangeListenerProxy(
 	remote binder.IBinder,
 ) *OnControlsSettingsChangeListenerProxy {
-	return &OnControlsSettingsChangeListenerProxy{remote: remote}
+	return &OnControlsSettingsChangeListenerProxy{Remote: remote}
 }
 
 func (p *OnControlsSettingsChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnControlsSettingsChangeListener = (*OnControlsSettingsChangeListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *OnControlsSettingsChangeListenerProxy) OnControlsSettingsChanged(
 	}
 	_data.WriteBool(allowTrivialControlsOnLockscreen)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnControlsSettingsChangeListener, "onControlsSettingsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnControlsSettingsChangeListener, MethodIOnControlsSettingsChangeListenerOnControlsSettingsChanged)
 	if _err != nil {
-		_code = TransactionIOnControlsSettingsChangeListenerOnControlsSettingsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnControlsSettingsChangeListener, MethodIOnControlsSettingsChangeListenerOnControlsSettingsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type OnControlsSettingsChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnControlsSettingsChangeListenerStub)(nil)
+
+func (s *OnControlsSettingsChangeListenerStub) Descriptor() string {
+	return DescriptorIOnControlsSettingsChangeListener
+}
 
 func (s *OnControlsSettingsChangeListenerStub) OnTransaction(
 	ctx context.Context,

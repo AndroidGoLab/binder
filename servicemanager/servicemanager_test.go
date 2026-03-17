@@ -66,7 +66,7 @@ func (m *mockTransport) ClearDeathNotification(
 
 func (m *mockTransport) Close(_ context.Context) error { return nil }
 
-func (m *mockTransport) ResolveCode(_ string, _ string) (binder.TransactionCode, error) {
+func (m *mockTransport) ResolveCode(_ context.Context, _ string, _ string) (binder.TransactionCode, error) {
 	return binder.FirstCallTransaction, nil
 }
 
@@ -98,9 +98,10 @@ func TestGetService(t *testing.T) {
 	require.NotNil(t, result)
 
 	// Verify we sent to handle 0 (ServiceManager) with correct code.
+	// ProxyBinder.Transact always ORs in FlagAcceptFDs.
 	assert.Equal(t, uint32(0), mt.lastHandle)
 	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
-	assert.Equal(t, binder.TransactionFlags(0), mt.lastFlags)
+	assert.Equal(t, binder.FlagAcceptFDs, mt.lastFlags)
 
 	// Verify the sent data has correct interface token and service name.
 	mt.lastData.SetPosition(0)
@@ -273,6 +274,10 @@ func TestGetService_TransportError(t *testing.T) {
 // mockReceiver is a minimal TransactionReceiver for testing.
 type mockReceiver struct{}
 
+func (r *mockReceiver) Descriptor() string {
+	return "test.IMockReceiver"
+}
+
 func (r *mockReceiver) OnTransaction(
 	_ context.Context,
 	_ binder.TransactionCode,
@@ -297,9 +302,10 @@ func TestAddService(t *testing.T) {
 	assert.Equal(t, binder.TransactionReceiver(receiver), mt.lastReceiver)
 
 	// Verify we sent to handle 0 (ServiceManager) with correct code.
+	// ProxyBinder.Transact always ORs in FlagAcceptFDs.
 	assert.Equal(t, uint32(0), mt.lastHandle)
 	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
-	assert.Equal(t, binder.TransactionFlags(0), mt.lastFlags)
+	assert.Equal(t, binder.FlagAcceptFDs, mt.lastFlags)
 
 	// Verify the sent parcel data.
 	mt.lastData.SetPosition(0)
@@ -313,10 +319,12 @@ func TestAddService(t *testing.T) {
 	assert.Equal(t, "my.new.service", svcName)
 
 	// Read the local binder object (flat_binder_object).
-	handle, err := mt.lastData.ReadStrongBinder()
+	// ReadStrongBinder returns the uint32 at offset 8, which for a
+	// BINDER_TYPE_BINDER is the low 32 bits of the heap-allocated binder
+	// pointer (not the cookie). We cannot predict the pointer value, so
+	// just verify the read succeeds (the type is valid).
+	_, err = mt.lastData.ReadStrongBinder()
 	require.NoError(t, err)
-	// The cookie is 1 (first call to RegisterReceiver on this mock).
-	assert.Equal(t, uint32(1), handle)
 
 	// allowIsolated = true -> 1
 	allowIsolated, err := mt.lastData.ReadInt32()

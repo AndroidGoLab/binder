@@ -17,6 +17,11 @@ const (
 	TransactionIRadioConfigIndicationOnSimultaneousCallingSupportChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRadioConfigIndicationSimSlotsStatusChanged               = "simSlotsStatusChanged"
+	MethodIRadioConfigIndicationOnSimultaneousCallingSupportChanged = "onSimultaneousCallingSupportChanged"
+)
+
 type IRadioConfigIndication interface {
 	AsBinder() binder.IBinder
 	SimSlotsStatusChanged(ctx context.Context, type_ radio.RadioIndicationType, slotStatus []SimSlotStatus) error
@@ -24,17 +29,17 @@ type IRadioConfigIndication interface {
 }
 
 type RadioConfigIndicationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioConfigIndicationProxy(
 	remote binder.IBinder,
 ) *RadioConfigIndicationProxy {
-	return &RadioConfigIndicationProxy{remote: remote}
+	return &RadioConfigIndicationProxy{Remote: remote}
 }
 
 func (p *RadioConfigIndicationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioConfigIndication = (*RadioConfigIndicationProxy)(nil)
@@ -52,18 +57,19 @@ func (p *RadioConfigIndicationProxy) SimSlotsStatusChanged(
 	} else {
 		_data.WriteInt32(int32(len(slotStatus)))
 		for _, _item := range slotStatus {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigIndication, "simSlotsStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigIndication, MethodIRadioConfigIndicationSimSlotsStatusChanged)
 	if _err != nil {
-		_code = TransactionIRadioConfigIndicationSimSlotsStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigIndication, MethodIRadioConfigIndicationSimSlotsStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +88,12 @@ func (p *RadioConfigIndicationProxy) OnSimultaneousCallingSupportChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigIndication, "onSimultaneousCallingSupportChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigIndication, MethodIRadioConfigIndicationOnSimultaneousCallingSupportChanged)
 	if _err != nil {
-		_code = TransactionIRadioConfigIndicationOnSimultaneousCallingSupportChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigIndication, MethodIRadioConfigIndicationOnSimultaneousCallingSupportChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +104,10 @@ type RadioConfigIndicationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioConfigIndicationStub)(nil)
+
+func (s *RadioConfigIndicationStub) Descriptor() string {
+	return DescriptorIRadioConfigIndication
+}
 
 func (s *RadioConfigIndicationStub) OnTransaction(
 	ctx context.Context,

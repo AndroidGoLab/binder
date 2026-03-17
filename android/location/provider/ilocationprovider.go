@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,26 +19,33 @@ const (
 	TransactionILocationProviderSendExtraCommand           = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodILocationProviderSetLocationProviderManager = "setLocationProviderManager"
+	MethodILocationProviderSetRequest                 = "setRequest"
+	MethodILocationProviderFlush                      = "flush"
+	MethodILocationProviderSendExtraCommand           = "sendExtraCommand"
+)
+
 type ILocationProvider interface {
 	AsBinder() binder.IBinder
 	SetLocationProviderManager(ctx context.Context, manager ILocationProviderManager) error
 	SetRequest(ctx context.Context, request ProviderRequest) error
 	Flush(ctx context.Context) error
-	SendExtraCommand(ctx context.Context, command string, extras interface{}) error
+	SendExtraCommand(ctx context.Context, command string, extras os.Bundle) error
 }
 
 type LocationProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLocationProviderProxy(
 	remote binder.IBinder,
 ) *LocationProviderProxy {
-	return &LocationProviderProxy{remote: remote}
+	return &LocationProviderProxy{Remote: remote}
 }
 
 func (p *LocationProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILocationProvider = (*LocationProviderProxy)(nil)
@@ -48,14 +56,14 @@ func (p *LocationProviderProxy) SetLocationProviderManager(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
-	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, manager.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "setLocationProviderManager")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProvider, MethodILocationProviderSetLocationProviderManager)
 	if _err != nil {
-		_code = TransactionILocationProviderSetLocationProviderManager
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProvider, MethodILocationProviderSetLocationProviderManager, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +78,12 @@ func (p *LocationProviderProxy) SetRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "setRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProvider, MethodILocationProviderSetRequest)
 	if _err != nil {
-		_code = TransactionILocationProviderSetRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProvider, MethodILocationProviderSetRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,30 +93,34 @@ func (p *LocationProviderProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProvider, MethodILocationProviderFlush)
 	if _err != nil {
-		_code = TransactionILocationProviderFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProvider, MethodILocationProviderFlush, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *LocationProviderProxy) SendExtraCommand(
 	ctx context.Context,
 	command string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	_data.WriteString16(command)
-
-	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "sendExtraCommand")
-	if _err != nil {
-		_code = TransactionILocationProviderSendExtraCommand
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationProvider, MethodILocationProviderSendExtraCommand)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationProvider, MethodILocationProviderSendExtraCommand, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +131,10 @@ type LocationProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LocationProviderStub)(nil)
+
+func (s *LocationProviderStub) Descriptor() string {
+	return DescriptorILocationProvider
+}
 
 func (s *LocationProviderStub) OnTransaction(
 	ctx context.Context,
@@ -170,7 +186,18 @@ func (s *LocationProviderStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendExtraCommand(ctx, _arg_command, _arg_extras)
 		_ = _err
 		return nil, nil
@@ -186,7 +213,7 @@ type ILocationProviderServer interface {
 	SetLocationProviderManager(ctx context.Context, manager ILocationProviderManager) error
 	SetRequest(ctx context.Context, request ProviderRequest) error
 	Flush(ctx context.Context) error
-	SendExtraCommand(ctx context.Context, command string, extras interface{}) error
+	SendExtraCommand(ctx context.Context, command string, extras os.Bundle) error
 }
 
 type locationProviderStubWrapper struct {
@@ -221,7 +248,7 @@ func (w *locationProviderStubWrapper) Flush(
 func (w *locationProviderStubWrapper) SendExtraCommand(
 	ctx context.Context,
 	command string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	return w.impl.SendExtraCommand(ctx, command, extras)
 }

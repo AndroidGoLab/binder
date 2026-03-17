@@ -16,23 +16,27 @@ const (
 	TransactionISipDialogStateCallbackOnActiveSipDialogsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISipDialogStateCallbackOnActiveSipDialogsChanged = "onActiveSipDialogsChanged"
+)
+
 type ISipDialogStateCallback interface {
 	AsBinder() binder.IBinder
 	OnActiveSipDialogsChanged(ctx context.Context, dialogs []ims.SipDialogState) error
 }
 
 type SipDialogStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSipDialogStateCallbackProxy(
 	remote binder.IBinder,
 ) *SipDialogStateCallbackProxy {
-	return &SipDialogStateCallbackProxy{remote: remote}
+	return &SipDialogStateCallbackProxy{Remote: remote}
 }
 
 func (p *SipDialogStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISipDialogStateCallback = (*SipDialogStateCallbackProxy)(nil)
@@ -48,18 +52,19 @@ func (p *SipDialogStateCallbackProxy) OnActiveSipDialogsChanged(
 	} else {
 		_data.WriteInt32(int32(len(dialogs)))
 		for _, _item := range dialogs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISipDialogStateCallback, "onActiveSipDialogsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISipDialogStateCallback, MethodISipDialogStateCallbackOnActiveSipDialogsChanged)
 	if _err != nil {
-		_code = TransactionISipDialogStateCallbackOnActiveSipDialogsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISipDialogStateCallback, MethodISipDialogStateCallbackOnActiveSipDialogsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +75,10 @@ type SipDialogStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SipDialogStateCallbackStub)(nil)
+
+func (s *SipDialogStateCallbackStub) Descriptor() string {
+	return DescriptorISipDialogStateCallback
+}
 
 func (s *SipDialogStateCallbackStub) OnTransaction(
 	ctx context.Context,

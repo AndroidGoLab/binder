@@ -15,23 +15,27 @@ const (
 	TransactionIOnKeyguardExitResultOnKeyguardExitResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnKeyguardExitResultOnKeyguardExitResult = "onKeyguardExitResult"
+)
+
 type IOnKeyguardExitResult interface {
 	AsBinder() binder.IBinder
 	OnKeyguardExitResult(ctx context.Context, success bool) error
 }
 
 type OnKeyguardExitResultProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnKeyguardExitResultProxy(
 	remote binder.IBinder,
 ) *OnKeyguardExitResultProxy {
-	return &OnKeyguardExitResultProxy{remote: remote}
+	return &OnKeyguardExitResultProxy{Remote: remote}
 }
 
 func (p *OnKeyguardExitResultProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnKeyguardExitResult = (*OnKeyguardExitResultProxy)(nil)
@@ -44,12 +48,12 @@ func (p *OnKeyguardExitResultProxy) OnKeyguardExitResult(
 	_data.WriteInterfaceToken(DescriptorIOnKeyguardExitResult)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnKeyguardExitResult, "onKeyguardExitResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnKeyguardExitResult, MethodIOnKeyguardExitResultOnKeyguardExitResult)
 	if _err != nil {
-		_code = TransactionIOnKeyguardExitResultOnKeyguardExitResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnKeyguardExitResult, MethodIOnKeyguardExitResultOnKeyguardExitResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type OnKeyguardExitResultStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnKeyguardExitResultStub)(nil)
+
+func (s *OnKeyguardExitResultStub) Descriptor() string {
+	return DescriptorIOnKeyguardExitResult
+}
 
 func (s *OnKeyguardExitResultStub) OnTransaction(
 	ctx context.Context,

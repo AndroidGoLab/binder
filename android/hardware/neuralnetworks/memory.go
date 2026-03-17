@@ -76,10 +76,12 @@ func (u *Memory) MarshalParcel(
 
 	switch u.Tag {
 	case MemoryTagAshmem:
+		p.WriteInt32(1)
 		if _err := u.Ashmem.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case MemoryTagMappableFile:
+		p.WriteInt32(1)
 		if _err := u.MappableFile.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -107,10 +109,16 @@ func (u *Memory) UnmarshalParcel(
 
 	switch u.Tag {
 	case MemoryTagAshmem:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Ashmem.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case MemoryTagMappableFile:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.MappableFile.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

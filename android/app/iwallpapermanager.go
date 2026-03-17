@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	wallpaper "github.com/xaionaro-go/binder/android/app/wallpaper"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
@@ -21,54 +20,88 @@ const (
 	TransactionIWallpaperManagerGetWallpaper                       = binder.FirstCallTransaction + 3
 	TransactionIWallpaperManagerGetWallpaperWithFeature            = binder.FirstCallTransaction + 4
 	TransactionIWallpaperManagerGetBitmapCrops                     = binder.FirstCallTransaction + 5
-	TransactionIWallpaperManagerGetCurrentBitmapCrops              = binder.FirstCallTransaction + 6
-	TransactionIWallpaperManagerGetFutureBitmapCrops               = binder.FirstCallTransaction + 7
-	TransactionIWallpaperManagerGetBitmapCrop                      = binder.FirstCallTransaction + 8
-	TransactionIWallpaperManagerGetWallpaperIdForUser              = binder.FirstCallTransaction + 9
-	TransactionIWallpaperManagerGetWallpaperInfo                   = binder.FirstCallTransaction + 10
-	TransactionIWallpaperManagerGetWallpaperInfoWithFlags          = binder.FirstCallTransaction + 11
-	TransactionIWallpaperManagerGetWallpaperInstance               = binder.FirstCallTransaction + 12
-	TransactionIWallpaperManagerGetWallpaperInfoFile               = binder.FirstCallTransaction + 13
-	TransactionIWallpaperManagerClearWallpaper                     = binder.FirstCallTransaction + 14
-	TransactionIWallpaperManagerHasNamedWallpaper                  = binder.FirstCallTransaction + 15
-	TransactionIWallpaperManagerSetDimensionHints                  = binder.FirstCallTransaction + 16
-	TransactionIWallpaperManagerGetWidthHint                       = binder.FirstCallTransaction + 17
-	TransactionIWallpaperManagerGetHeightHint                      = binder.FirstCallTransaction + 18
-	TransactionIWallpaperManagerSetDisplayPadding                  = binder.FirstCallTransaction + 19
-	TransactionIWallpaperManagerGetName                            = binder.FirstCallTransaction + 20
-	TransactionIWallpaperManagerSettingsRestored                   = binder.FirstCallTransaction + 21
-	TransactionIWallpaperManagerIsWallpaperSupported               = binder.FirstCallTransaction + 22
-	TransactionIWallpaperManagerIsSetWallpaperAllowed              = binder.FirstCallTransaction + 23
-	TransactionIWallpaperManagerIsWallpaperBackupEligible          = binder.FirstCallTransaction + 24
-	TransactionIWallpaperManagerGetWallpaperColors                 = binder.FirstCallTransaction + 25
-	TransactionIWallpaperManagerRemoveOnLocalColorsChangedListener = binder.FirstCallTransaction + 26
-	TransactionIWallpaperManagerAddOnLocalColorsChangedListener    = binder.FirstCallTransaction + 27
-	TransactionIWallpaperManagerRegisterWallpaperColorsCallback    = binder.FirstCallTransaction + 28
-	TransactionIWallpaperManagerUnregisterWallpaperColorsCallback  = binder.FirstCallTransaction + 29
-	TransactionIWallpaperManagerSetInAmbientMode                   = binder.FirstCallTransaction + 30
-	TransactionIWallpaperManagerNotifyWakingUp                     = binder.FirstCallTransaction + 31
-	TransactionIWallpaperManagerNotifyGoingToSleep                 = binder.FirstCallTransaction + 32
-	TransactionIWallpaperManagerSetWallpaperDimAmount              = binder.FirstCallTransaction + 33
-	TransactionIWallpaperManagerGetWallpaperDimAmount              = binder.FirstCallTransaction + 34
-	TransactionIWallpaperManagerLockScreenWallpaperExists          = binder.FirstCallTransaction + 35
-	TransactionIWallpaperManagerIsStaticWallpaper                  = binder.FirstCallTransaction + 36
+	TransactionIWallpaperManagerGetFutureBitmapCrops               = binder.FirstCallTransaction + 6
+	TransactionIWallpaperManagerGetBitmapCrop                      = binder.FirstCallTransaction + 7
+	TransactionIWallpaperManagerGetWallpaperIdForUser              = binder.FirstCallTransaction + 8
+	TransactionIWallpaperManagerGetWallpaperInfo                   = binder.FirstCallTransaction + 9
+	TransactionIWallpaperManagerGetWallpaperInfoWithFlags          = binder.FirstCallTransaction + 10
+	TransactionIWallpaperManagerGetWallpaperInfoFile               = binder.FirstCallTransaction + 11
+	TransactionIWallpaperManagerClearWallpaper                     = binder.FirstCallTransaction + 12
+	TransactionIWallpaperManagerHasNamedWallpaper                  = binder.FirstCallTransaction + 13
+	TransactionIWallpaperManagerSetDimensionHints                  = binder.FirstCallTransaction + 14
+	TransactionIWallpaperManagerGetWidthHint                       = binder.FirstCallTransaction + 15
+	TransactionIWallpaperManagerGetHeightHint                      = binder.FirstCallTransaction + 16
+	TransactionIWallpaperManagerSetDisplayPadding                  = binder.FirstCallTransaction + 17
+	TransactionIWallpaperManagerGetName                            = binder.FirstCallTransaction + 18
+	TransactionIWallpaperManagerSettingsRestored                   = binder.FirstCallTransaction + 19
+	TransactionIWallpaperManagerIsWallpaperSupported               = binder.FirstCallTransaction + 20
+	TransactionIWallpaperManagerIsSetWallpaperAllowed              = binder.FirstCallTransaction + 21
+	TransactionIWallpaperManagerIsWallpaperBackupEligible          = binder.FirstCallTransaction + 22
+	TransactionIWallpaperManagerGetWallpaperColors                 = binder.FirstCallTransaction + 23
+	TransactionIWallpaperManagerRemoveOnLocalColorsChangedListener = binder.FirstCallTransaction + 24
+	TransactionIWallpaperManagerAddOnLocalColorsChangedListener    = binder.FirstCallTransaction + 25
+	TransactionIWallpaperManagerRegisterWallpaperColorsCallback    = binder.FirstCallTransaction + 26
+	TransactionIWallpaperManagerUnregisterWallpaperColorsCallback  = binder.FirstCallTransaction + 27
+	TransactionIWallpaperManagerSetInAmbientMode                   = binder.FirstCallTransaction + 28
+	TransactionIWallpaperManagerNotifyWakingUp                     = binder.FirstCallTransaction + 29
+	TransactionIWallpaperManagerNotifyGoingToSleep                 = binder.FirstCallTransaction + 30
+	TransactionIWallpaperManagerSetWallpaperDimAmount              = binder.FirstCallTransaction + 31
+	TransactionIWallpaperManagerGetWallpaperDimAmount              = binder.FirstCallTransaction + 32
+	TransactionIWallpaperManagerLockScreenWallpaperExists          = binder.FirstCallTransaction + 33
+	TransactionIWallpaperManagerIsStaticWallpaper                  = binder.FirstCallTransaction + 34
+)
+
+const (
+	MethodIWallpaperManagerSetWallpaper                       = "setWallpaper"
+	MethodIWallpaperManagerSetWallpaperComponentChecked       = "setWallpaperComponentChecked"
+	MethodIWallpaperManagerSetWallpaperComponent              = "setWallpaperComponent"
+	MethodIWallpaperManagerGetWallpaper                       = "getWallpaper"
+	MethodIWallpaperManagerGetWallpaperWithFeature            = "getWallpaperWithFeature"
+	MethodIWallpaperManagerGetBitmapCrops                     = "getBitmapCrops"
+	MethodIWallpaperManagerGetFutureBitmapCrops               = "getFutureBitmapCrops"
+	MethodIWallpaperManagerGetBitmapCrop                      = "getBitmapCrop"
+	MethodIWallpaperManagerGetWallpaperIdForUser              = "getWallpaperIdForUser"
+	MethodIWallpaperManagerGetWallpaperInfo                   = "getWallpaperInfo"
+	MethodIWallpaperManagerGetWallpaperInfoWithFlags          = "getWallpaperInfoWithFlags"
+	MethodIWallpaperManagerGetWallpaperInfoFile               = "getWallpaperInfoFile"
+	MethodIWallpaperManagerClearWallpaper                     = "clearWallpaper"
+	MethodIWallpaperManagerHasNamedWallpaper                  = "hasNamedWallpaper"
+	MethodIWallpaperManagerSetDimensionHints                  = "setDimensionHints"
+	MethodIWallpaperManagerGetWidthHint                       = "getWidthHint"
+	MethodIWallpaperManagerGetHeightHint                      = "getHeightHint"
+	MethodIWallpaperManagerSetDisplayPadding                  = "setDisplayPadding"
+	MethodIWallpaperManagerGetName                            = "getName"
+	MethodIWallpaperManagerSettingsRestored                   = "settingsRestored"
+	MethodIWallpaperManagerIsWallpaperSupported               = "isWallpaperSupported"
+	MethodIWallpaperManagerIsSetWallpaperAllowed              = "isSetWallpaperAllowed"
+	MethodIWallpaperManagerIsWallpaperBackupEligible          = "isWallpaperBackupEligible"
+	MethodIWallpaperManagerGetWallpaperColors                 = "getWallpaperColors"
+	MethodIWallpaperManagerRemoveOnLocalColorsChangedListener = "removeOnLocalColorsChangedListener"
+	MethodIWallpaperManagerAddOnLocalColorsChangedListener    = "addOnLocalColorsChangedListener"
+	MethodIWallpaperManagerRegisterWallpaperColorsCallback    = "registerWallpaperColorsCallback"
+	MethodIWallpaperManagerUnregisterWallpaperColorsCallback  = "unregisterWallpaperColorsCallback"
+	MethodIWallpaperManagerSetInAmbientMode                   = "setInAmbientMode"
+	MethodIWallpaperManagerNotifyWakingUp                     = "notifyWakingUp"
+	MethodIWallpaperManagerNotifyGoingToSleep                 = "notifyGoingToSleep"
+	MethodIWallpaperManagerSetWallpaperDimAmount              = "setWallpaperDimAmount"
+	MethodIWallpaperManagerGetWallpaperDimAmount              = "getWallpaperDimAmount"
+	MethodIWallpaperManagerLockScreenWallpaperExists          = "lockScreenWallpaperExists"
+	MethodIWallpaperManagerIsStaticWallpaper                  = "isStaticWallpaper"
 )
 
 type IWallpaperManager interface {
 	AsBinder() binder.IBinder
 	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras interface{}, which int32, completion IWallpaperManagerCallback) (int32, error)
-	SetWallpaperComponentChecked(ctx context.Context, description wallpaper.WallpaperDescription, which int32) error
+	SetWallpaperComponentChecked(ctx context.Context, name content.ComponentName, which int32) error
 	SetWallpaperComponent(ctx context.Context, name content.ComponentName) error
 	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}) (int32, error)
 	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}, getCropped bool) (int32, error)
 	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]interface{}, error)
-	GetCurrentBitmapCrops(ctx context.Context, which int32) (interface{}, error)
 	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]interface{}, error)
 	GetBitmapCrop(ctx context.Context, bitmapSize graphics.Point, screenOrientations []int32, crops []graphics.Rect) (graphics.Rect, error)
 	GetWallpaperIdForUser(ctx context.Context, which int32) (int32, error)
 	GetWallpaperInfo(ctx context.Context) (WallpaperInfo, error)
 	GetWallpaperInfoWithFlags(ctx context.Context, which int32) (WallpaperInfo, error)
-	GetWallpaperInstance(ctx context.Context, which int32) (wallpaper.WallpaperInstance, error)
 	GetWallpaperInfoFile(ctx context.Context) (int32, error)
 	ClearWallpaper(ctx context.Context, which int32) error
 	HasNamedWallpaper(ctx context.Context, name string) (bool, error)
@@ -96,17 +129,17 @@ type IWallpaperManager interface {
 }
 
 type WallpaperManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperManagerProxy(
 	remote binder.IBinder,
 ) *WallpaperManagerProxy {
-	return &WallpaperManagerProxy{remote: remote}
+	return &WallpaperManagerProxy{Remote: remote}
 }
 
 func (p *WallpaperManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperManager = (*WallpaperManagerProxy)(nil)
@@ -122,7 +155,7 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	completion IWallpaperManagerCallback,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(name)
@@ -140,6 +173,7 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	} else {
 		_data.WriteInt32(int32(len(crops)))
 		for _, _item := range crops {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -147,15 +181,15 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	}
 	_data.WriteBool(allowBackup)
 	_data.WriteInt32(which)
-	binder.WriteBinderToParcel(ctx, _data, completion.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, completion.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaper)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetWallpaper
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaper, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -174,26 +208,26 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 
 func (p *WallpaperManagerProxy) SetWallpaperComponentChecked(
 	ctx context.Context,
-	description wallpaper.WallpaperDescription,
+	name content.ComponentName,
 	which int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
-	if _err := description.MarshalParcel(_data); _err != nil {
+	if _err := name.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setWallpaperComponentChecked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponentChecked)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetWallpaperComponentChecked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponentChecked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -217,12 +251,12 @@ func (p *WallpaperManagerProxy) SetWallpaperComponent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setWallpaperComponent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponent)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetWallpaperComponent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperComponent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -243,20 +277,20 @@ func (p *WallpaperManagerProxy) GetWallpaper(
 	outParams interface{},
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(callingPkg)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaper)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaper
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaper, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -282,22 +316,22 @@ func (p *WallpaperManagerProxy) GetWallpaperWithFeature(
 	getCropped bool,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(_identity.AttributionTag)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(getCropped)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperWithFeature")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperWithFeature)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperWithFeature
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperWithFeature, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -321,7 +355,7 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	originalBitmap bool,
 ) ([]interface{}, error) {
 	var _result []interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	if displaySizes == nil {
@@ -329,6 +363,7 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	} else {
 		_data.WriteInt32(int32(len(displaySizes)))
 		for _, _item := range displaySizes {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -338,12 +373,12 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	_data.WriteBool(originalBitmap)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getBitmapCrops")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrops)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetBitmapCrops
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrops, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -366,35 +401,6 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 	return _result, nil
 }
 
-func (p *WallpaperManagerProxy) GetCurrentBitmapCrops(
-	ctx context.Context,
-	which int32,
-) (interface{}, error) {
-	var _result interface{}
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getCurrentBitmapCrops")
-	if _err != nil {
-		_code = TransactionIWallpaperManagerGetCurrentBitmapCrops
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	return _result, nil
-}
-
 func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	ctx context.Context,
 	bitmapSize graphics.Point,
@@ -414,6 +420,7 @@ func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	} else {
 		_data.WriteInt32(int32(len(displaySizes)))
 		for _, _item := range displaySizes {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
@@ -432,18 +439,19 @@ func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	} else {
 		_data.WriteInt32(int32(len(crops)))
 		for _, _item := range crops {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getFutureBitmapCrops")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetFutureBitmapCrops)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetFutureBitmapCrops
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetFutureBitmapCrops, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -492,18 +500,19 @@ func (p *WallpaperManagerProxy) GetBitmapCrop(
 	} else {
 		_data.WriteInt32(int32(len(crops)))
 		for _, _item := range crops {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getBitmapCrop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrop)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetBitmapCrop
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetBitmapCrop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -530,18 +539,18 @@ func (p *WallpaperManagerProxy) GetWallpaperIdForUser(
 	which int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperIdForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperIdForUser)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperIdForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperIdForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -562,17 +571,17 @@ func (p *WallpaperManagerProxy) GetWallpaperInfo(
 	ctx context.Context,
 ) (WallpaperInfo, error) {
 	var _result WallpaperInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfo)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -599,56 +608,18 @@ func (p *WallpaperManagerProxy) GetWallpaperInfoWithFlags(
 	which int32,
 ) (WallpaperInfo, error) {
 	var _result WallpaperInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperInfoWithFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoWithFlags)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperInfoWithFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoWithFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *WallpaperManagerProxy) GetWallpaperInstance(
-	ctx context.Context,
-	which int32,
-) (wallpaper.WallpaperInstance, error) {
-	var _result wallpaper.WallpaperInstance
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	_data.WriteInt32(which)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperInstance")
-	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperInstance
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -674,17 +645,17 @@ func (p *WallpaperManagerProxy) GetWallpaperInfoFile(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperInfoFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoFile)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperInfoFile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperInfoFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -705,19 +676,19 @@ func (p *WallpaperManagerProxy) ClearWallpaper(
 	ctx context.Context,
 	which int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "clearWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerClearWallpaper)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerClearWallpaper
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerClearWallpaper, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -739,12 +710,12 @@ func (p *WallpaperManagerProxy) HasNamedWallpaper(
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "hasNamedWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerHasNamedWallpaper)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerHasNamedWallpaper
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerHasNamedWallpaper, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -767,7 +738,7 @@ func (p *WallpaperManagerProxy) SetDimensionHints(
 	height int32,
 	displayId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(width)
@@ -775,12 +746,12 @@ func (p *WallpaperManagerProxy) SetDimensionHints(
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setDimensionHints")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetDimensionHints)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetDimensionHints
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetDimensionHints, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -802,12 +773,12 @@ func (p *WallpaperManagerProxy) GetWidthHint(
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWidthHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWidthHint)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWidthHint
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWidthHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -833,12 +804,12 @@ func (p *WallpaperManagerProxy) GetHeightHint(
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getHeightHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetHeightHint)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetHeightHint
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetHeightHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -860,7 +831,7 @@ func (p *WallpaperManagerProxy) SetDisplayPadding(
 	padding graphics.Rect,
 	displayId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(1)
@@ -870,12 +841,12 @@ func (p *WallpaperManagerProxy) SetDisplayPadding(
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setDisplayPadding")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetDisplayPadding)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetDisplayPadding
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetDisplayPadding, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -895,12 +866,12 @@ func (p *WallpaperManagerProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetName)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -923,12 +894,12 @@ func (p *WallpaperManagerProxy) SettingsRestored(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "settingsRestored")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSettingsRestored)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSettingsRestored
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSettingsRestored, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -945,17 +916,17 @@ func (p *WallpaperManagerProxy) IsWallpaperSupported(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "isWallpaperSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperSupported)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerIsWallpaperSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -976,17 +947,17 @@ func (p *WallpaperManagerProxy) IsSetWallpaperAllowed(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "isSetWallpaperAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsSetWallpaperAllowed)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerIsSetWallpaperAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerIsSetWallpaperAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1008,18 +979,18 @@ func (p *WallpaperManagerProxy) IsWallpaperBackupEligible(
 	which int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "isWallpaperBackupEligible")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperBackupEligible)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerIsWallpaperBackupEligible
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerIsWallpaperBackupEligible, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1042,19 +1013,19 @@ func (p *WallpaperManagerProxy) GetWallpaperColors(
 	displayId int32,
 ) (WallpaperColors, error) {
 	var _result WallpaperColors
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperColors")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperColors)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperColors
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperColors, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1083,15 +1054,16 @@ func (p *WallpaperManagerProxy) RemoveOnLocalColorsChangedListener(
 	which int32,
 	displayId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if area == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(area)))
 		for _, _item := range area {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -1101,12 +1073,12 @@ func (p *WallpaperManagerProxy) RemoveOnLocalColorsChangedListener(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "removeOnLocalColorsChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerRemoveOnLocalColorsChangedListener)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerRemoveOnLocalColorsChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerRemoveOnLocalColorsChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1126,15 +1098,16 @@ func (p *WallpaperManagerProxy) AddOnLocalColorsChangedListener(
 	which int32,
 	displayId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	if regions == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(regions)))
 		for _, _item := range regions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -1144,12 +1117,12 @@ func (p *WallpaperManagerProxy) AddOnLocalColorsChangedListener(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "addOnLocalColorsChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerAddOnLocalColorsChangedListener)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerAddOnLocalColorsChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerAddOnLocalColorsChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1167,19 +1140,19 @@ func (p *WallpaperManagerProxy) RegisterWallpaperColorsCallback(
 	cb IWallpaperManagerCallback,
 	displayId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "registerWallpaperColorsCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerRegisterWallpaperColorsCallback)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerRegisterWallpaperColorsCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerRegisterWallpaperColorsCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1197,19 +1170,19 @@ func (p *WallpaperManagerProxy) UnregisterWallpaperColorsCallback(
 	cb IWallpaperManagerCallback,
 	displayId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "unregisterWallpaperColorsCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerUnregisterWallpaperColorsCallback)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerUnregisterWallpaperColorsCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerUnregisterWallpaperColorsCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1232,12 +1205,12 @@ func (p *WallpaperManagerProxy) SetInAmbientMode(
 	_data.WriteBool(inAmbientMode)
 	_data.WriteInt64(animationDuration)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setInAmbientMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetInAmbientMode)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetInAmbientMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetInAmbientMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1252,12 +1225,12 @@ func (p *WallpaperManagerProxy) NotifyWakingUp(
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "notifyWakingUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyWakingUp)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerNotifyWakingUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyWakingUp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1272,12 +1245,12 @@ func (p *WallpaperManagerProxy) NotifyGoingToSleep(
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "notifyGoingToSleep")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyGoingToSleep)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerNotifyGoingToSleep
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerNotifyGoingToSleep, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1298,12 +1271,12 @@ func (p *WallpaperManagerProxy) SetWallpaperDimAmount(
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteFloat32(dimAmount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setWallpaperDimAmount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperDimAmount)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerSetWallpaperDimAmount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerSetWallpaperDimAmount, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1314,12 +1287,12 @@ func (p *WallpaperManagerProxy) GetWallpaperDimAmount(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "getWallpaperDimAmount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperDimAmount)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerGetWallpaperDimAmount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerGetWallpaperDimAmount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1343,12 +1316,12 @@ func (p *WallpaperManagerProxy) LockScreenWallpaperExists(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "lockScreenWallpaperExists")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerLockScreenWallpaperExists)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerLockScreenWallpaperExists
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerLockScreenWallpaperExists, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1374,12 +1347,12 @@ func (p *WallpaperManagerProxy) IsStaticWallpaper(
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(which)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "isStaticWallpaper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManager, MethodIWallpaperManagerIsStaticWallpaper)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerIsStaticWallpaper
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManager, MethodIWallpaperManagerIsStaticWallpaper, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1403,6 +1376,10 @@ type WallpaperManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperManagerStub)(nil)
+
+func (s *WallpaperManagerStub) Descriptor() string {
+	return DescriptorIWallpaperManager
+}
 
 func (s *WallpaperManagerStub) OnTransaction(
 	ctx context.Context,
@@ -1455,14 +1432,14 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_description wallpaper.WallpaperDescription
+		var _arg_name content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_description.UnmarshalParcel(_data); _err != nil {
+				if _err = _arg_name.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1477,7 +1454,7 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SetWallpaperComponentChecked(ctx, _arg_description, _arg_which)
+		_err = s.Impl.SetWallpaperComponentChecked(ctx, _arg_name, _arg_which)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1600,26 +1577,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
-	case TransactionIWallpaperManagerGetCurrentBitmapCrops:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_which, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetCurrentBitmapCrops(ctx, _arg_which)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
 	case TransactionIWallpaperManagerGetFutureBitmapCrops:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1740,29 +1697,6 @@ func (s *WallpaperManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWallpaperInfoWithFlags(ctx, _arg_which)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIWallpaperManagerGetWallpaperInstance:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_which, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetWallpaperInstance(ctx, _arg_which)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2243,18 +2177,16 @@ func (s *WallpaperManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IWallpaperManagerServer interface {
 	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras interface{}, which int32, completion IWallpaperManagerCallback) (int32, error)
-	SetWallpaperComponentChecked(ctx context.Context, description wallpaper.WallpaperDescription, which int32) error
+	SetWallpaperComponentChecked(ctx context.Context, name content.ComponentName, which int32) error
 	SetWallpaperComponent(ctx context.Context, name content.ComponentName) error
 	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}) (int32, error)
 	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}, getCropped bool) (int32, error)
 	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]interface{}, error)
-	GetCurrentBitmapCrops(ctx context.Context, which int32) (interface{}, error)
 	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]interface{}, error)
 	GetBitmapCrop(ctx context.Context, bitmapSize graphics.Point, screenOrientations []int32, crops []graphics.Rect) (graphics.Rect, error)
 	GetWallpaperIdForUser(ctx context.Context, which int32) (int32, error)
 	GetWallpaperInfo(ctx context.Context) (WallpaperInfo, error)
 	GetWallpaperInfoWithFlags(ctx context.Context, which int32) (WallpaperInfo, error)
-	GetWallpaperInstance(ctx context.Context, which int32) (wallpaper.WallpaperInstance, error)
 	GetWallpaperInfoFile(ctx context.Context) (int32, error)
 	ClearWallpaper(ctx context.Context, which int32) error
 	HasNamedWallpaper(ctx context.Context, name string) (bool, error)
@@ -2305,10 +2237,10 @@ func (w *wallpaperManagerStubWrapper) SetWallpaper(
 
 func (w *wallpaperManagerStubWrapper) SetWallpaperComponentChecked(
 	ctx context.Context,
-	description wallpaper.WallpaperDescription,
+	name content.ComponentName,
 	which int32,
 ) error {
-	return w.impl.SetWallpaperComponentChecked(ctx, description, which)
+	return w.impl.SetWallpaperComponentChecked(ctx, name, which)
 }
 
 func (w *wallpaperManagerStubWrapper) SetWallpaperComponent(
@@ -2348,13 +2280,6 @@ func (w *wallpaperManagerStubWrapper) GetBitmapCrops(
 	return w.impl.GetBitmapCrops(ctx, displaySizes, which, originalBitmap)
 }
 
-func (w *wallpaperManagerStubWrapper) GetCurrentBitmapCrops(
-	ctx context.Context,
-	which int32,
-) (interface{}, error) {
-	return w.impl.GetCurrentBitmapCrops(ctx, which)
-}
-
 func (w *wallpaperManagerStubWrapper) GetFutureBitmapCrops(
 	ctx context.Context,
 	bitmapSize graphics.Point,
@@ -2392,13 +2317,6 @@ func (w *wallpaperManagerStubWrapper) GetWallpaperInfoWithFlags(
 	which int32,
 ) (WallpaperInfo, error) {
 	return w.impl.GetWallpaperInfoWithFlags(ctx, which)
-}
-
-func (w *wallpaperManagerStubWrapper) GetWallpaperInstance(
-	ctx context.Context,
-	which int32,
-) (wallpaper.WallpaperInstance, error) {
-	return w.impl.GetWallpaperInstance(ctx, which)
 }
 
 func (w *wallpaperManagerStubWrapper) GetWallpaperInfoFile(

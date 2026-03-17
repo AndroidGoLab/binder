@@ -50,6 +50,43 @@ const (
 	TransactionIPackageInstallerSessionGetPreVerifiedDomains                 = binder.FirstCallTransaction + 33
 )
 
+const (
+	MethodIPackageInstallerSessionSetClientProgress                     = "setClientProgress"
+	MethodIPackageInstallerSessionAddClientProgress                     = "addClientProgress"
+	MethodIPackageInstallerSessionGetNames                              = "getNames"
+	MethodIPackageInstallerSessionOpenWrite                             = "openWrite"
+	MethodIPackageInstallerSessionOpenRead                              = "openRead"
+	MethodIPackageInstallerSessionWrite                                 = "write"
+	MethodIPackageInstallerSessionStageViaHardLink                      = "stageViaHardLink"
+	MethodIPackageInstallerSessionSetChecksums                          = "setChecksums"
+	MethodIPackageInstallerSessionRequestChecksums                      = "requestChecksums"
+	MethodIPackageInstallerSessionRemoveSplit                           = "removeSplit"
+	MethodIPackageInstallerSessionClose                                 = "close"
+	MethodIPackageInstallerSessionCommit                                = "commit"
+	MethodIPackageInstallerSessionTransfer                              = "transfer"
+	MethodIPackageInstallerSessionAbandon                               = "abandon"
+	MethodIPackageInstallerSessionSeal                                  = "seal"
+	MethodIPackageInstallerSessionFetchPackageNames                     = "fetchPackageNames"
+	MethodIPackageInstallerSessionGetDataLoaderParams                   = "getDataLoaderParams"
+	MethodIPackageInstallerSessionAddFile                               = "addFile"
+	MethodIPackageInstallerSessionRemoveFile                            = "removeFile"
+	MethodIPackageInstallerSessionIsMultiPackage                        = "isMultiPackage"
+	MethodIPackageInstallerSessionGetChildSessionIds                    = "getChildSessionIds"
+	MethodIPackageInstallerSessionAddChildSessionId                     = "addChildSessionId"
+	MethodIPackageInstallerSessionRemoveChildSessionId                  = "removeChildSessionId"
+	MethodIPackageInstallerSessionGetParentSessionId                    = "getParentSessionId"
+	MethodIPackageInstallerSessionIsStaged                              = "isStaged"
+	MethodIPackageInstallerSessionGetInstallFlags                       = "getInstallFlags"
+	MethodIPackageInstallerSessionRequestUserPreapproval                = "requestUserPreapproval"
+	MethodIPackageInstallerSessionIsApplicationEnabledSettingPersistent = "isApplicationEnabledSettingPersistent"
+	MethodIPackageInstallerSessionIsRequestUpdateOwnership              = "isRequestUpdateOwnership"
+	MethodIPackageInstallerSessionGetAppMetadataFd                      = "getAppMetadataFd"
+	MethodIPackageInstallerSessionOpenWriteAppMetadata                  = "openWriteAppMetadata"
+	MethodIPackageInstallerSessionRemoveAppMetadata                     = "removeAppMetadata"
+	MethodIPackageInstallerSessionSetPreVerifiedDomains                 = "setPreVerifiedDomains"
+	MethodIPackageInstallerSessionGetPreVerifiedDomains                 = "getPreVerifiedDomains"
+)
+
 type IPackageInstallerSession interface {
 	AsBinder() binder.IBinder
 	SetClientProgress(ctx context.Context, progress float32) error
@@ -89,17 +126,17 @@ type IPackageInstallerSession interface {
 }
 
 type PackageInstallerSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageInstallerSessionProxy(
 	remote binder.IBinder,
 ) *PackageInstallerSessionProxy {
-	return &PackageInstallerSessionProxy{remote: remote}
+	return &PackageInstallerSessionProxy{Remote: remote}
 }
 
 func (p *PackageInstallerSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageInstallerSession = (*PackageInstallerSessionProxy)(nil)
@@ -112,12 +149,12 @@ func (p *PackageInstallerSessionProxy) SetClientProgress(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "setClientProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetClientProgress)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionSetClientProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetClientProgress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,12 +175,12 @@ func (p *PackageInstallerSessionProxy) AddClientProgress(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteFloat32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "addClientProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddClientProgress)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionAddClientProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddClientProgress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -163,12 +200,12 @@ func (p *PackageInstallerSessionProxy) GetNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getNames")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetNames)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetNames
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetNames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,12 +245,12 @@ func (p *PackageInstallerSessionProxy) OpenWrite(
 	_data.WriteInt64(offsetBytes)
 	_data.WriteInt64(lengthBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "openWrite")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWrite)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionOpenWrite
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -239,12 +276,12 @@ func (p *PackageInstallerSessionProxy) OpenRead(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "openRead")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenRead)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionOpenRead
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenRead, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -275,12 +312,12 @@ func (p *PackageInstallerSessionProxy) Write(
 	_data.WriteInt64(lengthBytes)
 	_data.WriteFileDescriptor(fd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionWrite)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -301,12 +338,12 @@ func (p *PackageInstallerSessionProxy) StageViaHardLink(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(target)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "stageViaHardLink")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionStageViaHardLink)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionStageViaHardLink
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionStageViaHardLink, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -333,6 +370,7 @@ func (p *PackageInstallerSessionProxy) SetChecksums(
 	} else {
 		_data.WriteInt32(int32(len(checksums)))
 		for _, _item := range checksums {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -347,12 +385,12 @@ func (p *PackageInstallerSessionProxy) SetChecksums(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "setChecksums")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetChecksums)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionSetChecksums
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetChecksums, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -383,14 +421,14 @@ func (p *PackageInstallerSessionProxy) RequestChecksums(
 	} else {
 		_data.WriteInt32(int32(len(trustedInstallers)))
 	}
-	binder.WriteBinderToParcel(ctx, _data, onChecksumsReadyListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, onChecksumsReadyListener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "requestChecksums")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestChecksums)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionRequestChecksums
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestChecksums, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -411,12 +449,12 @@ func (p *PackageInstallerSessionProxy) RemoveSplit(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(splitName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "removeSplit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveSplit)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionRemoveSplit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveSplit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -435,12 +473,12 @@ func (p *PackageInstallerSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionClose)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -466,12 +504,12 @@ func (p *PackageInstallerSessionProxy) Commit(
 	}
 	_data.WriteBool(forTransferred)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "commit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionCommit)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionCommit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionCommit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -492,12 +530,12 @@ func (p *PackageInstallerSessionProxy) Transfer(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "transfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionTransfer)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionTransfer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -516,12 +554,12 @@ func (p *PackageInstallerSessionProxy) Abandon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "abandon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAbandon)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionAbandon
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAbandon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -540,12 +578,12 @@ func (p *PackageInstallerSessionProxy) Seal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "seal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSeal)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionSeal
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSeal, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -565,12 +603,12 @@ func (p *PackageInstallerSessionProxy) FetchPackageNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "fetchPackageNames")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionFetchPackageNames)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionFetchPackageNames
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionFetchPackageNames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -604,12 +642,12 @@ func (p *PackageInstallerSessionProxy) GetDataLoaderParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getDataLoaderParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetDataLoaderParams)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetDataLoaderParams
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetDataLoaderParams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -661,12 +699,12 @@ func (p *PackageInstallerSessionProxy) AddFile(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "addFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddFile)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionAddFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -689,12 +727,12 @@ func (p *PackageInstallerSessionProxy) RemoveFile(
 	_data.WriteInt32(location)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "removeFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveFile)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionRemoveFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -714,12 +752,12 @@ func (p *PackageInstallerSessionProxy) IsMultiPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "isMultiPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsMultiPackage)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionIsMultiPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsMultiPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -743,12 +781,12 @@ func (p *PackageInstallerSessionProxy) GetChildSessionIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getChildSessionIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetChildSessionIds)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetChildSessionIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetChildSessionIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -783,12 +821,12 @@ func (p *PackageInstallerSessionProxy) AddChildSessionId(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "addChildSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddChildSessionId)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionAddChildSessionId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionAddChildSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -809,12 +847,12 @@ func (p *PackageInstallerSessionProxy) RemoveChildSessionId(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "removeChildSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveChildSessionId)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionRemoveChildSessionId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveChildSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -834,12 +872,12 @@ func (p *PackageInstallerSessionProxy) GetParentSessionId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getParentSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetParentSessionId)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetParentSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetParentSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -863,12 +901,12 @@ func (p *PackageInstallerSessionProxy) IsStaged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "isStaged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsStaged)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionIsStaged
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsStaged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -892,12 +930,12 @@ func (p *PackageInstallerSessionProxy) GetInstallFlags(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getInstallFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetInstallFlags)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetInstallFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetInstallFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -930,12 +968,12 @@ func (p *PackageInstallerSessionProxy) RequestUserPreapproval(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "requestUserPreapproval")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestUserPreapproval)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionRequestUserPreapproval
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRequestUserPreapproval, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -955,12 +993,12 @@ func (p *PackageInstallerSessionProxy) IsApplicationEnabledSettingPersistent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "isApplicationEnabledSettingPersistent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsApplicationEnabledSettingPersistent)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionIsApplicationEnabledSettingPersistent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsApplicationEnabledSettingPersistent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -984,12 +1022,12 @@ func (p *PackageInstallerSessionProxy) IsRequestUpdateOwnership(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "isRequestUpdateOwnership")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsRequestUpdateOwnership)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionIsRequestUpdateOwnership
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionIsRequestUpdateOwnership, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1013,12 +1051,12 @@ func (p *PackageInstallerSessionProxy) GetAppMetadataFd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getAppMetadataFd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetAppMetadataFd)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetAppMetadataFd
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetAppMetadataFd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1042,12 +1080,12 @@ func (p *PackageInstallerSessionProxy) OpenWriteAppMetadata(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "openWriteAppMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWriteAppMetadata)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionOpenWriteAppMetadata
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionOpenWriteAppMetadata, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1070,12 +1108,12 @@ func (p *PackageInstallerSessionProxy) RemoveAppMetadata(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "removeAppMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveAppMetadata)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionRemoveAppMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionRemoveAppMetadata, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1099,12 +1137,12 @@ func (p *PackageInstallerSessionProxy) SetPreVerifiedDomains(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "setPreVerifiedDomains")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetPreVerifiedDomains)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionSetPreVerifiedDomains
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionSetPreVerifiedDomains, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1124,12 +1162,12 @@ func (p *PackageInstallerSessionProxy) GetPreVerifiedDomains(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "getPreVerifiedDomains")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetPreVerifiedDomains)
 	if _err != nil {
-		_code = TransactionIPackageInstallerSessionGetPreVerifiedDomains
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageInstallerSession, MethodIPackageInstallerSessionGetPreVerifiedDomains, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1158,6 +1196,10 @@ type PackageInstallerSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageInstallerSessionStub)(nil)
+
+func (s *PackageInstallerSessionStub) Descriptor() string {
+	return DescriptorIPackageInstallerSession
+}
 
 func (s *PackageInstallerSessionStub) OnTransaction(
 	ctx context.Context,

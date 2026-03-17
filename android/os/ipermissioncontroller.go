@@ -19,6 +19,14 @@ const (
 	TransactionIPermissionControllerGetPackageUid       = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPermissionControllerCheckPermission     = "checkPermission"
+	MethodIPermissionControllerNoteOp              = "noteOp"
+	MethodIPermissionControllerGetPackagesForUid   = "getPackagesForUid"
+	MethodIPermissionControllerIsRuntimePermission = "isRuntimePermission"
+	MethodIPermissionControllerGetPackageUid       = "getPackageUid"
+)
+
 type IPermissionController interface {
 	AsBinder() binder.IBinder
 	CheckPermission(ctx context.Context, permission string, pid int32, uid int32) (bool, error)
@@ -29,17 +37,17 @@ type IPermissionController interface {
 }
 
 type PermissionControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPermissionControllerProxy(
 	remote binder.IBinder,
 ) *PermissionControllerProxy {
-	return &PermissionControllerProxy{remote: remote}
+	return &PermissionControllerProxy{Remote: remote}
 }
 
 func (p *PermissionControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPermissionController = (*PermissionControllerProxy)(nil)
@@ -57,12 +65,12 @@ func (p *PermissionControllerProxy) CheckPermission(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "checkPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerCheckPermission)
 	if _err != nil {
-		_code = TransactionIPermissionControllerCheckPermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionController, MethodIPermissionControllerCheckPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -92,12 +100,12 @@ func (p *PermissionControllerProxy) NoteOp(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "noteOp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerNoteOp)
 	if _err != nil {
-		_code = TransactionIPermissionControllerNoteOp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionController, MethodIPermissionControllerNoteOp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,12 +131,12 @@ func (p *PermissionControllerProxy) GetPackagesForUid(
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "getPackagesForUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPackagesForUid)
 	if _err != nil {
-		_code = TransactionIPermissionControllerGetPackagesForUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionController, MethodIPermissionControllerGetPackagesForUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,12 +172,12 @@ func (p *PermissionControllerProxy) IsRuntimePermission(
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permission)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "isRuntimePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerIsRuntimePermission)
 	if _err != nil {
-		_code = TransactionIPermissionControllerIsRuntimePermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionController, MethodIPermissionControllerIsRuntimePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -197,12 +205,12 @@ func (p *PermissionControllerProxy) GetPackageUid(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "getPackageUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPermissionController, MethodIPermissionControllerGetPackageUid)
 	if _err != nil {
-		_code = TransactionIPermissionControllerGetPackageUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPermissionController, MethodIPermissionControllerGetPackageUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -226,6 +234,10 @@ type PermissionControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PermissionControllerStub)(nil)
+
+func (s *PermissionControllerStub) Descriptor() string {
+	return DescriptorIPermissionController
+}
 
 func (s *PermissionControllerStub) OnTransaction(
 	ctx context.Context,

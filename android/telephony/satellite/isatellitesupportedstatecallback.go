@@ -15,23 +15,27 @@ const (
 	TransactionISatelliteSupportedStateCallbackOnSatelliteSupportedStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISatelliteSupportedStateCallbackOnSatelliteSupportedStateChanged = "onSatelliteSupportedStateChanged"
+)
+
 type ISatelliteSupportedStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteSupportedStateChanged(ctx context.Context, supported bool) error
 }
 
 type SatelliteSupportedStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteSupportedStateCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteSupportedStateCallbackProxy {
-	return &SatelliteSupportedStateCallbackProxy{remote: remote}
+	return &SatelliteSupportedStateCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteSupportedStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteSupportedStateCallback = (*SatelliteSupportedStateCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SatelliteSupportedStateCallbackProxy) OnSatelliteSupportedStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteSupportedStateCallback)
 	_data.WriteBool(supported)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteSupportedStateCallback, "onSatelliteSupportedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteSupportedStateCallback, MethodISatelliteSupportedStateCallbackOnSatelliteSupportedStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteSupportedStateCallbackOnSatelliteSupportedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteSupportedStateCallback, MethodISatelliteSupportedStateCallbackOnSatelliteSupportedStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SatelliteSupportedStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteSupportedStateCallbackStub)(nil)
+
+func (s *SatelliteSupportedStateCallbackStub) Descriptor() string {
+	return DescriptorISatelliteSupportedStateCallback
+}
 
 func (s *SatelliteSupportedStateCallbackStub) OnTransaction(
 	ctx context.Context,

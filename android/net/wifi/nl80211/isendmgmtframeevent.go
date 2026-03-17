@@ -16,6 +16,11 @@ const (
 	TransactionISendMgmtFrameEventOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISendMgmtFrameEventOnAck     = "OnAck"
+	MethodISendMgmtFrameEventOnFailure = "OnFailure"
+)
+
 type ISendMgmtFrameEvent interface {
 	AsBinder() binder.IBinder
 	OnAck(ctx context.Context, elapsedTimeMs int32) error
@@ -31,17 +36,17 @@ const (
 )
 
 type SendMgmtFrameEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSendMgmtFrameEventProxy(
 	remote binder.IBinder,
 ) *SendMgmtFrameEventProxy {
-	return &SendMgmtFrameEventProxy{remote: remote}
+	return &SendMgmtFrameEventProxy{Remote: remote}
 }
 
 func (p *SendMgmtFrameEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISendMgmtFrameEvent = (*SendMgmtFrameEventProxy)(nil)
@@ -54,12 +59,12 @@ func (p *SendMgmtFrameEventProxy) OnAck(
 	_data.WriteInterfaceToken(DescriptorISendMgmtFrameEvent)
 	_data.WriteInt32(elapsedTimeMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISendMgmtFrameEvent, "OnAck")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnAck)
 	if _err != nil {
-		_code = TransactionISendMgmtFrameEventOnAck
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnAck, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +76,12 @@ func (p *SendMgmtFrameEventProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorISendMgmtFrameEvent)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISendMgmtFrameEvent, "OnFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnFailure)
 	if _err != nil {
-		_code = TransactionISendMgmtFrameEventOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISendMgmtFrameEvent, MethodISendMgmtFrameEventOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type SendMgmtFrameEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SendMgmtFrameEventStub)(nil)
+
+func (s *SendMgmtFrameEventStub) Descriptor() string {
+	return DescriptorISendMgmtFrameEvent
+}
 
 func (s *SendMgmtFrameEventStub) OnTransaction(
 	ctx context.Context,

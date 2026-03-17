@@ -22,6 +22,7 @@ func (s *StaRoamingConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.BssidBlocklist)))
 		for _, _item := range s.BssidBlocklist {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -32,6 +33,7 @@ func (s *StaRoamingConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SsidAllowlist)))
 		for _, _item := range s.SsidAllowlist {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -58,6 +60,9 @@ func (s *StaRoamingConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.BssidBlocklist = make([]MacAddress, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.BssidBlocklist[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +77,9 @@ func (s *StaRoamingConfig) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.SsidAllowlist = make([]Ssid, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SsidAllowlist[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -15,23 +15,27 @@ const (
 	TransactionIOtaStatusChangedCallbackOnOtaStatusChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOtaStatusChangedCallbackOnOtaStatusChanged = "onOtaStatusChanged"
+)
+
 type IOtaStatusChangedCallback interface {
 	AsBinder() binder.IBinder
 	OnOtaStatusChanged(ctx context.Context, status int32) error
 }
 
 type OtaStatusChangedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOtaStatusChangedCallbackProxy(
 	remote binder.IBinder,
 ) *OtaStatusChangedCallbackProxy {
-	return &OtaStatusChangedCallbackProxy{remote: remote}
+	return &OtaStatusChangedCallbackProxy{Remote: remote}
 }
 
 func (p *OtaStatusChangedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOtaStatusChangedCallback = (*OtaStatusChangedCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *OtaStatusChangedCallbackProxy) OnOtaStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIOtaStatusChangedCallback)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOtaStatusChangedCallback, "onOtaStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOtaStatusChangedCallback, MethodIOtaStatusChangedCallbackOnOtaStatusChanged)
 	if _err != nil {
-		_code = TransactionIOtaStatusChangedCallbackOnOtaStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOtaStatusChangedCallback, MethodIOtaStatusChangedCallbackOnOtaStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type OtaStatusChangedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OtaStatusChangedCallbackStub)(nil)
+
+func (s *OtaStatusChangedCallbackStub) Descriptor() string {
+	return DescriptorIOtaStatusChangedCallback
+}
 
 func (s *OtaStatusChangedCallbackStub) OnTransaction(
 	ctx context.Context,

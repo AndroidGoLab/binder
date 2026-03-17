@@ -5,7 +5,6 @@ import (
 	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
-	sharedBubbles "github.com/xaionaro-go/binder/com/android/wm/shell/shared/bubbles"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,28 +13,30 @@ import (
 const DescriptorIBubblesListener = "com.android.wm.shell.bubbles.IBubblesListener"
 
 const (
-	TransactionIBubblesListenerOnBubbleStateChange      = binder.FirstCallTransaction + 0
-	TransactionIBubblesListenerAnimateBubbleBarLocation = binder.FirstCallTransaction + 1
+	TransactionIBubblesListenerOnBubbleStateChange = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIBubblesListenerOnBubbleStateChange = "onBubbleStateChange"
 )
 
 type IBubblesListener interface {
 	AsBinder() binder.IBinder
 	OnBubbleStateChange(ctx context.Context, update os.Bundle) error
-	AnimateBubbleBarLocation(ctx context.Context, location sharedBubbles.BubbleBarLocation) error
 }
 
 type BubblesListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBubblesListenerProxy(
 	remote binder.IBinder,
 ) *BubblesListenerProxy {
-	return &BubblesListenerProxy{remote: remote}
+	return &BubblesListenerProxy{Remote: remote}
 }
 
 func (p *BubblesListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBubblesListener = (*BubblesListenerProxy)(nil)
@@ -51,32 +52,12 @@ func (p *BubblesListenerProxy) OnBubbleStateChange(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBubblesListener, "onBubbleStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBubblesListener, MethodIBubblesListenerOnBubbleStateChange)
 	if _err != nil {
-		_code = TransactionIBubblesListenerOnBubbleStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBubblesListener, MethodIBubblesListenerOnBubbleStateChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BubblesListenerProxy) AnimateBubbleBarLocation(
-	ctx context.Context,
-	location sharedBubbles.BubbleBarLocation,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBubblesListener)
-	_data.WriteInt32(1)
-	if _err := location.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBubblesListener, "animateBubbleBarLocation")
-	if _err != nil {
-		_code = TransactionIBubblesListenerAnimateBubbleBarLocation
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +68,10 @@ type BubblesListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BubblesListenerStub)(nil)
+
+func (s *BubblesListenerStub) Descriptor() string {
+	return DescriptorIBubblesListener
+}
 
 func (s *BubblesListenerStub) OnTransaction(
 	ctx context.Context,
@@ -113,25 +98,6 @@ func (s *BubblesListenerStub) OnTransaction(
 		_err := s.Impl.OnBubbleStateChange(ctx, _arg_update)
 		_ = _err
 		return nil, nil
-	case TransactionIBubblesListenerAnimateBubbleBarLocation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_location sharedBubbles.BubbleBarLocation
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.AnimateBubbleBarLocation(ctx, _arg_location)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -142,7 +108,6 @@ func (s *BubblesListenerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBubblesListenerServer interface {
 	OnBubbleStateChange(ctx context.Context, update os.Bundle) error
-	AnimateBubbleBarLocation(ctx context.Context, location sharedBubbles.BubbleBarLocation) error
 }
 
 type bubblesListenerStubWrapper struct {
@@ -159,13 +124,6 @@ func (w *bubblesListenerStubWrapper) OnBubbleStateChange(
 	update os.Bundle,
 ) error {
 	return w.impl.OnBubbleStateChange(ctx, update)
-}
-
-func (w *bubblesListenerStubWrapper) AnimateBubbleBarLocation(
-	ctx context.Context,
-	location sharedBubbles.BubbleBarLocation,
-) error {
-	return w.impl.AnimateBubbleBarLocation(ctx, location)
 }
 
 var _ IBubblesListener = (*bubblesListenerStubWrapper)(nil)

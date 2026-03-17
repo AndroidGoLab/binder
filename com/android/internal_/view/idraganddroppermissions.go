@@ -17,6 +17,12 @@ const (
 	TransactionIDragAndDropPermissionsRelease       = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDragAndDropPermissionsTake          = "take"
+	MethodIDragAndDropPermissionsTakeTransient = "takeTransient"
+	MethodIDragAndDropPermissionsRelease       = "release"
+)
+
 type IDragAndDropPermissions interface {
 	AsBinder() binder.IBinder
 	Take(ctx context.Context, activityToken binder.IBinder) error
@@ -25,17 +31,17 @@ type IDragAndDropPermissions interface {
 }
 
 type DragAndDropPermissionsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDragAndDropPermissionsProxy(
 	remote binder.IBinder,
 ) *DragAndDropPermissionsProxy {
-	return &DragAndDropPermissionsProxy{remote: remote}
+	return &DragAndDropPermissionsProxy{Remote: remote}
 }
 
 func (p *DragAndDropPermissionsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDragAndDropPermissions = (*DragAndDropPermissionsProxy)(nil)
@@ -46,14 +52,14 @@ func (p *DragAndDropPermissionsProxy) Take(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDragAndDropPermissions)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDropPermissions, "take")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsTake)
 	if _err != nil {
-		_code = TransactionIDragAndDropPermissionsTake
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsTake, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,12 +78,12 @@ func (p *DragAndDropPermissionsProxy) TakeTransient(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDragAndDropPermissions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDropPermissions, "takeTransient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsTakeTransient)
 	if _err != nil {
-		_code = TransactionIDragAndDropPermissionsTakeTransient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsTakeTransient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,12 +102,12 @@ func (p *DragAndDropPermissionsProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDragAndDropPermissions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDropPermissions, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsRelease)
 	if _err != nil {
-		_code = TransactionIDragAndDropPermissionsRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDragAndDropPermissions, MethodIDragAndDropPermissionsRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,6 +127,10 @@ type DragAndDropPermissionsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DragAndDropPermissionsStub)(nil)
+
+func (s *DragAndDropPermissionsStub) Descriptor() string {
+	return DescriptorIDragAndDropPermissions
+}
 
 func (s *DragAndDropPermissionsStub) OnTransaction(
 	ctx context.Context,

@@ -145,26 +145,32 @@ func (u *CellIdentity) MarshalParcel(
 	case CellIdentityTagNoinit:
 		p.WriteBool(u.Noinit)
 	case CellIdentityTagGsm:
+		p.WriteInt32(1)
 		if _err := u.Gsm.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagWcdma:
+		p.WriteInt32(1)
 		if _err := u.Wcdma.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagTdscdma:
+		p.WriteInt32(1)
 		if _err := u.Tdscdma.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagCdma:
+		p.WriteInt32(1)
 		if _err := u.Cdma.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagLte:
+		p.WriteInt32(1)
 		if _err := u.Lte.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagNr:
+		p.WriteInt32(1)
 		if _err := u.Nr.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -196,26 +202,44 @@ func (u *CellIdentity) UnmarshalParcel(
 			return _err
 		}
 	case CellIdentityTagGsm:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Gsm.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagWcdma:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Wcdma.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagTdscdma:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Tdscdma.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagCdma:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Cdma.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagLte:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Lte.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CellIdentityTagNr:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Nr.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

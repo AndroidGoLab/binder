@@ -23,40 +23,59 @@ const (
 	TransactionIAutoFillManagerRestoreSession                            = binder.FirstCallTransaction + 4
 	TransactionIAutoFillManagerUpdateSession                             = binder.FirstCallTransaction + 5
 	TransactionIAutoFillManagerSetAutofillFailure                        = binder.FirstCallTransaction + 6
-	TransactionIAutoFillManagerSetViewAutofilled                         = binder.FirstCallTransaction + 7
-	TransactionIAutoFillManagerFinishSession                             = binder.FirstCallTransaction + 8
-	TransactionIAutoFillManagerCancelSession                             = binder.FirstCallTransaction + 9
-	TransactionIAutoFillManagerSetAuthenticationResult                   = binder.FirstCallTransaction + 10
-	TransactionIAutoFillManagerSetHasCallback                            = binder.FirstCallTransaction + 11
-	TransactionIAutoFillManagerDisableOwnedAutofillServices              = binder.FirstCallTransaction + 12
-	TransactionIAutoFillManagerIsServiceSupported                        = binder.FirstCallTransaction + 13
-	TransactionIAutoFillManagerIsServiceEnabled                          = binder.FirstCallTransaction + 14
-	TransactionIAutoFillManagerOnPendingSaveUi                           = binder.FirstCallTransaction + 15
-	TransactionIAutoFillManagerGetUserData                               = binder.FirstCallTransaction + 16
-	TransactionIAutoFillManagerGetUserDataId                             = binder.FirstCallTransaction + 17
-	TransactionIAutoFillManagerSetUserData                               = binder.FirstCallTransaction + 18
-	TransactionIAutoFillManagerIsFieldClassificationEnabled              = binder.FirstCallTransaction + 19
-	TransactionIAutoFillManagerGetAutofillServiceComponentName           = binder.FirstCallTransaction + 20
-	TransactionIAutoFillManagerGetAvailableFieldClassificationAlgorithms = binder.FirstCallTransaction + 21
-	TransactionIAutoFillManagerGetDefaultFieldClassificationAlgorithm    = binder.FirstCallTransaction + 22
-	TransactionIAutoFillManagerSetAugmentedAutofillWhitelist             = binder.FirstCallTransaction + 23
-	TransactionIAutoFillManagerNotifyNotExpiringResponseDuringAuth       = binder.FirstCallTransaction + 24
-	TransactionIAutoFillManagerNotifyViewEnteredIgnoredDuringAuthCount   = binder.FirstCallTransaction + 25
-	TransactionIAutoFillManagerSetAutofillIdsAttemptedForRefill          = binder.FirstCallTransaction + 26
-	TransactionIAutoFillManagerNotifyImeAnimationStart                   = binder.FirstCallTransaction + 27
-	TransactionIAutoFillManagerNotifyImeAnimationEnd                     = binder.FirstCallTransaction + 28
+	TransactionIAutoFillManagerFinishSession                             = binder.FirstCallTransaction + 7
+	TransactionIAutoFillManagerCancelSession                             = binder.FirstCallTransaction + 8
+	TransactionIAutoFillManagerSetAuthenticationResult                   = binder.FirstCallTransaction + 9
+	TransactionIAutoFillManagerSetHasCallback                            = binder.FirstCallTransaction + 10
+	TransactionIAutoFillManagerDisableOwnedAutofillServices              = binder.FirstCallTransaction + 11
+	TransactionIAutoFillManagerIsServiceSupported                        = binder.FirstCallTransaction + 12
+	TransactionIAutoFillManagerIsServiceEnabled                          = binder.FirstCallTransaction + 13
+	TransactionIAutoFillManagerOnPendingSaveUi                           = binder.FirstCallTransaction + 14
+	TransactionIAutoFillManagerGetUserData                               = binder.FirstCallTransaction + 15
+	TransactionIAutoFillManagerGetUserDataId                             = binder.FirstCallTransaction + 16
+	TransactionIAutoFillManagerSetUserData                               = binder.FirstCallTransaction + 17
+	TransactionIAutoFillManagerIsFieldClassificationEnabled              = binder.FirstCallTransaction + 18
+	TransactionIAutoFillManagerGetAutofillServiceComponentName           = binder.FirstCallTransaction + 19
+	TransactionIAutoFillManagerGetAvailableFieldClassificationAlgorithms = binder.FirstCallTransaction + 20
+	TransactionIAutoFillManagerGetDefaultFieldClassificationAlgorithm    = binder.FirstCallTransaction + 21
+	TransactionIAutoFillManagerSetAugmentedAutofillWhitelist             = binder.FirstCallTransaction + 22
+)
+
+const (
+	MethodIAutoFillManagerAddClient                                 = "addClient"
+	MethodIAutoFillManagerRemoveClient                              = "removeClient"
+	MethodIAutoFillManagerStartSession                              = "startSession"
+	MethodIAutoFillManagerGetFillEventHistory                       = "getFillEventHistory"
+	MethodIAutoFillManagerRestoreSession                            = "restoreSession"
+	MethodIAutoFillManagerUpdateSession                             = "updateSession"
+	MethodIAutoFillManagerSetAutofillFailure                        = "setAutofillFailure"
+	MethodIAutoFillManagerFinishSession                             = "finishSession"
+	MethodIAutoFillManagerCancelSession                             = "cancelSession"
+	MethodIAutoFillManagerSetAuthenticationResult                   = "setAuthenticationResult"
+	MethodIAutoFillManagerSetHasCallback                            = "setHasCallback"
+	MethodIAutoFillManagerDisableOwnedAutofillServices              = "disableOwnedAutofillServices"
+	MethodIAutoFillManagerIsServiceSupported                        = "isServiceSupported"
+	MethodIAutoFillManagerIsServiceEnabled                          = "isServiceEnabled"
+	MethodIAutoFillManagerOnPendingSaveUi                           = "onPendingSaveUi"
+	MethodIAutoFillManagerGetUserData                               = "getUserData"
+	MethodIAutoFillManagerGetUserDataId                             = "getUserDataId"
+	MethodIAutoFillManagerSetUserData                               = "setUserData"
+	MethodIAutoFillManagerIsFieldClassificationEnabled              = "isFieldClassificationEnabled"
+	MethodIAutoFillManagerGetAutofillServiceComponentName           = "getAutofillServiceComponentName"
+	MethodIAutoFillManagerGetAvailableFieldClassificationAlgorithms = "getAvailableFieldClassificationAlgorithms"
+	MethodIAutoFillManagerGetDefaultFieldClassificationAlgorithm    = "getDefaultFieldClassificationAlgorithm"
+	MethodIAutoFillManagerSetAugmentedAutofillWhitelist             = "setAugmentedAutofillWhitelist"
 )
 
 type IAutoFillManager interface {
 	AsBinder() binder.IBinder
-	AddClient(ctx context.Context, client IAutoFillManagerClient, componentName content.ComponentName, result os.IResultReceiver, credmanRequested bool) error
+	AddClient(ctx context.Context, client IAutoFillManagerClient, componentName content.ComponentName, result os.IResultReceiver) error
 	RemoveClient(ctx context.Context, client IAutoFillManagerClient) error
 	StartSession(ctx context.Context, activityToken binder.IBinder, appCallback binder.IBinder, autoFillId AutofillId, bounds graphics.Rect, value AutofillValue, hasCallback bool, flags int32, componentName content.ComponentName, compatMode bool, result os.IResultReceiver) error
 	GetFillEventHistory(ctx context.Context, result os.IResultReceiver) error
 	RestoreSession(ctx context.Context, sessionId int32, activityToken binder.IBinder, appCallback binder.IBinder, result os.IResultReceiver) error
 	UpdateSession(ctx context.Context, sessionId int32, id AutofillId, bounds graphics.Rect, value AutofillValue, action int32, flags int32) error
-	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId, isRefill bool) error
-	SetViewAutofilled(ctx context.Context, sessionId int32, id AutofillId) error
+	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId) error
 	FinishSession(ctx context.Context, sessionId int32, commitReason int32) error
 	CancelSession(ctx context.Context, sessionId int32) error
 	SetAuthenticationResult(ctx context.Context, data interface{}, sessionId int32, authenticationId int32) error
@@ -73,25 +92,20 @@ type IAutoFillManager interface {
 	GetAvailableFieldClassificationAlgorithms(ctx context.Context, result os.IResultReceiver) error
 	GetDefaultFieldClassificationAlgorithm(ctx context.Context, result os.IResultReceiver) error
 	SetAugmentedAutofillWhitelist(ctx context.Context, packages []string, activities []content.ComponentName, result os.IResultReceiver) error
-	NotifyNotExpiringResponseDuringAuth(ctx context.Context, sessionId int32) error
-	NotifyViewEnteredIgnoredDuringAuthCount(ctx context.Context, sessionId int32) error
-	SetAutofillIdsAttemptedForRefill(ctx context.Context, sessionId int32, ids []AutofillId) error
-	NotifyImeAnimationStart(ctx context.Context, sessionId int32, startTimeMs int64) error
-	NotifyImeAnimationEnd(ctx context.Context, sessionId int32, endTimeMs int64) error
 }
 
 type AutoFillManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAutoFillManagerProxy(
 	remote binder.IBinder,
 ) *AutoFillManagerProxy {
-	return &AutoFillManagerProxy{remote: remote}
+	return &AutoFillManagerProxy{Remote: remote}
 }
 
 func (p *AutoFillManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAutoFillManager = (*AutoFillManagerProxy)(nil)
@@ -101,26 +115,24 @@ func (p *AutoFillManagerProxy) AddClient(
 	client IAutoFillManagerClient,
 	componentName content.ComponentName,
 	result os.IResultReceiver,
-	credmanRequested bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
-	_data.WriteBool(credmanRequested)
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "addClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerAddClient)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerAddClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerAddClient, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,18 +140,18 @@ func (p *AutoFillManagerProxy) RemoveClient(
 	ctx context.Context,
 	client IAutoFillManagerClient,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "removeClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerRemoveClient)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerRemoveClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerRemoveClient, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,11 +168,11 @@ func (p *AutoFillManagerProxy) StartSession(
 	compatMode bool,
 	result os.IResultReceiver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, appCallback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := autoFillId.MarshalParcel(_data); _err != nil {
 		return _err
@@ -181,14 +193,14 @@ func (p *AutoFillManagerProxy) StartSession(
 		return _err
 	}
 	_data.WriteBool(compatMode)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "startSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerStartSession)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerStartSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerStartSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,14 +210,14 @@ func (p *AutoFillManagerProxy) GetFillEventHistory(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getFillEventHistory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetFillEventHistory)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerGetFillEventHistory
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerGetFillEventHistory, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -219,16 +231,16 @@ func (p *AutoFillManagerProxy) RestoreSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, appCallback, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, appCallback, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "restoreSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerRestoreSession)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerRestoreSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerRestoreSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -241,7 +253,7 @@ func (p *AutoFillManagerProxy) UpdateSession(
 	action int32,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
@@ -261,12 +273,12 @@ func (p *AutoFillManagerProxy) UpdateSession(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "updateSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerUpdateSession)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerUpdateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerUpdateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -274,9 +286,8 @@ func (p *AutoFillManagerProxy) SetAutofillFailure(
 	ctx context.Context,
 	sessionId int32,
 	ids []AutofillId,
-	isRefill bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
@@ -285,44 +296,20 @@ func (p *AutoFillManagerProxy) SetAutofillFailure(
 	} else {
 		_data.WriteInt32(int32(len(ids)))
 		for _, _item := range ids {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	_data.WriteBool(isRefill)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setAutofillFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAutofillFailure)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerSetAutofillFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerSetAutofillFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillManagerProxy) SetViewAutofilled(
-	ctx context.Context,
-	sessionId int32,
-	id AutofillId,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(1)
-	if _err := id.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setViewAutofilled")
-	if _err != nil {
-		_code = TransactionIAutoFillManagerSetViewAutofilled
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -331,19 +318,19 @@ func (p *AutoFillManagerProxy) FinishSession(
 	sessionId int32,
 	commitReason int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(commitReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "finishSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerFinishSession)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerFinishSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerFinishSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -351,18 +338,18 @@ func (p *AutoFillManagerProxy) CancelSession(
 	ctx context.Context,
 	sessionId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "cancelSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerCancelSession)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerCancelSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerCancelSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -372,19 +359,19 @@ func (p *AutoFillManagerProxy) SetAuthenticationResult(
 	sessionId int32,
 	authenticationId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(authenticationId)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setAuthenticationResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAuthenticationResult)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerSetAuthenticationResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerSetAuthenticationResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -393,36 +380,36 @@ func (p *AutoFillManagerProxy) SetHasCallback(
 	sessionId int32,
 	hasIt bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(hasIt)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setHasCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetHasCallback)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerSetHasCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerSetHasCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *AutoFillManagerProxy) DisableOwnedAutofillServices(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "disableOwnedAutofillServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerDisableOwnedAutofillServices)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerDisableOwnedAutofillServices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerDisableOwnedAutofillServices, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -430,18 +417,18 @@ func (p *AutoFillManagerProxy) IsServiceSupported(
 	ctx context.Context,
 	result os.IResultReceiver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "isServiceSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceSupported)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerIsServiceSupported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceSupported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -450,19 +437,19 @@ func (p *AutoFillManagerProxy) IsServiceEnabled(
 	packageName string,
 	result os.IResultReceiver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "isServiceEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceEnabled)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerIsServiceEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerIsServiceEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -474,14 +461,14 @@ func (p *AutoFillManagerProxy) OnPendingSaveUi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(operation)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "onPendingSaveUi")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerOnPendingSaveUi)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerOnPendingSaveUi
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerOnPendingSaveUi, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -491,14 +478,14 @@ func (p *AutoFillManagerProxy) GetUserData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getUserData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserData)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerGetUserData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -508,14 +495,14 @@ func (p *AutoFillManagerProxy) GetUserDataId(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getUserDataId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserDataId)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerGetUserDataId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerGetUserDataId, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -530,12 +517,12 @@ func (p *AutoFillManagerProxy) SetUserData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setUserData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetUserData)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerSetUserData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerSetUserData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -545,14 +532,14 @@ func (p *AutoFillManagerProxy) IsFieldClassificationEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "isFieldClassificationEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerIsFieldClassificationEnabled)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerIsFieldClassificationEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerIsFieldClassificationEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -562,14 +549,14 @@ func (p *AutoFillManagerProxy) GetAutofillServiceComponentName(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getAutofillServiceComponentName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetAutofillServiceComponentName)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerGetAutofillServiceComponentName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerGetAutofillServiceComponentName, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -579,14 +566,14 @@ func (p *AutoFillManagerProxy) GetAvailableFieldClassificationAlgorithms(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getAvailableFieldClassificationAlgorithms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetAvailableFieldClassificationAlgorithms)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerGetAvailableFieldClassificationAlgorithms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerGetAvailableFieldClassificationAlgorithms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -596,14 +583,14 @@ func (p *AutoFillManagerProxy) GetDefaultFieldClassificationAlgorithm(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getDefaultFieldClassificationAlgorithm")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerGetDefaultFieldClassificationAlgorithm)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerGetDefaultFieldClassificationAlgorithm
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerGetDefaultFieldClassificationAlgorithm, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -628,129 +615,20 @@ func (p *AutoFillManagerProxy) SetAugmentedAutofillWhitelist(
 	} else {
 		_data.WriteInt32(int32(len(activities)))
 		for _, _item := range activities {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setAugmentedAutofillWhitelist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillManager, MethodIAutoFillManagerSetAugmentedAutofillWhitelist)
 	if _err != nil {
-		_code = TransactionIAutoFillManagerSetAugmentedAutofillWhitelist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillManager, MethodIAutoFillManagerSetAugmentedAutofillWhitelist, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillManagerProxy) NotifyNotExpiringResponseDuringAuth(
-	ctx context.Context,
-	sessionId int32,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "notifyNotExpiringResponseDuringAuth")
-	if _err != nil {
-		_code = TransactionIAutoFillManagerNotifyNotExpiringResponseDuringAuth
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillManagerProxy) NotifyViewEnteredIgnoredDuringAuthCount(
-	ctx context.Context,
-	sessionId int32,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "notifyViewEnteredIgnoredDuringAuthCount")
-	if _err != nil {
-		_code = TransactionIAutoFillManagerNotifyViewEnteredIgnoredDuringAuthCount
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillManagerProxy) SetAutofillIdsAttemptedForRefill(
-	ctx context.Context,
-	sessionId int32,
-	ids []AutofillId,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	if ids == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(ids)))
-		for _, _item := range ids {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setAutofillIdsAttemptedForRefill")
-	if _err != nil {
-		_code = TransactionIAutoFillManagerSetAutofillIdsAttemptedForRefill
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillManagerProxy) NotifyImeAnimationStart(
-	ctx context.Context,
-	sessionId int32,
-	startTimeMs int64,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt64(startTimeMs)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "notifyImeAnimationStart")
-	if _err != nil {
-		_code = TransactionIAutoFillManagerNotifyImeAnimationStart
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillManagerProxy) NotifyImeAnimationEnd(
-	ctx context.Context,
-	sessionId int32,
-	endTimeMs int64,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(sessionId)
-	_data.WriteInt64(endTimeMs)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "notifyImeAnimationEnd")
-	if _err != nil {
-		_code = TransactionIAutoFillManagerNotifyImeAnimationEnd
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -761,6 +639,10 @@ type AutoFillManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AutoFillManagerStub)(nil)
+
+func (s *AutoFillManagerStub) Descriptor() string {
+	return DescriptorIAutoFillManager
+}
 
 func (s *AutoFillManagerStub) OnTransaction(
 	ctx context.Context,
@@ -793,11 +675,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_result os.IResultReceiver
 		_ = _arg_result
-		_arg_credmanRequested, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.AddClient(ctx, _arg_client, _arg_componentName, _arg_result, _arg_credmanRequested)
+		_err := s.Impl.AddClient(ctx, _arg_client, _arg_componentName, _arg_result)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerRemoveClient:
@@ -991,40 +869,10 @@ func (s *AutoFillManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
 		_ = _arg_ids
-		_arg_isRefill, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SetAutofillFailure(ctx, _arg_sessionId, _arg_ids, _arg_isRefill)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerSetViewAutofilled:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_id AutofillId
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_id.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetViewAutofilled(ctx, _arg_sessionId, _arg_id)
+		_err = s.Impl.SetAutofillFailure(ctx, _arg_sessionId, _arg_ids)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerFinishSession:
@@ -1245,87 +1093,6 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_err := s.Impl.SetAugmentedAutofillWhitelist(ctx, _arg_packages, _arg_activities, _arg_result)
 		_ = _err
 		return nil, nil
-	case TransactionIAutoFillManagerNotifyNotExpiringResponseDuringAuth:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.NotifyNotExpiringResponseDuringAuth(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerNotifyViewEnteredIgnoredDuringAuthCount:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.NotifyViewEnteredIgnoredDuringAuthCount(ctx, _arg_sessionId)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerSetAutofillIdsAttemptedForRefill:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_ids []AutofillId
-		_ = _arg_ids
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetAutofillIdsAttemptedForRefill(ctx, _arg_sessionId, _arg_ids)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerNotifyImeAnimationStart:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_startTimeMs, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.NotifyImeAnimationStart(ctx, _arg_sessionId, _arg_startTimeMs)
-		_ = _err
-		return nil, nil
-	case TransactionIAutoFillManagerNotifyImeAnimationEnd:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_sessionId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_endTimeMs, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.NotifyImeAnimationEnd(ctx, _arg_sessionId, _arg_endTimeMs)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1335,14 +1102,13 @@ func (s *AutoFillManagerStub) OnTransaction(
 // provide to NewAutoFillManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAutoFillManagerServer interface {
-	AddClient(ctx context.Context, client IAutoFillManagerClient, componentName content.ComponentName, result os.IResultReceiver, credmanRequested bool) error
+	AddClient(ctx context.Context, client IAutoFillManagerClient, componentName content.ComponentName, result os.IResultReceiver) error
 	RemoveClient(ctx context.Context, client IAutoFillManagerClient) error
 	StartSession(ctx context.Context, activityToken binder.IBinder, appCallback binder.IBinder, autoFillId AutofillId, bounds graphics.Rect, value AutofillValue, hasCallback bool, flags int32, componentName content.ComponentName, compatMode bool, result os.IResultReceiver) error
 	GetFillEventHistory(ctx context.Context, result os.IResultReceiver) error
 	RestoreSession(ctx context.Context, sessionId int32, activityToken binder.IBinder, appCallback binder.IBinder, result os.IResultReceiver) error
 	UpdateSession(ctx context.Context, sessionId int32, id AutofillId, bounds graphics.Rect, value AutofillValue, action int32, flags int32) error
-	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId, isRefill bool) error
-	SetViewAutofilled(ctx context.Context, sessionId int32, id AutofillId) error
+	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId) error
 	FinishSession(ctx context.Context, sessionId int32, commitReason int32) error
 	CancelSession(ctx context.Context, sessionId int32) error
 	SetAuthenticationResult(ctx context.Context, data interface{}, sessionId int32, authenticationId int32) error
@@ -1359,11 +1125,6 @@ type IAutoFillManagerServer interface {
 	GetAvailableFieldClassificationAlgorithms(ctx context.Context, result os.IResultReceiver) error
 	GetDefaultFieldClassificationAlgorithm(ctx context.Context, result os.IResultReceiver) error
 	SetAugmentedAutofillWhitelist(ctx context.Context, packages []string, activities []content.ComponentName, result os.IResultReceiver) error
-	NotifyNotExpiringResponseDuringAuth(ctx context.Context, sessionId int32) error
-	NotifyViewEnteredIgnoredDuringAuthCount(ctx context.Context, sessionId int32) error
-	SetAutofillIdsAttemptedForRefill(ctx context.Context, sessionId int32, ids []AutofillId) error
-	NotifyImeAnimationStart(ctx context.Context, sessionId int32, startTimeMs int64) error
-	NotifyImeAnimationEnd(ctx context.Context, sessionId int32, endTimeMs int64) error
 }
 
 type autoFillManagerStubWrapper struct {
@@ -1380,9 +1141,8 @@ func (w *autoFillManagerStubWrapper) AddClient(
 	client IAutoFillManagerClient,
 	componentName content.ComponentName,
 	result os.IResultReceiver,
-	credmanRequested bool,
 ) error {
-	return w.impl.AddClient(ctx, client, componentName, result, credmanRequested)
+	return w.impl.AddClient(ctx, client, componentName, result)
 }
 
 func (w *autoFillManagerStubWrapper) RemoveClient(
@@ -1441,17 +1201,8 @@ func (w *autoFillManagerStubWrapper) SetAutofillFailure(
 	ctx context.Context,
 	sessionId int32,
 	ids []AutofillId,
-	isRefill bool,
 ) error {
-	return w.impl.SetAutofillFailure(ctx, sessionId, ids, isRefill)
-}
-
-func (w *autoFillManagerStubWrapper) SetViewAutofilled(
-	ctx context.Context,
-	sessionId int32,
-	id AutofillId,
-) error {
-	return w.impl.SetViewAutofilled(ctx, sessionId, id)
+	return w.impl.SetAutofillFailure(ctx, sessionId, ids)
 }
 
 func (w *autoFillManagerStubWrapper) FinishSession(
@@ -1571,44 +1322,6 @@ func (w *autoFillManagerStubWrapper) SetAugmentedAutofillWhitelist(
 	result os.IResultReceiver,
 ) error {
 	return w.impl.SetAugmentedAutofillWhitelist(ctx, packages, activities, result)
-}
-
-func (w *autoFillManagerStubWrapper) NotifyNotExpiringResponseDuringAuth(
-	ctx context.Context,
-	sessionId int32,
-) error {
-	return w.impl.NotifyNotExpiringResponseDuringAuth(ctx, sessionId)
-}
-
-func (w *autoFillManagerStubWrapper) NotifyViewEnteredIgnoredDuringAuthCount(
-	ctx context.Context,
-	sessionId int32,
-) error {
-	return w.impl.NotifyViewEnteredIgnoredDuringAuthCount(ctx, sessionId)
-}
-
-func (w *autoFillManagerStubWrapper) SetAutofillIdsAttemptedForRefill(
-	ctx context.Context,
-	sessionId int32,
-	ids []AutofillId,
-) error {
-	return w.impl.SetAutofillIdsAttemptedForRefill(ctx, sessionId, ids)
-}
-
-func (w *autoFillManagerStubWrapper) NotifyImeAnimationStart(
-	ctx context.Context,
-	sessionId int32,
-	startTimeMs int64,
-) error {
-	return w.impl.NotifyImeAnimationStart(ctx, sessionId, startTimeMs)
-}
-
-func (w *autoFillManagerStubWrapper) NotifyImeAnimationEnd(
-	ctx context.Context,
-	sessionId int32,
-	endTimeMs int64,
-) error {
-	return w.impl.NotifyImeAnimationEnd(ctx, sessionId, endTimeMs)
 }
 
 var _ IAutoFillManager = (*autoFillManagerStubWrapper)(nil)

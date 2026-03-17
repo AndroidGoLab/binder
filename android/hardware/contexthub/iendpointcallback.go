@@ -21,6 +21,16 @@ const (
 	TransactionIEndpointCallbackOnEndpointSessionOpenComplete   = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIEndpointCallbackOnEndpointStarted               = "onEndpointStarted"
+	MethodIEndpointCallbackOnEndpointStopped               = "onEndpointStopped"
+	MethodIEndpointCallbackOnMessageReceived               = "onMessageReceived"
+	MethodIEndpointCallbackOnMessageDeliveryStatusReceived = "onMessageDeliveryStatusReceived"
+	MethodIEndpointCallbackOnEndpointSessionOpenRequest    = "onEndpointSessionOpenRequest"
+	MethodIEndpointCallbackOnCloseEndpointSession          = "onCloseEndpointSession"
+	MethodIEndpointCallbackOnEndpointSessionOpenComplete   = "onEndpointSessionOpenComplete"
+)
+
 type IEndpointCallback interface {
 	AsBinder() binder.IBinder
 	OnEndpointStarted(ctx context.Context, endpointInfos []EndpointInfo) error
@@ -33,17 +43,17 @@ type IEndpointCallback interface {
 }
 
 type EndpointCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEndpointCallbackProxy(
 	remote binder.IBinder,
 ) *EndpointCallbackProxy {
-	return &EndpointCallbackProxy{remote: remote}
+	return &EndpointCallbackProxy{Remote: remote}
 }
 
 func (p *EndpointCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEndpointCallback = (*EndpointCallbackProxy)(nil)
@@ -59,18 +69,19 @@ func (p *EndpointCallbackProxy) OnEndpointStarted(
 	} else {
 		_data.WriteInt32(int32(len(endpointInfos)))
 		for _, _item := range endpointInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointStarted)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnEndpointStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointStarted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +106,7 @@ func (p *EndpointCallbackProxy) OnEndpointStopped(
 	} else {
 		_data.WriteInt32(int32(len(endpointIds)))
 		for _, _item := range endpointIds {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -102,12 +114,12 @@ func (p *EndpointCallbackProxy) OnEndpointStopped(
 	}
 	_data.WritePaddedByte(byte(reason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointStopped)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnEndpointStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointStopped, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,12 +145,12 @@ func (p *EndpointCallbackProxy) OnMessageReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onMessageReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnMessageReceived)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnMessageReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnMessageReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -164,12 +176,12 @@ func (p *EndpointCallbackProxy) OnMessageDeliveryStatusReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onMessageDeliveryStatusReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnMessageDeliveryStatusReceived)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnMessageDeliveryStatusReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnMessageDeliveryStatusReceived, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,12 +214,12 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenRequest(
 	}
 	_data.WriteString16(serviceDescriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointSessionOpenRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointSessionOpenRequest)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnEndpointSessionOpenRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointSessionOpenRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,12 +242,12 @@ func (p *EndpointCallbackProxy) OnCloseEndpointSession(
 	_data.WriteInt32(sessionId)
 	_data.WritePaddedByte(byte(reason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onCloseEndpointSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnCloseEndpointSession)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnCloseEndpointSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnCloseEndpointSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -256,12 +268,12 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenComplete(
 	_data.WriteInterfaceToken(DescriptorIEndpointCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointSessionOpenComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointSessionOpenComplete)
 	if _err != nil {
-		_code = TransactionIEndpointCallbackOnEndpointSessionOpenComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEndpointCallback, MethodIEndpointCallbackOnEndpointSessionOpenComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -281,6 +293,10 @@ type EndpointCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EndpointCallbackStub)(nil)
+
+func (s *EndpointCallbackStub) Descriptor() string {
+	return DescriptorIEndpointCallback
+}
 
 func (s *EndpointCallbackStub) OnTransaction(
 	ctx context.Context,

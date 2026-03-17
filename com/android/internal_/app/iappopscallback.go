@@ -15,23 +15,27 @@ const (
 	TransactionIAppOpsCallbackOpChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppOpsCallbackOpChanged = "opChanged"
+)
+
 type IAppOpsCallback interface {
 	AsBinder() binder.IBinder
 	OpChanged(ctx context.Context, op int32, uid int32, packageName string, persistentDeviceId string) error
 }
 
 type AppOpsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppOpsCallbackProxy(
 	remote binder.IBinder,
 ) *AppOpsCallbackProxy {
-	return &AppOpsCallbackProxy{remote: remote}
+	return &AppOpsCallbackProxy{Remote: remote}
 }
 
 func (p *AppOpsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppOpsCallback = (*AppOpsCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *AppOpsCallbackProxy) OpChanged(
 	_data.WriteString16(packageName)
 	_data.WriteString16(persistentDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsCallback, "opChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsCallback, MethodIAppOpsCallbackOpChanged)
 	if _err != nil {
-		_code = TransactionIAppOpsCallbackOpChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsCallback, MethodIAppOpsCallbackOpChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type AppOpsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppOpsCallbackStub)(nil)
+
+func (s *AppOpsCallbackStub) Descriptor() string {
+	return DescriptorIAppOpsCallback
+}
 
 func (s *AppOpsCallbackStub) OnTransaction(
 	ctx context.Context,

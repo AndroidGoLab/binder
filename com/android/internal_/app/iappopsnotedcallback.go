@@ -15,23 +15,27 @@ const (
 	TransactionIAppOpsNotedCallbackOpNoted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAppOpsNotedCallbackOpNoted = "opNoted"
+)
+
 type IAppOpsNotedCallback interface {
 	AsBinder() binder.IBinder
 	OpNoted(ctx context.Context, op int32, uid int32, packageName string, virtualDeviceId int32, flags int32, mode int32) error
 }
 
 type AppOpsNotedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppOpsNotedCallbackProxy(
 	remote binder.IBinder,
 ) *AppOpsNotedCallbackProxy {
-	return &AppOpsNotedCallbackProxy{remote: remote}
+	return &AppOpsNotedCallbackProxy{Remote: remote}
 }
 
 func (p *AppOpsNotedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppOpsNotedCallback = (*AppOpsNotedCallbackProxy)(nil)
@@ -45,7 +49,7 @@ func (p *AppOpsNotedCallbackProxy) OpNoted(
 	flags int32,
 	mode int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsNotedCallback)
 	_data.WriteInt32(op)
@@ -56,12 +60,12 @@ func (p *AppOpsNotedCallbackProxy) OpNoted(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsNotedCallback, "opNoted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsNotedCallback, MethodIAppOpsNotedCallbackOpNoted)
 	if _err != nil {
-		_code = TransactionIAppOpsNotedCallbackOpNoted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsNotedCallback, MethodIAppOpsNotedCallbackOpNoted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +76,10 @@ type AppOpsNotedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppOpsNotedCallbackStub)(nil)
+
+func (s *AppOpsNotedCallbackStub) Descriptor() string {
+	return DescriptorIAppOpsNotedCallback
+}
 
 func (s *AppOpsNotedCallbackStub) OnTransaction(
 	ctx context.Context,

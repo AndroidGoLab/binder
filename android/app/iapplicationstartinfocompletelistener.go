@@ -15,23 +15,27 @@ const (
 	TransactionIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete = "onApplicationStartInfoComplete"
+)
+
 type IApplicationStartInfoCompleteListener interface {
 	AsBinder() binder.IBinder
 	OnApplicationStartInfoComplete(ctx context.Context, applicationStartInfo ApplicationStartInfo) error
 }
 
 type ApplicationStartInfoCompleteListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewApplicationStartInfoCompleteListenerProxy(
 	remote binder.IBinder,
 ) *ApplicationStartInfoCompleteListenerProxy {
-	return &ApplicationStartInfoCompleteListenerProxy{remote: remote}
+	return &ApplicationStartInfoCompleteListenerProxy{Remote: remote}
 }
 
 func (p *ApplicationStartInfoCompleteListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IApplicationStartInfoCompleteListener = (*ApplicationStartInfoCompleteListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *ApplicationStartInfoCompleteListenerProxy) OnApplicationStartInfoComple
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApplicationStartInfoCompleteListener, "onApplicationStartInfoComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationStartInfoCompleteListener, MethodIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete)
 	if _err != nil {
-		_code = TransactionIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIApplicationStartInfoCompleteListener, MethodIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,6 +76,10 @@ type ApplicationStartInfoCompleteListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ApplicationStartInfoCompleteListenerStub)(nil)
+
+func (s *ApplicationStartInfoCompleteListenerStub) Descriptor() string {
+	return DescriptorIApplicationStartInfoCompleteListener
+}
 
 func (s *ApplicationStartInfoCompleteListenerStub) OnTransaction(
 	ctx context.Context,

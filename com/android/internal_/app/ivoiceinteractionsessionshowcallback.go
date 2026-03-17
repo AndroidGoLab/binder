@@ -16,6 +16,11 @@ const (
 	TransactionIVoiceInteractionSessionShowCallbackOnShown  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVoiceInteractionSessionShowCallbackOnFailed = "onFailed"
+	MethodIVoiceInteractionSessionShowCallbackOnShown  = "onShown"
+)
+
 type IVoiceInteractionSessionShowCallback interface {
 	AsBinder() binder.IBinder
 	OnFailed(ctx context.Context) error
@@ -23,17 +28,17 @@ type IVoiceInteractionSessionShowCallback interface {
 }
 
 type VoiceInteractionSessionShowCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoiceInteractionSessionShowCallbackProxy(
 	remote binder.IBinder,
 ) *VoiceInteractionSessionShowCallbackProxy {
-	return &VoiceInteractionSessionShowCallbackProxy{remote: remote}
+	return &VoiceInteractionSessionShowCallbackProxy{Remote: remote}
 }
 
 func (p *VoiceInteractionSessionShowCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoiceInteractionSessionShowCallback = (*VoiceInteractionSessionShowCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *VoiceInteractionSessionShowCallbackProxy) OnFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionShowCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionShowCallback, "onFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionShowCallback, MethodIVoiceInteractionSessionShowCallbackOnFailed)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionShowCallbackOnFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSessionShowCallback, MethodIVoiceInteractionSessionShowCallbackOnFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *VoiceInteractionSessionShowCallbackProxy) OnShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionShowCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionShowCallback, "onShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoiceInteractionSessionShowCallback, MethodIVoiceInteractionSessionShowCallbackOnShown)
 	if _err != nil {
-		_code = TransactionIVoiceInteractionSessionShowCallbackOnShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoiceInteractionSessionShowCallback, MethodIVoiceInteractionSessionShowCallbackOnShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type VoiceInteractionSessionShowCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoiceInteractionSessionShowCallbackStub)(nil)
+
+func (s *VoiceInteractionSessionShowCallbackStub) Descriptor() string {
+	return DescriptorIVoiceInteractionSessionShowCallback
+}
 
 func (s *VoiceInteractionSessionShowCallbackStub) OnTransaction(
 	ctx context.Context,

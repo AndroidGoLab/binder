@@ -15,23 +15,27 @@ const (
 	TransactionITunerFrontendSignalInfoListenerOnFrontendStatusChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITunerFrontendSignalInfoListenerOnFrontendStatusChanged = "onFrontendStatusChanged"
+)
+
 type ITunerFrontendSignalInfoListener interface {
 	AsBinder() binder.IBinder
 	OnFrontendStatusChanged(ctx context.Context, frontendStatus int32) error
 }
 
 type TunerFrontendSignalInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerFrontendSignalInfoListenerProxy(
 	remote binder.IBinder,
 ) *TunerFrontendSignalInfoListenerProxy {
-	return &TunerFrontendSignalInfoListenerProxy{remote: remote}
+	return &TunerFrontendSignalInfoListenerProxy{Remote: remote}
 }
 
 func (p *TunerFrontendSignalInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerFrontendSignalInfoListener = (*TunerFrontendSignalInfoListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *TunerFrontendSignalInfoListenerProxy) OnFrontendStatusChanged(
 	_data.WriteInterfaceToken(DescriptorITunerFrontendSignalInfoListener)
 	_data.WriteInt32(frontendStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoListener, "onFrontendStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontendSignalInfoListener, MethodITunerFrontendSignalInfoListenerOnFrontendStatusChanged)
 	if _err != nil {
-		_code = TransactionITunerFrontendSignalInfoListenerOnFrontendStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontendSignalInfoListener, MethodITunerFrontendSignalInfoListenerOnFrontendStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type TunerFrontendSignalInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerFrontendSignalInfoListenerStub)(nil)
+
+func (s *TunerFrontendSignalInfoListenerStub) Descriptor() string {
+	return DescriptorITunerFrontendSignalInfoListener
+}
 
 func (s *TunerFrontendSignalInfoListenerStub) OnTransaction(
 	ctx context.Context,

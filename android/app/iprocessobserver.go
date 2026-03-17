@@ -18,6 +18,13 @@ const (
 	TransactionIProcessObserverOnProcessDied                 = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIProcessObserverOnProcessStarted              = "onProcessStarted"
+	MethodIProcessObserverOnForegroundActivitiesChanged = "onForegroundActivitiesChanged"
+	MethodIProcessObserverOnForegroundServicesChanged   = "onForegroundServicesChanged"
+	MethodIProcessObserverOnProcessDied                 = "onProcessDied"
+)
+
 type IProcessObserver interface {
 	AsBinder() binder.IBinder
 	OnProcessStarted(ctx context.Context, pid int32, processUid int32, packageUid int32, packageName string, processName string) error
@@ -27,17 +34,17 @@ type IProcessObserver interface {
 }
 
 type ProcessObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProcessObserverProxy(
 	remote binder.IBinder,
 ) *ProcessObserverProxy {
-	return &ProcessObserverProxy{remote: remote}
+	return &ProcessObserverProxy{Remote: remote}
 }
 
 func (p *ProcessObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProcessObserver = (*ProcessObserverProxy)(nil)
@@ -58,12 +65,12 @@ func (p *ProcessObserverProxy) OnProcessStarted(
 	_data.WriteString16(packageName)
 	_data.WriteString16(processName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessObserver, "onProcessStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnProcessStarted)
 	if _err != nil {
-		_code = TransactionIProcessObserverOnProcessStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessObserver, MethodIProcessObserverOnProcessStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +86,12 @@ func (p *ProcessObserverProxy) OnForegroundActivitiesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteBool(foregroundActivities)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessObserver, "onForegroundActivitiesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnForegroundActivitiesChanged)
 	if _err != nil {
-		_code = TransactionIProcessObserverOnForegroundActivitiesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessObserver, MethodIProcessObserverOnForegroundActivitiesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,12 +107,12 @@ func (p *ProcessObserverProxy) OnForegroundServicesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(serviceTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessObserver, "onForegroundServicesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnForegroundServicesChanged)
 	if _err != nil {
-		_code = TransactionIProcessObserverOnForegroundServicesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessObserver, MethodIProcessObserverOnForegroundServicesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,12 +126,12 @@ func (p *ProcessObserverProxy) OnProcessDied(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessObserver, "onProcessDied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessObserver, MethodIProcessObserverOnProcessDied)
 	if _err != nil {
-		_code = TransactionIProcessObserverOnProcessDied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessObserver, MethodIProcessObserverOnProcessDied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,6 +142,10 @@ type ProcessObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProcessObserverStub)(nil)
+
+func (s *ProcessObserverStub) Descriptor() string {
+	return DescriptorIProcessObserver
+}
 
 func (s *ProcessObserverStub) OnTransaction(
 	ctx context.Context,

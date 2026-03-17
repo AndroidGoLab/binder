@@ -28,6 +28,23 @@ const (
 	TransactionISupplicantRegisterNonStandardCertCallback = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodISupplicantAddP2pInterface                 = "addP2pInterface"
+	MethodISupplicantAddStaInterface                 = "addStaInterface"
+	MethodISupplicantGetDebugLevel                   = "getDebugLevel"
+	MethodISupplicantGetP2pInterface                 = "getP2pInterface"
+	MethodISupplicantGetStaInterface                 = "getStaInterface"
+	MethodISupplicantIsDebugShowKeysEnabled          = "isDebugShowKeysEnabled"
+	MethodISupplicantIsDebugShowTimestampEnabled     = "isDebugShowTimestampEnabled"
+	MethodISupplicantListInterfaces                  = "listInterfaces"
+	MethodISupplicantRegisterCallback                = "registerCallback"
+	MethodISupplicantRemoveInterface                 = "removeInterface"
+	MethodISupplicantSetConcurrencyPriority          = "setConcurrencyPriority"
+	MethodISupplicantSetDebugParams                  = "setDebugParams"
+	MethodISupplicantTerminate                       = "terminate"
+	MethodISupplicantRegisterNonStandardCertCallback = "registerNonStandardCertCallback"
+)
+
 type ISupplicant interface {
 	AsBinder() binder.IBinder
 	AddP2pInterface(ctx context.Context, ifName string) (ISupplicantP2pIface, error)
@@ -51,17 +68,17 @@ const (
 )
 
 type SupplicantProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantProxy(
 	remote binder.IBinder,
 ) *SupplicantProxy {
-	return &SupplicantProxy{remote: remote}
+	return &SupplicantProxy{Remote: remote}
 }
 
 func (p *SupplicantProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicant = (*SupplicantProxy)(nil)
@@ -75,12 +92,12 @@ func (p *SupplicantProxy) AddP2pInterface(
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "addP2pInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantAddP2pInterface)
 	if _err != nil {
-		_code = TransactionISupplicantAddP2pInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantAddP2pInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +111,7 @@ func (p *SupplicantProxy) AddP2pInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -107,12 +124,12 @@ func (p *SupplicantProxy) AddStaInterface(
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "addStaInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantAddStaInterface)
 	if _err != nil {
-		_code = TransactionISupplicantAddStaInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantAddStaInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,7 +143,7 @@ func (p *SupplicantProxy) AddStaInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -137,12 +154,12 @@ func (p *SupplicantProxy) GetDebugLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "getDebugLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantGetDebugLevel)
 	if _err != nil {
-		_code = TransactionISupplicantGetDebugLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantGetDebugLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,12 +186,12 @@ func (p *SupplicantProxy) GetP2pInterface(
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "getP2pInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantGetP2pInterface)
 	if _err != nil {
-		_code = TransactionISupplicantGetP2pInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantGetP2pInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,7 +205,7 @@ func (p *SupplicantProxy) GetP2pInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -201,12 +218,12 @@ func (p *SupplicantProxy) GetStaInterface(
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteString16(ifName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "getStaInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantGetStaInterface)
 	if _err != nil {
-		_code = TransactionISupplicantGetStaInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantGetStaInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,7 +237,7 @@ func (p *SupplicantProxy) GetStaInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -231,12 +248,12 @@ func (p *SupplicantProxy) IsDebugShowKeysEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "isDebugShowKeysEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantIsDebugShowKeysEnabled)
 	if _err != nil {
-		_code = TransactionISupplicantIsDebugShowKeysEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantIsDebugShowKeysEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -260,12 +277,12 @@ func (p *SupplicantProxy) IsDebugShowTimestampEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "isDebugShowTimestampEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantIsDebugShowTimestampEnabled)
 	if _err != nil {
-		_code = TransactionISupplicantIsDebugShowTimestampEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantIsDebugShowTimestampEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -289,12 +306,12 @@ func (p *SupplicantProxy) ListInterfaces(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "listInterfaces")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantListInterfaces)
 	if _err != nil {
-		_code = TransactionISupplicantListInterfaces
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantListInterfaces, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -312,6 +329,9 @@ func (p *SupplicantProxy) ListInterfaces(
 	if _count >= 0 {
 		_result = make([]IfaceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -326,14 +346,14 @@ func (p *SupplicantProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantRegisterCallback)
 	if _err != nil {
-		_code = TransactionISupplicantRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -357,12 +377,12 @@ func (p *SupplicantProxy) RemoveInterface(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "removeInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantRemoveInterface)
 	if _err != nil {
-		_code = TransactionISupplicantRemoveInterface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantRemoveInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -383,12 +403,12 @@ func (p *SupplicantProxy) SetConcurrencyPriority(
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "setConcurrencyPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantSetConcurrencyPriority)
 	if _err != nil {
-		_code = TransactionISupplicantSetConcurrencyPriority
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantSetConcurrencyPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -413,12 +433,12 @@ func (p *SupplicantProxy) SetDebugParams(
 	_data.WriteBool(showTimestamp)
 	_data.WriteBool(showKeys)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "setDebugParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantSetDebugParams)
 	if _err != nil {
-		_code = TransactionISupplicantSetDebugParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantSetDebugParams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -437,12 +457,12 @@ func (p *SupplicantProxy) Terminate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "terminate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantTerminate)
 	if _err != nil {
-		_code = TransactionISupplicantTerminate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantTerminate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -452,14 +472,14 @@ func (p *SupplicantProxy) RegisterNonStandardCertCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "registerNonStandardCertCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicant, MethodISupplicantRegisterNonStandardCertCallback)
 	if _err != nil {
-		_code = TransactionISupplicantRegisterNonStandardCertCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicant, MethodISupplicantRegisterNonStandardCertCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -479,6 +499,10 @@ type SupplicantStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStub)(nil)
+
+func (s *SupplicantStub) Descriptor() string {
+	return DescriptorISupplicant
+}
 
 func (s *SupplicantStub) OnTransaction(
 	ctx context.Context,

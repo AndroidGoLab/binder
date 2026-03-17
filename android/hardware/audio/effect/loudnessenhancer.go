@@ -58,6 +58,7 @@ func (u *LoudnessEnhancer) MarshalParcel(
 
 	switch u.Tag {
 	case LoudnessEnhancerTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -86,6 +87,9 @@ func (u *LoudnessEnhancer) UnmarshalParcel(
 
 	switch u.Tag {
 	case LoudnessEnhancerTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

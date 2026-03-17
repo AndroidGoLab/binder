@@ -18,6 +18,13 @@ const (
 	TransactionIBinderThreadPriorityServiceSetPriorityAndCallBack  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBinderThreadPriorityServiceGetThreadPriority       = "getThreadPriority"
+	MethodIBinderThreadPriorityServiceGetThreadSchedulerGroup = "getThreadSchedulerGroup"
+	MethodIBinderThreadPriorityServiceCallBack                = "callBack"
+	MethodIBinderThreadPriorityServiceSetPriorityAndCallBack  = "setPriorityAndCallBack"
+)
+
 type IBinderThreadPriorityService interface {
 	AsBinder() binder.IBinder
 	GetThreadPriority(ctx context.Context) (int32, error)
@@ -27,17 +34,17 @@ type IBinderThreadPriorityService interface {
 }
 
 type BinderThreadPriorityServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderThreadPriorityServiceProxy(
 	remote binder.IBinder,
 ) *BinderThreadPriorityServiceProxy {
-	return &BinderThreadPriorityServiceProxy{remote: remote}
+	return &BinderThreadPriorityServiceProxy{Remote: remote}
 }
 
 func (p *BinderThreadPriorityServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderThreadPriorityService = (*BinderThreadPriorityServiceProxy)(nil)
@@ -49,12 +56,12 @@ func (p *BinderThreadPriorityServiceProxy) GetThreadPriority(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "getThreadPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceGetThreadPriority)
 	if _err != nil {
-		_code = TransactionIBinderThreadPriorityServiceGetThreadPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceGetThreadPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,12 +85,12 @@ func (p *BinderThreadPriorityServiceProxy) GetThreadSchedulerGroup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "getThreadSchedulerGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceGetThreadSchedulerGroup)
 	if _err != nil {
-		_code = TransactionIBinderThreadPriorityServiceGetThreadSchedulerGroup
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceGetThreadSchedulerGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,14 +113,14 @@ func (p *BinderThreadPriorityServiceProxy) CallBack(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
-	binder.WriteBinderToParcel(ctx, _data, recurse.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, recurse.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "callBack")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceCallBack)
 	if _err != nil {
-		_code = TransactionIBinderThreadPriorityServiceCallBack
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceCallBack, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,14 +141,14 @@ func (p *BinderThreadPriorityServiceProxy) SetPriorityAndCallBack(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderThreadPriorityService)
 	_data.WriteInt32(priority)
-	binder.WriteBinderToParcel(ctx, _data, recurse.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, recurse.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "setPriorityAndCallBack")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceSetPriorityAndCallBack)
 	if _err != nil {
-		_code = TransactionIBinderThreadPriorityServiceSetPriorityAndCallBack
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderThreadPriorityService, MethodIBinderThreadPriorityServiceSetPriorityAndCallBack, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,6 +168,10 @@ type BinderThreadPriorityServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderThreadPriorityServiceStub)(nil)
+
+func (s *BinderThreadPriorityServiceStub) Descriptor() string {
+	return DescriptorIBinderThreadPriorityService
+}
 
 func (s *BinderThreadPriorityServiceStub) OnTransaction(
 	ctx context.Context,

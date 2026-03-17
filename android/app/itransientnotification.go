@@ -16,6 +16,11 @@ const (
 	TransactionITransientNotificationHide = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITransientNotificationShow = "show"
+	MethodITransientNotificationHide = "hide"
+)
+
 type ITransientNotification interface {
 	AsBinder() binder.IBinder
 	Show(ctx context.Context, windowToken binder.IBinder) error
@@ -23,17 +28,17 @@ type ITransientNotification interface {
 }
 
 type TransientNotificationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransientNotificationProxy(
 	remote binder.IBinder,
 ) *TransientNotificationProxy {
-	return &TransientNotificationProxy{remote: remote}
+	return &TransientNotificationProxy{Remote: remote}
 }
 
 func (p *TransientNotificationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransientNotification = (*TransientNotificationProxy)(nil)
@@ -44,14 +49,14 @@ func (p *TransientNotificationProxy) Show(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransientNotification)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransientNotification, "show")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotification, MethodITransientNotificationShow)
 	if _err != nil {
-		_code = TransactionITransientNotificationShow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransientNotification, MethodITransientNotificationShow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *TransientNotificationProxy) Hide(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransientNotification)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransientNotification, "hide")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransientNotification, MethodITransientNotificationHide)
 	if _err != nil {
-		_code = TransactionITransientNotificationHide
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransientNotification, MethodITransientNotificationHide, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type TransientNotificationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransientNotificationStub)(nil)
+
+func (s *TransientNotificationStub) Descriptor() string {
+	return DescriptorITransientNotification
+}
 
 func (s *TransientNotificationStub) OnTransaction(
 	ctx context.Context,

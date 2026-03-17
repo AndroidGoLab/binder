@@ -27,6 +27,18 @@ const (
 	TransactionIImsMmTelListenerOnMediaQualityStatusChanged = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIImsMmTelListenerOnIncomingCall              = "onIncomingCall"
+	MethodIImsMmTelListenerOnRejectedCall              = "onRejectedCall"
+	MethodIImsMmTelListenerOnVoiceMessageCountUpdate   = "onVoiceMessageCountUpdate"
+	MethodIImsMmTelListenerOnAudioModeIsVoipChanged    = "onAudioModeIsVoipChanged"
+	MethodIImsMmTelListenerOnTriggerEpsFallback        = "onTriggerEpsFallback"
+	MethodIImsMmTelListenerOnStartImsTrafficSession    = "onStartImsTrafficSession"
+	MethodIImsMmTelListenerOnModifyImsTrafficSession   = "onModifyImsTrafficSession"
+	MethodIImsMmTelListenerOnStopImsTrafficSession     = "onStopImsTrafficSession"
+	MethodIImsMmTelListenerOnMediaQualityStatusChanged = "onMediaQualityStatusChanged"
+)
+
 type IImsMmTelListener interface {
 	AsBinder() binder.IBinder
 	OnIncomingCall(ctx context.Context, c internal.IImsCallSession, callId string, extras os.Bundle) (IImsCallSessionListener, error)
@@ -41,17 +53,17 @@ type IImsMmTelListener interface {
 }
 
 type ImsMmTelListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsMmTelListenerProxy(
 	remote binder.IBinder,
 ) *ImsMmTelListenerProxy {
-	return &ImsMmTelListenerProxy{remote: remote}
+	return &ImsMmTelListenerProxy{Remote: remote}
 }
 
 func (p *ImsMmTelListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsMmTelListener = (*ImsMmTelListenerProxy)(nil)
@@ -65,19 +77,19 @@ func (p *ImsMmTelListenerProxy) OnIncomingCall(
 	var _result IImsCallSessionListener
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
-	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, c.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(callId)
 	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onIncomingCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnIncomingCall)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnIncomingCall
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnIncomingCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +103,7 @@ func (p *ImsMmTelListenerProxy) OnIncomingCall(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsCallSessionListenerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewImsCallSessionListenerProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -111,12 +123,12 @@ func (p *ImsMmTelListenerProxy) OnRejectedCall(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onRejectedCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnRejectedCall)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnRejectedCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnRejectedCall, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,12 +149,12 @@ func (p *ImsMmTelListenerProxy) OnVoiceMessageCountUpdate(
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onVoiceMessageCountUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnVoiceMessageCountUpdate)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnVoiceMessageCountUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnVoiceMessageCountUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,12 +166,12 @@ func (p *ImsMmTelListenerProxy) OnAudioModeIsVoipChanged(
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(imsAudioHandler)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onAudioModeIsVoipChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnAudioModeIsVoipChanged)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnAudioModeIsVoipChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnAudioModeIsVoipChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,12 +183,12 @@ func (p *ImsMmTelListenerProxy) OnTriggerEpsFallback(
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onTriggerEpsFallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnTriggerEpsFallback)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnTriggerEpsFallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnTriggerEpsFallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,14 +206,14 @@ func (p *ImsMmTelListenerProxy) OnStartImsTrafficSession(
 	_data.WriteInt32(trafficType)
 	_data.WriteInt32(accessNetworkType)
 	_data.WriteInt32(trafficDirection)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onStartImsTrafficSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnStartImsTrafficSession)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnStartImsTrafficSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnStartImsTrafficSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -215,12 +227,12 @@ func (p *ImsMmTelListenerProxy) OnModifyImsTrafficSession(
 	_data.WriteInt32(token)
 	_data.WriteInt32(accessNetworkType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onModifyImsTrafficSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnModifyImsTrafficSession)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnModifyImsTrafficSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnModifyImsTrafficSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,12 +244,12 @@ func (p *ImsMmTelListenerProxy) OnStopImsTrafficSession(
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteInt32(token)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onStopImsTrafficSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnStopImsTrafficSession)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnStopImsTrafficSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnStopImsTrafficSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -252,12 +264,12 @@ func (p *ImsMmTelListenerProxy) OnMediaQualityStatusChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMmTelListener, "onMediaQualityStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnMediaQualityStatusChanged)
 	if _err != nil {
-		_code = TransactionIImsMmTelListenerOnMediaQualityStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMmTelListener, MethodIImsMmTelListenerOnMediaQualityStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -268,6 +280,10 @@ type ImsMmTelListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsMmTelListenerStub)(nil)
+
+func (s *ImsMmTelListenerStub) Descriptor() string {
+	return DescriptorIImsMmTelListener
+}
 
 func (s *ImsMmTelListenerStub) OnTransaction(
 	ctx context.Context,

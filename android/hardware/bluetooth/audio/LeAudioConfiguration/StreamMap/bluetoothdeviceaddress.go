@@ -18,14 +18,7 @@ func (s *BluetoothDeviceAddress) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.DeviceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DeviceAddress)))
-		for _, _item := range s.DeviceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.DeviceAddress, 6)
 	p.WriteInt32(int32(s.DeviceAddressType))
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -40,19 +33,9 @@ func (s *BluetoothDeviceAddress) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.DeviceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.DeviceAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.DeviceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_deviceAddressTypeRaw, _err := p.ReadInt32()

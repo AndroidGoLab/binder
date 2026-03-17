@@ -21,23 +21,9 @@ func (s *DppConfigurationData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Ssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Ssid)))
-		for _, _item := range s.Ssid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Ssid)
 	p.WriteString16(s.Password)
-	if s.Psk == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Psk)))
-		for _, _item := range s.Psk {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Psk)
 	p.WriteInt32(int32(s.SecurityAkm))
 	if _err := s.DppConnectionKeys.MarshalParcel(p); _err != nil {
 		return _err
@@ -56,19 +42,9 @@ func (s *DppConfigurationData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Ssid, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Ssid = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Ssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Password, _err = p.ReadString16()
@@ -76,19 +52,9 @@ func (s *DppConfigurationData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Psk, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Psk = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Psk[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_securityAkmRaw, _err := p.ReadInt32()

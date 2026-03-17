@@ -52,6 +52,46 @@ const (
 	TransactionISessionControllerGetRatingType          = binder.FirstCallTransaction + 36
 )
 
+const (
+	MethodISessionControllerSendCommand            = "sendCommand"
+	MethodISessionControllerSendMediaButton        = "sendMediaButton"
+	MethodISessionControllerRegisterCallback       = "registerCallback"
+	MethodISessionControllerUnregisterCallback     = "unregisterCallback"
+	MethodISessionControllerGetPackageName         = "getPackageName"
+	MethodISessionControllerGetTag                 = "getTag"
+	MethodISessionControllerGetSessionInfo         = "getSessionInfo"
+	MethodISessionControllerGetLaunchPendingIntent = "getLaunchPendingIntent"
+	MethodISessionControllerGetFlags               = "getFlags"
+	MethodISessionControllerGetVolumeAttributes    = "getVolumeAttributes"
+	MethodISessionControllerAdjustVolume           = "adjustVolume"
+	MethodISessionControllerSetVolumeTo            = "setVolumeTo"
+	MethodISessionControllerPrepare                = "prepare"
+	MethodISessionControllerPrepareFromMediaId     = "prepareFromMediaId"
+	MethodISessionControllerPrepareFromSearch      = "prepareFromSearch"
+	MethodISessionControllerPrepareFromUri         = "prepareFromUri"
+	MethodISessionControllerPlay                   = "play"
+	MethodISessionControllerPlayFromMediaId        = "playFromMediaId"
+	MethodISessionControllerPlayFromSearch         = "playFromSearch"
+	MethodISessionControllerPlayFromUri            = "playFromUri"
+	MethodISessionControllerSkipToQueueItem        = "skipToQueueItem"
+	MethodISessionControllerPause                  = "pause"
+	MethodISessionControllerStop                   = "stop"
+	MethodISessionControllerNext                   = "next"
+	MethodISessionControllerPrevious               = "previous"
+	MethodISessionControllerFastForward            = "fastForward"
+	MethodISessionControllerRewind                 = "rewind"
+	MethodISessionControllerSeekTo                 = "seekTo"
+	MethodISessionControllerRate                   = "rate"
+	MethodISessionControllerSetPlaybackSpeed       = "setPlaybackSpeed"
+	MethodISessionControllerSendCustomAction       = "sendCustomAction"
+	MethodISessionControllerGetMetadata            = "getMetadata"
+	MethodISessionControllerGetPlaybackState       = "getPlaybackState"
+	MethodISessionControllerGetQueue               = "getQueue"
+	MethodISessionControllerGetQueueTitle          = "getQueueTitle"
+	MethodISessionControllerGetExtras              = "getExtras"
+	MethodISessionControllerGetRatingType          = "getRatingType"
+)
+
 type ISessionController interface {
 	AsBinder() binder.IBinder
 	SendCommand(ctx context.Context, packageName string, command string, args interface{}, cb interface{}) error
@@ -94,17 +134,17 @@ type ISessionController interface {
 }
 
 type SessionControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSessionControllerProxy(
 	remote binder.IBinder,
 ) *SessionControllerProxy {
-	return &SessionControllerProxy{remote: remote}
+	return &SessionControllerProxy{Remote: remote}
 }
 
 func (p *SessionControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISessionController = (*SessionControllerProxy)(nil)
@@ -121,12 +161,12 @@ func (p *SessionControllerProxy) SendCommand(
 	_data.WriteString16(packageName)
 	_data.WriteString16(command)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "sendCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSendCommand)
 	if _err != nil {
-		_code = TransactionISessionControllerSendCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSendCommand, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,12 +189,12 @@ func (p *SessionControllerProxy) SendMediaButton(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "sendMediaButton")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSendMediaButton)
 	if _err != nil {
-		_code = TransactionISessionControllerSendMediaButton
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSendMediaButton, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,14 +219,14 @@ func (p *SessionControllerProxy) RegisterCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerRegisterCallback)
 	if _err != nil {
-		_code = TransactionISessionControllerRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -205,14 +245,14 @@ func (p *SessionControllerProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerUnregisterCallback)
 	if _err != nil {
-		_code = TransactionISessionControllerUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -232,12 +272,12 @@ func (p *SessionControllerProxy) GetPackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetPackageName)
 	if _err != nil {
-		_code = TransactionISessionControllerGetPackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -261,12 +301,12 @@ func (p *SessionControllerProxy) GetTag(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getTag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetTag)
 	if _err != nil {
-		_code = TransactionISessionControllerGetTag
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetTag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -290,12 +330,12 @@ func (p *SessionControllerProxy) GetSessionInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getSessionInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetSessionInfo)
 	if _err != nil {
-		_code = TransactionISessionControllerGetSessionInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetSessionInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -315,12 +355,12 @@ func (p *SessionControllerProxy) GetLaunchPendingIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getLaunchPendingIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetLaunchPendingIntent)
 	if _err != nil {
-		_code = TransactionISessionControllerGetLaunchPendingIntent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetLaunchPendingIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -340,12 +380,12 @@ func (p *SessionControllerProxy) GetFlags(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetFlags)
 	if _err != nil {
-		_code = TransactionISessionControllerGetFlags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetFlags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -369,12 +409,12 @@ func (p *SessionControllerProxy) GetVolumeAttributes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getVolumeAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetVolumeAttributes)
 	if _err != nil {
-		_code = TransactionISessionControllerGetVolumeAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetVolumeAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -402,7 +442,7 @@ func (p *SessionControllerProxy) AdjustVolume(
 	direction int32,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
@@ -410,12 +450,12 @@ func (p *SessionControllerProxy) AdjustVolume(
 	_data.WriteInt32(direction)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "adjustVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerAdjustVolume)
 	if _err != nil {
-		_code = TransactionISessionControllerAdjustVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerAdjustVolume, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -434,7 +474,7 @@ func (p *SessionControllerProxy) SetVolumeTo(
 	value int32,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
@@ -442,12 +482,12 @@ func (p *SessionControllerProxy) SetVolumeTo(
 	_data.WriteInt32(value)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "setVolumeTo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSetVolumeTo)
 	if _err != nil {
-		_code = TransactionISessionControllerSetVolumeTo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSetVolumeTo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -468,12 +508,12 @@ func (p *SessionControllerProxy) Prepare(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "prepare")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPrepare)
 	if _err != nil {
-		_code = TransactionISessionControllerPrepare
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPrepare, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -497,12 +537,12 @@ func (p *SessionControllerProxy) PrepareFromMediaId(
 	_data.WriteString16(packageName)
 	_data.WriteString16(mediaId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "prepareFromMediaId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPrepareFromMediaId)
 	if _err != nil {
-		_code = TransactionISessionControllerPrepareFromMediaId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPrepareFromMediaId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -526,12 +566,12 @@ func (p *SessionControllerProxy) PrepareFromSearch(
 	_data.WriteString16(packageName)
 	_data.WriteString16(string_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "prepareFromSearch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPrepareFromSearch)
 	if _err != nil {
-		_code = TransactionISessionControllerPrepareFromSearch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPrepareFromSearch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -558,12 +598,12 @@ func (p *SessionControllerProxy) PrepareFromUri(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "prepareFromUri")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPrepareFromUri)
 	if _err != nil {
-		_code = TransactionISessionControllerPrepareFromUri
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPrepareFromUri, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -584,12 +624,12 @@ func (p *SessionControllerProxy) Play(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "play")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPlay)
 	if _err != nil {
-		_code = TransactionISessionControllerPlay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPlay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -613,12 +653,12 @@ func (p *SessionControllerProxy) PlayFromMediaId(
 	_data.WriteString16(packageName)
 	_data.WriteString16(mediaId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "playFromMediaId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPlayFromMediaId)
 	if _err != nil {
-		_code = TransactionISessionControllerPlayFromMediaId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPlayFromMediaId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -642,12 +682,12 @@ func (p *SessionControllerProxy) PlayFromSearch(
 	_data.WriteString16(packageName)
 	_data.WriteString16(string_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "playFromSearch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPlayFromSearch)
 	if _err != nil {
-		_code = TransactionISessionControllerPlayFromSearch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPlayFromSearch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -674,12 +714,12 @@ func (p *SessionControllerProxy) PlayFromUri(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "playFromUri")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPlayFromUri)
 	if _err != nil {
-		_code = TransactionISessionControllerPlayFromUri
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPlayFromUri, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -702,12 +742,12 @@ func (p *SessionControllerProxy) SkipToQueueItem(
 	_data.WriteString16(packageName)
 	_data.WriteInt64(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "skipToQueueItem")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSkipToQueueItem)
 	if _err != nil {
-		_code = TransactionISessionControllerSkipToQueueItem
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSkipToQueueItem, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -728,12 +768,12 @@ func (p *SessionControllerProxy) Pause(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "pause")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPause)
 	if _err != nil {
-		_code = TransactionISessionControllerPause
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPause, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -754,12 +794,12 @@ func (p *SessionControllerProxy) Stop(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerStop)
 	if _err != nil {
-		_code = TransactionISessionControllerStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -780,12 +820,12 @@ func (p *SessionControllerProxy) Next(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "next")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerNext)
 	if _err != nil {
-		_code = TransactionISessionControllerNext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerNext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -806,12 +846,12 @@ func (p *SessionControllerProxy) Previous(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "previous")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerPrevious)
 	if _err != nil {
-		_code = TransactionISessionControllerPrevious
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerPrevious, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -832,12 +872,12 @@ func (p *SessionControllerProxy) FastForward(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "fastForward")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerFastForward)
 	if _err != nil {
-		_code = TransactionISessionControllerFastForward
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerFastForward, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -858,12 +898,12 @@ func (p *SessionControllerProxy) Rewind(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "rewind")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerRewind)
 	if _err != nil {
-		_code = TransactionISessionControllerRewind
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerRewind, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -886,12 +926,12 @@ func (p *SessionControllerProxy) SeekTo(
 	_data.WriteString16(packageName)
 	_data.WriteInt64(pos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "seekTo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSeekTo)
 	if _err != nil {
-		_code = TransactionISessionControllerSeekTo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSeekTo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -913,12 +953,12 @@ func (p *SessionControllerProxy) Rate(
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "rate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerRate)
 	if _err != nil {
-		_code = TransactionISessionControllerRate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerRate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -941,12 +981,12 @@ func (p *SessionControllerProxy) SetPlaybackSpeed(
 	_data.WriteString16(packageName)
 	_data.WriteFloat32(speed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "setPlaybackSpeed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSetPlaybackSpeed)
 	if _err != nil {
-		_code = TransactionISessionControllerSetPlaybackSpeed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSetPlaybackSpeed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -970,12 +1010,12 @@ func (p *SessionControllerProxy) SendCustomAction(
 	_data.WriteString16(packageName)
 	_data.WriteString16(action)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "sendCustomAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerSendCustomAction)
 	if _err != nil {
-		_code = TransactionISessionControllerSendCustomAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerSendCustomAction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -995,12 +1035,12 @@ func (p *SessionControllerProxy) GetMetadata(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetMetadata)
 	if _err != nil {
-		_code = TransactionISessionControllerGetMetadata
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetMetadata, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1020,12 +1060,12 @@ func (p *SessionControllerProxy) GetPlaybackState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getPlaybackState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetPlaybackState)
 	if _err != nil {
-		_code = TransactionISessionControllerGetPlaybackState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetPlaybackState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1054,12 +1094,12 @@ func (p *SessionControllerProxy) GetQueue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getQueue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetQueue)
 	if _err != nil {
-		_code = TransactionISessionControllerGetQueue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1079,12 +1119,12 @@ func (p *SessionControllerProxy) GetQueueTitle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getQueueTitle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetQueueTitle)
 	if _err != nil {
-		_code = TransactionISessionControllerGetQueueTitle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetQueueTitle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1104,12 +1144,12 @@ func (p *SessionControllerProxy) GetExtras(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getExtras")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetExtras)
 	if _err != nil {
-		_code = TransactionISessionControllerGetExtras
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetExtras, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1129,12 +1169,12 @@ func (p *SessionControllerProxy) GetRatingType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "getRatingType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionController, MethodISessionControllerGetRatingType)
 	if _err != nil {
-		_code = TransactionISessionControllerGetRatingType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISessionController, MethodISessionControllerGetRatingType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1158,6 +1198,10 @@ type SessionControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SessionControllerStub)(nil)
+
+func (s *SessionControllerStub) Descriptor() string {
+	return DescriptorISessionController
+}
 
 func (s *SessionControllerStub) OnTransaction(
 	ctx context.Context,

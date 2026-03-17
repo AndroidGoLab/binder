@@ -30,6 +30,25 @@ const (
 	TransactionIDynamicSystemServiceGetActiveDsuSlot        = binder.FirstCallTransaction + 15
 )
 
+const (
+	MethodIDynamicSystemServiceStartInstallation       = "startInstallation"
+	MethodIDynamicSystemServiceCreatePartition         = "createPartition"
+	MethodIDynamicSystemServiceClosePartition          = "closePartition"
+	MethodIDynamicSystemServiceFinishInstallation      = "finishInstallation"
+	MethodIDynamicSystemServiceGetInstallationProgress = "getInstallationProgress"
+	MethodIDynamicSystemServiceAbort                   = "abort"
+	MethodIDynamicSystemServiceIsInUse                 = "isInUse"
+	MethodIDynamicSystemServiceIsInstalled             = "isInstalled"
+	MethodIDynamicSystemServiceIsEnabled               = "isEnabled"
+	MethodIDynamicSystemServiceRemove                  = "remove"
+	MethodIDynamicSystemServiceSetEnable               = "setEnable"
+	MethodIDynamicSystemServiceSetAshmem               = "setAshmem"
+	MethodIDynamicSystemServiceSubmitFromAshmem        = "submitFromAshmem"
+	MethodIDynamicSystemServiceGetAvbPublicKey         = "getAvbPublicKey"
+	MethodIDynamicSystemServiceSuggestScratchSize      = "suggestScratchSize"
+	MethodIDynamicSystemServiceGetActiveDsuSlot        = "getActiveDsuSlot"
+)
+
 type IDynamicSystemService interface {
 	AsBinder() binder.IBinder
 	StartInstallation(ctx context.Context, dsuSlot string) (bool, error)
@@ -51,17 +70,17 @@ type IDynamicSystemService interface {
 }
 
 type DynamicSystemServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDynamicSystemServiceProxy(
 	remote binder.IBinder,
 ) *DynamicSystemServiceProxy {
-	return &DynamicSystemServiceProxy{remote: remote}
+	return &DynamicSystemServiceProxy{Remote: remote}
 }
 
 func (p *DynamicSystemServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDynamicSystemService = (*DynamicSystemServiceProxy)(nil)
@@ -75,12 +94,12 @@ func (p *DynamicSystemServiceProxy) StartInstallation(
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteString16(dsuSlot)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "startInstallation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceStartInstallation)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceStartInstallation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceStartInstallation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,12 +129,12 @@ func (p *DynamicSystemServiceProxy) CreatePartition(
 	_data.WriteInt64(size)
 	_data.WriteBool(readOnly)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "createPartition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceCreatePartition)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceCreatePartition
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceCreatePartition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,12 +158,12 @@ func (p *DynamicSystemServiceProxy) ClosePartition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "closePartition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceClosePartition)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceClosePartition
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceClosePartition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,12 +187,12 @@ func (p *DynamicSystemServiceProxy) FinishInstallation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "finishInstallation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceFinishInstallation)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceFinishInstallation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceFinishInstallation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -197,12 +216,12 @@ func (p *DynamicSystemServiceProxy) GetInstallationProgress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "getInstallationProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetInstallationProgress)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceGetInstallationProgress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetInstallationProgress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -222,12 +241,12 @@ func (p *DynamicSystemServiceProxy) Abort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "abort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceAbort)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceAbort
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceAbort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -251,12 +270,12 @@ func (p *DynamicSystemServiceProxy) IsInUse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "isInUse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsInUse)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceIsInUse
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsInUse, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -280,12 +299,12 @@ func (p *DynamicSystemServiceProxy) IsInstalled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "isInstalled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsInstalled)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceIsInstalled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsInstalled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -309,12 +328,12 @@ func (p *DynamicSystemServiceProxy) IsEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "isEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsEnabled)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceIsEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceIsEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -338,12 +357,12 @@ func (p *DynamicSystemServiceProxy) Remove(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "remove")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceRemove)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceRemove
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceRemove, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -371,12 +390,12 @@ func (p *DynamicSystemServiceProxy) SetEnable(
 	_data.WriteBool(enable)
 	_data.WriteBool(oneShot)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "setEnable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetEnable)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceSetEnable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -404,12 +423,12 @@ func (p *DynamicSystemServiceProxy) SetAshmem(
 	_data.WriteFileDescriptor(fd)
 	_data.WriteInt64(size)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "setAshmem")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetAshmem)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceSetAshmem
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSetAshmem, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -435,12 +454,12 @@ func (p *DynamicSystemServiceProxy) SubmitFromAshmem(
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 	_data.WriteInt64(bytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "submitFromAshmem")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSubmitFromAshmem)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceSubmitFromAshmem
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSubmitFromAshmem, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -465,12 +484,12 @@ func (p *DynamicSystemServiceProxy) GetAvbPublicKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "getAvbPublicKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetAvbPublicKey)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceGetAvbPublicKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetAvbPublicKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -494,12 +513,12 @@ func (p *DynamicSystemServiceProxy) SuggestScratchSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "suggestScratchSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSuggestScratchSize)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceSuggestScratchSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceSuggestScratchSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -523,12 +542,12 @@ func (p *DynamicSystemServiceProxy) GetActiveDsuSlot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicSystemService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "getActiveDsuSlot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetActiveDsuSlot)
 	if _err != nil {
-		_code = TransactionIDynamicSystemServiceGetActiveDsuSlot
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDynamicSystemService, MethodIDynamicSystemServiceGetActiveDsuSlot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -552,6 +571,10 @@ type DynamicSystemServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DynamicSystemServiceStub)(nil)
+
+func (s *DynamicSystemServiceStub) Descriptor() string {
+	return DescriptorIDynamicSystemService
+}
 
 func (s *DynamicSystemServiceStub) OnTransaction(
 	ctx context.Context,

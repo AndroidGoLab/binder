@@ -17,6 +17,11 @@ const (
 	TransactionICrossUserContentServiceNotifyForUriAsUser = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICrossUserContentServiceUpdateContent      = "updateContent"
+	MethodICrossUserContentServiceNotifyForUriAsUser = "notifyForUriAsUser"
+)
+
 type ICrossUserContentService interface {
 	AsBinder() binder.IBinder
 	UpdateContent(ctx context.Context, uri net.Uri, key string, value int32) error
@@ -24,17 +29,17 @@ type ICrossUserContentService interface {
 }
 
 type CrossUserContentServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCrossUserContentServiceProxy(
 	remote binder.IBinder,
 ) *CrossUserContentServiceProxy {
-	return &CrossUserContentServiceProxy{remote: remote}
+	return &CrossUserContentServiceProxy{Remote: remote}
 }
 
 func (p *CrossUserContentServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICrossUserContentService = (*CrossUserContentServiceProxy)(nil)
@@ -54,12 +59,12 @@ func (p *CrossUserContentServiceProxy) UpdateContent(
 	_data.WriteString16(key)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICrossUserContentService, "updateContent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossUserContentService, MethodICrossUserContentServiceUpdateContent)
 	if _err != nil {
-		_code = TransactionICrossUserContentServiceUpdateContent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICrossUserContentService, MethodICrossUserContentServiceUpdateContent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,7 +81,7 @@ func (p *CrossUserContentServiceProxy) NotifyForUriAsUser(
 	ctx context.Context,
 	uri net.Uri,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICrossUserContentService)
 	_data.WriteInt32(1)
@@ -85,12 +90,12 @@ func (p *CrossUserContentServiceProxy) NotifyForUriAsUser(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICrossUserContentService, "notifyForUriAsUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossUserContentService, MethodICrossUserContentServiceNotifyForUriAsUser)
 	if _err != nil {
-		_code = TransactionICrossUserContentServiceNotifyForUriAsUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICrossUserContentService, MethodICrossUserContentServiceNotifyForUriAsUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,6 +115,10 @@ type CrossUserContentServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CrossUserContentServiceStub)(nil)
+
+func (s *CrossUserContentServiceStub) Descriptor() string {
+	return DescriptorICrossUserContentService
+}
 
 func (s *CrossUserContentServiceStub) OnTransaction(
 	ctx context.Context,

@@ -17,22 +17,8 @@ func (s *NetworkRequestEapSimUmtsAuthParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Rand == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Rand)))
-		for _, _item := range s.Rand {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Autn == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Autn)))
-		for _, _item := range s.Autn {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Rand)
+	p.WriteByteArray(s.Autn)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *NetworkRequestEapSimUmtsAuthParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Rand, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Rand = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Rand[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Autn, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Autn = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Autn[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

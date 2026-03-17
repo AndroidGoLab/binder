@@ -18,6 +18,13 @@ const (
 	TransactionIIncidentReportStatusListenerOnReportFailed        = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIIncidentReportStatusListenerOnReportStarted       = "onReportStarted"
+	MethodIIncidentReportStatusListenerOnReportSectionStatus = "onReportSectionStatus"
+	MethodIIncidentReportStatusListenerOnReportFinished      = "onReportFinished"
+	MethodIIncidentReportStatusListenerOnReportFailed        = "onReportFailed"
+)
+
 type IIncidentReportStatusListener interface {
 	AsBinder() binder.IBinder
 	OnReportStarted(ctx context.Context) error
@@ -32,17 +39,17 @@ const (
 )
 
 type IncidentReportStatusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIncidentReportStatusListenerProxy(
 	remote binder.IBinder,
 ) *IncidentReportStatusListenerProxy {
-	return &IncidentReportStatusListenerProxy{remote: remote}
+	return &IncidentReportStatusListenerProxy{Remote: remote}
 }
 
 func (p *IncidentReportStatusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIncidentReportStatusListener = (*IncidentReportStatusListenerProxy)(nil)
@@ -53,12 +60,12 @@ func (p *IncidentReportStatusListenerProxy) OnReportStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportStarted)
 	if _err != nil {
-		_code = TransactionIIncidentReportStatusListenerOnReportStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +79,12 @@ func (p *IncidentReportStatusListenerProxy) OnReportSectionStatus(
 	_data.WriteInt32(section)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportSectionStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportSectionStatus)
 	if _err != nil {
-		_code = TransactionIIncidentReportStatusListenerOnReportSectionStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportSectionStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,12 +94,12 @@ func (p *IncidentReportStatusListenerProxy) OnReportFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportFinished)
 	if _err != nil {
-		_code = TransactionIIncidentReportStatusListenerOnReportFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +109,12 @@ func (p *IncidentReportStatusListenerProxy) OnReportFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentReportStatusListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportFailed)
 	if _err != nil {
-		_code = TransactionIIncidentReportStatusListenerOnReportFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIncidentReportStatusListener, MethodIIncidentReportStatusListenerOnReportFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,6 +125,10 @@ type IncidentReportStatusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IncidentReportStatusListenerStub)(nil)
+
+func (s *IncidentReportStatusListenerStub) Descriptor() string {
+	return DescriptorIIncidentReportStatusListener
+}
 
 func (s *IncidentReportStatusListenerStub) OnTransaction(
 	ctx context.Context,

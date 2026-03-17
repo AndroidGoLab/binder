@@ -15,23 +15,27 @@ const (
 	TransactionIEraseSubscriptionsCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEraseSubscriptionsCallbackOnComplete = "onComplete"
+)
+
 type IEraseSubscriptionsCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type EraseSubscriptionsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEraseSubscriptionsCallbackProxy(
 	remote binder.IBinder,
 ) *EraseSubscriptionsCallbackProxy {
-	return &EraseSubscriptionsCallbackProxy{remote: remote}
+	return &EraseSubscriptionsCallbackProxy{Remote: remote}
 }
 
 func (p *EraseSubscriptionsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEraseSubscriptionsCallback = (*EraseSubscriptionsCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *EraseSubscriptionsCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIEraseSubscriptionsCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEraseSubscriptionsCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEraseSubscriptionsCallback, MethodIEraseSubscriptionsCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIEraseSubscriptionsCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEraseSubscriptionsCallback, MethodIEraseSubscriptionsCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type EraseSubscriptionsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EraseSubscriptionsCallbackStub)(nil)
+
+func (s *EraseSubscriptionsCallbackStub) Descriptor() string {
+	return DescriptorIEraseSubscriptionsCallback
+}
 
 func (s *EraseSubscriptionsCallbackStub) OnTransaction(
 	ctx context.Context,

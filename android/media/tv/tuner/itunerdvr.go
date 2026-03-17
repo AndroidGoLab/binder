@@ -25,6 +25,18 @@ const (
 	TransactionITunerDvrSetStatusCheckIntervalHint = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodITunerDvrGetQueueDesc               = "getQueueDesc"
+	MethodITunerDvrConfigure                  = "configure"
+	MethodITunerDvrAttachFilter               = "attachFilter"
+	MethodITunerDvrDetachFilter               = "detachFilter"
+	MethodITunerDvrStart                      = "start"
+	MethodITunerDvrStop                       = "stop"
+	MethodITunerDvrFlush                      = "flush"
+	MethodITunerDvrClose                      = "close"
+	MethodITunerDvrSetStatusCheckIntervalHint = "setStatusCheckIntervalHint"
+)
+
 type ITunerDvr interface {
 	AsBinder() binder.IBinder
 	GetQueueDesc(ctx context.Context) (fmq.MQDescriptor, error)
@@ -39,17 +51,17 @@ type ITunerDvr interface {
 }
 
 type TunerDvrProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerDvrProxy(
 	remote binder.IBinder,
 ) *TunerDvrProxy {
-	return &TunerDvrProxy{remote: remote}
+	return &TunerDvrProxy{Remote: remote}
 }
 
 func (p *TunerDvrProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerDvr = (*TunerDvrProxy)(nil)
@@ -61,12 +73,12 @@ func (p *TunerDvrProxy) GetQueueDesc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "getQueueDesc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrGetQueueDesc)
 	if _err != nil {
-		_code = TransactionITunerDvrGetQueueDesc
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrGetQueueDesc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,12 +111,12 @@ func (p *TunerDvrProxy) Configure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrConfigure)
 	if _err != nil {
-		_code = TransactionITunerDvrConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -123,14 +135,14 @@ func (p *TunerDvrProxy) AttachFilter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "attachFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrAttachFilter)
 	if _err != nil {
-		_code = TransactionITunerDvrAttachFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrAttachFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,14 +161,14 @@ func (p *TunerDvrProxy) DetachFilter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
-	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, filter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "detachFilter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrDetachFilter)
 	if _err != nil {
-		_code = TransactionITunerDvrDetachFilter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrDetachFilter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -175,12 +187,12 @@ func (p *TunerDvrProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrStart)
 	if _err != nil {
-		_code = TransactionITunerDvrStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -199,12 +211,12 @@ func (p *TunerDvrProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrStop)
 	if _err != nil {
-		_code = TransactionITunerDvrStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -223,12 +235,12 @@ func (p *TunerDvrProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrFlush)
 	if _err != nil {
-		_code = TransactionITunerDvrFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -247,12 +259,12 @@ func (p *TunerDvrProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrClose)
 	if _err != nil {
-		_code = TransactionITunerDvrClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -273,12 +285,12 @@ func (p *TunerDvrProxy) SetStatusCheckIntervalHint(
 	_data.WriteInterfaceToken(DescriptorITunerDvr)
 	_data.WriteInt64(milliseconds)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "setStatusCheckIntervalHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerDvr, MethodITunerDvrSetStatusCheckIntervalHint)
 	if _err != nil {
-		_code = TransactionITunerDvrSetStatusCheckIntervalHint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerDvr, MethodITunerDvrSetStatusCheckIntervalHint, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -298,6 +310,10 @@ type TunerDvrStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerDvrStub)(nil)
+
+func (s *TunerDvrStub) Descriptor() string {
+	return DescriptorITunerDvr
+}
 
 func (s *TunerDvrStub) OnTransaction(
 	ctx context.Context,

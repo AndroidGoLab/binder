@@ -16,6 +16,11 @@ const (
 	TransactionIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGetAvailableMemoryInBytesCallbackOnSuccess                       = "onSuccess"
+	MethodIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException = "onUnsupportedOperationException"
+)
+
 type IGetAvailableMemoryInBytesCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, availableMemoryInBytes int64) error
@@ -23,17 +28,17 @@ type IGetAvailableMemoryInBytesCallback interface {
 }
 
 type GetAvailableMemoryInBytesCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetAvailableMemoryInBytesCallbackProxy(
 	remote binder.IBinder,
 ) *GetAvailableMemoryInBytesCallbackProxy {
-	return &GetAvailableMemoryInBytesCallbackProxy{remote: remote}
+	return &GetAvailableMemoryInBytesCallbackProxy{Remote: remote}
 }
 
 func (p *GetAvailableMemoryInBytesCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetAvailableMemoryInBytesCallback = (*GetAvailableMemoryInBytesCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
 	_data.WriteInt64(availableMemoryInBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetAvailableMemoryInBytesCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIGetAvailableMemoryInBytesCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetAvailableMemoryInBytesCallback, "onUnsupportedOperationException")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException)
 	if _err != nil {
-		_code = TransactionIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetAvailableMemoryInBytesCallback, MethodIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type GetAvailableMemoryInBytesCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetAvailableMemoryInBytesCallbackStub)(nil)
+
+func (s *GetAvailableMemoryInBytesCallbackStub) Descriptor() string {
+	return DescriptorIGetAvailableMemoryInBytesCallback
+}
 
 func (s *GetAvailableMemoryInBytesCallbackStub) OnTransaction(
 	ctx context.Context,

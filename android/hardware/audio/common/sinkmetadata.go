@@ -21,6 +21,7 @@ func (s *SinkMetadata) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Tracks)))
 		for _, _item := range s.Tracks {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -47,6 +48,9 @@ func (s *SinkMetadata) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Tracks = make([]RecordTrackMetadata, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Tracks[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -1,7 +1,6 @@
 package power
 
 import (
-	powerChannelMessage "github.com/xaionaro-go/binder/android/hardware/power/ChannelMessage"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type ChannelMessage struct {
 	SessionID      int32
 	TimeStampNanos int64
-	Data           powerChannelMessage.ChannelMessageContents
+	Data           interface{}
 }
 
 var _ parcel.Parcelable = (*ChannelMessage)(nil)
@@ -21,9 +20,6 @@ func (s *ChannelMessage) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.SessionID)
 	p.WriteInt64(s.TimeStampNanos)
-	if _err := s.Data.MarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -44,10 +40,6 @@ func (s *ChannelMessage) UnmarshalParcel(
 
 	s.TimeStampNanos, _err = p.ReadInt64()
 	if _err != nil {
-		return _err
-	}
-
-	if _err = s.Data.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

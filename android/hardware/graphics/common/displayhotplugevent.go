@@ -10,5 +10,4 @@ const (
 	DisplayHotplugEventErrorUnknown           DisplayHotplugEvent = -1
 	DisplayHotplugEventErrorIncompatibleCable DisplayHotplugEvent = -2
 	DisplayHotplugEventErrorTooManyDisplays   DisplayHotplugEvent = -3
-	DisplayHotplugEventErrorLinkUnstable      DisplayHotplugEvent = -4
 )

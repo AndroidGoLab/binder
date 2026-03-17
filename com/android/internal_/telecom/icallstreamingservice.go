@@ -19,6 +19,13 @@ const (
 	TransactionICallStreamingServiceOnCallStreamingStateChanged = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICallStreamingServiceSetStreamingCallAdapter     = "setStreamingCallAdapter"
+	MethodICallStreamingServiceOnCallStreamingStarted      = "onCallStreamingStarted"
+	MethodICallStreamingServiceOnCallStreamingStopped      = "onCallStreamingStopped"
+	MethodICallStreamingServiceOnCallStreamingStateChanged = "onCallStreamingStateChanged"
+)
+
 type ICallStreamingService interface {
 	AsBinder() binder.IBinder
 	SetStreamingCallAdapter(ctx context.Context, streamingCallAdapter IStreamingCallAdapter) error
@@ -28,17 +35,17 @@ type ICallStreamingService interface {
 }
 
 type CallStreamingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallStreamingServiceProxy(
 	remote binder.IBinder,
 ) *CallStreamingServiceProxy {
-	return &CallStreamingServiceProxy{remote: remote}
+	return &CallStreamingServiceProxy{Remote: remote}
 }
 
 func (p *CallStreamingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallStreamingService = (*CallStreamingServiceProxy)(nil)
@@ -49,14 +56,14 @@ func (p *CallStreamingServiceProxy) SetStreamingCallAdapter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
-	binder.WriteBinderToParcel(ctx, _data, streamingCallAdapter.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, streamingCallAdapter.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "setStreamingCallAdapter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceSetStreamingCallAdapter)
 	if _err != nil {
-		_code = TransactionICallStreamingServiceSetStreamingCallAdapter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallStreamingService, MethodICallStreamingServiceSetStreamingCallAdapter, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +78,12 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStarted)
 	if _err != nil {
-		_code = TransactionICallStreamingServiceOnCallStreamingStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +93,12 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStopped)
 	if _err != nil {
-		_code = TransactionICallStreamingServiceOnCallStreamingStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +110,12 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStateChanged)
 	if _err != nil {
-		_code = TransactionICallStreamingServiceOnCallStreamingStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallStreamingService, MethodICallStreamingServiceOnCallStreamingStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +126,10 @@ type CallStreamingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallStreamingServiceStub)(nil)
+
+func (s *CallStreamingServiceStub) Descriptor() string {
+	return DescriptorICallStreamingService
+}
 
 func (s *CallStreamingServiceStub) OnTransaction(
 	ctx context.Context,

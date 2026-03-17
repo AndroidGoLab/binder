@@ -16,6 +16,11 @@ const (
 	TransactionILogAccessDialogCallbackDeclineAccessForClient = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodILogAccessDialogCallbackApproveAccessForClient = "approveAccessForClient"
+	MethodILogAccessDialogCallbackDeclineAccessForClient = "declineAccessForClient"
+)
+
 type ILogAccessDialogCallback interface {
 	AsBinder() binder.IBinder
 	ApproveAccessForClient(ctx context.Context, uid int32, packageName string) error
@@ -23,17 +28,17 @@ type ILogAccessDialogCallback interface {
 }
 
 type LogAccessDialogCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLogAccessDialogCallbackProxy(
 	remote binder.IBinder,
 ) *LogAccessDialogCallbackProxy {
-	return &LogAccessDialogCallbackProxy{remote: remote}
+	return &LogAccessDialogCallbackProxy{Remote: remote}
 }
 
 func (p *LogAccessDialogCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILogAccessDialogCallback = (*LogAccessDialogCallbackProxy)(nil)
@@ -48,12 +53,12 @@ func (p *LogAccessDialogCallbackProxy) ApproveAccessForClient(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILogAccessDialogCallback, "approveAccessForClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILogAccessDialogCallback, MethodILogAccessDialogCallbackApproveAccessForClient)
 	if _err != nil {
-		_code = TransactionILogAccessDialogCallbackApproveAccessForClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILogAccessDialogCallback, MethodILogAccessDialogCallbackApproveAccessForClient, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *LogAccessDialogCallbackProxy) DeclineAccessForClient(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILogAccessDialogCallback, "declineAccessForClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILogAccessDialogCallback, MethodILogAccessDialogCallbackDeclineAccessForClient)
 	if _err != nil {
-		_code = TransactionILogAccessDialogCallbackDeclineAccessForClient
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILogAccessDialogCallback, MethodILogAccessDialogCallbackDeclineAccessForClient, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type LogAccessDialogCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LogAccessDialogCallbackStub)(nil)
+
+func (s *LogAccessDialogCallbackStub) Descriptor() string {
+	return DescriptorILogAccessDialogCallback
+}
 
 func (s *LogAccessDialogCallbackStub) OnTransaction(
 	ctx context.Context,

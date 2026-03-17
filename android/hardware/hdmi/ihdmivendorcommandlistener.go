@@ -16,6 +16,11 @@ const (
 	TransactionIHdmiVendorCommandListenerOnControlStateChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIHdmiVendorCommandListenerOnReceived            = "onReceived"
+	MethodIHdmiVendorCommandListenerOnControlStateChanged = "onControlStateChanged"
+)
+
 type IHdmiVendorCommandListener interface {
 	AsBinder() binder.IBinder
 	OnReceived(ctx context.Context, logicalAddress int32, destAddress int32, operands []byte, hasVendorId bool) error
@@ -23,17 +28,17 @@ type IHdmiVendorCommandListener interface {
 }
 
 type HdmiVendorCommandListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiVendorCommandListenerProxy(
 	remote binder.IBinder,
 ) *HdmiVendorCommandListenerProxy {
-	return &HdmiVendorCommandListenerProxy{remote: remote}
+	return &HdmiVendorCommandListenerProxy{Remote: remote}
 }
 
 func (p *HdmiVendorCommandListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiVendorCommandListener = (*HdmiVendorCommandListenerProxy)(nil)
@@ -59,12 +64,12 @@ func (p *HdmiVendorCommandListenerProxy) OnReceived(
 	}
 	_data.WriteBool(hasVendorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiVendorCommandListener, "onReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnReceived)
 	if _err != nil {
-		_code = TransactionIHdmiVendorCommandListenerOnReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +83,12 @@ func (p *HdmiVendorCommandListenerProxy) OnControlStateChanged(
 	_data.WriteBool(enabled)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiVendorCommandListener, "onControlStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnControlStateChanged)
 	if _err != nil {
-		_code = TransactionIHdmiVendorCommandListenerOnControlStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiVendorCommandListener, MethodIHdmiVendorCommandListenerOnControlStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +99,10 @@ type HdmiVendorCommandListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiVendorCommandListenerStub)(nil)
+
+func (s *HdmiVendorCommandListenerStub) Descriptor() string {
+	return DescriptorIHdmiVendorCommandListener
+}
 
 func (s *HdmiVendorCommandListenerStub) OnTransaction(
 	ctx context.Context,

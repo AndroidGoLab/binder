@@ -18,6 +18,13 @@ const (
 	TransactionIRestoreObserverRestoreFinished      = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIRestoreObserverRestoreSetsAvailable = "restoreSetsAvailable"
+	MethodIRestoreObserverRestoreStarting      = "restoreStarting"
+	MethodIRestoreObserverOnUpdate             = "onUpdate"
+	MethodIRestoreObserverRestoreFinished      = "restoreFinished"
+)
+
 type IRestoreObserver interface {
 	AsBinder() binder.IBinder
 	RestoreSetsAvailable(ctx context.Context, result []RestoreSet) error
@@ -27,17 +34,17 @@ type IRestoreObserver interface {
 }
 
 type RestoreObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRestoreObserverProxy(
 	remote binder.IBinder,
 ) *RestoreObserverProxy {
-	return &RestoreObserverProxy{remote: remote}
+	return &RestoreObserverProxy{Remote: remote}
 }
 
 func (p *RestoreObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRestoreObserver = (*RestoreObserverProxy)(nil)
@@ -53,18 +60,19 @@ func (p *RestoreObserverProxy) RestoreSetsAvailable(
 	} else {
 		_data.WriteInt32(int32(len(result)))
 		for _, _item := range result {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "restoreSetsAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreSetsAvailable)
 	if _err != nil {
-		_code = TransactionIRestoreObserverRestoreSetsAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreObserver, MethodIRestoreObserverRestoreSetsAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +84,12 @@ func (p *RestoreObserverProxy) RestoreStarting(
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
 	_data.WriteInt32(numPackages)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "restoreStarting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreStarting)
 	if _err != nil {
-		_code = TransactionIRestoreObserverRestoreStarting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreObserver, MethodIRestoreObserverRestoreStarting, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +103,12 @@ func (p *RestoreObserverProxy) OnUpdate(
 	_data.WriteInt32(nowBeingRestored)
 	_data.WriteString16(curentPackage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "onUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverOnUpdate)
 	if _err != nil {
-		_code = TransactionIRestoreObserverOnUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreObserver, MethodIRestoreObserverOnUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,12 +120,12 @@ func (p *RestoreObserverProxy) RestoreFinished(
 	_data.WriteInterfaceToken(DescriptorIRestoreObserver)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "restoreFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRestoreObserver, MethodIRestoreObserverRestoreFinished)
 	if _err != nil {
-		_code = TransactionIRestoreObserverRestoreFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRestoreObserver, MethodIRestoreObserverRestoreFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,6 +136,10 @@ type RestoreObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RestoreObserverStub)(nil)
+
+func (s *RestoreObserverStub) Descriptor() string {
+	return DescriptorIRestoreObserver
+}
 
 func (s *RestoreObserverStub) OnTransaction(
 	ctx context.Context,

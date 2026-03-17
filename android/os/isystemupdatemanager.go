@@ -16,6 +16,11 @@ const (
 	TransactionISystemUpdateManagerUpdateSystemUpdateInfo   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISystemUpdateManagerRetrieveSystemUpdateInfo = "retrieveSystemUpdateInfo"
+	MethodISystemUpdateManagerUpdateSystemUpdateInfo   = "updateSystemUpdateInfo"
+)
+
 type ISystemUpdateManager interface {
 	AsBinder() binder.IBinder
 	RetrieveSystemUpdateInfo(ctx context.Context) (Bundle, error)
@@ -23,17 +28,17 @@ type ISystemUpdateManager interface {
 }
 
 type SystemUpdateManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSystemUpdateManagerProxy(
 	remote binder.IBinder,
 ) *SystemUpdateManagerProxy {
-	return &SystemUpdateManagerProxy{remote: remote}
+	return &SystemUpdateManagerProxy{Remote: remote}
 }
 
 func (p *SystemUpdateManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISystemUpdateManager = (*SystemUpdateManagerProxy)(nil)
@@ -45,12 +50,12 @@ func (p *SystemUpdateManagerProxy) RetrieveSystemUpdateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUpdateManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemUpdateManager, "retrieveSystemUpdateInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUpdateManager, MethodISystemUpdateManagerRetrieveSystemUpdateInfo)
 	if _err != nil {
-		_code = TransactionISystemUpdateManagerRetrieveSystemUpdateInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISystemUpdateManager, MethodISystemUpdateManagerRetrieveSystemUpdateInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,12 +84,12 @@ func (p *SystemUpdateManagerProxy) UpdateSystemUpdateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUpdateManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemUpdateManager, "updateSystemUpdateInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemUpdateManager, MethodISystemUpdateManagerUpdateSystemUpdateInfo)
 	if _err != nil {
-		_code = TransactionISystemUpdateManagerUpdateSystemUpdateInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISystemUpdateManager, MethodISystemUpdateManagerUpdateSystemUpdateInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,6 +109,10 @@ type SystemUpdateManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SystemUpdateManagerStub)(nil)
+
+func (s *SystemUpdateManagerStub) Descriptor() string {
+	return DescriptorISystemUpdateManager
+}
 
 func (s *SystemUpdateManagerStub) OnTransaction(
 	ctx context.Context,

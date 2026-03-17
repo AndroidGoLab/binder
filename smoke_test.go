@@ -139,17 +139,6 @@ func TestSmoke_EmptyProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_ServiceSingletonTestProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewServiceSingletonTestProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("ServiceSingletonTestProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_TestServiceProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewTestServiceProxy(mock)

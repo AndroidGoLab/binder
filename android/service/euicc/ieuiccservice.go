@@ -32,6 +32,25 @@ const (
 	TransactionIEuiccServiceGetAvailableMemoryInBytes              = binder.FirstCallTransaction + 15
 )
 
+const (
+	MethodIEuiccServiceDownloadSubscription                   = "downloadSubscription"
+	MethodIEuiccServiceGetDownloadableSubscriptionMetadata    = "getDownloadableSubscriptionMetadata"
+	MethodIEuiccServiceGetEid                                 = "getEid"
+	MethodIEuiccServiceGetOtaStatus                           = "getOtaStatus"
+	MethodIEuiccServiceStartOtaIfNecessary                    = "startOtaIfNecessary"
+	MethodIEuiccServiceGetEuiccProfileInfoList                = "getEuiccProfileInfoList"
+	MethodIEuiccServiceGetDefaultDownloadableSubscriptionList = "getDefaultDownloadableSubscriptionList"
+	MethodIEuiccServiceGetEuiccInfo                           = "getEuiccInfo"
+	MethodIEuiccServiceDeleteSubscription                     = "deleteSubscription"
+	MethodIEuiccServiceSwitchToSubscription                   = "switchToSubscription"
+	MethodIEuiccServiceUpdateSubscriptionNickname             = "updateSubscriptionNickname"
+	MethodIEuiccServiceEraseSubscriptions                     = "eraseSubscriptions"
+	MethodIEuiccServiceEraseSubscriptionsWithOptions          = "eraseSubscriptionsWithOptions"
+	MethodIEuiccServiceRetainSubscriptionsForFactoryReset     = "retainSubscriptionsForFactoryReset"
+	MethodIEuiccServiceDump                                   = "dump"
+	MethodIEuiccServiceGetAvailableMemoryInBytes              = "getAvailableMemoryInBytes"
+)
+
 type IEuiccService interface {
 	AsBinder() binder.IBinder
 	DownloadSubscription(ctx context.Context, slotId int32, portIndex int32, subscription telephonyEuicc.DownloadableSubscription, switchAfterDownload bool, forceDeactivateSim bool, resolvedBundle os.Bundle, callback IDownloadSubscriptionCallback) error
@@ -53,17 +72,17 @@ type IEuiccService interface {
 }
 
 type EuiccServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEuiccServiceProxy(
 	remote binder.IBinder,
 ) *EuiccServiceProxy {
-	return &EuiccServiceProxy{remote: remote}
+	return &EuiccServiceProxy{Remote: remote}
 }
 
 func (p *EuiccServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEuiccService = (*EuiccServiceProxy)(nil)
@@ -92,14 +111,14 @@ func (p *EuiccServiceProxy) DownloadSubscription(
 	if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "downloadSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceDownloadSubscription)
 	if _err != nil {
-		_code = TransactionIEuiccServiceDownloadSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceDownloadSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,14 +141,14 @@ func (p *EuiccServiceProxy) GetDownloadableSubscriptionMetadata(
 	}
 	_data.WriteBool(switchAfterDownload)
 	_data.WriteBool(forceDeactivateSim)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getDownloadableSubscriptionMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetDownloadableSubscriptionMetadata)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetDownloadableSubscriptionMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetDownloadableSubscriptionMetadata, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,14 +160,14 @@ func (p *EuiccServiceProxy) GetEid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getEid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEid)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetEid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetEid, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,14 +179,14 @@ func (p *EuiccServiceProxy) GetOtaStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getOtaStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetOtaStatus)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetOtaStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetOtaStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,14 +198,14 @@ func (p *EuiccServiceProxy) StartOtaIfNecessary(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, statusChangedCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, statusChangedCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "startOtaIfNecessary")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceStartOtaIfNecessary)
 	if _err != nil {
-		_code = TransactionIEuiccServiceStartOtaIfNecessary
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceStartOtaIfNecessary, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,14 +217,14 @@ func (p *EuiccServiceProxy) GetEuiccProfileInfoList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getEuiccProfileInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEuiccProfileInfoList)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetEuiccProfileInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetEuiccProfileInfoList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -219,14 +238,14 @@ func (p *EuiccServiceProxy) GetDefaultDownloadableSubscriptionList(
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteBool(forceDeactivateSim)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getDefaultDownloadableSubscriptionList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetDefaultDownloadableSubscriptionList)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetDefaultDownloadableSubscriptionList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetDefaultDownloadableSubscriptionList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -238,14 +257,14 @@ func (p *EuiccServiceProxy) GetEuiccInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getEuiccInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetEuiccInfo)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetEuiccInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetEuiccInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -259,14 +278,14 @@ func (p *EuiccServiceProxy) DeleteSubscription(
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteString16(iccid)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "deleteSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceDeleteSubscription)
 	if _err != nil {
-		_code = TransactionIEuiccServiceDeleteSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceDeleteSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -285,15 +304,15 @@ func (p *EuiccServiceProxy) SwitchToSubscription(
 	_data.WriteInt32(portIndex)
 	_data.WriteString16(iccid)
 	_data.WriteBool(forceDeactivateSim)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(useLegacyApi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "switchToSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceSwitchToSubscription)
 	if _err != nil {
-		_code = TransactionIEuiccServiceSwitchToSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceSwitchToSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -309,14 +328,14 @@ func (p *EuiccServiceProxy) UpdateSubscriptionNickname(
 	_data.WriteInt32(slotId)
 	_data.WriteString16(iccid)
 	_data.WriteString16(nickname)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "updateSubscriptionNickname")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceUpdateSubscriptionNickname)
 	if _err != nil {
-		_code = TransactionIEuiccServiceUpdateSubscriptionNickname
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceUpdateSubscriptionNickname, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -328,14 +347,14 @@ func (p *EuiccServiceProxy) EraseSubscriptions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "eraseSubscriptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptions)
 	if _err != nil {
-		_code = TransactionIEuiccServiceEraseSubscriptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -349,14 +368,14 @@ func (p *EuiccServiceProxy) EraseSubscriptionsWithOptions(
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(options)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "eraseSubscriptionsWithOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptionsWithOptions)
 	if _err != nil {
-		_code = TransactionIEuiccServiceEraseSubscriptionsWithOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceEraseSubscriptionsWithOptions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -368,14 +387,14 @@ func (p *EuiccServiceProxy) RetainSubscriptionsForFactoryReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "retainSubscriptionsForFactoryReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceRetainSubscriptionsForFactoryReset)
 	if _err != nil {
-		_code = TransactionIEuiccServiceRetainSubscriptionsForFactoryReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceRetainSubscriptionsForFactoryReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -385,14 +404,14 @@ func (p *EuiccServiceProxy) Dump(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "dump")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceDump)
 	if _err != nil {
-		_code = TransactionIEuiccServiceDump
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceDump, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -404,14 +423,14 @@ func (p *EuiccServiceProxy) GetAvailableMemoryInBytes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccService, "getAvailableMemoryInBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccService, MethodIEuiccServiceGetAvailableMemoryInBytes)
 	if _err != nil {
-		_code = TransactionIEuiccServiceGetAvailableMemoryInBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccService, MethodIEuiccServiceGetAvailableMemoryInBytes, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -422,6 +441,10 @@ type EuiccServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EuiccServiceStub)(nil)
+
+func (s *EuiccServiceStub) Descriptor() string {
+	return DescriptorIEuiccService
+}
 
 func (s *EuiccServiceStub) OnTransaction(
 	ctx context.Context,

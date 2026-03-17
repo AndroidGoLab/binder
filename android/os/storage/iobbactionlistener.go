@@ -15,23 +15,27 @@ const (
 	TransactionIObbActionListenerOnObbResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIObbActionListenerOnObbResult = "onObbResult"
+)
+
 type IObbActionListener interface {
 	AsBinder() binder.IBinder
 	OnObbResult(ctx context.Context, filename string, nonce int32, status int32) error
 }
 
 type ObbActionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewObbActionListenerProxy(
 	remote binder.IBinder,
 ) *ObbActionListenerProxy {
-	return &ObbActionListenerProxy{remote: remote}
+	return &ObbActionListenerProxy{Remote: remote}
 }
 
 func (p *ObbActionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IObbActionListener = (*ObbActionListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *ObbActionListenerProxy) OnObbResult(
 	_data.WriteInt32(nonce)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIObbActionListener, "onObbResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIObbActionListener, MethodIObbActionListenerOnObbResult)
 	if _err != nil {
-		_code = TransactionIObbActionListenerOnObbResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIObbActionListener, MethodIObbActionListenerOnObbResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type ObbActionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ObbActionListenerStub)(nil)
+
+func (s *ObbActionListenerStub) Descriptor() string {
+	return DescriptorIObbActionListener
+}
 
 func (s *ObbActionListenerStub) OnTransaction(
 	ctx context.Context,

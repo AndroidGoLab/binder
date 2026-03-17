@@ -22,6 +22,7 @@ func (s *CaptureRequest) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PhysicalCameraSettings)))
 		for _, _item := range s.PhysicalCameraSettings {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -32,6 +33,7 @@ func (s *CaptureRequest) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.StreamAndWindowIds)))
 		for _, _item := range s.StreamAndWindowIds {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -58,6 +60,9 @@ func (s *CaptureRequest) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.PhysicalCameraSettings = make([]PhysicalCameraSettings, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PhysicalCameraSettings[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +77,9 @@ func (s *CaptureRequest) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.StreamAndWindowIds = make([]StreamAndWindowId, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.StreamAndWindowIds[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -17,6 +17,12 @@ const (
 	TransactionIMediaProjectionCallbackOnCapturedContentVisibilityChanged = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMediaProjectionCallbackOnStop                             = "onStop"
+	MethodIMediaProjectionCallbackOnCapturedContentResize            = "onCapturedContentResize"
+	MethodIMediaProjectionCallbackOnCapturedContentVisibilityChanged = "onCapturedContentVisibilityChanged"
+)
+
 type IMediaProjectionCallback interface {
 	AsBinder() binder.IBinder
 	OnStop(ctx context.Context) error
@@ -25,17 +31,17 @@ type IMediaProjectionCallback interface {
 }
 
 type MediaProjectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaProjectionCallbackProxy(
 	remote binder.IBinder,
 ) *MediaProjectionCallbackProxy {
-	return &MediaProjectionCallbackProxy{remote: remote}
+	return &MediaProjectionCallbackProxy{Remote: remote}
 }
 
 func (p *MediaProjectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaProjectionCallback = (*MediaProjectionCallbackProxy)(nil)
@@ -46,12 +52,12 @@ func (p *MediaProjectionCallbackProxy) OnStop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionCallback, "onStop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnStop)
 	if _err != nil {
-		_code = TransactionIMediaProjectionCallbackOnStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentResize(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionCallback, "onCapturedContentResize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentResize)
 	if _err != nil {
-		_code = TransactionIMediaProjectionCallbackOnCapturedContentResize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentResize, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +88,12 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentVisibilityChanged(
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionCallback)
 	_data.WriteBool(isVisible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionCallback, "onCapturedContentVisibilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentVisibilityChanged)
 	if _err != nil {
-		_code = TransactionIMediaProjectionCallbackOnCapturedContentVisibilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaProjectionCallback, MethodIMediaProjectionCallbackOnCapturedContentVisibilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +104,10 @@ type MediaProjectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaProjectionCallbackStub)(nil)
+
+func (s *MediaProjectionCallbackStub) Descriptor() string {
+	return DescriptorIMediaProjectionCallback
+}
 
 func (s *MediaProjectionCallbackStub) OnTransaction(
 	ctx context.Context,

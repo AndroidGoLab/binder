@@ -16,6 +16,11 @@ const (
 	TransactionIWallpaperManagerCallbackOnWallpaperColorsChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIWallpaperManagerCallbackOnWallpaperChanged       = "onWallpaperChanged"
+	MethodIWallpaperManagerCallbackOnWallpaperColorsChanged = "onWallpaperColorsChanged"
+)
+
 type IWallpaperManagerCallback interface {
 	AsBinder() binder.IBinder
 	OnWallpaperChanged(ctx context.Context) error
@@ -23,17 +28,17 @@ type IWallpaperManagerCallback interface {
 }
 
 type WallpaperManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperManagerCallbackProxy(
 	remote binder.IBinder,
 ) *WallpaperManagerCallbackProxy {
-	return &WallpaperManagerCallbackProxy{remote: remote}
+	return &WallpaperManagerCallbackProxy{Remote: remote}
 }
 
 func (p *WallpaperManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperManagerCallback = (*WallpaperManagerCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManagerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManagerCallback, "onWallpaperChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManagerCallback, MethodIWallpaperManagerCallbackOnWallpaperChanged)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerCallbackOnWallpaperChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManagerCallback, MethodIWallpaperManagerCallbackOnWallpaperChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,7 +63,7 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 	colors WallpaperColors,
 	which int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManagerCallback)
 	_data.WriteInt32(1)
@@ -68,12 +73,12 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 	_data.WriteInt32(which)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManagerCallback, "onWallpaperColorsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperManagerCallback, MethodIWallpaperManagerCallbackOnWallpaperColorsChanged)
 	if _err != nil {
-		_code = TransactionIWallpaperManagerCallbackOnWallpaperColorsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperManagerCallback, MethodIWallpaperManagerCallbackOnWallpaperColorsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type WallpaperManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperManagerCallbackStub)(nil)
+
+func (s *WallpaperManagerCallbackStub) Descriptor() string {
+	return DescriptorIWallpaperManagerCallback
+}
 
 func (s *WallpaperManagerCallbackStub) OnTransaction(
 	ctx context.Context,

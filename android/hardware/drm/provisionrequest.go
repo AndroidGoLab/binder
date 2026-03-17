@@ -17,14 +17,7 @@ func (s *ProvisionRequest) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Request == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Request)))
-		for _, _item := range s.Request {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Request)
 	p.WriteString16(s.DefaultUrl)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -39,19 +32,9 @@ func (s *ProvisionRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Request, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Request = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Request[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DefaultUrl, _err = p.ReadString16()

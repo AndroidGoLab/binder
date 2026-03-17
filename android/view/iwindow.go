@@ -27,17 +27,36 @@ const (
 	TransactionIWindowDispatchWallpaperOffsets    = binder.FirstCallTransaction + 9
 	TransactionIWindowDispatchWallpaperCommand    = binder.FirstCallTransaction + 10
 	TransactionIWindowDispatchDragEvent           = binder.FirstCallTransaction + 11
-	TransactionIWindowDispatchWindowShown         = binder.FirstCallTransaction + 12
-	TransactionIWindowRequestAppKeyboardShortcuts = binder.FirstCallTransaction + 13
-	TransactionIWindowRequestScrollCapture        = binder.FirstCallTransaction + 14
-	TransactionIWindowDumpWindow                  = binder.FirstCallTransaction + 15
+	TransactionIWindowUpdatePointerIcon           = binder.FirstCallTransaction + 12
+	TransactionIWindowDispatchWindowShown         = binder.FirstCallTransaction + 13
+	TransactionIWindowRequestAppKeyboardShortcuts = binder.FirstCallTransaction + 14
+	TransactionIWindowRequestScrollCapture        = binder.FirstCallTransaction + 15
+)
+
+const (
+	MethodIWindowExecuteCommand              = "executeCommand"
+	MethodIWindowResized                     = "resized"
+	MethodIWindowInsetsControlChanged        = "insetsControlChanged"
+	MethodIWindowShowInsets                  = "showInsets"
+	MethodIWindowHideInsets                  = "hideInsets"
+	MethodIWindowMoved                       = "moved"
+	MethodIWindowDispatchAppVisibility       = "dispatchAppVisibility"
+	MethodIWindowDispatchGetNewSurface       = "dispatchGetNewSurface"
+	MethodIWindowCloseSystemDialogs          = "closeSystemDialogs"
+	MethodIWindowDispatchWallpaperOffsets    = "dispatchWallpaperOffsets"
+	MethodIWindowDispatchWallpaperCommand    = "dispatchWallpaperCommand"
+	MethodIWindowDispatchDragEvent           = "dispatchDragEvent"
+	MethodIWindowUpdatePointerIcon           = "updatePointerIcon"
+	MethodIWindowDispatchWindowShown         = "dispatchWindowShown"
+	MethodIWindowRequestAppKeyboardShortcuts = "requestAppKeyboardShortcuts"
+	MethodIWindowRequestScrollCapture        = "requestScrollCapture"
 )
 
 type IWindow interface {
 	AsBinder() binder.IBinder
 	ExecuteCommand(ctx context.Context, command string, parameters string, descriptor int32) error
-	Resized(ctx context.Context, frames interface{}, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool, activityWindowInfo *interface{}) error
-	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls InsetsSourceControlArray) error
+	Resized(ctx context.Context, frames interface{}, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool) error
+	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	HideInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	Moved(ctx context.Context, newX int32, newY int32) error
@@ -47,24 +66,24 @@ type IWindow interface {
 	DispatchWallpaperOffsets(ctx context.Context, x float32, y float32, xStep float32, yStep float32, zoom float32, sync bool) error
 	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
 	DispatchDragEvent(ctx context.Context, event DragEvent) error
+	UpdatePointerIcon(ctx context.Context, x float32, y float32) error
 	DispatchWindowShown(ctx context.Context) error
 	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
 	RequestScrollCapture(ctx context.Context, callbacks IScrollCaptureResponseListener) error
-	DumpWindow(ctx context.Context, pfd int32) error
 }
 
 type WindowProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowProxy(
 	remote binder.IBinder,
 ) *WindowProxy {
-	return &WindowProxy{remote: remote}
+	return &WindowProxy{Remote: remote}
 }
 
 func (p *WindowProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindow = (*WindowProxy)(nil)
@@ -81,12 +100,12 @@ func (p *WindowProxy) ExecuteCommand(
 	_data.WriteString16(parameters)
 	_data.WriteFileDescriptor(descriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "executeCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowExecuteCommand)
 	if _err != nil {
-		_code = TransactionIWindowExecuteCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowExecuteCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,7 +120,6 @@ func (p *WindowProxy) Resized(
 	displayId int32,
 	syncSeqId int32,
 	dragResizing bool,
-	activityWindowInfo *interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
@@ -120,19 +138,19 @@ func (p *WindowProxy) Resized(
 	_data.WriteInt32(syncSeqId)
 	_data.WriteBool(dragResizing)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "resized")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowResized)
 	if _err != nil {
-		_code = TransactionIWindowResized
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowResized, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *WindowProxy) InsetsControlChanged(
 	ctx context.Context,
 	insetsState InsetsState,
-	activeControls InsetsSourceControlArray,
+	activeControls []InsetsSourceControl,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
@@ -140,17 +158,24 @@ func (p *WindowProxy) InsetsControlChanged(
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := activeControls.MarshalParcel(_data); _err != nil {
-		return _err
+	if activeControls == nil {
+		_data.WriteInt32(-1)
+	} else {
+		_data.WriteInt32(int32(len(activeControls)))
+		for _, _item := range activeControls {
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "insetsControlChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowInsetsControlChanged)
 	if _err != nil {
-		_code = TransactionIWindowInsetsControlChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowInsetsControlChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,12 +197,12 @@ func (p *WindowProxy) ShowInsets(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "showInsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowShowInsets)
 	if _err != nil {
-		_code = TransactionIWindowShowInsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowShowInsets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -199,12 +224,12 @@ func (p *WindowProxy) HideInsets(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "hideInsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowHideInsets)
 	if _err != nil {
-		_code = TransactionIWindowHideInsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowHideInsets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -218,12 +243,12 @@ func (p *WindowProxy) Moved(
 	_data.WriteInt32(newX)
 	_data.WriteInt32(newY)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "moved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowMoved)
 	if _err != nil {
-		_code = TransactionIWindowMoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowMoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -235,12 +260,12 @@ func (p *WindowProxy) DispatchAppVisibility(
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteBool(visible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dispatchAppVisibility")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchAppVisibility)
 	if _err != nil {
-		_code = TransactionIWindowDispatchAppVisibility
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowDispatchAppVisibility, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -250,12 +275,12 @@ func (p *WindowProxy) DispatchGetNewSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dispatchGetNewSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchGetNewSurface)
 	if _err != nil {
-		_code = TransactionIWindowDispatchGetNewSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowDispatchGetNewSurface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -267,12 +292,12 @@ func (p *WindowProxy) CloseSystemDialogs(
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "closeSystemDialogs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowCloseSystemDialogs)
 	if _err != nil {
-		_code = TransactionIWindowCloseSystemDialogs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowCloseSystemDialogs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -294,12 +319,12 @@ func (p *WindowProxy) DispatchWallpaperOffsets(
 	_data.WriteFloat32(zoom)
 	_data.WriteBool(sync)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dispatchWallpaperOffsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchWallpaperOffsets)
 	if _err != nil {
-		_code = TransactionIWindowDispatchWallpaperOffsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowDispatchWallpaperOffsets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -320,12 +345,12 @@ func (p *WindowProxy) DispatchWallpaperCommand(
 	_data.WriteInt32(z)
 	_data.WriteBool(sync)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dispatchWallpaperCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchWallpaperCommand)
 	if _err != nil {
-		_code = TransactionIWindowDispatchWallpaperCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowDispatchWallpaperCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -340,12 +365,31 @@ func (p *WindowProxy) DispatchDragEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dispatchDragEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchDragEvent)
 	if _err != nil {
-		_code = TransactionIWindowDispatchDragEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowDispatchDragEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *WindowProxy) UpdatePointerIcon(
+	ctx context.Context,
+	x float32,
+	y float32,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIWindow)
+	_data.WriteFloat32(x)
+	_data.WriteFloat32(y)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowUpdatePointerIcon)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowUpdatePointerIcon, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -355,12 +399,12 @@ func (p *WindowProxy) DispatchWindowShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dispatchWindowShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowDispatchWindowShown)
 	if _err != nil {
-		_code = TransactionIWindowDispatchWindowShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowDispatchWindowShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -371,15 +415,15 @@ func (p *WindowProxy) RequestAppKeyboardShortcuts(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "requestAppKeyboardShortcuts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowRequestAppKeyboardShortcuts)
 	if _err != nil {
-		_code = TransactionIWindowRequestAppKeyboardShortcuts
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowRequestAppKeyboardShortcuts, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -389,31 +433,14 @@ func (p *WindowProxy) RequestScrollCapture(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "requestScrollCapture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindow, MethodIWindowRequestScrollCapture)
 	if _err != nil {
-		_code = TransactionIWindowRequestScrollCapture
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindow, MethodIWindowRequestScrollCapture, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *WindowProxy) DumpWindow(
-	ctx context.Context,
-	pfd int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWindow)
-	_data.WriteFileDescriptor(pfd)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "dumpWindow")
-	if _err != nil {
-		_code = TransactionIWindowDumpWindow
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -424,6 +451,10 @@ type WindowStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowStub)(nil)
+
+func (s *WindowStub) Descriptor() string {
+	return DescriptorIWindow
+}
 
 func (s *WindowStub) OnTransaction(
 	ctx context.Context,
@@ -503,8 +534,7 @@ func (s *WindowStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_activityWindowInfo *interface{}
-		_err = s.Impl.Resized(ctx, _arg_frames, _arg_reportDraw, _arg_newMergedConfiguration, _arg_insetsState, _arg_forceLayout, _arg_alwaysConsumeSystemBars, _arg_displayId, _arg_syncSeqId, _arg_dragResizing, _arg_activityWindowInfo)
+		_err = s.Impl.Resized(ctx, _arg_frames, _arg_reportDraw, _arg_newMergedConfiguration, _arg_insetsState, _arg_forceLayout, _arg_alwaysConsumeSystemBars, _arg_displayId, _arg_syncSeqId, _arg_dragResizing)
 		_ = _err
 		return nil, nil
 	case TransactionIWindowInsetsControlChanged:
@@ -523,18 +553,9 @@ func (s *WindowStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_activeControls InsetsSourceControlArray
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_activeControls.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_activeControls []InsetsSourceControl
+		_ = _arg_activeControls
 		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
 		_ = _err
 		return nil, nil
@@ -714,6 +735,21 @@ func (s *WindowStub) OnTransaction(
 		_err := s.Impl.DispatchDragEvent(ctx, _arg_event)
 		_ = _err
 		return nil, nil
+	case TransactionIWindowUpdatePointerIcon:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_x, _err := _data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_y, _err := _data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdatePointerIcon(ctx, _arg_x, _arg_y)
+		_ = _err
+		return nil, nil
 	case TransactionIWindowDispatchWindowShown:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -745,17 +781,6 @@ func (s *WindowStub) OnTransaction(
 		_err := s.Impl.RequestScrollCapture(ctx, _arg_callbacks)
 		_ = _err
 		return nil, nil
-	case TransactionIWindowDumpWindow:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_pfd, _err := _data.ReadFileDescriptor()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.DumpWindow(ctx, _arg_pfd)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -766,8 +791,8 @@ func (s *WindowStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IWindowServer interface {
 	ExecuteCommand(ctx context.Context, command string, parameters string, descriptor int32) error
-	Resized(ctx context.Context, frames interface{}, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool, activityWindowInfo *interface{}) error
-	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls InsetsSourceControlArray) error
+	Resized(ctx context.Context, frames interface{}, reportDraw bool, newMergedConfiguration util.MergedConfiguration, insetsState InsetsState, forceLayout bool, alwaysConsumeSystemBars bool, displayId int32, syncSeqId int32, dragResizing bool) error
+	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	HideInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	Moved(ctx context.Context, newX int32, newY int32) error
@@ -777,10 +802,10 @@ type IWindowServer interface {
 	DispatchWallpaperOffsets(ctx context.Context, x float32, y float32, xStep float32, yStep float32, zoom float32, sync bool) error
 	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
 	DispatchDragEvent(ctx context.Context, event DragEvent) error
+	UpdatePointerIcon(ctx context.Context, x float32, y float32) error
 	DispatchWindowShown(ctx context.Context) error
 	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
 	RequestScrollCapture(ctx context.Context, callbacks IScrollCaptureResponseListener) error
-	DumpWindow(ctx context.Context, pfd int32) error
 }
 
 type windowStubWrapper struct {
@@ -812,15 +837,14 @@ func (w *windowStubWrapper) Resized(
 	displayId int32,
 	syncSeqId int32,
 	dragResizing bool,
-	activityWindowInfo *interface{},
 ) error {
-	return w.impl.Resized(ctx, frames, reportDraw, newMergedConfiguration, insetsState, forceLayout, alwaysConsumeSystemBars, displayId, syncSeqId, dragResizing, activityWindowInfo)
+	return w.impl.Resized(ctx, frames, reportDraw, newMergedConfiguration, insetsState, forceLayout, alwaysConsumeSystemBars, displayId, syncSeqId, dragResizing)
 }
 
 func (w *windowStubWrapper) InsetsControlChanged(
 	ctx context.Context,
 	insetsState InsetsState,
-	activeControls InsetsSourceControlArray,
+	activeControls []InsetsSourceControl,
 ) error {
 	return w.impl.InsetsControlChanged(ctx, insetsState, activeControls)
 }
@@ -902,6 +926,14 @@ func (w *windowStubWrapper) DispatchDragEvent(
 	return w.impl.DispatchDragEvent(ctx, event)
 }
 
+func (w *windowStubWrapper) UpdatePointerIcon(
+	ctx context.Context,
+	x float32,
+	y float32,
+) error {
+	return w.impl.UpdatePointerIcon(ctx, x, y)
+}
+
 func (w *windowStubWrapper) DispatchWindowShown(
 	ctx context.Context,
 ) error {
@@ -921,13 +953,6 @@ func (w *windowStubWrapper) RequestScrollCapture(
 	callbacks IScrollCaptureResponseListener,
 ) error {
 	return w.impl.RequestScrollCapture(ctx, callbacks)
-}
-
-func (w *windowStubWrapper) DumpWindow(
-	ctx context.Context,
-	pfd int32,
-) error {
-	return w.impl.DumpWindow(ctx, pfd)
 }
 
 var _ IWindow = (*windowStubWrapper)(nil)

@@ -15,23 +15,27 @@ const (
 	TransactionIDeviceSettingsListenerOnDeviceSettingsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeviceSettingsListenerOnDeviceSettingsChanged = "onDeviceSettingsChanged"
+)
+
 type IDeviceSettingsListener interface {
 	AsBinder() binder.IBinder
 	OnDeviceSettingsChanged(ctx context.Context, settings []DeviceSetting) error
 }
 
 type DeviceSettingsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceSettingsListenerProxy(
 	remote binder.IBinder,
 ) *DeviceSettingsListenerProxy {
-	return &DeviceSettingsListenerProxy{remote: remote}
+	return &DeviceSettingsListenerProxy{Remote: remote}
 }
 
 func (p *DeviceSettingsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceSettingsListener = (*DeviceSettingsListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *DeviceSettingsListenerProxy) OnDeviceSettingsChanged(
 	} else {
 		_data.WriteInt32(int32(len(settings)))
 		for _, _item := range settings {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsListener, "onDeviceSettingsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceSettingsListener, MethodIDeviceSettingsListenerOnDeviceSettingsChanged)
 	if _err != nil {
-		_code = TransactionIDeviceSettingsListenerOnDeviceSettingsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceSettingsListener, MethodIDeviceSettingsListenerOnDeviceSettingsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type DeviceSettingsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceSettingsListenerStub)(nil)
+
+func (s *DeviceSettingsListenerStub) Descriptor() string {
+	return DescriptorIDeviceSettingsListener
+}
 
 func (s *DeviceSettingsListenerStub) OnTransaction(
 	ctx context.Context,

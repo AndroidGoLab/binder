@@ -16,17 +16,17 @@ type IOMXNode interface {
 }
 
 type OMXNodeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOMXNodeProxy(
 	remote binder.IBinder,
 ) *OMXNodeProxy {
-	return &OMXNodeProxy{remote: remote}
+	return &OMXNodeProxy{Remote: remote}
 }
 
 func (p *OMXNodeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOMXNode = (*OMXNodeProxy)(nil)
@@ -38,6 +38,10 @@ type OMXNodeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OMXNodeStub)(nil)
+
+func (s *OMXNodeStub) Descriptor() string {
+	return DescriptorIOMXNode
+}
 
 func (s *OMXNodeStub) OnTransaction(
 	ctx context.Context,

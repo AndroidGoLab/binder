@@ -36,12 +36,36 @@ const (
 	TransactionIVpnManagerStartLegacyVpn                        = binder.FirstCallTransaction + 20
 	TransactionIVpnManagerGetLegacyVpnInfo                      = binder.FirstCallTransaction + 21
 	TransactionIVpnManagerUpdateLockdownVpn                     = binder.FirstCallTransaction + 22
-	TransactionIVpnManagerGetFromVpnProfileStore                = binder.FirstCallTransaction + 23
-	TransactionIVpnManagerPutIntoVpnProfileStore                = binder.FirstCallTransaction + 24
-	TransactionIVpnManagerRemoveFromVpnProfileStore             = binder.FirstCallTransaction + 25
-	TransactionIVpnManagerListFromVpnProfileStore               = binder.FirstCallTransaction + 26
-	TransactionIVpnManagerGetVpnConfig                          = binder.FirstCallTransaction + 27
-	TransactionIVpnManagerFactoryReset                          = binder.FirstCallTransaction + 28
+	TransactionIVpnManagerGetVpnConfig                          = binder.FirstCallTransaction + 23
+	TransactionIVpnManagerFactoryReset                          = binder.FirstCallTransaction + 24
+)
+
+const (
+	MethodIVpnManagerPrepareVpn                            = "prepareVpn"
+	MethodIVpnManagerSetVpnPackageAuthorization            = "setVpnPackageAuthorization"
+	MethodIVpnManagerEstablishVpn                          = "establishVpn"
+	MethodIVpnManagerAddVpnAddress                         = "addVpnAddress"
+	MethodIVpnManagerRemoveVpnAddress                      = "removeVpnAddress"
+	MethodIVpnManagerSetUnderlyingNetworksForVpn           = "setUnderlyingNetworksForVpn"
+	MethodIVpnManagerProvisionVpnProfile                   = "provisionVpnProfile"
+	MethodIVpnManagerDeleteVpnProfile                      = "deleteVpnProfile"
+	MethodIVpnManagerStartVpnProfile                       = "startVpnProfile"
+	MethodIVpnManagerStopVpnProfile                        = "stopVpnProfile"
+	MethodIVpnManagerGetProvisionedVpnProfileState         = "getProvisionedVpnProfileState"
+	MethodIVpnManagerSetAppExclusionList                   = "setAppExclusionList"
+	MethodIVpnManagerGetAppExclusionList                   = "getAppExclusionList"
+	MethodIVpnManagerIsAlwaysOnVpnPackageSupported         = "isAlwaysOnVpnPackageSupported"
+	MethodIVpnManagerSetAlwaysOnVpnPackage                 = "setAlwaysOnVpnPackage"
+	MethodIVpnManagerGetAlwaysOnVpnPackage                 = "getAlwaysOnVpnPackage"
+	MethodIVpnManagerIsVpnLockdownEnabled                  = "isVpnLockdownEnabled"
+	MethodIVpnManagerGetVpnLockdownAllowlist               = "getVpnLockdownAllowlist"
+	MethodIVpnManagerIsCallerCurrentAlwaysOnVpnApp         = "isCallerCurrentAlwaysOnVpnApp"
+	MethodIVpnManagerIsCallerCurrentAlwaysOnVpnLockdownApp = "isCallerCurrentAlwaysOnVpnLockdownApp"
+	MethodIVpnManagerStartLegacyVpn                        = "startLegacyVpn"
+	MethodIVpnManagerGetLegacyVpnInfo                      = "getLegacyVpnInfo"
+	MethodIVpnManagerUpdateLockdownVpn                     = "updateLockdownVpn"
+	MethodIVpnManagerGetVpnConfig                          = "getVpnConfig"
+	MethodIVpnManagerFactoryReset                          = "factoryReset"
 )
 
 type IVpnManager interface {
@@ -69,26 +93,22 @@ type IVpnManager interface {
 	StartLegacyVpn(ctx context.Context, profile internalNet.VpnProfile) error
 	GetLegacyVpnInfo(ctx context.Context) (internalNet.LegacyVpnInfo, error)
 	UpdateLockdownVpn(ctx context.Context) (bool, error)
-	GetFromVpnProfileStore(ctx context.Context, name string) ([]byte, error)
-	PutIntoVpnProfileStore(ctx context.Context, name string, blob []byte) (bool, error)
-	RemoveFromVpnProfileStore(ctx context.Context, name string) (bool, error)
-	ListFromVpnProfileStore(ctx context.Context, prefix string) ([]string, error)
 	GetVpnConfig(ctx context.Context) (internalNet.VpnConfig, error)
 	FactoryReset(ctx context.Context) error
 }
 
 type VpnManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVpnManagerProxy(
 	remote binder.IBinder,
 ) *VpnManagerProxy {
-	return &VpnManagerProxy{remote: remote}
+	return &VpnManagerProxy{Remote: remote}
 }
 
 func (p *VpnManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVpnManager = (*VpnManagerProxy)(nil)
@@ -99,19 +119,19 @@ func (p *VpnManagerProxy) PrepareVpn(
 	newPackage string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(oldPackage)
 	_data.WriteString16(newPackage)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "prepareVpn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerPrepareVpn)
 	if _err != nil {
-		_code = TransactionIVpnManagerPrepareVpn
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerPrepareVpn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -133,19 +153,19 @@ func (p *VpnManagerProxy) SetVpnPackageAuthorization(
 	packageName string,
 	vpnType int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(vpnType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "setVpnPackageAuthorization")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetVpnPackageAuthorization)
 	if _err != nil {
-		_code = TransactionIVpnManagerSetVpnPackageAuthorization
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerSetVpnPackageAuthorization, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,12 +190,12 @@ func (p *VpnManagerProxy) EstablishVpn(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "establishVpn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerEstablishVpn)
 	if _err != nil {
-		_code = TransactionIVpnManagerEstablishVpn
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerEstablishVpn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,12 +223,12 @@ func (p *VpnManagerProxy) AddVpnAddress(
 	_data.WriteString16(address)
 	_data.WriteInt32(prefixLength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "addVpnAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerAddVpnAddress)
 	if _err != nil {
-		_code = TransactionIVpnManagerAddVpnAddress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerAddVpnAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -236,12 +256,12 @@ func (p *VpnManagerProxy) RemoveVpnAddress(
 	_data.WriteString16(address)
 	_data.WriteInt32(prefixLength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "removeVpnAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerRemoveVpnAddress)
 	if _err != nil {
-		_code = TransactionIVpnManagerRemoveVpnAddress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerRemoveVpnAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -271,12 +291,12 @@ func (p *VpnManagerProxy) SetUnderlyingNetworksForVpn(
 		_data.WriteInt32(int32(len(networks)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "setUnderlyingNetworksForVpn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetUnderlyingNetworksForVpn)
 	if _err != nil {
-		_code = TransactionIVpnManagerSetUnderlyingNetworksForVpn
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerSetUnderlyingNetworksForVpn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -307,12 +327,12 @@ func (p *VpnManagerProxy) ProvisionVpnProfile(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "provisionVpnProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerProvisionVpnProfile)
 	if _err != nil {
-		_code = TransactionIVpnManagerProvisionVpnProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerProvisionVpnProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -337,12 +357,12 @@ func (p *VpnManagerProxy) DeleteVpnProfile(
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "deleteVpnProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerDeleteVpnProfile)
 	if _err != nil {
-		_code = TransactionIVpnManagerDeleteVpnProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerDeleteVpnProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -364,12 +384,12 @@ func (p *VpnManagerProxy) StartVpnProfile(
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "startVpnProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerStartVpnProfile)
 	if _err != nil {
-		_code = TransactionIVpnManagerStartVpnProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerStartVpnProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -394,12 +414,12 @@ func (p *VpnManagerProxy) StopVpnProfile(
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "stopVpnProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerStopVpnProfile)
 	if _err != nil {
-		_code = TransactionIVpnManagerStopVpnProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerStopVpnProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -421,12 +441,12 @@ func (p *VpnManagerProxy) GetProvisionedVpnProfileState(
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getProvisionedVpnProfileState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetProvisionedVpnProfileState)
 	if _err != nil {
-		_code = TransactionIVpnManagerGetProvisionedVpnProfileState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerGetProvisionedVpnProfileState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -454,7 +474,7 @@ func (p *VpnManagerProxy) SetAppExclusionList(
 	excludedApps []string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
@@ -468,12 +488,12 @@ func (p *VpnManagerProxy) SetAppExclusionList(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "setAppExclusionList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetAppExclusionList)
 	if _err != nil {
-		_code = TransactionIVpnManagerSetAppExclusionList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerSetAppExclusionList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -495,18 +515,18 @@ func (p *VpnManagerProxy) GetAppExclusionList(
 	vpnPackage string,
 ) ([]string, error) {
 	var _result []string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(vpnPackage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getAppExclusionList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetAppExclusionList)
 	if _err != nil {
-		_code = TransactionIVpnManagerGetAppExclusionList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerGetAppExclusionList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -538,18 +558,18 @@ func (p *VpnManagerProxy) IsAlwaysOnVpnPackageSupported(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "isAlwaysOnVpnPackageSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsAlwaysOnVpnPackageSupported)
 	if _err != nil {
-		_code = TransactionIVpnManagerIsAlwaysOnVpnPackageSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerIsAlwaysOnVpnPackageSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -573,7 +593,7 @@ func (p *VpnManagerProxy) SetAlwaysOnVpnPackage(
 	lockdownAllowlist []string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
@@ -588,12 +608,12 @@ func (p *VpnManagerProxy) SetAlwaysOnVpnPackage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "setAlwaysOnVpnPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetAlwaysOnVpnPackage)
 	if _err != nil {
-		_code = TransactionIVpnManagerSetAlwaysOnVpnPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerSetAlwaysOnVpnPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -614,17 +634,17 @@ func (p *VpnManagerProxy) GetAlwaysOnVpnPackage(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getAlwaysOnVpnPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetAlwaysOnVpnPackage)
 	if _err != nil {
-		_code = TransactionIVpnManagerGetAlwaysOnVpnPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerGetAlwaysOnVpnPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -645,17 +665,17 @@ func (p *VpnManagerProxy) IsVpnLockdownEnabled(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "isVpnLockdownEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsVpnLockdownEnabled)
 	if _err != nil {
-		_code = TransactionIVpnManagerIsVpnLockdownEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerIsVpnLockdownEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -676,17 +696,17 @@ func (p *VpnManagerProxy) GetVpnLockdownAllowlist(
 	ctx context.Context,
 ) ([]string, error) {
 	var _result []string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getVpnLockdownAllowlist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetVpnLockdownAllowlist)
 	if _err != nil {
-		_code = TransactionIVpnManagerGetVpnLockdownAllowlist
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerGetVpnLockdownAllowlist, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -720,12 +740,12 @@ func (p *VpnManagerProxy) IsCallerCurrentAlwaysOnVpnApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "isCallerCurrentAlwaysOnVpnApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsCallerCurrentAlwaysOnVpnApp)
 	if _err != nil {
-		_code = TransactionIVpnManagerIsCallerCurrentAlwaysOnVpnApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerIsCallerCurrentAlwaysOnVpnApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -749,12 +769,12 @@ func (p *VpnManagerProxy) IsCallerCurrentAlwaysOnVpnLockdownApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "isCallerCurrentAlwaysOnVpnLockdownApp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerIsCallerCurrentAlwaysOnVpnLockdownApp)
 	if _err != nil {
-		_code = TransactionIVpnManagerIsCallerCurrentAlwaysOnVpnLockdownApp
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerIsCallerCurrentAlwaysOnVpnLockdownApp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -782,12 +802,12 @@ func (p *VpnManagerProxy) StartLegacyVpn(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "startLegacyVpn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerStartLegacyVpn)
 	if _err != nil {
-		_code = TransactionIVpnManagerStartLegacyVpn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerStartLegacyVpn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -804,17 +824,17 @@ func (p *VpnManagerProxy) GetLegacyVpnInfo(
 	ctx context.Context,
 ) (internalNet.LegacyVpnInfo, error) {
 	var _result internalNet.LegacyVpnInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getLegacyVpnInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetLegacyVpnInfo)
 	if _err != nil {
-		_code = TransactionIVpnManagerGetLegacyVpnInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerGetLegacyVpnInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -843,93 +863,12 @@ func (p *VpnManagerProxy) UpdateLockdownVpn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "updateLockdownVpn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerUpdateLockdownVpn)
 	if _err != nil {
-		_code = TransactionIVpnManagerUpdateLockdownVpn
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerUpdateLockdownVpn, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *VpnManagerProxy) GetFromVpnProfileStore(
-	ctx context.Context,
-	name string,
-) ([]byte, error) {
-	var _result []byte
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(name)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getFromVpnProfileStore")
-	if _err != nil {
-		_code = TransactionIVpnManagerGetFromVpnProfileStore
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]byte, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadPaddedByte()
-			if _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *VpnManagerProxy) PutIntoVpnProfileStore(
-	ctx context.Context,
-	name string,
-	blob []byte,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(name)
-	if blob == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(blob)))
-		for _, _item := range blob {
-			_data.WritePaddedByte(_item)
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "putIntoVpnProfileStore")
-	if _err != nil {
-		_code = TransactionIVpnManagerPutIntoVpnProfileStore
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -942,78 +881,6 @@ func (p *VpnManagerProxy) PutIntoVpnProfileStore(
 	_result, _err = _reply.ReadBool()
 	if _err != nil {
 		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *VpnManagerProxy) RemoveFromVpnProfileStore(
-	ctx context.Context,
-	name string,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(name)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "removeFromVpnProfileStore")
-	if _err != nil {
-		_code = TransactionIVpnManagerRemoveFromVpnProfileStore
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *VpnManagerProxy) ListFromVpnProfileStore(
-	ctx context.Context,
-	prefix string,
-) ([]string, error) {
-	var _result []string
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIVpnManager)
-	_data.WriteString16(prefix)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "listFromVpnProfileStore")
-	if _err != nil {
-		_code = TransactionIVpnManagerListFromVpnProfileStore
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]string, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-		}
 	}
 	return _result, nil
 }
@@ -1022,17 +889,17 @@ func (p *VpnManagerProxy) GetVpnConfig(
 	ctx context.Context,
 ) (internalNet.VpnConfig, error) {
 	var _result internalNet.VpnConfig
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "getVpnConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerGetVpnConfig)
 	if _err != nil {
-		_code = TransactionIVpnManagerGetVpnConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerGetVpnConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1060,12 +927,12 @@ func (p *VpnManagerProxy) FactoryReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVpnManager, "factoryReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerFactoryReset)
 	if _err != nil {
-		_code = TransactionIVpnManagerFactoryReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVpnManager, MethodIVpnManagerFactoryReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1085,6 +952,10 @@ type VpnManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VpnManagerStub)(nil)
+
+func (s *VpnManagerStub) Descriptor() string {
+	return DescriptorIVpnManager
+}
 
 func (s *VpnManagerStub) OnTransaction(
 	ctx context.Context,
@@ -1542,79 +1413,6 @@ func (s *VpnManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIVpnManagerGetFromVpnProfileStore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetFromVpnProfileStore(ctx, _arg_name)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIVpnManagerPutIntoVpnProfileStore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_blob []byte
-		_ = _arg_blob
-		_result, _err := s.Impl.PutIntoVpnProfileStore(ctx, _arg_name, _arg_blob)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIVpnManagerRemoveFromVpnProfileStore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_name, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.RemoveFromVpnProfileStore(ctx, _arg_name)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIVpnManagerListFromVpnProfileStore:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_prefix, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.ListFromVpnProfileStore(ctx, _arg_prefix)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	case TransactionIVpnManagerGetVpnConfig:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1678,10 +1476,6 @@ type IVpnManagerServer interface {
 	StartLegacyVpn(ctx context.Context, profile internalNet.VpnProfile) error
 	GetLegacyVpnInfo(ctx context.Context) (internalNet.LegacyVpnInfo, error)
 	UpdateLockdownVpn(ctx context.Context) (bool, error)
-	GetFromVpnProfileStore(ctx context.Context, name string) ([]byte, error)
-	PutIntoVpnProfileStore(ctx context.Context, name string, blob []byte) (bool, error)
-	RemoveFromVpnProfileStore(ctx context.Context, name string) (bool, error)
-	ListFromVpnProfileStore(ctx context.Context, prefix string) ([]string, error)
 	GetVpnConfig(ctx context.Context) (internalNet.VpnConfig, error)
 	FactoryReset(ctx context.Context) error
 }
@@ -1855,35 +1649,6 @@ func (w *vpnManagerStubWrapper) UpdateLockdownVpn(
 	ctx context.Context,
 ) (bool, error) {
 	return w.impl.UpdateLockdownVpn(ctx)
-}
-
-func (w *vpnManagerStubWrapper) GetFromVpnProfileStore(
-	ctx context.Context,
-	name string,
-) ([]byte, error) {
-	return w.impl.GetFromVpnProfileStore(ctx, name)
-}
-
-func (w *vpnManagerStubWrapper) PutIntoVpnProfileStore(
-	ctx context.Context,
-	name string,
-	blob []byte,
-) (bool, error) {
-	return w.impl.PutIntoVpnProfileStore(ctx, name, blob)
-}
-
-func (w *vpnManagerStubWrapper) RemoveFromVpnProfileStore(
-	ctx context.Context,
-	name string,
-) (bool, error) {
-	return w.impl.RemoveFromVpnProfileStore(ctx, name)
-}
-
-func (w *vpnManagerStubWrapper) ListFromVpnProfileStore(
-	ctx context.Context,
-	prefix string,
-) ([]string, error) {
-	return w.impl.ListFromVpnProfileStore(ctx, prefix)
 }
 
 func (w *vpnManagerStubWrapper) GetVpnConfig(

@@ -15,23 +15,27 @@ const (
 	TransactionISwitchToSubscriptionCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISwitchToSubscriptionCallbackOnComplete = "onComplete"
+)
+
 type ISwitchToSubscriptionCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type SwitchToSubscriptionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSwitchToSubscriptionCallbackProxy(
 	remote binder.IBinder,
 ) *SwitchToSubscriptionCallbackProxy {
-	return &SwitchToSubscriptionCallbackProxy{remote: remote}
+	return &SwitchToSubscriptionCallbackProxy{Remote: remote}
 }
 
 func (p *SwitchToSubscriptionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISwitchToSubscriptionCallback = (*SwitchToSubscriptionCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SwitchToSubscriptionCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorISwitchToSubscriptionCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISwitchToSubscriptionCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISwitchToSubscriptionCallback, MethodISwitchToSubscriptionCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionISwitchToSubscriptionCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISwitchToSubscriptionCallback, MethodISwitchToSubscriptionCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SwitchToSubscriptionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SwitchToSubscriptionCallbackStub)(nil)
+
+func (s *SwitchToSubscriptionCallbackStub) Descriptor() string {
+	return DescriptorISwitchToSubscriptionCallback
+}
 
 func (s *SwitchToSubscriptionCallbackStub) OnTransaction(
 	ctx context.Context,

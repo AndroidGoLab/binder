@@ -15,23 +15,27 @@ const (
 	TransactionISuspendCallbackNotifyWakeup = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISuspendCallbackNotifyWakeup = "notifyWakeup"
+)
+
 type ISuspendCallback interface {
 	AsBinder() binder.IBinder
 	NotifyWakeup(ctx context.Context, success bool, wakeupReasons []string) error
 }
 
 type SuspendCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSuspendCallbackProxy(
 	remote binder.IBinder,
 ) *SuspendCallbackProxy {
-	return &SuspendCallbackProxy{remote: remote}
+	return &SuspendCallbackProxy{Remote: remote}
 }
 
 func (p *SuspendCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISuspendCallback = (*SuspendCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *SuspendCallbackProxy) NotifyWakeup(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISuspendCallback, "notifyWakeup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISuspendCallback, MethodISuspendCallbackNotifyWakeup)
 	if _err != nil {
-		_code = TransactionISuspendCallbackNotifyWakeup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISuspendCallback, MethodISuspendCallbackNotifyWakeup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +82,10 @@ type SuspendCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SuspendCallbackStub)(nil)
+
+func (s *SuspendCallbackStub) Descriptor() string {
+	return DescriptorISuspendCallback
+}
 
 func (s *SuspendCallbackStub) OnTransaction(
 	ctx context.Context,

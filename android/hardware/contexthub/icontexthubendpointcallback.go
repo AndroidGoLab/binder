@@ -18,6 +18,13 @@ const (
 	TransactionIContextHubEndpointCallbackOnMessageReceived     = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIContextHubEndpointCallbackOnSessionOpenRequest  = "onSessionOpenRequest"
+	MethodIContextHubEndpointCallbackOnSessionClosed       = "onSessionClosed"
+	MethodIContextHubEndpointCallbackOnSessionOpenComplete = "onSessionOpenComplete"
+	MethodIContextHubEndpointCallbackOnMessageReceived     = "onMessageReceived"
+)
+
 type IContextHubEndpointCallback interface {
 	AsBinder() binder.IBinder
 	OnSessionOpenRequest(ctx context.Context, sessionId int32, initiator HubEndpointInfo, serviceDescriptor string) error
@@ -27,17 +34,17 @@ type IContextHubEndpointCallback interface {
 }
 
 type ContextHubEndpointCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubEndpointCallbackProxy(
 	remote binder.IBinder,
 ) *ContextHubEndpointCallbackProxy {
-	return &ContextHubEndpointCallbackProxy{remote: remote}
+	return &ContextHubEndpointCallbackProxy{Remote: remote}
 }
 
 func (p *ContextHubEndpointCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubEndpointCallback = (*ContextHubEndpointCallbackProxy)(nil)
@@ -57,12 +64,12 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionOpenRequest(
 	}
 	_data.WriteString16(serviceDescriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onSessionOpenRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnSessionOpenRequest)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointCallbackOnSessionOpenRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnSessionOpenRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +83,12 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionClosed(
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onSessionClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnSessionClosed)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointCallbackOnSessionClosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnSessionClosed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +100,12 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionOpenComplete(
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpointCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onSessionOpenComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnSessionOpenComplete)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointCallbackOnSessionOpenComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnSessionOpenComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +122,12 @@ func (p *ContextHubEndpointCallbackProxy) OnMessageReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onMessageReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnMessageReceived)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointCallbackOnMessageReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpointCallback, MethodIContextHubEndpointCallbackOnMessageReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,6 +138,10 @@ type ContextHubEndpointCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubEndpointCallbackStub)(nil)
+
+func (s *ContextHubEndpointCallbackStub) Descriptor() string {
+	return DescriptorIContextHubEndpointCallback
+}
 
 func (s *ContextHubEndpointCallbackStub) OnTransaction(
 	ctx context.Context,

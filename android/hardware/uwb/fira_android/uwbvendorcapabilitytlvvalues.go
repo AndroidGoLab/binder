@@ -5,8 +5,6 @@ package fira_android
 type UwbVendorCapabilityTlvValues int64
 
 const (
-	UwbVendorCapabilityTlvValuesAntennaModeOmni                       UwbVendorCapabilityTlvValues = 1
-	UwbVendorCapabilityTlvValuesAntennaModeDirectional                UwbVendorCapabilityTlvValues = (1 << 1)
 	UwbVendorCapabilityTlvValuesUwbConfig0                            UwbVendorCapabilityTlvValues = 0
 	UwbVendorCapabilityTlvValuesUwbConfig1                            UwbVendorCapabilityTlvValues = 1
 	UwbVendorCapabilityTlvValuesPulseShapeSymmetricalRootRaisedCosine UwbVendorCapabilityTlvValues = 0

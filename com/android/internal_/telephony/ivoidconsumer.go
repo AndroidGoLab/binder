@@ -15,23 +15,27 @@ const (
 	TransactionIVoidConsumerAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVoidConsumerAccept = "accept"
+)
+
 type IVoidConsumer interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context) error
 }
 
 type VoidConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVoidConsumerProxy(
 	remote binder.IBinder,
 ) *VoidConsumerProxy {
-	return &VoidConsumerProxy{remote: remote}
+	return &VoidConsumerProxy{Remote: remote}
 }
 
 func (p *VoidConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVoidConsumer = (*VoidConsumerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *VoidConsumerProxy) Accept(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoidConsumer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVoidConsumer, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVoidConsumer, MethodIVoidConsumerAccept)
 	if _err != nil {
-		_code = TransactionIVoidConsumerAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVoidConsumer, MethodIVoidConsumerAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type VoidConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VoidConsumerStub)(nil)
+
+func (s *VoidConsumerStub) Descriptor() string {
+	return DescriptorIVoidConsumer
+}
 
 func (s *VoidConsumerStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIEvsUltrasonicsArrayStreamNotify           = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIEvsUltrasonicsArrayStreamDeliverDataFrame = "deliverDataFrame"
+	MethodIEvsUltrasonicsArrayStreamNotify           = "notify"
+)
+
 type IEvsUltrasonicsArrayStream interface {
 	AsBinder() binder.IBinder
 	DeliverDataFrame(ctx context.Context, dataFrameDesc UltrasonicsDataFrameDesc) error
@@ -23,17 +28,17 @@ type IEvsUltrasonicsArrayStream interface {
 }
 
 type EvsUltrasonicsArrayStreamProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEvsUltrasonicsArrayStreamProxy(
 	remote binder.IBinder,
 ) *EvsUltrasonicsArrayStreamProxy {
-	return &EvsUltrasonicsArrayStreamProxy{remote: remote}
+	return &EvsUltrasonicsArrayStreamProxy{Remote: remote}
 }
 
 func (p *EvsUltrasonicsArrayStreamProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEvsUltrasonicsArrayStream = (*EvsUltrasonicsArrayStreamProxy)(nil)
@@ -49,12 +54,12 @@ func (p *EvsUltrasonicsArrayStreamProxy) DeliverDataFrame(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArrayStream, "deliverDataFrame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamDeliverDataFrame)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArrayStreamDeliverDataFrame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamDeliverDataFrame, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArrayStream, "notify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamNotify)
 	if _err != nil {
-		_code = TransactionIEvsUltrasonicsArrayStreamNotify
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsUltrasonicsArrayStream, MethodIEvsUltrasonicsArrayStreamNotify, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type EvsUltrasonicsArrayStreamStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStreamStub)(nil)
+
+func (s *EvsUltrasonicsArrayStreamStub) Descriptor() string {
+	return DescriptorIEvsUltrasonicsArrayStream
+}
 
 func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
 	ctx context.Context,

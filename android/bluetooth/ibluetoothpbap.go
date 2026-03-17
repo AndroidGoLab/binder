@@ -20,6 +20,14 @@ const (
 	TransactionIBluetoothPbapSetConnectionPolicy                = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBluetoothPbapGetConnectedDevices                = "getConnectedDevices"
+	MethodIBluetoothPbapGetDevicesMatchingConnectionStates = "getDevicesMatchingConnectionStates"
+	MethodIBluetoothPbapGetConnectionState                 = "getConnectionState"
+	MethodIBluetoothPbapDisconnect                         = "disconnect"
+	MethodIBluetoothPbapSetConnectionPolicy                = "setConnectionPolicy"
+)
+
 type IBluetoothPbap interface {
 	AsBinder() binder.IBinder
 	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
@@ -30,17 +38,17 @@ type IBluetoothPbap interface {
 }
 
 type BluetoothPbapProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothPbapProxy(
 	remote binder.IBinder,
 ) *BluetoothPbapProxy {
-	return &BluetoothPbapProxy{remote: remote}
+	return &BluetoothPbapProxy{Remote: remote}
 }
 
 func (p *BluetoothPbapProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothPbap = (*BluetoothPbapProxy)(nil)
@@ -57,12 +65,12 @@ func (p *BluetoothPbapProxy) GetConnectedDevices(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPbap, "getConnectedDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPbap, MethodIBluetoothPbapGetConnectedDevices)
 	if _err != nil {
-		_code = TransactionIBluetoothPbapGetConnectedDevices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPbap, MethodIBluetoothPbapGetConnectedDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,6 +88,9 @@ func (p *BluetoothPbapProxy) GetConnectedDevices(
 	if _count >= 0 {
 		_result = make([]BluetoothDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -109,12 +120,12 @@ func (p *BluetoothPbapProxy) GetDevicesMatchingConnectionStates(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPbap, "getDevicesMatchingConnectionStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPbap, MethodIBluetoothPbapGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		_code = TransactionIBluetoothPbapGetDevicesMatchingConnectionStates
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPbap, MethodIBluetoothPbapGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,6 +143,9 @@ func (p *BluetoothPbapProxy) GetDevicesMatchingConnectionStates(
 	if _count >= 0 {
 		_result = make([]BluetoothDevice, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -157,12 +171,12 @@ func (p *BluetoothPbapProxy) GetConnectionState(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPbap, "getConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPbap, MethodIBluetoothPbapGetConnectionState)
 	if _err != nil {
-		_code = TransactionIBluetoothPbapGetConnectionState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPbap, MethodIBluetoothPbapGetConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -195,12 +209,12 @@ func (p *BluetoothPbapProxy) Disconnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPbap, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPbap, MethodIBluetoothPbapDisconnect)
 	if _err != nil {
-		_code = TransactionIBluetoothPbapDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPbap, MethodIBluetoothPbapDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -232,12 +246,12 @@ func (p *BluetoothPbapProxy) SetConnectionPolicy(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPbap, "setConnectionPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPbap, MethodIBluetoothPbapSetConnectionPolicy)
 	if _err != nil {
-		_code = TransactionIBluetoothPbapSetConnectionPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPbap, MethodIBluetoothPbapSetConnectionPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -261,6 +275,10 @@ type BluetoothPbapStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothPbapStub)(nil)
+
+func (s *BluetoothPbapStub) Descriptor() string {
+	return DescriptorIBluetoothPbap
+}
 
 func (s *BluetoothPbapStub) OnTransaction(
 	ctx context.Context,

@@ -22,6 +22,17 @@ const (
 	TransactionIVcnManagementServiceUnregisterVcnStatusCallback              = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIVcnManagementServiceSetVcnConfig                             = "setVcnConfig"
+	MethodIVcnManagementServiceClearVcnConfig                           = "clearVcnConfig"
+	MethodIVcnManagementServiceGetConfiguredSubscriptionGroups          = "getConfiguredSubscriptionGroups"
+	MethodIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener    = "addVcnUnderlyingNetworkPolicyListener"
+	MethodIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener = "removeVcnUnderlyingNetworkPolicyListener"
+	MethodIVcnManagementServiceGetUnderlyingNetworkPolicy               = "getUnderlyingNetworkPolicy"
+	MethodIVcnManagementServiceRegisterVcnStatusCallback                = "registerVcnStatusCallback"
+	MethodIVcnManagementServiceUnregisterVcnStatusCallback              = "unregisterVcnStatusCallback"
+)
+
 type IVcnManagementService interface {
 	AsBinder() binder.IBinder
 	SetVcnConfig(ctx context.Context, subscriptionGroup interface{}, config VcnConfig, opPkgName string) error
@@ -35,17 +46,17 @@ type IVcnManagementService interface {
 }
 
 type VcnManagementServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVcnManagementServiceProxy(
 	remote binder.IBinder,
 ) *VcnManagementServiceProxy {
-	return &VcnManagementServiceProxy{remote: remote}
+	return &VcnManagementServiceProxy{Remote: remote}
 }
 
 func (p *VcnManagementServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVcnManagementService = (*VcnManagementServiceProxy)(nil)
@@ -64,12 +75,12 @@ func (p *VcnManagementServiceProxy) SetVcnConfig(
 	}
 	_data.WriteString16(opPkgName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "setVcnConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceSetVcnConfig)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceSetVcnConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceSetVcnConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,12 +102,12 @@ func (p *VcnManagementServiceProxy) ClearVcnConfig(
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 	_data.WriteString16(opPkgName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "clearVcnConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceClearVcnConfig)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceClearVcnConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceClearVcnConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,12 +129,12 @@ func (p *VcnManagementServiceProxy) GetConfiguredSubscriptionGroups(
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 	_data.WriteString16(opPkgName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "getConfiguredSubscriptionGroups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceGetConfiguredSubscriptionGroups)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceGetConfiguredSubscriptionGroups
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceGetConfiguredSubscriptionGroups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,14 +163,14 @@ func (p *VcnManagementServiceProxy) AddVcnUnderlyingNetworkPolicyListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "addVcnUnderlyingNetworkPolicyListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,14 +189,14 @@ func (p *VcnManagementServiceProxy) RemoveVcnUnderlyingNetworkPolicyListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "removeVcnUnderlyingNetworkPolicyListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -207,12 +218,12 @@ func (p *VcnManagementServiceProxy) GetUnderlyingNetworkPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "getUnderlyingNetworkPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceGetUnderlyingNetworkPolicy)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceGetUnderlyingNetworkPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceGetUnderlyingNetworkPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,15 +253,15 @@ func (p *VcnManagementServiceProxy) RegisterVcnStatusCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(opPkgName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "registerVcnStatusCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceRegisterVcnStatusCallback)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceRegisterVcnStatusCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceRegisterVcnStatusCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,14 +280,14 @@ func (p *VcnManagementServiceProxy) UnregisterVcnStatusCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnManagementService, "unregisterVcnStatusCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceUnregisterVcnStatusCallback)
 	if _err != nil {
-		_code = TransactionIVcnManagementServiceUnregisterVcnStatusCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnManagementService, MethodIVcnManagementServiceUnregisterVcnStatusCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -296,6 +307,10 @@ type VcnManagementServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VcnManagementServiceStub)(nil)
+
+func (s *VcnManagementServiceStub) Descriptor() string {
+	return DescriptorIVcnManagementService
+}
 
 func (s *VcnManagementServiceStub) OnTransaction(
 	ctx context.Context,

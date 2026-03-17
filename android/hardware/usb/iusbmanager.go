@@ -60,6 +60,54 @@ const (
 	TransactionIUsbManagerUnregisterForDisplayPortEvents              = binder.FirstCallTransaction + 44
 )
 
+const (
+	MethodIUsbManagerGetDeviceList                               = "getDeviceList"
+	MethodIUsbManagerOpenDevice                                  = "openDevice"
+	MethodIUsbManagerGetCurrentAccessory                         = "getCurrentAccessory"
+	MethodIUsbManagerOpenAccessory                               = "openAccessory"
+	MethodIUsbManagerSetDevicePackage                            = "setDevicePackage"
+	MethodIUsbManagerSetAccessoryPackage                         = "setAccessoryPackage"
+	MethodIUsbManagerAddDevicePackagesToPreferenceDenied         = "addDevicePackagesToPreferenceDenied"
+	MethodIUsbManagerAddAccessoryPackagesToPreferenceDenied      = "addAccessoryPackagesToPreferenceDenied"
+	MethodIUsbManagerRemoveDevicePackagesFromPreferenceDenied    = "removeDevicePackagesFromPreferenceDenied"
+	MethodIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied = "removeAccessoryPackagesFromPreferenceDenied"
+	MethodIUsbManagerSetDevicePersistentPermission               = "setDevicePersistentPermission"
+	MethodIUsbManagerSetAccessoryPersistentPermission            = "setAccessoryPersistentPermission"
+	MethodIUsbManagerHasDevicePermission                         = "hasDevicePermission"
+	MethodIUsbManagerHasDevicePermissionWithIdentity             = "hasDevicePermissionWithIdentity"
+	MethodIUsbManagerHasAccessoryPermission                      = "hasAccessoryPermission"
+	MethodIUsbManagerHasAccessoryPermissionWithIdentity          = "hasAccessoryPermissionWithIdentity"
+	MethodIUsbManagerRequestDevicePermission                     = "requestDevicePermission"
+	MethodIUsbManagerRequestAccessoryPermission                  = "requestAccessoryPermission"
+	MethodIUsbManagerGrantDevicePermission                       = "grantDevicePermission"
+	MethodIUsbManagerGrantAccessoryPermission                    = "grantAccessoryPermission"
+	MethodIUsbManagerHasDefaults                                 = "hasDefaults"
+	MethodIUsbManagerClearDefaults                               = "clearDefaults"
+	MethodIUsbManagerIsFunctionEnabled                           = "isFunctionEnabled"
+	MethodIUsbManagerSetCurrentFunctions                         = "setCurrentFunctions"
+	MethodIUsbManagerSetCurrentFunction                          = "setCurrentFunction"
+	MethodIUsbManagerGetCurrentFunctions                         = "getCurrentFunctions"
+	MethodIUsbManagerGetCurrentUsbSpeed                          = "getCurrentUsbSpeed"
+	MethodIUsbManagerGetGadgetHalVersion                         = "getGadgetHalVersion"
+	MethodIUsbManagerSetScreenUnlockedFunctions                  = "setScreenUnlockedFunctions"
+	MethodIUsbManagerGetScreenUnlockedFunctions                  = "getScreenUnlockedFunctions"
+	MethodIUsbManagerResetUsbGadget                              = "resetUsbGadget"
+	MethodIUsbManagerResetUsbPort                                = "resetUsbPort"
+	MethodIUsbManagerEnableUsbData                               = "enableUsbData"
+	MethodIUsbManagerEnableUsbDataWhileDocked                    = "enableUsbDataWhileDocked"
+	MethodIUsbManagerGetUsbHalVersion                            = "getUsbHalVersion"
+	MethodIUsbManagerGetControlFd                                = "getControlFd"
+	MethodIUsbManagerGetPorts                                    = "getPorts"
+	MethodIUsbManagerGetPortStatus                               = "getPortStatus"
+	MethodIUsbManagerIsModeChangeSupported                       = "isModeChangeSupported"
+	MethodIUsbManagerSetPortRoles                                = "setPortRoles"
+	MethodIUsbManagerEnableLimitPowerTransfer                    = "enableLimitPowerTransfer"
+	MethodIUsbManagerEnableContaminantDetection                  = "enableContaminantDetection"
+	MethodIUsbManagerSetUsbDeviceConnectionHandler               = "setUsbDeviceConnectionHandler"
+	MethodIUsbManagerRegisterForDisplayPortEvents                = "registerForDisplayPortEvents"
+	MethodIUsbManagerUnregisterForDisplayPortEvents              = "unregisterForDisplayPortEvents"
+)
+
 type IUsbManager interface {
 	AsBinder() binder.IBinder
 	GetDeviceList(ctx context.Context, devices interface{}) error
@@ -110,17 +158,17 @@ type IUsbManager interface {
 }
 
 type UsbManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUsbManagerProxy(
 	remote binder.IBinder,
 ) *UsbManagerProxy {
-	return &UsbManagerProxy{remote: remote}
+	return &UsbManagerProxy{Remote: remote}
 }
 
 func (p *UsbManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUsbManager = (*UsbManagerProxy)(nil)
@@ -132,12 +180,12 @@ func (p *UsbManagerProxy) GetDeviceList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getDeviceList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetDeviceList)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetDeviceList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetDeviceList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,12 +209,12 @@ func (p *UsbManagerProxy) OpenDevice(
 	_data.WriteString16(deviceName)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "openDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerOpenDevice)
 	if _err != nil {
-		_code = TransactionIUsbManagerOpenDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerOpenDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -190,12 +238,12 @@ func (p *UsbManagerProxy) GetCurrentAccessory(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getCurrentAccessory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetCurrentAccessory)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetCurrentAccessory
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetCurrentAccessory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -229,12 +277,12 @@ func (p *UsbManagerProxy) OpenAccessory(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "openAccessory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerOpenAccessory)
 	if _err != nil {
-		_code = TransactionIUsbManagerOpenAccessory
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerOpenAccessory, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -256,7 +304,7 @@ func (p *UsbManagerProxy) SetDevicePackage(
 	device UsbDevice,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
@@ -266,12 +314,12 @@ func (p *UsbManagerProxy) SetDevicePackage(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setDevicePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetDevicePackage)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetDevicePackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetDevicePackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -289,7 +337,7 @@ func (p *UsbManagerProxy) SetAccessoryPackage(
 	accessory UsbAccessory,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt32(1)
@@ -299,12 +347,12 @@ func (p *UsbManagerProxy) SetAccessoryPackage(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setAccessoryPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetAccessoryPackage)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetAccessoryPackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetAccessoryPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -338,12 +386,12 @@ func (p *UsbManagerProxy) AddDevicePackagesToPreferenceDenied(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "addDevicePackagesToPreferenceDenied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerAddDevicePackagesToPreferenceDenied)
 	if _err != nil {
-		_code = TransactionIUsbManagerAddDevicePackagesToPreferenceDenied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerAddDevicePackagesToPreferenceDenied, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -377,12 +425,12 @@ func (p *UsbManagerProxy) AddAccessoryPackagesToPreferenceDenied(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "addAccessoryPackagesToPreferenceDenied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerAddAccessoryPackagesToPreferenceDenied)
 	if _err != nil {
-		_code = TransactionIUsbManagerAddAccessoryPackagesToPreferenceDenied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerAddAccessoryPackagesToPreferenceDenied, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -416,12 +464,12 @@ func (p *UsbManagerProxy) RemoveDevicePackagesFromPreferenceDenied(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "removeDevicePackagesFromPreferenceDenied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRemoveDevicePackagesFromPreferenceDenied)
 	if _err != nil {
-		_code = TransactionIUsbManagerRemoveDevicePackagesFromPreferenceDenied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerRemoveDevicePackagesFromPreferenceDenied, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -455,12 +503,12 @@ func (p *UsbManagerProxy) RemoveAccessoryPackagesFromPreferenceDenied(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "removeAccessoryPackagesFromPreferenceDenied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied)
 	if _err != nil {
-		_code = TransactionIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -489,12 +537,12 @@ func (p *UsbManagerProxy) SetDevicePersistentPermission(
 	_data.WriteInt32(uid)
 	_data.WriteBool(shouldBeGranted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setDevicePersistentPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetDevicePersistentPermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetDevicePersistentPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetDevicePersistentPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -523,12 +571,12 @@ func (p *UsbManagerProxy) SetAccessoryPersistentPermission(
 	_data.WriteInt32(uid)
 	_data.WriteBool(shouldBeGranted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setAccessoryPersistentPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetAccessoryPersistentPermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetAccessoryPersistentPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetAccessoryPersistentPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -555,12 +603,12 @@ func (p *UsbManagerProxy) HasDevicePermission(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "hasDevicePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerHasDevicePermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerHasDevicePermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerHasDevicePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -595,12 +643,12 @@ func (p *UsbManagerProxy) HasDevicePermissionWithIdentity(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "hasDevicePermissionWithIdentity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerHasDevicePermissionWithIdentity)
 	if _err != nil {
-		_code = TransactionIUsbManagerHasDevicePermissionWithIdentity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerHasDevicePermissionWithIdentity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -629,12 +677,12 @@ func (p *UsbManagerProxy) HasAccessoryPermission(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "hasAccessoryPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerHasAccessoryPermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerHasAccessoryPermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerHasAccessoryPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -667,12 +715,12 @@ func (p *UsbManagerProxy) HasAccessoryPermissionWithIdentity(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "hasAccessoryPermissionWithIdentity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerHasAccessoryPermissionWithIdentity)
 	if _err != nil {
-		_code = TransactionIUsbManagerHasAccessoryPermissionWithIdentity
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerHasAccessoryPermissionWithIdentity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -703,12 +751,12 @@ func (p *UsbManagerProxy) RequestDevicePermission(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "requestDevicePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRequestDevicePermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerRequestDevicePermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerRequestDevicePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -735,12 +783,12 @@ func (p *UsbManagerProxy) RequestAccessoryPermission(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "requestAccessoryPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRequestAccessoryPermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerRequestAccessoryPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerRequestAccessoryPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -766,12 +814,12 @@ func (p *UsbManagerProxy) GrantDevicePermission(
 	}
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "grantDevicePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGrantDevicePermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerGrantDevicePermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGrantDevicePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -797,12 +845,12 @@ func (p *UsbManagerProxy) GrantAccessoryPermission(
 	}
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "grantAccessoryPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGrantAccessoryPermission)
 	if _err != nil {
-		_code = TransactionIUsbManagerGrantAccessoryPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGrantAccessoryPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -820,18 +868,18 @@ func (p *UsbManagerProxy) HasDefaults(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "hasDefaults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerHasDefaults)
 	if _err != nil {
-		_code = TransactionIUsbManagerHasDefaults
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerHasDefaults, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -852,18 +900,18 @@ func (p *UsbManagerProxy) ClearDefaults(
 	ctx context.Context,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "clearDefaults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerClearDefaults)
 	if _err != nil {
-		_code = TransactionIUsbManagerClearDefaults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerClearDefaults, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -885,12 +933,12 @@ func (p *UsbManagerProxy) IsFunctionEnabled(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(function)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "isFunctionEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerIsFunctionEnabled)
 	if _err != nil {
-		_code = TransactionIUsbManagerIsFunctionEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerIsFunctionEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -917,12 +965,12 @@ func (p *UsbManagerProxy) SetCurrentFunctions(
 	_data.WriteInt64(functions)
 	_data.WriteInt32(operationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setCurrentFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetCurrentFunctions)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetCurrentFunctions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetCurrentFunctions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -947,12 +995,12 @@ func (p *UsbManagerProxy) SetCurrentFunction(
 	_data.WriteBool(usbDataUnlocked)
 	_data.WriteInt32(operationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setCurrentFunction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetCurrentFunction)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetCurrentFunction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetCurrentFunction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -972,12 +1020,12 @@ func (p *UsbManagerProxy) GetCurrentFunctions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getCurrentFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetCurrentFunctions)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetCurrentFunctions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetCurrentFunctions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1001,12 +1049,12 @@ func (p *UsbManagerProxy) GetCurrentUsbSpeed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getCurrentUsbSpeed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetCurrentUsbSpeed)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetCurrentUsbSpeed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetCurrentUsbSpeed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1030,12 +1078,12 @@ func (p *UsbManagerProxy) GetGadgetHalVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getGadgetHalVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetGadgetHalVersion)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetGadgetHalVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetGadgetHalVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1060,12 +1108,12 @@ func (p *UsbManagerProxy) SetScreenUnlockedFunctions(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt64(functions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setScreenUnlockedFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetScreenUnlockedFunctions)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetScreenUnlockedFunctions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetScreenUnlockedFunctions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1085,12 +1133,12 @@ func (p *UsbManagerProxy) GetScreenUnlockedFunctions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getScreenUnlockedFunctions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetScreenUnlockedFunctions)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetScreenUnlockedFunctions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetScreenUnlockedFunctions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1113,12 +1161,12 @@ func (p *UsbManagerProxy) ResetUsbGadget(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "resetUsbGadget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerResetUsbGadget)
 	if _err != nil {
-		_code = TransactionIUsbManagerResetUsbGadget
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerResetUsbGadget, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1141,14 +1189,14 @@ func (p *UsbManagerProxy) ResetUsbPort(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteInt32(operationId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "resetUsbPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerResetUsbPort)
 	if _err != nil {
-		_code = TransactionIUsbManagerResetUsbPort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerResetUsbPort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1174,14 +1222,14 @@ func (p *UsbManagerProxy) EnableUsbData(
 	_data.WriteString16(portId)
 	_data.WriteBool(enable)
 	_data.WriteInt32(operationId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "enableUsbData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerEnableUsbData)
 	if _err != nil {
-		_code = TransactionIUsbManagerEnableUsbData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerEnableUsbData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1208,14 +1256,14 @@ func (p *UsbManagerProxy) EnableUsbDataWhileDocked(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 	_data.WriteInt32(operationId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "enableUsbDataWhileDocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerEnableUsbDataWhileDocked)
 	if _err != nil {
-		_code = TransactionIUsbManagerEnableUsbDataWhileDocked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerEnableUsbDataWhileDocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1235,12 +1283,12 @@ func (p *UsbManagerProxy) GetUsbHalVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getUsbHalVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetUsbHalVersion)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetUsbHalVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetUsbHalVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1266,12 +1314,12 @@ func (p *UsbManagerProxy) GetControlFd(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteInt64(function)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getControlFd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetControlFd)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetControlFd
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetControlFd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1295,12 +1343,12 @@ func (p *UsbManagerProxy) GetPorts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getPorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetPorts)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetPorts
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetPorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1318,6 +1366,9 @@ func (p *UsbManagerProxy) GetPorts(
 	if _count >= 0 {
 		_result = make([]ParcelableUsbPort, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1335,12 +1386,12 @@ func (p *UsbManagerProxy) GetPortStatus(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "getPortStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerGetPortStatus)
 	if _err != nil {
-		_code = TransactionIUsbManagerGetPortStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerGetPortStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1371,12 +1422,12 @@ func (p *UsbManagerProxy) IsModeChangeSupported(
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
 	_data.WriteString16(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "isModeChangeSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerIsModeChangeSupported)
 	if _err != nil {
-		_code = TransactionIUsbManagerIsModeChangeSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerIsModeChangeSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1405,12 +1456,12 @@ func (p *UsbManagerProxy) SetPortRoles(
 	_data.WriteInt32(powerRole)
 	_data.WriteInt32(dataRole)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setPortRoles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetPortRoles)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetPortRoles
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetPortRoles, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1435,14 +1486,14 @@ func (p *UsbManagerProxy) EnableLimitPowerTransfer(
 	_data.WriteString16(portId)
 	_data.WriteBool(limit)
 	_data.WriteInt32(operationId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "enableLimitPowerTransfer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerEnableLimitPowerTransfer)
 	if _err != nil {
-		_code = TransactionIUsbManagerEnableLimitPowerTransfer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerEnableLimitPowerTransfer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1465,12 +1516,12 @@ func (p *UsbManagerProxy) EnableContaminantDetection(
 	_data.WriteString16(portId)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "enableContaminantDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerEnableContaminantDetection)
 	if _err != nil {
-		_code = TransactionIUsbManagerEnableContaminantDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerEnableContaminantDetection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1494,12 +1545,12 @@ func (p *UsbManagerProxy) SetUsbDeviceConnectionHandler(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "setUsbDeviceConnectionHandler")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerSetUsbDeviceConnectionHandler)
 	if _err != nil {
-		_code = TransactionIUsbManagerSetUsbDeviceConnectionHandler
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerSetUsbDeviceConnectionHandler, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1519,14 +1570,14 @@ func (p *UsbManagerProxy) RegisterForDisplayPortEvents(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "registerForDisplayPortEvents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerRegisterForDisplayPortEvents)
 	if _err != nil {
-		_code = TransactionIUsbManagerRegisterForDisplayPortEvents
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerRegisterForDisplayPortEvents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1549,14 +1600,14 @@ func (p *UsbManagerProxy) UnregisterForDisplayPortEvents(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbManager, "unregisterForDisplayPortEvents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbManager, MethodIUsbManagerUnregisterForDisplayPortEvents)
 	if _err != nil {
-		_code = TransactionIUsbManagerUnregisterForDisplayPortEvents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbManager, MethodIUsbManagerUnregisterForDisplayPortEvents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1576,6 +1627,10 @@ type UsbManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UsbManagerStub)(nil)
+
+func (s *UsbManagerStub) Descriptor() string {
+	return DescriptorIUsbManager
+}
 
 func (s *UsbManagerStub) OnTransaction(
 	ctx context.Context,

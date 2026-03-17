@@ -15,23 +15,27 @@ const (
 	TransactionIPrintDocumentAdapterObserverOnDestroy = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPrintDocumentAdapterObserverOnDestroy = "onDestroy"
+)
+
 type IPrintDocumentAdapterObserver interface {
 	AsBinder() binder.IBinder
 	OnDestroy(ctx context.Context) error
 }
 
 type PrintDocumentAdapterObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrintDocumentAdapterObserverProxy(
 	remote binder.IBinder,
 ) *PrintDocumentAdapterObserverProxy {
-	return &PrintDocumentAdapterObserverProxy{remote: remote}
+	return &PrintDocumentAdapterObserverProxy{Remote: remote}
 }
 
 func (p *PrintDocumentAdapterObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrintDocumentAdapterObserver = (*PrintDocumentAdapterObserverProxy)(nil)
@@ -42,12 +46,12 @@ func (p *PrintDocumentAdapterObserverProxy) OnDestroy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapterObserver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapterObserver, "onDestroy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapterObserver, MethodIPrintDocumentAdapterObserverOnDestroy)
 	if _err != nil {
-		_code = TransactionIPrintDocumentAdapterObserverOnDestroy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapterObserver, MethodIPrintDocumentAdapterObserverOnDestroy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type PrintDocumentAdapterObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrintDocumentAdapterObserverStub)(nil)
+
+func (s *PrintDocumentAdapterObserverStub) Descriptor() string {
+	return DescriptorIPrintDocumentAdapterObserver
+}
 
 func (s *PrintDocumentAdapterObserverStub) OnTransaction(
 	ctx context.Context,

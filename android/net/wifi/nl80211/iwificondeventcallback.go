@@ -15,23 +15,27 @@ const (
 	TransactionIWificondEventCallbackOnRegDomainChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWificondEventCallbackOnRegDomainChanged = "OnRegDomainChanged"
+)
+
 type IWificondEventCallback interface {
 	AsBinder() binder.IBinder
 	OnRegDomainChanged(ctx context.Context, countryCode string) error
 }
 
 type WificondEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWificondEventCallbackProxy(
 	remote binder.IBinder,
 ) *WificondEventCallbackProxy {
-	return &WificondEventCallbackProxy{remote: remote}
+	return &WificondEventCallbackProxy{Remote: remote}
 }
 
 func (p *WificondEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWificondEventCallback = (*WificondEventCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *WificondEventCallbackProxy) OnRegDomainChanged(
 	_data.WriteInterfaceToken(DescriptorIWificondEventCallback)
 	_data.WriteString16(countryCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWificondEventCallback, "OnRegDomainChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWificondEventCallback, MethodIWificondEventCallbackOnRegDomainChanged)
 	if _err != nil {
-		_code = TransactionIWificondEventCallbackOnRegDomainChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWificondEventCallback, MethodIWificondEventCallbackOnRegDomainChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type WificondEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WificondEventCallbackStub)(nil)
+
+func (s *WificondEventCallbackStub) Descriptor() string {
+	return DescriptorIWificondEventCallback
+}
 
 func (s *WificondEventCallbackStub) OnTransaction(
 	ctx context.Context,

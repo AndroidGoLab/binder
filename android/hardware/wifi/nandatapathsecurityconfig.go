@@ -28,30 +28,9 @@ func (s *NanDataPathSecurityConfig) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.SecurityType))
 	p.WriteInt32(int32(s.CipherType))
-	if s.Pmk == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Pmk)))
-		for _, _item := range s.Pmk {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Passphrase == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Passphrase)))
-		for _, _item := range s.Passphrase {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Scid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Scid)))
-		for _, _item := range s.Scid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Pmk, 32)
+	p.WriteByteArray(s.Passphrase)
+	p.WriteFixedByteArray(s.Scid, 16)
 	p.WriteBool(s.Enable16ReplyCountersForTksa)
 	p.WriteBool(s.Enable16ReplyCountersForGtksa)
 	p.WriteBool(s.SupportGtkAndIgtk)
@@ -83,49 +62,19 @@ func (s *NanDataPathSecurityConfig) UnmarshalParcel(
 	}
 	s.CipherType = NanCipherSuiteType(_cipherTypeRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Pmk, _err = p.ReadFixedByteArray(32)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Pmk = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Pmk[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Passphrase, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Passphrase = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Passphrase[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.Scid, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.Scid = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.Scid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.Enable16ReplyCountersForTksa, _err = p.ReadBool()

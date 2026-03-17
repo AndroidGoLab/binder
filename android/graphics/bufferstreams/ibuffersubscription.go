@@ -16,6 +16,11 @@ const (
 	TransactionIBufferSubscriptionCancel  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBufferSubscriptionRequest = "request"
+	MethodIBufferSubscriptionCancel  = "cancel"
+)
+
 type IBufferSubscription interface {
 	AsBinder() binder.IBinder
 	Request(ctx context.Context, n int64) error
@@ -23,17 +28,17 @@ type IBufferSubscription interface {
 }
 
 type BufferSubscriptionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBufferSubscriptionProxy(
 	remote binder.IBinder,
 ) *BufferSubscriptionProxy {
-	return &BufferSubscriptionProxy{remote: remote}
+	return &BufferSubscriptionProxy{Remote: remote}
 }
 
 func (p *BufferSubscriptionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBufferSubscription = (*BufferSubscriptionProxy)(nil)
@@ -46,12 +51,12 @@ func (p *BufferSubscriptionProxy) Request(
 	_data.WriteInterfaceToken(DescriptorIBufferSubscription)
 	_data.WriteInt64(n)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscription, "request")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscription, MethodIBufferSubscriptionRequest)
 	if _err != nil {
-		_code = TransactionIBufferSubscriptionRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscription, MethodIBufferSubscriptionRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *BufferSubscriptionProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscription)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscription, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscription, MethodIBufferSubscriptionCancel)
 	if _err != nil {
-		_code = TransactionIBufferSubscriptionCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscription, MethodIBufferSubscriptionCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type BufferSubscriptionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BufferSubscriptionStub)(nil)
+
+func (s *BufferSubscriptionStub) Descriptor() string {
+	return DescriptorIBufferSubscription
+}
 
 func (s *BufferSubscriptionStub) OnTransaction(
 	ctx context.Context,

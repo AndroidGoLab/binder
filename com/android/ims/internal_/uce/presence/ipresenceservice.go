@@ -24,6 +24,17 @@ const (
 	TransactionIPresenceServiceSetNewFeatureTag  = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIPresenceServiceGetVersion        = "getVersion"
+	MethodIPresenceServiceAddListener       = "addListener"
+	MethodIPresenceServiceRemoveListener    = "removeListener"
+	MethodIPresenceServiceReenableService   = "reenableService"
+	MethodIPresenceServicePublishMyCap      = "publishMyCap"
+	MethodIPresenceServiceGetContactCap     = "getContactCap"
+	MethodIPresenceServiceGetContactListCap = "getContactListCap"
+	MethodIPresenceServiceSetNewFeatureTag  = "setNewFeatureTag"
+)
+
 type IPresenceService interface {
 	AsBinder() binder.IBinder
 	GetVersion(ctx context.Context, presenceServiceHdl int32) (vehicle.StatusCode, error)
@@ -37,17 +48,17 @@ type IPresenceService interface {
 }
 
 type PresenceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPresenceServiceProxy(
 	remote binder.IBinder,
 ) *PresenceServiceProxy {
-	return &PresenceServiceProxy{remote: remote}
+	return &PresenceServiceProxy{Remote: remote}
 }
 
 func (p *PresenceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPresenceService = (*PresenceServiceProxy)(nil)
@@ -61,12 +72,12 @@ func (p *PresenceServiceProxy) GetVersion(
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "getVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceGetVersion)
 	if _err != nil {
-		_code = TransactionIPresenceServiceGetVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceGetVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,18 +105,18 @@ func (p *PresenceServiceProxy) AddListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
-	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "addListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceAddListener)
 	if _err != nil {
-		_code = TransactionIPresenceServiceAddListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceAddListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,12 +151,12 @@ func (p *PresenceServiceProxy) RemoveListener(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "removeListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceRemoveListener)
 	if _err != nil {
-		_code = TransactionIPresenceServiceRemoveListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceRemoveListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -174,12 +185,12 @@ func (p *PresenceServiceProxy) ReenableService(
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteInt32(userData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "reenableService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceReenableService)
 	if _err != nil {
-		_code = TransactionIPresenceServiceReenableService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceReenableService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -213,12 +224,12 @@ func (p *PresenceServiceProxy) PublishMyCap(
 	}
 	_data.WriteInt32(userData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "publishMyCap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServicePublishMyCap)
 	if _err != nil {
-		_code = TransactionIPresenceServicePublishMyCap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServicePublishMyCap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -249,12 +260,12 @@ func (p *PresenceServiceProxy) GetContactCap(
 	_data.WriteString16(remoteUri)
 	_data.WriteInt32(userData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "getContactCap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceGetContactCap)
 	if _err != nil {
-		_code = TransactionIPresenceServiceGetContactCap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceGetContactCap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -292,12 +303,12 @@ func (p *PresenceServiceProxy) GetContactListCap(
 	}
 	_data.WriteInt32(userData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "getContactListCap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceGetContactListCap)
 	if _err != nil {
-		_code = TransactionIPresenceServiceGetContactListCap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceGetContactListCap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -333,12 +344,12 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 	}
 	_data.WriteInt32(userData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "setNewFeatureTag")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceService, MethodIPresenceServiceSetNewFeatureTag)
 	if _err != nil {
-		_code = TransactionIPresenceServiceSetNewFeatureTag
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresenceService, MethodIPresenceServiceSetNewFeatureTag, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -363,6 +374,10 @@ type PresenceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PresenceServiceStub)(nil)
+
+func (s *PresenceServiceStub) Descriptor() string {
+	return DescriptorIPresenceService
+}
 
 func (s *PresenceServiceStub) OnTransaction(
 	ctx context.Context,

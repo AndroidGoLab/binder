@@ -36,6 +36,7 @@ func (s *ChannelSoundingProcedureData) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.InitiatorSubeventResultData)))
 		for _, _item := range s.InitiatorSubeventResultData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -47,6 +48,7 @@ func (s *ChannelSoundingProcedureData) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ReflectorSubeventResultData)))
 		for _, _item := range s.ReflectorSubeventResultData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -94,6 +96,9 @@ func (s *ChannelSoundingProcedureData) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.InitiatorSubeventResultData = make([]SubeventResultData, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.InitiatorSubeventResultData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -114,6 +119,9 @@ func (s *ChannelSoundingProcedureData) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.ReflectorSubeventResultData = make([]SubeventResultData, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ReflectorSubeventResultData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

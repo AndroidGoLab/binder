@@ -15,23 +15,27 @@ const (
 	TransactionIDexModuleRegisterCallbackOnDexModuleRegistered = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDexModuleRegisterCallbackOnDexModuleRegistered = "onDexModuleRegistered"
+)
+
 type IDexModuleRegisterCallback interface {
 	AsBinder() binder.IBinder
 	OnDexModuleRegistered(ctx context.Context, dexModulePath string, success bool, message string) error
 }
 
 type DexModuleRegisterCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDexModuleRegisterCallbackProxy(
 	remote binder.IBinder,
 ) *DexModuleRegisterCallbackProxy {
-	return &DexModuleRegisterCallbackProxy{remote: remote}
+	return &DexModuleRegisterCallbackProxy{Remote: remote}
 }
 
 func (p *DexModuleRegisterCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDexModuleRegisterCallback = (*DexModuleRegisterCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *DexModuleRegisterCallbackProxy) OnDexModuleRegistered(
 	_data.WriteBool(success)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDexModuleRegisterCallback, "onDexModuleRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDexModuleRegisterCallback, MethodIDexModuleRegisterCallbackOnDexModuleRegistered)
 	if _err != nil {
-		_code = TransactionIDexModuleRegisterCallbackOnDexModuleRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDexModuleRegisterCallback, MethodIDexModuleRegisterCallbackOnDexModuleRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type DexModuleRegisterCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DexModuleRegisterCallbackStub)(nil)
+
+func (s *DexModuleRegisterCallbackStub) Descriptor() string {
+	return DescriptorIDexModuleRegisterCallback
+}
 
 func (s *DexModuleRegisterCallbackStub) OnTransaction(
 	ctx context.Context,

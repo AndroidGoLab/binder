@@ -58,10 +58,12 @@ func (u *ExplicitKeyMaterial) MarshalParcel(
 
 	switch u.Tag {
 	case ExplicitKeyMaterialTagAes:
+		p.WriteInt32(1)
 		if _err := u.Aes.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ExplicitKeyMaterialTagHmac:
+		p.WriteInt32(1)
 		if _err := u.Hmac.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *ExplicitKeyMaterial) UnmarshalParcel(
 
 	switch u.Tag {
 	case ExplicitKeyMaterialTagAes:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Aes.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ExplicitKeyMaterialTagHmac:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Hmac.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

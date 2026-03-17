@@ -15,23 +15,27 @@ const (
 	TransactionIGetDefaultDownloadableSubscriptionListCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetDefaultDownloadableSubscriptionListCallbackOnComplete = "onComplete"
+)
+
 type IGetDefaultDownloadableSubscriptionListCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result GetDefaultDownloadableSubscriptionListResult) error
 }
 
 type GetDefaultDownloadableSubscriptionListCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetDefaultDownloadableSubscriptionListCallbackProxy(
 	remote binder.IBinder,
 ) *GetDefaultDownloadableSubscriptionListCallbackProxy {
-	return &GetDefaultDownloadableSubscriptionListCallbackProxy{remote: remote}
+	return &GetDefaultDownloadableSubscriptionListCallbackProxy{Remote: remote}
 }
 
 func (p *GetDefaultDownloadableSubscriptionListCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetDefaultDownloadableSubscriptionListCallback = (*GetDefaultDownloadableSubscriptionListCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *GetDefaultDownloadableSubscriptionListCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetDefaultDownloadableSubscriptionListCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetDefaultDownloadableSubscriptionListCallback, MethodIGetDefaultDownloadableSubscriptionListCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIGetDefaultDownloadableSubscriptionListCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetDefaultDownloadableSubscriptionListCallback, MethodIGetDefaultDownloadableSubscriptionListCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type GetDefaultDownloadableSubscriptionListCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetDefaultDownloadableSubscriptionListCallbackStub)(nil)
+
+func (s *GetDefaultDownloadableSubscriptionListCallbackStub) Descriptor() string {
+	return DescriptorIGetDefaultDownloadableSubscriptionListCallback
+}
 
 func (s *GetDefaultDownloadableSubscriptionListCallbackStub) OnTransaction(
 	ctx context.Context,

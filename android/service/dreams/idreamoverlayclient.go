@@ -13,34 +13,36 @@ import (
 const DescriptorIDreamOverlayClient = "android.service.dreams.IDreamOverlayClient"
 
 const (
-	TransactionIDreamOverlayClientStartDream      = binder.FirstCallTransaction + 0
-	TransactionIDreamOverlayClientWakeUp          = binder.FirstCallTransaction + 1
-	TransactionIDreamOverlayClientEndDream        = binder.FirstCallTransaction + 2
-	TransactionIDreamOverlayClientOnWakeRequested = binder.FirstCallTransaction + 3
-	TransactionIDreamOverlayClientComeToFront     = binder.FirstCallTransaction + 4
+	TransactionIDreamOverlayClientStartDream = binder.FirstCallTransaction + 0
+	TransactionIDreamOverlayClientWakeUp     = binder.FirstCallTransaction + 1
+	TransactionIDreamOverlayClientEndDream   = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIDreamOverlayClientStartDream = "startDream"
+	MethodIDreamOverlayClientWakeUp     = "wakeUp"
+	MethodIDreamOverlayClientEndDream   = "endDream"
 )
 
 type IDreamOverlayClient interface {
 	AsBinder() binder.IBinder
-	StartDream(ctx context.Context, params view.WindowManagerLayoutParams, callback IDreamOverlayCallback, dreamComponent string, isPreview bool, shouldShowComplications bool) error
+	StartDream(ctx context.Context, params view.WindowManagerLayoutParams, callback IDreamOverlayCallback, dreamComponent string, shouldShowComplications bool) error
 	WakeUp(ctx context.Context) error
 	EndDream(ctx context.Context) error
-	OnWakeRequested(ctx context.Context) error
-	ComeToFront(ctx context.Context) error
 }
 
 type DreamOverlayClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDreamOverlayClientProxy(
 	remote binder.IBinder,
 ) *DreamOverlayClientProxy {
-	return &DreamOverlayClientProxy{remote: remote}
+	return &DreamOverlayClientProxy{Remote: remote}
 }
 
 func (p *DreamOverlayClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDreamOverlayClient = (*DreamOverlayClientProxy)(nil)
@@ -50,7 +52,6 @@ func (p *DreamOverlayClientProxy) StartDream(
 	params view.WindowManagerLayoutParams,
 	callback IDreamOverlayCallback,
 	dreamComponent string,
-	isPreview bool,
 	shouldShowComplications bool,
 ) error {
 	_data := parcel.New()
@@ -59,17 +60,16 @@ func (p *DreamOverlayClientProxy) StartDream(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(dreamComponent)
-	_data.WriteBool(isPreview)
 	_data.WriteBool(shouldShowComplications)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "startDream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientStartDream)
 	if _err != nil {
-		_code = TransactionIDreamOverlayClientStartDream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamOverlayClient, MethodIDreamOverlayClientStartDream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -88,12 +88,12 @@ func (p *DreamOverlayClientProxy) WakeUp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "wakeUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientWakeUp)
 	if _err != nil {
-		_code = TransactionIDreamOverlayClientWakeUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamOverlayClient, MethodIDreamOverlayClientWakeUp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,60 +112,12 @@ func (p *DreamOverlayClientProxy) EndDream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "endDream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayClient, MethodIDreamOverlayClientEndDream)
 	if _err != nil {
-		_code = TransactionIDreamOverlayClientEndDream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamOverlayClient, MethodIDreamOverlayClientEndDream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *DreamOverlayClientProxy) OnWakeRequested(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "onWakeRequested")
-	if _err != nil {
-		_code = TransactionIDreamOverlayClientOnWakeRequested
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *DreamOverlayClientProxy) ComeToFront(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamOverlayClient)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "comeToFront")
-	if _err != nil {
-		_code = TransactionIDreamOverlayClientComeToFront
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,6 +137,10 @@ type DreamOverlayClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayClientStub)(nil)
+
+func (s *DreamOverlayClientStub) Descriptor() string {
+	return DescriptorIDreamOverlayClient
+}
 
 func (s *DreamOverlayClientStub) OnTransaction(
 	ctx context.Context,
@@ -215,15 +171,11 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isPreview, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
 		_arg_shouldShowComplications, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.StartDream(ctx, _arg_params, _arg_callback, _arg_dreamComponent, _arg_isPreview, _arg_shouldShowComplications)
+		_err = s.Impl.StartDream(ctx, _arg_params, _arg_callback, _arg_dreamComponent, _arg_shouldShowComplications)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -255,30 +207,6 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIDreamOverlayClientOnWakeRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.OnWakeRequested(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIDreamOverlayClientComeToFront:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.ComeToFront(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -288,11 +216,9 @@ func (s *DreamOverlayClientStub) OnTransaction(
 // provide to NewDreamOverlayClientStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDreamOverlayClientServer interface {
-	StartDream(ctx context.Context, params view.WindowManagerLayoutParams, callback IDreamOverlayCallback, dreamComponent string, isPreview bool, shouldShowComplications bool) error
+	StartDream(ctx context.Context, params view.WindowManagerLayoutParams, callback IDreamOverlayCallback, dreamComponent string, shouldShowComplications bool) error
 	WakeUp(ctx context.Context) error
 	EndDream(ctx context.Context) error
-	OnWakeRequested(ctx context.Context) error
-	ComeToFront(ctx context.Context) error
 }
 
 type dreamOverlayClientStubWrapper struct {
@@ -309,10 +235,9 @@ func (w *dreamOverlayClientStubWrapper) StartDream(
 	params view.WindowManagerLayoutParams,
 	callback IDreamOverlayCallback,
 	dreamComponent string,
-	isPreview bool,
 	shouldShowComplications bool,
 ) error {
-	return w.impl.StartDream(ctx, params, callback, dreamComponent, isPreview, shouldShowComplications)
+	return w.impl.StartDream(ctx, params, callback, dreamComponent, shouldShowComplications)
 }
 
 func (w *dreamOverlayClientStubWrapper) WakeUp(
@@ -325,18 +250,6 @@ func (w *dreamOverlayClientStubWrapper) EndDream(
 	ctx context.Context,
 ) error {
 	return w.impl.EndDream(ctx)
-}
-
-func (w *dreamOverlayClientStubWrapper) OnWakeRequested(
-	ctx context.Context,
-) error {
-	return w.impl.OnWakeRequested(ctx)
-}
-
-func (w *dreamOverlayClientStubWrapper) ComeToFront(
-	ctx context.Context,
-) error {
-	return w.impl.ComeToFront(ctx)
 }
 
 var _ IDreamOverlayClient = (*dreamOverlayClientStubWrapper)(nil)

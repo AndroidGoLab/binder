@@ -15,23 +15,27 @@ const (
 	TransactionIDirReadNextFilenames = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDirReadNextFilenames = "readNextFilenames"
+)
+
 type IDir interface {
 	AsBinder() binder.IBinder
 	ReadNextFilenames(ctx context.Context, maxCount int32) ([]string, error)
 }
 
 type DirProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDirProxy(
 	remote binder.IBinder,
 ) *DirProxy {
-	return &DirProxy{remote: remote}
+	return &DirProxy{Remote: remote}
 }
 
 func (p *DirProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDir = (*DirProxy)(nil)
@@ -45,12 +49,12 @@ func (p *DirProxy) ReadNextFilenames(
 	_data.WriteInterfaceToken(DescriptorIDir)
 	_data.WriteInt32(maxCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDir, "readNextFilenames")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDir, MethodIDirReadNextFilenames)
 	if _err != nil {
-		_code = TransactionIDirReadNextFilenames
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDir, MethodIDirReadNextFilenames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,6 +88,10 @@ type DirStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DirStub)(nil)
+
+func (s *DirStub) Descriptor() string {
+	return DescriptorIDir
+}
 
 func (s *DirStub) OnTransaction(
 	ctx context.Context,

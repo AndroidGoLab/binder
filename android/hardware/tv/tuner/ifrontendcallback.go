@@ -16,6 +16,11 @@ const (
 	TransactionIFrontendCallbackOnScanMessage = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFrontendCallbackOnEvent       = "onEvent"
+	MethodIFrontendCallbackOnScanMessage = "onScanMessage"
+)
+
 type IFrontendCallback interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, frontendEventType FrontendEventType) error
@@ -23,17 +28,17 @@ type IFrontendCallback interface {
 }
 
 type FrontendCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFrontendCallbackProxy(
 	remote binder.IBinder,
 ) *FrontendCallbackProxy {
-	return &FrontendCallbackProxy{remote: remote}
+	return &FrontendCallbackProxy{Remote: remote}
 }
 
 func (p *FrontendCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFrontendCallback = (*FrontendCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *FrontendCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorIFrontendCallback)
 	_data.WriteInt32(int32(frontendEventType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontendCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontendCallback, MethodIFrontendCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionIFrontendCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontendCallback, MethodIFrontendCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFrontendCallback, "onScanMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFrontendCallback, MethodIFrontendCallbackOnScanMessage)
 	if _err != nil {
-		_code = TransactionIFrontendCallbackOnScanMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFrontendCallback, MethodIFrontendCallbackOnScanMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type FrontendCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FrontendCallbackStub)(nil)
+
+func (s *FrontendCallbackStub) Descriptor() string {
+	return DescriptorIFrontendCallback
+}
 
 func (s *FrontendCallbackStub) OnTransaction(
 	ctx context.Context,

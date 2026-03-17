@@ -20,6 +20,13 @@ const (
 	TransactionIAppWidgetHostListenerOnViewDataChanged       = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAppWidgetHostListenerOnUpdateProviderInfo    = "onUpdateProviderInfo"
+	MethodIAppWidgetHostListenerUpdateAppWidget         = "updateAppWidget"
+	MethodIAppWidgetHostListenerUpdateAppWidgetDeferred = "updateAppWidgetDeferred"
+	MethodIAppWidgetHostListenerOnViewDataChanged       = "onViewDataChanged"
+)
+
 type IAppWidgetHostListener interface {
 	AsBinder() binder.IBinder
 	OnUpdateProviderInfo(ctx context.Context, appWidget *appwidget.AppWidgetProviderInfo) error
@@ -29,17 +36,17 @@ type IAppWidgetHostListener interface {
 }
 
 type AppWidgetHostListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppWidgetHostListenerProxy(
 	remote binder.IBinder,
 ) *AppWidgetHostListenerProxy {
-	return &AppWidgetHostListenerProxy{remote: remote}
+	return &AppWidgetHostListenerProxy{Remote: remote}
 }
 
 func (p *AppWidgetHostListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppWidgetHostListener = (*AppWidgetHostListenerProxy)(nil)
@@ -58,12 +65,12 @@ func (p *AppWidgetHostListenerProxy) OnUpdateProviderInfo(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHostListener, "onUpdateProviderInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerOnUpdateProviderInfo)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostListenerOnUpdateProviderInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerOnUpdateProviderInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +88,12 @@ func (p *AppWidgetHostListenerProxy) UpdateAppWidget(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHostListener, "updateAppWidget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerUpdateAppWidget)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostListenerUpdateAppWidget
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerUpdateAppWidget, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,12 +107,12 @@ func (p *AppWidgetHostListenerProxy) UpdateAppWidgetDeferred(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHostListener, "updateAppWidgetDeferred")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerUpdateAppWidgetDeferred)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostListenerUpdateAppWidgetDeferred
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerUpdateAppWidgetDeferred, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,12 +124,12 @@ func (p *AppWidgetHostListenerProxy) OnViewDataChanged(
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHostListener)
 	_data.WriteInt32(viewId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHostListener, "onViewDataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerOnViewDataChanged)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostListenerOnViewDataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHostListener, MethodIAppWidgetHostListenerOnViewDataChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,6 +140,10 @@ type AppWidgetHostListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppWidgetHostListenerStub)(nil)
+
+func (s *AppWidgetHostListenerStub) Descriptor() string {
+	return DescriptorIAppWidgetHostListener
+}
 
 func (s *AppWidgetHostListenerStub) OnTransaction(
 	ctx context.Context,

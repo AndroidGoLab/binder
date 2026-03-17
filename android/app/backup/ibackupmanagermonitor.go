@@ -15,23 +15,27 @@ const (
 	TransactionIBackupManagerMonitorOnEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBackupManagerMonitorOnEvent = "onEvent"
+)
+
 type IBackupManagerMonitor interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, event interface{}) error
 }
 
 type BackupManagerMonitorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackupManagerMonitorProxy(
 	remote binder.IBinder,
 ) *BackupManagerMonitorProxy {
-	return &BackupManagerMonitorProxy{remote: remote}
+	return &BackupManagerMonitorProxy{Remote: remote}
 }
 
 func (p *BackupManagerMonitorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackupManagerMonitor = (*BackupManagerMonitorProxy)(nil)
@@ -43,12 +47,12 @@ func (p *BackupManagerMonitorProxy) OnEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManagerMonitor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupManagerMonitor, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupManagerMonitor, MethodIBackupManagerMonitorOnEvent)
 	if _err != nil {
-		_code = TransactionIBackupManagerMonitorOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupManagerMonitor, MethodIBackupManagerMonitorOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type BackupManagerMonitorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackupManagerMonitorStub)(nil)
+
+func (s *BackupManagerMonitorStub) Descriptor() string {
+	return DescriptorIBackupManagerMonitor
+}
 
 func (s *BackupManagerMonitorStub) OnTransaction(
 	ctx context.Context,

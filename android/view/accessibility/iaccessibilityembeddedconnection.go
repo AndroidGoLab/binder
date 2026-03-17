@@ -17,6 +17,12 @@ const (
 	TransactionIAccessibilityEmbeddedConnectionSetWindowMatrix               = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy    = "associateEmbeddedHierarchy"
+	MethodIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy = "disassociateEmbeddedHierarchy"
+	MethodIAccessibilityEmbeddedConnectionSetWindowMatrix               = "setWindowMatrix"
+)
+
 type IAccessibilityEmbeddedConnection interface {
 	AsBinder() binder.IBinder
 	AssociateEmbeddedHierarchy(ctx context.Context, hostToken binder.IBinder, sourceId int32) (binder.IBinder, error)
@@ -25,17 +31,17 @@ type IAccessibilityEmbeddedConnection interface {
 }
 
 type AccessibilityEmbeddedConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessibilityEmbeddedConnectionProxy(
 	remote binder.IBinder,
 ) *AccessibilityEmbeddedConnectionProxy {
-	return &AccessibilityEmbeddedConnectionProxy{remote: remote}
+	return &AccessibilityEmbeddedConnectionProxy{Remote: remote}
 }
 
 func (p *AccessibilityEmbeddedConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessibilityEmbeddedConnection = (*AccessibilityEmbeddedConnectionProxy)(nil)
@@ -48,15 +54,15 @@ func (p *AccessibilityEmbeddedConnectionProxy) AssociateEmbeddedHierarchy(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
-	binder.WriteBinderToParcel(ctx, _data, hostToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, hostToken, p.Remote.Transport())
 	_data.WriteInt32(sourceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "associateEmbeddedHierarchy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy)
 	if _err != nil {
-		_code = TransactionIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,7 +76,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) AssociateEmbeddedHierarchy(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -80,12 +86,12 @@ func (p *AccessibilityEmbeddedConnectionProxy) DisassociateEmbeddedHierarchy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "disassociateEmbeddedHierarchy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy)
 	if _err != nil {
-		_code = TransactionIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,12 +119,12 @@ func (p *AccessibilityEmbeddedConnectionProxy) SetWindowMatrix(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "setWindowMatrix")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionSetWindowMatrix)
 	if _err != nil {
-		_code = TransactionIAccessibilityEmbeddedConnectionSetWindowMatrix
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityEmbeddedConnection, MethodIAccessibilityEmbeddedConnectionSetWindowMatrix, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,6 +135,10 @@ type AccessibilityEmbeddedConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityEmbeddedConnectionStub)(nil)
+
+func (s *AccessibilityEmbeddedConnectionStub) Descriptor() string {
+	return DescriptorIAccessibilityEmbeddedConnection
+}
 
 func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 	ctx context.Context,

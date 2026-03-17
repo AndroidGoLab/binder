@@ -31,14 +31,7 @@ func (s *NrSignalStrength) MarshalParcel(
 	p.WriteInt32(s.CsiRsrq)
 	p.WriteInt32(s.CsiSinr)
 	p.WriteInt32(s.CsiCqiTableIndex)
-	if s.CsiCqiReport == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CsiCqiReport)))
-		for _, _item := range s.CsiCqiReport {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.CsiCqiReport)
 	p.WriteInt32(s.TimingAdvance)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -88,19 +81,9 @@ func (s *NrSignalStrength) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.CsiCqiReport, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.CsiCqiReport = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.CsiCqiReport[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.TimingAdvance, _err = p.ReadInt32()

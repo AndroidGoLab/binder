@@ -15,23 +15,27 @@ const (
 	TransactionITextToSpeechManagerCreateSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITextToSpeechManagerCreateSession = "createSession"
+)
+
 type ITextToSpeechManager interface {
 	AsBinder() binder.IBinder
 	CreateSession(ctx context.Context, engine string, managerCallback ITextToSpeechSessionCallback) error
 }
 
 type TextToSpeechManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextToSpeechManagerProxy(
 	remote binder.IBinder,
 ) *TextToSpeechManagerProxy {
-	return &TextToSpeechManagerProxy{remote: remote}
+	return &TextToSpeechManagerProxy{Remote: remote}
 }
 
 func (p *TextToSpeechManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextToSpeechManager = (*TextToSpeechManagerProxy)(nil)
@@ -44,14 +48,14 @@ func (p *TextToSpeechManagerProxy) CreateSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechManager)
 	_data.WriteString16(engine)
-	binder.WriteBinderToParcel(ctx, _data, managerCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, managerCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechManager, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechManager, MethodITextToSpeechManagerCreateSession)
 	if _err != nil {
-		_code = TransactionITextToSpeechManagerCreateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechManager, MethodITextToSpeechManagerCreateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type TextToSpeechManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechManagerStub)(nil)
+
+func (s *TextToSpeechManagerStub) Descriptor() string {
+	return DescriptorITextToSpeechManager
+}
 
 func (s *TextToSpeechManagerStub) OnTransaction(
 	ctx context.Context,

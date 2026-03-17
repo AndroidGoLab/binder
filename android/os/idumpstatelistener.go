@@ -19,6 +19,14 @@ const (
 	TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIDumpstateListenerOnProgress                          = "onProgress"
+	MethodIDumpstateListenerOnError                             = "onError"
+	MethodIDumpstateListenerOnFinished                          = "onFinished"
+	MethodIDumpstateListenerOnScreenshotTaken                   = "onScreenshotTaken"
+	MethodIDumpstateListenerOnUiIntensiveBugreportDumpsFinished = "onUiIntensiveBugreportDumpsFinished"
+)
+
 type IDumpstateListener interface {
 	AsBinder() binder.IBinder
 	OnProgress(ctx context.Context, progress int32) error
@@ -38,17 +46,17 @@ const (
 )
 
 type DumpstateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDumpstateListenerProxy(
 	remote binder.IBinder,
 ) *DumpstateListenerProxy {
-	return &DumpstateListenerProxy{remote: remote}
+	return &DumpstateListenerProxy{Remote: remote}
 }
 
 func (p *DumpstateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDumpstateListener = (*DumpstateListenerProxy)(nil)
@@ -61,12 +69,12 @@ func (p *DumpstateListenerProxy) OnProgress(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteInt32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnProgress)
 	if _err != nil {
-		_code = TransactionIDumpstateListenerOnProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateListener, MethodIDumpstateListenerOnProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +86,12 @@ func (p *DumpstateListenerProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnError)
 	if _err != nil {
-		_code = TransactionIDumpstateListenerOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateListener, MethodIDumpstateListenerOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +103,12 @@ func (p *DumpstateListenerProxy) OnFinished(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteString16(bugreportFile)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnFinished)
 	if _err != nil {
-		_code = TransactionIDumpstateListenerOnFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateListener, MethodIDumpstateListenerOnFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,12 +120,12 @@ func (p *DumpstateListenerProxy) OnScreenshotTaken(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onScreenshotTaken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnScreenshotTaken)
 	if _err != nil {
-		_code = TransactionIDumpstateListenerOnScreenshotTaken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateListener, MethodIDumpstateListenerOnScreenshotTaken, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,12 +135,12 @@ func (p *DumpstateListenerProxy) OnUiIntensiveBugreportDumpsFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onUiIntensiveBugreportDumpsFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateListener, MethodIDumpstateListenerOnUiIntensiveBugreportDumpsFinished)
 	if _err != nil {
-		_code = TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateListener, MethodIDumpstateListenerOnUiIntensiveBugreportDumpsFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,6 +151,10 @@ type DumpstateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DumpstateListenerStub)(nil)
+
+func (s *DumpstateListenerStub) Descriptor() string {
+	return DescriptorIDumpstateListener
+}
 
 func (s *DumpstateListenerStub) OnTransaction(
 	ctx context.Context,

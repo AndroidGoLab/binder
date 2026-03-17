@@ -1,7 +1,6 @@
 package media
 
 import (
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,9 +9,9 @@ import (
 type OpenInputRequest struct {
 	Module int32
 	Input  int32
-	Config common.AudioConfig
-	Device common.AudioDevice
-	Source common.AudioSource
+	Config interface{}
+	Device interface{}
+	Source interface{}
 	Flags  int32
 }
 
@@ -24,13 +23,6 @@ func (s *OpenInputRequest) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Module)
 	p.WriteInt32(s.Input)
-	if _err := s.Config.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _err := s.Device.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	p.WriteInt32(int32(s.Source))
 	p.WriteInt32(s.Flags)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -54,20 +46,6 @@ func (s *OpenInputRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-
-	if _err = s.Config.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	if _err = s.Device.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	_sourceRaw, _err := p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	s.Source = common.AudioSource(_sourceRaw)
 
 	s.Flags, _err = p.ReadInt32()
 	if _err != nil {

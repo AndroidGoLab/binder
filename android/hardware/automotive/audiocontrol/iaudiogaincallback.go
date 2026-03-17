@@ -15,23 +15,27 @@ const (
 	TransactionIAudioGainCallbackOnAudioDeviceGainsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioGainCallbackOnAudioDeviceGainsChanged = "onAudioDeviceGainsChanged"
+)
+
 type IAudioGainCallback interface {
 	AsBinder() binder.IBinder
 	OnAudioDeviceGainsChanged(ctx context.Context, reasons []Reasons, gains []AudioGainConfigInfo) error
 }
 
 type AudioGainCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioGainCallbackProxy(
 	remote binder.IBinder,
 ) *AudioGainCallbackProxy {
-	return &AudioGainCallbackProxy{remote: remote}
+	return &AudioGainCallbackProxy{Remote: remote}
 }
 
 func (p *AudioGainCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioGainCallback = (*AudioGainCallbackProxy)(nil)
@@ -56,18 +60,19 @@ func (p *AudioGainCallbackProxy) OnAudioDeviceGainsChanged(
 	} else {
 		_data.WriteInt32(int32(len(gains)))
 		for _, _item := range gains {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioGainCallback, "onAudioDeviceGainsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioGainCallback, MethodIAudioGainCallbackOnAudioDeviceGainsChanged)
 	if _err != nil {
-		_code = TransactionIAudioGainCallbackOnAudioDeviceGainsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioGainCallback, MethodIAudioGainCallbackOnAudioDeviceGainsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +83,10 @@ type AudioGainCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioGainCallbackStub)(nil)
+
+func (s *AudioGainCallbackStub) Descriptor() string {
+	return DescriptorIAudioGainCallback
+}
 
 func (s *AudioGainCallbackStub) OnTransaction(
 	ctx context.Context,

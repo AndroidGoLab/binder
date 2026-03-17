@@ -15,23 +15,27 @@ const (
 	TransactionIMediaHTTPServiceMakeHTTPConnection = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMediaHTTPServiceMakeHTTPConnection = "makeHTTPConnection"
+)
+
 type IMediaHTTPService interface {
 	AsBinder() binder.IBinder
 	MakeHTTPConnection(ctx context.Context) (IMediaHTTPConnection, error)
 }
 
 type MediaHTTPServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaHTTPServiceProxy(
 	remote binder.IBinder,
 ) *MediaHTTPServiceProxy {
-	return &MediaHTTPServiceProxy{remote: remote}
+	return &MediaHTTPServiceProxy{Remote: remote}
 }
 
 func (p *MediaHTTPServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaHTTPService = (*MediaHTTPServiceProxy)(nil)
@@ -43,12 +47,12 @@ func (p *MediaHTTPServiceProxy) MakeHTTPConnection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaHTTPService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPService, "makeHTTPConnection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaHTTPService, MethodIMediaHTTPServiceMakeHTTPConnection)
 	if _err != nil {
-		_code = TransactionIMediaHTTPServiceMakeHTTPConnection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaHTTPService, MethodIMediaHTTPServiceMakeHTTPConnection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -62,7 +66,7 @@ func (p *MediaHTTPServiceProxy) MakeHTTPConnection(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMediaHTTPConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewMediaHTTPConnectionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -73,6 +77,10 @@ type MediaHTTPServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaHTTPServiceStub)(nil)
+
+func (s *MediaHTTPServiceStub) Descriptor() string {
+	return DescriptorIMediaHTTPService
+}
 
 func (s *MediaHTTPServiceStub) OnTransaction(
 	ctx context.Context,

@@ -29,6 +29,23 @@ const (
 	TransactionITunerFrontendGetFrontendStatusReadiness = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodITunerFrontendSetCallback                = "setCallback"
+	MethodITunerFrontendTune                       = "tune"
+	MethodITunerFrontendStopTune                   = "stopTune"
+	MethodITunerFrontendScan                       = "scan"
+	MethodITunerFrontendStopScan                   = "stopScan"
+	MethodITunerFrontendSetLnb                     = "setLnb"
+	MethodITunerFrontendLinkCiCamToFrontend        = "linkCiCamToFrontend"
+	MethodITunerFrontendUnlinkCiCamToFrontend      = "unlinkCiCamToFrontend"
+	MethodITunerFrontendClose                      = "close"
+	MethodITunerFrontendGetStatus                  = "getStatus"
+	MethodITunerFrontendGetFrontendId              = "getFrontendId"
+	MethodITunerFrontendGetHardwareInfo            = "getHardwareInfo"
+	MethodITunerFrontendRemoveOutputPid            = "removeOutputPid"
+	MethodITunerFrontendGetFrontendStatusReadiness = "getFrontendStatusReadiness"
+)
+
 type ITunerFrontend interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, tunerFrontendCallback ITunerFrontendCallback) error
@@ -48,17 +65,17 @@ type ITunerFrontend interface {
 }
 
 type TunerFrontendProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerFrontendProxy(
 	remote binder.IBinder,
 ) *TunerFrontendProxy {
-	return &TunerFrontendProxy{remote: remote}
+	return &TunerFrontendProxy{Remote: remote}
 }
 
 func (p *TunerFrontendProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerFrontend = (*TunerFrontendProxy)(nil)
@@ -69,14 +86,14 @@ func (p *TunerFrontendProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
-	binder.WriteBinderToParcel(ctx, _data, tunerFrontendCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, tunerFrontendCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendSetCallback)
 	if _err != nil {
-		_code = TransactionITunerFrontendSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,12 +117,12 @@ func (p *TunerFrontendProxy) Tune(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "tune")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendTune)
 	if _err != nil {
-		_code = TransactionITunerFrontendTune
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendTune, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,12 +141,12 @@ func (p *TunerFrontendProxy) StopTune(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "stopTune")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendStopTune)
 	if _err != nil {
-		_code = TransactionITunerFrontendStopTune
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendStopTune, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,12 +172,12 @@ func (p *TunerFrontendProxy) Scan(
 	}
 	_data.WriteInt32(int32(frontendScanType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "scan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendScan)
 	if _err != nil {
-		_code = TransactionITunerFrontendScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,12 +196,12 @@ func (p *TunerFrontendProxy) StopScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "stopScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendStopScan)
 	if _err != nil {
-		_code = TransactionITunerFrontendStopScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendStopScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -203,14 +220,14 @@ func (p *TunerFrontendProxy) SetLnb(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
-	binder.WriteBinderToParcel(ctx, _data, lnb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, lnb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "setLnb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendSetLnb)
 	if _err != nil {
-		_code = TransactionITunerFrontendSetLnb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendSetLnb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -232,12 +249,12 @@ func (p *TunerFrontendProxy) LinkCiCamToFrontend(
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(ciCamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "linkCiCamToFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendLinkCiCamToFrontend)
 	if _err != nil {
-		_code = TransactionITunerFrontendLinkCiCamToFrontend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendLinkCiCamToFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -262,12 +279,12 @@ func (p *TunerFrontendProxy) UnlinkCiCamToFrontend(
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(ciCamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "unlinkCiCamToFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendUnlinkCiCamToFrontend)
 	if _err != nil {
-		_code = TransactionITunerFrontendUnlinkCiCamToFrontend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendUnlinkCiCamToFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -286,12 +303,12 @@ func (p *TunerFrontendProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendClose)
 	if _err != nil {
-		_code = TransactionITunerFrontendClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -320,12 +337,12 @@ func (p *TunerFrontendProxy) GetStatus(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendGetStatus)
 	if _err != nil {
-		_code = TransactionITunerFrontendGetStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendGetStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -343,6 +360,9 @@ func (p *TunerFrontendProxy) GetStatus(
 	if _count >= 0 {
 		_result = make([]tvTuner.FrontendStatus, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -358,12 +378,12 @@ func (p *TunerFrontendProxy) GetFrontendId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getFrontendId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendGetFrontendId)
 	if _err != nil {
-		_code = TransactionITunerFrontendGetFrontendId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendGetFrontendId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -387,12 +407,12 @@ func (p *TunerFrontendProxy) GetHardwareInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getHardwareInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendGetHardwareInfo)
 	if _err != nil {
-		_code = TransactionITunerFrontendGetHardwareInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendGetHardwareInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -417,12 +437,12 @@ func (p *TunerFrontendProxy) RemoveOutputPid(
 	_data.WriteInterfaceToken(DescriptorITunerFrontend)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "removeOutputPid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendRemoveOutputPid)
 	if _err != nil {
-		_code = TransactionITunerFrontendRemoveOutputPid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendRemoveOutputPid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -451,12 +471,12 @@ func (p *TunerFrontendProxy) GetFrontendStatusReadiness(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getFrontendStatusReadiness")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerFrontend, MethodITunerFrontendGetFrontendStatusReadiness)
 	if _err != nil {
-		_code = TransactionITunerFrontendGetFrontendStatusReadiness
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerFrontend, MethodITunerFrontendGetFrontendStatusReadiness, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -491,6 +511,10 @@ type TunerFrontendStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerFrontendStub)(nil)
+
+func (s *TunerFrontendStub) Descriptor() string {
+	return DescriptorITunerFrontend
+}
 
 func (s *TunerFrontendStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIControlsSubscriptionCancel  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIControlsSubscriptionRequest = "request"
+	MethodIControlsSubscriptionCancel  = "cancel"
+)
+
 type IControlsSubscription interface {
 	AsBinder() binder.IBinder
 	Request(ctx context.Context, n int64) error
@@ -23,17 +28,17 @@ type IControlsSubscription interface {
 }
 
 type ControlsSubscriptionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewControlsSubscriptionProxy(
 	remote binder.IBinder,
 ) *ControlsSubscriptionProxy {
-	return &ControlsSubscriptionProxy{remote: remote}
+	return &ControlsSubscriptionProxy{Remote: remote}
 }
 
 func (p *ControlsSubscriptionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IControlsSubscription = (*ControlsSubscriptionProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ControlsSubscriptionProxy) Request(
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
 	_data.WriteInt64(n)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscription, "request")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscription, MethodIControlsSubscriptionRequest)
 	if _err != nil {
-		_code = TransactionIControlsSubscriptionRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsSubscription, MethodIControlsSubscriptionRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *ControlsSubscriptionProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscription, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIControlsSubscription, MethodIControlsSubscriptionCancel)
 	if _err != nil {
-		_code = TransactionIControlsSubscriptionCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIControlsSubscription, MethodIControlsSubscriptionCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type ControlsSubscriptionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ControlsSubscriptionStub)(nil)
+
+func (s *ControlsSubscriptionStub) Descriptor() string {
+	return DescriptorIControlsSubscription
+}
 
 func (s *ControlsSubscriptionStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionITextToSpeechSessionDisconnect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITextToSpeechSessionDisconnect = "disconnect"
+)
+
 type ITextToSpeechSession interface {
 	AsBinder() binder.IBinder
 	Disconnect(ctx context.Context) error
 }
 
 type TextToSpeechSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextToSpeechSessionProxy(
 	remote binder.IBinder,
 ) *TextToSpeechSessionProxy {
-	return &TextToSpeechSessionProxy{remote: remote}
+	return &TextToSpeechSessionProxy{Remote: remote}
 }
 
 func (p *TextToSpeechSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextToSpeechSession = (*TextToSpeechSessionProxy)(nil)
@@ -42,12 +46,12 @@ func (p *TextToSpeechSessionProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSession, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextToSpeechSession, MethodITextToSpeechSessionDisconnect)
 	if _err != nil {
-		_code = TransactionITextToSpeechSessionDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextToSpeechSession, MethodITextToSpeechSessionDisconnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type TextToSpeechSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextToSpeechSessionStub)(nil)
+
+func (s *TextToSpeechSessionStub) Descriptor() string {
+	return DescriptorITextToSpeechSession
+}
 
 func (s *TextToSpeechSessionStub) OnTransaction(
 	ctx context.Context,

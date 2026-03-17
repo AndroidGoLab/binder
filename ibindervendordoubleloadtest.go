@@ -15,23 +15,27 @@ const (
 	TransactionIBinderVendorDoubleLoadTestRepeatString = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBinderVendorDoubleLoadTestRepeatString = "RepeatString"
+)
+
 type IBinderVendorDoubleLoadTest interface {
 	AsBinder() binder.IBinder
 	RepeatString(ctx context.Context, toRepeat string) (string, error)
 }
 
 type BinderVendorDoubleLoadTestProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderVendorDoubleLoadTestProxy(
 	remote binder.IBinder,
 ) *BinderVendorDoubleLoadTestProxy {
-	return &BinderVendorDoubleLoadTestProxy{remote: remote}
+	return &BinderVendorDoubleLoadTestProxy{Remote: remote}
 }
 
 func (p *BinderVendorDoubleLoadTestProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderVendorDoubleLoadTest = (*BinderVendorDoubleLoadTestProxy)(nil)
@@ -45,12 +49,12 @@ func (p *BinderVendorDoubleLoadTestProxy) RepeatString(
 	_data.WriteInterfaceToken(DescriptorIBinderVendorDoubleLoadTest)
 	_data.WriteString16(toRepeat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderVendorDoubleLoadTest, "RepeatString")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderVendorDoubleLoadTest, MethodIBinderVendorDoubleLoadTestRepeatString)
 	if _err != nil {
-		_code = TransactionIBinderVendorDoubleLoadTestRepeatString
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderVendorDoubleLoadTest, MethodIBinderVendorDoubleLoadTestRepeatString, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type BinderVendorDoubleLoadTestStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderVendorDoubleLoadTestStub)(nil)
+
+func (s *BinderVendorDoubleLoadTestStub) Descriptor() string {
+	return DescriptorIBinderVendorDoubleLoadTest
+}
 
 func (s *BinderVendorDoubleLoadTestStub) OnTransaction(
 	ctx context.Context,

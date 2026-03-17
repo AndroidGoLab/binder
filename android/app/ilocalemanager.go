@@ -19,6 +19,14 @@ const (
 	TransactionILocaleManagerGetOverrideLocaleConfig = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodILocaleManagerSetApplicationLocales   = "setApplicationLocales"
+	MethodILocaleManagerGetApplicationLocales   = "getApplicationLocales"
+	MethodILocaleManagerGetSystemLocales        = "getSystemLocales"
+	MethodILocaleManagerSetOverrideLocaleConfig = "setOverrideLocaleConfig"
+	MethodILocaleManagerGetOverrideLocaleConfig = "getOverrideLocaleConfig"
+)
+
 type ILocaleManager interface {
 	AsBinder() binder.IBinder
 	SetApplicationLocales(ctx context.Context, packageName string, locales interface{}, fromDelegate bool) error
@@ -29,17 +37,17 @@ type ILocaleManager interface {
 }
 
 type LocaleManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLocaleManagerProxy(
 	remote binder.IBinder,
 ) *LocaleManagerProxy {
-	return &LocaleManagerProxy{remote: remote}
+	return &LocaleManagerProxy{Remote: remote}
 }
 
 func (p *LocaleManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILocaleManager = (*LocaleManagerProxy)(nil)
@@ -50,19 +58,19 @@ func (p *LocaleManagerProxy) SetApplicationLocales(
 	locales interface{},
 	fromDelegate bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(fromDelegate)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "setApplicationLocales")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerSetApplicationLocales)
 	if _err != nil {
-		_code = TransactionILocaleManagerSetApplicationLocales
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocaleManager, MethodILocaleManagerSetApplicationLocales, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,18 +88,18 @@ func (p *LocaleManagerProxy) GetApplicationLocales(
 	packageName string,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "getApplicationLocales")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerGetApplicationLocales)
 	if _err != nil {
-		_code = TransactionILocaleManagerGetApplicationLocales
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILocaleManager, MethodILocaleManagerGetApplicationLocales, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,12 +119,12 @@ func (p *LocaleManagerProxy) GetSystemLocales(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "getSystemLocales")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerGetSystemLocales)
 	if _err != nil {
-		_code = TransactionILocaleManagerGetSystemLocales
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILocaleManager, MethodILocaleManagerGetSystemLocales, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -134,7 +142,7 @@ func (p *LocaleManagerProxy) SetOverrideLocaleConfig(
 	packageName string,
 	localeConfig LocaleConfig,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
@@ -144,12 +152,12 @@ func (p *LocaleManagerProxy) SetOverrideLocaleConfig(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "setOverrideLocaleConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerSetOverrideLocaleConfig)
 	if _err != nil {
-		_code = TransactionILocaleManagerSetOverrideLocaleConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocaleManager, MethodILocaleManagerSetOverrideLocaleConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -167,18 +175,18 @@ func (p *LocaleManagerProxy) GetOverrideLocaleConfig(
 	packageName string,
 ) (LocaleConfig, error) {
 	var _result LocaleConfig
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "getOverrideLocaleConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocaleManager, MethodILocaleManagerGetOverrideLocaleConfig)
 	if _err != nil {
-		_code = TransactionILocaleManagerGetOverrideLocaleConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILocaleManager, MethodILocaleManagerGetOverrideLocaleConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -207,6 +215,10 @@ type LocaleManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LocaleManagerStub)(nil)
+
+func (s *LocaleManagerStub) Descriptor() string {
+	return DescriptorILocaleManager
+}
 
 func (s *LocaleManagerStub) OnTransaction(
 	ctx context.Context,

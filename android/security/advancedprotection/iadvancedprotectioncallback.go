@@ -15,23 +15,27 @@ const (
 	TransactionIAdvancedProtectionCallbackOnAdvancedProtectionChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAdvancedProtectionCallbackOnAdvancedProtectionChanged = "onAdvancedProtectionChanged"
+)
+
 type IAdvancedProtectionCallback interface {
 	AsBinder() binder.IBinder
 	OnAdvancedProtectionChanged(ctx context.Context, enabled bool) error
 }
 
 type AdvancedProtectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAdvancedProtectionCallbackProxy(
 	remote binder.IBinder,
 ) *AdvancedProtectionCallbackProxy {
-	return &AdvancedProtectionCallbackProxy{remote: remote}
+	return &AdvancedProtectionCallbackProxy{Remote: remote}
 }
 
 func (p *AdvancedProtectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAdvancedProtectionCallback = (*AdvancedProtectionCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *AdvancedProtectionCallbackProxy) OnAdvancedProtectionChanged(
 	_data.WriteInterfaceToken(DescriptorIAdvancedProtectionCallback)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedProtectionCallback, "onAdvancedProtectionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdvancedProtectionCallback, MethodIAdvancedProtectionCallbackOnAdvancedProtectionChanged)
 	if _err != nil {
-		_code = TransactionIAdvancedProtectionCallbackOnAdvancedProtectionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdvancedProtectionCallback, MethodIAdvancedProtectionCallbackOnAdvancedProtectionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type AdvancedProtectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AdvancedProtectionCallbackStub)(nil)
+
+func (s *AdvancedProtectionCallbackStub) Descriptor() string {
+	return DescriptorIAdvancedProtectionCallback
+}
 
 func (s *AdvancedProtectionCallbackStub) OnTransaction(
 	ctx context.Context,

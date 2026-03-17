@@ -17,6 +17,11 @@ const (
 	TransactionISessionListenerOnSessionEnded   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISessionListenerOnSessionStarted = "onSessionStarted"
+	MethodISessionListenerOnSessionEnded   = "onSessionEnded"
+)
+
 type ISessionListener interface {
 	AsBinder() binder.IBinder
 	OnSessionStarted(ctx context.Context, sessionType int32, instance logging.InstanceId) error
@@ -24,17 +29,17 @@ type ISessionListener interface {
 }
 
 type SessionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSessionListenerProxy(
 	remote binder.IBinder,
 ) *SessionListenerProxy {
-	return &SessionListenerProxy{remote: remote}
+	return &SessionListenerProxy{Remote: remote}
 }
 
 func (p *SessionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISessionListener = (*SessionListenerProxy)(nil)
@@ -52,12 +57,12 @@ func (p *SessionListenerProxy) OnSessionStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionListener, "onSessionStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionListener, MethodISessionListenerOnSessionStarted)
 	if _err != nil {
-		_code = TransactionISessionListenerOnSessionStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionListener, MethodISessionListenerOnSessionStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +79,12 @@ func (p *SessionListenerProxy) OnSessionEnded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISessionListener, "onSessionEnded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISessionListener, MethodISessionListenerOnSessionEnded)
 	if _err != nil {
-		_code = TransactionISessionListenerOnSessionEnded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISessionListener, MethodISessionListenerOnSessionEnded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,6 +95,10 @@ type SessionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SessionListenerStub)(nil)
+
+func (s *SessionListenerStub) Descriptor() string {
+	return DescriptorISessionListener
+}
 
 func (s *SessionListenerStub) OnTransaction(
 	ctx context.Context,

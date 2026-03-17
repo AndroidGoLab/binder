@@ -42,6 +42,7 @@ func (u *AesGcmMode) MarshalParcel(
 
 	switch u.Tag {
 	case AesGcmModeTagGcmTag16:
+		p.WriteInt32(1)
 		if _err := u.GcmTag16.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -68,6 +69,9 @@ func (u *AesGcmMode) UnmarshalParcel(
 
 	switch u.Tag {
 	case AesGcmModeTagGcmTag16:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.GcmTag16.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

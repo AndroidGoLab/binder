@@ -3,7 +3,7 @@ package rotationresolver
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,43 +18,49 @@ const (
 	TransactionIRotationResolverCallbackOnFailure     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIRotationResolverCallbackOnCancellable = "onCancellable"
+	MethodIRotationResolverCallbackOnSuccess     = "onSuccess"
+	MethodIRotationResolverCallbackOnFailure     = "onFailure"
+)
+
 type IRotationResolverCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, recommendedRotation int32) error
 	OnFailure(ctx context.Context, error_ int32) error
 }
 
 type RotationResolverCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRotationResolverCallbackProxy(
 	remote binder.IBinder,
 ) *RotationResolverCallbackProxy {
-	return &RotationResolverCallbackProxy{remote: remote}
+	return &RotationResolverCallbackProxy{Remote: remote}
 }
 
 func (p *RotationResolverCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRotationResolverCallback = (*RotationResolverCallbackProxy)(nil)
 
 func (p *RotationResolverCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onCancellable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnCancellable)
 	if _err != nil {
-		_code = TransactionIRotationResolverCallbackOnCancellable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnCancellable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +72,12 @@ func (p *RotationResolverCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteInt32(recommendedRotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIRotationResolverCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +89,12 @@ func (p *RotationResolverCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIRotationResolverCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRotationResolverCallback, MethodIRotationResolverCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +105,10 @@ type RotationResolverCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RotationResolverCallbackStub)(nil)
+
+func (s *RotationResolverCallbackStub) Descriptor() string {
+	return DescriptorIRotationResolverCallback
+}
 
 func (s *RotationResolverCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -111,7 +121,7 @@ func (s *RotationResolverCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_ = _err
@@ -147,7 +157,7 @@ func (s *RotationResolverCallbackStub) OnTransaction(
 // provide to NewRotationResolverCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRotationResolverCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, recommendedRotation int32) error
 	OnFailure(ctx context.Context, error_ int32) error
 }
@@ -163,7 +173,7 @@ func (w *rotationResolverCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *rotationResolverCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

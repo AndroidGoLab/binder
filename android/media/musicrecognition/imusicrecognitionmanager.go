@@ -15,23 +15,27 @@ const (
 	TransactionIMusicRecognitionManagerBeginRecognition = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMusicRecognitionManagerBeginRecognition = "beginRecognition"
+)
+
 type IMusicRecognitionManager interface {
 	AsBinder() binder.IBinder
 	BeginRecognition(ctx context.Context, recognitionRequest RecognitionRequest, callback binder.IBinder) error
 }
 
 type MusicRecognitionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMusicRecognitionManagerProxy(
 	remote binder.IBinder,
 ) *MusicRecognitionManagerProxy {
-	return &MusicRecognitionManagerProxy{remote: remote}
+	return &MusicRecognitionManagerProxy{Remote: remote}
 }
 
 func (p *MusicRecognitionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMusicRecognitionManager = (*MusicRecognitionManagerProxy)(nil)
@@ -47,14 +51,14 @@ func (p *MusicRecognitionManagerProxy) BeginRecognition(
 	if _err := recognitionRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionManager, "beginRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMusicRecognitionManager, MethodIMusicRecognitionManagerBeginRecognition)
 	if _err != nil {
-		_code = TransactionIMusicRecognitionManagerBeginRecognition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMusicRecognitionManager, MethodIMusicRecognitionManagerBeginRecognition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,6 +78,10 @@ type MusicRecognitionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MusicRecognitionManagerStub)(nil)
+
+func (s *MusicRecognitionManagerStub) Descriptor() string {
+	return DescriptorIMusicRecognitionManager
+}
 
 func (s *MusicRecognitionManagerStub) OnTransaction(
 	ctx context.Context,

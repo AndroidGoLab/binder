@@ -15,23 +15,27 @@ const (
 	TransactionIStartingWindowListenerOnTaskLaunching = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStartingWindowListenerOnTaskLaunching = "onTaskLaunching"
+)
+
 type IStartingWindowListener interface {
 	AsBinder() binder.IBinder
 	OnTaskLaunching(ctx context.Context, taskId int32, supportedType int32, splashScreenBackgroundColor int32) error
 }
 
 type StartingWindowListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStartingWindowListenerProxy(
 	remote binder.IBinder,
 ) *StartingWindowListenerProxy {
-	return &StartingWindowListenerProxy{remote: remote}
+	return &StartingWindowListenerProxy{Remote: remote}
 }
 
 func (p *StartingWindowListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStartingWindowListener = (*StartingWindowListenerProxy)(nil)
@@ -48,12 +52,12 @@ func (p *StartingWindowListenerProxy) OnTaskLaunching(
 	_data.WriteInt32(supportedType)
 	_data.WriteInt32(splashScreenBackgroundColor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStartingWindowListener, "onTaskLaunching")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStartingWindowListener, MethodIStartingWindowListenerOnTaskLaunching)
 	if _err != nil {
-		_code = TransactionIStartingWindowListenerOnTaskLaunching
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStartingWindowListener, MethodIStartingWindowListenerOnTaskLaunching, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type StartingWindowListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StartingWindowListenerStub)(nil)
+
+func (s *StartingWindowListenerStub) Descriptor() string {
+	return DescriptorIStartingWindowListener
+}
 
 func (s *StartingWindowListenerStub) OnTransaction(
 	ctx context.Context,

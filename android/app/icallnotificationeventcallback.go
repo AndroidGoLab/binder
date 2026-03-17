@@ -16,6 +16,11 @@ const (
 	TransactionICallNotificationEventCallbackOnCallNotificationRemoved = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICallNotificationEventCallbackOnCallNotificationPosted  = "onCallNotificationPosted"
+	MethodICallNotificationEventCallbackOnCallNotificationRemoved = "onCallNotificationRemoved"
+)
+
 type ICallNotificationEventCallback interface {
 	AsBinder() binder.IBinder
 	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle interface{}) error
@@ -23,17 +28,17 @@ type ICallNotificationEventCallback interface {
 }
 
 type CallNotificationEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallNotificationEventCallbackProxy(
 	remote binder.IBinder,
 ) *CallNotificationEventCallbackProxy {
-	return &CallNotificationEventCallbackProxy{remote: remote}
+	return &CallNotificationEventCallbackProxy{Remote: remote}
 }
 
 func (p *CallNotificationEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallNotificationEventCallback = (*CallNotificationEventCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationPosted(
 	_data.WriteInterfaceToken(DescriptorICallNotificationEventCallback)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallNotificationEventCallback, "onCallNotificationPosted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallNotificationEventCallback, MethodICallNotificationEventCallbackOnCallNotificationPosted)
 	if _err != nil {
-		_code = TransactionICallNotificationEventCallbackOnCallNotificationPosted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallNotificationEventCallback, MethodICallNotificationEventCallbackOnCallNotificationPosted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationRemoved(
 	_data.WriteInterfaceToken(DescriptorICallNotificationEventCallback)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallNotificationEventCallback, "onCallNotificationRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallNotificationEventCallback, MethodICallNotificationEventCallbackOnCallNotificationRemoved)
 	if _err != nil {
-		_code = TransactionICallNotificationEventCallbackOnCallNotificationRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallNotificationEventCallback, MethodICallNotificationEventCallbackOnCallNotificationRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type CallNotificationEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallNotificationEventCallbackStub)(nil)
+
+func (s *CallNotificationEventCallbackStub) Descriptor() string {
+	return DescriptorICallNotificationEventCallback
+}
 
 func (s *CallNotificationEventCallbackStub) OnTransaction(
 	ctx context.Context,

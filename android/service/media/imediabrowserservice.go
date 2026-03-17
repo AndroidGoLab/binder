@@ -22,6 +22,16 @@ const (
 	TransactionIMediaBrowserServiceRemoveSubscription           = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIMediaBrowserServiceConnect                      = "connect"
+	MethodIMediaBrowserServiceDisconnect                   = "disconnect"
+	MethodIMediaBrowserServiceAddSubscriptionDeprecated    = "addSubscriptionDeprecated"
+	MethodIMediaBrowserServiceRemoveSubscriptionDeprecated = "removeSubscriptionDeprecated"
+	MethodIMediaBrowserServiceGetMediaItem                 = "getMediaItem"
+	MethodIMediaBrowserServiceAddSubscription              = "addSubscription"
+	MethodIMediaBrowserServiceRemoveSubscription           = "removeSubscription"
+)
+
 type IMediaBrowserService interface {
 	AsBinder() binder.IBinder
 	Connect(ctx context.Context, pkg string, rootHints os.Bundle, callbacks IMediaBrowserServiceCallbacks) error
@@ -34,17 +44,17 @@ type IMediaBrowserService interface {
 }
 
 type MediaBrowserServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaBrowserServiceProxy(
 	remote binder.IBinder,
 ) *MediaBrowserServiceProxy {
-	return &MediaBrowserServiceProxy{remote: remote}
+	return &MediaBrowserServiceProxy{Remote: remote}
 }
 
 func (p *MediaBrowserServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaBrowserService = (*MediaBrowserServiceProxy)(nil)
@@ -62,14 +72,14 @@ func (p *MediaBrowserServiceProxy) Connect(
 	if _err := rootHints.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "connect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceConnect)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceConnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceConnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,14 +89,14 @@ func (p *MediaBrowserServiceProxy) Disconnect(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceDisconnect)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceDisconnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,14 +108,14 @@ func (p *MediaBrowserServiceProxy) AddSubscriptionDeprecated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "addSubscriptionDeprecated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceAddSubscriptionDeprecated)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceAddSubscriptionDeprecated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceAddSubscriptionDeprecated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,14 +127,14 @@ func (p *MediaBrowserServiceProxy) RemoveSubscriptionDeprecated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "removeSubscriptionDeprecated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceRemoveSubscriptionDeprecated)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceRemoveSubscriptionDeprecated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceRemoveSubscriptionDeprecated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,14 +151,14 @@ func (p *MediaBrowserServiceProxy) GetMediaItem(
 	if _err := cb.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "getMediaItem")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceGetMediaItem)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceGetMediaItem
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceGetMediaItem, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,19 +172,19 @@ func (p *MediaBrowserServiceProxy) AddSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "addSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceAddSubscription)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceAddSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceAddSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,15 +197,15 @@ func (p *MediaBrowserServiceProxy) RemoveSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "removeSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaBrowserService, MethodIMediaBrowserServiceRemoveSubscription)
 	if _err != nil {
-		_code = TransactionIMediaBrowserServiceRemoveSubscription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaBrowserService, MethodIMediaBrowserServiceRemoveSubscription, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -206,6 +216,10 @@ type MediaBrowserServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaBrowserServiceStub)(nil)
+
+func (s *MediaBrowserServiceStub) Descriptor() string {
+	return DescriptorIMediaBrowserService
+}
 
 func (s *MediaBrowserServiceStub) OnTransaction(
 	ctx context.Context,

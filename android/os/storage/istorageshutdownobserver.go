@@ -15,23 +15,27 @@ const (
 	TransactionIStorageShutdownObserverOnShutDownComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStorageShutdownObserverOnShutDownComplete = "onShutDownComplete"
+)
+
 type IStorageShutdownObserver interface {
 	AsBinder() binder.IBinder
 	OnShutDownComplete(ctx context.Context, statusCode int32) error
 }
 
 type StorageShutdownObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageShutdownObserverProxy(
 	remote binder.IBinder,
 ) *StorageShutdownObserverProxy {
-	return &StorageShutdownObserverProxy{remote: remote}
+	return &StorageShutdownObserverProxy{Remote: remote}
 }
 
 func (p *StorageShutdownObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorageShutdownObserver = (*StorageShutdownObserverProxy)(nil)
@@ -44,12 +48,12 @@ func (p *StorageShutdownObserverProxy) OnShutDownComplete(
 	_data.WriteInterfaceToken(DescriptorIStorageShutdownObserver)
 	_data.WriteInt32(statusCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageShutdownObserver, "onShutDownComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageShutdownObserver, MethodIStorageShutdownObserverOnShutDownComplete)
 	if _err != nil {
-		_code = TransactionIStorageShutdownObserverOnShutDownComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageShutdownObserver, MethodIStorageShutdownObserverOnShutDownComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type StorageShutdownObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageShutdownObserverStub)(nil)
+
+func (s *StorageShutdownObserverStub) Descriptor() string {
+	return DescriptorIStorageShutdownObserver
+}
 
 func (s *StorageShutdownObserverStub) OnTransaction(
 	ctx context.Context,

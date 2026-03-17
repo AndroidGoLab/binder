@@ -21,8 +21,17 @@ const (
 	TransactionIRadioConfigResponseSetPreferredDataModemResponse         = binder.FirstCallTransaction + 5
 	TransactionIRadioConfigResponseSetSimSlotsMappingResponse            = binder.FirstCallTransaction + 6
 	TransactionIRadioConfigResponseGetSimultaneousCallingSupportResponse = binder.FirstCallTransaction + 7
-	TransactionIRadioConfigResponseGetSimTypeInfoResponse                = binder.FirstCallTransaction + 8
-	TransactionIRadioConfigResponseSetSimTypeResponse                    = binder.FirstCallTransaction + 9
+)
+
+const (
+	MethodIRadioConfigResponseGetHalDeviceCapabilitiesResponse      = "getHalDeviceCapabilitiesResponse"
+	MethodIRadioConfigResponseGetNumOfLiveModemsResponse            = "getNumOfLiveModemsResponse"
+	MethodIRadioConfigResponseGetPhoneCapabilityResponse            = "getPhoneCapabilityResponse"
+	MethodIRadioConfigResponseGetSimSlotsStatusResponse             = "getSimSlotsStatusResponse"
+	MethodIRadioConfigResponseSetNumOfLiveModemsResponse            = "setNumOfLiveModemsResponse"
+	MethodIRadioConfigResponseSetPreferredDataModemResponse         = "setPreferredDataModemResponse"
+	MethodIRadioConfigResponseSetSimSlotsMappingResponse            = "setSimSlotsMappingResponse"
+	MethodIRadioConfigResponseGetSimultaneousCallingSupportResponse = "getSimultaneousCallingSupportResponse"
 )
 
 type IRadioConfigResponse interface {
@@ -35,22 +44,20 @@ type IRadioConfigResponse interface {
 	SetPreferredDataModemResponse(ctx context.Context, info radio.RadioResponseInfo) error
 	SetSimSlotsMappingResponse(ctx context.Context, info radio.RadioResponseInfo) error
 	GetSimultaneousCallingSupportResponse(ctx context.Context, info radio.RadioResponseInfo, enabledLogicalSlots []int32) error
-	GetSimTypeInfoResponse(ctx context.Context, info radio.RadioResponseInfo, simTypeInfo []SimTypeInfo) error
-	SetSimTypeResponse(ctx context.Context, info radio.RadioResponseInfo) error
 }
 
 type RadioConfigResponseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioConfigResponseProxy(
 	remote binder.IBinder,
 ) *RadioConfigResponseProxy {
-	return &RadioConfigResponseProxy{remote: remote}
+	return &RadioConfigResponseProxy{Remote: remote}
 }
 
 func (p *RadioConfigResponseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioConfigResponse = (*RadioConfigResponseProxy)(nil)
@@ -68,12 +75,12 @@ func (p *RadioConfigResponseProxy) GetHalDeviceCapabilitiesResponse(
 	}
 	_data.WriteBool(modemReducedFeatureSet1)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getHalDeviceCapabilitiesResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetHalDeviceCapabilitiesResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseGetHalDeviceCapabilitiesResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetHalDeviceCapabilitiesResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +97,12 @@ func (p *RadioConfigResponseProxy) GetNumOfLiveModemsResponse(
 	}
 	_data.WritePaddedByte(numOfLiveModems)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getNumOfLiveModemsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetNumOfLiveModemsResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseGetNumOfLiveModemsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetNumOfLiveModemsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +122,12 @@ func (p *RadioConfigResponseProxy) GetPhoneCapabilityResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getPhoneCapabilityResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetPhoneCapabilityResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseGetPhoneCapabilityResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetPhoneCapabilityResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,18 +147,19 @@ func (p *RadioConfigResponseProxy) GetSimSlotsStatusResponse(
 	} else {
 		_data.WriteInt32(int32(len(slotStatus)))
 		for _, _item := range slotStatus {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getSimSlotsStatusResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetSimSlotsStatusResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseGetSimSlotsStatusResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetSimSlotsStatusResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,12 +174,12 @@ func (p *RadioConfigResponseProxy) SetNumOfLiveModemsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setNumOfLiveModemsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseSetNumOfLiveModemsResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseSetNumOfLiveModemsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseSetNumOfLiveModemsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -186,12 +194,12 @@ func (p *RadioConfigResponseProxy) SetPreferredDataModemResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setPreferredDataModemResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseSetPreferredDataModemResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseSetPreferredDataModemResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseSetPreferredDataModemResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -206,12 +214,12 @@ func (p *RadioConfigResponseProxy) SetSimSlotsMappingResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setSimSlotsMappingResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseSetSimSlotsMappingResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseSetSimSlotsMappingResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseSetSimSlotsMappingResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -235,63 +243,12 @@ func (p *RadioConfigResponseProxy) GetSimultaneousCallingSupportResponse(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getSimultaneousCallingSupportResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetSimultaneousCallingSupportResponse)
 	if _err != nil {
-		_code = TransactionIRadioConfigResponseGetSimultaneousCallingSupportResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioConfigResponse, MethodIRadioConfigResponseGetSimultaneousCallingSupportResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *RadioConfigResponseProxy) GetSimTypeInfoResponse(
-	ctx context.Context,
-	info radio.RadioResponseInfo,
-	simTypeInfo []SimTypeInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	if simTypeInfo == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(simTypeInfo)))
-		for _, _item := range simTypeInfo {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getSimTypeInfoResponse")
-	if _err != nil {
-		_code = TransactionIRadioConfigResponseGetSimTypeInfoResponse
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *RadioConfigResponseProxy) SetSimTypeResponse(
-	ctx context.Context,
-	info radio.RadioResponseInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setSimTypeResponse")
-	if _err != nil {
-		_code = TransactionIRadioConfigResponseSetSimTypeResponse
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -302,6 +259,10 @@ type RadioConfigResponseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioConfigResponseStub)(nil)
+
+func (s *RadioConfigResponseStub) Descriptor() string {
+	return DescriptorIRadioConfigResponse
+}
 
 func (s *RadioConfigResponseStub) OnTransaction(
 	ctx context.Context,
@@ -487,47 +448,6 @@ func (s *RadioConfigResponseStub) OnTransaction(
 		_err := s.Impl.GetSimultaneousCallingSupportResponse(ctx, _arg_info, _arg_enabledLogicalSlots)
 		_ = _err
 		return nil, nil
-	case TransactionIRadioConfigResponseGetSimTypeInfoResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_info radio.RadioResponseInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_simTypeInfo []SimTypeInfo
-		_ = _arg_simTypeInfo
-		_err := s.Impl.GetSimTypeInfoResponse(ctx, _arg_info, _arg_simTypeInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIRadioConfigResponseSetSimTypeResponse:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_info radio.RadioResponseInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.SetSimTypeResponse(ctx, _arg_info)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -545,8 +465,6 @@ type IRadioConfigResponseServer interface {
 	SetPreferredDataModemResponse(ctx context.Context, info radio.RadioResponseInfo) error
 	SetSimSlotsMappingResponse(ctx context.Context, info radio.RadioResponseInfo) error
 	GetSimultaneousCallingSupportResponse(ctx context.Context, info radio.RadioResponseInfo, enabledLogicalSlots []int32) error
-	GetSimTypeInfoResponse(ctx context.Context, info radio.RadioResponseInfo, simTypeInfo []SimTypeInfo) error
-	SetSimTypeResponse(ctx context.Context, info radio.RadioResponseInfo) error
 }
 
 type radioConfigResponseStubWrapper struct {
@@ -617,21 +535,6 @@ func (w *radioConfigResponseStubWrapper) GetSimultaneousCallingSupportResponse(
 	enabledLogicalSlots []int32,
 ) error {
 	return w.impl.GetSimultaneousCallingSupportResponse(ctx, info, enabledLogicalSlots)
-}
-
-func (w *radioConfigResponseStubWrapper) GetSimTypeInfoResponse(
-	ctx context.Context,
-	info radio.RadioResponseInfo,
-	simTypeInfo []SimTypeInfo,
-) error {
-	return w.impl.GetSimTypeInfoResponse(ctx, info, simTypeInfo)
-}
-
-func (w *radioConfigResponseStubWrapper) SetSimTypeResponse(
-	ctx context.Context,
-	info radio.RadioResponseInfo,
-) error {
-	return w.impl.SetSimTypeResponse(ctx, info)
 }
 
 var _ IRadioConfigResponse = (*radioConfigResponseStubWrapper)(nil)

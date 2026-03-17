@@ -18,6 +18,12 @@ const (
 	TransactionICameraOfflineSessionSetCallback                   = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICameraOfflineSessionClose                         = "close"
+	MethodICameraOfflineSessionGetCaptureResultMetadataQueue = "getCaptureResultMetadataQueue"
+	MethodICameraOfflineSessionSetCallback                   = "setCallback"
+)
+
 type ICameraOfflineSession interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
@@ -26,17 +32,17 @@ type ICameraOfflineSession interface {
 }
 
 type CameraOfflineSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraOfflineSessionProxy(
 	remote binder.IBinder,
 ) *CameraOfflineSessionProxy {
-	return &CameraOfflineSessionProxy{remote: remote}
+	return &CameraOfflineSessionProxy{Remote: remote}
 }
 
 func (p *CameraOfflineSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraOfflineSession = (*CameraOfflineSessionProxy)(nil)
@@ -47,12 +53,12 @@ func (p *CameraOfflineSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraOfflineSession, MethodICameraOfflineSessionClose)
 	if _err != nil {
-		_code = TransactionICameraOfflineSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraOfflineSession, MethodICameraOfflineSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,12 +78,12 @@ func (p *CameraOfflineSessionProxy) GetCaptureResultMetadataQueue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "getCaptureResultMetadataQueue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraOfflineSession, MethodICameraOfflineSessionGetCaptureResultMetadataQueue)
 	if _err != nil {
-		_code = TransactionICameraOfflineSessionGetCaptureResultMetadataQueue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraOfflineSession, MethodICameraOfflineSessionGetCaptureResultMetadataQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,14 +111,14 @@ func (p *CameraOfflineSessionProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraOfflineSession, MethodICameraOfflineSessionSetCallback)
 	if _err != nil {
-		_code = TransactionICameraOfflineSessionSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraOfflineSession, MethodICameraOfflineSessionSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,6 +138,10 @@ type CameraOfflineSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraOfflineSessionStub)(nil)
+
+func (s *CameraOfflineSessionStub) Descriptor() string {
+	return DescriptorICameraOfflineSession
+}
 
 func (s *CameraOfflineSessionStub) OnTransaction(
 	ctx context.Context,

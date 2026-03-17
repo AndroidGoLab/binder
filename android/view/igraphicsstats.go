@@ -15,23 +15,27 @@ const (
 	TransactionIGraphicsStatsRequestBufferForProcess = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGraphicsStatsRequestBufferForProcess = "requestBufferForProcess"
+)
+
 type IGraphicsStats interface {
 	AsBinder() binder.IBinder
 	RequestBufferForProcess(ctx context.Context, packageName string, callback IGraphicsStatsCallback) (int32, error)
 }
 
 type GraphicsStatsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGraphicsStatsProxy(
 	remote binder.IBinder,
 ) *GraphicsStatsProxy {
-	return &GraphicsStatsProxy{remote: remote}
+	return &GraphicsStatsProxy{Remote: remote}
 }
 
 func (p *GraphicsStatsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGraphicsStats = (*GraphicsStatsProxy)(nil)
@@ -45,14 +49,14 @@ func (p *GraphicsStatsProxy) RequestBufferForProcess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicsStats)
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicsStats, "requestBufferForProcess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicsStats, MethodIGraphicsStatsRequestBufferForProcess)
 	if _err != nil {
-		_code = TransactionIGraphicsStatsRequestBufferForProcess
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicsStats, MethodIGraphicsStatsRequestBufferForProcess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,6 +80,10 @@ type GraphicsStatsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GraphicsStatsStub)(nil)
+
+func (s *GraphicsStatsStub) Descriptor() string {
+	return DescriptorIGraphicsStats
+}
 
 func (s *GraphicsStatsStub) OnTransaction(
 	ctx context.Context,

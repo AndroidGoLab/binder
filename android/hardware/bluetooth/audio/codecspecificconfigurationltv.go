@@ -110,6 +110,7 @@ func (u *CodecSpecificConfigurationLtv) MarshalParcel(
 
 	switch u.Tag {
 	case CodecSpecificConfigurationLtvTagCodecFrameBlocksPerSDU:
+		p.WriteInt32(1)
 		if _err := u.CodecFrameBlocksPerSDU.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -118,10 +119,12 @@ func (u *CodecSpecificConfigurationLtv) MarshalParcel(
 	case CodecSpecificConfigurationLtvTagFrameDuration:
 		p.WritePaddedByte(byte(u.FrameDuration))
 	case CodecSpecificConfigurationLtvTagAudioChannelAllocation:
+		p.WriteInt32(1)
 		if _err := u.AudioChannelAllocation.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificConfigurationLtvTagOctetsPerCodecFrame:
+		p.WriteInt32(1)
 		if _err := u.OctetsPerCodecFrame.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -148,6 +151,9 @@ func (u *CodecSpecificConfigurationLtv) UnmarshalParcel(
 
 	switch u.Tag {
 	case CodecSpecificConfigurationLtvTagCodecFrameBlocksPerSDU:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.CodecFrameBlocksPerSDU.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -164,10 +170,16 @@ func (u *CodecSpecificConfigurationLtv) UnmarshalParcel(
 		}
 		u.FrameDuration = audioCodecSpecificConfigurationLtv.FrameDuration(_raw)
 	case CodecSpecificConfigurationLtvTagAudioChannelAllocation:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AudioChannelAllocation.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CodecSpecificConfigurationLtvTagOctetsPerCodecFrame:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.OctetsPerCodecFrame.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

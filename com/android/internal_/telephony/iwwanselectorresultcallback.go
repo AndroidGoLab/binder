@@ -16,23 +16,27 @@ const (
 	TransactionIWwanSelectorResultCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWwanSelectorResultCallbackOnComplete = "onComplete"
+)
+
 type IWwanSelectorResultCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result androidTelephony.EmergencyRegistrationResult) error
 }
 
 type WwanSelectorResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWwanSelectorResultCallbackProxy(
 	remote binder.IBinder,
 ) *WwanSelectorResultCallbackProxy {
-	return &WwanSelectorResultCallbackProxy{remote: remote}
+	return &WwanSelectorResultCallbackProxy{Remote: remote}
 }
 
 func (p *WwanSelectorResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWwanSelectorResultCallback = (*WwanSelectorResultCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *WwanSelectorResultCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorResultCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorResultCallback, MethodIWwanSelectorResultCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIWwanSelectorResultCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWwanSelectorResultCallback, MethodIWwanSelectorResultCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type WwanSelectorResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WwanSelectorResultCallbackStub)(nil)
+
+func (s *WwanSelectorResultCallbackStub) Descriptor() string {
+	return DescriptorIWwanSelectorResultCallback
+}
 
 func (s *WwanSelectorResultCallbackStub) OnTransaction(
 	ctx context.Context,

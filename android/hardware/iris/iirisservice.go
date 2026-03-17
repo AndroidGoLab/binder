@@ -16,23 +16,27 @@ const (
 	TransactionIIrisServiceRegisterAuthenticators = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIrisServiceRegisterAuthenticators = "registerAuthenticators"
+)
+
 type IIrisService interface {
 	AsBinder() binder.IBinder
 	RegisterAuthenticators(ctx context.Context, hidlSensors []biometrics.SensorPropertiesInternal) error
 }
 
 type IrisServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIrisServiceProxy(
 	remote binder.IBinder,
 ) *IrisServiceProxy {
-	return &IrisServiceProxy{remote: remote}
+	return &IrisServiceProxy{Remote: remote}
 }
 
 func (p *IrisServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIrisService = (*IrisServiceProxy)(nil)
@@ -48,18 +52,19 @@ func (p *IrisServiceProxy) RegisterAuthenticators(
 	} else {
 		_data.WriteInt32(int32(len(hidlSensors)))
 		for _, _item := range hidlSensors {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIrisService, "registerAuthenticators")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIrisService, MethodIIrisServiceRegisterAuthenticators)
 	if _err != nil {
-		_code = TransactionIIrisServiceRegisterAuthenticators
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIrisService, MethodIIrisServiceRegisterAuthenticators, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +84,10 @@ type IrisServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IrisServiceStub)(nil)
+
+func (s *IrisServiceStub) Descriptor() string {
+	return DescriptorIIrisService
+}
 
 func (s *IrisServiceStub) OnTransaction(
 	ctx context.Context,

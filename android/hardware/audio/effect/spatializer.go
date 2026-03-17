@@ -19,7 +19,6 @@ const (
 	SpatializerTagHeadTrackingMode           int32 = 5
 	SpatializerTagHeadTrackingConnectionMode int32 = 6
 	SpatializerTagHeadTrackingSensorData     int32 = 7
-	SpatializerTagSpatializedChannelLayout   int32 = 8
 )
 
 type Spatializer struct {
@@ -32,7 +31,6 @@ type Spatializer struct {
 	HeadTrackingMode           HeadTracking.Mode
 	HeadTrackingConnectionMode HeadTracking.ConnectionMode
 	HeadTrackingSensorData     HeadTracking.SensorData
-	SpatializedChannelLayout   []common.AudioChannelLayout
 }
 
 var _ parcel.Parcelable = (*Spatializer)(nil)
@@ -157,21 +155,6 @@ func (u *Spatializer) SetHeadTrackingSensorData(
 	u.HeadTrackingSensorData = v
 }
 
-func (u *Spatializer) GetSpatializedChannelLayout() ([]common.AudioChannelLayout, bool) {
-	if u.Tag != SpatializerTagSpatializedChannelLayout {
-		var _zero []common.AudioChannelLayout
-		return _zero, false
-	}
-	return u.SpatializedChannelLayout, true
-}
-
-func (u *Spatializer) SetSpatializedChannelLayout(
-	v []common.AudioChannelLayout,
-) {
-	u.Tag = SpatializerTagSpatializedChannelLayout
-	u.SpatializedChannelLayout = v
-}
-
 func (u *Spatializer) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -180,6 +163,7 @@ func (u *Spatializer) MarshalParcel(
 
 	switch u.Tag {
 	case SpatializerTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -189,6 +173,7 @@ func (u *Spatializer) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.SupportedChannelLayout)))
 			for _, _item := range u.SupportedChannelLayout {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -201,17 +186,6 @@ func (u *Spatializer) MarshalParcel(
 	case SpatializerTagHeadTrackingMode:
 	case SpatializerTagHeadTrackingConnectionMode:
 	case SpatializerTagHeadTrackingSensorData:
-	case SpatializerTagSpatializedChannelLayout:
-		if u.SpatializedChannelLayout == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.SpatializedChannelLayout)))
-			for _, _item := range u.SpatializedChannelLayout {
-				if _err := _item.MarshalParcel(p); _err != nil {
-					return _err
-				}
-			}
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Spatializer", u.Tag)
 	}
@@ -235,6 +209,9 @@ func (u *Spatializer) UnmarshalParcel(
 
 	switch u.Tag {
 	case SpatializerTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -248,6 +225,9 @@ func (u *Spatializer) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.SupportedChannelLayout = make([]common.AudioChannelLayout, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.SupportedChannelLayout[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -263,21 +243,6 @@ func (u *Spatializer) UnmarshalParcel(
 	case SpatializerTagHeadTrackingMode:
 	case SpatializerTagHeadTrackingConnectionMode:
 	case SpatializerTagHeadTrackingSensorData:
-	case SpatializerTagSpatializedChannelLayout:
-
-		var _count1 int32
-		_count1, _err = p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		if _count1 >= 0 {
-			u.SpatializedChannelLayout = make([]common.AudioChannelLayout, _count1)
-			for _i := int32(0); _i < _count1; _i++ {
-				if _err = u.SpatializedChannelLayout[_i].UnmarshalParcel(p); _err != nil {
-					return _err
-				}
-			}
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Spatializer", u.Tag)
 	}

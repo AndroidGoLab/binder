@@ -22,20 +22,43 @@ const (
 	TransactionIBluetoothManagerGetAddress                   = binder.FirstCallTransaction + 6
 	TransactionIBluetoothManagerGetName                      = binder.FirstCallTransaction + 7
 	TransactionIBluetoothManagerOnFactoryReset               = binder.FirstCallTransaction + 8
-	TransactionIBluetoothManagerIsBleScanAvailable           = binder.FirstCallTransaction + 9
+	TransactionIBluetoothManagerIsBleScanAlwaysAvailable     = binder.FirstCallTransaction + 9
 	TransactionIBluetoothManagerEnableBle                    = binder.FirstCallTransaction + 10
 	TransactionIBluetoothManagerDisableBle                   = binder.FirstCallTransaction + 11
-	TransactionIBluetoothManagerIsHearingAidProfileSupported = binder.FirstCallTransaction + 12
-	TransactionIBluetoothManagerSetBtHciSnoopLogMode         = binder.FirstCallTransaction + 13
-	TransactionIBluetoothManagerGetBtHciSnoopLogMode         = binder.FirstCallTransaction + 14
-	TransactionIBluetoothManagerIsAutoOnSupported            = binder.FirstCallTransaction + 15
-	TransactionIBluetoothManagerIsAutoOnEnabled              = binder.FirstCallTransaction + 16
-	TransactionIBluetoothManagerSetAutoOnEnabled             = binder.FirstCallTransaction + 17
+	TransactionIBluetoothManagerIsBleAppPresent              = binder.FirstCallTransaction + 12
+	TransactionIBluetoothManagerIsHearingAidProfileSupported = binder.FirstCallTransaction + 13
+	TransactionIBluetoothManagerSetBtHciSnoopLogMode         = binder.FirstCallTransaction + 14
+	TransactionIBluetoothManagerGetBtHciSnoopLogMode         = binder.FirstCallTransaction + 15
+	TransactionIBluetoothManagerIsAutoOnSupported            = binder.FirstCallTransaction + 16
+	TransactionIBluetoothManagerIsAutoOnEnabled              = binder.FirstCallTransaction + 17
+	TransactionIBluetoothManagerSetAutoOnEnabled             = binder.FirstCallTransaction + 18
+)
+
+const (
+	MethodIBluetoothManagerRegisterAdapter              = "registerAdapter"
+	MethodIBluetoothManagerUnregisterAdapter            = "unregisterAdapter"
+	MethodIBluetoothManagerEnable                       = "enable"
+	MethodIBluetoothManagerEnableNoAutoConnect          = "enableNoAutoConnect"
+	MethodIBluetoothManagerDisable                      = "disable"
+	MethodIBluetoothManagerGetState                     = "getState"
+	MethodIBluetoothManagerGetAddress                   = "getAddress"
+	MethodIBluetoothManagerGetName                      = "getName"
+	MethodIBluetoothManagerOnFactoryReset               = "onFactoryReset"
+	MethodIBluetoothManagerIsBleScanAlwaysAvailable     = "isBleScanAlwaysAvailable"
+	MethodIBluetoothManagerEnableBle                    = "enableBle"
+	MethodIBluetoothManagerDisableBle                   = "disableBle"
+	MethodIBluetoothManagerIsBleAppPresent              = "isBleAppPresent"
+	MethodIBluetoothManagerIsHearingAidProfileSupported = "isHearingAidProfileSupported"
+	MethodIBluetoothManagerSetBtHciSnoopLogMode         = "setBtHciSnoopLogMode"
+	MethodIBluetoothManagerGetBtHciSnoopLogMode         = "getBtHciSnoopLogMode"
+	MethodIBluetoothManagerIsAutoOnSupported            = "isAutoOnSupported"
+	MethodIBluetoothManagerIsAutoOnEnabled              = "isAutoOnEnabled"
+	MethodIBluetoothManagerSetAutoOnEnabled             = "setAutoOnEnabled"
 )
 
 type IBluetoothManager interface {
 	AsBinder() binder.IBinder
-	RegisterAdapter(ctx context.Context, callback IBluetoothManagerCallback) (binder.IBinder, error)
+	RegisterAdapter(ctx context.Context, callback IBluetoothManagerCallback) (IBluetooth, error)
 	UnregisterAdapter(ctx context.Context, callback IBluetoothManagerCallback) error
 	Enable(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
 	EnableNoAutoConnect(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
@@ -44,9 +67,10 @@ type IBluetoothManager interface {
 	GetAddress(ctx context.Context, attributionSource content.AttributionSource) (string, error)
 	GetName(ctx context.Context, attributionSource content.AttributionSource) (string, error)
 	OnFactoryReset(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
-	IsBleScanAvailable(ctx context.Context) (bool, error)
+	IsBleScanAlwaysAvailable(ctx context.Context) (bool, error)
 	EnableBle(ctx context.Context, attributionSource content.AttributionSource, b binder.IBinder) (bool, error)
 	DisableBle(ctx context.Context, attributionSource content.AttributionSource, b binder.IBinder) (bool, error)
+	IsBleAppPresent(ctx context.Context) (bool, error)
 	IsHearingAidProfileSupported(ctx context.Context) (bool, error)
 	SetBtHciSnoopLogMode(ctx context.Context, mode int32) (int32, error)
 	GetBtHciSnoopLogMode(ctx context.Context) (int32, error)
@@ -55,23 +79,18 @@ type IBluetoothManager interface {
 	SetAutoOnEnabled(ctx context.Context, status bool) error
 }
 
-const (
-	IBluetoothManagerIpcCacheModuleSystem string = "system_server"
-	IBluetoothManagerGetSystemStateApi    string = "BluetoothAdapter_getSystemState"
-)
-
 type BluetoothManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothManagerProxy(
 	remote binder.IBinder,
 ) *BluetoothManagerProxy {
-	return &BluetoothManagerProxy{remote: remote}
+	return &BluetoothManagerProxy{Remote: remote}
 }
 
 func (p *BluetoothManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothManager = (*BluetoothManagerProxy)(nil)
@@ -79,18 +98,18 @@ var _ IBluetoothManager = (*BluetoothManagerProxy)(nil)
 func (p *BluetoothManagerProxy) RegisterAdapter(
 	ctx context.Context,
 	callback IBluetoothManagerCallback,
-) (binder.IBinder, error) {
-	var _result binder.IBinder
+) (IBluetooth, error) {
+	var _result IBluetooth
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "registerAdapter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerRegisterAdapter)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerRegisterAdapter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerRegisterAdapter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -104,7 +123,7 @@ func (p *BluetoothManagerProxy) RegisterAdapter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = NewBluetoothProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -114,14 +133,14 @@ func (p *BluetoothManagerProxy) UnregisterAdapter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "unregisterAdapter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerUnregisterAdapter)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerUnregisterAdapter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerUnregisterAdapter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,12 +165,12 @@ func (p *BluetoothManagerProxy) Enable(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "enable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerEnable)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerEnable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,12 +199,12 @@ func (p *BluetoothManagerProxy) EnableNoAutoConnect(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "enableNoAutoConnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerEnableNoAutoConnect)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerEnableNoAutoConnect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerEnableNoAutoConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -216,12 +235,12 @@ func (p *BluetoothManagerProxy) Disable(
 	}
 	_data.WriteBool(persist)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "disable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerDisable)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerDisable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerDisable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -245,12 +264,12 @@ func (p *BluetoothManagerProxy) GetState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "getState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerGetState)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerGetState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerGetState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,12 +298,12 @@ func (p *BluetoothManagerProxy) GetAddress(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "getAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerGetAddress)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerGetAddress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerGetAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -313,12 +332,12 @@ func (p *BluetoothManagerProxy) GetName(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "getName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerGetName)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerGetName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerGetName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -347,12 +366,12 @@ func (p *BluetoothManagerProxy) OnFactoryReset(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "onFactoryReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerOnFactoryReset)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerOnFactoryReset
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerOnFactoryReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -369,19 +388,19 @@ func (p *BluetoothManagerProxy) OnFactoryReset(
 	return _result, nil
 }
 
-func (p *BluetoothManagerProxy) IsBleScanAvailable(
+func (p *BluetoothManagerProxy) IsBleScanAlwaysAvailable(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "isBleScanAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerIsBleScanAlwaysAvailable)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerIsBleScanAvailable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerIsBleScanAlwaysAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -410,14 +429,14 @@ func (p *BluetoothManagerProxy) EnableBle(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, b, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "enableBle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerEnableBle)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerEnableBle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerEnableBle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -446,14 +465,43 @@ func (p *BluetoothManagerProxy) DisableBle(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, b, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, b, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "disableBle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerDisableBle)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerDisableBle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerDisableBle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *BluetoothManagerProxy) IsBleAppPresent(
+	ctx context.Context,
+) (bool, error) {
+	var _result bool
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerIsBleAppPresent)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerIsBleAppPresent, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -477,12 +525,12 @@ func (p *BluetoothManagerProxy) IsHearingAidProfileSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "isHearingAidProfileSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerIsHearingAidProfileSupported)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerIsHearingAidProfileSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerIsHearingAidProfileSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -508,12 +556,12 @@ func (p *BluetoothManagerProxy) SetBtHciSnoopLogMode(
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "setBtHciSnoopLogMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerSetBtHciSnoopLogMode)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerSetBtHciSnoopLogMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerSetBtHciSnoopLogMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -537,12 +585,12 @@ func (p *BluetoothManagerProxy) GetBtHciSnoopLogMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "getBtHciSnoopLogMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerGetBtHciSnoopLogMode)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerGetBtHciSnoopLogMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerGetBtHciSnoopLogMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -566,12 +614,12 @@ func (p *BluetoothManagerProxy) IsAutoOnSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "isAutoOnSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerIsAutoOnSupported)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerIsAutoOnSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerIsAutoOnSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -595,12 +643,12 @@ func (p *BluetoothManagerProxy) IsAutoOnEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "isAutoOnEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerIsAutoOnEnabled)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerIsAutoOnEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerIsAutoOnEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -625,12 +673,12 @@ func (p *BluetoothManagerProxy) SetAutoOnEnabled(
 	_data.WriteInterfaceToken(DescriptorIBluetoothManager)
 	_data.WriteBool(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManager, "setAutoOnEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothManager, MethodIBluetoothManagerSetAutoOnEnabled)
 	if _err != nil {
-		_code = TransactionIBluetoothManagerSetAutoOnEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothManager, MethodIBluetoothManagerSetAutoOnEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -650,6 +698,10 @@ type BluetoothManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothManagerStub)(nil)
+
+func (s *BluetoothManagerStub) Descriptor() string {
+	return DescriptorIBluetoothManager
+}
 
 func (s *BluetoothManagerStub) OnTransaction(
 	ctx context.Context,
@@ -856,11 +908,11 @@ func (s *BluetoothManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteBool(_result)
 		return _reply, nil
-	case TransactionIBluetoothManagerIsBleScanAvailable:
+	case TransactionIBluetoothManagerIsBleScanAlwaysAvailable:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.IsBleScanAvailable(ctx)
+		_result, _err := s.Impl.IsBleScanAlwaysAvailable(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -917,6 +969,19 @@ func (s *BluetoothManagerStub) OnTransaction(
 		var _arg_b binder.IBinder
 		_ = _arg_b
 		_result, _err := s.Impl.DisableBle(ctx, _arg_attributionSource, _arg_b)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBluetoothManagerIsBleAppPresent:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsBleAppPresent(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1019,7 +1084,7 @@ func (s *BluetoothManagerStub) OnTransaction(
 // provide to NewBluetoothManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothManagerServer interface {
-	RegisterAdapter(ctx context.Context, callback IBluetoothManagerCallback) (binder.IBinder, error)
+	RegisterAdapter(ctx context.Context, callback IBluetoothManagerCallback) (IBluetooth, error)
 	UnregisterAdapter(ctx context.Context, callback IBluetoothManagerCallback) error
 	Enable(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
 	EnableNoAutoConnect(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
@@ -1028,9 +1093,10 @@ type IBluetoothManagerServer interface {
 	GetAddress(ctx context.Context, attributionSource content.AttributionSource) (string, error)
 	GetName(ctx context.Context, attributionSource content.AttributionSource) (string, error)
 	OnFactoryReset(ctx context.Context, attributionSource content.AttributionSource) (bool, error)
-	IsBleScanAvailable(ctx context.Context) (bool, error)
+	IsBleScanAlwaysAvailable(ctx context.Context) (bool, error)
 	EnableBle(ctx context.Context, attributionSource content.AttributionSource, b binder.IBinder) (bool, error)
 	DisableBle(ctx context.Context, attributionSource content.AttributionSource, b binder.IBinder) (bool, error)
+	IsBleAppPresent(ctx context.Context) (bool, error)
 	IsHearingAidProfileSupported(ctx context.Context) (bool, error)
 	SetBtHciSnoopLogMode(ctx context.Context, mode int32) (int32, error)
 	GetBtHciSnoopLogMode(ctx context.Context) (int32, error)
@@ -1051,7 +1117,7 @@ func (w *bluetoothManagerStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothManagerStubWrapper) RegisterAdapter(
 	ctx context.Context,
 	callback IBluetoothManagerCallback,
-) (binder.IBinder, error) {
+) (IBluetooth, error) {
 	return w.impl.RegisterAdapter(ctx, callback)
 }
 
@@ -1111,10 +1177,10 @@ func (w *bluetoothManagerStubWrapper) OnFactoryReset(
 	return w.impl.OnFactoryReset(ctx, attributionSource)
 }
 
-func (w *bluetoothManagerStubWrapper) IsBleScanAvailable(
+func (w *bluetoothManagerStubWrapper) IsBleScanAlwaysAvailable(
 	ctx context.Context,
 ) (bool, error) {
-	return w.impl.IsBleScanAvailable(ctx)
+	return w.impl.IsBleScanAlwaysAvailable(ctx)
 }
 
 func (w *bluetoothManagerStubWrapper) EnableBle(
@@ -1131,6 +1197,12 @@ func (w *bluetoothManagerStubWrapper) DisableBle(
 	b binder.IBinder,
 ) (bool, error) {
 	return w.impl.DisableBle(ctx, attributionSource, b)
+}
+
+func (w *bluetoothManagerStubWrapper) IsBleAppPresent(
+	ctx context.Context,
+) (bool, error) {
+	return w.impl.IsBleAppPresent(ctx)
 }
 
 func (w *bluetoothManagerStubWrapper) IsHearingAidProfileSupported(

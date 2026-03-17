@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
-	c2IComponent "github.com/xaionaro-go/binder/android/hardware/media/c2/IComponent"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,10 +28,26 @@ const (
 	TransactionIComponentAsInputSink           = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIComponentConfigureVideoTunnel  = "configureVideoTunnel"
+	MethodIComponentCreateBlockPool       = "createBlockPool"
+	MethodIComponentDestroyBlockPool      = "destroyBlockPool"
+	MethodIComponentDrain                 = "drain"
+	MethodIComponentFlush                 = "flush"
+	MethodIComponentGetInterface          = "getInterface"
+	MethodIComponentQueue                 = "queue"
+	MethodIComponentRelease               = "release"
+	MethodIComponentReset                 = "reset"
+	MethodIComponentStart                 = "start"
+	MethodIComponentStop                  = "stop"
+	MethodIComponentConnectToInputSurface = "connectToInputSurface"
+	MethodIComponentAsInputSink           = "asInputSink"
+)
+
 type IComponent interface {
 	AsBinder() binder.IBinder
 	ConfigureVideoTunnel(ctx context.Context, avSyncHwId int32) (common.NativeHandle, error)
-	CreateBlockPool(ctx context.Context, allocator c2IComponent.BlockPoolAllocator) (c2IComponent.BlockPool, error)
+	CreateBlockPool(ctx context.Context, allocator interface{}) (interface{}, error)
 	DestroyBlockPool(ctx context.Context, blockPoolId int64) error
 	Drain(ctx context.Context, withEos bool) error
 	Flush(ctx context.Context) (WorkBundle, error)
@@ -47,17 +62,17 @@ type IComponent interface {
 }
 
 type ComponentProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewComponentProxy(
 	remote binder.IBinder,
 ) *ComponentProxy {
-	return &ComponentProxy{remote: remote}
+	return &ComponentProxy{Remote: remote}
 }
 
 func (p *ComponentProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IComponent = (*ComponentProxy)(nil)
@@ -71,12 +86,12 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt32(avSyncHwId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "configureVideoTunnel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentConfigureVideoTunnel)
 	if _err != nil {
-		_code = TransactionIComponentConfigureVideoTunnel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentConfigureVideoTunnel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,22 +115,18 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 
 func (p *ComponentProxy) CreateBlockPool(
 	ctx context.Context,
-	allocator c2IComponent.BlockPoolAllocator,
-) (c2IComponent.BlockPool, error) {
-	var _result c2IComponent.BlockPool
+	allocator interface{},
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	_data.WriteInt32(1)
-	if _err := allocator.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "createBlockPool")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentCreateBlockPool)
 	if _err != nil {
-		_code = TransactionIComponentCreateBlockPool
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentCreateBlockPool, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,15 +136,6 @@ func (p *ComponentProxy) CreateBlockPool(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -145,12 +147,12 @@ func (p *ComponentProxy) DestroyBlockPool(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt64(blockPoolId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "destroyBlockPool")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentDestroyBlockPool)
 	if _err != nil {
-		_code = TransactionIComponentDestroyBlockPool
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentDestroyBlockPool, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,12 +173,12 @@ func (p *ComponentProxy) Drain(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteBool(withEos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "drain")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentDrain)
 	if _err != nil {
-		_code = TransactionIComponentDrain
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentDrain, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -196,12 +198,12 @@ func (p *ComponentProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "flush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentFlush)
 	if _err != nil {
-		_code = TransactionIComponentFlush
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentFlush, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -230,12 +232,12 @@ func (p *ComponentProxy) GetInterface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "getInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentGetInterface)
 	if _err != nil {
-		_code = TransactionIComponentGetInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentGetInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -249,7 +251,7 @@ func (p *ComponentProxy) GetInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewComponentInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewComponentInterfaceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -264,12 +266,12 @@ func (p *ComponentProxy) Queue(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "queue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentQueue)
 	if _err != nil {
-		_code = TransactionIComponentQueue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -288,12 +290,12 @@ func (p *ComponentProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentRelease)
 	if _err != nil {
-		_code = TransactionIComponentRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -312,12 +314,12 @@ func (p *ComponentProxy) Reset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "reset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentReset)
 	if _err != nil {
-		_code = TransactionIComponentReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -336,12 +338,12 @@ func (p *ComponentProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentStart)
 	if _err != nil {
-		_code = TransactionIComponentStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -360,12 +362,12 @@ func (p *ComponentProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentStop)
 	if _err != nil {
-		_code = TransactionIComponentStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentStop, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -385,14 +387,14 @@ func (p *ComponentProxy) ConnectToInputSurface(
 	var _result IInputSurfaceConnection
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
-	binder.WriteBinderToParcel(ctx, _data, inputSurface.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputSurface.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "connectToInputSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentConnectToInputSurface)
 	if _err != nil {
-		_code = TransactionIComponentConnectToInputSurface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentConnectToInputSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -406,7 +408,7 @@ func (p *ComponentProxy) ConnectToInputSurface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -417,12 +419,12 @@ func (p *ComponentProxy) AsInputSink(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "asInputSink")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComponent, MethodIComponentAsInputSink)
 	if _err != nil {
-		_code = TransactionIComponentAsInputSink
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComponent, MethodIComponentAsInputSink, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -436,7 +438,7 @@ func (p *ComponentProxy) AsInputSink(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSinkProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewInputSinkProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -447,6 +449,10 @@ type ComponentStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ComponentStub)(nil)
+
+func (s *ComponentStub) Descriptor() string {
+	return DescriptorIComponent
+}
 
 func (s *ComponentStub) OnTransaction(
 	ctx context.Context,
@@ -478,18 +484,7 @@ func (s *ComponentStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_allocator c2IComponent.BlockPoolAllocator
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_allocator.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_allocator interface{}
 		_result, _err := s.Impl.CreateBlockPool(ctx, _arg_allocator)
 		_reply := parcel.New()
 		if _err != nil {
@@ -497,10 +492,7 @@ func (s *ComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIComponentDestroyBlockPool:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -677,7 +669,7 @@ func (s *ComponentStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IComponentServer interface {
 	ConfigureVideoTunnel(ctx context.Context, avSyncHwId int32) (common.NativeHandle, error)
-	CreateBlockPool(ctx context.Context, allocator c2IComponent.BlockPoolAllocator) (c2IComponent.BlockPool, error)
+	CreateBlockPool(ctx context.Context, allocator interface{}) (interface{}, error)
 	DestroyBlockPool(ctx context.Context, blockPoolId int64) error
 	Drain(ctx context.Context, withEos bool) error
 	Flush(ctx context.Context) (WorkBundle, error)
@@ -709,8 +701,8 @@ func (w *componentStubWrapper) ConfigureVideoTunnel(
 
 func (w *componentStubWrapper) CreateBlockPool(
 	ctx context.Context,
-	allocator c2IComponent.BlockPoolAllocator,
-) (c2IComponent.BlockPool, error) {
+	allocator interface{},
+) (interface{}, error) {
 	return w.impl.CreateBlockPool(ctx, allocator)
 }
 

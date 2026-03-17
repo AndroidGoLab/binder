@@ -27,14 +27,7 @@ func (s *NanRespondToPairingIndicationRequest) MarshalParcel(
 	p.WriteInt32(s.PairingInstanceId)
 	p.WriteInt32(int32(s.RequestType))
 	p.WriteBool(s.EnablePairingCache)
-	if s.PairingIdentityKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PairingIdentityKey)))
-		for _, _item := range s.PairingIdentityKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PairingIdentityKey, 16)
 	if _err := s.SecurityConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -43,6 +36,7 @@ func (s *NanRespondToPairingIndicationRequest) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -82,19 +76,9 @@ func (s *NanRespondToPairingIndicationRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PairingIdentityKey, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PairingIdentityKey = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PairingIdentityKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	if _err = s.SecurityConfig.UnmarshalParcel(p); _err != nil {
@@ -109,6 +93,9 @@ func (s *NanRespondToPairingIndicationRequest) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

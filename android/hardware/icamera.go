@@ -15,23 +15,27 @@ const (
 	TransactionICameraDisconnect = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICameraDisconnect = "disconnect"
+)
+
 type ICamera interface {
 	AsBinder() binder.IBinder
 	Disconnect(ctx context.Context) error
 }
 
 type CameraProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraProxy(
 	remote binder.IBinder,
 ) *CameraProxy {
-	return &CameraProxy{remote: remote}
+	return &CameraProxy{Remote: remote}
 }
 
 func (p *CameraProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamera = (*CameraProxy)(nil)
@@ -42,12 +46,12 @@ func (p *CameraProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamera)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamera, "disconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamera, MethodICameraDisconnect)
 	if _err != nil {
-		_code = TransactionICameraDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamera, MethodICameraDisconnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,6 +71,10 @@ type CameraStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraStub)(nil)
+
+func (s *CameraStub) Descriptor() string {
+	return DescriptorICamera
+}
 
 func (s *CameraStub) OnTransaction(
 	ctx context.Context,

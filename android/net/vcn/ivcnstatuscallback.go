@@ -16,6 +16,11 @@ const (
 	TransactionIVcnStatusCallbackOnGatewayConnectionError = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVcnStatusCallbackOnVcnStatusChanged       = "onVcnStatusChanged"
+	MethodIVcnStatusCallbackOnGatewayConnectionError = "onGatewayConnectionError"
+)
+
 type IVcnStatusCallback interface {
 	AsBinder() binder.IBinder
 	OnVcnStatusChanged(ctx context.Context, statusCode int32) error
@@ -23,17 +28,17 @@ type IVcnStatusCallback interface {
 }
 
 type VcnStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVcnStatusCallbackProxy(
 	remote binder.IBinder,
 ) *VcnStatusCallbackProxy {
-	return &VcnStatusCallbackProxy{remote: remote}
+	return &VcnStatusCallbackProxy{Remote: remote}
 }
 
 func (p *VcnStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVcnStatusCallback = (*VcnStatusCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *VcnStatusCallbackProxy) OnVcnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIVcnStatusCallback)
 	_data.WriteInt32(statusCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnStatusCallback, "onVcnStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnVcnStatusChanged)
 	if _err != nil {
-		_code = TransactionIVcnStatusCallbackOnVcnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnVcnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *VcnStatusCallbackProxy) OnGatewayConnectionError(
 	_data.WriteString16(exceptionClass)
 	_data.WriteString16(exceptionMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnStatusCallback, "onGatewayConnectionError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnGatewayConnectionError)
 	if _err != nil {
-		_code = TransactionIVcnStatusCallbackOnGatewayConnectionError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnStatusCallback, MethodIVcnStatusCallbackOnGatewayConnectionError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type VcnStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VcnStatusCallbackStub)(nil)
+
+func (s *VcnStatusCallbackStub) Descriptor() string {
+	return DescriptorIVcnStatusCallback
+}
 
 func (s *VcnStatusCallbackStub) OnTransaction(
 	ctx context.Context,

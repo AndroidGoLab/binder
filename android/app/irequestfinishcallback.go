@@ -15,23 +15,27 @@ const (
 	TransactionIRequestFinishCallbackRequestFinish = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRequestFinishCallbackRequestFinish = "requestFinish"
+)
+
 type IRequestFinishCallback interface {
 	AsBinder() binder.IBinder
 	RequestFinish(ctx context.Context) error
 }
 
 type RequestFinishCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRequestFinishCallbackProxy(
 	remote binder.IBinder,
 ) *RequestFinishCallbackProxy {
-	return &RequestFinishCallbackProxy{remote: remote}
+	return &RequestFinishCallbackProxy{Remote: remote}
 }
 
 func (p *RequestFinishCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRequestFinishCallback = (*RequestFinishCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *RequestFinishCallbackProxy) RequestFinish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestFinishCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestFinishCallback, "requestFinish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestFinishCallback, MethodIRequestFinishCallbackRequestFinish)
 	if _err != nil {
-		_code = TransactionIRequestFinishCallbackRequestFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestFinishCallback, MethodIRequestFinishCallbackRequestFinish, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type RequestFinishCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RequestFinishCallbackStub)(nil)
+
+func (s *RequestFinishCallbackStub) Descriptor() string {
+	return DescriptorIRequestFinishCallback
+}
 
 func (s *RequestFinishCallbackStub) OnTransaction(
 	ctx context.Context,

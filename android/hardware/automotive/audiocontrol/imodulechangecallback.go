@@ -16,23 +16,27 @@ const (
 	TransactionIModuleChangeCallbackOnAudioPortsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIModuleChangeCallbackOnAudioPortsChanged = "onAudioPortsChanged"
+)
+
 type IModuleChangeCallback interface {
 	AsBinder() binder.IBinder
 	OnAudioPortsChanged(ctx context.Context, audioPorts []common.AudioPort) error
 }
 
 type ModuleChangeCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewModuleChangeCallbackProxy(
 	remote binder.IBinder,
 ) *ModuleChangeCallbackProxy {
-	return &ModuleChangeCallbackProxy{remote: remote}
+	return &ModuleChangeCallbackProxy{Remote: remote}
 }
 
 func (p *ModuleChangeCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IModuleChangeCallback = (*ModuleChangeCallbackProxy)(nil)
@@ -48,18 +52,19 @@ func (p *ModuleChangeCallbackProxy) OnAudioPortsChanged(
 	} else {
 		_data.WriteInt32(int32(len(audioPorts)))
 		for _, _item := range audioPorts {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIModuleChangeCallback, "onAudioPortsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIModuleChangeCallback, MethodIModuleChangeCallbackOnAudioPortsChanged)
 	if _err != nil {
-		_code = TransactionIModuleChangeCallbackOnAudioPortsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIModuleChangeCallback, MethodIModuleChangeCallbackOnAudioPortsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +75,10 @@ type ModuleChangeCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ModuleChangeCallbackStub)(nil)
+
+func (s *ModuleChangeCallbackStub) Descriptor() string {
+	return DescriptorIModuleChangeCallback
+}
 
 func (s *ModuleChangeCallbackStub) OnTransaction(
 	ctx context.Context,

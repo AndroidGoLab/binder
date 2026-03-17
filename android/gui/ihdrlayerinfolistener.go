@@ -15,23 +15,27 @@ const (
 	TransactionIHdrLayerInfoListenerOnHdrLayerInfoChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdrLayerInfoListenerOnHdrLayerInfoChanged = "onHdrLayerInfoChanged"
+)
+
 type IHdrLayerInfoListener interface {
 	AsBinder() binder.IBinder
 	OnHdrLayerInfoChanged(ctx context.Context, numberOfHdrLayers int32, maxW int32, maxH int32, flags int32, maxDesiredHdrSdrRatio float32) error
 }
 
 type HdrLayerInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdrLayerInfoListenerProxy(
 	remote binder.IBinder,
 ) *HdrLayerInfoListenerProxy {
-	return &HdrLayerInfoListenerProxy{remote: remote}
+	return &HdrLayerInfoListenerProxy{Remote: remote}
 }
 
 func (p *HdrLayerInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdrLayerInfoListener = (*HdrLayerInfoListenerProxy)(nil)
@@ -52,12 +56,12 @@ func (p *HdrLayerInfoListenerProxy) OnHdrLayerInfoChanged(
 	_data.WriteInt32(flags)
 	_data.WriteFloat32(maxDesiredHdrSdrRatio)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdrLayerInfoListener, "onHdrLayerInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdrLayerInfoListener, MethodIHdrLayerInfoListenerOnHdrLayerInfoChanged)
 	if _err != nil {
-		_code = TransactionIHdrLayerInfoListenerOnHdrLayerInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdrLayerInfoListener, MethodIHdrLayerInfoListenerOnHdrLayerInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +72,10 @@ type HdrLayerInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdrLayerInfoListenerStub)(nil)
+
+func (s *HdrLayerInfoListenerStub) Descriptor() string {
+	return DescriptorIHdrLayerInfoListener
+}
 
 func (s *HdrLayerInfoListenerStub) OnTransaction(
 	ctx context.Context,

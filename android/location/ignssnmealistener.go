@@ -15,23 +15,27 @@ const (
 	TransactionIGnssNmeaListenerOnNmeaReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGnssNmeaListenerOnNmeaReceived = "onNmeaReceived"
+)
+
 type IGnssNmeaListener interface {
 	AsBinder() binder.IBinder
 	OnNmeaReceived(ctx context.Context, timestamp int64, nmea string) error
 }
 
 type GnssNmeaListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssNmeaListenerProxy(
 	remote binder.IBinder,
 ) *GnssNmeaListenerProxy {
-	return &GnssNmeaListenerProxy{remote: remote}
+	return &GnssNmeaListenerProxy{Remote: remote}
 }
 
 func (p *GnssNmeaListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssNmeaListener = (*GnssNmeaListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *GnssNmeaListenerProxy) OnNmeaReceived(
 	_data.WriteInt64(timestamp)
 	_data.WriteString16(nmea)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssNmeaListener, "onNmeaReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssNmeaListener, MethodIGnssNmeaListenerOnNmeaReceived)
 	if _err != nil {
-		_code = TransactionIGnssNmeaListenerOnNmeaReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssNmeaListener, MethodIGnssNmeaListenerOnNmeaReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type GnssNmeaListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssNmeaListenerStub)(nil)
+
+func (s *GnssNmeaListenerStub) Descriptor() string {
+	return DescriptorIGnssNmeaListener
+}
 
 func (s *GnssNmeaListenerStub) OnTransaction(
 	ctx context.Context,

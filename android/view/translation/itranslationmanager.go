@@ -3,7 +3,6 @@ package translation
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
 	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	"github.com/xaionaro-go/binder/binder"
@@ -27,31 +26,43 @@ const (
 	TransactionITranslationManagerOnTranslationFinished                   = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodITranslationManagerOnTranslationCapabilitiesRequest        = "onTranslationCapabilitiesRequest"
+	MethodITranslationManagerRegisterTranslationCapabilityCallback   = "registerTranslationCapabilityCallback"
+	MethodITranslationManagerUnregisterTranslationCapabilityCallback = "unregisterTranslationCapabilityCallback"
+	MethodITranslationManagerOnSessionCreated                        = "onSessionCreated"
+	MethodITranslationManagerUpdateUiTranslationState                = "updateUiTranslationState"
+	MethodITranslationManagerRegisterUiTranslationStateCallback      = "registerUiTranslationStateCallback"
+	MethodITranslationManagerUnregisterUiTranslationStateCallback    = "unregisterUiTranslationStateCallback"
+	MethodITranslationManagerGetServiceSettingsActivity              = "getServiceSettingsActivity"
+	MethodITranslationManagerOnTranslationFinished                   = "onTranslationFinished"
+)
+
 type ITranslationManager interface {
 	AsBinder() binder.IBinder
 	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, destFormat int32, receiver interface{}) error
-	RegisterTranslationCapabilityCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	UnregisterTranslationCapabilityCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	RegisterTranslationCapabilityCallback(ctx context.Context, callback interface{}) error
+	UnregisterTranslationCapabilityCallback(ctx context.Context, callback interface{}) error
 	OnSessionCreated(ctx context.Context, translationContext TranslationContext, sessionId int32, receiver os.IResultReceiver) error
 	UpdateUiTranslationState(ctx context.Context, state int32, sourceSpec TranslationSpec, targetSpec TranslationSpec, viewIds []autofill.AutofillId, token binder.IBinder, taskId int32, uiTranslationSpec UiTranslationSpec) error
-	RegisterUiTranslationStateCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	UnregisterUiTranslationStateCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	RegisterUiTranslationStateCallback(ctx context.Context, callback interface{}) error
+	UnregisterUiTranslationStateCallback(ctx context.Context, callback interface{}) error
 	GetServiceSettingsActivity(ctx context.Context, result os.IResultReceiver) error
 	OnTranslationFinished(ctx context.Context, activityDestroyed bool, token binder.IBinder, componentName content.ComponentName) error
 }
 
 type TranslationManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTranslationManagerProxy(
 	remote binder.IBinder,
 ) *TranslationManagerProxy {
-	return &TranslationManagerProxy{remote: remote}
+	return &TranslationManagerProxy{Remote: remote}
 }
 
 func (p *TranslationManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITranslationManager = (*TranslationManagerProxy)(nil)
@@ -62,57 +73,55 @@ func (p *TranslationManagerProxy) OnTranslationCapabilitiesRequest(
 	destFormat int32,
 	receiver interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(sourceFormat)
 	_data.WriteInt32(destFormat)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationCapabilitiesRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerOnTranslationCapabilitiesRequest)
 	if _err != nil {
-		_code = TransactionITranslationManagerOnTranslationCapabilitiesRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerOnTranslationCapabilitiesRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *TranslationManagerProxy) RegisterTranslationCapabilityCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "registerTranslationCapabilityCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerRegisterTranslationCapabilityCallback)
 	if _err != nil {
-		_code = TransactionITranslationManagerRegisterTranslationCapabilityCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerRegisterTranslationCapabilityCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *TranslationManagerProxy) UnregisterTranslationCapabilityCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "unregisterTranslationCapabilityCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerUnregisterTranslationCapabilityCallback)
 	if _err != nil {
-		_code = TransactionITranslationManagerUnregisterTranslationCapabilityCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerUnregisterTranslationCapabilityCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,7 +131,7 @@ func (p *TranslationManagerProxy) OnSessionCreated(
 	sessionId int32,
 	receiver os.IResultReceiver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(1)
@@ -130,15 +139,15 @@ func (p *TranslationManagerProxy) OnSessionCreated(
 		return _err
 	}
 	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onSessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerOnSessionCreated)
 	if _err != nil {
-		_code = TransactionITranslationManagerOnSessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerOnSessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,7 +161,7 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 	taskId int32,
 	uiTranslationSpec UiTranslationSpec,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(state)
@@ -169,12 +178,13 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 	} else {
 		_data.WriteInt32(int32(len(viewIds)))
 		for _, _item := range viewIds {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(1)
 	if _err := uiTranslationSpec.MarshalParcel(_data); _err != nil {
@@ -182,50 +192,48 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "updateUiTranslationState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerUpdateUiTranslationState)
 	if _err != nil {
-		_code = TransactionITranslationManagerUpdateUiTranslationState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerUpdateUiTranslationState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *TranslationManagerProxy) RegisterUiTranslationStateCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "registerUiTranslationStateCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerRegisterUiTranslationStateCallback)
 	if _err != nil {
-		_code = TransactionITranslationManagerRegisterUiTranslationStateCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerRegisterUiTranslationStateCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *TranslationManagerProxy) UnregisterUiTranslationStateCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "unregisterUiTranslationStateCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerUnregisterUiTranslationStateCallback)
 	if _err != nil {
-		_code = TransactionITranslationManagerUnregisterUiTranslationStateCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerUnregisterUiTranslationStateCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -233,18 +241,18 @@ func (p *TranslationManagerProxy) GetServiceSettingsActivity(
 	ctx context.Context,
 	result os.IResultReceiver,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
-	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, result.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "getServiceSettingsActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerGetServiceSettingsActivity)
 	if _err != nil {
-		_code = TransactionITranslationManagerGetServiceSettingsActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerGetServiceSettingsActivity, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -254,23 +262,23 @@ func (p *TranslationManagerProxy) OnTranslationFinished(
 	token binder.IBinder,
 	componentName content.ComponentName,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteBool(activityDestroyed)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationManager, MethodITranslationManagerOnTranslationFinished)
 	if _err != nil {
-		_code = TransactionITranslationManagerOnTranslationFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationManager, MethodITranslationManagerOnTranslationFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -281,6 +289,10 @@ type TranslationManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TranslationManagerStub)(nil)
+
+func (s *TranslationManagerStub) Descriptor() string {
+	return DescriptorITranslationManager
+}
 
 func (s *TranslationManagerStub) OnTransaction(
 	ctx context.Context,
@@ -311,9 +323,7 @@ func (s *TranslationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -324,9 +334,7 @@ func (s *TranslationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -426,9 +434,7 @@ func (s *TranslationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -439,9 +445,7 @@ func (s *TranslationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -500,12 +504,12 @@ func (s *TranslationManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ITranslationManagerServer interface {
 	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, destFormat int32, receiver interface{}) error
-	RegisterTranslationCapabilityCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	UnregisterTranslationCapabilityCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	RegisterTranslationCapabilityCallback(ctx context.Context, callback interface{}) error
+	UnregisterTranslationCapabilityCallback(ctx context.Context, callback interface{}) error
 	OnSessionCreated(ctx context.Context, translationContext TranslationContext, sessionId int32, receiver os.IResultReceiver) error
 	UpdateUiTranslationState(ctx context.Context, state int32, sourceSpec TranslationSpec, targetSpec TranslationSpec, viewIds []autofill.AutofillId, token binder.IBinder, taskId int32, uiTranslationSpec UiTranslationSpec) error
-	RegisterUiTranslationStateCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	UnregisterUiTranslationStateCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	RegisterUiTranslationStateCallback(ctx context.Context, callback interface{}) error
+	UnregisterUiTranslationStateCallback(ctx context.Context, callback interface{}) error
 	GetServiceSettingsActivity(ctx context.Context, result os.IResultReceiver) error
 	OnTranslationFinished(ctx context.Context, activityDestroyed bool, token binder.IBinder, componentName content.ComponentName) error
 }
@@ -530,14 +534,14 @@ func (w *translationManagerStubWrapper) OnTranslationCapabilitiesRequest(
 
 func (w *translationManagerStubWrapper) RegisterTranslationCapabilityCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.RegisterTranslationCapabilityCallback(ctx, callback)
 }
 
 func (w *translationManagerStubWrapper) UnregisterTranslationCapabilityCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.UnregisterTranslationCapabilityCallback(ctx, callback)
 }
@@ -566,14 +570,14 @@ func (w *translationManagerStubWrapper) UpdateUiTranslationState(
 
 func (w *translationManagerStubWrapper) RegisterUiTranslationStateCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.RegisterUiTranslationStateCallback(ctx, callback)
 }
 
 func (w *translationManagerStubWrapper) UnregisterUiTranslationStateCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.UnregisterUiTranslationStateCallback(ctx, callback)
 }

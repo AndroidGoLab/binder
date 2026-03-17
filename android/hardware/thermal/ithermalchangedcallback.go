@@ -12,28 +12,30 @@ import (
 const DescriptorIThermalChangedCallback = "android.hardware.thermal.IThermalChangedCallback"
 
 const (
-	TransactionIThermalChangedCallbackNotifyThrottling       = binder.FirstCallTransaction + 0
-	TransactionIThermalChangedCallbackNotifyThresholdChanged = binder.FirstCallTransaction + 1
+	TransactionIThermalChangedCallbackNotifyThrottling = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIThermalChangedCallbackNotifyThrottling = "notifyThrottling"
 )
 
 type IThermalChangedCallback interface {
 	AsBinder() binder.IBinder
 	NotifyThrottling(ctx context.Context, temperature Temperature) error
-	NotifyThresholdChanged(ctx context.Context, threshold TemperatureThreshold) error
 }
 
 type ThermalChangedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewThermalChangedCallbackProxy(
 	remote binder.IBinder,
 ) *ThermalChangedCallbackProxy {
-	return &ThermalChangedCallbackProxy{remote: remote}
+	return &ThermalChangedCallbackProxy{Remote: remote}
 }
 
 func (p *ThermalChangedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IThermalChangedCallback = (*ThermalChangedCallbackProxy)(nil)
@@ -49,32 +51,12 @@ func (p *ThermalChangedCallbackProxy) NotifyThrottling(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThermalChangedCallback, "notifyThrottling")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalChangedCallback, MethodIThermalChangedCallbackNotifyThrottling)
 	if _err != nil {
-		_code = TransactionIThermalChangedCallbackNotifyThrottling
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThermalChangedCallback, MethodIThermalChangedCallbackNotifyThrottling, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *ThermalChangedCallbackProxy) NotifyThresholdChanged(
-	ctx context.Context,
-	threshold TemperatureThreshold,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIThermalChangedCallback)
-	_data.WriteInt32(1)
-	if _err := threshold.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIThermalChangedCallback, "notifyThresholdChanged")
-	if _err != nil {
-		_code = TransactionIThermalChangedCallbackNotifyThresholdChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +67,10 @@ type ThermalChangedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ThermalChangedCallbackStub)(nil)
+
+func (s *ThermalChangedCallbackStub) Descriptor() string {
+	return DescriptorIThermalChangedCallback
+}
 
 func (s *ThermalChangedCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -111,25 +97,6 @@ func (s *ThermalChangedCallbackStub) OnTransaction(
 		_err := s.Impl.NotifyThrottling(ctx, _arg_temperature)
 		_ = _err
 		return nil, nil
-	case TransactionIThermalChangedCallbackNotifyThresholdChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_threshold TemperatureThreshold
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_threshold.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.NotifyThresholdChanged(ctx, _arg_threshold)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -140,7 +107,6 @@ func (s *ThermalChangedCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IThermalChangedCallbackServer interface {
 	NotifyThrottling(ctx context.Context, temperature Temperature) error
-	NotifyThresholdChanged(ctx context.Context, threshold TemperatureThreshold) error
 }
 
 type thermalChangedCallbackStubWrapper struct {
@@ -157,13 +123,6 @@ func (w *thermalChangedCallbackStubWrapper) NotifyThrottling(
 	temperature Temperature,
 ) error {
 	return w.impl.NotifyThrottling(ctx, temperature)
-}
-
-func (w *thermalChangedCallbackStubWrapper) NotifyThresholdChanged(
-	ctx context.Context,
-	threshold TemperatureThreshold,
-) error {
-	return w.impl.NotifyThresholdChanged(ctx, threshold)
 }
 
 var _ IThermalChangedCallback = (*thermalChangedCallbackStubWrapper)(nil)

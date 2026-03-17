@@ -15,23 +15,27 @@ const (
 	TransactionIGetDeviceSettingsConfigCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGetDeviceSettingsConfigCallbackOnResult = "onResult"
+)
+
 type IGetDeviceSettingsConfigCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, status DeviceSettingsConfigServiceStatus, config DeviceSettingsConfig) error
 }
 
 type GetDeviceSettingsConfigCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetDeviceSettingsConfigCallbackProxy(
 	remote binder.IBinder,
 ) *GetDeviceSettingsConfigCallbackProxy {
-	return &GetDeviceSettingsConfigCallbackProxy{remote: remote}
+	return &GetDeviceSettingsConfigCallbackProxy{Remote: remote}
 }
 
 func (p *GetDeviceSettingsConfigCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetDeviceSettingsConfigCallback = (*GetDeviceSettingsConfigCallbackProxy)(nil)
@@ -52,12 +56,12 @@ func (p *GetDeviceSettingsConfigCallbackProxy) OnResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetDeviceSettingsConfigCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetDeviceSettingsConfigCallback, MethodIGetDeviceSettingsConfigCallbackOnResult)
 	if _err != nil {
-		_code = TransactionIGetDeviceSettingsConfigCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetDeviceSettingsConfigCallback, MethodIGetDeviceSettingsConfigCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +72,10 @@ type GetDeviceSettingsConfigCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetDeviceSettingsConfigCallbackStub)(nil)
+
+func (s *GetDeviceSettingsConfigCallbackStub) Descriptor() string {
+	return DescriptorIGetDeviceSettingsConfigCallback
+}
 
 func (s *GetDeviceSettingsConfigCallbackStub) OnTransaction(
 	ctx context.Context,

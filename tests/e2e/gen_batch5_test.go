@@ -53,7 +53,7 @@ func TestGenBatch5_Package_IsPackageAvailable(t *testing.T) {
 	svc, err := sm.GetService(ctx, servicemanager.ServiceName("package"))
 	requireOrSkip(t, err)
 	proxy := genPm.NewPackageManagerProxy(svc)
-	result, err := proxy.IsPackageAvailable(ctx, "com.android.shell", 0)
+	result, err := proxy.IsPackageAvailable(ctx, "com.android.shell")
 	logProxyResult(t, "package", "IsPackageAvailable", err)
 	if err == nil {
 		t.Logf("com.android.shell available: %v", result)
@@ -114,7 +114,7 @@ func TestGenBatch5_Wallpaper(t *testing.T) {
 	svc, err := sm.GetService(ctx, servicemanager.WallpaperService)
 	requireOrSkip(t, err)
 	proxy := genSearch.NewWallpaperManagerProxy(svc)
-	result, err := proxy.IsWallpaperSupported(ctx, "com.android.shell")
+	result, err := proxy.IsWallpaperSupported(ctx)
 	logProxyResult(t, "wallpaper", "IsWallpaperSupported", err)
 	if err == nil {
 		t.Logf("wallpaper supported: %v", result)
@@ -128,7 +128,7 @@ func TestGenBatch5_Trust(t *testing.T) {
 	svc, err := sm.GetService(ctx, servicemanager.TrustService)
 	requireOrSkip(t, err)
 	proxy := genTrust.NewTrustManagerProxy(svc)
-	result, err := proxy.IsTrustUsuallyManaged(ctx, 0)
+	result, err := proxy.IsTrustUsuallyManaged(ctx)
 	logProxyResult(t, "trust", "IsTrustUsuallyManaged", err)
 	if err == nil {
 		t.Logf("trust usually managed: %v", result)

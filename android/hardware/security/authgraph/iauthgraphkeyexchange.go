@@ -18,6 +18,13 @@ const (
 	TransactionIAuthGraphKeyExchangeAuthenticationComplete = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAuthGraphKeyExchangeCreate                 = "create"
+	MethodIAuthGraphKeyExchangeInit                   = "init"
+	MethodIAuthGraphKeyExchangeFinish                 = "finish"
+	MethodIAuthGraphKeyExchangeAuthenticationComplete = "authenticationComplete"
+)
+
 type IAuthGraphKeyExchange interface {
 	AsBinder() binder.IBinder
 	Create(ctx context.Context) (SessionInitiationInfo, error)
@@ -27,17 +34,17 @@ type IAuthGraphKeyExchange interface {
 }
 
 type AuthGraphKeyExchangeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthGraphKeyExchangeProxy(
 	remote binder.IBinder,
 ) *AuthGraphKeyExchangeProxy {
-	return &AuthGraphKeyExchangeProxy{remote: remote}
+	return &AuthGraphKeyExchangeProxy{Remote: remote}
 }
 
 func (p *AuthGraphKeyExchangeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuthGraphKeyExchange = (*AuthGraphKeyExchangeProxy)(nil)
@@ -49,12 +56,12 @@ func (p *AuthGraphKeyExchangeProxy) Create(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "create")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeCreate)
 	if _err != nil {
-		_code = TransactionIAuthGraphKeyExchangeCreate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeCreate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -104,12 +111,12 @@ func (p *AuthGraphKeyExchangeProxy) Init(
 	}
 	_data.WriteInt32(peerVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "init")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeInit)
 	if _err != nil {
-		_code = TransactionIAuthGraphKeyExchangeInit
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeInit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,12 +176,12 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeFinish)
 	if _err != nil {
-		_code = TransactionIAuthGraphKeyExchangeFinish
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeFinish, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -213,18 +220,19 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 	} else {
 		_data.WriteInt32(int32(len(sharedKeys)))
 		for _, _item := range sharedKeys {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "authenticationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeAuthenticationComplete)
 	if _err != nil {
-		_code = TransactionIAuthGraphKeyExchangeAuthenticationComplete
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthGraphKeyExchange, MethodIAuthGraphKeyExchangeAuthenticationComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,6 +250,9 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 	if _count >= 0 {
 		_result = make([]Arc, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -257,6 +268,10 @@ type AuthGraphKeyExchangeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuthGraphKeyExchangeStub)(nil)
+
+func (s *AuthGraphKeyExchangeStub) Descriptor() string {
+	return DescriptorIAuthGraphKeyExchange
+}
 
 func (s *AuthGraphKeyExchangeStub) OnTransaction(
 	ctx context.Context,

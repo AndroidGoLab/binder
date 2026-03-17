@@ -15,23 +15,27 @@ const (
 	TransactionStartInstallingUpdateCallbackOnStartInstallingUpdateError = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodStartInstallingUpdateCallbackOnStartInstallingUpdateError = "onStartInstallingUpdateError"
+)
+
 type StartInstallingUpdateCallback interface {
 	AsBinder() binder.IBinder
 	OnStartInstallingUpdateError(ctx context.Context, errorCode int32, errorMessage string) error
 }
 
 type StartInstallingUpdateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStartInstallingUpdateCallbackProxy(
 	remote binder.IBinder,
 ) *StartInstallingUpdateCallbackProxy {
-	return &StartInstallingUpdateCallbackProxy{remote: remote}
+	return &StartInstallingUpdateCallbackProxy{Remote: remote}
 }
 
 func (p *StartInstallingUpdateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ StartInstallingUpdateCallback = (*StartInstallingUpdateCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *StartInstallingUpdateCallbackProxy) OnStartInstallingUpdateError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorStartInstallingUpdateCallback, "onStartInstallingUpdateError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorStartInstallingUpdateCallback, MethodStartInstallingUpdateCallbackOnStartInstallingUpdateError)
 	if _err != nil {
-		_code = TransactionStartInstallingUpdateCallbackOnStartInstallingUpdateError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorStartInstallingUpdateCallback, MethodStartInstallingUpdateCallbackOnStartInstallingUpdateError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type StartInstallingUpdateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StartInstallingUpdateCallbackStub)(nil)
+
+func (s *StartInstallingUpdateCallbackStub) Descriptor() string {
+	return DescriptorStartInstallingUpdateCallback
+}
 
 func (s *StartInstallingUpdateCallbackStub) OnTransaction(
 	ctx context.Context,

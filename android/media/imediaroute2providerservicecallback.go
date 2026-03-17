@@ -19,6 +19,14 @@ const (
 	TransactionIMediaRoute2ProviderServiceCallbackNotifyRequestFailed   = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated = "notifyProviderUpdated"
+	MethodIMediaRoute2ProviderServiceCallbackNotifySessionCreated  = "notifySessionCreated"
+	MethodIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated = "notifySessionsUpdated"
+	MethodIMediaRoute2ProviderServiceCallbackNotifySessionReleased = "notifySessionReleased"
+	MethodIMediaRoute2ProviderServiceCallbackNotifyRequestFailed   = "notifyRequestFailed"
+)
+
 type IMediaRoute2ProviderServiceCallback interface {
 	AsBinder() binder.IBinder
 	NotifyProviderUpdated(ctx context.Context, providerInfo MediaRoute2ProviderInfo) error
@@ -29,17 +37,17 @@ type IMediaRoute2ProviderServiceCallback interface {
 }
 
 type MediaRoute2ProviderServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaRoute2ProviderServiceCallbackProxy(
 	remote binder.IBinder,
 ) *MediaRoute2ProviderServiceCallbackProxy {
-	return &MediaRoute2ProviderServiceCallbackProxy{remote: remote}
+	return &MediaRoute2ProviderServiceCallbackProxy{Remote: remote}
 }
 
 func (p *MediaRoute2ProviderServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaRoute2ProviderServiceCallback = (*MediaRoute2ProviderServiceCallbackProxy)(nil)
@@ -55,12 +63,12 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyProviderUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderServiceCallback, "notifyProviderUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +85,12 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionCreated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderServiceCallback, "notifySessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionCreated)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceCallbackNotifySessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,18 +105,19 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionsUpdated(
 	} else {
 		_data.WriteInt32(int32(len(sessionInfo)))
 		for _, _item := range sessionInfo {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderServiceCallback, "notifySessionsUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,12 +132,12 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionReleased(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderServiceCallback, "notifySessionReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionReleased)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceCallbackNotifySessionReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifySessionReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,12 +151,12 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyRequestFailed(
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderServiceCallback, "notifyRequestFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyRequestFailed)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceCallbackNotifyRequestFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderServiceCallback, MethodIMediaRoute2ProviderServiceCallbackNotifyRequestFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,6 +167,10 @@ type MediaRoute2ProviderServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceCallbackStub)(nil)
+
+func (s *MediaRoute2ProviderServiceCallbackStub) Descriptor() string {
+	return DescriptorIMediaRoute2ProviderServiceCallback
+}
 
 func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 	ctx context.Context,

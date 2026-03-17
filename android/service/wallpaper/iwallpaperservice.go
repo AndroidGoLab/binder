@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
-	appWallpaper "github.com/xaionaro-go/binder/android/app/wallpaper"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -19,24 +18,29 @@ const (
 	TransactionIWallpaperServiceDetach = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIWallpaperServiceAttach = "attach"
+	MethodIWallpaperServiceDetach = "detach"
+)
+
 type IWallpaperService interface {
 	AsBinder() binder.IBinder
-	Attach(ctx context.Context, connection IWallpaperConnection, windowToken binder.IBinder, windowType int32, isPreview bool, reqWidth int32, reqHeight int32, padding graphics.Rect, displayId int32, which int32, info app.WallpaperInfo, description appWallpaper.WallpaperDescription) error
+	Attach(ctx context.Context, connection IWallpaperConnection, windowToken binder.IBinder, windowType int32, isPreview bool, reqWidth int32, reqHeight int32, padding graphics.Rect, displayId int32, which int32, info app.WallpaperInfo) error
 	Detach(ctx context.Context, windowToken binder.IBinder) error
 }
 
 type WallpaperServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperServiceProxy(
 	remote binder.IBinder,
 ) *WallpaperServiceProxy {
-	return &WallpaperServiceProxy{remote: remote}
+	return &WallpaperServiceProxy{Remote: remote}
 }
 
 func (p *WallpaperServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperService = (*WallpaperServiceProxy)(nil)
@@ -53,12 +57,11 @@ func (p *WallpaperServiceProxy) Attach(
 	displayId int32,
 	which int32,
 	info app.WallpaperInfo,
-	description appWallpaper.WallpaperDescription,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperService)
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteInt32(windowType)
 	_data.WriteBool(isPreview)
 	_data.WriteInt32(reqWidth)
@@ -73,17 +76,13 @@ func (p *WallpaperServiceProxy) Attach(
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := description.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperService, "attach")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperService, MethodIWallpaperServiceAttach)
 	if _err != nil {
-		_code = TransactionIWallpaperServiceAttach
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperService, MethodIWallpaperServiceAttach, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,14 +92,14 @@ func (p *WallpaperServiceProxy) Detach(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperService)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperService, "detach")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperService, MethodIWallpaperServiceDetach)
 	if _err != nil {
-		_code = TransactionIWallpaperServiceDetach
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperService, MethodIWallpaperServiceDetach, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,6 +110,10 @@ type WallpaperServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperServiceStub)(nil)
+
+func (s *WallpaperServiceStub) Descriptor() string {
+	return DescriptorIWallpaperService
+}
 
 func (s *WallpaperServiceStub) OnTransaction(
 	ctx context.Context,
@@ -176,19 +179,7 @@ func (s *WallpaperServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_description appWallpaper.WallpaperDescription
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_description.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.Attach(ctx, _arg_connection, _arg_windowToken, _arg_windowType, _arg_isPreview, _arg_reqWidth, _arg_reqHeight, _arg_padding, _arg_displayId, _arg_which, _arg_info, _arg_description)
+		_err = s.Impl.Attach(ctx, _arg_connection, _arg_windowToken, _arg_windowType, _arg_isPreview, _arg_reqWidth, _arg_reqHeight, _arg_padding, _arg_displayId, _arg_which, _arg_info)
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperServiceDetach:
@@ -210,7 +201,7 @@ func (s *WallpaperServiceStub) OnTransaction(
 // provide to NewWallpaperServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWallpaperServiceServer interface {
-	Attach(ctx context.Context, connection IWallpaperConnection, windowToken binder.IBinder, windowType int32, isPreview bool, reqWidth int32, reqHeight int32, padding graphics.Rect, displayId int32, which int32, info app.WallpaperInfo, description appWallpaper.WallpaperDescription) error
+	Attach(ctx context.Context, connection IWallpaperConnection, windowToken binder.IBinder, windowType int32, isPreview bool, reqWidth int32, reqHeight int32, padding graphics.Rect, displayId int32, which int32, info app.WallpaperInfo) error
 	Detach(ctx context.Context, windowToken binder.IBinder) error
 }
 
@@ -235,9 +226,8 @@ func (w *wallpaperServiceStubWrapper) Attach(
 	displayId int32,
 	which int32,
 	info app.WallpaperInfo,
-	description appWallpaper.WallpaperDescription,
 ) error {
-	return w.impl.Attach(ctx, connection, windowToken, windowType, isPreview, reqWidth, reqHeight, padding, displayId, which, info, description)
+	return w.impl.Attach(ctx, connection, windowToken, windowType, isPreview, reqWidth, reqHeight, padding, displayId, which, info)
 }
 
 func (w *wallpaperServiceStubWrapper) Detach(

@@ -16,6 +16,11 @@ const (
 	TransactionISharedSecretComputeSharedSecret       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISharedSecretGetSharedSecretParameters = "getSharedSecretParameters"
+	MethodISharedSecretComputeSharedSecret       = "computeSharedSecret"
+)
+
 type ISharedSecret interface {
 	AsBinder() binder.IBinder
 	GetSharedSecretParameters(ctx context.Context) (SharedSecretParameters, error)
@@ -28,17 +33,17 @@ const (
 )
 
 type SharedSecretProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSharedSecretProxy(
 	remote binder.IBinder,
 ) *SharedSecretProxy {
-	return &SharedSecretProxy{remote: remote}
+	return &SharedSecretProxy{Remote: remote}
 }
 
 func (p *SharedSecretProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISharedSecret = (*SharedSecretProxy)(nil)
@@ -50,12 +55,12 @@ func (p *SharedSecretProxy) GetSharedSecretParameters(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedSecret)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedSecret, "getSharedSecretParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedSecret, MethodISharedSecretGetSharedSecretParameters)
 	if _err != nil {
-		_code = TransactionISharedSecretGetSharedSecretParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedSecret, MethodISharedSecretGetSharedSecretParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,18 +94,19 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 	} else {
 		_data.WriteInt32(int32(len(params)))
 		for _, _item := range params {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISharedSecret, "computeSharedSecret")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISharedSecret, MethodISharedSecretComputeSharedSecret)
 	if _err != nil {
-		_code = TransactionISharedSecretComputeSharedSecret
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISharedSecret, MethodISharedSecretComputeSharedSecret, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -134,6 +140,10 @@ type SharedSecretStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SharedSecretStub)(nil)
+
+func (s *SharedSecretStub) Descriptor() string {
+	return DescriptorISharedSecret
+}
 
 func (s *SharedSecretStub) OnTransaction(
 	ctx context.Context,

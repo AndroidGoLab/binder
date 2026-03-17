@@ -12,28 +12,30 @@ import (
 const DescriptorIBenchmark = "android.tests.binder.IBenchmark"
 
 const (
-	TransactionIBenchmarkSendVec       = binder.FirstCallTransaction + 0
-	TransactionIBenchmarkSendBinderVec = binder.FirstCallTransaction + 1
+	TransactionIBenchmarkSendVec = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIBenchmarkSendVec = "sendVec"
 )
 
 type IBenchmark interface {
 	AsBinder() binder.IBinder
 	SendVec(ctx context.Context, data []byte) ([]byte, error)
-	SendBinderVec(ctx context.Context, data []binder.IBinder) ([]binder.IBinder, error)
 }
 
 type BenchmarkProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBenchmarkProxy(
 	remote binder.IBinder,
 ) *BenchmarkProxy {
-	return &BenchmarkProxy{remote: remote}
+	return &BenchmarkProxy{Remote: remote}
 }
 
 func (p *BenchmarkProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBenchmark = (*BenchmarkProxy)(nil)
@@ -54,12 +56,12 @@ func (p *BenchmarkProxy) SendVec(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBenchmark, "sendVec")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBenchmark, MethodIBenchmarkSendVec)
 	if _err != nil {
-		_code = TransactionIBenchmarkSendVec
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBenchmark, MethodIBenchmarkSendVec, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,55 +88,6 @@ func (p *BenchmarkProxy) SendVec(
 	return _result, nil
 }
 
-func (p *BenchmarkProxy) SendBinderVec(
-	ctx context.Context,
-	data []binder.IBinder,
-) ([]binder.IBinder, error) {
-	var _result []binder.IBinder
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBenchmark)
-	if data == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(data)))
-		for _, _item := range data {
-			_data.WriteStrongBinder(_item.Handle())
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBenchmark, "sendBinderVec")
-	if _err != nil {
-		_code = TransactionIBenchmarkSendBinderVec
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]binder.IBinder, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_handle, _err := _reply.ReadStrongBinder()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_i] = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
-		}
-	}
-	return _result, nil
-}
-
 // BenchmarkStub dispatches incoming binder transactions
 // to a typed IBenchmark implementation.
 type BenchmarkStub struct {
@@ -142,6 +95,10 @@ type BenchmarkStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BenchmarkStub)(nil)
+
+func (s *BenchmarkStub) Descriptor() string {
+	return DescriptorIBenchmark
+}
 
 func (s *BenchmarkStub) OnTransaction(
 	ctx context.Context,
@@ -166,23 +123,6 @@ func (s *BenchmarkStub) OnTransaction(
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
-	case TransactionIBenchmarkSendBinderVec:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_data []binder.IBinder
-		_ = _arg_data
-		_result, _err := s.Impl.SendBinderVec(ctx, _arg_data)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -193,7 +133,6 @@ func (s *BenchmarkStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBenchmarkServer interface {
 	SendVec(ctx context.Context, data []byte) ([]byte, error)
-	SendBinderVec(ctx context.Context, data []binder.IBinder) ([]binder.IBinder, error)
 }
 
 type benchmarkStubWrapper struct {
@@ -210,13 +149,6 @@ func (w *benchmarkStubWrapper) SendVec(
 	data []byte,
 ) ([]byte, error) {
 	return w.impl.SendVec(ctx, data)
-}
-
-func (w *benchmarkStubWrapper) SendBinderVec(
-	ctx context.Context,
-	data []binder.IBinder,
-) ([]binder.IBinder, error) {
-	return w.impl.SendBinderVec(ctx, data)
 }
 
 var _ IBenchmark = (*benchmarkStubWrapper)(nil)

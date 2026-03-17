@@ -21,6 +21,14 @@ const (
 	TransactionIExternalStorageServiceNotifyAnrDelayStarted    = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIExternalStorageServiceStartSession             = "startSession"
+	MethodIExternalStorageServiceEndSession               = "endSession"
+	MethodIExternalStorageServiceNotifyVolumeStateChanged = "notifyVolumeStateChanged"
+	MethodIExternalStorageServiceFreeCache                = "freeCache"
+	MethodIExternalStorageServiceNotifyAnrDelayStarted    = "notifyAnrDelayStarted"
+)
+
 type IExternalStorageService interface {
 	AsBinder() binder.IBinder
 	StartSession(ctx context.Context, sessionId string, type_ int32, deviceFd int32, upperPath string, lowerPath string, callback os.RemoteCallback) error
@@ -31,17 +39,17 @@ type IExternalStorageService interface {
 }
 
 type ExternalStorageServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewExternalStorageServiceProxy(
 	remote binder.IBinder,
 ) *ExternalStorageServiceProxy {
-	return &ExternalStorageServiceProxy{remote: remote}
+	return &ExternalStorageServiceProxy{Remote: remote}
 }
 
 func (p *ExternalStorageServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IExternalStorageService = (*ExternalStorageServiceProxy)(nil)
@@ -67,12 +75,12 @@ func (p *ExternalStorageServiceProxy) StartSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalStorageService, "startSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceStartSession)
 	if _err != nil {
-		_code = TransactionIExternalStorageServiceStartSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalStorageService, MethodIExternalStorageServiceStartSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +97,12 @@ func (p *ExternalStorageServiceProxy) EndSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalStorageService, "endSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceEndSession)
 	if _err != nil {
-		_code = TransactionIExternalStorageServiceEndSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalStorageService, MethodIExternalStorageServiceEndSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,12 +124,12 @@ func (p *ExternalStorageServiceProxy) NotifyVolumeStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalStorageService, "notifyVolumeStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyVolumeStateChanged)
 	if _err != nil {
-		_code = TransactionIExternalStorageServiceNotifyVolumeStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyVolumeStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,12 +150,12 @@ func (p *ExternalStorageServiceProxy) FreeCache(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalStorageService, "freeCache")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceFreeCache)
 	if _err != nil {
-		_code = TransactionIExternalStorageServiceFreeCache
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalStorageService, MethodIExternalStorageServiceFreeCache, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,12 +173,12 @@ func (p *ExternalStorageServiceProxy) NotifyAnrDelayStarted(
 	_data.WriteInt32(tid)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExternalStorageService, "notifyAnrDelayStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyAnrDelayStarted)
 	if _err != nil {
-		_code = TransactionIExternalStorageServiceNotifyAnrDelayStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExternalStorageService, MethodIExternalStorageServiceNotifyAnrDelayStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -181,6 +189,10 @@ type ExternalStorageServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ExternalStorageServiceStub)(nil)
+
+func (s *ExternalStorageServiceStub) Descriptor() string {
+	return DescriptorIExternalStorageService
+}
 
 func (s *ExternalStorageServiceStub) OnTransaction(
 	ctx context.Context,

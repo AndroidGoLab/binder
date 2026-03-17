@@ -17,6 +17,12 @@ const (
 	TransactionICarTelemetryRemoveCallback = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICarTelemetryWrite          = "write"
+	MethodICarTelemetryAddCallback    = "addCallback"
+	MethodICarTelemetryRemoveCallback = "removeCallback"
+)
+
 type ICarTelemetry interface {
 	AsBinder() binder.IBinder
 	Write(ctx context.Context, dataList []CarData) error
@@ -25,17 +31,17 @@ type ICarTelemetry interface {
 }
 
 type CarTelemetryProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarTelemetryProxy(
 	remote binder.IBinder,
 ) *CarTelemetryProxy {
-	return &CarTelemetryProxy{remote: remote}
+	return &CarTelemetryProxy{Remote: remote}
 }
 
 func (p *CarTelemetryProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarTelemetry = (*CarTelemetryProxy)(nil)
@@ -51,18 +57,19 @@ func (p *CarTelemetryProxy) Write(
 	} else {
 		_data.WriteInt32(int32(len(dataList)))
 		for _, _item := range dataList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetry, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarTelemetry, MethodICarTelemetryWrite)
 	if _err != nil {
-		_code = TransactionICarTelemetryWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarTelemetry, MethodICarTelemetryWrite, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -86,14 +93,14 @@ func (p *CarTelemetryProxy) AddCallback(
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetry, "addCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarTelemetry, MethodICarTelemetryAddCallback)
 	if _err != nil {
-		_code = TransactionICarTelemetryAddCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarTelemetry, MethodICarTelemetryAddCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,14 +119,14 @@ func (p *CarTelemetryProxy) RemoveCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarTelemetry)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetry, "removeCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarTelemetry, MethodICarTelemetryRemoveCallback)
 	if _err != nil {
-		_code = TransactionICarTelemetryRemoveCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarTelemetry, MethodICarTelemetryRemoveCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,6 +146,10 @@ type CarTelemetryStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarTelemetryStub)(nil)
+
+func (s *CarTelemetryStub) Descriptor() string {
+	return DescriptorICarTelemetry
+}
 
 func (s *CarTelemetryStub) OnTransaction(
 	ctx context.Context,

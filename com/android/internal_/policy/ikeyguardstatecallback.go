@@ -18,6 +18,13 @@ const (
 	TransactionIKeyguardStateCallbackOnTrustedChanged              = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIKeyguardStateCallbackOnShowingStateChanged         = "onShowingStateChanged"
+	MethodIKeyguardStateCallbackOnSimSecureStateChanged       = "onSimSecureStateChanged"
+	MethodIKeyguardStateCallbackOnInputRestrictedStateChanged = "onInputRestrictedStateChanged"
+	MethodIKeyguardStateCallbackOnTrustedChanged              = "onTrustedChanged"
+)
+
 type IKeyguardStateCallback interface {
 	AsBinder() binder.IBinder
 	OnShowingStateChanged(ctx context.Context, showing bool) error
@@ -27,17 +34,17 @@ type IKeyguardStateCallback interface {
 }
 
 type KeyguardStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeyguardStateCallbackProxy(
 	remote binder.IBinder,
 ) *KeyguardStateCallbackProxy {
-	return &KeyguardStateCallbackProxy{remote: remote}
+	return &KeyguardStateCallbackProxy{Remote: remote}
 }
 
 func (p *KeyguardStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeyguardStateCallback = (*KeyguardStateCallbackProxy)(nil)
@@ -46,18 +53,18 @@ func (p *KeyguardStateCallbackProxy) OnShowingStateChanged(
 	ctx context.Context,
 	showing bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(showing)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onShowingStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnShowingStateChanged)
 	if _err != nil {
-		_code = TransactionIKeyguardStateCallbackOnShowingStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnShowingStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +85,12 @@ func (p *KeyguardStateCallbackProxy) OnSimSecureStateChanged(
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(simSecure)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onSimSecureStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnSimSecureStateChanged)
 	if _err != nil {
-		_code = TransactionIKeyguardStateCallbackOnSimSecureStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnSimSecureStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,12 +111,12 @@ func (p *KeyguardStateCallbackProxy) OnInputRestrictedStateChanged(
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(inputRestricted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onInputRestrictedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnInputRestrictedStateChanged)
 	if _err != nil {
-		_code = TransactionIKeyguardStateCallbackOnInputRestrictedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnInputRestrictedStateChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -130,12 +137,12 @@ func (p *KeyguardStateCallbackProxy) OnTrustedChanged(
 	_data.WriteInterfaceToken(DescriptorIKeyguardStateCallback)
 	_data.WriteBool(trusted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onTrustedChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnTrustedChanged)
 	if _err != nil {
-		_code = TransactionIKeyguardStateCallbackOnTrustedChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeyguardStateCallback, MethodIKeyguardStateCallbackOnTrustedChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,6 +162,10 @@ type KeyguardStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeyguardStateCallbackStub)(nil)
+
+func (s *KeyguardStateCallbackStub) Descriptor() string {
+	return DescriptorIKeyguardStateCallback
+}
 
 func (s *KeyguardStateCallbackStub) OnTransaction(
 	ctx context.Context,

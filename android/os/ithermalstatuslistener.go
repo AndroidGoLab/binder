@@ -15,23 +15,27 @@ const (
 	TransactionIThermalStatusListenerOnStatusChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIThermalStatusListenerOnStatusChange = "onStatusChange"
+)
+
 type IThermalStatusListener interface {
 	AsBinder() binder.IBinder
 	OnStatusChange(ctx context.Context, status int32) error
 }
 
 type ThermalStatusListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewThermalStatusListenerProxy(
 	remote binder.IBinder,
 ) *ThermalStatusListenerProxy {
-	return &ThermalStatusListenerProxy{remote: remote}
+	return &ThermalStatusListenerProxy{Remote: remote}
 }
 
 func (p *ThermalStatusListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IThermalStatusListener = (*ThermalStatusListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ThermalStatusListenerProxy) OnStatusChange(
 	_data.WriteInterfaceToken(DescriptorIThermalStatusListener)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIThermalStatusListener, "onStatusChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIThermalStatusListener, MethodIThermalStatusListenerOnStatusChange)
 	if _err != nil {
-		_code = TransactionIThermalStatusListenerOnStatusChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIThermalStatusListener, MethodIThermalStatusListenerOnStatusChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ThermalStatusListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ThermalStatusListenerStub)(nil)
+
+func (s *ThermalStatusListenerStub) Descriptor() string {
+	return DescriptorIThermalStatusListener
+}
 
 func (s *ThermalStatusListenerStub) OnTransaction(
 	ctx context.Context,

@@ -16,23 +16,27 @@ const (
 	TransactionIListNotificationsCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIListNotificationsCallbackOnComplete = "onComplete"
+)
+
 type IListNotificationsCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, notifications []telephonyEuicc.EuiccNotification) error
 }
 
 type ListNotificationsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewListNotificationsCallbackProxy(
 	remote binder.IBinder,
 ) *ListNotificationsCallbackProxy {
-	return &ListNotificationsCallbackProxy{remote: remote}
+	return &ListNotificationsCallbackProxy{Remote: remote}
 }
 
 func (p *ListNotificationsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IListNotificationsCallback = (*ListNotificationsCallbackProxy)(nil)
@@ -50,18 +54,19 @@ func (p *ListNotificationsCallbackProxy) OnComplete(
 	} else {
 		_data.WriteInt32(int32(len(notifications)))
 		for _, _item := range notifications {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIListNotificationsCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIListNotificationsCallback, MethodIListNotificationsCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIListNotificationsCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIListNotificationsCallback, MethodIListNotificationsCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +77,10 @@ type ListNotificationsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ListNotificationsCallbackStub)(nil)
+
+func (s *ListNotificationsCallbackStub) Descriptor() string {
+	return DescriptorIListNotificationsCallback
+}
 
 func (s *ListNotificationsCallbackStub) OnTransaction(
 	ctx context.Context,

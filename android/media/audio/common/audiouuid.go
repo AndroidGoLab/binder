@@ -24,14 +24,7 @@ func (s *AudioUuid) MarshalParcel(
 	p.WriteInt32(s.TimeMid)
 	p.WriteInt32(s.TimeHiAndVersion)
 	p.WriteInt32(s.ClockSeq)
-	if s.Node == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Node)))
-		for _, _item := range s.Node {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Node)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -65,19 +58,9 @@ func (s *AudioUuid) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Node, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Node = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Node[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

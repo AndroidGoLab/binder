@@ -16,6 +16,11 @@ const (
 	TransactionIConsumerIrTransmit        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIConsumerIrGetCarrierFreqs = "getCarrierFreqs"
+	MethodIConsumerIrTransmit        = "transmit"
+)
+
 type IConsumerIr interface {
 	AsBinder() binder.IBinder
 	GetCarrierFreqs(ctx context.Context) ([]ConsumerIrFreqRange, error)
@@ -23,17 +28,17 @@ type IConsumerIr interface {
 }
 
 type ConsumerIrProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConsumerIrProxy(
 	remote binder.IBinder,
 ) *ConsumerIrProxy {
-	return &ConsumerIrProxy{remote: remote}
+	return &ConsumerIrProxy{Remote: remote}
 }
 
 func (p *ConsumerIrProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConsumerIr = (*ConsumerIrProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ConsumerIrProxy) GetCarrierFreqs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConsumerIr)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIr, "getCarrierFreqs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConsumerIr, MethodIConsumerIrGetCarrierFreqs)
 	if _err != nil {
-		_code = TransactionIConsumerIrGetCarrierFreqs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIConsumerIr, MethodIConsumerIrGetCarrierFreqs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,6 +73,9 @@ func (p *ConsumerIrProxy) GetCarrierFreqs(
 	if _count >= 0 {
 		_result = make([]ConsumerIrFreqRange, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -93,12 +101,12 @@ func (p *ConsumerIrProxy) Transmit(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIr, "transmit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConsumerIr, MethodIConsumerIrTransmit)
 	if _err != nil {
-		_code = TransactionIConsumerIrTransmit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConsumerIr, MethodIConsumerIrTransmit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,6 +126,10 @@ type ConsumerIrStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConsumerIrStub)(nil)
+
+func (s *ConsumerIrStub) Descriptor() string {
+	return DescriptorIConsumerIr
+}
 
 func (s *ConsumerIrStub) OnTransaction(
 	ctx context.Context,

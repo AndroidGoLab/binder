@@ -17,5 +17,4 @@ const (
 	SupplicantStatusCodeFailureNetworkUnknown       SupplicantStatusCode = 9
 	SupplicantStatusCodeFailureUnsupported          SupplicantStatusCode = 10
 	SupplicantStatusCodeFailureOngoingRequest       SupplicantStatusCode = 11
-	SupplicantStatusCodeFailureDataNotAvailable     SupplicantStatusCode = 12
 )

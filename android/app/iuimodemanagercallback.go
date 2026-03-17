@@ -15,23 +15,27 @@ const (
 	TransactionIUiModeManagerCallbackNotifyContrastChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUiModeManagerCallbackNotifyContrastChanged = "notifyContrastChanged"
+)
+
 type IUiModeManagerCallback interface {
 	AsBinder() binder.IBinder
 	NotifyContrastChanged(ctx context.Context, contrast float32) error
 }
 
 type UiModeManagerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUiModeManagerCallbackProxy(
 	remote binder.IBinder,
 ) *UiModeManagerCallbackProxy {
-	return &UiModeManagerCallbackProxy{remote: remote}
+	return &UiModeManagerCallbackProxy{Remote: remote}
 }
 
 func (p *UiModeManagerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUiModeManagerCallback = (*UiModeManagerCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *UiModeManagerCallbackProxy) NotifyContrastChanged(
 	_data.WriteInterfaceToken(DescriptorIUiModeManagerCallback)
 	_data.WriteFloat32(contrast)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUiModeManagerCallback, "notifyContrastChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUiModeManagerCallback, MethodIUiModeManagerCallbackNotifyContrastChanged)
 	if _err != nil {
-		_code = TransactionIUiModeManagerCallbackNotifyContrastChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUiModeManagerCallback, MethodIUiModeManagerCallbackNotifyContrastChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UiModeManagerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UiModeManagerCallbackStub)(nil)
+
+func (s *UiModeManagerCallbackStub) Descriptor() string {
+	return DescriptorIUiModeManagerCallback
+}
 
 func (s *UiModeManagerCallbackStub) OnTransaction(
 	ctx context.Context,

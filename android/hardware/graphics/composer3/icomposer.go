@@ -16,6 +16,11 @@ const (
 	TransactionIComposerGetCapabilities = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIComposerCreateClient    = "createClient"
+	MethodIComposerGetCapabilities = "getCapabilities"
+)
+
 type IComposer interface {
 	AsBinder() binder.IBinder
 	CreateClient(ctx context.Context) (IComposerClient, error)
@@ -27,17 +32,17 @@ const (
 )
 
 type ComposerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewComposerProxy(
 	remote binder.IBinder,
 ) *ComposerProxy {
-	return &ComposerProxy{remote: remote}
+	return &ComposerProxy{Remote: remote}
 }
 
 func (p *ComposerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IComposer = (*ComposerProxy)(nil)
@@ -49,12 +54,12 @@ func (p *ComposerProxy) CreateClient(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposer, "createClient")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposer, MethodIComposerCreateClient)
 	if _err != nil {
-		_code = TransactionIComposerCreateClient
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposer, MethodIComposerCreateClient, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,7 +73,7 @@ func (p *ComposerProxy) CreateClient(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewComposerClientProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewComposerClientProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -79,12 +84,12 @@ func (p *ComposerProxy) GetCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposer, "getCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposer, MethodIComposerGetCapabilities)
 	if _err != nil {
-		_code = TransactionIComposerGetCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposer, MethodIComposerGetCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,6 +124,10 @@ type ComposerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ComposerStub)(nil)
+
+func (s *ComposerStub) Descriptor() string {
+	return DescriptorIComposer
+}
 
 func (s *ComposerStub) OnTransaction(
 	ctx context.Context,

@@ -21,6 +21,16 @@ const (
 	TransactionIBluetoothLeCallControlCallbackOnJoinCalls        = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIBluetoothLeCallControlCallbackOnBearerRegistered = "onBearerRegistered"
+	MethodIBluetoothLeCallControlCallbackOnAcceptCall       = "onAcceptCall"
+	MethodIBluetoothLeCallControlCallbackOnTerminateCall    = "onTerminateCall"
+	MethodIBluetoothLeCallControlCallbackOnHoldCall         = "onHoldCall"
+	MethodIBluetoothLeCallControlCallbackOnUnholdCall       = "onUnholdCall"
+	MethodIBluetoothLeCallControlCallbackOnPlaceCall        = "onPlaceCall"
+	MethodIBluetoothLeCallControlCallbackOnJoinCalls        = "onJoinCalls"
+)
+
 type IBluetoothLeCallControlCallback interface {
 	AsBinder() binder.IBinder
 	OnBearerRegistered(ctx context.Context, ccid int32) error
@@ -33,17 +43,17 @@ type IBluetoothLeCallControlCallback interface {
 }
 
 type BluetoothLeCallControlCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothLeCallControlCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothLeCallControlCallbackProxy {
-	return &BluetoothLeCallControlCallbackProxy{remote: remote}
+	return &BluetoothLeCallControlCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothLeCallControlCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothLeCallControlCallback = (*BluetoothLeCallControlCallbackProxy)(nil)
@@ -56,12 +66,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnBearerRegistered(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControlCallback)
 	_data.WriteInt32(ccid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onBearerRegistered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnBearerRegistered)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnBearerRegistered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnBearerRegistered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +84,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnAcceptCall(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControlCallback)
 	_data.WriteInt32(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onAcceptCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnAcceptCall)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnAcceptCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnAcceptCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +102,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnTerminateCall(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControlCallback)
 	_data.WriteInt32(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onTerminateCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnTerminateCall)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnTerminateCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnTerminateCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,12 +120,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnHoldCall(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControlCallback)
 	_data.WriteInt32(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onHoldCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnHoldCall)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnHoldCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnHoldCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,12 +138,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnUnholdCall(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLeCallControlCallback)
 	_data.WriteInt32(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onUnholdCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnUnholdCall)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnUnholdCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnUnholdCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,12 +158,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnPlaceCall(
 	_data.WriteInt32(requestId)
 	_data.WriteString16(uri)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onPlaceCall")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnPlaceCall)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnPlaceCall
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnPlaceCall, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,12 +181,12 @@ func (p *BluetoothLeCallControlCallbackProxy) OnJoinCalls(
 		_data.WriteInt32(int32(len(uuids)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onJoinCalls")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnJoinCalls)
 	if _err != nil {
-		_code = TransactionIBluetoothLeCallControlCallbackOnJoinCalls
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeCallControlCallback, MethodIBluetoothLeCallControlCallbackOnJoinCalls, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,6 +197,10 @@ type BluetoothLeCallControlCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeCallControlCallbackStub)(nil)
+
+func (s *BluetoothLeCallControlCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothLeCallControlCallback
+}
 
 func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 	ctx context.Context,

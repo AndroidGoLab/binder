@@ -3,7 +3,7 @@ package translation
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	serviceTranslation "github.com/xaionaro-go/binder/android/service/translation"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -18,24 +18,29 @@ const (
 	TransactionITranslationDirectManagerOnFinishTranslationSession = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITranslationDirectManagerOnTranslationRequest       = "onTranslationRequest"
+	MethodITranslationDirectManagerOnFinishTranslationSession = "onFinishTranslationSession"
+)
+
 type ITranslationDirectManager interface {
 	AsBinder() binder.IBinder
-	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport ondeviceintelligence.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
+	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport common.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
 	OnFinishTranslationSession(ctx context.Context, sessionId int32) error
 }
 
 type TranslationDirectManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTranslationDirectManagerProxy(
 	remote binder.IBinder,
 ) *TranslationDirectManagerProxy {
-	return &TranslationDirectManagerProxy{remote: remote}
+	return &TranslationDirectManagerProxy{Remote: remote}
 }
 
 func (p *TranslationDirectManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITranslationDirectManager = (*TranslationDirectManagerProxy)(nil)
@@ -44,7 +49,7 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 	ctx context.Context,
 	request TranslationRequest,
 	sessionId int32,
-	transport ondeviceintelligence.ICancellationSignal,
+	transport common.ICancellationSignal,
 	callback serviceTranslation.ITranslationCallback,
 ) error {
 	_data := parcel.New()
@@ -54,15 +59,15 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 		return _err
 	}
 	_data.WriteInt32(sessionId)
-	binder.WriteBinderToParcel(ctx, _data, transport.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transport.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationDirectManager, "onTranslationRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnTranslationRequest)
 	if _err != nil {
-		_code = TransactionITranslationDirectManagerOnTranslationRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnTranslationRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +79,12 @@ func (p *TranslationDirectManagerProxy) OnFinishTranslationSession(
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationDirectManager, "onFinishTranslationSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnFinishTranslationSession)
 	if _err != nil {
-		_code = TransactionITranslationDirectManagerOnFinishTranslationSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationDirectManager, MethodITranslationDirectManagerOnFinishTranslationSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,6 +95,10 @@ type TranslationDirectManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TranslationDirectManagerStub)(nil)
+
+func (s *TranslationDirectManagerStub) Descriptor() string {
+	return DescriptorITranslationDirectManager
+}
 
 func (s *TranslationDirectManagerStub) OnTransaction(
 	ctx context.Context,
@@ -118,7 +127,7 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_transport ondeviceintelligence.ICancellationSignal
+		var _arg_transport common.ICancellationSignal
 		_ = _arg_transport
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback serviceTranslation.ITranslationCallback
@@ -146,7 +155,7 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 // provide to NewTranslationDirectManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITranslationDirectManagerServer interface {
-	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport ondeviceintelligence.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
+	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport common.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
 	OnFinishTranslationSession(ctx context.Context, sessionId int32) error
 }
 
@@ -163,7 +172,7 @@ func (w *translationDirectManagerStubWrapper) OnTranslationRequest(
 	ctx context.Context,
 	request TranslationRequest,
 	sessionId int32,
-	transport ondeviceintelligence.ICancellationSignal,
+	transport common.ICancellationSignal,
 	callback serviceTranslation.ITranslationCallback,
 ) error {
 	return w.impl.OnTranslationRequest(ctx, request, sessionId, transport, callback)

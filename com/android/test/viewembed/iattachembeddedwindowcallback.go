@@ -16,23 +16,27 @@ const (
 	TransactionIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached = "onEmbeddedWindowAttached"
+)
+
 type IAttachEmbeddedWindowCallback interface {
 	AsBinder() binder.IBinder
 	OnEmbeddedWindowAttached(ctx context.Context, surfacePackage view.SurfaceControlViewHostSurfacePackage) error
 }
 
 type AttachEmbeddedWindowCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAttachEmbeddedWindowCallbackProxy(
 	remote binder.IBinder,
 ) *AttachEmbeddedWindowCallbackProxy {
-	return &AttachEmbeddedWindowCallbackProxy{remote: remote}
+	return &AttachEmbeddedWindowCallbackProxy{Remote: remote}
 }
 
 func (p *AttachEmbeddedWindowCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAttachEmbeddedWindowCallback = (*AttachEmbeddedWindowCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *AttachEmbeddedWindowCallbackProxy) OnEmbeddedWindowAttached(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindowCallback, "onEmbeddedWindowAttached")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAttachEmbeddedWindowCallback, MethodIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached)
 	if _err != nil {
-		_code = TransactionIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAttachEmbeddedWindowCallback, MethodIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,6 +77,10 @@ type AttachEmbeddedWindowCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AttachEmbeddedWindowCallbackStub)(nil)
+
+func (s *AttachEmbeddedWindowCallbackStub) Descriptor() string {
+	return DescriptorIAttachEmbeddedWindowCallback
+}
 
 func (s *AttachEmbeddedWindowCallbackStub) OnTransaction(
 	ctx context.Context,

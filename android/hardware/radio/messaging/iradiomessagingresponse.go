@@ -37,6 +37,31 @@ const (
 	TransactionIRadioMessagingResponseWriteSmsToSimResponse                    = binder.FirstCallTransaction + 21
 )
 
+const (
+	MethodIRadioMessagingResponseAcknowledgeIncomingGsmSmsWithPduResponse = "acknowledgeIncomingGsmSmsWithPduResponse"
+	MethodIRadioMessagingResponseAcknowledgeLastIncomingCdmaSmsResponse   = "acknowledgeLastIncomingCdmaSmsResponse"
+	MethodIRadioMessagingResponseAcknowledgeLastIncomingGsmSmsResponse    = "acknowledgeLastIncomingGsmSmsResponse"
+	MethodIRadioMessagingResponseAcknowledgeRequest                       = "acknowledgeRequest"
+	MethodIRadioMessagingResponseDeleteSmsOnRuimResponse                  = "deleteSmsOnRuimResponse"
+	MethodIRadioMessagingResponseDeleteSmsOnSimResponse                   = "deleteSmsOnSimResponse"
+	MethodIRadioMessagingResponseGetCdmaBroadcastConfigResponse           = "getCdmaBroadcastConfigResponse"
+	MethodIRadioMessagingResponseGetGsmBroadcastConfigResponse            = "getGsmBroadcastConfigResponse"
+	MethodIRadioMessagingResponseGetSmscAddressResponse                   = "getSmscAddressResponse"
+	MethodIRadioMessagingResponseReportSmsMemoryStatusResponse            = "reportSmsMemoryStatusResponse"
+	MethodIRadioMessagingResponseSendCdmaSmsExpectMoreResponse            = "sendCdmaSmsExpectMoreResponse"
+	MethodIRadioMessagingResponseSendCdmaSmsResponse                      = "sendCdmaSmsResponse"
+	MethodIRadioMessagingResponseSendImsSmsResponse                       = "sendImsSmsResponse"
+	MethodIRadioMessagingResponseSendSmsExpectMoreResponse                = "sendSmsExpectMoreResponse"
+	MethodIRadioMessagingResponseSendSmsResponse                          = "sendSmsResponse"
+	MethodIRadioMessagingResponseSetCdmaBroadcastActivationResponse       = "setCdmaBroadcastActivationResponse"
+	MethodIRadioMessagingResponseSetCdmaBroadcastConfigResponse           = "setCdmaBroadcastConfigResponse"
+	MethodIRadioMessagingResponseSetGsmBroadcastActivationResponse        = "setGsmBroadcastActivationResponse"
+	MethodIRadioMessagingResponseSetGsmBroadcastConfigResponse            = "setGsmBroadcastConfigResponse"
+	MethodIRadioMessagingResponseSetSmscAddressResponse                   = "setSmscAddressResponse"
+	MethodIRadioMessagingResponseWriteSmsToRuimResponse                   = "writeSmsToRuimResponse"
+	MethodIRadioMessagingResponseWriteSmsToSimResponse                    = "writeSmsToSimResponse"
+)
+
 type IRadioMessagingResponse interface {
 	AsBinder() binder.IBinder
 	AcknowledgeIncomingGsmSmsWithPduResponse(ctx context.Context, info radio.RadioResponseInfo) error
@@ -64,17 +89,17 @@ type IRadioMessagingResponse interface {
 }
 
 type RadioMessagingResponseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRadioMessagingResponseProxy(
 	remote binder.IBinder,
 ) *RadioMessagingResponseProxy {
-	return &RadioMessagingResponseProxy{remote: remote}
+	return &RadioMessagingResponseProxy{Remote: remote}
 }
 
 func (p *RadioMessagingResponseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRadioMessagingResponse = (*RadioMessagingResponseProxy)(nil)
@@ -90,12 +115,12 @@ func (p *RadioMessagingResponseProxy) AcknowledgeIncomingGsmSmsWithPduResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeIncomingGsmSmsWithPduResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeIncomingGsmSmsWithPduResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseAcknowledgeIncomingGsmSmsWithPduResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeIncomingGsmSmsWithPduResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,12 +135,12 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingCdmaSmsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeLastIncomingCdmaSmsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeLastIncomingCdmaSmsResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseAcknowledgeLastIncomingCdmaSmsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeLastIncomingCdmaSmsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,12 +155,12 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingGsmSmsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeLastIncomingGsmSmsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeLastIncomingGsmSmsResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseAcknowledgeLastIncomingGsmSmsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeLastIncomingGsmSmsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,12 +172,12 @@ func (p *RadioMessagingResponseProxy) AcknowledgeRequest(
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeRequest)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseAcknowledgeRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseAcknowledgeRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,12 +192,12 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnRuimResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "deleteSmsOnRuimResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseDeleteSmsOnRuimResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseDeleteSmsOnRuimResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseDeleteSmsOnRuimResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,12 +212,12 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnSimResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "deleteSmsOnSimResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseDeleteSmsOnSimResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseDeleteSmsOnSimResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseDeleteSmsOnSimResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,18 +237,19 @@ func (p *RadioMessagingResponseProxy) GetCdmaBroadcastConfigResponse(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "getCdmaBroadcastConfigResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseGetCdmaBroadcastConfigResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseGetCdmaBroadcastConfigResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseGetCdmaBroadcastConfigResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -243,18 +269,19 @@ func (p *RadioMessagingResponseProxy) GetGsmBroadcastConfigResponse(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "getGsmBroadcastConfigResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseGetGsmBroadcastConfigResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseGetGsmBroadcastConfigResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseGetGsmBroadcastConfigResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -271,12 +298,12 @@ func (p *RadioMessagingResponseProxy) GetSmscAddressResponse(
 	}
 	_data.WriteString16(smsc)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "getSmscAddressResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseGetSmscAddressResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseGetSmscAddressResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseGetSmscAddressResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -291,12 +318,12 @@ func (p *RadioMessagingResponseProxy) ReportSmsMemoryStatusResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "reportSmsMemoryStatusResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseReportSmsMemoryStatusResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseReportSmsMemoryStatusResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseReportSmsMemoryStatusResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -316,12 +343,12 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsExpectMoreResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendCdmaSmsExpectMoreResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendCdmaSmsExpectMoreResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSendCdmaSmsExpectMoreResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendCdmaSmsExpectMoreResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -341,12 +368,12 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendCdmaSmsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendCdmaSmsResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSendCdmaSmsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendCdmaSmsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -366,12 +393,12 @@ func (p *RadioMessagingResponseProxy) SendImsSmsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendImsSmsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendImsSmsResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSendImsSmsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendImsSmsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -391,12 +418,12 @@ func (p *RadioMessagingResponseProxy) SendSmsExpectMoreResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendSmsExpectMoreResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendSmsExpectMoreResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSendSmsExpectMoreResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendSmsExpectMoreResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -416,12 +443,12 @@ func (p *RadioMessagingResponseProxy) SendSmsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendSmsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendSmsResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSendSmsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSendSmsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -436,12 +463,12 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastActivationResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setCdmaBroadcastActivationResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetCdmaBroadcastActivationResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSetCdmaBroadcastActivationResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetCdmaBroadcastActivationResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -456,12 +483,12 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastConfigResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setCdmaBroadcastConfigResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetCdmaBroadcastConfigResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSetCdmaBroadcastConfigResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetCdmaBroadcastConfigResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -476,12 +503,12 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastActivationResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setGsmBroadcastActivationResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetGsmBroadcastActivationResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSetGsmBroadcastActivationResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetGsmBroadcastActivationResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -496,12 +523,12 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastConfigResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setGsmBroadcastConfigResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetGsmBroadcastConfigResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSetGsmBroadcastConfigResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetGsmBroadcastConfigResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -516,12 +543,12 @@ func (p *RadioMessagingResponseProxy) SetSmscAddressResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setSmscAddressResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetSmscAddressResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseSetSmscAddressResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseSetSmscAddressResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -538,12 +565,12 @@ func (p *RadioMessagingResponseProxy) WriteSmsToRuimResponse(
 	}
 	_data.WriteInt32(index)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "writeSmsToRuimResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseWriteSmsToRuimResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseWriteSmsToRuimResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseWriteSmsToRuimResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -560,12 +587,12 @@ func (p *RadioMessagingResponseProxy) WriteSmsToSimResponse(
 	}
 	_data.WriteInt32(index)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "writeSmsToSimResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseWriteSmsToSimResponse)
 	if _err != nil {
-		_code = TransactionIRadioMessagingResponseWriteSmsToSimResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRadioMessagingResponse, MethodIRadioMessagingResponseWriteSmsToSimResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -576,6 +603,10 @@ type RadioMessagingResponseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RadioMessagingResponseStub)(nil)
+
+func (s *RadioMessagingResponseStub) Descriptor() string {
+	return DescriptorIRadioMessagingResponse
+}
 
 func (s *RadioMessagingResponseStub) OnTransaction(
 	ctx context.Context,

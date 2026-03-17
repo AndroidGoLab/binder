@@ -17,6 +17,12 @@ const (
 	TransactionIPackageManagerProxyGetVersionCodeForPackage = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIPackageManagerProxyGetNamesForUids          = "getNamesForUids"
+	MethodIPackageManagerProxyGetPackageUid            = "getPackageUid"
+	MethodIPackageManagerProxyGetVersionCodeForPackage = "getVersionCodeForPackage"
+)
+
 type IPackageManagerProxy interface {
 	AsBinder() binder.IBinder
 	GetNamesForUids(ctx context.Context, uids []int32) ([]string, error)
@@ -25,17 +31,17 @@ type IPackageManagerProxy interface {
 }
 
 type PackageManagerProxyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPackageManagerProxyProxy(
 	remote binder.IBinder,
 ) *PackageManagerProxyProxy {
-	return &PackageManagerProxyProxy{remote: remote}
+	return &PackageManagerProxyProxy{Remote: remote}
 }
 
 func (p *PackageManagerProxyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPackageManagerProxy = (*PackageManagerProxyProxy)(nil)
@@ -56,12 +62,12 @@ func (p *PackageManagerProxyProxy) GetNamesForUids(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerProxy, "getNamesForUids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerProxy, MethodIPackageManagerProxyGetNamesForUids)
 	if _err != nil {
-		_code = TransactionIPackageManagerProxyGetNamesForUids
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerProxy, MethodIPackageManagerProxyGetNamesForUids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,19 +100,19 @@ func (p *PackageManagerProxyProxy) GetPackageUid(
 	flags int64,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerProxy)
 	_data.WriteString16(packageName)
 	_data.WriteInt64(flags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerProxy, "getPackageUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerProxy, MethodIPackageManagerProxyGetPackageUid)
 	if _err != nil {
-		_code = TransactionIPackageManagerProxyGetPackageUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerProxy, MethodIPackageManagerProxyGetPackageUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,12 +138,12 @@ func (p *PackageManagerProxyProxy) GetVersionCodeForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerProxy)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerProxy, "getVersionCodeForPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPackageManagerProxy, MethodIPackageManagerProxyGetVersionCodeForPackage)
 	if _err != nil {
-		_code = TransactionIPackageManagerProxyGetVersionCodeForPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPackageManagerProxy, MethodIPackageManagerProxyGetVersionCodeForPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,6 +167,10 @@ type PackageManagerProxyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PackageManagerProxyStub)(nil)
+
+func (s *PackageManagerProxyStub) Descriptor() string {
+	return DescriptorIPackageManagerProxy
+}
 
 func (s *PackageManagerProxyStub) OnTransaction(
 	ctx context.Context,

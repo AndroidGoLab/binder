@@ -89,7 +89,7 @@ func TestGenBatch1_Account_GetAuthenticatorTypes(t *testing.T) {
 
 	proxy := genAccounts.NewAccountManagerProxy(svc)
 	// userId=0 (default user)
-	result, err := proxy.GetAuthenticatorTypes(ctx, 0)
+	result, err := proxy.GetAuthenticatorTypes(ctx)
 	requireOrSkip(t, err)
 	t.Logf("GetAuthenticatorTypes: %d types", len(result))
 }

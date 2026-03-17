@@ -16,17 +16,17 @@ type IFoo interface {
 }
 
 type FooProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFooProxy(
 	remote binder.IBinder,
 ) *FooProxy {
-	return &FooProxy{remote: remote}
+	return &FooProxy{Remote: remote}
 }
 
 func (p *FooProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFoo = (*FooProxy)(nil)
@@ -38,6 +38,10 @@ type FooStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FooStub)(nil)
+
+func (s *FooStub) Descriptor() string {
+	return DescriptorIFoo
+}
 
 func (s *FooStub) OnTransaction(
 	ctx context.Context,

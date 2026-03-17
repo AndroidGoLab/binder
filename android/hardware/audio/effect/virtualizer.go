@@ -94,6 +94,7 @@ func (u *Virtualizer) MarshalParcel(
 
 	switch u.Tag {
 	case VirtualizerTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -105,12 +106,14 @@ func (u *Virtualizer) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.SpeakerAngles)))
 			for _, _item := range u.SpeakerAngles {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
 			}
 		}
 	case VirtualizerTagDevice:
+		p.WriteInt32(1)
 		if _err := u.Device.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -137,6 +140,9 @@ func (u *Virtualizer) UnmarshalParcel(
 
 	switch u.Tag {
 	case VirtualizerTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -155,12 +161,18 @@ func (u *Virtualizer) UnmarshalParcel(
 		if _count0 >= 0 {
 			u.SpeakerAngles = make([]effectVirtualizer.ChannelAngle, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.SpeakerAngles[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
 			}
 		}
 	case VirtualizerTagDevice:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Device.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

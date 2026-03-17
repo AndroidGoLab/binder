@@ -23,22 +23,8 @@ func (s *InstallationFileParcel) MarshalParcel(
 	p.WriteString16(s.Name)
 	p.WriteInt32(int32(s.Location))
 	p.WriteInt64(s.Size)
-	if s.Metadata == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Metadata)))
-		for _, _item := range s.Metadata {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Signature == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Signature)))
-		for _, _item := range s.Signature {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Metadata)
+	p.WriteByteArray(s.Signature)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -68,34 +54,14 @@ func (s *InstallationFileParcel) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Metadata, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Metadata = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Metadata[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Signature, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Signature = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Signature[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

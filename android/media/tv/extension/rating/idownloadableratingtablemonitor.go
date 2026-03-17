@@ -16,23 +16,27 @@ const (
 	TransactionIDownloadableRatingTableMonitorGetTable = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDownloadableRatingTableMonitorGetTable = "getTable"
+)
+
 type IDownloadableRatingTableMonitor interface {
 	AsBinder() binder.IBinder
 	GetTable(ctx context.Context) ([]os.Bundle, error)
 }
 
 type DownloadableRatingTableMonitorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDownloadableRatingTableMonitorProxy(
 	remote binder.IBinder,
 ) *DownloadableRatingTableMonitorProxy {
-	return &DownloadableRatingTableMonitorProxy{remote: remote}
+	return &DownloadableRatingTableMonitorProxy{Remote: remote}
 }
 
 func (p *DownloadableRatingTableMonitorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDownloadableRatingTableMonitor = (*DownloadableRatingTableMonitorProxy)(nil)
@@ -44,12 +48,12 @@ func (p *DownloadableRatingTableMonitorProxy) GetTable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDownloadableRatingTableMonitor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadableRatingTableMonitor, "getTable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadableRatingTableMonitor, MethodIDownloadableRatingTableMonitorGetTable)
 	if _err != nil {
-		_code = TransactionIDownloadableRatingTableMonitorGetTable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadableRatingTableMonitor, MethodIDownloadableRatingTableMonitorGetTable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -67,6 +71,9 @@ func (p *DownloadableRatingTableMonitorProxy) GetTable(
 	if _count >= 0 {
 		_result = make([]os.Bundle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -82,6 +89,10 @@ type DownloadableRatingTableMonitorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DownloadableRatingTableMonitorStub)(nil)
+
+func (s *DownloadableRatingTableMonitorStub) Descriptor() string {
+	return DescriptorIDownloadableRatingTableMonitor
+}
 
 func (s *DownloadableRatingTableMonitorStub) OnTransaction(
 	ctx context.Context,

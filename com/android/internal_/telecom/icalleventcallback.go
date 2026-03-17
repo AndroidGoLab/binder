@@ -29,6 +29,22 @@ const (
 	TransactionICallEventCallbackRemoveCallFromTransactionalServiceWrapper = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodICallEventCallbackOnAddCallControl                          = "onAddCallControl"
+	MethodICallEventCallbackOnSetActive                               = "onSetActive"
+	MethodICallEventCallbackOnSetInactive                             = "onSetInactive"
+	MethodICallEventCallbackOnAnswer                                  = "onAnswer"
+	MethodICallEventCallbackOnDisconnect                              = "onDisconnect"
+	MethodICallEventCallbackOnCallStreamingStarted                    = "onCallStreamingStarted"
+	MethodICallEventCallbackOnCallStreamingFailed                     = "onCallStreamingFailed"
+	MethodICallEventCallbackOnCallEndpointChanged                     = "onCallEndpointChanged"
+	MethodICallEventCallbackOnAvailableCallEndpointsChanged           = "onAvailableCallEndpointsChanged"
+	MethodICallEventCallbackOnMuteStateChanged                        = "onMuteStateChanged"
+	MethodICallEventCallbackOnVideoStateChanged                       = "onVideoStateChanged"
+	MethodICallEventCallbackOnEvent                                   = "onEvent"
+	MethodICallEventCallbackRemoveCallFromTransactionalServiceWrapper = "removeCallFromTransactionalServiceWrapper"
+)
+
 type ICallEventCallback interface {
 	AsBinder() binder.IBinder
 	OnAddCallControl(ctx context.Context, callId string, resultCode int32, callControl ICallControl, exception androidTelecom.CallException) error
@@ -47,17 +63,17 @@ type ICallEventCallback interface {
 }
 
 type CallEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCallEventCallbackProxy(
 	remote binder.IBinder,
 ) *CallEventCallbackProxy {
-	return &CallEventCallbackProxy{remote: remote}
+	return &CallEventCallbackProxy{Remote: remote}
 }
 
 func (p *CallEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICallEventCallback = (*CallEventCallbackProxy)(nil)
@@ -73,18 +89,18 @@ func (p *CallEventCallbackProxy) OnAddCallControl(
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(resultCode)
-	binder.WriteBinderToParcel(ctx, _data, callControl.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callControl.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := exception.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onAddCallControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnAddCallControl)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnAddCallControl
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnAddCallControl, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,12 +117,12 @@ func (p *CallEventCallbackProxy) OnSetActive(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onSetActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnSetActive)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnSetActive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnSetActive, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,12 +139,12 @@ func (p *CallEventCallbackProxy) OnSetInactive(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onSetInactive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnSetInactive)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnSetInactive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnSetInactive, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,12 +163,12 @@ func (p *CallEventCallbackProxy) OnAnswer(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onAnswer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnAnswer)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnAnswer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnAnswer, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,12 +190,12 @@ func (p *CallEventCallbackProxy) OnDisconnect(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onDisconnect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnDisconnect)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnDisconnect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnDisconnect, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,12 +212,12 @@ func (p *CallEventCallbackProxy) OnCallStreamingStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onCallStreamingStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnCallStreamingStarted)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnCallStreamingStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnCallStreamingStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -215,12 +231,12 @@ func (p *CallEventCallbackProxy) OnCallStreamingFailed(
 	_data.WriteString16(callId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onCallStreamingFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnCallStreamingFailed)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnCallStreamingFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnCallStreamingFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -237,12 +253,12 @@ func (p *CallEventCallbackProxy) OnCallEndpointChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onCallEndpointChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnCallEndpointChanged)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnCallEndpointChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnCallEndpointChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -259,18 +275,19 @@ func (p *CallEventCallbackProxy) OnAvailableCallEndpointsChanged(
 	} else {
 		_data.WriteInt32(int32(len(endpoint)))
 		for _, _item := range endpoint {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onAvailableCallEndpointsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnAvailableCallEndpointsChanged)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnAvailableCallEndpointsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnAvailableCallEndpointsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -284,12 +301,12 @@ func (p *CallEventCallbackProxy) OnMuteStateChanged(
 	_data.WriteString16(callId)
 	_data.WriteBool(isMuted)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onMuteStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnMuteStateChanged)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnMuteStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnMuteStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -303,12 +320,12 @@ func (p *CallEventCallbackProxy) OnVideoStateChanged(
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onVideoStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnVideoStateChanged)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnVideoStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnVideoStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -327,12 +344,12 @@ func (p *CallEventCallbackProxy) OnEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionICallEventCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -344,12 +361,12 @@ func (p *CallEventCallbackProxy) RemoveCallFromTransactionalServiceWrapper(
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICallEventCallback, "removeCallFromTransactionalServiceWrapper")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICallEventCallback, MethodICallEventCallbackRemoveCallFromTransactionalServiceWrapper)
 	if _err != nil {
-		_code = TransactionICallEventCallbackRemoveCallFromTransactionalServiceWrapper
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICallEventCallback, MethodICallEventCallbackRemoveCallFromTransactionalServiceWrapper, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -360,6 +377,10 @@ type CallEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CallEventCallbackStub)(nil)
+
+func (s *CallEventCallbackStub) Descriptor() string {
+	return DescriptorICallEventCallback
+}
 
 func (s *CallEventCallbackStub) OnTransaction(
 	ctx context.Context,

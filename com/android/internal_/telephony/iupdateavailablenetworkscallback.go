@@ -15,23 +15,27 @@ const (
 	TransactionIUpdateAvailableNetworksCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUpdateAvailableNetworksCallbackOnComplete = "onComplete"
+)
+
 type IUpdateAvailableNetworksCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type UpdateAvailableNetworksCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUpdateAvailableNetworksCallbackProxy(
 	remote binder.IBinder,
 ) *UpdateAvailableNetworksCallbackProxy {
-	return &UpdateAvailableNetworksCallbackProxy{remote: remote}
+	return &UpdateAvailableNetworksCallbackProxy{Remote: remote}
 }
 
 func (p *UpdateAvailableNetworksCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUpdateAvailableNetworksCallback = (*UpdateAvailableNetworksCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *UpdateAvailableNetworksCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIUpdateAvailableNetworksCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUpdateAvailableNetworksCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUpdateAvailableNetworksCallback, MethodIUpdateAvailableNetworksCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIUpdateAvailableNetworksCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUpdateAvailableNetworksCallback, MethodIUpdateAvailableNetworksCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UpdateAvailableNetworksCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UpdateAvailableNetworksCallbackStub)(nil)
+
+func (s *UpdateAvailableNetworksCallbackStub) Descriptor() string {
+	return DescriptorIUpdateAvailableNetworksCallback
+}
 
 func (s *UpdateAvailableNetworksCallbackStub) OnTransaction(
 	ctx context.Context,

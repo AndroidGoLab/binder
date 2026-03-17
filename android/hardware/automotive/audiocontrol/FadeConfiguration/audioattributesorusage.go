@@ -60,6 +60,7 @@ func (u *AudioAttributesOrUsage) MarshalParcel(
 
 	switch u.Tag {
 	case AudioAttributesOrUsageTagFadeAttribute:
+		p.WriteInt32(1)
 		if _err := u.FadeAttribute.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,6 +89,9 @@ func (u *AudioAttributesOrUsage) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioAttributesOrUsageTagFadeAttribute:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.FadeAttribute.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

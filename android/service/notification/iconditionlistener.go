@@ -15,23 +15,27 @@ const (
 	TransactionIConditionListenerOnConditionsReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIConditionListenerOnConditionsReceived = "onConditionsReceived"
+)
+
 type IConditionListener interface {
 	AsBinder() binder.IBinder
 	OnConditionsReceived(ctx context.Context, conditions []Condition) error
 }
 
 type ConditionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewConditionListenerProxy(
 	remote binder.IBinder,
 ) *ConditionListenerProxy {
-	return &ConditionListenerProxy{remote: remote}
+	return &ConditionListenerProxy{Remote: remote}
 }
 
 func (p *ConditionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IConditionListener = (*ConditionListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *ConditionListenerProxy) OnConditionsReceived(
 	} else {
 		_data.WriteInt32(int32(len(conditions)))
 		for _, _item := range conditions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIConditionListener, "onConditionsReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIConditionListener, MethodIConditionListenerOnConditionsReceived)
 	if _err != nil {
-		_code = TransactionIConditionListenerOnConditionsReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIConditionListener, MethodIConditionListenerOnConditionsReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type ConditionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ConditionListenerStub)(nil)
+
+func (s *ConditionListenerStub) Descriptor() string {
+	return DescriptorIConditionListener
+}
 
 func (s *ConditionListenerStub) OnTransaction(
 	ctx context.Context,

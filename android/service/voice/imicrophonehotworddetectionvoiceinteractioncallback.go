@@ -18,6 +18,12 @@ const (
 	TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected                       = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected                       = "onDetected"
+	MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure = "onHotwordDetectionServiceFailure"
+	MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected                       = "onRejected"
+)
+
 type IMicrophoneHotwordDetectionVoiceInteractionCallback interface {
 	AsBinder() binder.IBinder
 	OnDetected(ctx context.Context, hotwordDetectedResult HotwordDetectedResult, audioFormat media.AudioFormat, audioStream int32) error
@@ -26,17 +32,17 @@ type IMicrophoneHotwordDetectionVoiceInteractionCallback interface {
 }
 
 type MicrophoneHotwordDetectionVoiceInteractionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMicrophoneHotwordDetectionVoiceInteractionCallbackProxy(
 	remote binder.IBinder,
 ) *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy {
-	return &MicrophoneHotwordDetectionVoiceInteractionCallbackProxy{remote: remote}
+	return &MicrophoneHotwordDetectionVoiceInteractionCallbackProxy{Remote: remote}
 }
 
 func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMicrophoneHotwordDetectionVoiceInteractionCallback = (*MicrophoneHotwordDetectionVoiceInteractionCallbackProxy)(nil)
@@ -59,12 +65,12 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnDetected(
 	}
 	_data.WriteFileDescriptor(audioStream)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, "onDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected)
 	if _err != nil {
-		_code = TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +85,12 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnHotwordDetec
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, "onHotwordDetectionServiceFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure)
 	if _err != nil {
-		_code = TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +105,12 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, "onRejected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected)
 	if _err != nil {
-		_code = TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, MethodIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,6 +121,10 @@ type MicrophoneHotwordDetectionVoiceInteractionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MicrophoneHotwordDetectionVoiceInteractionCallbackStub)(nil)
+
+func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) Descriptor() string {
+	return DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback
+}
 
 func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
 	ctx context.Context,

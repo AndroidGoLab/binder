@@ -16,6 +16,11 @@ const (
 	TransactionIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIScanBackgroundServiceUpdateAddBackgroundServiceUpdateListener    = "addBackgroundServiceUpdateListener"
+	MethodIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener = "removeBackgroundServiceUpdateListener"
+)
+
 type IScanBackgroundServiceUpdate interface {
 	AsBinder() binder.IBinder
 	AddBackgroundServiceUpdateListener(ctx context.Context, clientToken string, listener IScanBackgroundServiceUpdateListener) error
@@ -23,17 +28,17 @@ type IScanBackgroundServiceUpdate interface {
 }
 
 type ScanBackgroundServiceUpdateProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScanBackgroundServiceUpdateProxy(
 	remote binder.IBinder,
 ) *ScanBackgroundServiceUpdateProxy {
-	return &ScanBackgroundServiceUpdateProxy{remote: remote}
+	return &ScanBackgroundServiceUpdateProxy{Remote: remote}
 }
 
 func (p *ScanBackgroundServiceUpdateProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScanBackgroundServiceUpdate = (*ScanBackgroundServiceUpdateProxy)(nil)
@@ -46,14 +51,14 @@ func (p *ScanBackgroundServiceUpdateProxy) AddBackgroundServiceUpdateListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdate)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdate, "addBackgroundServiceUpdateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanBackgroundServiceUpdate, MethodIScanBackgroundServiceUpdateAddBackgroundServiceUpdateListener)
 	if _err != nil {
-		_code = TransactionIScanBackgroundServiceUpdateAddBackgroundServiceUpdateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanBackgroundServiceUpdate, MethodIScanBackgroundServiceUpdateAddBackgroundServiceUpdateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,14 +77,14 @@ func (p *ScanBackgroundServiceUpdateProxy) RemoveBackgroundServiceUpdateListener
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdate)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdate, "removeBackgroundServiceUpdateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanBackgroundServiceUpdate, MethodIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener)
 	if _err != nil {
-		_code = TransactionIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanBackgroundServiceUpdate, MethodIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,6 +104,10 @@ type ScanBackgroundServiceUpdateStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScanBackgroundServiceUpdateStub)(nil)
+
+func (s *ScanBackgroundServiceUpdateStub) Descriptor() string {
+	return DescriptorIScanBackgroundServiceUpdate
+}
 
 func (s *ScanBackgroundServiceUpdateStub) OnTransaction(
 	ctx context.Context,

@@ -12,14 +12,12 @@ import (
 const (
 	TypeTagStreamType int32 = 0
 	TypeTagSource     int32 = 1
-	TypeTagDevice     int32 = 2
 )
 
 type Type struct {
 	Tag        int32
 	StreamType tuner.AudioStreamType
 	Source     common.AudioSource
-	Device     common.AudioDevice
 }
 
 var _ parcel.Parcelable = (*Type)(nil)
@@ -54,21 +52,6 @@ func (u *Type) SetSource(
 	u.Source = v
 }
 
-func (u *Type) GetDevice() (common.AudioDevice, bool) {
-	if u.Tag != TypeTagDevice {
-		var _zero common.AudioDevice
-		return _zero, false
-	}
-	return u.Device, true
-}
-
-func (u *Type) SetDevice(
-	v common.AudioDevice,
-) {
-	u.Tag = TypeTagDevice
-	u.Device = v
-}
-
 func (u *Type) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -80,10 +63,6 @@ func (u *Type) MarshalParcel(
 		p.WriteInt32(int32(u.StreamType))
 	case TypeTagSource:
 		p.WriteInt32(int32(u.Source))
-	case TypeTagDevice:
-		if _err := u.Device.MarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Type", u.Tag)
 	}
@@ -118,10 +97,6 @@ func (u *Type) UnmarshalParcel(
 			return _err
 		}
 		u.Source = common.AudioSource(_raw)
-	case TypeTagDevice:
-		if _err = u.Device.UnmarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Type", u.Tag)
 	}

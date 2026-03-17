@@ -50,7 +50,47 @@ const (
 	TransactionIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse            = binder.FirstCallTransaction + 35
 	TransactionIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse = binder.FirstCallTransaction + 36
 	TransactionIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse                 = binder.FirstCallTransaction + 37
-	TransactionIWifiNanIfaceEventCallbackNotifyRangingResults                           = binder.FirstCallTransaction + 38
+)
+
+const (
+	MethodIWifiNanIfaceEventCallbackEventClusterEvent                              = "eventClusterEvent"
+	MethodIWifiNanIfaceEventCallbackEventDataPathConfirm                           = "eventDataPathConfirm"
+	MethodIWifiNanIfaceEventCallbackEventDataPathRequest                           = "eventDataPathRequest"
+	MethodIWifiNanIfaceEventCallbackEventDataPathScheduleUpdate                    = "eventDataPathScheduleUpdate"
+	MethodIWifiNanIfaceEventCallbackEventDataPathTerminated                        = "eventDataPathTerminated"
+	MethodIWifiNanIfaceEventCallbackEventDisabled                                  = "eventDisabled"
+	MethodIWifiNanIfaceEventCallbackEventFollowupReceived                          = "eventFollowupReceived"
+	MethodIWifiNanIfaceEventCallbackEventMatch                                     = "eventMatch"
+	MethodIWifiNanIfaceEventCallbackEventMatchExpired                              = "eventMatchExpired"
+	MethodIWifiNanIfaceEventCallbackEventPublishTerminated                         = "eventPublishTerminated"
+	MethodIWifiNanIfaceEventCallbackEventSubscribeTerminated                       = "eventSubscribeTerminated"
+	MethodIWifiNanIfaceEventCallbackEventTransmitFollowup                          = "eventTransmitFollowup"
+	MethodIWifiNanIfaceEventCallbackEventSuspensionModeChanged                     = "eventSuspensionModeChanged"
+	MethodIWifiNanIfaceEventCallbackNotifyCapabilitiesResponse                     = "notifyCapabilitiesResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyConfigResponse                           = "notifyConfigResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyCreateDataInterfaceResponse              = "notifyCreateDataInterfaceResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyDeleteDataInterfaceResponse              = "notifyDeleteDataInterfaceResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyDisableResponse                          = "notifyDisableResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyEnableResponse                           = "notifyEnableResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyInitiateDataPathResponse                 = "notifyInitiateDataPathResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyRespondToDataPathIndicationResponse      = "notifyRespondToDataPathIndicationResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyStartPublishResponse                     = "notifyStartPublishResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyStartSubscribeResponse                   = "notifyStartSubscribeResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyStopPublishResponse                      = "notifyStopPublishResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyStopSubscribeResponse                    = "notifyStopSubscribeResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyTerminateDataPathResponse                = "notifyTerminateDataPathResponse"
+	MethodIWifiNanIfaceEventCallbackNotifySuspendResponse                          = "notifySuspendResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyResumeResponse                           = "notifyResumeResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyTransmitFollowupResponse                 = "notifyTransmitFollowupResponse"
+	MethodIWifiNanIfaceEventCallbackEventPairingRequest                            = "eventPairingRequest"
+	MethodIWifiNanIfaceEventCallbackEventPairingConfirm                            = "eventPairingConfirm"
+	MethodIWifiNanIfaceEventCallbackNotifyInitiatePairingResponse                  = "notifyInitiatePairingResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyRespondToPairingIndicationResponse       = "notifyRespondToPairingIndicationResponse"
+	MethodIWifiNanIfaceEventCallbackEventBootstrappingRequest                      = "eventBootstrappingRequest"
+	MethodIWifiNanIfaceEventCallbackEventBootstrappingConfirm                      = "eventBootstrappingConfirm"
+	MethodIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse            = "notifyInitiateBootstrappingResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse = "notifyRespondToBootstrappingIndicationResponse"
+	MethodIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse                 = "notifyTerminatePairingResponse"
 )
 
 type IWifiNanIfaceEventCallback interface {
@@ -93,21 +133,20 @@ type IWifiNanIfaceEventCallback interface {
 	NotifyInitiateBootstrappingResponse(ctx context.Context, id uint16, status NanStatus, bootstrappingInstanceId int32) error
 	NotifyRespondToBootstrappingIndicationResponse(ctx context.Context, id uint16, status NanStatus) error
 	NotifyTerminatePairingResponse(ctx context.Context, id uint16, status NanStatus) error
-	NotifyRangingResults(ctx context.Context, results []RttResult, discoverySessionId byte) error
 }
 
 type WifiNanIfaceEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWifiNanIfaceEventCallbackProxy(
 	remote binder.IBinder,
 ) *WifiNanIfaceEventCallbackProxy {
-	return &WifiNanIfaceEventCallbackProxy{remote: remote}
+	return &WifiNanIfaceEventCallbackProxy{Remote: remote}
 }
 
 func (p *WifiNanIfaceEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWifiNanIfaceEventCallback = (*WifiNanIfaceEventCallbackProxy)(nil)
@@ -123,12 +162,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventClusterEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventClusterEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventClusterEvent)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventClusterEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventClusterEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,12 +182,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathConfirm(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventDataPathConfirm")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathConfirm)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventDataPathConfirm
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathConfirm, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,12 +202,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventDataPathRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathRequest)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventDataPathRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -183,12 +222,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathScheduleUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventDataPathScheduleUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathScheduleUpdate)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventDataPathScheduleUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathScheduleUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,12 +239,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathTerminated(
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(ndpInstanceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventDataPathTerminated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathTerminated)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventDataPathTerminated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDataPathTerminated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -220,12 +259,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDisabled(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventDisabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDisabled)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventDisabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventDisabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -240,12 +279,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventFollowupReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventFollowupReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventFollowupReceived)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventFollowupReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventFollowupReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -260,12 +299,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventMatch(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventMatch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventMatch)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventMatch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventMatch, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -279,12 +318,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventMatchExpired(
 	_data.WritePaddedByte(discoverySessionId)
 	_data.WriteInt32(peerId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventMatchExpired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventMatchExpired)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventMatchExpired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventMatchExpired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -301,12 +340,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPublishTerminated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventPublishTerminated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventPublishTerminated)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventPublishTerminated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventPublishTerminated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -323,12 +362,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventSubscribeTerminated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventSubscribeTerminated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventSubscribeTerminated)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventSubscribeTerminated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventSubscribeTerminated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -345,12 +384,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventTransmitFollowup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventTransmitFollowup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventTransmitFollowup)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventTransmitFollowup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventTransmitFollowup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -365,12 +404,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventSuspensionModeChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventSuspensionModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventSuspensionModeChanged)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventSuspensionModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventSuspensionModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -392,12 +431,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyCapabilitiesResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyCapabilitiesResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyCapabilitiesResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyCapabilitiesResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyCapabilitiesResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -414,12 +453,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyConfigResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyConfigResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyConfigResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyConfigResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyConfigResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -436,12 +475,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyCreateDataInterfaceResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyCreateDataInterfaceResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyCreateDataInterfaceResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyCreateDataInterfaceResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyCreateDataInterfaceResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -458,12 +497,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyDeleteDataInterfaceResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyDeleteDataInterfaceResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyDeleteDataInterfaceResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyDeleteDataInterfaceResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyDeleteDataInterfaceResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -480,12 +519,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyDisableResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyDisableResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyDisableResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyDisableResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyDisableResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -502,12 +541,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyEnableResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyEnableResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyEnableResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyEnableResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyEnableResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -526,12 +565,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiateDataPathResponse(
 	}
 	_data.WriteInt32(ndpInstanceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyInitiateDataPathResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyInitiateDataPathResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyInitiateDataPathResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyInitiateDataPathResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -548,12 +587,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToDataPathIndicationRespon
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyRespondToDataPathIndicationResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyRespondToDataPathIndicationResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyRespondToDataPathIndicationResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyRespondToDataPathIndicationResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -572,12 +611,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStartPublishResponse(
 	}
 	_data.WritePaddedByte(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyStartPublishResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStartPublishResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyStartPublishResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStartPublishResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -596,12 +635,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStartSubscribeResponse(
 	}
 	_data.WritePaddedByte(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyStartSubscribeResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStartSubscribeResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyStartSubscribeResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStartSubscribeResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -618,12 +657,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStopPublishResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyStopPublishResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStopPublishResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyStopPublishResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStopPublishResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -640,12 +679,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStopSubscribeResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyStopSubscribeResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStopSubscribeResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyStopSubscribeResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyStopSubscribeResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -662,12 +701,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminateDataPathResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyTerminateDataPathResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyTerminateDataPathResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyTerminateDataPathResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyTerminateDataPathResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -684,12 +723,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifySuspendResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifySuspendResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifySuspendResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifySuspendResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifySuspendResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -706,12 +745,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyResumeResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyResumeResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyResumeResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyResumeResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyResumeResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -728,12 +767,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTransmitFollowupResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyTransmitFollowupResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyTransmitFollowupResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyTransmitFollowupResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyTransmitFollowupResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -748,12 +787,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPairingRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventPairingRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventPairingRequest)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventPairingRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventPairingRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -768,12 +807,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPairingConfirm(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventPairingConfirm")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventPairingConfirm)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventPairingConfirm
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventPairingConfirm, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -792,12 +831,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiatePairingResponse(
 	}
 	_data.WriteInt32(pairingInstanceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyInitiatePairingResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyInitiatePairingResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyInitiatePairingResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyInitiatePairingResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -814,12 +853,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToPairingIndicationRespons
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyRespondToPairingIndicationResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyRespondToPairingIndicationResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyRespondToPairingIndicationResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyRespondToPairingIndicationResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -834,12 +873,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventBootstrappingRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventBootstrappingRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventBootstrappingRequest)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventBootstrappingRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventBootstrappingRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -854,12 +893,12 @@ func (p *WifiNanIfaceEventCallbackProxy) EventBootstrappingConfirm(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "eventBootstrappingConfirm")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventBootstrappingConfirm)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackEventBootstrappingConfirm
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackEventBootstrappingConfirm, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -878,12 +917,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiateBootstrappingResponse(
 	}
 	_data.WriteInt32(bootstrappingInstanceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyInitiateBootstrappingResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -900,12 +939,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToBootstrappingIndicationR
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyRespondToBootstrappingIndicationResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -922,40 +961,12 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminatePairingResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyTerminatePairingResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse)
 	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiNanIfaceEventCallback, MethodIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *WifiNanIfaceEventCallbackProxy) NotifyRangingResults(
-	ctx context.Context,
-	results []RttResult,
-	discoverySessionId byte,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
-	if results == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(results)))
-		for _, _item := range results {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-	_data.WritePaddedByte(discoverySessionId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiNanIfaceEventCallback, "notifyRangingResults")
-	if _err != nil {
-		_code = TransactionIWifiNanIfaceEventCallbackNotifyRangingResults
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -966,6 +977,10 @@ type WifiNanIfaceEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WifiNanIfaceEventCallbackStub)(nil)
+
+func (s *WifiNanIfaceEventCallbackStub) Descriptor() string {
+	return DescriptorIWifiNanIfaceEventCallback
+}
 
 func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -1833,20 +1848,6 @@ func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
 		_err = s.Impl.NotifyTerminatePairingResponse(ctx, _arg_id, _arg_status)
 		_ = _err
 		return nil, nil
-	case TransactionIWifiNanIfaceEventCallbackNotifyRangingResults:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_results []RttResult
-		_ = _arg_results
-		_arg_discoverySessionId, _err := _data.ReadPaddedByte()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.NotifyRangingResults(ctx, _arg_results, _arg_discoverySessionId)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1894,7 +1895,6 @@ type IWifiNanIfaceEventCallbackServer interface {
 	NotifyInitiateBootstrappingResponse(ctx context.Context, id uint16, status NanStatus, bootstrappingInstanceId int32) error
 	NotifyRespondToBootstrappingIndicationResponse(ctx context.Context, id uint16, status NanStatus) error
 	NotifyTerminatePairingResponse(ctx context.Context, id uint16, status NanStatus) error
-	NotifyRangingResults(ctx context.Context, results []RttResult, discoverySessionId byte) error
 }
 
 type wifiNanIfaceEventCallbackStubWrapper struct {
@@ -2201,14 +2201,6 @@ func (w *wifiNanIfaceEventCallbackStubWrapper) NotifyTerminatePairingResponse(
 	status NanStatus,
 ) error {
 	return w.impl.NotifyTerminatePairingResponse(ctx, id, status)
-}
-
-func (w *wifiNanIfaceEventCallbackStubWrapper) NotifyRangingResults(
-	ctx context.Context,
-	results []RttResult,
-	discoverySessionId byte,
-) error {
-	return w.impl.NotifyRangingResults(ctx, results, discoverySessionId)
 }
 
 var _ IWifiNanIfaceEventCallback = (*wifiNanIfaceEventCallbackStubWrapper)(nil)

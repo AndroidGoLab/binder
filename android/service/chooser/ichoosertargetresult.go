@@ -15,23 +15,27 @@ const (
 	TransactionIChooserTargetResultSendResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIChooserTargetResultSendResult = "sendResult"
+)
+
 type IChooserTargetResult interface {
 	AsBinder() binder.IBinder
 	SendResult(ctx context.Context, targets []ChooserTarget) error
 }
 
 type ChooserTargetResultProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewChooserTargetResultProxy(
 	remote binder.IBinder,
 ) *ChooserTargetResultProxy {
-	return &ChooserTargetResultProxy{remote: remote}
+	return &ChooserTargetResultProxy{Remote: remote}
 }
 
 func (p *ChooserTargetResultProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IChooserTargetResult = (*ChooserTargetResultProxy)(nil)
@@ -47,18 +51,19 @@ func (p *ChooserTargetResultProxy) SendResult(
 	} else {
 		_data.WriteInt32(int32(len(targets)))
 		for _, _item := range targets {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIChooserTargetResult, "sendResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIChooserTargetResult, MethodIChooserTargetResultSendResult)
 	if _err != nil {
-		_code = TransactionIChooserTargetResultSendResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIChooserTargetResult, MethodIChooserTargetResultSendResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type ChooserTargetResultStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ChooserTargetResultStub)(nil)
+
+func (s *ChooserTargetResultStub) Descriptor() string {
+	return DescriptorIChooserTargetResult
+}
 
 func (s *ChooserTargetResultStub) OnTransaction(
 	ctx context.Context,

@@ -59,10 +59,12 @@ func (u *OperationState) MarshalParcel(
 
 	switch u.Tag {
 	case OperationStateTagFingerprintOperationState:
+		p.WriteInt32(1)
 		if _err := u.FingerprintOperationState.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationStateTagFaceOperationState:
+		p.WriteInt32(1)
 		if _err := u.FaceOperationState.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -89,10 +91,16 @@ func (u *OperationState) UnmarshalParcel(
 
 	switch u.Tag {
 	case OperationStateTagFingerprintOperationState:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.FingerprintOperationState.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperationStateTagFaceOperationState:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.FaceOperationState.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

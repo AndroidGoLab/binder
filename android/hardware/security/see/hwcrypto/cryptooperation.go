@@ -178,38 +178,47 @@ func (u *CryptoOperation) MarshalParcel(
 
 	switch u.Tag {
 	case CryptoOperationTagSetMemoryBuffer:
+		p.WriteInt32(1)
 		if _err := u.SetMemoryBuffer.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagSetOperationParameters:
+		p.WriteInt32(1)
 		if _err := u.SetOperationParameters.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagSetPattern:
+		p.WriteInt32(1)
 		if _err := u.SetPattern.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagCopyData:
+		p.WriteInt32(1)
 		if _err := u.CopyData.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagAadInput:
+		p.WriteInt32(1)
 		if _err := u.AadInput.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagDataInput:
+		p.WriteInt32(1)
 		if _err := u.DataInput.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagDataOutput:
+		p.WriteInt32(1)
 		if _err := u.DataOutput.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagFinish:
+		p.WriteInt32(1)
 		if _err := u.Finish.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagDestroyContext:
+		p.WriteInt32(1)
 		if _err := u.DestroyContext.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -236,38 +245,65 @@ func (u *CryptoOperation) UnmarshalParcel(
 
 	switch u.Tag {
 	case CryptoOperationTagSetMemoryBuffer:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SetMemoryBuffer.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagSetOperationParameters:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SetOperationParameters.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagSetPattern:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SetPattern.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagCopyData:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.CopyData.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagAadInput:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AadInput.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagDataInput:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DataInput.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagDataOutput:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DataOutput.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagFinish:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Finish.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case CryptoOperationTagDestroyContext:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DestroyContext.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

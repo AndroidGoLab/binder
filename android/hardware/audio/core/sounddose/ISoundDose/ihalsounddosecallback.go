@@ -18,6 +18,11 @@ const (
 	TransactionIHalSoundDoseCallbackOnNewMelValues             = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIHalSoundDoseCallbackOnMomentaryExposureWarning = "onMomentaryExposureWarning"
+	MethodIHalSoundDoseCallbackOnNewMelValues             = "onNewMelValues"
+)
+
 type IHalSoundDoseCallback interface {
 	AsBinder() binder.IBinder
 	OnMomentaryExposureWarning(ctx context.Context, currentDbA float32, audioDevice common.AudioDevice) error
@@ -25,17 +30,17 @@ type IHalSoundDoseCallback interface {
 }
 
 type HalSoundDoseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHalSoundDoseCallbackProxy(
 	remote binder.IBinder,
 ) *HalSoundDoseCallbackProxy {
-	return &HalSoundDoseCallbackProxy{remote: remote}
+	return &HalSoundDoseCallbackProxy{Remote: remote}
 }
 
 func (p *HalSoundDoseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHalSoundDoseCallback = (*HalSoundDoseCallbackProxy)(nil)
@@ -53,12 +58,12 @@ func (p *HalSoundDoseCallbackProxy) OnMomentaryExposureWarning(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalSoundDoseCallback, "onMomentaryExposureWarning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalSoundDoseCallback, MethodIHalSoundDoseCallbackOnMomentaryExposureWarning)
 	if _err != nil {
-		_code = TransactionIHalSoundDoseCallbackOnMomentaryExposureWarning
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHalSoundDoseCallback, MethodIHalSoundDoseCallbackOnMomentaryExposureWarning, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +83,12 @@ func (p *HalSoundDoseCallbackProxy) OnNewMelValues(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHalSoundDoseCallback, "onNewMelValues")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHalSoundDoseCallback, MethodIHalSoundDoseCallbackOnNewMelValues)
 	if _err != nil {
-		_code = TransactionIHalSoundDoseCallbackOnNewMelValues
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHalSoundDoseCallback, MethodIHalSoundDoseCallbackOnNewMelValues, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +99,10 @@ type HalSoundDoseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HalSoundDoseCallbackStub)(nil)
+
+func (s *HalSoundDoseCallbackStub) Descriptor() string {
+	return DescriptorIHalSoundDoseCallback
+}
 
 func (s *HalSoundDoseCallbackStub) OnTransaction(
 	ctx context.Context,

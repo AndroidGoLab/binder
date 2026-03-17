@@ -16,17 +16,17 @@ type ICryptoOperationContext interface {
 }
 
 type CryptoOperationContextProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCryptoOperationContextProxy(
 	remote binder.IBinder,
 ) *CryptoOperationContextProxy {
-	return &CryptoOperationContextProxy{remote: remote}
+	return &CryptoOperationContextProxy{Remote: remote}
 }
 
 func (p *CryptoOperationContextProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICryptoOperationContext = (*CryptoOperationContextProxy)(nil)
@@ -38,6 +38,10 @@ type CryptoOperationContextStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CryptoOperationContextStub)(nil)
+
+func (s *CryptoOperationContextStub) Descriptor() string {
+	return DescriptorICryptoOperationContext
+}
 
 func (s *CryptoOperationContextStub) OnTransaction(
 	ctx context.Context,

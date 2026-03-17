@@ -3,7 +3,6 @@ package fingerprint
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	keymaster "github.com/xaionaro-go/binder/android/hardware/keymaster"
 	"github.com/xaionaro-go/binder/binder"
@@ -39,13 +38,38 @@ const (
 	TransactionISessionSetIgnoreDisplayTouches      = binder.FirstCallTransaction + 21
 )
 
+const (
+	MethodISessionGenerateChallenge            = "generateChallenge"
+	MethodISessionRevokeChallenge              = "revokeChallenge"
+	MethodISessionEnroll                       = "enroll"
+	MethodISessionAuthenticate                 = "authenticate"
+	MethodISessionDetectInteraction            = "detectInteraction"
+	MethodISessionEnumerateEnrollments         = "enumerateEnrollments"
+	MethodISessionRemoveEnrollments            = "removeEnrollments"
+	MethodISessionGetAuthenticatorId           = "getAuthenticatorId"
+	MethodISessionInvalidateAuthenticatorId    = "invalidateAuthenticatorId"
+	MethodISessionResetLockout                 = "resetLockout"
+	MethodISessionClose                        = "close"
+	MethodISessionOnPointerDown                = "onPointerDown"
+	MethodISessionOnPointerUp                  = "onPointerUp"
+	MethodISessionOnUiReady                    = "onUiReady"
+	MethodISessionAuthenticateWithContext      = "authenticateWithContext"
+	MethodISessionEnrollWithContext            = "enrollWithContext"
+	MethodISessionDetectInteractionWithContext = "detectInteractionWithContext"
+	MethodISessionOnPointerDownWithContext     = "onPointerDownWithContext"
+	MethodISessionOnPointerUpWithContext       = "onPointerUpWithContext"
+	MethodISessionOnContextChanged             = "onContextChanged"
+	MethodISessionOnPointerCancelWithContext   = "onPointerCancelWithContext"
+	MethodISessionSetIgnoreDisplayTouches      = "setIgnoreDisplayTouches"
+)
+
 type ISession interface {
 	AsBinder() binder.IBinder
 	GenerateChallenge(ctx context.Context) error
 	RevokeChallenge(ctx context.Context, challenge int64) error
-	Enroll(ctx context.Context, hat keymaster.HardwareAuthToken) (ondeviceintelligence.ICancellationSignal, error)
-	Authenticate(ctx context.Context, operationId int64) (ondeviceintelligence.ICancellationSignal, error)
-	DetectInteraction(ctx context.Context) (ondeviceintelligence.ICancellationSignal, error)
+	Enroll(ctx context.Context, hat keymaster.HardwareAuthToken) (common.ICancellationSignal, error)
+	Authenticate(ctx context.Context, operationId int64) (common.ICancellationSignal, error)
+	DetectInteraction(ctx context.Context) (common.ICancellationSignal, error)
 	EnumerateEnrollments(ctx context.Context) error
 	RemoveEnrollments(ctx context.Context, enrollmentIds []int32) error
 	GetAuthenticatorId(ctx context.Context) error
@@ -55,9 +79,9 @@ type ISession interface {
 	OnPointerDown(ctx context.Context, pointerId int32, x int32, y int32, minor float32, major float32) error
 	OnPointerUp(ctx context.Context, pointerId int32) error
 	OnUiReady(ctx context.Context) error
-	AuthenticateWithContext(ctx context.Context, operationId int64, context_ common.OperationContext) (ondeviceintelligence.ICancellationSignal, error)
-	EnrollWithContext(ctx context.Context, hat keymaster.HardwareAuthToken, context_ common.OperationContext) (ondeviceintelligence.ICancellationSignal, error)
-	DetectInteractionWithContext(ctx context.Context, context_ common.OperationContext) (ondeviceintelligence.ICancellationSignal, error)
+	AuthenticateWithContext(ctx context.Context, operationId int64, context_ common.OperationContext) (common.ICancellationSignal, error)
+	EnrollWithContext(ctx context.Context, hat keymaster.HardwareAuthToken, context_ common.OperationContext) (common.ICancellationSignal, error)
+	DetectInteractionWithContext(ctx context.Context, context_ common.OperationContext) (common.ICancellationSignal, error)
 	OnPointerDownWithContext(ctx context.Context, context_ PointerContext) error
 	OnPointerUpWithContext(ctx context.Context, context_ PointerContext) error
 	OnContextChanged(ctx context.Context, context_ common.OperationContext) error
@@ -66,17 +90,17 @@ type ISession interface {
 }
 
 type SessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSessionProxy(
 	remote binder.IBinder,
 ) *SessionProxy {
-	return &SessionProxy{remote: remote}
+	return &SessionProxy{Remote: remote}
 }
 
 func (p *SessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISession = (*SessionProxy)(nil)
@@ -87,12 +111,12 @@ func (p *SessionProxy) GenerateChallenge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "generateChallenge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionGenerateChallenge)
 	if _err != nil {
-		_code = TransactionISessionGenerateChallenge
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionGenerateChallenge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,12 +137,12 @@ func (p *SessionProxy) RevokeChallenge(
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt64(challenge)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "revokeChallenge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionRevokeChallenge)
 	if _err != nil {
-		_code = TransactionISessionRevokeChallenge
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionRevokeChallenge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,8 +158,8 @@ func (p *SessionProxy) RevokeChallenge(
 func (p *SessionProxy) Enroll(
 	ctx context.Context,
 	hat keymaster.HardwareAuthToken,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(1)
@@ -143,12 +167,12 @@ func (p *SessionProxy) Enroll(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "enroll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionEnroll)
 	if _err != nil {
-		_code = TransactionISessionEnroll
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionEnroll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,25 +186,25 @@ func (p *SessionProxy) Enroll(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *SessionProxy) Authenticate(
 	ctx context.Context,
 	operationId int64,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt64(operationId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "authenticate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionAuthenticate)
 	if _err != nil {
-		_code = TransactionISessionAuthenticate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionAuthenticate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -194,23 +218,23 @@ func (p *SessionProxy) Authenticate(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *SessionProxy) DetectInteraction(
 	ctx context.Context,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "detectInteraction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionDetectInteraction)
 	if _err != nil {
-		_code = TransactionISessionDetectInteraction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionDetectInteraction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -224,7 +248,7 @@ func (p *SessionProxy) DetectInteraction(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -234,12 +258,12 @@ func (p *SessionProxy) EnumerateEnrollments(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "enumerateEnrollments")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionEnumerateEnrollments)
 	if _err != nil {
-		_code = TransactionISessionEnumerateEnrollments
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionEnumerateEnrollments, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -267,12 +291,12 @@ func (p *SessionProxy) RemoveEnrollments(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "removeEnrollments")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionRemoveEnrollments)
 	if _err != nil {
-		_code = TransactionISessionRemoveEnrollments
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionRemoveEnrollments, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -291,12 +315,12 @@ func (p *SessionProxy) GetAuthenticatorId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "getAuthenticatorId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionGetAuthenticatorId)
 	if _err != nil {
-		_code = TransactionISessionGetAuthenticatorId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionGetAuthenticatorId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -315,12 +339,12 @@ func (p *SessionProxy) InvalidateAuthenticatorId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "invalidateAuthenticatorId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionInvalidateAuthenticatorId)
 	if _err != nil {
-		_code = TransactionISessionInvalidateAuthenticatorId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionInvalidateAuthenticatorId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -344,12 +368,12 @@ func (p *SessionProxy) ResetLockout(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "resetLockout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionResetLockout)
 	if _err != nil {
-		_code = TransactionISessionResetLockout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionResetLockout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -368,12 +392,12 @@ func (p *SessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionClose)
 	if _err != nil {
-		_code = TransactionISessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -402,12 +426,12 @@ func (p *SessionProxy) OnPointerDown(
 	_data.WriteFloat32(minor)
 	_data.WriteFloat32(major)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onPointerDown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnPointerDown)
 	if _err != nil {
-		_code = TransactionISessionOnPointerDown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnPointerDown, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -428,12 +452,12 @@ func (p *SessionProxy) OnPointerUp(
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(pointerId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onPointerUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnPointerUp)
 	if _err != nil {
-		_code = TransactionISessionOnPointerUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnPointerUp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -452,12 +476,12 @@ func (p *SessionProxy) OnUiReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onUiReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnUiReady)
 	if _err != nil {
-		_code = TransactionISessionOnUiReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnUiReady, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -474,8 +498,8 @@ func (p *SessionProxy) AuthenticateWithContext(
 	ctx context.Context,
 	operationId int64,
 	context_ common.OperationContext,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt64(operationId)
@@ -484,12 +508,12 @@ func (p *SessionProxy) AuthenticateWithContext(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "authenticateWithContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionAuthenticateWithContext)
 	if _err != nil {
-		_code = TransactionISessionAuthenticateWithContext
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionAuthenticateWithContext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -503,7 +527,7 @@ func (p *SessionProxy) AuthenticateWithContext(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -511,8 +535,8 @@ func (p *SessionProxy) EnrollWithContext(
 	ctx context.Context,
 	hat keymaster.HardwareAuthToken,
 	context_ common.OperationContext,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(1)
@@ -524,12 +548,12 @@ func (p *SessionProxy) EnrollWithContext(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "enrollWithContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionEnrollWithContext)
 	if _err != nil {
-		_code = TransactionISessionEnrollWithContext
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionEnrollWithContext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -543,15 +567,15 @@ func (p *SessionProxy) EnrollWithContext(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *SessionProxy) DetectInteractionWithContext(
 	ctx context.Context,
 	context_ common.OperationContext,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(1)
@@ -559,12 +583,12 @@ func (p *SessionProxy) DetectInteractionWithContext(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "detectInteractionWithContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionDetectInteractionWithContext)
 	if _err != nil {
-		_code = TransactionISessionDetectInteractionWithContext
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionDetectInteractionWithContext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -578,7 +602,7 @@ func (p *SessionProxy) DetectInteractionWithContext(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -593,12 +617,12 @@ func (p *SessionProxy) OnPointerDownWithContext(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onPointerDownWithContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnPointerDownWithContext)
 	if _err != nil {
-		_code = TransactionISessionOnPointerDownWithContext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnPointerDownWithContext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -622,12 +646,12 @@ func (p *SessionProxy) OnPointerUpWithContext(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onPointerUpWithContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnPointerUpWithContext)
 	if _err != nil {
-		_code = TransactionISessionOnPointerUpWithContext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnPointerUpWithContext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -651,12 +675,12 @@ func (p *SessionProxy) OnContextChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onContextChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnContextChanged)
 	if _err != nil {
-		_code = TransactionISessionOnContextChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnContextChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -680,12 +704,12 @@ func (p *SessionProxy) OnPointerCancelWithContext(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "onPointerCancelWithContext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionOnPointerCancelWithContext)
 	if _err != nil {
-		_code = TransactionISessionOnPointerCancelWithContext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionOnPointerCancelWithContext, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -706,12 +730,12 @@ func (p *SessionProxy) SetIgnoreDisplayTouches(
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteBool(shouldIgnore)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISession, "setIgnoreDisplayTouches")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetIgnoreDisplayTouches)
 	if _err != nil {
-		_code = TransactionISessionSetIgnoreDisplayTouches
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISession, MethodISessionSetIgnoreDisplayTouches, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -731,6 +755,10 @@ type SessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SessionStub)(nil)
+
+func (s *SessionStub) Descriptor() string {
+	return DescriptorISession
+}
 
 func (s *SessionStub) OnTransaction(
 	ctx context.Context,
@@ -1188,9 +1216,9 @@ func (s *SessionStub) OnTransaction(
 type ISessionServer interface {
 	GenerateChallenge(ctx context.Context) error
 	RevokeChallenge(ctx context.Context, challenge int64) error
-	Enroll(ctx context.Context, hat keymaster.HardwareAuthToken) (ondeviceintelligence.ICancellationSignal, error)
-	Authenticate(ctx context.Context, operationId int64) (ondeviceintelligence.ICancellationSignal, error)
-	DetectInteraction(ctx context.Context) (ondeviceintelligence.ICancellationSignal, error)
+	Enroll(ctx context.Context, hat keymaster.HardwareAuthToken) (common.ICancellationSignal, error)
+	Authenticate(ctx context.Context, operationId int64) (common.ICancellationSignal, error)
+	DetectInteraction(ctx context.Context) (common.ICancellationSignal, error)
 	EnumerateEnrollments(ctx context.Context) error
 	RemoveEnrollments(ctx context.Context, enrollmentIds []int32) error
 	GetAuthenticatorId(ctx context.Context) error
@@ -1200,9 +1228,9 @@ type ISessionServer interface {
 	OnPointerDown(ctx context.Context, pointerId int32, x int32, y int32, minor float32, major float32) error
 	OnPointerUp(ctx context.Context, pointerId int32) error
 	OnUiReady(ctx context.Context) error
-	AuthenticateWithContext(ctx context.Context, operationId int64, context_ common.OperationContext) (ondeviceintelligence.ICancellationSignal, error)
-	EnrollWithContext(ctx context.Context, hat keymaster.HardwareAuthToken, context_ common.OperationContext) (ondeviceintelligence.ICancellationSignal, error)
-	DetectInteractionWithContext(ctx context.Context, context_ common.OperationContext) (ondeviceintelligence.ICancellationSignal, error)
+	AuthenticateWithContext(ctx context.Context, operationId int64, context_ common.OperationContext) (common.ICancellationSignal, error)
+	EnrollWithContext(ctx context.Context, hat keymaster.HardwareAuthToken, context_ common.OperationContext) (common.ICancellationSignal, error)
+	DetectInteractionWithContext(ctx context.Context, context_ common.OperationContext) (common.ICancellationSignal, error)
 	OnPointerDownWithContext(ctx context.Context, context_ PointerContext) error
 	OnPointerUpWithContext(ctx context.Context, context_ PointerContext) error
 	OnContextChanged(ctx context.Context, context_ common.OperationContext) error
@@ -1235,20 +1263,20 @@ func (w *sessionStubWrapper) RevokeChallenge(
 func (w *sessionStubWrapper) Enroll(
 	ctx context.Context,
 	hat keymaster.HardwareAuthToken,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.Enroll(ctx, hat)
 }
 
 func (w *sessionStubWrapper) Authenticate(
 	ctx context.Context,
 	operationId int64,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.Authenticate(ctx, operationId)
 }
 
 func (w *sessionStubWrapper) DetectInteraction(
 	ctx context.Context,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.DetectInteraction(ctx)
 }
 
@@ -1318,7 +1346,7 @@ func (w *sessionStubWrapper) AuthenticateWithContext(
 	ctx context.Context,
 	operationId int64,
 	context_ common.OperationContext,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.AuthenticateWithContext(ctx, operationId, context_)
 }
 
@@ -1326,14 +1354,14 @@ func (w *sessionStubWrapper) EnrollWithContext(
 	ctx context.Context,
 	hat keymaster.HardwareAuthToken,
 	context_ common.OperationContext,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.EnrollWithContext(ctx, hat, context_)
 }
 
 func (w *sessionStubWrapper) DetectInteractionWithContext(
 	ctx context.Context,
 	context_ common.OperationContext,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.DetectInteractionWithContext(ctx, context_)
 }
 

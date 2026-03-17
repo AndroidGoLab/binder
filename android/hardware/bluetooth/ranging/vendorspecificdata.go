@@ -17,22 +17,8 @@ func (s *VendorSpecificData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.CharacteristicUuid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CharacteristicUuid)))
-		for _, _item := range s.CharacteristicUuid {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.OpaqueValue == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OpaqueValue)))
-		for _, _item := range s.OpaqueValue {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.CharacteristicUuid, 16)
+	p.WriteByteArray(s.OpaqueValue)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -46,34 +32,14 @@ func (s *VendorSpecificData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.CharacteristicUuid, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.CharacteristicUuid = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.CharacteristicUuid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.OpaqueValue, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.OpaqueValue = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.OpaqueValue[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

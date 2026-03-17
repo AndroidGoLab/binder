@@ -59,6 +59,7 @@ func (s *AudioFadeConfiguration) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.UnfadableAudioAttributes)))
 		for _, _item := range s.UnfadableAudioAttributes {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -69,6 +70,7 @@ func (s *AudioFadeConfiguration) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.FadeOutConfigurations)))
 		for _, _item := range s.FadeOutConfigurations {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -79,6 +81,7 @@ func (s *AudioFadeConfiguration) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.FadeInConfigurations)))
 		for _, _item := range s.FadeInConfigurations {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -151,7 +154,7 @@ func (s *AudioFadeConfiguration) UnmarshalParcel(
 			if _err != nil {
 				return _err
 			}
-			s.UnfadeableContentTypes[_i] = *common.AudioContentType(_raw)
+			s.UnfadeableContentTypes[_i] = common.AudioContentType(_raw)
 		}
 	}
 
@@ -163,6 +166,9 @@ func (s *AudioFadeConfiguration) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.UnfadableAudioAttributes = make([]media.AudioAttributes, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.UnfadableAudioAttributes[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -177,6 +183,9 @@ func (s *AudioFadeConfiguration) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.FadeOutConfigurations = make([]FadeConfiguration, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.FadeOutConfigurations[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -191,6 +200,9 @@ func (s *AudioFadeConfiguration) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.FadeInConfigurations = make([]FadeConfiguration, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.FadeInConfigurations[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

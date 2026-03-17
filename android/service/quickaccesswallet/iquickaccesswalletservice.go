@@ -12,13 +12,21 @@ import (
 const DescriptorIQuickAccessWalletService = "android.service.quickaccesswallet.IQuickAccessWalletService"
 
 const (
-	TransactionIQuickAccessWalletServiceOnWalletCardsRequested                 = binder.FirstCallTransaction + 0
-	TransactionIQuickAccessWalletServiceOnWalletCardSelected                   = binder.FirstCallTransaction + 1
-	TransactionIQuickAccessWalletServiceOnWalletDismissed                      = binder.FirstCallTransaction + 2
-	TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener     = binder.FirstCallTransaction + 3
-	TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener   = binder.FirstCallTransaction + 4
-	TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested        = binder.FirstCallTransaction + 5
-	TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested = binder.FirstCallTransaction + 6
+	TransactionIQuickAccessWalletServiceOnWalletCardsRequested               = binder.FirstCallTransaction + 0
+	TransactionIQuickAccessWalletServiceOnWalletCardSelected                 = binder.FirstCallTransaction + 1
+	TransactionIQuickAccessWalletServiceOnWalletDismissed                    = binder.FirstCallTransaction + 2
+	TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener   = binder.FirstCallTransaction + 3
+	TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener = binder.FirstCallTransaction + 4
+	TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested      = binder.FirstCallTransaction + 5
+)
+
+const (
+	MethodIQuickAccessWalletServiceOnWalletCardsRequested               = "onWalletCardsRequested"
+	MethodIQuickAccessWalletServiceOnWalletCardSelected                 = "onWalletCardSelected"
+	MethodIQuickAccessWalletServiceOnWalletDismissed                    = "onWalletDismissed"
+	MethodIQuickAccessWalletServiceRegisterWalletServiceEventListener   = "registerWalletServiceEventListener"
+	MethodIQuickAccessWalletServiceUnregisterWalletServiceEventListener = "unregisterWalletServiceEventListener"
+	MethodIQuickAccessWalletServiceOnTargetActivityIntentRequested      = "onTargetActivityIntentRequested"
 )
 
 type IQuickAccessWalletService interface {
@@ -29,21 +37,20 @@ type IQuickAccessWalletService interface {
 	RegisterWalletServiceEventListener(ctx context.Context, request WalletServiceEventListenerRequest, callback IQuickAccessWalletServiceCallbacks) error
 	UnregisterWalletServiceEventListener(ctx context.Context, request WalletServiceEventListenerRequest) error
 	OnTargetActivityIntentRequested(ctx context.Context, callbacks IQuickAccessWalletServiceCallbacks) error
-	OnGestureTargetActivityIntentRequested(ctx context.Context, callbacks IQuickAccessWalletServiceCallbacks) error
 }
 
 type QuickAccessWalletServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewQuickAccessWalletServiceProxy(
 	remote binder.IBinder,
 ) *QuickAccessWalletServiceProxy {
-	return &QuickAccessWalletServiceProxy{remote: remote}
+	return &QuickAccessWalletServiceProxy{Remote: remote}
 }
 
 func (p *QuickAccessWalletServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IQuickAccessWalletService = (*QuickAccessWalletServiceProxy)(nil)
@@ -59,14 +66,14 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardsRequested(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletCardsRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletCardsRequested)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceOnWalletCardsRequested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletCardsRequested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +88,12 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardSelected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletCardSelected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletCardSelected)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceOnWalletCardSelected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletCardSelected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +103,12 @@ func (p *QuickAccessWalletServiceProxy) OnWalletDismissed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletDismissed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletDismissed)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceOnWalletDismissed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnWalletDismissed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,14 +123,14 @@ func (p *QuickAccessWalletServiceProxy) RegisterWalletServiceEventListener(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "registerWalletServiceEventListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceRegisterWalletServiceEventListener)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceRegisterWalletServiceEventListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,12 +145,12 @@ func (p *QuickAccessWalletServiceProxy) UnregisterWalletServiceEventListener(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "unregisterWalletServiceEventListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceUnregisterWalletServiceEventListener)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceUnregisterWalletServiceEventListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,31 +160,14 @@ func (p *QuickAccessWalletServiceProxy) OnTargetActivityIntentRequested(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onTargetActivityIntentRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnTargetActivityIntentRequested)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletService, MethodIQuickAccessWalletServiceOnTargetActivityIntentRequested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *QuickAccessWalletServiceProxy) OnGestureTargetActivityIntentRequested(
-	ctx context.Context,
-	callbacks IQuickAccessWalletServiceCallbacks,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
-	binder.WriteBinderToParcel(ctx, _data, callbacks.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onGestureTargetActivityIntentRequested")
-	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -188,6 +178,10 @@ type QuickAccessWalletServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*QuickAccessWalletServiceStub)(nil)
+
+func (s *QuickAccessWalletServiceStub) Descriptor() string {
+	return DescriptorIQuickAccessWalletService
+}
 
 func (s *QuickAccessWalletServiceStub) OnTransaction(
 	ctx context.Context,
@@ -294,16 +288,6 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 		_err := s.Impl.OnTargetActivityIntentRequested(ctx, _arg_callbacks)
 		_ = _err
 		return nil, nil
-	case TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callbacks IQuickAccessWalletServiceCallbacks
-		_ = _arg_callbacks
-		_err := s.Impl.OnGestureTargetActivityIntentRequested(ctx, _arg_callbacks)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -319,7 +303,6 @@ type IQuickAccessWalletServiceServer interface {
 	RegisterWalletServiceEventListener(ctx context.Context, request WalletServiceEventListenerRequest, callback IQuickAccessWalletServiceCallbacks) error
 	UnregisterWalletServiceEventListener(ctx context.Context, request WalletServiceEventListenerRequest) error
 	OnTargetActivityIntentRequested(ctx context.Context, callbacks IQuickAccessWalletServiceCallbacks) error
-	OnGestureTargetActivityIntentRequested(ctx context.Context, callbacks IQuickAccessWalletServiceCallbacks) error
 }
 
 type quickAccessWalletServiceStubWrapper struct {
@@ -372,13 +355,6 @@ func (w *quickAccessWalletServiceStubWrapper) OnTargetActivityIntentRequested(
 	callbacks IQuickAccessWalletServiceCallbacks,
 ) error {
 	return w.impl.OnTargetActivityIntentRequested(ctx, callbacks)
-}
-
-func (w *quickAccessWalletServiceStubWrapper) OnGestureTargetActivityIntentRequested(
-	ctx context.Context,
-	callbacks IQuickAccessWalletServiceCallbacks,
-) error {
-	return w.impl.OnGestureTargetActivityIntentRequested(ctx, callbacks)
 }
 
 var _ IQuickAccessWalletService = (*quickAccessWalletServiceStubWrapper)(nil)

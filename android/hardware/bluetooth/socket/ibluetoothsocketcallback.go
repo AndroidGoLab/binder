@@ -16,6 +16,11 @@ const (
 	TransactionIBluetoothSocketCallbackClose          = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothSocketCallbackOpenedComplete = "openedComplete"
+	MethodIBluetoothSocketCallbackClose          = "close"
+)
+
 type IBluetoothSocketCallback interface {
 	AsBinder() binder.IBinder
 	OpenedComplete(ctx context.Context, socketId int64, status Status, reason string) error
@@ -23,17 +28,17 @@ type IBluetoothSocketCallback interface {
 }
 
 type BluetoothSocketCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothSocketCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothSocketCallbackProxy {
-	return &BluetoothSocketCallbackProxy{remote: remote}
+	return &BluetoothSocketCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothSocketCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothSocketCallback = (*BluetoothSocketCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *BluetoothSocketCallbackProxy) OpenedComplete(
 	_data.WriteInt32(int32(status))
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketCallback, "openedComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketCallback, MethodIBluetoothSocketCallbackOpenedComplete)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketCallbackOpenedComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocketCallback, MethodIBluetoothSocketCallbackOpenedComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +83,12 @@ func (p *BluetoothSocketCallbackProxy) Close(
 	_data.WriteInt64(socketId)
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketCallback, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSocketCallback, MethodIBluetoothSocketCallbackClose)
 	if _err != nil {
-		_code = TransactionIBluetoothSocketCallbackClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothSocketCallback, MethodIBluetoothSocketCallbackClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,6 +108,10 @@ type BluetoothSocketCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothSocketCallbackStub)(nil)
+
+func (s *BluetoothSocketCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothSocketCallback
+}
 
 func (s *BluetoothSocketCallbackStub) OnTransaction(
 	ctx context.Context,

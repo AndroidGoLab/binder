@@ -24,5 +24,4 @@ const (
 	InputConfigInterceptsStylus          InputConfig = (1 << 15)
 	InputConfigCLONE                     InputConfig = (1 << 16)
 	InputConfigGlobalStylusBlocksTouch   InputConfig = (1 << 17)
-	InputConfigSensitiveForPrivacy       InputConfig = (1 << 18)
 )

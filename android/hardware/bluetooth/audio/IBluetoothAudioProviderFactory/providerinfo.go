@@ -25,6 +25,7 @@ func (s *ProviderInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.CodecInfos)))
 		for _, _item := range s.CodecInfos {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -57,6 +58,9 @@ func (s *ProviderInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.CodecInfos = make([]audio.CodecInfo, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.CodecInfos[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

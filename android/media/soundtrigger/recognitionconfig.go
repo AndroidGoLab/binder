@@ -25,20 +25,14 @@ func (s *RecognitionConfig) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PhraseRecognitionExtras)))
 		for _, _item := range s.PhraseRecognitionExtras {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 	p.WriteInt32(s.AudioCapabilities)
-	if s.Data == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Data)))
-		for _, _item := range s.Data {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Data)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -65,6 +59,9 @@ func (s *RecognitionConfig) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.PhraseRecognitionExtras = make([]PhraseRecognitionExtra, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PhraseRecognitionExtras[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -76,19 +73,9 @@ func (s *RecognitionConfig) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Data, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Data = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Data[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -21,6 +21,16 @@ const (
 	TransactionIRequestCallbackOnCaptureSequenceAborted   = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIRequestCallbackOnCaptureStarted           = "onCaptureStarted"
+	MethodIRequestCallbackOnCaptureProgressed        = "onCaptureProgressed"
+	MethodIRequestCallbackOnCaptureCompleted         = "onCaptureCompleted"
+	MethodIRequestCallbackOnCaptureFailed            = "onCaptureFailed"
+	MethodIRequestCallbackOnCaptureBufferLost        = "onCaptureBufferLost"
+	MethodIRequestCallbackOnCaptureSequenceCompleted = "onCaptureSequenceCompleted"
+	MethodIRequestCallbackOnCaptureSequenceAborted   = "onCaptureSequenceAborted"
+)
+
 type IRequestCallback interface {
 	AsBinder() binder.IBinder
 	OnCaptureStarted(ctx context.Context, requestId int32, frameNumber int64, timestamp int64) error
@@ -33,17 +43,17 @@ type IRequestCallback interface {
 }
 
 type RequestCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRequestCallbackProxy(
 	remote binder.IBinder,
 ) *RequestCallbackProxy {
-	return &RequestCallbackProxy{remote: remote}
+	return &RequestCallbackProxy{Remote: remote}
 }
 
 func (p *RequestCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRequestCallback = (*RequestCallbackProxy)(nil)
@@ -60,12 +70,12 @@ func (p *RequestCallbackProxy) OnCaptureStarted(
 	_data.WriteInt64(frameNumber)
 	_data.WriteInt64(timestamp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureStarted)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureStarted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,12 +101,12 @@ func (p *RequestCallbackProxy) OnCaptureProgressed(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureProgressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureProgressed)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureProgressed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureProgressed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,12 +132,12 @@ func (p *RequestCallbackProxy) OnCaptureCompleted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureCompleted)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,12 +163,12 @@ func (p *RequestCallbackProxy) OnCaptureFailed(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureFailed)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureFailed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,12 +193,12 @@ func (p *RequestCallbackProxy) OnCaptureBufferLost(
 	_data.WriteInt64(frameNumber)
 	_data.WriteInt32(outputStreamId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureBufferLost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureBufferLost)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureBufferLost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureBufferLost, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -211,12 +221,12 @@ func (p *RequestCallbackProxy) OnCaptureSequenceCompleted(
 	_data.WriteInt32(sequenceId)
 	_data.WriteInt64(frameNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureSequenceCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceCompleted)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureSequenceCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -237,12 +247,12 @@ func (p *RequestCallbackProxy) OnCaptureSequenceAborted(
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(sequenceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureSequenceAborted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceAborted)
 	if _err != nil {
-		_code = TransactionIRequestCallbackOnCaptureSequenceAborted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestCallback, MethodIRequestCallbackOnCaptureSequenceAborted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -262,6 +272,10 @@ type RequestCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RequestCallbackStub)(nil)
+
+func (s *RequestCallbackStub) Descriptor() string {
+	return DescriptorIRequestCallback
+}
 
 func (s *RequestCallbackStub) OnTransaction(
 	ctx context.Context,

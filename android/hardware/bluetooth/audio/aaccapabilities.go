@@ -46,14 +46,7 @@ func (s *AacCapabilities) MarshalParcel(
 		}
 	}
 	p.WriteBool(s.VariableBitRateSupported)
-	if s.BitsPerSample == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BitsPerSample)))
-		for _, _item := range s.BitsPerSample {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.BitsPerSample)
 	p.WriteBool(s.AdaptiveBitRateSupported)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -120,19 +113,9 @@ func (s *AacCapabilities) UnmarshalParcel(
 		return _err
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.BitsPerSample, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.BitsPerSample = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.BitsPerSample[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.AdaptiveBitRateSupported, _err = p.ReadBool()

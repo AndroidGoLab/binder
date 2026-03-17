@@ -16,23 +16,27 @@ const (
 	TransactionIWalletCardsUpdatedListenerRegisterNewWalletCards = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWalletCardsUpdatedListenerRegisterNewWalletCards = "registerNewWalletCards"
+)
+
 type IWalletCardsUpdatedListener interface {
 	AsBinder() binder.IBinder
 	RegisterNewWalletCards(ctx context.Context, cards []quickaccesswallet.WalletCard) error
 }
 
 type WalletCardsUpdatedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWalletCardsUpdatedListenerProxy(
 	remote binder.IBinder,
 ) *WalletCardsUpdatedListenerProxy {
-	return &WalletCardsUpdatedListenerProxy{remote: remote}
+	return &WalletCardsUpdatedListenerProxy{Remote: remote}
 }
 
 func (p *WalletCardsUpdatedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWalletCardsUpdatedListener = (*WalletCardsUpdatedListenerProxy)(nil)
@@ -48,18 +52,19 @@ func (p *WalletCardsUpdatedListenerProxy) RegisterNewWalletCards(
 	} else {
 		_data.WriteInt32(int32(len(cards)))
 		for _, _item := range cards {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWalletCardsUpdatedListener, "registerNewWalletCards")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWalletCardsUpdatedListener, MethodIWalletCardsUpdatedListenerRegisterNewWalletCards)
 	if _err != nil {
-		_code = TransactionIWalletCardsUpdatedListenerRegisterNewWalletCards
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWalletCardsUpdatedListener, MethodIWalletCardsUpdatedListenerRegisterNewWalletCards, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +84,10 @@ type WalletCardsUpdatedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WalletCardsUpdatedListenerStub)(nil)
+
+func (s *WalletCardsUpdatedListenerStub) Descriptor() string {
+	return DescriptorIWalletCardsUpdatedListener
+}
 
 func (s *WalletCardsUpdatedListenerStub) OnTransaction(
 	ctx context.Context,

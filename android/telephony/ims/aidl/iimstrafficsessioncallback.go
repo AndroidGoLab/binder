@@ -17,6 +17,11 @@ const (
 	TransactionIImsTrafficSessionCallbackOnError = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIImsTrafficSessionCallbackOnReady = "onReady"
+	MethodIImsTrafficSessionCallbackOnError = "onError"
+)
+
 type IImsTrafficSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnReady(ctx context.Context) error
@@ -24,17 +29,17 @@ type IImsTrafficSessionCallback interface {
 }
 
 type ImsTrafficSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsTrafficSessionCallbackProxy(
 	remote binder.IBinder,
 ) *ImsTrafficSessionCallbackProxy {
-	return &ImsTrafficSessionCallbackProxy{remote: remote}
+	return &ImsTrafficSessionCallbackProxy{Remote: remote}
 }
 
 func (p *ImsTrafficSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsTrafficSessionCallback = (*ImsTrafficSessionCallbackProxy)(nil)
@@ -45,12 +50,12 @@ func (p *ImsTrafficSessionCallbackProxy) OnReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsTrafficSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsTrafficSessionCallback, "onReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsTrafficSessionCallback, MethodIImsTrafficSessionCallbackOnReady)
 	if _err != nil {
-		_code = TransactionIImsTrafficSessionCallbackOnReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsTrafficSessionCallback, MethodIImsTrafficSessionCallbackOnReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *ImsTrafficSessionCallbackProxy) OnError(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsTrafficSessionCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsTrafficSessionCallback, MethodIImsTrafficSessionCallbackOnError)
 	if _err != nil {
-		_code = TransactionIImsTrafficSessionCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsTrafficSessionCallback, MethodIImsTrafficSessionCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type ImsTrafficSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsTrafficSessionCallbackStub)(nil)
+
+func (s *ImsTrafficSessionCallbackStub) Descriptor() string {
+	return DescriptorIImsTrafficSessionCallback
+}
 
 func (s *ImsTrafficSessionCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIBluetoothOobDataCallbackOnError   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothOobDataCallbackOnOobData = "onOobData"
+	MethodIBluetoothOobDataCallbackOnError   = "onError"
+)
+
 type IBluetoothOobDataCallback interface {
 	AsBinder() binder.IBinder
 	OnOobData(ctx context.Context, transport int32, oobData OobData) error
@@ -23,17 +28,17 @@ type IBluetoothOobDataCallback interface {
 }
 
 type BluetoothOobDataCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothOobDataCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothOobDataCallbackProxy {
-	return &BluetoothOobDataCallbackProxy{remote: remote}
+	return &BluetoothOobDataCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothOobDataCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothOobDataCallback = (*BluetoothOobDataCallbackProxy)(nil)
@@ -51,12 +56,12 @@ func (p *BluetoothOobDataCallbackProxy) OnOobData(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothOobDataCallback, "onOobData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnOobData)
 	if _err != nil {
-		_code = TransactionIBluetoothOobDataCallbackOnOobData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnOobData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +73,12 @@ func (p *BluetoothOobDataCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIBluetoothOobDataCallback)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothOobDataCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnError)
 	if _err != nil {
-		_code = TransactionIBluetoothOobDataCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothOobDataCallback, MethodIBluetoothOobDataCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +89,10 @@ type BluetoothOobDataCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothOobDataCallbackStub)(nil)
+
+func (s *BluetoothOobDataCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothOobDataCallback
+}
 
 func (s *BluetoothOobDataCallbackStub) OnTransaction(
 	ctx context.Context,

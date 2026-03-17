@@ -17,6 +17,12 @@ const (
 	TransactionITkgsInfoListenerOnUserMessage        = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITkgsInfoListenerOnServiceList        = "onServiceList"
+	MethodITkgsInfoListenerOnTableVersionUpdate = "onTableVersionUpdate"
+	MethodITkgsInfoListenerOnUserMessage        = "onUserMessage"
+)
+
 type ITkgsInfoListener interface {
 	AsBinder() binder.IBinder
 	OnServiceList(ctx context.Context, serviceList []string) error
@@ -25,17 +31,17 @@ type ITkgsInfoListener interface {
 }
 
 type TkgsInfoListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTkgsInfoListenerProxy(
 	remote binder.IBinder,
 ) *TkgsInfoListenerProxy {
-	return &TkgsInfoListenerProxy{remote: remote}
+	return &TkgsInfoListenerProxy{Remote: remote}
 }
 
 func (p *TkgsInfoListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITkgsInfoListener = (*TkgsInfoListenerProxy)(nil)
@@ -55,12 +61,12 @@ func (p *TkgsInfoListenerProxy) OnServiceList(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfoListener, "onServiceList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITkgsInfoListener, MethodITkgsInfoListenerOnServiceList)
 	if _err != nil {
-		_code = TransactionITkgsInfoListenerOnServiceList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITkgsInfoListener, MethodITkgsInfoListenerOnServiceList, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +78,12 @@ func (p *TkgsInfoListenerProxy) OnTableVersionUpdate(
 	_data.WriteInterfaceToken(DescriptorITkgsInfoListener)
 	_data.WriteInt32(tableVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfoListener, "onTableVersionUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITkgsInfoListener, MethodITkgsInfoListenerOnTableVersionUpdate)
 	if _err != nil {
-		_code = TransactionITkgsInfoListenerOnTableVersionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITkgsInfoListener, MethodITkgsInfoListenerOnTableVersionUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +95,12 @@ func (p *TkgsInfoListenerProxy) OnUserMessage(
 	_data.WriteInterfaceToken(DescriptorITkgsInfoListener)
 	_data.WriteString16(strMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfoListener, "onUserMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITkgsInfoListener, MethodITkgsInfoListenerOnUserMessage)
 	if _err != nil {
-		_code = TransactionITkgsInfoListenerOnUserMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITkgsInfoListener, MethodITkgsInfoListenerOnUserMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,6 +111,10 @@ type TkgsInfoListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TkgsInfoListenerStub)(nil)
+
+func (s *TkgsInfoListenerStub) Descriptor() string {
+	return DescriptorITkgsInfoListener
+}
 
 func (s *TkgsInfoListenerStub) OnTransaction(
 	ctx context.Context,

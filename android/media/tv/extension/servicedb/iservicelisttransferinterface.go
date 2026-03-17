@@ -17,6 +17,12 @@ const (
 	TransactionIServiceListTransferInterfaceCreateSetChannelListSession = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIServiceListTransferInterfaceCreateExportSession         = "createExportSession"
+	MethodIServiceListTransferInterfaceCreateImportSession         = "createImportSession"
+	MethodIServiceListTransferInterfaceCreateSetChannelListSession = "createSetChannelListSession"
+)
+
 type IServiceListTransferInterface interface {
 	AsBinder() binder.IBinder
 	CreateExportSession(ctx context.Context, listener IServiceListExportListener) (binder.IBinder, error)
@@ -25,17 +31,17 @@ type IServiceListTransferInterface interface {
 }
 
 type ServiceListTransferInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListTransferInterfaceProxy(
 	remote binder.IBinder,
 ) *ServiceListTransferInterfaceProxy {
-	return &ServiceListTransferInterfaceProxy{remote: remote}
+	return &ServiceListTransferInterfaceProxy{Remote: remote}
 }
 
 func (p *ServiceListTransferInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListTransferInterface = (*ServiceListTransferInterfaceProxy)(nil)
@@ -47,14 +53,14 @@ func (p *ServiceListTransferInterfaceProxy) CreateExportSession(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListTransferInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createExportSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListTransferInterface, MethodIServiceListTransferInterfaceCreateExportSession)
 	if _err != nil {
-		_code = TransactionIServiceListTransferInterfaceCreateExportSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListTransferInterface, MethodIServiceListTransferInterfaceCreateExportSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,7 +74,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateExportSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -79,14 +85,14 @@ func (p *ServiceListTransferInterfaceProxy) CreateImportSession(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListTransferInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createImportSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListTransferInterface, MethodIServiceListTransferInterfaceCreateImportSession)
 	if _err != nil {
-		_code = TransactionIServiceListTransferInterfaceCreateImportSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListTransferInterface, MethodIServiceListTransferInterfaceCreateImportSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,7 +106,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateImportSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -111,14 +117,14 @@ func (p *ServiceListTransferInterfaceProxy) CreateSetChannelListSession(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListTransferInterface)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createSetChannelListSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListTransferInterface, MethodIServiceListTransferInterfaceCreateSetChannelListSession)
 	if _err != nil {
-		_code = TransactionIServiceListTransferInterfaceCreateSetChannelListSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListTransferInterface, MethodIServiceListTransferInterfaceCreateSetChannelListSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,7 +138,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateSetChannelListSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -143,6 +149,10 @@ type ServiceListTransferInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListTransferInterfaceStub)(nil)
+
+func (s *ServiceListTransferInterfaceStub) Descriptor() string {
+	return DescriptorIServiceListTransferInterface
+}
 
 func (s *ServiceListTransferInterfaceStub) OnTransaction(
 	ctx context.Context,

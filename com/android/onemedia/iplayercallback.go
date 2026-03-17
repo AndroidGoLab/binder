@@ -16,23 +16,27 @@ const (
 	TransactionIPlayerCallbackOnSessionChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPlayerCallbackOnSessionChanged = "onSessionChanged"
+)
+
 type IPlayerCallback interface {
 	AsBinder() binder.IBinder
 	OnSessionChanged(ctx context.Context, session mediaSession.MediaSessionToken) error
 }
 
 type PlayerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPlayerCallbackProxy(
 	remote binder.IBinder,
 ) *PlayerCallbackProxy {
-	return &PlayerCallbackProxy{remote: remote}
+	return &PlayerCallbackProxy{Remote: remote}
 }
 
 func (p *PlayerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPlayerCallback = (*PlayerCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *PlayerCallbackProxy) OnSessionChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlayerCallback, "onSessionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlayerCallback, MethodIPlayerCallbackOnSessionChanged)
 	if _err != nil {
-		_code = TransactionIPlayerCallbackOnSessionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlayerCallback, MethodIPlayerCallbackOnSessionChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,6 +77,10 @@ type PlayerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PlayerCallbackStub)(nil)
+
+func (s *PlayerCallbackStub) Descriptor() string {
+	return DescriptorIPlayerCallback
+}
 
 func (s *PlayerCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -77,6 +77,7 @@ func (u *Id) MarshalParcel(
 	case IdTagVendorExtensionTag:
 	case IdTagCommonTag:
 	case IdTagSpeakerAnglesPayload:
+		p.WriteInt32(1)
 		if _err := u.SpeakerAnglesPayload.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -105,6 +106,9 @@ func (u *Id) UnmarshalParcel(
 	case IdTagVendorExtensionTag:
 	case IdTagCommonTag:
 	case IdTagSpeakerAnglesPayload:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SpeakerAnglesPayload.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

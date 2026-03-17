@@ -15,23 +15,27 @@ const (
 	TransactionIAdbTransportOnAdbEnabled = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAdbTransportOnAdbEnabled = "onAdbEnabled"
+)
+
 type IAdbTransport interface {
 	AsBinder() binder.IBinder
 	OnAdbEnabled(ctx context.Context, enabled bool, type_ AdbTransportType) error
 }
 
 type AdbTransportProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAdbTransportProxy(
 	remote binder.IBinder,
 ) *AdbTransportProxy {
-	return &AdbTransportProxy{remote: remote}
+	return &AdbTransportProxy{Remote: remote}
 }
 
 func (p *AdbTransportProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAdbTransport = (*AdbTransportProxy)(nil)
@@ -46,12 +50,12 @@ func (p *AdbTransportProxy) OnAdbEnabled(
 	_data.WriteBool(enabled)
 	_data.WritePaddedByte(byte(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdbTransport, "onAdbEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbTransport, MethodIAdbTransportOnAdbEnabled)
 	if _err != nil {
-		_code = TransactionIAdbTransportOnAdbEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdbTransport, MethodIAdbTransportOnAdbEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,6 +75,10 @@ type AdbTransportStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AdbTransportStub)(nil)
+
+func (s *AdbTransportStub) Descriptor() string {
+	return DescriptorIAdbTransport
+}
 
 func (s *AdbTransportStub) OnTransaction(
 	ctx context.Context,

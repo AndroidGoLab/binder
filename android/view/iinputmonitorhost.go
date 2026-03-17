@@ -16,6 +16,11 @@ const (
 	TransactionIInputMonitorHostDispose        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInputMonitorHostPilferPointers = "pilferPointers"
+	MethodIInputMonitorHostDispose        = "dispose"
+)
+
 type IInputMonitorHost interface {
 	AsBinder() binder.IBinder
 	PilferPointers(ctx context.Context) error
@@ -23,17 +28,17 @@ type IInputMonitorHost interface {
 }
 
 type InputMonitorHostProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputMonitorHostProxy(
 	remote binder.IBinder,
 ) *InputMonitorHostProxy {
-	return &InputMonitorHostProxy{remote: remote}
+	return &InputMonitorHostProxy{Remote: remote}
 }
 
 func (p *InputMonitorHostProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputMonitorHost = (*InputMonitorHostProxy)(nil)
@@ -44,12 +49,12 @@ func (p *InputMonitorHostProxy) PilferPointers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMonitorHost)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMonitorHost, "pilferPointers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMonitorHost, MethodIInputMonitorHostPilferPointers)
 	if _err != nil {
-		_code = TransactionIInputMonitorHostPilferPointers
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMonitorHost, MethodIInputMonitorHostPilferPointers, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *InputMonitorHostProxy) Dispose(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMonitorHost)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMonitorHost, "dispose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMonitorHost, MethodIInputMonitorHostDispose)
 	if _err != nil {
-		_code = TransactionIInputMonitorHostDispose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMonitorHost, MethodIInputMonitorHostDispose, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type InputMonitorHostStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputMonitorHostStub)(nil)
+
+func (s *InputMonitorHostStub) Descriptor() string {
+	return DescriptorIInputMonitorHost
+}
 
 func (s *InputMonitorHostStub) OnTransaction(
 	ctx context.Context,

@@ -2,6 +2,7 @@ package parcel
 
 import (
 	"encoding/binary"
+	"fmt"
 	"math"
 )
 
@@ -141,6 +142,17 @@ func (p *Parcel) ReadPaddedByte() (byte, error) {
 	return b[0], nil
 }
 
+// WriteRawBytes writes raw bytes into the parcel with 4-byte alignment
+// padding but no length prefix. This matches C++ Parcel::writeInplace
+// and is used to write Flattenable data blobs.
+func (p *Parcel) WriteRawBytes(
+	data []byte,
+) {
+	if len(data) > 0 {
+		copy(p.grow(len(data)), data)
+	}
+}
+
 // WriteByteArray writes a byte array with an int32 length prefix, padded to 4 bytes.
 // A nil slice writes -1 as the length.
 func (p *Parcel) WriteByteArray(
@@ -175,6 +187,48 @@ func (p *Parcel) ReadByteArray() ([]byte, error) {
 	}
 
 	result := make([]byte, length)
+	copy(result, b)
+	return result, nil
+}
+
+// WriteFixedByteArray writes a fixed-size byte array matching the AIDL
+// byte[N] wire format: int32(fixedSize) followed by exactly fixedSize
+// raw bytes (4-byte aligned). If data is shorter than fixedSize, the
+// remaining bytes are zero-filled. If data is longer, it is truncated.
+func (p *Parcel) WriteFixedByteArray(
+	data []byte,
+	fixedSize int,
+) {
+	p.WriteInt32(int32(fixedSize))
+	buf := p.grow(fixedSize)
+	n := copy(buf, data)
+	// Zero-fill the rest (grow already zeroes padding bytes, but we
+	// must also zero the in-range bytes beyond the copied data).
+	for i := n; i < fixedSize; i++ {
+		buf[i] = 0
+	}
+}
+
+// ReadFixedByteArray reads a fixed-size byte array matching the AIDL
+// byte[N] wire format: int32(size) followed by exactly size raw bytes.
+// It verifies that the declared size matches fixedSize.
+func (p *Parcel) ReadFixedByteArray(
+	fixedSize int,
+) ([]byte, error) {
+	size, err := p.ReadInt32()
+	if err != nil {
+		return nil, err
+	}
+	if int(size) != fixedSize {
+		return nil, fmt.Errorf("fixed byte array size mismatch: got %d, want %d", size, fixedSize)
+	}
+
+	b, err := p.read(fixedSize)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]byte, fixedSize)
 	copy(result, b)
 	return result, nil
 }

@@ -18,6 +18,12 @@ const (
 	TransactionIContentControlServiceGetCamDrmInfo            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIContentControlServiceAddCamDrmInfoListener    = "addCamDrmInfoListener"
+	MethodIContentControlServiceRemoveCamDrmInfoListener = "removeCamDrmInfoListener"
+	MethodIContentControlServiceGetCamDrmInfo            = "getCamDrmInfo"
+)
+
 type IContentControlService interface {
 	AsBinder() binder.IBinder
 	AddCamDrmInfoListener(ctx context.Context, listener ICamDrmInfoListener) error
@@ -26,17 +32,17 @@ type IContentControlService interface {
 }
 
 type ContentControlServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentControlServiceProxy(
 	remote binder.IBinder,
 ) *ContentControlServiceProxy {
-	return &ContentControlServiceProxy{remote: remote}
+	return &ContentControlServiceProxy{Remote: remote}
 }
 
 func (p *ContentControlServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentControlService = (*ContentControlServiceProxy)(nil)
@@ -47,14 +53,14 @@ func (p *ContentControlServiceProxy) AddCamDrmInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentControlService, "addCamDrmInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentControlService, MethodIContentControlServiceAddCamDrmInfoListener)
 	if _err != nil {
-		_code = TransactionIContentControlServiceAddCamDrmInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentControlService, MethodIContentControlServiceAddCamDrmInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,14 +79,14 @@ func (p *ContentControlServiceProxy) RemoveCamDrmInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentControlService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentControlService, "removeCamDrmInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentControlService, MethodIContentControlServiceRemoveCamDrmInfoListener)
 	if _err != nil {
-		_code = TransactionIContentControlServiceRemoveCamDrmInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentControlService, MethodIContentControlServiceRemoveCamDrmInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,12 +109,12 @@ func (p *ContentControlServiceProxy) GetCamDrmInfo(
 	_data.WriteInterfaceToken(DescriptorIContentControlService)
 	_data.WriteInt32(slotId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentControlService, "getCamDrmInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentControlService, MethodIContentControlServiceGetCamDrmInfo)
 	if _err != nil {
-		_code = TransactionIContentControlServiceGetCamDrmInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContentControlService, MethodIContentControlServiceGetCamDrmInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -135,6 +141,10 @@ type ContentControlServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentControlServiceStub)(nil)
+
+func (s *ContentControlServiceStub) Descriptor() string {
+	return DescriptorIContentControlService
+}
 
 func (s *ContentControlServiceStub) OnTransaction(
 	ctx context.Context,

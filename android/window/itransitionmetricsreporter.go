@@ -15,23 +15,27 @@ const (
 	TransactionITransitionMetricsReporterReportAnimationStart = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITransitionMetricsReporterReportAnimationStart = "reportAnimationStart"
+)
+
 type ITransitionMetricsReporter interface {
 	AsBinder() binder.IBinder
 	ReportAnimationStart(ctx context.Context, transitionToken binder.IBinder, startTime int64) error
 }
 
 type TransitionMetricsReporterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransitionMetricsReporterProxy(
 	remote binder.IBinder,
 ) *TransitionMetricsReporterProxy {
-	return &TransitionMetricsReporterProxy{remote: remote}
+	return &TransitionMetricsReporterProxy{Remote: remote}
 }
 
 func (p *TransitionMetricsReporterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransitionMetricsReporter = (*TransitionMetricsReporterProxy)(nil)
@@ -43,15 +47,15 @@ func (p *TransitionMetricsReporterProxy) ReportAnimationStart(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransitionMetricsReporter)
-	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transitionToken, p.Remote.Transport())
 	_data.WriteInt64(startTime)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransitionMetricsReporter, "reportAnimationStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransitionMetricsReporter, MethodITransitionMetricsReporterReportAnimationStart)
 	if _err != nil {
-		_code = TransactionITransitionMetricsReporterReportAnimationStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransitionMetricsReporter, MethodITransitionMetricsReporterReportAnimationStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type TransitionMetricsReporterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransitionMetricsReporterStub)(nil)
+
+func (s *TransitionMetricsReporterStub) Descriptor() string {
+	return DescriptorITransitionMetricsReporter
+}
 
 func (s *TransitionMetricsReporterStub) OnTransaction(
 	ctx context.Context,

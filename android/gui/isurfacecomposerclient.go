@@ -20,6 +20,15 @@ const (
 	TransactionISurfaceComposerClientGetSchedulingPolicy  = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodISurfaceComposerClientCreateSurface        = "createSurface"
+	MethodISurfaceComposerClientClearLayerFrameStats = "clearLayerFrameStats"
+	MethodISurfaceComposerClientGetLayerFrameStats   = "getLayerFrameStats"
+	MethodISurfaceComposerClientMirrorSurface        = "mirrorSurface"
+	MethodISurfaceComposerClientMirrorDisplay        = "mirrorDisplay"
+	MethodISurfaceComposerClientGetSchedulingPolicy  = "getSchedulingPolicy"
+)
+
 type ISurfaceComposerClient interface {
 	AsBinder() binder.IBinder
 	CreateSurface(ctx context.Context, name string, flags int32, parent binder.IBinder, metadata interface{}) (CreateSurfaceResult, error)
@@ -49,17 +58,17 @@ const (
 )
 
 type SurfaceComposerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSurfaceComposerClientProxy(
 	remote binder.IBinder,
 ) *SurfaceComposerClientProxy {
-	return &SurfaceComposerClientProxy{remote: remote}
+	return &SurfaceComposerClientProxy{Remote: remote}
 }
 
 func (p *SurfaceComposerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISurfaceComposerClient = (*SurfaceComposerClientProxy)(nil)
@@ -76,14 +85,14 @@ func (p *SurfaceComposerClientProxy) CreateSurface(
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	_data.WriteString16(name)
 	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, parent, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, parent, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposerClient, "createSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientCreateSurface)
 	if _err != nil {
-		_code = TransactionISurfaceComposerClientCreateSurface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceComposerClient, MethodISurfaceComposerClientCreateSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,14 +120,14 @@ func (p *SurfaceComposerClientProxy) ClearLayerFrameStats(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, handle, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposerClient, "clearLayerFrameStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientClearLayerFrameStats)
 	if _err != nil {
-		_code = TransactionISurfaceComposerClientClearLayerFrameStats
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceComposerClient, MethodISurfaceComposerClientClearLayerFrameStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,14 +147,14 @@ func (p *SurfaceComposerClientProxy) GetLayerFrameStats(
 	var _result FrameStats
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, handle, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, handle, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposerClient, "getLayerFrameStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetLayerFrameStats)
 	if _err != nil {
-		_code = TransactionISurfaceComposerClientGetLayerFrameStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetLayerFrameStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -174,14 +183,14 @@ func (p *SurfaceComposerClientProxy) MirrorSurface(
 	var _result CreateSurfaceResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, mirrorFromHandle, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, mirrorFromHandle, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposerClient, "mirrorSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorSurface)
 	if _err != nil {
-		_code = TransactionISurfaceComposerClientMirrorSurface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -212,12 +221,12 @@ func (p *SurfaceComposerClientProxy) MirrorDisplay(
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 	_data.WriteInt64(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposerClient, "mirrorDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorDisplay)
 	if _err != nil {
-		_code = TransactionISurfaceComposerClientMirrorDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceComposerClient, MethodISurfaceComposerClientMirrorDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,12 +255,12 @@ func (p *SurfaceComposerClientProxy) GetSchedulingPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposerClient, "getSchedulingPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetSchedulingPolicy)
 	if _err != nil {
-		_code = TransactionISurfaceComposerClientGetSchedulingPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceComposerClient, MethodISurfaceComposerClientGetSchedulingPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -280,6 +289,10 @@ type SurfaceComposerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SurfaceComposerClientStub)(nil)
+
+func (s *SurfaceComposerClientStub) Descriptor() string {
+	return DescriptorISurfaceComposerClient
+}
 
 func (s *SurfaceComposerClientStub) OnTransaction(
 	ctx context.Context,

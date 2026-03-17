@@ -22,6 +22,17 @@ const (
 	TransactionISecureElementTransmit           = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodISecureElementCloseChannel       = "closeChannel"
+	MethodISecureElementGetAtr             = "getAtr"
+	MethodISecureElementInit               = "init"
+	MethodISecureElementIsCardPresent      = "isCardPresent"
+	MethodISecureElementOpenBasicChannel   = "openBasicChannel"
+	MethodISecureElementOpenLogicalChannel = "openLogicalChannel"
+	MethodISecureElementReset              = "reset"
+	MethodISecureElementTransmit           = "transmit"
+)
+
 type ISecureElement interface {
 	AsBinder() binder.IBinder
 	CloseChannel(ctx context.Context, channelNumber byte) error
@@ -43,17 +54,17 @@ const (
 )
 
 type SecureElementProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureElementProxy(
 	remote binder.IBinder,
 ) *SecureElementProxy {
-	return &SecureElementProxy{remote: remote}
+	return &SecureElementProxy{Remote: remote}
 }
 
 func (p *SecureElementProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureElement = (*SecureElementProxy)(nil)
@@ -66,12 +77,12 @@ func (p *SecureElementProxy) CloseChannel(
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 	_data.WritePaddedByte(channelNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "closeChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementCloseChannel)
 	if _err != nil {
-		_code = TransactionISecureElementCloseChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementCloseChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,12 +102,12 @@ func (p *SecureElementProxy) GetAtr(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "getAtr")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementGetAtr)
 	if _err != nil {
-		_code = TransactionISecureElementGetAtr
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementGetAtr, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,14 +140,14 @@ func (p *SecureElementProxy) Init(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
-	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "init")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementInit)
 	if _err != nil {
-		_code = TransactionISecureElementInit
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementInit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -156,12 +167,12 @@ func (p *SecureElementProxy) IsCardPresent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "isCardPresent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementIsCardPresent)
 	if _err != nil {
-		_code = TransactionISecureElementIsCardPresent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementIsCardPresent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,12 +207,12 @@ func (p *SecureElementProxy) OpenBasicChannel(
 	}
 	_data.WritePaddedByte(p2)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "openBasicChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementOpenBasicChannel)
 	if _err != nil {
-		_code = TransactionISecureElementOpenBasicChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementOpenBasicChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,12 +257,12 @@ func (p *SecureElementProxy) OpenLogicalChannel(
 	}
 	_data.WritePaddedByte(p2)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "openLogicalChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementOpenLogicalChannel)
 	if _err != nil {
-		_code = TransactionISecureElementOpenLogicalChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementOpenLogicalChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,12 +290,12 @@ func (p *SecureElementProxy) Reset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElement)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "reset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementReset)
 	if _err != nil {
-		_code = TransactionISecureElementReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,12 +324,12 @@ func (p *SecureElementProxy) Transmit(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "transmit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElement, MethodISecureElementTransmit)
 	if _err != nil {
-		_code = TransactionISecureElementTransmit
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElement, MethodISecureElementTransmit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -352,6 +363,10 @@ type SecureElementStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureElementStub)(nil)
+
+func (s *SecureElementStub) Descriptor() string {
+	return DescriptorISecureElement
+}
 
 func (s *SecureElementStub) OnTransaction(
 	ctx context.Context,

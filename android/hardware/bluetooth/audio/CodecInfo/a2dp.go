@@ -20,14 +20,7 @@ func (s *A2dp) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Capabilities == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Capabilities)))
-		for _, _item := range s.Capabilities {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Capabilities)
 	if s.ChannelMode == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -63,19 +56,9 @@ func (s *A2dp) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Capabilities, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Capabilities = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Capabilities[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32

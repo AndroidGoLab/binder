@@ -19,6 +19,13 @@ const (
 	TransactionIAccessibilityInputMethodSessionInvalidateInput = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIAccessibilityInputMethodSessionUpdateSelection = "updateSelection"
+	MethodIAccessibilityInputMethodSessionFinishInput     = "finishInput"
+	MethodIAccessibilityInputMethodSessionFinishSession   = "finishSession"
+	MethodIAccessibilityInputMethodSessionInvalidateInput = "invalidateInput"
+)
+
 type IAccessibilityInputMethodSession interface {
 	AsBinder() binder.IBinder
 	UpdateSelection(ctx context.Context, oldSelStart int32, oldSelEnd int32, newSelStart int32, newSelEnd int32, candidatesStart int32, candidatesEnd int32) error
@@ -28,17 +35,17 @@ type IAccessibilityInputMethodSession interface {
 }
 
 type AccessibilityInputMethodSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessibilityInputMethodSessionProxy(
 	remote binder.IBinder,
 ) *AccessibilityInputMethodSessionProxy {
-	return &AccessibilityInputMethodSessionProxy{remote: remote}
+	return &AccessibilityInputMethodSessionProxy{Remote: remote}
 }
 
 func (p *AccessibilityInputMethodSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessibilityInputMethodSession = (*AccessibilityInputMethodSessionProxy)(nil)
@@ -61,12 +68,12 @@ func (p *AccessibilityInputMethodSessionProxy) UpdateSelection(
 	_data.WriteInt32(candidatesStart)
 	_data.WriteInt32(candidatesEnd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "updateSelection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionUpdateSelection)
 	if _err != nil {
-		_code = TransactionIAccessibilityInputMethodSessionUpdateSelection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionUpdateSelection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +83,12 @@ func (p *AccessibilityInputMethodSessionProxy) FinishInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "finishInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionFinishInput)
 	if _err != nil {
-		_code = TransactionIAccessibilityInputMethodSessionFinishInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionFinishInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,12 +98,12 @@ func (p *AccessibilityInputMethodSessionProxy) FinishSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "finishSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionFinishSession)
 	if _err != nil {
-		_code = TransactionIAccessibilityInputMethodSessionFinishSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionFinishSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,15 +119,15 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, connection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "invalidateInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionInvalidateInput)
 	if _err != nil {
-		_code = TransactionIAccessibilityInputMethodSessionInvalidateInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInputMethodSession, MethodIAccessibilityInputMethodSessionInvalidateInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,6 +138,10 @@ type AccessibilityInputMethodSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityInputMethodSessionStub)(nil)
+
+func (s *AccessibilityInputMethodSessionStub) Descriptor() string {
+	return DescriptorIAccessibilityInputMethodSession
+}
 
 func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 	ctx context.Context,

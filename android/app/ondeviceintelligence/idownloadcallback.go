@@ -18,6 +18,13 @@ const (
 	TransactionIDownloadCallbackOnDownloadCompleted = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIDownloadCallbackOnDownloadStarted   = "onDownloadStarted"
+	MethodIDownloadCallbackOnDownloadProgress  = "onDownloadProgress"
+	MethodIDownloadCallbackOnDownloadFailed    = "onDownloadFailed"
+	MethodIDownloadCallbackOnDownloadCompleted = "onDownloadCompleted"
+)
+
 type IDownloadCallback interface {
 	AsBinder() binder.IBinder
 	OnDownloadStarted(ctx context.Context, bytesToDownload int64) error
@@ -27,17 +34,17 @@ type IDownloadCallback interface {
 }
 
 type DownloadCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDownloadCallbackProxy(
 	remote binder.IBinder,
 ) *DownloadCallbackProxy {
-	return &DownloadCallbackProxy{remote: remote}
+	return &DownloadCallbackProxy{Remote: remote}
 }
 
 func (p *DownloadCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDownloadCallback = (*DownloadCallbackProxy)(nil)
@@ -50,12 +57,12 @@ func (p *DownloadCallbackProxy) OnDownloadStarted(
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt64(bytesToDownload)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadStarted)
 	if _err != nil {
-		_code = TransactionIDownloadCallbackOnDownloadStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +74,12 @@ func (p *DownloadCallbackProxy) OnDownloadProgress(
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt64(bytesDownloaded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadProgress)
 	if _err != nil {
-		_code = TransactionIDownloadCallbackOnDownloadProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,12 +94,12 @@ func (p *DownloadCallbackProxy) OnDownloadFailed(
 	_data.WriteInt32(failureStatus)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadFailed)
 	if _err != nil {
-		_code = TransactionIDownloadCallbackOnDownloadFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +110,12 @@ func (p *DownloadCallbackProxy) OnDownloadCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadCompleted)
 	if _err != nil {
-		_code = TransactionIDownloadCallbackOnDownloadCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadCallback, MethodIDownloadCallbackOnDownloadCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +126,10 @@ type DownloadCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DownloadCallbackStub)(nil)
+
+func (s *DownloadCallbackStub) Descriptor() string {
+	return DescriptorIDownloadCallback
+}
 
 func (s *DownloadCallbackStub) OnTransaction(
 	ctx context.Context,

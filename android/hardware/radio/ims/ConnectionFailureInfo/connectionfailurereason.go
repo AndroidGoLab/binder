@@ -5,7 +5,6 @@ package ConnectionFailureInfo
 type ConnectionFailureReason int32
 
 const (
-	ConnectionFailureReasonINVALID               ConnectionFailureReason = 0
 	ConnectionFailureReasonReasonAccessDenied    ConnectionFailureReason = 1
 	ConnectionFailureReasonReasonNasFailure      ConnectionFailureReason = 2
 	ConnectionFailureReasonReasonRachFailure     ConnectionFailureReason = 3

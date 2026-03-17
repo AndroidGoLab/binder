@@ -21,6 +21,15 @@ const (
 	TransactionIFusedGeofenceHardwareModifyGeofenceOptions    = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIFusedGeofenceHardwareIsSupported              = "isSupported"
+	MethodIFusedGeofenceHardwareAddGeofences             = "addGeofences"
+	MethodIFusedGeofenceHardwareRemoveGeofences          = "removeGeofences"
+	MethodIFusedGeofenceHardwarePauseMonitoringGeofence  = "pauseMonitoringGeofence"
+	MethodIFusedGeofenceHardwareResumeMonitoringGeofence = "resumeMonitoringGeofence"
+	MethodIFusedGeofenceHardwareModifyGeofenceOptions    = "modifyGeofenceOptions"
+)
+
 type IFusedGeofenceHardware interface {
 	AsBinder() binder.IBinder
 	IsSupported(ctx context.Context) (bool, error)
@@ -32,17 +41,17 @@ type IFusedGeofenceHardware interface {
 }
 
 type FusedGeofenceHardwareProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFusedGeofenceHardwareProxy(
 	remote binder.IBinder,
 ) *FusedGeofenceHardwareProxy {
-	return &FusedGeofenceHardwareProxy{remote: remote}
+	return &FusedGeofenceHardwareProxy{Remote: remote}
 }
 
 func (p *FusedGeofenceHardwareProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFusedGeofenceHardware = (*FusedGeofenceHardwareProxy)(nil)
@@ -54,12 +63,12 @@ func (p *FusedGeofenceHardwareProxy) IsSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "isSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareIsSupported)
 	if _err != nil {
-		_code = TransactionIFusedGeofenceHardwareIsSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareIsSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,18 +96,19 @@ func (p *FusedGeofenceHardwareProxy) AddGeofences(
 	} else {
 		_data.WriteInt32(int32(len(geofenceRequestsArray)))
 		for _, _item := range geofenceRequestsArray {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "addGeofences")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareAddGeofences)
 	if _err != nil {
-		_code = TransactionIFusedGeofenceHardwareAddGeofences
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareAddGeofences, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,12 +136,12 @@ func (p *FusedGeofenceHardwareProxy) RemoveGeofences(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "removeGeofences")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareRemoveGeofences)
 	if _err != nil {
-		_code = TransactionIFusedGeofenceHardwareRemoveGeofences
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareRemoveGeofences, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -152,12 +162,12 @@ func (p *FusedGeofenceHardwareProxy) PauseMonitoringGeofence(
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "pauseMonitoringGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwarePauseMonitoringGeofence)
 	if _err != nil {
-		_code = TransactionIFusedGeofenceHardwarePauseMonitoringGeofence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwarePauseMonitoringGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,12 +190,12 @@ func (p *FusedGeofenceHardwareProxy) ResumeMonitoringGeofence(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransitions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "resumeMonitoringGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareResumeMonitoringGeofence)
 	if _err != nil {
-		_code = TransactionIFusedGeofenceHardwareResumeMonitoringGeofence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareResumeMonitoringGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -216,12 +226,12 @@ func (p *FusedGeofenceHardwareProxy) ModifyGeofenceOptions(
 	_data.WriteInt32(unknownTimer)
 	_data.WriteInt32(sourcesToUse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "modifyGeofenceOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareModifyGeofenceOptions)
 	if _err != nil {
-		_code = TransactionIFusedGeofenceHardwareModifyGeofenceOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFusedGeofenceHardware, MethodIFusedGeofenceHardwareModifyGeofenceOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -241,6 +251,10 @@ type FusedGeofenceHardwareStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FusedGeofenceHardwareStub)(nil)
+
+func (s *FusedGeofenceHardwareStub) Descriptor() string {
+	return DescriptorIFusedGeofenceHardware
+}
 
 func (s *FusedGeofenceHardwareStub) OnTransaction(
 	ctx context.Context,

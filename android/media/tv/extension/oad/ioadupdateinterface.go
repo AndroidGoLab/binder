@@ -23,6 +23,18 @@ const (
 	TransactionIOadUpdateInterfaceGetSoftwareVersion = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIOadUpdateInterfaceSetOadStatus       = "setOadStatus"
+	MethodIOadUpdateInterfaceGetOadStatus       = "getOadStatus"
+	MethodIOadUpdateInterfaceStartScan          = "startScan"
+	MethodIOadUpdateInterfaceStopScan           = "stopScan"
+	MethodIOadUpdateInterfaceStartDetect        = "startDetect"
+	MethodIOadUpdateInterfaceStopDetect         = "stopDetect"
+	MethodIOadUpdateInterfaceStartDownload      = "startDownload"
+	MethodIOadUpdateInterfaceStopDownload       = "stopDownload"
+	MethodIOadUpdateInterfaceGetSoftwareVersion = "getSoftwareVersion"
+)
+
 type IOadUpdateInterface interface {
 	AsBinder() binder.IBinder
 	SetOadStatus(ctx context.Context, enable bool) error
@@ -37,17 +49,17 @@ type IOadUpdateInterface interface {
 }
 
 type OadUpdateInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOadUpdateInterfaceProxy(
 	remote binder.IBinder,
 ) *OadUpdateInterfaceProxy {
-	return &OadUpdateInterfaceProxy{remote: remote}
+	return &OadUpdateInterfaceProxy{Remote: remote}
 }
 
 func (p *OadUpdateInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOadUpdateInterface = (*OadUpdateInterfaceProxy)(nil)
@@ -60,12 +72,12 @@ func (p *OadUpdateInterfaceProxy) SetOadStatus(
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "setOadStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceSetOadStatus)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceSetOadStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceSetOadStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -85,12 +97,12 @@ func (p *OadUpdateInterfaceProxy) GetOadStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "getOadStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceGetOadStatus)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceGetOadStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceGetOadStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,12 +125,12 @@ func (p *OadUpdateInterfaceProxy) StartScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStartScan)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceStartScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStartScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,12 +149,12 @@ func (p *OadUpdateInterfaceProxy) StopScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStopScan)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceStopScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStopScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,12 +173,12 @@ func (p *OadUpdateInterfaceProxy) StartDetect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startDetect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStartDetect)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceStartDetect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStartDetect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,12 +197,12 @@ func (p *OadUpdateInterfaceProxy) StopDetect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopDetect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStopDetect)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceStopDetect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStopDetect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -209,12 +221,12 @@ func (p *OadUpdateInterfaceProxy) StartDownload(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startDownload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStartDownload)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceStartDownload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStartDownload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -233,12 +245,12 @@ func (p *OadUpdateInterfaceProxy) StopDownload(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopDownload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStopDownload)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceStopDownload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceStopDownload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -258,12 +270,12 @@ func (p *OadUpdateInterfaceProxy) GetSoftwareVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "getSoftwareVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceGetSoftwareVersion)
 	if _err != nil {
-		_code = TransactionIOadUpdateInterfaceGetSoftwareVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOadUpdateInterface, MethodIOadUpdateInterfaceGetSoftwareVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -287,6 +299,10 @@ type OadUpdateInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OadUpdateInterfaceStub)(nil)
+
+func (s *OadUpdateInterfaceStub) Descriptor() string {
+	return DescriptorIOadUpdateInterface
+}
 
 func (s *OadUpdateInterfaceStub) OnTransaction(
 	ctx context.Context,

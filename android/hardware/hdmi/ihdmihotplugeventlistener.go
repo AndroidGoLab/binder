@@ -15,23 +15,27 @@ const (
 	TransactionIHdmiHotplugEventListenerOnReceived = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIHdmiHotplugEventListenerOnReceived = "onReceived"
+)
+
 type IHdmiHotplugEventListener interface {
 	AsBinder() binder.IBinder
 	OnReceived(ctx context.Context, event HdmiHotplugEvent) error
 }
 
 type HdmiHotplugEventListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHdmiHotplugEventListenerProxy(
 	remote binder.IBinder,
 ) *HdmiHotplugEventListenerProxy {
-	return &HdmiHotplugEventListenerProxy{remote: remote}
+	return &HdmiHotplugEventListenerProxy{Remote: remote}
 }
 
 func (p *HdmiHotplugEventListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHdmiHotplugEventListener = (*HdmiHotplugEventListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *HdmiHotplugEventListenerProxy) OnReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHdmiHotplugEventListener, "onReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHdmiHotplugEventListener, MethodIHdmiHotplugEventListenerOnReceived)
 	if _err != nil {
-		_code = TransactionIHdmiHotplugEventListenerOnReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHdmiHotplugEventListener, MethodIHdmiHotplugEventListenerOnReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type HdmiHotplugEventListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HdmiHotplugEventListenerStub)(nil)
+
+func (s *HdmiHotplugEventListenerStub) Descriptor() string {
+	return DescriptorIHdmiHotplugEventListener
+}
 
 func (s *HdmiHotplugEventListenerStub) OnTransaction(
 	ctx context.Context,

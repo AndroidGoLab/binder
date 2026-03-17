@@ -19,6 +19,11 @@ const (
 	TransactionIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRemoteStorageServiceGetReadOnlyFileDescriptor           = "getReadOnlyFileDescriptor"
+	MethodIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap = "getReadOnlyFeatureFileDescriptorMap"
+)
+
 type IRemoteStorageService interface {
 	AsBinder() binder.IBinder
 	GetReadOnlyFileDescriptor(ctx context.Context, filePath string, future infra.AndroidFuture) error
@@ -26,17 +31,17 @@ type IRemoteStorageService interface {
 }
 
 type RemoteStorageServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteStorageServiceProxy(
 	remote binder.IBinder,
 ) *RemoteStorageServiceProxy {
-	return &RemoteStorageServiceProxy{remote: remote}
+	return &RemoteStorageServiceProxy{Remote: remote}
 }
 
 func (p *RemoteStorageServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteStorageService = (*RemoteStorageServiceProxy)(nil)
@@ -54,12 +59,12 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFileDescriptor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteStorageService, "getReadOnlyFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFileDescriptor)
 	if _err != nil {
-		_code = TransactionIRemoteStorageServiceGetReadOnlyFileDescriptor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFileDescriptor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +84,12 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteStorageService, "getReadOnlyFeatureFileDescriptorMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap)
 	if _err != nil {
-		_code = TransactionIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteStorageService, MethodIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,6 +100,10 @@ type RemoteStorageServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteStorageServiceStub)(nil)
+
+func (s *RemoteStorageServiceStub) Descriptor() string {
+	return DescriptorIRemoteStorageService
+}
 
 func (s *RemoteStorageServiceStub) OnTransaction(
 	ctx context.Context,

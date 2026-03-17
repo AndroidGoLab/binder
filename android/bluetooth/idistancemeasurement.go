@@ -22,6 +22,15 @@ const (
 	TransactionIDistanceMeasurementGetChannelSoundingSupportedSecurityLevels        = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIDistanceMeasurementGetSupportedDistanceMeasurementMethods           = "getSupportedDistanceMeasurementMethods"
+	MethodIDistanceMeasurementStartDistanceMeasurement                         = "startDistanceMeasurement"
+	MethodIDistanceMeasurementStopDistanceMeasurement                          = "stopDistanceMeasurement"
+	MethodIDistanceMeasurementGetChannelSoundingMaxSupportedSecurityLevel      = "getChannelSoundingMaxSupportedSecurityLevel"
+	MethodIDistanceMeasurementGetLocalChannelSoundingMaxSupportedSecurityLevel = "getLocalChannelSoundingMaxSupportedSecurityLevel"
+	MethodIDistanceMeasurementGetChannelSoundingSupportedSecurityLevels        = "getChannelSoundingSupportedSecurityLevels"
+)
+
 type IDistanceMeasurement interface {
 	AsBinder() binder.IBinder
 	GetSupportedDistanceMeasurementMethods(ctx context.Context, attributionSource content.AttributionSource) ([]le.DistanceMeasurementMethod, error)
@@ -33,17 +42,17 @@ type IDistanceMeasurement interface {
 }
 
 type DistanceMeasurementProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDistanceMeasurementProxy(
 	remote binder.IBinder,
 ) *DistanceMeasurementProxy {
-	return &DistanceMeasurementProxy{remote: remote}
+	return &DistanceMeasurementProxy{Remote: remote}
 }
 
 func (p *DistanceMeasurementProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDistanceMeasurement = (*DistanceMeasurementProxy)(nil)
@@ -60,12 +69,12 @@ func (p *DistanceMeasurementProxy) GetSupportedDistanceMeasurementMethods(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getSupportedDistanceMeasurementMethods")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetSupportedDistanceMeasurementMethods)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementGetSupportedDistanceMeasurementMethods
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetSupportedDistanceMeasurementMethods, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,6 +92,9 @@ func (p *DistanceMeasurementProxy) GetSupportedDistanceMeasurementMethods(
 	if _count >= 0 {
 		_result = make([]le.DistanceMeasurementMethod, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -104,18 +116,18 @@ func (p *DistanceMeasurementProxy) StartDistanceMeasurement(
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "startDistanceMeasurement")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurement, MethodIDistanceMeasurementStartDistanceMeasurement)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementStartDistanceMeasurement
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurement, MethodIDistanceMeasurementStartDistanceMeasurement, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,12 +160,12 @@ func (p *DistanceMeasurementProxy) StopDistanceMeasurement(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "stopDistanceMeasurement")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurement, MethodIDistanceMeasurementStopDistanceMeasurement)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementStopDistanceMeasurement
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurement, MethodIDistanceMeasurementStopDistanceMeasurement, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -187,12 +199,12 @@ func (p *DistanceMeasurementProxy) GetChannelSoundingMaxSupportedSecurityLevel(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getChannelSoundingMaxSupportedSecurityLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetChannelSoundingMaxSupportedSecurityLevel)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementGetChannelSoundingMaxSupportedSecurityLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetChannelSoundingMaxSupportedSecurityLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -221,12 +233,12 @@ func (p *DistanceMeasurementProxy) GetLocalChannelSoundingMaxSupportedSecurityLe
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getLocalChannelSoundingMaxSupportedSecurityLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetLocalChannelSoundingMaxSupportedSecurityLevel)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementGetLocalChannelSoundingMaxSupportedSecurityLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetLocalChannelSoundingMaxSupportedSecurityLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -255,12 +267,12 @@ func (p *DistanceMeasurementProxy) GetChannelSoundingSupportedSecurityLevels(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getChannelSoundingSupportedSecurityLevels")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetChannelSoundingSupportedSecurityLevels)
 	if _err != nil {
-		_code = TransactionIDistanceMeasurementGetChannelSoundingSupportedSecurityLevels
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDistanceMeasurement, MethodIDistanceMeasurementGetChannelSoundingSupportedSecurityLevels, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -294,6 +306,10 @@ type DistanceMeasurementStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DistanceMeasurementStub)(nil)
+
+func (s *DistanceMeasurementStub) Descriptor() string {
+	return DescriptorIDistanceMeasurement
+}
 
 func (s *DistanceMeasurementStub) OnTransaction(
 	ctx context.Context,

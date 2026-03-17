@@ -35,6 +35,7 @@ func (s *GlonassAssistance) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SatelliteCorrections)))
 		for _, _item := range s.SatelliteCorrections {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -83,6 +84,9 @@ func (s *GlonassAssistance) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.SatelliteCorrections = make([]GnssSatelliteCorrections, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SatelliteCorrections[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

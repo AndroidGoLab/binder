@@ -25,6 +25,18 @@ const (
 	TransactionIImsUtListenerOnSupplementaryServiceIndication               = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIImsUtListenerUtConfigurationUpdated                         = "utConfigurationUpdated"
+	MethodIImsUtListenerUtConfigurationUpdateFailed                    = "utConfigurationUpdateFailed"
+	MethodIImsUtListenerUtConfigurationQueried                         = "utConfigurationQueried"
+	MethodIImsUtListenerUtConfigurationQueryFailed                     = "utConfigurationQueryFailed"
+	MethodIImsUtListenerLineIdentificationSupplementaryServiceResponse = "lineIdentificationSupplementaryServiceResponse"
+	MethodIImsUtListenerUtConfigurationCallBarringQueried              = "utConfigurationCallBarringQueried"
+	MethodIImsUtListenerUtConfigurationCallForwardQueried              = "utConfigurationCallForwardQueried"
+	MethodIImsUtListenerUtConfigurationCallWaitingQueried              = "utConfigurationCallWaitingQueried"
+	MethodIImsUtListenerOnSupplementaryServiceIndication               = "onSupplementaryServiceIndication"
+)
+
 type IImsUtListener interface {
 	AsBinder() binder.IBinder
 	UtConfigurationUpdated(ctx context.Context, ut IImsUt, id int32) error
@@ -39,17 +51,17 @@ type IImsUtListener interface {
 }
 
 type ImsUtListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsUtListenerProxy(
 	remote binder.IBinder,
 ) *ImsUtListenerProxy {
-	return &ImsUtListenerProxy{remote: remote}
+	return &ImsUtListenerProxy{Remote: remote}
 }
 
 func (p *ImsUtListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsUtListener = (*ImsUtListenerProxy)(nil)
@@ -61,15 +73,15 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdated)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,19 +93,19 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdateFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationUpdateFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdateFailed)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationUpdateFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationUpdateFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,19 +117,19 @@ func (p *ImsUtListenerProxy) UtConfigurationQueried(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
 	if _err := ssInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationQueried")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueried)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationQueried
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueried, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,19 +141,19 @@ func (p *ImsUtListenerProxy) UtConfigurationQueryFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationQueryFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueryFailed)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationQueryFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationQueryFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,12 +170,12 @@ func (p *ImsUtListenerProxy) LineIdentificationSupplementaryServiceResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "lineIdentificationSupplementaryServiceResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerLineIdentificationSupplementaryServiceResponse)
 	if _err != nil {
-		_code = TransactionIImsUtListenerLineIdentificationSupplementaryServiceResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerLineIdentificationSupplementaryServiceResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,25 +187,26 @@ func (p *ImsUtListenerProxy) UtConfigurationCallBarringQueried(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	if cbInfo == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(cbInfo)))
 		for _, _item := range cbInfo {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationCallBarringQueried")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallBarringQueried)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationCallBarringQueried
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallBarringQueried, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -205,25 +218,26 @@ func (p *ImsUtListenerProxy) UtConfigurationCallForwardQueried(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	if cfInfo == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(cfInfo)))
 		for _, _item := range cfInfo {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationCallForwardQueried")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallForwardQueried)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationCallForwardQueried
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallForwardQueried, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -235,25 +249,26 @@ func (p *ImsUtListenerProxy) UtConfigurationCallWaitingQueried(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
-	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, ut.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(id)
 	if cwInfo == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(cwInfo)))
 		for _, _item := range cwInfo {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationCallWaitingQueried")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallWaitingQueried)
 	if _err != nil {
-		_code = TransactionIImsUtListenerUtConfigurationCallWaitingQueried
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerUtConfigurationCallWaitingQueried, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -268,12 +283,12 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "onSupplementaryServiceIndication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsUtListener, MethodIImsUtListenerOnSupplementaryServiceIndication)
 	if _err != nil {
-		_code = TransactionIImsUtListenerOnSupplementaryServiceIndication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsUtListener, MethodIImsUtListenerOnSupplementaryServiceIndication, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -284,6 +299,10 @@ type ImsUtListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsUtListenerStub)(nil)
+
+func (s *ImsUtListenerStub) Descriptor() string {
+	return DescriptorIImsUtListener
+}
 
 func (s *ImsUtListenerStub) OnTransaction(
 	ctx context.Context,

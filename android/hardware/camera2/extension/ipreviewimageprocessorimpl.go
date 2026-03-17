@@ -18,6 +18,13 @@ const (
 	TransactionIPreviewImageProcessorImplProcess             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIPreviewImageProcessorImplOnOutputSurface     = "onOutputSurface"
+	MethodIPreviewImageProcessorImplOnResolutionUpdate  = "onResolutionUpdate"
+	MethodIPreviewImageProcessorImplOnImageFormatUpdate = "onImageFormatUpdate"
+	MethodIPreviewImageProcessorImplProcess             = "process"
+)
+
 type IPreviewImageProcessorImpl interface {
 	AsBinder() binder.IBinder
 	OnOutputSurface(ctx context.Context, surface interface{}, imageFormat int32) error
@@ -27,17 +34,17 @@ type IPreviewImageProcessorImpl interface {
 }
 
 type PreviewImageProcessorImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPreviewImageProcessorImplProxy(
 	remote binder.IBinder,
 ) *PreviewImageProcessorImplProxy {
-	return &PreviewImageProcessorImplProxy{remote: remote}
+	return &PreviewImageProcessorImplProxy{Remote: remote}
 }
 
 func (p *PreviewImageProcessorImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPreviewImageProcessorImpl = (*PreviewImageProcessorImplProxy)(nil)
@@ -51,12 +58,12 @@ func (p *PreviewImageProcessorImplProxy) OnOutputSurface(
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onOutputSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnOutputSurface)
 	if _err != nil {
-		_code = TransactionIPreviewImageProcessorImplOnOutputSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnOutputSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +87,12 @@ func (p *PreviewImageProcessorImplProxy) OnResolutionUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onResolutionUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnResolutionUpdate)
 	if _err != nil {
-		_code = TransactionIPreviewImageProcessorImplOnResolutionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnResolutionUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +113,12 @@ func (p *PreviewImageProcessorImplProxy) OnImageFormatUpdate(
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onImageFormatUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnImageFormatUpdate)
 	if _err != nil {
-		_code = TransactionIPreviewImageProcessorImplOnImageFormatUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplOnImageFormatUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,14 +145,14 @@ func (p *PreviewImageProcessorImplProxy) Process(
 		return _err
 	}
 	_data.WriteInt32(sequenceId)
-	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, resultCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "process")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplProcess)
 	if _err != nil {
-		_code = TransactionIPreviewImageProcessorImplProcess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPreviewImageProcessorImpl, MethodIPreviewImageProcessorImplProcess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -165,6 +172,10 @@ type PreviewImageProcessorImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PreviewImageProcessorImplStub)(nil)
+
+func (s *PreviewImageProcessorImplStub) Descriptor() string {
+	return DescriptorIPreviewImageProcessorImpl
+}
 
 func (s *PreviewImageProcessorImplStub) OnTransaction(
 	ctx context.Context,

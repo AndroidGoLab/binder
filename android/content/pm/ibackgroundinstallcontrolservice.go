@@ -3,7 +3,6 @@ package pm
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,25 +17,31 @@ const (
 	TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBackgroundInstallControlServiceGetBackgroundInstalledPackages      = "getBackgroundInstalledPackages"
+	MethodIBackgroundInstallControlServiceRegisterBackgroundInstallCallback   = "registerBackgroundInstallCallback"
+	MethodIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback = "unregisterBackgroundInstallCallback"
+)
+
 type IBackgroundInstallControlService interface {
 	AsBinder() binder.IBinder
 	GetBackgroundInstalledPackages(ctx context.Context, flags int64) (ParceledListSlice, error)
-	RegisterBackgroundInstallCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	UnregisterBackgroundInstallCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	RegisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
+	UnregisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
 }
 
 type BackgroundInstallControlServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackgroundInstallControlServiceProxy(
 	remote binder.IBinder,
 ) *BackgroundInstallControlServiceProxy {
-	return &BackgroundInstallControlServiceProxy{remote: remote}
+	return &BackgroundInstallControlServiceProxy{Remote: remote}
 }
 
 func (p *BackgroundInstallControlServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackgroundInstallControlService = (*BackgroundInstallControlServiceProxy)(nil)
@@ -46,18 +51,18 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 	flags int64,
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
 	_data.WriteInt64(flags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "getBackgroundInstalledPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceGetBackgroundInstalledPackages)
 	if _err != nil {
-		_code = TransactionIBackgroundInstallControlServiceGetBackgroundInstalledPackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceGetBackgroundInstalledPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,18 +86,17 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 
 func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "registerBackgroundInstallCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceRegisterBackgroundInstallCallback)
 	if _err != nil {
-		_code = TransactionIBackgroundInstallControlServiceRegisterBackgroundInstallCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceRegisterBackgroundInstallCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,18 +111,17 @@ func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback
 
 func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "unregisterBackgroundInstallCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback)
 	if _err != nil {
-		_code = TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackgroundInstallControlService, MethodIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,6 +141,10 @@ type BackgroundInstallControlServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackgroundInstallControlServiceStub)(nil)
+
+func (s *BackgroundInstallControlServiceStub) Descriptor() string {
+	return DescriptorIBackgroundInstallControlService
+}
 
 func (s *BackgroundInstallControlServiceStub) OnTransaction(
 	ctx context.Context,
@@ -172,9 +179,7 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_err := s.Impl.RegisterBackgroundInstallCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -187,9 +192,7 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
-		_ = _arg_callback
+		var _arg_callback interface{}
 		_err := s.Impl.UnregisterBackgroundInstallCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -208,8 +211,8 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBackgroundInstallControlServiceServer interface {
 	GetBackgroundInstalledPackages(ctx context.Context, flags int64) (ParceledListSlice, error)
-	RegisterBackgroundInstallCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	UnregisterBackgroundInstallCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
+	RegisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
+	UnregisterBackgroundInstallCallback(ctx context.Context, callback interface{}) error
 }
 
 type backgroundInstallControlServiceStubWrapper struct {
@@ -230,14 +233,14 @@ func (w *backgroundInstallControlServiceStubWrapper) GetBackgroundInstalledPacka
 
 func (w *backgroundInstallControlServiceStubWrapper) RegisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.RegisterBackgroundInstallCallback(ctx, callback)
 }
 
 func (w *backgroundInstallControlServiceStubWrapper) UnregisterBackgroundInstallCallback(
 	ctx context.Context,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.UnregisterBackgroundInstallCallback(ctx, callback)
 }

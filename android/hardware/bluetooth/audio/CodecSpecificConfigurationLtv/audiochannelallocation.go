@@ -40,7 +40,6 @@ const (
 	AudioChannelAllocationFrontRightWide       int32 = 33554432
 	AudioChannelAllocationLeftSurround         int32 = 67108864
 	AudioChannelAllocationRightSurround        int32 = 134217728
-	AudioChannelAllocationMONO                 int32 = 0
 )
 
 var _ parcel.Parcelable = (*AudioChannelAllocation)(nil)

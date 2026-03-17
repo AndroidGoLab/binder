@@ -16,14 +16,7 @@ func (s *PlainPubKey) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.PlainPubKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PlainPubKey)))
-		for _, _item := range s.PlainPubKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.PlainPubKey)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -37,19 +30,9 @@ func (s *PlainPubKey) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PlainPubKey, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PlainPubKey = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PlainPubKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

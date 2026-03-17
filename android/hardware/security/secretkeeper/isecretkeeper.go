@@ -17,7 +17,13 @@ const (
 	TransactionISecretkeeperProcessSecretManagementRequest = binder.FirstCallTransaction + 1
 	TransactionISecretkeeperDeleteIds                      = binder.FirstCallTransaction + 2
 	TransactionISecretkeeperDeleteAll                      = binder.FirstCallTransaction + 3
-	TransactionISecretkeeperGetSecretkeeperIdentity        = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodISecretkeeperGetAuthGraphKe                 = "getAuthGraphKe"
+	MethodISecretkeeperProcessSecretManagementRequest = "processSecretManagementRequest"
+	MethodISecretkeeperDeleteIds                      = "deleteIds"
+	MethodISecretkeeperDeleteAll                      = "deleteAll"
 )
 
 type ISecretkeeper interface {
@@ -26,7 +32,6 @@ type ISecretkeeper interface {
 	ProcessSecretManagementRequest(ctx context.Context, request []byte) ([]byte, error)
 	DeleteIds(ctx context.Context, ids []SecretId) error
 	DeleteAll(ctx context.Context) error
-	GetSecretkeeperIdentity(ctx context.Context) (PublicKey, error)
 }
 
 const (
@@ -36,17 +41,17 @@ const (
 )
 
 type SecretkeeperProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecretkeeperProxy(
 	remote binder.IBinder,
 ) *SecretkeeperProxy {
-	return &SecretkeeperProxy{remote: remote}
+	return &SecretkeeperProxy{Remote: remote}
 }
 
 func (p *SecretkeeperProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecretkeeper = (*SecretkeeperProxy)(nil)
@@ -58,12 +63,12 @@ func (p *SecretkeeperProxy) GetAuthGraphKe(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "getAuthGraphKe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperGetAuthGraphKe)
 	if _err != nil {
-		_code = TransactionISecretkeeperGetAuthGraphKe
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecretkeeper, MethodISecretkeeperGetAuthGraphKe, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,7 +82,7 @@ func (p *SecretkeeperProxy) GetAuthGraphKe(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = authgraph.NewAuthGraphKeyExchangeProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = authgraph.NewAuthGraphKeyExchangeProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -97,12 +102,12 @@ func (p *SecretkeeperProxy) ProcessSecretManagementRequest(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "processSecretManagementRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperProcessSecretManagementRequest)
 	if _err != nil {
-		_code = TransactionISecretkeeperProcessSecretManagementRequest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecretkeeper, MethodISecretkeeperProcessSecretManagementRequest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,18 +145,19 @@ func (p *SecretkeeperProxy) DeleteIds(
 	} else {
 		_data.WriteInt32(int32(len(ids)))
 		for _, _item := range ids {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "deleteIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperDeleteIds)
 	if _err != nil {
-		_code = TransactionISecretkeeperDeleteIds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecretkeeper, MethodISecretkeeperDeleteIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,12 +176,12 @@ func (p *SecretkeeperProxy) DeleteAll(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "deleteAll")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecretkeeper, MethodISecretkeeperDeleteAll)
 	if _err != nil {
-		_code = TransactionISecretkeeperDeleteAll
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecretkeeper, MethodISecretkeeperDeleteAll, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,40 +194,6 @@ func (p *SecretkeeperProxy) DeleteAll(
 	return nil
 }
 
-func (p *SecretkeeperProxy) GetSecretkeeperIdentity(
-	ctx context.Context,
-) (PublicKey, error) {
-	var _result PublicKey
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISecretkeeper)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "getSecretkeeperIdentity")
-	if _err != nil {
-		_code = TransactionISecretkeeperGetSecretkeeperIdentity
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
 // SecretkeeperStub dispatches incoming binder transactions
 // to a typed ISecretkeeper implementation.
 type SecretkeeperStub struct {
@@ -229,6 +201,10 @@ type SecretkeeperStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecretkeeperStub)(nil)
+
+func (s *SecretkeeperStub) Descriptor() string {
+	return DescriptorISecretkeeper
+}
 
 func (s *SecretkeeperStub) OnTransaction(
 	ctx context.Context,
@@ -294,22 +270,6 @@ func (s *SecretkeeperStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionISecretkeeperGetSecretkeeperIdentity:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetSecretkeeperIdentity(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -323,7 +283,6 @@ type ISecretkeeperServer interface {
 	ProcessSecretManagementRequest(ctx context.Context, request []byte) ([]byte, error)
 	DeleteIds(ctx context.Context, ids []SecretId) error
 	DeleteAll(ctx context.Context) error
-	GetSecretkeeperIdentity(ctx context.Context) (PublicKey, error)
 }
 
 type secretkeeperStubWrapper struct {
@@ -359,12 +318,6 @@ func (w *secretkeeperStubWrapper) DeleteAll(
 	ctx context.Context,
 ) error {
 	return w.impl.DeleteAll(ctx)
-}
-
-func (w *secretkeeperStubWrapper) GetSecretkeeperIdentity(
-	ctx context.Context,
-) (PublicKey, error) {
-	return w.impl.GetSecretkeeperIdentity(ctx)
 }
 
 var _ ISecretkeeper = (*secretkeeperStubWrapper)(nil)

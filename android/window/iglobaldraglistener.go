@@ -18,6 +18,11 @@ const (
 	TransactionIGlobalDragListenerOnUnhandledDrop   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGlobalDragListenerOnCrossWindowDrop = "onCrossWindowDrop"
+	MethodIGlobalDragListenerOnUnhandledDrop   = "onUnhandledDrop"
+)
+
 type IGlobalDragListener interface {
 	AsBinder() binder.IBinder
 	OnCrossWindowDrop(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
@@ -25,17 +30,17 @@ type IGlobalDragListener interface {
 }
 
 type GlobalDragListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGlobalDragListenerProxy(
 	remote binder.IBinder,
 ) *GlobalDragListenerProxy {
-	return &GlobalDragListenerProxy{remote: remote}
+	return &GlobalDragListenerProxy{Remote: remote}
 }
 
 func (p *GlobalDragListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGlobalDragListener = (*GlobalDragListenerProxy)(nil)
@@ -51,12 +56,12 @@ func (p *GlobalDragListenerProxy) OnCrossWindowDrop(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGlobalDragListener, "onCrossWindowDrop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGlobalDragListener, MethodIGlobalDragListenerOnCrossWindowDrop)
 	if _err != nil {
-		_code = TransactionIGlobalDragListenerOnCrossWindowDrop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGlobalDragListener, MethodIGlobalDragListenerOnCrossWindowDrop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,14 +76,14 @@ func (p *GlobalDragListenerProxy) OnUnhandledDrop(
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGlobalDragListener, "onUnhandledDrop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGlobalDragListener, MethodIGlobalDragListenerOnUnhandledDrop)
 	if _err != nil {
-		_code = TransactionIGlobalDragListenerOnUnhandledDrop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGlobalDragListener, MethodIGlobalDragListenerOnUnhandledDrop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,6 +94,10 @@ type GlobalDragListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GlobalDragListenerStub)(nil)
+
+func (s *GlobalDragListenerStub) Descriptor() string {
+	return DescriptorIGlobalDragListener
+}
 
 func (s *GlobalDragListenerStub) OnTransaction(
 	ctx context.Context,

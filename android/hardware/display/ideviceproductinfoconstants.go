@@ -23,17 +23,17 @@ const (
 )
 
 type DeviceProductInfoConstantsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceProductInfoConstantsProxy(
 	remote binder.IBinder,
 ) *DeviceProductInfoConstantsProxy {
-	return &DeviceProductInfoConstantsProxy{remote: remote}
+	return &DeviceProductInfoConstantsProxy{Remote: remote}
 }
 
 func (p *DeviceProductInfoConstantsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceProductInfoConstants = (*DeviceProductInfoConstantsProxy)(nil)
@@ -45,6 +45,10 @@ type DeviceProductInfoConstantsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceProductInfoConstantsStub)(nil)
+
+func (s *DeviceProductInfoConstantsStub) Descriptor() string {
+	return DescriptorIDeviceProductInfoConstants
+}
 
 func (s *DeviceProductInfoConstantsStub) OnTransaction(
 	ctx context.Context,

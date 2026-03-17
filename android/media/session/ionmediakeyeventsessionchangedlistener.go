@@ -15,23 +15,27 @@ const (
 	TransactionIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged = "onMediaKeyEventSessionChanged"
+)
+
 type IOnMediaKeyEventSessionChangedListener interface {
 	AsBinder() binder.IBinder
 	OnMediaKeyEventSessionChanged(ctx context.Context, packageName string, mediaKeyEventSessionToken MediaSessionToken) error
 }
 
 type OnMediaKeyEventSessionChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnMediaKeyEventSessionChangedListenerProxy(
 	remote binder.IBinder,
 ) *OnMediaKeyEventSessionChangedListenerProxy {
-	return &OnMediaKeyEventSessionChangedListenerProxy{remote: remote}
+	return &OnMediaKeyEventSessionChangedListenerProxy{Remote: remote}
 }
 
 func (p *OnMediaKeyEventSessionChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnMediaKeyEventSessionChangedListener = (*OnMediaKeyEventSessionChangedListenerProxy)(nil)
@@ -49,12 +53,12 @@ func (p *OnMediaKeyEventSessionChangedListenerProxy) OnMediaKeyEventSessionChang
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnMediaKeyEventSessionChangedListener, "onMediaKeyEventSessionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnMediaKeyEventSessionChangedListener, MethodIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged)
 	if _err != nil {
-		_code = TransactionIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnMediaKeyEventSessionChangedListener, MethodIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type OnMediaKeyEventSessionChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnMediaKeyEventSessionChangedListenerStub)(nil)
+
+func (s *OnMediaKeyEventSessionChangedListenerStub) Descriptor() string {
+	return DescriptorIOnMediaKeyEventSessionChangedListener
+}
 
 func (s *OnMediaKeyEventSessionChangedListenerStub) OnTransaction(
 	ctx context.Context,

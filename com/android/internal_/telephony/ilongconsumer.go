@@ -15,23 +15,27 @@ const (
 	TransactionILongConsumerAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILongConsumerAccept = "accept"
+)
+
 type ILongConsumer interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, result int64) error
 }
 
 type LongConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLongConsumerProxy(
 	remote binder.IBinder,
 ) *LongConsumerProxy {
-	return &LongConsumerProxy{remote: remote}
+	return &LongConsumerProxy{Remote: remote}
 }
 
 func (p *LongConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILongConsumer = (*LongConsumerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *LongConsumerProxy) Accept(
 	_data.WriteInterfaceToken(DescriptorILongConsumer)
 	_data.WriteInt64(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILongConsumer, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILongConsumer, MethodILongConsumerAccept)
 	if _err != nil {
-		_code = TransactionILongConsumerAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILongConsumer, MethodILongConsumerAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type LongConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LongConsumerStub)(nil)
+
+func (s *LongConsumerStub) Descriptor() string {
+	return DescriptorILongConsumer
+}
 
 func (s *LongConsumerStub) OnTransaction(
 	ctx context.Context,

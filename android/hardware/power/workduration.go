@@ -12,7 +12,6 @@ type WorkDuration struct {
 	WorkPeriodStartTimestampNanos int64
 	CpuDurationNanos              int64
 	GpuDurationNanos              int64
-	IntendedPresentTimestampNanos int64
 }
 
 var _ parcel.Parcelable = (*WorkDuration)(nil)
@@ -26,7 +25,6 @@ func (s *WorkDuration) MarshalParcel(
 	p.WriteInt64(s.WorkPeriodStartTimestampNanos)
 	p.WriteInt64(s.CpuDurationNanos)
 	p.WriteInt64(s.GpuDurationNanos)
-	p.WriteInt64(s.IntendedPresentTimestampNanos)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -61,11 +59,6 @@ func (s *WorkDuration) UnmarshalParcel(
 	}
 
 	s.GpuDurationNanos, _err = p.ReadInt64()
-	if _err != nil {
-		return _err
-	}
-
-	s.IntendedPresentTimestampNanos, _err = p.ReadInt64()
 	if _err != nil {
 		return _err
 	}

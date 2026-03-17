@@ -17,6 +17,12 @@ const (
 	TransactionIScanEventOnScanRequestFailed = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIScanEventOnScanResultReady   = "OnScanResultReady"
+	MethodIScanEventOnScanFailed        = "OnScanFailed"
+	MethodIScanEventOnScanRequestFailed = "OnScanRequestFailed"
+)
+
 type IScanEvent interface {
 	AsBinder() binder.IBinder
 	OnScanResultReady(ctx context.Context) error
@@ -25,17 +31,17 @@ type IScanEvent interface {
 }
 
 type ScanEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScanEventProxy(
 	remote binder.IBinder,
 ) *ScanEventProxy {
-	return &ScanEventProxy{remote: remote}
+	return &ScanEventProxy{Remote: remote}
 }
 
 func (p *ScanEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScanEvent = (*ScanEventProxy)(nil)
@@ -46,12 +52,12 @@ func (p *ScanEventProxy) OnScanResultReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanEvent, "OnScanResultReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanEvent, MethodIScanEventOnScanResultReady)
 	if _err != nil {
-		_code = TransactionIScanEventOnScanResultReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanEvent, MethodIScanEventOnScanResultReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +67,12 @@ func (p *ScanEventProxy) OnScanFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanEvent, "OnScanFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanEvent, MethodIScanEventOnScanFailed)
 	if _err != nil {
-		_code = TransactionIScanEventOnScanFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanEvent, MethodIScanEventOnScanFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +84,12 @@ func (p *ScanEventProxy) OnScanRequestFailed(
 	_data.WriteInterfaceToken(DescriptorIScanEvent)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanEvent, "OnScanRequestFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanEvent, MethodIScanEventOnScanRequestFailed)
 	if _err != nil {
-		_code = TransactionIScanEventOnScanRequestFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanEvent, MethodIScanEventOnScanRequestFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +100,10 @@ type ScanEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScanEventStub)(nil)
+
+func (s *ScanEventStub) Descriptor() string {
+	return DescriptorIScanEvent
+}
 
 func (s *ScanEventStub) OnTransaction(
 	ctx context.Context,

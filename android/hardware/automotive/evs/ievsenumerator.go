@@ -28,6 +28,23 @@ const (
 	TransactionIEvsEnumeratorGetDisplayStateById     = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodIEvsEnumeratorCloseCamera             = "closeCamera"
+	MethodIEvsEnumeratorCloseDisplay            = "closeDisplay"
+	MethodIEvsEnumeratorCloseUltrasonicsArray   = "closeUltrasonicsArray"
+	MethodIEvsEnumeratorGetCameraList           = "getCameraList"
+	MethodIEvsEnumeratorGetDisplayIdList        = "getDisplayIdList"
+	MethodIEvsEnumeratorGetDisplayState         = "getDisplayState"
+	MethodIEvsEnumeratorGetStreamList           = "getStreamList"
+	MethodIEvsEnumeratorGetUltrasonicsArrayList = "getUltrasonicsArrayList"
+	MethodIEvsEnumeratorIsHardware              = "isHardware"
+	MethodIEvsEnumeratorOpenCamera              = "openCamera"
+	MethodIEvsEnumeratorOpenDisplay             = "openDisplay"
+	MethodIEvsEnumeratorOpenUltrasonicsArray    = "openUltrasonicsArray"
+	MethodIEvsEnumeratorRegisterStatusCallback  = "registerStatusCallback"
+	MethodIEvsEnumeratorGetDisplayStateById     = "getDisplayStateById"
+)
+
 type IEvsEnumerator interface {
 	AsBinder() binder.IBinder
 	CloseCamera(ctx context.Context, carCamera IEvsCamera) error
@@ -47,17 +64,17 @@ type IEvsEnumerator interface {
 }
 
 type EvsEnumeratorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEvsEnumeratorProxy(
 	remote binder.IBinder,
 ) *EvsEnumeratorProxy {
-	return &EvsEnumeratorProxy{remote: remote}
+	return &EvsEnumeratorProxy{Remote: remote}
 }
 
 func (p *EvsEnumeratorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEvsEnumerator = (*EvsEnumeratorProxy)(nil)
@@ -68,14 +85,14 @@ func (p *EvsEnumeratorProxy) CloseCamera(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, carCamera.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, carCamera.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeCamera")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseCamera)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorCloseCamera
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseCamera, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,14 +111,14 @@ func (p *EvsEnumeratorProxy) CloseDisplay(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, display.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseDisplay)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorCloseDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,14 +137,14 @@ func (p *EvsEnumeratorProxy) CloseUltrasonicsArray(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, evsUltrasonicsArray.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, evsUltrasonicsArray.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeUltrasonicsArray")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseUltrasonicsArray)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorCloseUltrasonicsArray
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorCloseUltrasonicsArray, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -147,12 +164,12 @@ func (p *EvsEnumeratorProxy) GetCameraList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getCameraList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetCameraList)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorGetCameraList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetCameraList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,6 +187,9 @@ func (p *EvsEnumeratorProxy) GetCameraList(
 	if _count >= 0 {
 		_result = make([]CameraDesc, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -185,12 +205,12 @@ func (p *EvsEnumeratorProxy) GetDisplayIdList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayIdList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayIdList)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorGetDisplayIdList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayIdList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -224,12 +244,12 @@ func (p *EvsEnumeratorProxy) GetDisplayState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayState)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorGetDisplayState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -259,12 +279,12 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getStreamList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetStreamList)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorGetStreamList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetStreamList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -282,6 +302,9 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 	if _count >= 0 {
 		_result = make([]Stream, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -297,12 +320,12 @@ func (p *EvsEnumeratorProxy) GetUltrasonicsArrayList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getUltrasonicsArrayList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetUltrasonicsArrayList)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorGetUltrasonicsArrayList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetUltrasonicsArrayList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -320,6 +343,9 @@ func (p *EvsEnumeratorProxy) GetUltrasonicsArrayList(
 	if _count >= 0 {
 		_result = make([]UltrasonicsArrayDesc, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -335,12 +361,12 @@ func (p *EvsEnumeratorProxy) IsHardware(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "isHardware")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorIsHardware)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorIsHardware
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorIsHardware, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -371,12 +397,12 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "openCamera")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenCamera)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorOpenCamera
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenCamera, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -390,7 +416,7 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEvsCameraProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewEvsCameraProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -403,12 +429,12 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "openDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenDisplay)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorOpenDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -422,7 +448,7 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEvsDisplayProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewEvsDisplayProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -435,12 +461,12 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteString16(ultrasonicsArrayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "openUltrasonicsArray")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenUltrasonicsArray)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorOpenUltrasonicsArray
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorOpenUltrasonicsArray, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -454,7 +480,7 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEvsUltrasonicsArrayProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewEvsUltrasonicsArrayProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -464,14 +490,14 @@ func (p *EvsEnumeratorProxy) RegisterStatusCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "registerStatusCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorRegisterStatusCallback)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorRegisterStatusCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorRegisterStatusCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -493,12 +519,12 @@ func (p *EvsEnumeratorProxy) GetDisplayStateById(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayStateById")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayStateById)
 	if _err != nil {
-		_code = TransactionIEvsEnumeratorGetDisplayStateById
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsEnumerator, MethodIEvsEnumeratorGetDisplayStateById, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -523,6 +549,10 @@ type EvsEnumeratorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EvsEnumeratorStub)(nil)
+
+func (s *EvsEnumeratorStub) Descriptor() string {
+	return DescriptorIEvsEnumerator
+}
 
 func (s *EvsEnumeratorStub) OnTransaction(
 	ctx context.Context,

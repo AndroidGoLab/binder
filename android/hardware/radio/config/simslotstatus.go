@@ -28,6 +28,7 @@ func (s *SimSlotStatus) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PortInfo)))
 		for _, _item := range s.PortInfo {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -70,6 +71,9 @@ func (s *SimSlotStatus) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.PortInfo = make([]SimPortInfo, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PortInfo[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

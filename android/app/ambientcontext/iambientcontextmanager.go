@@ -21,6 +21,14 @@ const (
 	TransactionIAmbientContextManagerStartConsentActivity         = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIAmbientContextManagerRegisterObserver             = "registerObserver"
+	MethodIAmbientContextManagerRegisterObserverWithCallback = "registerObserverWithCallback"
+	MethodIAmbientContextManagerUnregisterObserver           = "unregisterObserver"
+	MethodIAmbientContextManagerQueryServiceStatus           = "queryServiceStatus"
+	MethodIAmbientContextManagerStartConsentActivity         = "startConsentActivity"
+)
+
 type IAmbientContextManager interface {
 	AsBinder() binder.IBinder
 	RegisterObserver(ctx context.Context, request AmbientContextEventRequest, resultPendingIntent app.PendingIntent, statusCallback os.RemoteCallback) error
@@ -31,17 +39,17 @@ type IAmbientContextManager interface {
 }
 
 type AmbientContextManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAmbientContextManagerProxy(
 	remote binder.IBinder,
 ) *AmbientContextManagerProxy {
-	return &AmbientContextManagerProxy{remote: remote}
+	return &AmbientContextManagerProxy{Remote: remote}
 }
 
 func (p *AmbientContextManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAmbientContextManager = (*AmbientContextManagerProxy)(nil)
@@ -67,12 +75,12 @@ func (p *AmbientContextManagerProxy) RegisterObserver(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextManager, "registerObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextManager, MethodIAmbientContextManagerRegisterObserver)
 	if _err != nil {
-		_code = TransactionIAmbientContextManagerRegisterObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextManager, MethodIAmbientContextManagerRegisterObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,14 +106,14 @@ func (p *AmbientContextManagerProxy) RegisterObserverWithCallback(
 		return _err
 	}
 	_data.WriteString16(packageName)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextManager, "registerObserverWithCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextManager, MethodIAmbientContextManagerRegisterObserverWithCallback)
 	if _err != nil {
-		_code = TransactionIAmbientContextManagerRegisterObserverWithCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextManager, MethodIAmbientContextManagerRegisterObserverWithCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,17 +129,17 @@ func (p *AmbientContextManagerProxy) RegisterObserverWithCallback(
 func (p *AmbientContextManagerProxy) UnregisterObserver(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextManager, "unregisterObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextManager, MethodIAmbientContextManagerUnregisterObserver)
 	if _err != nil {
-		_code = TransactionIAmbientContextManagerUnregisterObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextManager, MethodIAmbientContextManagerUnregisterObserver, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,7 +157,7 @@ func (p *AmbientContextManagerProxy) QueryServiceStatus(
 	eventTypes []int32,
 	statusCallback os.RemoteCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	if eventTypes == nil {
@@ -166,12 +174,12 @@ func (p *AmbientContextManagerProxy) QueryServiceStatus(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextManager, "queryServiceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextManager, MethodIAmbientContextManagerQueryServiceStatus)
 	if _err != nil {
-		_code = TransactionIAmbientContextManagerQueryServiceStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextManager, MethodIAmbientContextManagerQueryServiceStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,7 +196,7 @@ func (p *AmbientContextManagerProxy) StartConsentActivity(
 	ctx context.Context,
 	eventTypes []int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	if eventTypes == nil {
@@ -201,12 +209,12 @@ func (p *AmbientContextManagerProxy) StartConsentActivity(
 	}
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextManager, "startConsentActivity")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAmbientContextManager, MethodIAmbientContextManagerStartConsentActivity)
 	if _err != nil {
-		_code = TransactionIAmbientContextManagerStartConsentActivity
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAmbientContextManager, MethodIAmbientContextManagerStartConsentActivity, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,6 +234,10 @@ type AmbientContextManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AmbientContextManagerStub)(nil)
+
+func (s *AmbientContextManagerStub) Descriptor() string {
+	return DescriptorIAmbientContextManager
+}
 
 func (s *AmbientContextManagerStub) OnTransaction(
 	ctx context.Context,

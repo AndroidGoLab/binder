@@ -5,7 +5,6 @@ import (
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
-	shared "github.com/xaionaro-go/binder/com/android/wm/shell/shared"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,10 +16,12 @@ const (
 	TransactionIRecentTasksListenerOnRecentTasksChanged  = binder.FirstCallTransaction + 0
 	TransactionIRecentTasksListenerOnRunningTaskAppeared = binder.FirstCallTransaction + 1
 	TransactionIRecentTasksListenerOnRunningTaskVanished = binder.FirstCallTransaction + 2
-	TransactionIRecentTasksListenerOnRunningTaskChanged  = binder.FirstCallTransaction + 3
-	TransactionIRecentTasksListenerOnTaskMovedToFront    = binder.FirstCallTransaction + 4
-	TransactionIRecentTasksListenerOnTaskInfoChanged     = binder.FirstCallTransaction + 5
-	TransactionIRecentTasksListenerOnVisibleTasksChanged = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodIRecentTasksListenerOnRecentTasksChanged  = "onRecentTasksChanged"
+	MethodIRecentTasksListenerOnRunningTaskAppeared = "onRunningTaskAppeared"
+	MethodIRecentTasksListenerOnRunningTaskVanished = "onRunningTaskVanished"
 )
 
 type IRecentTasksListener interface {
@@ -28,24 +29,20 @@ type IRecentTasksListener interface {
 	OnRecentTasksChanged(ctx context.Context) error
 	OnRunningTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	OnRunningTaskVanished(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnRunningTaskChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnTaskMovedToFront(ctx context.Context, taskToFront shared.GroupedTaskInfo) error
-	OnTaskInfoChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnVisibleTasksChanged(ctx context.Context, visibleTasks []shared.GroupedTaskInfo) error
 }
 
 type RecentTasksListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecentTasksListenerProxy(
 	remote binder.IBinder,
 ) *RecentTasksListenerProxy {
-	return &RecentTasksListenerProxy{remote: remote}
+	return &RecentTasksListenerProxy{Remote: remote}
 }
 
 func (p *RecentTasksListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecentTasksListener = (*RecentTasksListenerProxy)(nil)
@@ -56,12 +53,12 @@ func (p *RecentTasksListenerProxy) OnRecentTasksChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRecentTasksChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRecentTasksChanged)
 	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnRecentTasksChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRecentTasksChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +73,12 @@ func (p *RecentTasksListenerProxy) OnRunningTaskAppeared(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRunningTaskAppeared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskAppeared)
 	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnRunningTaskAppeared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskAppeared, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,98 +93,12 @@ func (p *RecentTasksListenerProxy) OnRunningTaskVanished(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRunningTaskVanished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskVanished)
 	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnRunningTaskVanished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasksListener, MethodIRecentTasksListenerOnRunningTaskVanished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *RecentTasksListenerProxy) OnRunningTaskChanged(
-	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRunningTaskChanged")
-	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnRunningTaskChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *RecentTasksListenerProxy) OnTaskMovedToFront(
-	ctx context.Context,
-	taskToFront shared.GroupedTaskInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
-	_data.WriteInt32(1)
-	if _err := taskToFront.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onTaskMovedToFront")
-	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnTaskMovedToFront
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *RecentTasksListenerProxy) OnTaskInfoChanged(
-	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
-	_data.WriteInt32(1)
-	if _err := taskInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onTaskInfoChanged")
-	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnTaskInfoChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *RecentTasksListenerProxy) OnVisibleTasksChanged(
-	ctx context.Context,
-	visibleTasks []shared.GroupedTaskInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
-	if visibleTasks == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(visibleTasks)))
-		for _, _item := range visibleTasks {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onVisibleTasksChanged")
-	if _err != nil {
-		_code = TransactionIRecentTasksListenerOnVisibleTasksChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,6 +109,10 @@ type RecentTasksListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecentTasksListenerStub)(nil)
+
+func (s *RecentTasksListenerStub) Descriptor() string {
+	return DescriptorIRecentTasksListener
+}
 
 func (s *RecentTasksListenerStub) OnTransaction(
 	ctx context.Context,
@@ -250,73 +165,6 @@ func (s *RecentTasksListenerStub) OnTransaction(
 		_err := s.Impl.OnRunningTaskVanished(ctx, _arg_taskInfo)
 		_ = _err
 		return nil, nil
-	case TransactionIRecentTasksListenerOnRunningTaskChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnRunningTaskChanged(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIRecentTasksListenerOnTaskMovedToFront:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskToFront shared.GroupedTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskToFront.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnTaskMovedToFront(ctx, _arg_taskToFront)
-		_ = _err
-		return nil, nil
-	case TransactionIRecentTasksListenerOnTaskInfoChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnTaskInfoChanged(ctx, _arg_taskInfo)
-		_ = _err
-		return nil, nil
-	case TransactionIRecentTasksListenerOnVisibleTasksChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_visibleTasks []shared.GroupedTaskInfo
-		_ = _arg_visibleTasks
-		_err := s.Impl.OnVisibleTasksChanged(ctx, _arg_visibleTasks)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -329,10 +177,6 @@ type IRecentTasksListenerServer interface {
 	OnRecentTasksChanged(ctx context.Context) error
 	OnRunningTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	OnRunningTaskVanished(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnRunningTaskChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnTaskMovedToFront(ctx context.Context, taskToFront shared.GroupedTaskInfo) error
-	OnTaskInfoChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
-	OnVisibleTasksChanged(ctx context.Context, visibleTasks []shared.GroupedTaskInfo) error
 }
 
 type recentTasksListenerStubWrapper struct {
@@ -362,34 +206,6 @@ func (w *recentTasksListenerStubWrapper) OnRunningTaskVanished(
 	taskInfo app.ActivityManagerRunningTaskInfo,
 ) error {
 	return w.impl.OnRunningTaskVanished(ctx, taskInfo)
-}
-
-func (w *recentTasksListenerStubWrapper) OnRunningTaskChanged(
-	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
-) error {
-	return w.impl.OnRunningTaskChanged(ctx, taskInfo)
-}
-
-func (w *recentTasksListenerStubWrapper) OnTaskMovedToFront(
-	ctx context.Context,
-	taskToFront shared.GroupedTaskInfo,
-) error {
-	return w.impl.OnTaskMovedToFront(ctx, taskToFront)
-}
-
-func (w *recentTasksListenerStubWrapper) OnTaskInfoChanged(
-	ctx context.Context,
-	taskInfo app.ActivityManagerRunningTaskInfo,
-) error {
-	return w.impl.OnTaskInfoChanged(ctx, taskInfo)
-}
-
-func (w *recentTasksListenerStubWrapper) OnVisibleTasksChanged(
-	ctx context.Context,
-	visibleTasks []shared.GroupedTaskInfo,
-) error {
-	return w.impl.OnVisibleTasksChanged(ctx, visibleTasks)
 }
 
 var _ IRecentTasksListener = (*recentTasksListenerStubWrapper)(nil)

@@ -22,6 +22,7 @@ func (s *CameraOfflineSessionInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.OfflineStreams)))
 		for _, _item := range s.OfflineStreams {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -32,6 +33,7 @@ func (s *CameraOfflineSessionInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.OfflineRequests)))
 		for _, _item := range s.OfflineRequests {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -58,6 +60,9 @@ func (s *CameraOfflineSessionInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.OfflineStreams = make([]OfflineStream, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.OfflineStreams[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -72,6 +77,9 @@ func (s *CameraOfflineSessionInfo) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.OfflineRequests = make([]OfflineRequest, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.OfflineRequests[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

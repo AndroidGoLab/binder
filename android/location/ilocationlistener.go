@@ -3,7 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,25 +18,31 @@ const (
 	TransactionILocationListenerOnFlushComplete          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodILocationListenerOnLocationChanged        = "onLocationChanged"
+	MethodILocationListenerOnProviderEnabledChanged = "onProviderEnabledChanged"
+	MethodILocationListenerOnFlushComplete          = "onFlushComplete"
+)
+
 type ILocationListener interface {
 	AsBinder() binder.IBinder
-	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *ondeviceintelligence.IRemoteCallback) error
+	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *os.IRemoteCallback) error
 	OnProviderEnabledChanged(ctx context.Context, provider string, enabled bool) error
 	OnFlushComplete(ctx context.Context, requestCode int32) error
 }
 
 type LocationListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLocationListenerProxy(
 	remote binder.IBinder,
 ) *LocationListenerProxy {
-	return &LocationListenerProxy{remote: remote}
+	return &LocationListenerProxy{Remote: remote}
 }
 
 func (p *LocationListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILocationListener = (*LocationListenerProxy)(nil)
@@ -44,7 +50,7 @@ var _ ILocationListener = (*LocationListenerProxy)(nil)
 func (p *LocationListenerProxy) OnLocationChanged(
 	ctx context.Context,
 	locations []Location,
-	onCompleteCallback *ondeviceintelligence.IRemoteCallback,
+	onCompleteCallback *os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationListener)
@@ -53,6 +59,7 @@ func (p *LocationListenerProxy) OnLocationChanged(
 	} else {
 		_data.WriteInt32(int32(len(locations)))
 		for _, _item := range locations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -64,12 +71,12 @@ func (p *LocationListenerProxy) OnLocationChanged(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onLocationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationListener, MethodILocationListenerOnLocationChanged)
 	if _err != nil {
-		_code = TransactionILocationListenerOnLocationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationListener, MethodILocationListenerOnLocationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +90,12 @@ func (p *LocationListenerProxy) OnProviderEnabledChanged(
 	_data.WriteString16(provider)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onProviderEnabledChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationListener, MethodILocationListenerOnProviderEnabledChanged)
 	if _err != nil {
-		_code = TransactionILocationListenerOnProviderEnabledChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationListener, MethodILocationListenerOnProviderEnabledChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,12 +107,12 @@ func (p *LocationListenerProxy) OnFlushComplete(
 	_data.WriteInterfaceToken(DescriptorILocationListener)
 	_data.WriteInt32(requestCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onFlushComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocationListener, MethodILocationListenerOnFlushComplete)
 	if _err != nil {
-		_code = TransactionILocationListenerOnFlushComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocationListener, MethodILocationListenerOnFlushComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,6 +123,10 @@ type LocationListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LocationListenerStub)(nil)
+
+func (s *LocationListenerStub) Descriptor() string {
+	return DescriptorILocationListener
+}
 
 func (s *LocationListenerStub) OnTransaction(
 	ctx context.Context,
@@ -131,7 +142,7 @@ func (s *LocationListenerStub) OnTransaction(
 		var _arg_locations []Location
 		_ = _arg_locations
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_onCompleteCallback *ondeviceintelligence.IRemoteCallback
+		var _arg_onCompleteCallback *os.IRemoteCallback
 		_ = _arg_onCompleteCallback
 		_err := s.Impl.OnLocationChanged(ctx, _arg_locations, _arg_onCompleteCallback)
 		_ = _err
@@ -171,7 +182,7 @@ func (s *LocationListenerStub) OnTransaction(
 // provide to NewLocationListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ILocationListenerServer interface {
-	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *ondeviceintelligence.IRemoteCallback) error
+	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *os.IRemoteCallback) error
 	OnProviderEnabledChanged(ctx context.Context, provider string, enabled bool) error
 	OnFlushComplete(ctx context.Context, requestCode int32) error
 }
@@ -188,7 +199,7 @@ func (w *locationListenerStubWrapper) AsBinder() binder.IBinder {
 func (w *locationListenerStubWrapper) OnLocationChanged(
 	ctx context.Context,
 	locations []Location,
-	onCompleteCallback *ondeviceintelligence.IRemoteCallback,
+	onCompleteCallback *os.IRemoteCallback,
 ) error {
 	return w.impl.OnLocationChanged(ctx, locations, onCompleteCallback)
 }

@@ -12,38 +12,45 @@ import (
 const DescriptorIStorageSession = "android.hardware.security.see.storage.IStorageSession"
 
 const (
-	TransactionIStorageSessionCommitChanges                           = binder.FirstCallTransaction + 0
-	TransactionIStorageSessionStageChangesForCommitOnAbUpdateComplete = binder.FirstCallTransaction + 1
-	TransactionIStorageSessionAbandonChanges                          = binder.FirstCallTransaction + 2
-	TransactionIStorageSessionOpenFile                                = binder.FirstCallTransaction + 3
-	TransactionIStorageSessionDeleteFile                              = binder.FirstCallTransaction + 4
-	TransactionIStorageSessionRenameFile                              = binder.FirstCallTransaction + 5
-	TransactionIStorageSessionOpenDir                                 = binder.FirstCallTransaction + 6
+	TransactionIStorageSessionCommitChanges  = binder.FirstCallTransaction + 0
+	TransactionIStorageSessionAbandonChanges = binder.FirstCallTransaction + 1
+	TransactionIStorageSessionOpenFile       = binder.FirstCallTransaction + 2
+	TransactionIStorageSessionDeleteFile     = binder.FirstCallTransaction + 3
+	TransactionIStorageSessionRenameFile     = binder.FirstCallTransaction + 4
+	TransactionIStorageSessionOpenDir        = binder.FirstCallTransaction + 5
+)
+
+const (
+	MethodIStorageSessionCommitChanges  = "commitChanges"
+	MethodIStorageSessionAbandonChanges = "abandonChanges"
+	MethodIStorageSessionOpenFile       = "openFile"
+	MethodIStorageSessionDeleteFile     = "deleteFile"
+	MethodIStorageSessionRenameFile     = "renameFile"
+	MethodIStorageSessionOpenDir        = "openDir"
 )
 
 type IStorageSession interface {
 	AsBinder() binder.IBinder
 	CommitChanges(ctx context.Context) error
-	StageChangesForCommitOnAbUpdateComplete(ctx context.Context) error
 	AbandonChanges(ctx context.Context) error
 	OpenFile(ctx context.Context, filePath string, options OpenOptions) (IFile, error)
-	DeleteFile(ctx context.Context, filePath string) error
-	RenameFile(ctx context.Context, currentPath string, destPath string, destCreateMode CreationMode) error
-	OpenDir(ctx context.Context, path string) (IDir, error)
+	DeleteFile(ctx context.Context, filePath string, options DeleteOptions) error
+	RenameFile(ctx context.Context, currentPath string, destPath string, options RenameOptions) error
+	OpenDir(ctx context.Context, path string, readIntegrity ReadIntegrity) (IDir, error)
 }
 
 type StorageSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStorageSessionProxy(
 	remote binder.IBinder,
 ) *StorageSessionProxy {
-	return &StorageSessionProxy{remote: remote}
+	return &StorageSessionProxy{Remote: remote}
 }
 
 func (p *StorageSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStorageSession = (*StorageSessionProxy)(nil)
@@ -54,36 +61,12 @@ func (p *StorageSessionProxy) CommitChanges(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "commitChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionCommitChanges)
 	if _err != nil {
-		_code = TransactionIStorageSessionCommitChanges
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageSession, MethodIStorageSessionCommitChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *StorageSessionProxy) StageChangesForCommitOnAbUpdateComplete(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIStorageSession)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "stageChangesForCommitOnAbUpdateComplete")
-	if _err != nil {
-		_code = TransactionIStorageSessionStageChangesForCommitOnAbUpdateComplete
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +85,12 @@ func (p *StorageSessionProxy) AbandonChanges(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "abandonChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionAbandonChanges)
 	if _err != nil {
-		_code = TransactionIStorageSessionAbandonChanges
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageSession, MethodIStorageSessionAbandonChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,12 +117,12 @@ func (p *StorageSessionProxy) OpenFile(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "openFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionOpenFile)
 	if _err != nil {
-		_code = TransactionIStorageSessionOpenFile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageSession, MethodIStorageSessionOpenFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,24 +136,29 @@ func (p *StorageSessionProxy) OpenFile(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewFileProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewFileProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *StorageSessionProxy) DeleteFile(
 	ctx context.Context,
 	filePath string,
+	options DeleteOptions,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(filePath)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "deleteFile")
-	if _err != nil {
-		_code = TransactionIStorageSessionDeleteFile
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionDeleteFile)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageSession, MethodIStorageSessionDeleteFile, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -187,20 +175,23 @@ func (p *StorageSessionProxy) RenameFile(
 	ctx context.Context,
 	currentPath string,
 	destPath string,
-	destCreateMode CreationMode,
+	options RenameOptions,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(currentPath)
 	_data.WriteString16(destPath)
-	_data.WriteInt32(int32(destCreateMode))
-
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "renameFile")
-	if _err != nil {
-		_code = TransactionIStorageSessionRenameFile
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionRenameFile)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageSession, MethodIStorageSessionRenameFile, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -216,18 +207,20 @@ func (p *StorageSessionProxy) RenameFile(
 func (p *StorageSessionProxy) OpenDir(
 	ctx context.Context,
 	path string,
+	readIntegrity ReadIntegrity,
 ) (IDir, error) {
 	var _result IDir
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString16(path)
+	_data.WriteInt32(int32(readIntegrity))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "openDir")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageSession, MethodIStorageSessionOpenDir)
 	if _err != nil {
-		_code = TransactionIStorageSessionOpenDir
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIStorageSession, MethodIStorageSessionOpenDir, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -241,7 +234,7 @@ func (p *StorageSessionProxy) OpenDir(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDirProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDirProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -252,6 +245,10 @@ type StorageSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StorageSessionStub)(nil)
+
+func (s *StorageSessionStub) Descriptor() string {
+	return DescriptorIStorageSession
+}
 
 func (s *StorageSessionStub) OnTransaction(
 	ctx context.Context,
@@ -264,18 +261,6 @@ func (s *StorageSessionStub) OnTransaction(
 			return nil, _err
 		}
 		_err := s.Impl.CommitChanges(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIStorageSessionStageChangesForCommitOnAbUpdateComplete:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.StageChangesForCommitOnAbUpdateComplete(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -333,7 +318,19 @@ func (s *StorageSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.DeleteFile(ctx, _arg_filePath)
+		var _arg_options DeleteOptions
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.DeleteFile(ctx, _arg_filePath, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -353,12 +350,19 @@ func (s *StorageSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_destCreateMode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_options RenameOptions
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_arg_destCreateMode := CreationMode(_raw_destCreateMode)
-		_err = s.Impl.RenameFile(ctx, _arg_currentPath, _arg_destPath, _arg_destCreateMode)
+		_err = s.Impl.RenameFile(ctx, _arg_currentPath, _arg_destPath, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -374,7 +378,12 @@ func (s *StorageSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.OpenDir(ctx, _arg_path)
+		_raw_readIntegrity, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_readIntegrity := ReadIntegrity(_raw_readIntegrity)
+		_result, _err := s.Impl.OpenDir(ctx, _arg_path, _arg_readIntegrity)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -394,12 +403,11 @@ func (s *StorageSessionStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IStorageSessionServer interface {
 	CommitChanges(ctx context.Context) error
-	StageChangesForCommitOnAbUpdateComplete(ctx context.Context) error
 	AbandonChanges(ctx context.Context) error
 	OpenFile(ctx context.Context, filePath string, options OpenOptions) (IFile, error)
-	DeleteFile(ctx context.Context, filePath string) error
-	RenameFile(ctx context.Context, currentPath string, destPath string, destCreateMode CreationMode) error
-	OpenDir(ctx context.Context, path string) (IDir, error)
+	DeleteFile(ctx context.Context, filePath string, options DeleteOptions) error
+	RenameFile(ctx context.Context, currentPath string, destPath string, options RenameOptions) error
+	OpenDir(ctx context.Context, path string, readIntegrity ReadIntegrity) (IDir, error)
 }
 
 type storageSessionStubWrapper struct {
@@ -415,12 +423,6 @@ func (w *storageSessionStubWrapper) CommitChanges(
 	ctx context.Context,
 ) error {
 	return w.impl.CommitChanges(ctx)
-}
-
-func (w *storageSessionStubWrapper) StageChangesForCommitOnAbUpdateComplete(
-	ctx context.Context,
-) error {
-	return w.impl.StageChangesForCommitOnAbUpdateComplete(ctx)
 }
 
 func (w *storageSessionStubWrapper) AbandonChanges(
@@ -440,24 +442,26 @@ func (w *storageSessionStubWrapper) OpenFile(
 func (w *storageSessionStubWrapper) DeleteFile(
 	ctx context.Context,
 	filePath string,
+	options DeleteOptions,
 ) error {
-	return w.impl.DeleteFile(ctx, filePath)
+	return w.impl.DeleteFile(ctx, filePath, options)
 }
 
 func (w *storageSessionStubWrapper) RenameFile(
 	ctx context.Context,
 	currentPath string,
 	destPath string,
-	destCreateMode CreationMode,
+	options RenameOptions,
 ) error {
-	return w.impl.RenameFile(ctx, currentPath, destPath, destCreateMode)
+	return w.impl.RenameFile(ctx, currentPath, destPath, options)
 }
 
 func (w *storageSessionStubWrapper) OpenDir(
 	ctx context.Context,
 	path string,
+	readIntegrity ReadIntegrity,
 ) (IDir, error) {
-	return w.impl.OpenDir(ctx, path)
+	return w.impl.OpenDir(ctx, path, readIntegrity)
 }
 
 var _ IStorageSession = (*storageSessionStubWrapper)(nil)

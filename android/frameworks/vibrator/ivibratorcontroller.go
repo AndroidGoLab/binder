@@ -15,23 +15,27 @@ const (
 	TransactionIVibratorControllerRequestVibrationParams = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVibratorControllerRequestVibrationParams = "requestVibrationParams"
+)
+
 type IVibratorController interface {
 	AsBinder() binder.IBinder
 	RequestVibrationParams(ctx context.Context, typesMask int32, deadlineElapsedRealtimeMillis int64, requestToken binder.IBinder) error
 }
 
 type VibratorControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibratorControllerProxy(
 	remote binder.IBinder,
 ) *VibratorControllerProxy {
-	return &VibratorControllerProxy{remote: remote}
+	return &VibratorControllerProxy{Remote: remote}
 }
 
 func (p *VibratorControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibratorController = (*VibratorControllerProxy)(nil)
@@ -46,14 +50,14 @@ func (p *VibratorControllerProxy) RequestVibrationParams(
 	_data.WriteInterfaceToken(DescriptorIVibratorController)
 	_data.WriteInt32(typesMask)
 	_data.WriteInt64(deadlineElapsedRealtimeMillis)
-	binder.WriteBinderToParcel(ctx, _data, requestToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, requestToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibratorController, "requestVibrationParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibratorController, MethodIVibratorControllerRequestVibrationParams)
 	if _err != nil {
-		_code = TransactionIVibratorControllerRequestVibrationParams
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibratorController, MethodIVibratorControllerRequestVibrationParams, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type VibratorControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibratorControllerStub)(nil)
+
+func (s *VibratorControllerStub) Descriptor() string {
+	return DescriptorIVibratorController
+}
 
 func (s *VibratorControllerStub) OnTransaction(
 	ctx context.Context,

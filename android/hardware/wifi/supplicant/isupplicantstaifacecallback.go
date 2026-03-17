@@ -49,15 +49,45 @@ const (
 	TransactionISupplicantStaIfaceCallbackOnSupplicantStateChanged                                = binder.FirstCallTransaction + 33
 	TransactionISupplicantStaIfaceCallbackOnQosPolicyResponseForScs                               = binder.FirstCallTransaction + 34
 	TransactionISupplicantStaIfaceCallbackOnPmkSaCacheAdded                                       = binder.FirstCallTransaction + 35
-	TransactionISupplicantStaIfaceCallbackOnUsdPublishStarted                                     = binder.FirstCallTransaction + 36
-	TransactionISupplicantStaIfaceCallbackOnUsdSubscribeStarted                                   = binder.FirstCallTransaction + 37
-	TransactionISupplicantStaIfaceCallbackOnUsdPublishConfigFailed                                = binder.FirstCallTransaction + 38
-	TransactionISupplicantStaIfaceCallbackOnUsdSubscribeConfigFailed                              = binder.FirstCallTransaction + 39
-	TransactionISupplicantStaIfaceCallbackOnUsdPublishTerminated                                  = binder.FirstCallTransaction + 40
-	TransactionISupplicantStaIfaceCallbackOnUsdSubscribeTerminated                                = binder.FirstCallTransaction + 41
-	TransactionISupplicantStaIfaceCallbackOnUsdPublishReplied                                     = binder.FirstCallTransaction + 42
-	TransactionISupplicantStaIfaceCallbackOnUsdServiceDiscovered                                  = binder.FirstCallTransaction + 43
-	TransactionISupplicantStaIfaceCallbackOnUsdMessageReceived                                    = binder.FirstCallTransaction + 44
+)
+
+const (
+	MethodISupplicantStaIfaceCallbackOnAnqpQueryDone                                         = "onAnqpQueryDone"
+	MethodISupplicantStaIfaceCallbackOnAssociationRejected                                   = "onAssociationRejected"
+	MethodISupplicantStaIfaceCallbackOnAuthenticationTimeout                                 = "onAuthenticationTimeout"
+	MethodISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent                              = "onAuxiliarySupplicantEvent"
+	MethodISupplicantStaIfaceCallbackOnBssTmHandlingDone                                     = "onBssTmHandlingDone"
+	MethodISupplicantStaIfaceCallbackOnBssidChanged                                          = "onBssidChanged"
+	MethodISupplicantStaIfaceCallbackOnDisconnected                                          = "onDisconnected"
+	MethodISupplicantStaIfaceCallbackOnDppFailure                                            = "onDppFailure"
+	MethodISupplicantStaIfaceCallbackOnDppProgress                                           = "onDppProgress"
+	MethodISupplicantStaIfaceCallbackOnDppSuccess                                            = "onDppSuccess"
+	MethodISupplicantStaIfaceCallbackOnDppSuccessConfigReceived                              = "onDppSuccessConfigReceived"
+	MethodISupplicantStaIfaceCallbackOnDppSuccessConfigSent                                  = "onDppSuccessConfigSent"
+	MethodISupplicantStaIfaceCallbackOnEapFailure                                            = "onEapFailure"
+	MethodISupplicantStaIfaceCallbackOnExtRadioWorkStart                                     = "onExtRadioWorkStart"
+	MethodISupplicantStaIfaceCallbackOnExtRadioWorkTimeout                                   = "onExtRadioWorkTimeout"
+	MethodISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice                              = "onHs20DeauthImminentNotice"
+	MethodISupplicantStaIfaceCallbackOnHs20IconQueryDone                                     = "onHs20IconQueryDone"
+	MethodISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation                           = "onHs20SubscriptionRemediation"
+	MethodISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification = "onHs20TermsAndConditionsAcceptanceRequestedNotification"
+	MethodISupplicantStaIfaceCallbackOnNetworkAdded                                          = "onNetworkAdded"
+	MethodISupplicantStaIfaceCallbackOnNetworkNotFound                                       = "onNetworkNotFound"
+	MethodISupplicantStaIfaceCallbackOnNetworkRemoved                                        = "onNetworkRemoved"
+	MethodISupplicantStaIfaceCallbackOnPmkCacheAdded                                         = "onPmkCacheAdded"
+	MethodISupplicantStaIfaceCallbackOnStateChanged                                          = "onStateChanged"
+	MethodISupplicantStaIfaceCallbackOnWpsEventFail                                          = "onWpsEventFail"
+	MethodISupplicantStaIfaceCallbackOnWpsEventPbcOverlap                                    = "onWpsEventPbcOverlap"
+	MethodISupplicantStaIfaceCallbackOnWpsEventSuccess                                       = "onWpsEventSuccess"
+	MethodISupplicantStaIfaceCallbackOnQosPolicyReset                                        = "onQosPolicyReset"
+	MethodISupplicantStaIfaceCallbackOnQosPolicyRequest                                      = "onQosPolicyRequest"
+	MethodISupplicantStaIfaceCallbackOnMloLinksInfoChanged                                   = "onMloLinksInfoChanged"
+	MethodISupplicantStaIfaceCallbackOnDppConfigReceived                                     = "onDppConfigReceived"
+	MethodISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent                         = "onDppConnectionStatusResultSent"
+	MethodISupplicantStaIfaceCallbackOnBssFrequencyChanged                                   = "onBssFrequencyChanged"
+	MethodISupplicantStaIfaceCallbackOnSupplicantStateChanged                                = "onSupplicantStateChanged"
+	MethodISupplicantStaIfaceCallbackOnQosPolicyResponseForScs                               = "onQosPolicyResponseForScs"
+	MethodISupplicantStaIfaceCallbackOnPmkSaCacheAdded                                       = "onPmkSaCacheAdded"
 )
 
 type ISupplicantStaIfaceCallback interface {
@@ -98,29 +128,20 @@ type ISupplicantStaIfaceCallback interface {
 	OnSupplicantStateChanged(ctx context.Context, stateChangeData SupplicantStateChangeData) error
 	OnQosPolicyResponseForScs(ctx context.Context, qosPolicyScsResponseStatus []QosPolicyScsResponseStatus) error
 	OnPmkSaCacheAdded(ctx context.Context, pmkSaData PmkSaCacheData) error
-	OnUsdPublishStarted(ctx context.Context, cmdId int32, publishId int32) error
-	OnUsdSubscribeStarted(ctx context.Context, cmdId int32, subscribeId int32) error
-	OnUsdPublishConfigFailed(ctx context.Context, cmdId int32) error
-	OnUsdSubscribeConfigFailed(ctx context.Context, cmdId int32) error
-	OnUsdPublishTerminated(ctx context.Context, publishId int32, reasonCode UsdReasonCode) error
-	OnUsdSubscribeTerminated(ctx context.Context, subscribeId int32, reasonCode UsdReasonCode) error
-	OnUsdPublishReplied(ctx context.Context, info UsdServiceDiscoveryInfo) error
-	OnUsdServiceDiscovered(ctx context.Context, info UsdServiceDiscoveryInfo) error
-	OnUsdMessageReceived(ctx context.Context, messageInfo UsdMessageInfo) error
 }
 
 type SupplicantStaIfaceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSupplicantStaIfaceCallbackProxy(
 	remote binder.IBinder,
 ) *SupplicantStaIfaceCallbackProxy {
-	return &SupplicantStaIfaceCallbackProxy{remote: remote}
+	return &SupplicantStaIfaceCallbackProxy{Remote: remote}
 }
 
 func (p *SupplicantStaIfaceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISupplicantStaIfaceCallback = (*SupplicantStaIfaceCallbackProxy)(nil)
@@ -150,12 +171,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAnqpQueryDone(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAnqpQueryDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAnqpQueryDone)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnAnqpQueryDone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAnqpQueryDone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,12 +191,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAssociationRejected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAssociationRejected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAssociationRejected)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnAssociationRejected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAssociationRejected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,12 +215,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAuthenticationTimeout(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAuthenticationTimeout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuthenticationTimeout)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnAuthenticationTimeout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuthenticationTimeout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -222,12 +243,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAuxiliarySupplicantEvent(
 	}
 	_data.WriteString16(reasonString)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAuxiliarySupplicantEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -242,12 +263,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssTmHandlingDone(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onBssTmHandlingDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssTmHandlingDone)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnBssTmHandlingDone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssTmHandlingDone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -268,12 +289,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssidChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onBssidChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssidChanged)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnBssidChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssidChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -296,12 +317,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDisconnected(
 	_data.WriteBool(locallyGenerated)
 	_data.WriteInt32(int32(reasonCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDisconnected)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -326,12 +347,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppFailure(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppFailure)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -343,12 +364,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppProgress(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(int32(code))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppProgress)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -360,12 +381,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccess(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(int32(event))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccess)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -402,12 +423,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccessConfigReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppSuccessConfigReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccessConfigReceived)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccessConfigReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -417,12 +438,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccessConfigSent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppSuccessConfigSent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccessConfigSent)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigSent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppSuccessConfigSent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -443,12 +464,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnEapFailure(
 	}
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onEapFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnEapFailure)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnEapFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnEapFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -460,12 +481,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnExtRadioWorkStart(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onExtRadioWorkStart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkStart)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnExtRadioWorkStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -477,12 +498,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnExtRadioWorkTimeout(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onExtRadioWorkTimeout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkTimeout)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnExtRadioWorkTimeout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnExtRadioWorkTimeout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -507,12 +528,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20DeauthImminentNotice(
 	_data.WriteInt32(reAuthDelayInSec)
 	_data.WriteString16(url)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20DeauthImminentNotice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -542,12 +563,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20IconQueryDone(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20IconQueryDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20IconQueryDone)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnHs20IconQueryDone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20IconQueryDone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -570,12 +591,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20SubscriptionRemediation(
 	_data.WritePaddedByte(byte(osuMethod))
 	_data.WriteString16(url)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20SubscriptionRemediation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -596,12 +617,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20TermsAndConditionsAcceptanceRequ
 	}
 	_data.WriteString16(url)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20TermsAndConditionsAcceptanceRequestedNotification")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -613,12 +634,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkAdded(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onNetworkAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkAdded)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnNetworkAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -637,12 +658,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkNotFound(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onNetworkNotFound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkNotFound)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnNetworkNotFound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkNotFound, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -654,12 +675,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkRemoved(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onNetworkRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkRemoved)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnNetworkRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnNetworkRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -680,12 +701,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkCacheAdded(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onPmkCacheAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkCacheAdded)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnPmkCacheAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkCacheAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -719,12 +740,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnStateChanged(
 	}
 	_data.WriteBool(filsHlpSent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnStateChanged)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -747,12 +768,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventFail(
 	_data.WriteInt32(int32(configError))
 	_data.WriteInt32(int32(errorInd))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onWpsEventFail")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventFail)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnWpsEventFail
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventFail, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -762,12 +783,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventPbcOverlap(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onWpsEventPbcOverlap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventPbcOverlap)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnWpsEventPbcOverlap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventPbcOverlap, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -777,12 +798,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onWpsEventSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventSuccess)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnWpsEventSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnWpsEventSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -792,12 +813,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onQosPolicyReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyReset)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnQosPolicyReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -814,18 +835,19 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyRequest(
 	} else {
 		_data.WriteInt32(int32(len(qosPolicyData)))
 		for _, _item := range qosPolicyData {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onQosPolicyRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyRequest)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnQosPolicyRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -837,12 +859,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnMloLinksInfoChanged(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(int32(reason))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onMloLinksInfoChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnMloLinksInfoChanged)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnMloLinksInfoChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnMloLinksInfoChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -857,12 +879,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConfigReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppConfigReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConfigReceived)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppConfigReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConfigReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -874,12 +896,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConnectionStatusResultSent(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(int32(code))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppConnectionStatusResultSent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -891,12 +913,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssFrequencyChanged(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
 	_data.WriteInt32(frequencyMhz)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onBssFrequencyChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssFrequencyChanged)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnBssFrequencyChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnBssFrequencyChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -911,12 +933,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnSupplicantStateChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onSupplicantStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnSupplicantStateChanged)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnSupplicantStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnSupplicantStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -931,18 +953,19 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyResponseForScs(
 	} else {
 		_data.WriteInt32(int32(len(qosPolicyScsResponseStatus)))
 		for _, _item := range qosPolicyScsResponseStatus {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onQosPolicyResponseForScs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyResponseForScs)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnQosPolicyResponseForScs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnQosPolicyResponseForScs, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -957,182 +980,12 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkSaCacheAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onPmkSaCacheAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkSaCacheAdded)
 	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnPmkSaCacheAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISupplicantStaIfaceCallback, MethodISupplicantStaIfaceCallbackOnPmkSaCacheAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishStarted(
-	ctx context.Context,
-	cmdId int32,
-	publishId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(publishId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishStarted")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishStarted
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdSubscribeStarted(
-	ctx context.Context,
-	cmdId int32,
-	subscribeId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(cmdId)
-	_data.WriteInt32(subscribeId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdSubscribeStarted")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdSubscribeStarted
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishConfigFailed(
-	ctx context.Context,
-	cmdId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(cmdId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishConfigFailed")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishConfigFailed
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdSubscribeConfigFailed(
-	ctx context.Context,
-	cmdId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(cmdId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdSubscribeConfigFailed")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdSubscribeConfigFailed
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishTerminated(
-	ctx context.Context,
-	publishId int32,
-	reasonCode UsdReasonCode,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(publishId)
-	_data.WriteInt32(int32(reasonCode))
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishTerminated")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishTerminated
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdSubscribeTerminated(
-	ctx context.Context,
-	subscribeId int32,
-	reasonCode UsdReasonCode,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(subscribeId)
-	_data.WriteInt32(int32(reasonCode))
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdSubscribeTerminated")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdSubscribeTerminated
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishReplied(
-	ctx context.Context,
-	info UsdServiceDiscoveryInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishReplied")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishReplied
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdServiceDiscovered(
-	ctx context.Context,
-	info UsdServiceDiscoveryInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := info.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdServiceDiscovered")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdServiceDiscovered
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SupplicantStaIfaceCallbackProxy) OnUsdMessageReceived(
-	ctx context.Context,
-	messageInfo UsdMessageInfo,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
-	_data.WriteInt32(1)
-	if _err := messageInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdMessageReceived")
-	if _err != nil {
-		_code = TransactionISupplicantStaIfaceCallbackOnUsdMessageReceived
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1143,6 +996,10 @@ type SupplicantStaIfaceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SupplicantStaIfaceCallbackStub)(nil)
+
+func (s *SupplicantStaIfaceCallbackStub) Descriptor() string {
+	return DescriptorISupplicantStaIfaceCallback
+}
 
 func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -1710,147 +1567,6 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_err := s.Impl.OnPmkSaCacheAdded(ctx, _arg_pmkSaData)
 		_ = _err
 		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdPublishStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cmdId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_publishId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnUsdPublishStarted(ctx, _arg_cmdId, _arg_publishId)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeStarted:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cmdId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_subscribeId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnUsdSubscribeStarted(ctx, _arg_cmdId, _arg_subscribeId)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdPublishConfigFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cmdId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnUsdPublishConfigFailed(ctx, _arg_cmdId)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeConfigFailed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_cmdId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnUsdSubscribeConfigFailed(ctx, _arg_cmdId)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdPublishTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_publishId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_raw_reasonCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reasonCode := UsdReasonCode(_raw_reasonCode)
-		_err = s.Impl.OnUsdPublishTerminated(ctx, _arg_publishId, _arg_reasonCode)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeTerminated:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_subscribeId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_raw_reasonCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_reasonCode := UsdReasonCode(_raw_reasonCode)
-		_err = s.Impl.OnUsdSubscribeTerminated(ctx, _arg_subscribeId, _arg_reasonCode)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdPublishReplied:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_info UsdServiceDiscoveryInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnUsdPublishReplied(ctx, _arg_info)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdServiceDiscovered:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_info UsdServiceDiscoveryInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnUsdServiceDiscovered(ctx, _arg_info)
-		_ = _err
-		return nil, nil
-	case TransactionISupplicantStaIfaceCallbackOnUsdMessageReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_messageInfo UsdMessageInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_messageInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnUsdMessageReceived(ctx, _arg_messageInfo)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1896,15 +1612,6 @@ type ISupplicantStaIfaceCallbackServer interface {
 	OnSupplicantStateChanged(ctx context.Context, stateChangeData SupplicantStateChangeData) error
 	OnQosPolicyResponseForScs(ctx context.Context, qosPolicyScsResponseStatus []QosPolicyScsResponseStatus) error
 	OnPmkSaCacheAdded(ctx context.Context, pmkSaData PmkSaCacheData) error
-	OnUsdPublishStarted(ctx context.Context, cmdId int32, publishId int32) error
-	OnUsdSubscribeStarted(ctx context.Context, cmdId int32, subscribeId int32) error
-	OnUsdPublishConfigFailed(ctx context.Context, cmdId int32) error
-	OnUsdSubscribeConfigFailed(ctx context.Context, cmdId int32) error
-	OnUsdPublishTerminated(ctx context.Context, publishId int32, reasonCode UsdReasonCode) error
-	OnUsdSubscribeTerminated(ctx context.Context, subscribeId int32, reasonCode UsdReasonCode) error
-	OnUsdPublishReplied(ctx context.Context, info UsdServiceDiscoveryInfo) error
-	OnUsdServiceDiscovered(ctx context.Context, info UsdServiceDiscoveryInfo) error
-	OnUsdMessageReceived(ctx context.Context, messageInfo UsdMessageInfo) error
 }
 
 type supplicantStaIfaceCallbackStubWrapper struct {
@@ -2193,73 +1900,6 @@ func (w *supplicantStaIfaceCallbackStubWrapper) OnPmkSaCacheAdded(
 	pmkSaData PmkSaCacheData,
 ) error {
 	return w.impl.OnPmkSaCacheAdded(ctx, pmkSaData)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdPublishStarted(
-	ctx context.Context,
-	cmdId int32,
-	publishId int32,
-) error {
-	return w.impl.OnUsdPublishStarted(ctx, cmdId, publishId)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdSubscribeStarted(
-	ctx context.Context,
-	cmdId int32,
-	subscribeId int32,
-) error {
-	return w.impl.OnUsdSubscribeStarted(ctx, cmdId, subscribeId)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdPublishConfigFailed(
-	ctx context.Context,
-	cmdId int32,
-) error {
-	return w.impl.OnUsdPublishConfigFailed(ctx, cmdId)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdSubscribeConfigFailed(
-	ctx context.Context,
-	cmdId int32,
-) error {
-	return w.impl.OnUsdSubscribeConfigFailed(ctx, cmdId)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdPublishTerminated(
-	ctx context.Context,
-	publishId int32,
-	reasonCode UsdReasonCode,
-) error {
-	return w.impl.OnUsdPublishTerminated(ctx, publishId, reasonCode)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdSubscribeTerminated(
-	ctx context.Context,
-	subscribeId int32,
-	reasonCode UsdReasonCode,
-) error {
-	return w.impl.OnUsdSubscribeTerminated(ctx, subscribeId, reasonCode)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdPublishReplied(
-	ctx context.Context,
-	info UsdServiceDiscoveryInfo,
-) error {
-	return w.impl.OnUsdPublishReplied(ctx, info)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdServiceDiscovered(
-	ctx context.Context,
-	info UsdServiceDiscoveryInfo,
-) error {
-	return w.impl.OnUsdServiceDiscovered(ctx, info)
-}
-
-func (w *supplicantStaIfaceCallbackStubWrapper) OnUsdMessageReceived(
-	ctx context.Context,
-	messageInfo UsdMessageInfo,
-) error {
-	return w.impl.OnUsdMessageReceived(ctx, messageInfo)
 }
 
 var _ ISupplicantStaIfaceCallback = (*supplicantStaIfaceCallbackStubWrapper)(nil)

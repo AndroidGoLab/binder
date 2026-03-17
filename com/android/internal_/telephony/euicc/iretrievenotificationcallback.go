@@ -16,23 +16,27 @@ const (
 	TransactionIRetrieveNotificationCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRetrieveNotificationCallbackOnComplete = "onComplete"
+)
+
 type IRetrieveNotificationCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, notification telephonyEuicc.EuiccNotification) error
 }
 
 type RetrieveNotificationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRetrieveNotificationCallbackProxy(
 	remote binder.IBinder,
 ) *RetrieveNotificationCallbackProxy {
-	return &RetrieveNotificationCallbackProxy{remote: remote}
+	return &RetrieveNotificationCallbackProxy{Remote: remote}
 }
 
 func (p *RetrieveNotificationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRetrieveNotificationCallback = (*RetrieveNotificationCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *RetrieveNotificationCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRetrieveNotificationCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRetrieveNotificationCallback, MethodIRetrieveNotificationCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIRetrieveNotificationCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRetrieveNotificationCallback, MethodIRetrieveNotificationCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type RetrieveNotificationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RetrieveNotificationCallbackStub)(nil)
+
+func (s *RetrieveNotificationCallbackStub) Descriptor() string {
+	return DescriptorIRetrieveNotificationCallback
+}
 
 func (s *RetrieveNotificationCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -12,28 +12,30 @@ import (
 const DescriptorISatelliteProvisionStateCallback = "android.telephony.satellite.ISatelliteProvisionStateCallback"
 
 const (
-	TransactionISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged             = binder.FirstCallTransaction + 0
-	TransactionISatelliteProvisionStateCallbackOnSatelliteSubscriptionProvisionStateChanged = binder.FirstCallTransaction + 1
+	TransactionISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged = "onSatelliteProvisionStateChanged"
 )
 
 type ISatelliteProvisionStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteProvisionStateChanged(ctx context.Context, provisioned bool) error
-	OnSatelliteSubscriptionProvisionStateChanged(ctx context.Context, satelliteSubscriberProvisionStatus []SatelliteSubscriberProvisionStatus) error
 }
 
 type SatelliteProvisionStateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteProvisionStateCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteProvisionStateCallbackProxy {
-	return &SatelliteProvisionStateCallbackProxy{remote: remote}
+	return &SatelliteProvisionStateCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteProvisionStateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteProvisionStateCallback = (*SatelliteProvisionStateCallbackProxy)(nil)
@@ -46,38 +48,12 @@ func (p *SatelliteProvisionStateCallbackProxy) OnSatelliteProvisionStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteProvisionStateCallback)
 	_data.WriteBool(provisioned)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteProvisionStateCallback, "onSatelliteProvisionStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteProvisionStateCallback, MethodISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteProvisionStateCallback, MethodISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteProvisionStateCallbackProxy) OnSatelliteSubscriptionProvisionStateChanged(
-	ctx context.Context,
-	satelliteSubscriberProvisionStatus []SatelliteSubscriberProvisionStatus,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatelliteProvisionStateCallback)
-	if satelliteSubscriberProvisionStatus == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(satelliteSubscriberProvisionStatus)))
-		for _, _item := range satelliteSubscriberProvisionStatus {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteProvisionStateCallback, "onSatelliteSubscriptionProvisionStateChanged")
-	if _err != nil {
-		_code = TransactionISatelliteProvisionStateCallbackOnSatelliteSubscriptionProvisionStateChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +64,10 @@ type SatelliteProvisionStateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteProvisionStateCallbackStub)(nil)
+
+func (s *SatelliteProvisionStateCallbackStub) Descriptor() string {
+	return DescriptorISatelliteProvisionStateCallback
+}
 
 func (s *SatelliteProvisionStateCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -106,16 +86,6 @@ func (s *SatelliteProvisionStateCallbackStub) OnTransaction(
 		_err = s.Impl.OnSatelliteProvisionStateChanged(ctx, _arg_provisioned)
 		_ = _err
 		return nil, nil
-	case TransactionISatelliteProvisionStateCallbackOnSatelliteSubscriptionProvisionStateChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_satelliteSubscriberProvisionStatus []SatelliteSubscriberProvisionStatus
-		_ = _arg_satelliteSubscriberProvisionStatus
-		_err := s.Impl.OnSatelliteSubscriptionProvisionStateChanged(ctx, _arg_satelliteSubscriberProvisionStatus)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -126,7 +96,6 @@ func (s *SatelliteProvisionStateCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ISatelliteProvisionStateCallbackServer interface {
 	OnSatelliteProvisionStateChanged(ctx context.Context, provisioned bool) error
-	OnSatelliteSubscriptionProvisionStateChanged(ctx context.Context, satelliteSubscriberProvisionStatus []SatelliteSubscriberProvisionStatus) error
 }
 
 type satelliteProvisionStateCallbackStubWrapper struct {
@@ -143,13 +112,6 @@ func (w *satelliteProvisionStateCallbackStubWrapper) OnSatelliteProvisionStateCh
 	provisioned bool,
 ) error {
 	return w.impl.OnSatelliteProvisionStateChanged(ctx, provisioned)
-}
-
-func (w *satelliteProvisionStateCallbackStubWrapper) OnSatelliteSubscriptionProvisionStateChanged(
-	ctx context.Context,
-	satelliteSubscriberProvisionStatus []SatelliteSubscriberProvisionStatus,
-) error {
-	return w.impl.OnSatelliteSubscriptionProvisionStateChanged(ctx, satelliteSubscriberProvisionStatus)
 }
 
 var _ ISatelliteProvisionStateCallback = (*satelliteProvisionStateCallbackStubWrapper)(nil)

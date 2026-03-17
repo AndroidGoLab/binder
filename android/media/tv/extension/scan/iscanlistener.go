@@ -19,6 +19,13 @@ const (
 	TransactionIScanListenerOnStoreCompleted = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIScanListenerOnEvent          = "onEvent"
+	MethodIScanListenerOnScanProgress   = "onScanProgress"
+	MethodIScanListenerOnScanCompleted  = "onScanCompleted"
+	MethodIScanListenerOnStoreCompleted = "onStoreCompleted"
+)
+
 type IScanListener interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, eventArgs os.Bundle) error
@@ -28,17 +35,17 @@ type IScanListener interface {
 }
 
 type ScanListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScanListenerProxy(
 	remote binder.IBinder,
 ) *ScanListenerProxy {
-	return &ScanListenerProxy{remote: remote}
+	return &ScanListenerProxy{Remote: remote}
 }
 
 func (p *ScanListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScanListener = (*ScanListenerProxy)(nil)
@@ -54,12 +61,12 @@ func (p *ScanListenerProxy) OnEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanListener, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanListener, MethodIScanListenerOnEvent)
 	if _err != nil {
-		_code = TransactionIScanListenerOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanListener, MethodIScanListenerOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +83,12 @@ func (p *ScanListenerProxy) OnScanProgress(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanListener, "onScanProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanListener, MethodIScanListenerOnScanProgress)
 	if _err != nil {
-		_code = TransactionIScanListenerOnScanProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanListener, MethodIScanListenerOnScanProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,12 +100,12 @@ func (p *ScanListenerProxy) OnScanCompleted(
 	_data.WriteInterfaceToken(DescriptorIScanListener)
 	_data.WriteInt32(scanResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanListener, "onScanCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanListener, MethodIScanListenerOnScanCompleted)
 	if _err != nil {
-		_code = TransactionIScanListenerOnScanCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanListener, MethodIScanListenerOnScanCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,12 +117,12 @@ func (p *ScanListenerProxy) OnStoreCompleted(
 	_data.WriteInterfaceToken(DescriptorIScanListener)
 	_data.WriteInt32(storeResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanListener, "onStoreCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanListener, MethodIScanListenerOnStoreCompleted)
 	if _err != nil {
-		_code = TransactionIScanListenerOnStoreCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanListener, MethodIScanListenerOnStoreCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,6 +133,10 @@ type ScanListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScanListenerStub)(nil)
+
+func (s *ScanListenerStub) Descriptor() string {
+	return DescriptorIScanListener
+}
 
 func (s *ScanListenerStub) OnTransaction(
 	ctx context.Context,

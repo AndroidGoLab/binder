@@ -16,6 +16,11 @@ const (
 	TransactionIBluetoothConnectionCallbackOnDeviceDisconnected = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothConnectionCallbackOnDeviceConnected    = "onDeviceConnected"
+	MethodIBluetoothConnectionCallbackOnDeviceDisconnected = "onDeviceDisconnected"
+)
+
 type IBluetoothConnectionCallback interface {
 	AsBinder() binder.IBinder
 	OnDeviceConnected(ctx context.Context, device BluetoothDevice) error
@@ -23,17 +28,17 @@ type IBluetoothConnectionCallback interface {
 }
 
 type BluetoothConnectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothConnectionCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothConnectionCallbackProxy {
-	return &BluetoothConnectionCallbackProxy{remote: remote}
+	return &BluetoothConnectionCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothConnectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothConnectionCallback = (*BluetoothConnectionCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceConnected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothConnectionCallback, "onDeviceConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothConnectionCallback, MethodIBluetoothConnectionCallbackOnDeviceConnected)
 	if _err != nil {
-		_code = TransactionIBluetoothConnectionCallbackOnDeviceConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothConnectionCallback, MethodIBluetoothConnectionCallbackOnDeviceConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +76,12 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceDisconnected(
 	}
 	_data.WriteInt32(hciReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothConnectionCallback, "onDeviceDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothConnectionCallback, MethodIBluetoothConnectionCallbackOnDeviceDisconnected)
 	if _err != nil {
-		_code = TransactionIBluetoothConnectionCallbackOnDeviceDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothConnectionCallback, MethodIBluetoothConnectionCallbackOnDeviceDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type BluetoothConnectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothConnectionCallbackStub)(nil)
+
+func (s *BluetoothConnectionCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothConnectionCallback
+}
 
 func (s *BluetoothConnectionCallbackStub) OnTransaction(
 	ctx context.Context,

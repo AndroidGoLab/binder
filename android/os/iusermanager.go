@@ -57,68 +57,171 @@ const (
 	TransactionIUserManagerIsUserSwitcherEnabled                           = binder.FirstCallTransaction + 39
 	TransactionIUserManagerIsRestricted                                    = binder.FirstCallTransaction + 40
 	TransactionIUserManagerCanHaveRestrictedProfile                        = binder.FirstCallTransaction + 41
-	TransactionIUserManagerCanAddPrivateProfile                            = binder.FirstCallTransaction + 42
-	TransactionIUserManagerGetUserSerialNumber                             = binder.FirstCallTransaction + 43
-	TransactionIUserManagerGetUserHandle                                   = binder.FirstCallTransaction + 44
-	TransactionIUserManagerGetUserRestrictionSource                        = binder.FirstCallTransaction + 45
-	TransactionIUserManagerGetUserRestrictionSources                       = binder.FirstCallTransaction + 46
-	TransactionIUserManagerGetUserRestrictions                             = binder.FirstCallTransaction + 47
-	TransactionIUserManagerHasBaseUserRestriction                          = binder.FirstCallTransaction + 48
-	TransactionIUserManagerHasUserRestriction                              = binder.FirstCallTransaction + 49
-	TransactionIUserManagerHasUserRestrictionOnAnyUser                     = binder.FirstCallTransaction + 50
-	TransactionIUserManagerIsSettingRestrictedForUser                      = binder.FirstCallTransaction + 51
-	TransactionIUserManagerAddUserRestrictionsListener                     = binder.FirstCallTransaction + 52
-	TransactionIUserManagerSetUserRestriction                              = binder.FirstCallTransaction + 53
-	TransactionIUserManagerSetApplicationRestrictions                      = binder.FirstCallTransaction + 54
-	TransactionIUserManagerGetApplicationRestrictions                      = binder.FirstCallTransaction + 55
-	TransactionIUserManagerGetApplicationRestrictionsForUser               = binder.FirstCallTransaction + 56
-	TransactionIUserManagerSetDefaultGuestRestrictions                     = binder.FirstCallTransaction + 57
-	TransactionIUserManagerGetDefaultGuestRestrictions                     = binder.FirstCallTransaction + 58
-	TransactionIUserManagerRemoveUserWhenPossible                          = binder.FirstCallTransaction + 59
-	TransactionIUserManagerMarkGuestForDeletion                            = binder.FirstCallTransaction + 60
-	TransactionIUserManagerGetGuestUsers                                   = binder.FirstCallTransaction + 61
-	TransactionIUserManagerIsQuietModeEnabled                              = binder.FirstCallTransaction + 62
-	TransactionIUserManagerCreateUserWithAttributes                        = binder.FirstCallTransaction + 63
-	TransactionIUserManagerSetSeedAccountData                              = binder.FirstCallTransaction + 64
-	TransactionIUserManagerGetSeedAccountName                              = binder.FirstCallTransaction + 65
-	TransactionIUserManagerGetSeedAccountType                              = binder.FirstCallTransaction + 66
-	TransactionIUserManagerGetSeedAccountOptions                           = binder.FirstCallTransaction + 67
-	TransactionIUserManagerClearSeedAccountData                            = binder.FirstCallTransaction + 68
-	TransactionIUserManagerSomeUserHasSeedAccount                          = binder.FirstCallTransaction + 69
-	TransactionIUserManagerSomeUserHasAccount                              = binder.FirstCallTransaction + 70
-	TransactionIUserManagerGetProfileType                                  = binder.FirstCallTransaction + 71
-	TransactionIUserManagerIsDemoUser                                      = binder.FirstCallTransaction + 72
-	TransactionIUserManagerIsAdminUser                                     = binder.FirstCallTransaction + 73
-	TransactionIUserManagerIsPreCreated                                    = binder.FirstCallTransaction + 74
-	TransactionIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow = binder.FirstCallTransaction + 75
-	TransactionIUserManagerIsUserUnlockingOrUnlocked                       = binder.FirstCallTransaction + 76
-	TransactionIUserManagerGetUserIconBadgeResId                           = binder.FirstCallTransaction + 77
-	TransactionIUserManagerGetUserBadgeResId                               = binder.FirstCallTransaction + 78
-	TransactionIUserManagerGetUserBadgeNoBackgroundResId                   = binder.FirstCallTransaction + 79
-	TransactionIUserManagerGetUserBadgeLabelResId                          = binder.FirstCallTransaction + 80
-	TransactionIUserManagerGetUserBadgeColorResId                          = binder.FirstCallTransaction + 81
-	TransactionIUserManagerGetUserBadgeDarkColorResId                      = binder.FirstCallTransaction + 82
-	TransactionIUserManagerGetUserStatusBarIconResId                       = binder.FirstCallTransaction + 83
-	TransactionIUserManagerHasBadge                                        = binder.FirstCallTransaction + 84
-	TransactionIUserManagerGetProfileLabelResId                            = binder.FirstCallTransaction + 85
-	TransactionIUserManagerGetProfileAccessibilityLabelResId               = binder.FirstCallTransaction + 86
-	TransactionIUserManagerIsUserUnlocked                                  = binder.FirstCallTransaction + 87
-	TransactionIUserManagerIsUserRunning                                   = binder.FirstCallTransaction + 88
-	TransactionIUserManagerIsUserForeground                                = binder.FirstCallTransaction + 89
-	TransactionIUserManagerIsUserVisible                                   = binder.FirstCallTransaction + 90
-	TransactionIUserManagerGetVisibleUsers                                 = binder.FirstCallTransaction + 91
-	TransactionIUserManagerGetMainDisplayIdAssignedToUser                  = binder.FirstCallTransaction + 92
-	TransactionIUserManagerIsForegroundUserAdmin                           = binder.FirstCallTransaction + 93
-	TransactionIUserManagerIsUserNameSet                                   = binder.FirstCallTransaction + 94
-	TransactionIUserManagerHasRestrictedProfiles                           = binder.FirstCallTransaction + 95
-	TransactionIUserManagerRequestQuietModeEnabled                         = binder.FirstCallTransaction + 96
-	TransactionIUserManagerGetUserName                                     = binder.FirstCallTransaction + 97
-	TransactionIUserManagerGetUserStartRealtime                            = binder.FirstCallTransaction + 98
-	TransactionIUserManagerGetUserUnlockRealtime                           = binder.FirstCallTransaction + 99
-	TransactionIUserManagerSetUserEphemeral                                = binder.FirstCallTransaction + 100
-	TransactionIUserManagerSetBootUser                                     = binder.FirstCallTransaction + 101
-	TransactionIUserManagerGetBootUser                                     = binder.FirstCallTransaction + 102
-	TransactionIUserManagerGetProfileIdsExcludingHidden                    = binder.FirstCallTransaction + 103
+	TransactionIUserManagerGetUserSerialNumber                             = binder.FirstCallTransaction + 42
+	TransactionIUserManagerGetUserHandle                                   = binder.FirstCallTransaction + 43
+	TransactionIUserManagerGetUserRestrictionSource                        = binder.FirstCallTransaction + 44
+	TransactionIUserManagerGetUserRestrictionSources                       = binder.FirstCallTransaction + 45
+	TransactionIUserManagerGetUserRestrictions                             = binder.FirstCallTransaction + 46
+	TransactionIUserManagerHasBaseUserRestriction                          = binder.FirstCallTransaction + 47
+	TransactionIUserManagerHasUserRestriction                              = binder.FirstCallTransaction + 48
+	TransactionIUserManagerHasUserRestrictionOnAnyUser                     = binder.FirstCallTransaction + 49
+	TransactionIUserManagerIsSettingRestrictedForUser                      = binder.FirstCallTransaction + 50
+	TransactionIUserManagerAddUserRestrictionsListener                     = binder.FirstCallTransaction + 51
+	TransactionIUserManagerSetUserRestriction                              = binder.FirstCallTransaction + 52
+	TransactionIUserManagerSetApplicationRestrictions                      = binder.FirstCallTransaction + 53
+	TransactionIUserManagerGetApplicationRestrictions                      = binder.FirstCallTransaction + 54
+	TransactionIUserManagerGetApplicationRestrictionsForUser               = binder.FirstCallTransaction + 55
+	TransactionIUserManagerSetDefaultGuestRestrictions                     = binder.FirstCallTransaction + 56
+	TransactionIUserManagerGetDefaultGuestRestrictions                     = binder.FirstCallTransaction + 57
+	TransactionIUserManagerRemoveUserWhenPossible                          = binder.FirstCallTransaction + 58
+	TransactionIUserManagerMarkGuestForDeletion                            = binder.FirstCallTransaction + 59
+	TransactionIUserManagerGetGuestUsers                                   = binder.FirstCallTransaction + 60
+	TransactionIUserManagerIsQuietModeEnabled                              = binder.FirstCallTransaction + 61
+	TransactionIUserManagerCreateUserWithAttributes                        = binder.FirstCallTransaction + 62
+	TransactionIUserManagerSetSeedAccountData                              = binder.FirstCallTransaction + 63
+	TransactionIUserManagerGetSeedAccountName                              = binder.FirstCallTransaction + 64
+	TransactionIUserManagerGetSeedAccountType                              = binder.FirstCallTransaction + 65
+	TransactionIUserManagerGetSeedAccountOptions                           = binder.FirstCallTransaction + 66
+	TransactionIUserManagerClearSeedAccountData                            = binder.FirstCallTransaction + 67
+	TransactionIUserManagerSomeUserHasSeedAccount                          = binder.FirstCallTransaction + 68
+	TransactionIUserManagerSomeUserHasAccount                              = binder.FirstCallTransaction + 69
+	TransactionIUserManagerGetProfileType                                  = binder.FirstCallTransaction + 70
+	TransactionIUserManagerIsDemoUser                                      = binder.FirstCallTransaction + 71
+	TransactionIUserManagerIsAdminUser                                     = binder.FirstCallTransaction + 72
+	TransactionIUserManagerIsPreCreated                                    = binder.FirstCallTransaction + 73
+	TransactionIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow = binder.FirstCallTransaction + 74
+	TransactionIUserManagerIsUserUnlockingOrUnlocked                       = binder.FirstCallTransaction + 75
+	TransactionIUserManagerGetUserIconBadgeResId                           = binder.FirstCallTransaction + 76
+	TransactionIUserManagerGetUserBadgeResId                               = binder.FirstCallTransaction + 77
+	TransactionIUserManagerGetUserBadgeNoBackgroundResId                   = binder.FirstCallTransaction + 78
+	TransactionIUserManagerGetUserBadgeLabelResId                          = binder.FirstCallTransaction + 79
+	TransactionIUserManagerGetUserBadgeColorResId                          = binder.FirstCallTransaction + 80
+	TransactionIUserManagerGetUserBadgeDarkColorResId                      = binder.FirstCallTransaction + 81
+	TransactionIUserManagerGetUserStatusBarIconResId                       = binder.FirstCallTransaction + 82
+	TransactionIUserManagerHasBadge                                        = binder.FirstCallTransaction + 83
+	TransactionIUserManagerGetProfileLabelResId                            = binder.FirstCallTransaction + 84
+	TransactionIUserManagerIsUserUnlocked                                  = binder.FirstCallTransaction + 85
+	TransactionIUserManagerIsUserRunning                                   = binder.FirstCallTransaction + 86
+	TransactionIUserManagerIsUserForeground                                = binder.FirstCallTransaction + 87
+	TransactionIUserManagerIsUserVisible                                   = binder.FirstCallTransaction + 88
+	TransactionIUserManagerGetVisibleUsers                                 = binder.FirstCallTransaction + 89
+	TransactionIUserManagerGetMainDisplayIdAssignedToUser                  = binder.FirstCallTransaction + 90
+	TransactionIUserManagerIsForegroundUserAdmin                           = binder.FirstCallTransaction + 91
+	TransactionIUserManagerIsUserNameSet                                   = binder.FirstCallTransaction + 92
+	TransactionIUserManagerHasRestrictedProfiles                           = binder.FirstCallTransaction + 93
+	TransactionIUserManagerRequestQuietModeEnabled                         = binder.FirstCallTransaction + 94
+	TransactionIUserManagerGetUserName                                     = binder.FirstCallTransaction + 95
+	TransactionIUserManagerGetUserStartRealtime                            = binder.FirstCallTransaction + 96
+	TransactionIUserManagerGetUserUnlockRealtime                           = binder.FirstCallTransaction + 97
+	TransactionIUserManagerSetUserEphemeral                                = binder.FirstCallTransaction + 98
+	TransactionIUserManagerSetBootUser                                     = binder.FirstCallTransaction + 99
+	TransactionIUserManagerGetBootUser                                     = binder.FirstCallTransaction + 100
+	TransactionIUserManagerGetProfileIdsExcludingHidden                    = binder.FirstCallTransaction + 101
+)
+
+const (
+	MethodIUserManagerGetCredentialOwnerProfile                       = "getCredentialOwnerProfile"
+	MethodIUserManagerGetProfileParentId                              = "getProfileParentId"
+	MethodIUserManagerCreateUserWithThrow                             = "createUserWithThrow"
+	MethodIUserManagerPreCreateUserWithThrow                          = "preCreateUserWithThrow"
+	MethodIUserManagerCreateProfileForUserWithThrow                   = "createProfileForUserWithThrow"
+	MethodIUserManagerCreateRestrictedProfileWithThrow                = "createRestrictedProfileWithThrow"
+	MethodIUserManagerGetPreInstallableSystemPackages                 = "getPreInstallableSystemPackages"
+	MethodIUserManagerSetUserEnabled                                  = "setUserEnabled"
+	MethodIUserManagerSetUserAdmin                                    = "setUserAdmin"
+	MethodIUserManagerRevokeUserAdmin                                 = "revokeUserAdmin"
+	MethodIUserManagerEvictCredentialEncryptionKey                    = "evictCredentialEncryptionKey"
+	MethodIUserManagerRemoveUser                                      = "removeUser"
+	MethodIUserManagerRemoveUserEvenWhenDisallowed                    = "removeUserEvenWhenDisallowed"
+	MethodIUserManagerSetUserName                                     = "setUserName"
+	MethodIUserManagerSetUserIcon                                     = "setUserIcon"
+	MethodIUserManagerGetUserIcon                                     = "getUserIcon"
+	MethodIUserManagerGetPrimaryUser                                  = "getPrimaryUser"
+	MethodIUserManagerGetMainUserId                                   = "getMainUserId"
+	MethodIUserManagerGetCommunalProfileId                            = "getCommunalProfileId"
+	MethodIUserManagerGetPreviousFullUserToEnterForeground            = "getPreviousFullUserToEnterForeground"
+	MethodIUserManagerGetUsers                                        = "getUsers"
+	MethodIUserManagerGetProfiles                                     = "getProfiles"
+	MethodIUserManagerGetProfileIds                                   = "getProfileIds"
+	MethodIUserManagerIsUserTypeEnabled                               = "isUserTypeEnabled"
+	MethodIUserManagerCanAddMoreUsersOfType                           = "canAddMoreUsersOfType"
+	MethodIUserManagerGetRemainingCreatableUserCount                  = "getRemainingCreatableUserCount"
+	MethodIUserManagerGetRemainingCreatableProfileCount               = "getRemainingCreatableProfileCount"
+	MethodIUserManagerCanAddMoreProfilesToUser                        = "canAddMoreProfilesToUser"
+	MethodIUserManagerCanAddMoreManagedProfiles                       = "canAddMoreManagedProfiles"
+	MethodIUserManagerGetProfileParent                                = "getProfileParent"
+	MethodIUserManagerIsSameProfileGroup                              = "isSameProfileGroup"
+	MethodIUserManagerIsHeadlessSystemUserMode                        = "isHeadlessSystemUserMode"
+	MethodIUserManagerIsUserOfType                                    = "isUserOfType"
+	MethodIUserManagerGetUserInfo                                     = "getUserInfo"
+	MethodIUserManagerGetUserPropertiesCopy                           = "getUserPropertiesCopy"
+	MethodIUserManagerGetUserAccount                                  = "getUserAccount"
+	MethodIUserManagerSetUserAccount                                  = "setUserAccount"
+	MethodIUserManagerGetUserCreationTime                             = "getUserCreationTime"
+	MethodIUserManagerGetUserSwitchability                            = "getUserSwitchability"
+	MethodIUserManagerIsUserSwitcherEnabled                           = "isUserSwitcherEnabled"
+	MethodIUserManagerIsRestricted                                    = "isRestricted"
+	MethodIUserManagerCanHaveRestrictedProfile                        = "canHaveRestrictedProfile"
+	MethodIUserManagerGetUserSerialNumber                             = "getUserSerialNumber"
+	MethodIUserManagerGetUserHandle                                   = "getUserHandle"
+	MethodIUserManagerGetUserRestrictionSource                        = "getUserRestrictionSource"
+	MethodIUserManagerGetUserRestrictionSources                       = "getUserRestrictionSources"
+	MethodIUserManagerGetUserRestrictions                             = "getUserRestrictions"
+	MethodIUserManagerHasBaseUserRestriction                          = "hasBaseUserRestriction"
+	MethodIUserManagerHasUserRestriction                              = "hasUserRestriction"
+	MethodIUserManagerHasUserRestrictionOnAnyUser                     = "hasUserRestrictionOnAnyUser"
+	MethodIUserManagerIsSettingRestrictedForUser                      = "isSettingRestrictedForUser"
+	MethodIUserManagerAddUserRestrictionsListener                     = "addUserRestrictionsListener"
+	MethodIUserManagerSetUserRestriction                              = "setUserRestriction"
+	MethodIUserManagerSetApplicationRestrictions                      = "setApplicationRestrictions"
+	MethodIUserManagerGetApplicationRestrictions                      = "getApplicationRestrictions"
+	MethodIUserManagerGetApplicationRestrictionsForUser               = "getApplicationRestrictionsForUser"
+	MethodIUserManagerSetDefaultGuestRestrictions                     = "setDefaultGuestRestrictions"
+	MethodIUserManagerGetDefaultGuestRestrictions                     = "getDefaultGuestRestrictions"
+	MethodIUserManagerRemoveUserWhenPossible                          = "removeUserWhenPossible"
+	MethodIUserManagerMarkGuestForDeletion                            = "markGuestForDeletion"
+	MethodIUserManagerGetGuestUsers                                   = "getGuestUsers"
+	MethodIUserManagerIsQuietModeEnabled                              = "isQuietModeEnabled"
+	MethodIUserManagerCreateUserWithAttributes                        = "createUserWithAttributes"
+	MethodIUserManagerSetSeedAccountData                              = "setSeedAccountData"
+	MethodIUserManagerGetSeedAccountName                              = "getSeedAccountName"
+	MethodIUserManagerGetSeedAccountType                              = "getSeedAccountType"
+	MethodIUserManagerGetSeedAccountOptions                           = "getSeedAccountOptions"
+	MethodIUserManagerClearSeedAccountData                            = "clearSeedAccountData"
+	MethodIUserManagerSomeUserHasSeedAccount                          = "someUserHasSeedAccount"
+	MethodIUserManagerSomeUserHasAccount                              = "someUserHasAccount"
+	MethodIUserManagerGetProfileType                                  = "getProfileType"
+	MethodIUserManagerIsDemoUser                                      = "isDemoUser"
+	MethodIUserManagerIsAdminUser                                     = "isAdminUser"
+	MethodIUserManagerIsPreCreated                                    = "isPreCreated"
+	MethodIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow = "createProfileForUserEvenWhenDisallowedWithThrow"
+	MethodIUserManagerIsUserUnlockingOrUnlocked                       = "isUserUnlockingOrUnlocked"
+	MethodIUserManagerGetUserIconBadgeResId                           = "getUserIconBadgeResId"
+	MethodIUserManagerGetUserBadgeResId                               = "getUserBadgeResId"
+	MethodIUserManagerGetUserBadgeNoBackgroundResId                   = "getUserBadgeNoBackgroundResId"
+	MethodIUserManagerGetUserBadgeLabelResId                          = "getUserBadgeLabelResId"
+	MethodIUserManagerGetUserBadgeColorResId                          = "getUserBadgeColorResId"
+	MethodIUserManagerGetUserBadgeDarkColorResId                      = "getUserBadgeDarkColorResId"
+	MethodIUserManagerGetUserStatusBarIconResId                       = "getUserStatusBarIconResId"
+	MethodIUserManagerHasBadge                                        = "hasBadge"
+	MethodIUserManagerGetProfileLabelResId                            = "getProfileLabelResId"
+	MethodIUserManagerIsUserUnlocked                                  = "isUserUnlocked"
+	MethodIUserManagerIsUserRunning                                   = "isUserRunning"
+	MethodIUserManagerIsUserForeground                                = "isUserForeground"
+	MethodIUserManagerIsUserVisible                                   = "isUserVisible"
+	MethodIUserManagerGetVisibleUsers                                 = "getVisibleUsers"
+	MethodIUserManagerGetMainDisplayIdAssignedToUser                  = "getMainDisplayIdAssignedToUser"
+	MethodIUserManagerIsForegroundUserAdmin                           = "isForegroundUserAdmin"
+	MethodIUserManagerIsUserNameSet                                   = "isUserNameSet"
+	MethodIUserManagerHasRestrictedProfiles                           = "hasRestrictedProfiles"
+	MethodIUserManagerRequestQuietModeEnabled                         = "requestQuietModeEnabled"
+	MethodIUserManagerGetUserName                                     = "getUserName"
+	MethodIUserManagerGetUserStartRealtime                            = "getUserStartRealtime"
+	MethodIUserManagerGetUserUnlockRealtime                           = "getUserUnlockRealtime"
+	MethodIUserManagerSetUserEphemeral                                = "setUserEphemeral"
+	MethodIUserManagerSetBootUser                                     = "setBootUser"
+	MethodIUserManagerGetBootUser                                     = "getBootUser"
+	MethodIUserManagerGetProfileIdsExcludingHidden                    = "getProfileIdsExcludingHidden"
 )
 
 type IUserManager interface {
@@ -165,7 +268,6 @@ type IUserManager interface {
 	IsUserSwitcherEnabled(ctx context.Context, showEvenIfNotActionable bool, mUserId int32) (bool, error)
 	IsRestricted(ctx context.Context) (bool, error)
 	CanHaveRestrictedProfile(ctx context.Context) (bool, error)
-	CanAddPrivateProfile(ctx context.Context) (bool, error)
 	GetUserSerialNumber(ctx context.Context) (int32, error)
 	GetUserHandle(ctx context.Context, userSerialNumber int32) (int32, error)
 	GetUserRestrictionSource(ctx context.Context, restrictionKey string) (int32, error)
@@ -209,7 +311,6 @@ type IUserManager interface {
 	GetUserStatusBarIconResId(ctx context.Context) (int32, error)
 	HasBadge(ctx context.Context) (bool, error)
 	GetProfileLabelResId(ctx context.Context) (int32, error)
-	GetProfileAccessibilityLabelResId(ctx context.Context) (int32, error)
 	IsUserUnlocked(ctx context.Context) (bool, error)
 	IsUserRunning(ctx context.Context) (bool, error)
 	IsUserForeground(ctx context.Context) (bool, error)
@@ -230,17 +331,17 @@ type IUserManager interface {
 }
 
 type UserManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUserManagerProxy(
 	remote binder.IBinder,
 ) *UserManagerProxy {
-	return &UserManagerProxy{remote: remote}
+	return &UserManagerProxy{Remote: remote}
 }
 
 func (p *UserManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUserManager = (*UserManagerProxy)(nil)
@@ -249,17 +350,17 @@ func (p *UserManagerProxy) GetCredentialOwnerProfile(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getCredentialOwnerProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetCredentialOwnerProfile)
 	if _err != nil {
-		_code = TransactionIUserManagerGetCredentialOwnerProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetCredentialOwnerProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -280,17 +381,17 @@ func (p *UserManagerProxy) GetProfileParentId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileParentId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileParentId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfileParentId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfileParentId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -320,12 +421,12 @@ func (p *UserManagerProxy) CreateUserWithThrow(
 	_data.WriteString16(userType)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createUserWithThrow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateUserWithThrow)
 	if _err != nil {
-		_code = TransactionIUserManagerCreateUserWithThrow
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCreateUserWithThrow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -356,12 +457,12 @@ func (p *UserManagerProxy) PreCreateUserWithThrow(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "preCreateUserWithThrow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerPreCreateUserWithThrow)
 	if _err != nil {
-		_code = TransactionIUserManagerPreCreateUserWithThrow
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerPreCreateUserWithThrow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -391,7 +492,7 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 	disallowedPackages []string,
 ) (pm.UserInfo, error) {
 	var _result pm.UserInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(name)
@@ -407,12 +508,12 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createProfileForUserWithThrow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateProfileForUserWithThrow)
 	if _err != nil {
-		_code = TransactionIUserManagerCreateProfileForUserWithThrow
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCreateProfileForUserWithThrow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -445,12 +546,12 @@ func (p *UserManagerProxy) CreateRestrictedProfileWithThrow(
 	_data.WriteString16(name)
 	_data.WriteInt32(parentUserHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createRestrictedProfileWithThrow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateRestrictedProfileWithThrow)
 	if _err != nil {
-		_code = TransactionIUserManagerCreateRestrictedProfileWithThrow
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCreateRestrictedProfileWithThrow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -481,12 +582,12 @@ func (p *UserManagerProxy) GetPreInstallableSystemPackages(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getPreInstallableSystemPackages")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetPreInstallableSystemPackages)
 	if _err != nil {
-		_code = TransactionIUserManagerGetPreInstallableSystemPackages
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetPreInstallableSystemPackages, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -516,17 +617,17 @@ func (p *UserManagerProxy) GetPreInstallableSystemPackages(
 func (p *UserManagerProxy) SetUserEnabled(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserEnabled)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -542,17 +643,17 @@ func (p *UserManagerProxy) SetUserEnabled(
 func (p *UserManagerProxy) SetUserAdmin(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserAdmin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserAdmin)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserAdmin
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserAdmin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -568,17 +669,17 @@ func (p *UserManagerProxy) SetUserAdmin(
 func (p *UserManagerProxy) RevokeUserAdmin(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "revokeUserAdmin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRevokeUserAdmin)
 	if _err != nil {
-		_code = TransactionIUserManagerRevokeUserAdmin
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerRevokeUserAdmin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -594,17 +695,17 @@ func (p *UserManagerProxy) RevokeUserAdmin(
 func (p *UserManagerProxy) EvictCredentialEncryptionKey(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "evictCredentialEncryptionKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerEvictCredentialEncryptionKey)
 	if _err != nil {
-		_code = TransactionIUserManagerEvictCredentialEncryptionKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerEvictCredentialEncryptionKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -621,17 +722,17 @@ func (p *UserManagerProxy) RemoveUser(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "removeUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRemoveUser)
 	if _err != nil {
-		_code = TransactionIUserManagerRemoveUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerRemoveUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -652,17 +753,17 @@ func (p *UserManagerProxy) RemoveUserEvenWhenDisallowed(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "removeUserEvenWhenDisallowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRemoveUserEvenWhenDisallowed)
 	if _err != nil {
-		_code = TransactionIUserManagerRemoveUserEvenWhenDisallowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerRemoveUserEvenWhenDisallowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -683,18 +784,18 @@ func (p *UserManagerProxy) SetUserName(
 	ctx context.Context,
 	name string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserName)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -711,7 +812,7 @@ func (p *UserManagerProxy) SetUserIcon(
 	ctx context.Context,
 	icon graphics.Bitmap,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
@@ -720,12 +821,12 @@ func (p *UserManagerProxy) SetUserIcon(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserIcon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserIcon)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserIcon
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserIcon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -742,17 +843,17 @@ func (p *UserManagerProxy) GetUserIcon(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserIcon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserIcon)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserIcon
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserIcon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -776,12 +877,12 @@ func (p *UserManagerProxy) GetPrimaryUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getPrimaryUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetPrimaryUser)
 	if _err != nil {
-		_code = TransactionIUserManagerGetPrimaryUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetPrimaryUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -810,12 +911,12 @@ func (p *UserManagerProxy) GetMainUserId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getMainUserId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetMainUserId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetMainUserId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetMainUserId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -839,12 +940,12 @@ func (p *UserManagerProxy) GetCommunalProfileId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getCommunalProfileId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetCommunalProfileId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetCommunalProfileId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetCommunalProfileId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -868,12 +969,12 @@ func (p *UserManagerProxy) GetPreviousFullUserToEnterForeground(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getPreviousFullUserToEnterForeground")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetPreviousFullUserToEnterForeground)
 	if _err != nil {
-		_code = TransactionIUserManagerGetPreviousFullUserToEnterForeground
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetPreviousFullUserToEnterForeground, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -903,12 +1004,12 @@ func (p *UserManagerProxy) GetUsers(
 	_data.WriteBool(excludeDying)
 	_data.WriteBool(excludePreCreated)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUsers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUsers)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUsers
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUsers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -926,6 +1027,9 @@ func (p *UserManagerProxy) GetUsers(
 	if _count >= 0 {
 		_result = make([]pm.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -939,18 +1043,18 @@ func (p *UserManagerProxy) GetProfiles(
 	enabledOnly bool,
 ) ([]pm.UserInfo, error) {
 	var _result []pm.UserInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enabledOnly)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfiles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfiles)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfiles
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfiles, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -968,6 +1072,9 @@ func (p *UserManagerProxy) GetProfiles(
 	if _count >= 0 {
 		_result = make([]pm.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -981,18 +1088,18 @@ func (p *UserManagerProxy) GetProfileIds(
 	enabledOnly bool,
 ) ([]int32, error) {
 	var _result []int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enabledOnly)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileIds)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfileIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfileIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1028,12 +1135,12 @@ func (p *UserManagerProxy) IsUserTypeEnabled(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserTypeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserTypeEnabled)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserTypeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserTypeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1059,12 +1166,12 @@ func (p *UserManagerProxy) CanAddMoreUsersOfType(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddMoreUsersOfType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreUsersOfType)
 	if _err != nil {
-		_code = TransactionIUserManagerCanAddMoreUsersOfType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCanAddMoreUsersOfType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1090,12 +1197,12 @@ func (p *UserManagerProxy) GetRemainingCreatableUserCount(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getRemainingCreatableUserCount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableUserCount)
 	if _err != nil {
-		_code = TransactionIUserManagerGetRemainingCreatableUserCount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableUserCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1117,18 +1224,18 @@ func (p *UserManagerProxy) GetRemainingCreatableProfileCount(
 	userType string,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getRemainingCreatableProfileCount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableProfileCount)
 	if _err != nil {
-		_code = TransactionIUserManagerGetRemainingCreatableProfileCount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetRemainingCreatableProfileCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1151,19 +1258,19 @@ func (p *UserManagerProxy) CanAddMoreProfilesToUser(
 	allowedToRemoveOne bool,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(allowedToRemoveOne)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddMoreProfilesToUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreProfilesToUser)
 	if _err != nil {
-		_code = TransactionIUserManagerCanAddMoreProfilesToUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCanAddMoreProfilesToUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1185,18 +1292,18 @@ func (p *UserManagerProxy) CanAddMoreManagedProfiles(
 	allowedToRemoveOne bool,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(allowedToRemoveOne)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddMoreManagedProfiles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanAddMoreManagedProfiles)
 	if _err != nil {
-		_code = TransactionIUserManagerCanAddMoreManagedProfiles
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCanAddMoreManagedProfiles, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1217,17 +1324,17 @@ func (p *UserManagerProxy) GetProfileParent(
 	ctx context.Context,
 ) (pm.UserInfo, error) {
 	var _result pm.UserInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileParent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileParent)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfileParent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfileParent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1254,18 +1361,18 @@ func (p *UserManagerProxy) IsSameProfileGroup(
 	otherUserHandle int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(otherUserHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isSameProfileGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsSameProfileGroup)
 	if _err != nil {
-		_code = TransactionIUserManagerIsSameProfileGroup
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsSameProfileGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1289,12 +1396,12 @@ func (p *UserManagerProxy) IsHeadlessSystemUserMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isHeadlessSystemUserMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsHeadlessSystemUserMode)
 	if _err != nil {
-		_code = TransactionIUserManagerIsHeadlessSystemUserMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsHeadlessSystemUserMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1316,18 +1423,18 @@ func (p *UserManagerProxy) IsUserOfType(
 	userType string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(userType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserOfType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserOfType)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserOfType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserOfType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1348,17 +1455,17 @@ func (p *UserManagerProxy) GetUserInfo(
 	ctx context.Context,
 ) (pm.UserInfo, error) {
 	var _result pm.UserInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserInfo)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1384,17 +1491,17 @@ func (p *UserManagerProxy) GetUserPropertiesCopy(
 	ctx context.Context,
 ) (pm.UserProperties, error) {
 	var _result pm.UserProperties
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserPropertiesCopy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserPropertiesCopy)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserPropertiesCopy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserPropertiesCopy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1420,17 +1527,17 @@ func (p *UserManagerProxy) GetUserAccount(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserAccount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserAccount)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserAccount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserAccount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1451,18 +1558,18 @@ func (p *UserManagerProxy) SetUserAccount(
 	ctx context.Context,
 	accountName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(accountName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserAccount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserAccount)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserAccount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserAccount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1479,17 +1586,17 @@ func (p *UserManagerProxy) GetUserCreationTime(
 	ctx context.Context,
 ) (int64, error) {
 	var _result int64
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserCreationTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserCreationTime)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserCreationTime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserCreationTime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1510,17 +1617,17 @@ func (p *UserManagerProxy) GetUserSwitchability(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserSwitchability")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserSwitchability)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserSwitchability
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserSwitchability, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1548,12 +1655,12 @@ func (p *UserManagerProxy) IsUserSwitcherEnabled(
 	_data.WriteBool(showEvenIfNotActionable)
 	_data.WriteInt32(mUserId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserSwitcherEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserSwitcherEnabled)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserSwitcherEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserSwitcherEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1574,17 +1681,17 @@ func (p *UserManagerProxy) IsRestricted(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isRestricted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsRestricted)
 	if _err != nil {
-		_code = TransactionIUserManagerIsRestricted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsRestricted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1605,48 +1712,17 @@ func (p *UserManagerProxy) CanHaveRestrictedProfile(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canHaveRestrictedProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCanHaveRestrictedProfile)
 	if _err != nil {
-		_code = TransactionIUserManagerCanHaveRestrictedProfile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCanHaveRestrictedProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *UserManagerProxy) CanAddPrivateProfile(
-	ctx context.Context,
-) (bool, error) {
-	var _result bool
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddPrivateProfile")
-	if _err != nil {
-		_code = TransactionIUserManagerCanAddPrivateProfile
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1667,17 +1743,17 @@ func (p *UserManagerProxy) GetUserSerialNumber(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserSerialNumber")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserSerialNumber)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserSerialNumber
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserSerialNumber, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1703,12 +1779,12 @@ func (p *UserManagerProxy) GetUserHandle(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(userSerialNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserHandle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserHandle)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserHandle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserHandle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1730,18 +1806,18 @@ func (p *UserManagerProxy) GetUserRestrictionSource(
 	restrictionKey string,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(restrictionKey)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserRestrictionSource")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSource)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserRestrictionSource
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSource, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1763,18 +1839,18 @@ func (p *UserManagerProxy) GetUserRestrictionSources(
 	restrictionKey string,
 ) ([]UserManagerEnforcingUser, error) {
 	var _result []UserManagerEnforcingUser
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(restrictionKey)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserRestrictionSources")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSources)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserRestrictionSources
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserRestrictionSources, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1792,6 +1868,9 @@ func (p *UserManagerProxy) GetUserRestrictionSources(
 	if _count >= 0 {
 		_result = make([]UserManagerEnforcingUser, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1804,17 +1883,17 @@ func (p *UserManagerProxy) GetUserRestrictions(
 	ctx context.Context,
 ) (Bundle, error) {
 	var _result Bundle
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserRestrictions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserRestrictions)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserRestrictions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserRestrictions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1841,18 +1920,18 @@ func (p *UserManagerProxy) HasBaseUserRestriction(
 	restrictionKey string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(restrictionKey)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasBaseUserRestriction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasBaseUserRestriction)
 	if _err != nil {
-		_code = TransactionIUserManagerHasBaseUserRestriction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerHasBaseUserRestriction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1874,18 +1953,18 @@ func (p *UserManagerProxy) HasUserRestriction(
 	restrictionKey string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(restrictionKey)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasUserRestriction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasUserRestriction)
 	if _err != nil {
-		_code = TransactionIUserManagerHasUserRestriction
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerHasUserRestriction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1911,12 +1990,12 @@ func (p *UserManagerProxy) HasUserRestrictionOnAnyUser(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(restrictionKey)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasUserRestrictionOnAnyUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasUserRestrictionOnAnyUser)
 	if _err != nil {
-		_code = TransactionIUserManagerHasUserRestrictionOnAnyUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerHasUserRestrictionOnAnyUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1939,7 +2018,7 @@ func (p *UserManagerProxy) IsSettingRestrictedForUser(
 	value string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(setting)
@@ -1947,12 +2026,12 @@ func (p *UserManagerProxy) IsSettingRestrictedForUser(
 	_data.WriteString16(value)
 	_data.WriteInt32(_identity.UID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isSettingRestrictedForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsSettingRestrictedForUser)
 	if _err != nil {
-		_code = TransactionIUserManagerIsSettingRestrictedForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsSettingRestrictedForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1975,14 +2054,14 @@ func (p *UserManagerProxy) AddUserRestrictionsListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "addUserRestrictionsListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerAddUserRestrictionsListener)
 	if _err != nil {
-		_code = TransactionIUserManagerAddUserRestrictionsListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerAddUserRestrictionsListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2000,19 +2079,19 @@ func (p *UserManagerProxy) SetUserRestriction(
 	key string,
 	value bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(key)
 	_data.WriteBool(value)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserRestriction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserRestriction)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserRestriction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserRestriction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2030,7 +2109,7 @@ func (p *UserManagerProxy) SetApplicationRestrictions(
 	packageName string,
 	restrictions Bundle,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(packageName)
@@ -2040,12 +2119,12 @@ func (p *UserManagerProxy) SetApplicationRestrictions(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setApplicationRestrictions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetApplicationRestrictions)
 	if _err != nil {
-		_code = TransactionIUserManagerSetApplicationRestrictions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetApplicationRestrictions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2067,12 +2146,12 @@ func (p *UserManagerProxy) GetApplicationRestrictions(
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getApplicationRestrictions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictions)
 	if _err != nil {
-		_code = TransactionIUserManagerGetApplicationRestrictions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2099,18 +2178,18 @@ func (p *UserManagerProxy) GetApplicationRestrictionsForUser(
 	packageName string,
 ) (Bundle, error) {
 	var _result Bundle
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getApplicationRestrictionsForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictionsForUser)
 	if _err != nil {
-		_code = TransactionIUserManagerGetApplicationRestrictionsForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetApplicationRestrictionsForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2143,12 +2222,12 @@ func (p *UserManagerProxy) SetDefaultGuestRestrictions(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setDefaultGuestRestrictions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetDefaultGuestRestrictions)
 	if _err != nil {
-		_code = TransactionIUserManagerSetDefaultGuestRestrictions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetDefaultGuestRestrictions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2168,12 +2247,12 @@ func (p *UserManagerProxy) GetDefaultGuestRestrictions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getDefaultGuestRestrictions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetDefaultGuestRestrictions)
 	if _err != nil {
-		_code = TransactionIUserManagerGetDefaultGuestRestrictions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetDefaultGuestRestrictions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2200,18 +2279,18 @@ func (p *UserManagerProxy) RemoveUserWhenPossible(
 	overrideDevicePolicy bool,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(overrideDevicePolicy)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "removeUserWhenPossible")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRemoveUserWhenPossible)
 	if _err != nil {
-		_code = TransactionIUserManagerRemoveUserWhenPossible
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerRemoveUserWhenPossible, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2232,17 +2311,17 @@ func (p *UserManagerProxy) MarkGuestForDeletion(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "markGuestForDeletion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerMarkGuestForDeletion)
 	if _err != nil {
-		_code = TransactionIUserManagerMarkGuestForDeletion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerMarkGuestForDeletion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2266,12 +2345,12 @@ func (p *UserManagerProxy) GetGuestUsers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getGuestUsers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetGuestUsers)
 	if _err != nil {
-		_code = TransactionIUserManagerGetGuestUsers
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetGuestUsers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2289,6 +2368,9 @@ func (p *UserManagerProxy) GetGuestUsers(
 	if _count >= 0 {
 		_result = make([]pm.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -2301,17 +2383,17 @@ func (p *UserManagerProxy) IsQuietModeEnabled(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isQuietModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsQuietModeEnabled)
 	if _err != nil {
-		_code = TransactionIUserManagerIsQuietModeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsQuietModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2351,12 +2433,12 @@ func (p *UserManagerProxy) CreateUserWithAttributes(
 	_data.WriteString16(accountName)
 	_data.WriteString16(accountType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createUserWithAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateUserWithAttributes)
 	if _err != nil {
-		_code = TransactionIUserManagerCreateUserWithAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCreateUserWithAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2385,7 +2467,7 @@ func (p *UserManagerProxy) SetSeedAccountData(
 	accountOptions interface{},
 	persist bool,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
@@ -2393,12 +2475,12 @@ func (p *UserManagerProxy) SetSeedAccountData(
 	_data.WriteString16(accountType)
 	_data.WriteBool(persist)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setSeedAccountData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetSeedAccountData)
 	if _err != nil {
-		_code = TransactionIUserManagerSetSeedAccountData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetSeedAccountData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2415,17 +2497,17 @@ func (p *UserManagerProxy) GetSeedAccountName(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getSeedAccountName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountName)
 	if _err != nil {
-		_code = TransactionIUserManagerGetSeedAccountName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetSeedAccountName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2446,17 +2528,17 @@ func (p *UserManagerProxy) GetSeedAccountType(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getSeedAccountType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountType)
 	if _err != nil {
-		_code = TransactionIUserManagerGetSeedAccountType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetSeedAccountType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2477,17 +2559,17 @@ func (p *UserManagerProxy) GetSeedAccountOptions(
 	ctx context.Context,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getSeedAccountOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetSeedAccountOptions)
 	if _err != nil {
-		_code = TransactionIUserManagerGetSeedAccountOptions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetSeedAccountOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2503,17 +2585,17 @@ func (p *UserManagerProxy) GetSeedAccountOptions(
 func (p *UserManagerProxy) ClearSeedAccountData(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "clearSeedAccountData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerClearSeedAccountData)
 	if _err != nil {
-		_code = TransactionIUserManagerClearSeedAccountData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerClearSeedAccountData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2537,12 +2619,12 @@ func (p *UserManagerProxy) SomeUserHasSeedAccount(
 	_data.WriteString16(accountName)
 	_data.WriteString16(accountType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "someUserHasSeedAccount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSomeUserHasSeedAccount)
 	if _err != nil {
-		_code = TransactionIUserManagerSomeUserHasSeedAccount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSomeUserHasSeedAccount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2570,12 +2652,12 @@ func (p *UserManagerProxy) SomeUserHasAccount(
 	_data.WriteString16(accountName)
 	_data.WriteString16(accountType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "someUserHasAccount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSomeUserHasAccount)
 	if _err != nil {
-		_code = TransactionIUserManagerSomeUserHasAccount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSomeUserHasAccount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2596,17 +2678,17 @@ func (p *UserManagerProxy) GetProfileType(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileType)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfileType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfileType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2627,17 +2709,17 @@ func (p *UserManagerProxy) IsDemoUser(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isDemoUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsDemoUser)
 	if _err != nil {
-		_code = TransactionIUserManagerIsDemoUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsDemoUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2658,17 +2740,17 @@ func (p *UserManagerProxy) IsAdminUser(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isAdminUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsAdminUser)
 	if _err != nil {
-		_code = TransactionIUserManagerIsAdminUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsAdminUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2689,17 +2771,17 @@ func (p *UserManagerProxy) IsPreCreated(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isPreCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsPreCreated)
 	if _err != nil {
-		_code = TransactionIUserManagerIsPreCreated
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsPreCreated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2724,7 +2806,7 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 	disallowedPackages []string,
 ) (pm.UserInfo, error) {
 	var _result pm.UserInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(name)
@@ -2740,12 +2822,12 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createProfileForUserEvenWhenDisallowedWithThrow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow)
 	if _err != nil {
-		_code = TransactionIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2771,17 +2853,17 @@ func (p *UserManagerProxy) IsUserUnlockingOrUnlocked(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserUnlockingOrUnlocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserUnlockingOrUnlocked)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserUnlockingOrUnlocked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserUnlockingOrUnlocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2802,17 +2884,17 @@ func (p *UserManagerProxy) GetUserIconBadgeResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserIconBadgeResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserIconBadgeResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserIconBadgeResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserIconBadgeResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2833,17 +2915,17 @@ func (p *UserManagerProxy) GetUserBadgeResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserBadgeResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserBadgeResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2864,17 +2946,17 @@ func (p *UserManagerProxy) GetUserBadgeNoBackgroundResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeNoBackgroundResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeNoBackgroundResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserBadgeNoBackgroundResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserBadgeNoBackgroundResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2895,17 +2977,17 @@ func (p *UserManagerProxy) GetUserBadgeLabelResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeLabelResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeLabelResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserBadgeLabelResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserBadgeLabelResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2926,17 +3008,17 @@ func (p *UserManagerProxy) GetUserBadgeColorResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeColorResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeColorResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserBadgeColorResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserBadgeColorResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2957,17 +3039,17 @@ func (p *UserManagerProxy) GetUserBadgeDarkColorResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeDarkColorResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserBadgeDarkColorResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserBadgeDarkColorResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserBadgeDarkColorResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2988,17 +3070,17 @@ func (p *UserManagerProxy) GetUserStatusBarIconResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserStatusBarIconResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserStatusBarIconResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserStatusBarIconResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserStatusBarIconResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3019,17 +3101,17 @@ func (p *UserManagerProxy) HasBadge(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasBadge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasBadge)
 	if _err != nil {
-		_code = TransactionIUserManagerHasBadge
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerHasBadge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3050,48 +3132,17 @@ func (p *UserManagerProxy) GetProfileLabelResId(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileLabelResId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileLabelResId)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfileLabelResId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfileLabelResId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *UserManagerProxy) GetProfileAccessibilityLabelResId(
-	ctx context.Context,
-) (int32, error) {
-	var _result int32
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileAccessibilityLabelResId")
-	if _err != nil {
-		_code = TransactionIUserManagerGetProfileAccessibilityLabelResId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3112,17 +3163,17 @@ func (p *UserManagerProxy) IsUserUnlocked(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserUnlocked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserUnlocked)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserUnlocked
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserUnlocked, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3143,17 +3194,17 @@ func (p *UserManagerProxy) IsUserRunning(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserRunning")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserRunning)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserRunning
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserRunning, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3174,17 +3225,17 @@ func (p *UserManagerProxy) IsUserForeground(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserForeground")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserForeground)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserForeground
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserForeground, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3205,17 +3256,17 @@ func (p *UserManagerProxy) IsUserVisible(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserVisible")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserVisible)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserVisible
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserVisible, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3239,12 +3290,12 @@ func (p *UserManagerProxy) GetVisibleUsers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getVisibleUsers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetVisibleUsers)
 	if _err != nil {
-		_code = TransactionIUserManagerGetVisibleUsers
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetVisibleUsers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3275,17 +3326,15 @@ func (p *UserManagerProxy) GetMainDisplayIdAssignedToUser(
 	ctx context.Context,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
-	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getMainDisplayIdAssignedToUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetMainDisplayIdAssignedToUser)
 	if _err != nil {
-		_code = TransactionIUserManagerGetMainDisplayIdAssignedToUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetMainDisplayIdAssignedToUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3309,12 +3358,12 @@ func (p *UserManagerProxy) IsForegroundUserAdmin(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isForegroundUserAdmin")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsForegroundUserAdmin)
 	if _err != nil {
-		_code = TransactionIUserManagerIsForegroundUserAdmin
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsForegroundUserAdmin, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3335,17 +3384,17 @@ func (p *UserManagerProxy) IsUserNameSet(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserNameSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerIsUserNameSet)
 	if _err != nil {
-		_code = TransactionIUserManagerIsUserNameSet
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerIsUserNameSet, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3366,17 +3415,17 @@ func (p *UserManagerProxy) HasRestrictedProfiles(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasRestrictedProfiles")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerHasRestrictedProfiles)
 	if _err != nil {
-		_code = TransactionIUserManagerHasRestrictedProfiles
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerHasRestrictedProfiles, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3400,7 +3449,7 @@ func (p *UserManagerProxy) RequestQuietModeEnabled(
 	flags int32,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(_identity.PackageName)
@@ -3412,12 +3461,12 @@ func (p *UserManagerProxy) RequestQuietModeEnabled(
 	}
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "requestQuietModeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerRequestQuietModeEnabled)
 	if _err != nil {
-		_code = TransactionIUserManagerRequestQuietModeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerRequestQuietModeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3441,12 +3490,12 @@ func (p *UserManagerProxy) GetUserName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserName)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3470,12 +3519,12 @@ func (p *UserManagerProxy) GetUserStartRealtime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserStartRealtime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserStartRealtime)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserStartRealtime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserStartRealtime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3499,12 +3548,12 @@ func (p *UserManagerProxy) GetUserUnlockRealtime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserUnlockRealtime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetUserUnlockRealtime)
 	if _err != nil {
-		_code = TransactionIUserManagerGetUserUnlockRealtime
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetUserUnlockRealtime, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3526,18 +3575,18 @@ func (p *UserManagerProxy) SetUserEphemeral(
 	enableEphemeral bool,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enableEphemeral)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserEphemeral")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetUserEphemeral)
 	if _err != nil {
-		_code = TransactionIUserManagerSetUserEphemeral
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetUserEphemeral, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3557,17 +3606,17 @@ func (p *UserManagerProxy) SetUserEphemeral(
 func (p *UserManagerProxy) SetBootUser(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setBootUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerSetBootUser)
 	if _err != nil {
-		_code = TransactionIUserManagerSetBootUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerSetBootUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3587,12 +3636,12 @@ func (p *UserManagerProxy) GetBootUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getBootUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetBootUser)
 	if _err != nil {
-		_code = TransactionIUserManagerGetBootUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetBootUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3614,18 +3663,18 @@ func (p *UserManagerProxy) GetProfileIdsExcludingHidden(
 	enabledOnly bool,
 ) ([]int32, error) {
 	var _result []int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(enabledOnly)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileIdsExcludingHidden")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserManager, MethodIUserManagerGetProfileIdsExcludingHidden)
 	if _err != nil {
-		_code = TransactionIUserManagerGetProfileIdsExcludingHidden
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUserManager, MethodIUserManagerGetProfileIdsExcludingHidden, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3659,6 +3708,10 @@ type UserManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UserManagerStub)(nil)
+
+func (s *UserManagerStub) Descriptor() string {
+	return DescriptorIUserManager
+}
 
 func (s *UserManagerStub) OnTransaction(
 	ctx context.Context,
@@ -4436,22 +4489,6 @@ func (s *UserManagerStub) OnTransaction(
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanHaveRestrictedProfile(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIUserManagerCanAddPrivateProfile:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.CanAddPrivateProfile(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -5295,22 +5332,6 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
 		return _reply, nil
-	case TransactionIUserManagerGetProfileAccessibilityLabelResId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetProfileAccessibilityLabelResId(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
 	case TransactionIUserManagerIsUserUnlocked:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -5391,9 +5412,6 @@ func (s *UserManagerStub) OnTransaction(
 		return _reply, nil
 	case TransactionIUserManagerGetMainDisplayIdAssignedToUser:
 		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMainDisplayIdAssignedToUser(ctx)
@@ -5648,7 +5666,6 @@ type IUserManagerServer interface {
 	IsUserSwitcherEnabled(ctx context.Context, showEvenIfNotActionable bool, mUserId int32) (bool, error)
 	IsRestricted(ctx context.Context) (bool, error)
 	CanHaveRestrictedProfile(ctx context.Context) (bool, error)
-	CanAddPrivateProfile(ctx context.Context) (bool, error)
 	GetUserSerialNumber(ctx context.Context) (int32, error)
 	GetUserHandle(ctx context.Context, userSerialNumber int32) (int32, error)
 	GetUserRestrictionSource(ctx context.Context, restrictionKey string) (int32, error)
@@ -5692,7 +5709,6 @@ type IUserManagerServer interface {
 	GetUserStatusBarIconResId(ctx context.Context) (int32, error)
 	HasBadge(ctx context.Context) (bool, error)
 	GetProfileLabelResId(ctx context.Context) (int32, error)
-	GetProfileAccessibilityLabelResId(ctx context.Context) (int32, error)
 	IsUserUnlocked(ctx context.Context) (bool, error)
 	IsUserRunning(ctx context.Context) (bool, error)
 	IsUserForeground(ctx context.Context) (bool, error)
@@ -6003,12 +6019,6 @@ func (w *userManagerStubWrapper) CanHaveRestrictedProfile(
 	return w.impl.CanHaveRestrictedProfile(ctx)
 }
 
-func (w *userManagerStubWrapper) CanAddPrivateProfile(
-	ctx context.Context,
-) (bool, error) {
-	return w.impl.CanAddPrivateProfile(ctx)
-}
-
 func (w *userManagerStubWrapper) GetUserSerialNumber(
 	ctx context.Context,
 ) (int32, error) {
@@ -6301,12 +6311,6 @@ func (w *userManagerStubWrapper) GetProfileLabelResId(
 	ctx context.Context,
 ) (int32, error) {
 	return w.impl.GetProfileLabelResId(ctx)
-}
-
-func (w *userManagerStubWrapper) GetProfileAccessibilityLabelResId(
-	ctx context.Context,
-) (int32, error) {
-	return w.impl.GetProfileAccessibilityLabelResId(ctx)
 }
 
 func (w *userManagerStubWrapper) IsUserUnlocked(

@@ -39,7 +39,5 @@ const (
 	CameraMetadataSectionStartAndroidAutomotiveLensStart       CameraMetadataSectionStart = (CameraMetadataSectionStart(CameraMetadataSectionAndroidAutomotiveLens) << 16)
 	CameraMetadataSectionStartAndroidExtensionStart            CameraMetadataSectionStart = (CameraMetadataSectionStart(CameraMetadataSectionAndroidExtension) << 16)
 	CameraMetadataSectionStartAndroidJpegrStart                CameraMetadataSectionStart = (CameraMetadataSectionStart(CameraMetadataSectionAndroidJpegr) << 16)
-	CameraMetadataSectionStartAndroidSharedSessionStart        CameraMetadataSectionStart = (CameraMetadataSectionStart(CameraMetadataSectionAndroidSharedSession) << 16)
-	CameraMetadataSectionStartAndroidDesktopEffectsStart       CameraMetadataSectionStart = (CameraMetadataSectionStart(CameraMetadataSectionAndroidDesktopEffects) << 16)
 	CameraMetadataSectionStartVendorSectionStart               CameraMetadataSectionStart = -2147483648
 )

@@ -16,6 +16,11 @@ const (
 	TransactionIAGnssRilCallbackRequestRefLocCb = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAGnssRilCallbackRequestSetIdCb  = "requestSetIdCb"
+	MethodIAGnssRilCallbackRequestRefLocCb = "requestRefLocCb"
+)
+
 type IAGnssRilCallback interface {
 	AsBinder() binder.IBinder
 	RequestSetIdCb(ctx context.Context, setIdflag int32) error
@@ -23,17 +28,17 @@ type IAGnssRilCallback interface {
 }
 
 type AGnssRilCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAGnssRilCallbackProxy(
 	remote binder.IBinder,
 ) *AGnssRilCallbackProxy {
-	return &AGnssRilCallbackProxy{remote: remote}
+	return &AGnssRilCallbackProxy{Remote: remote}
 }
 
 func (p *AGnssRilCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAGnssRilCallback = (*AGnssRilCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *AGnssRilCallbackProxy) RequestSetIdCb(
 	_data.WriteInterfaceToken(DescriptorIAGnssRilCallback)
 	_data.WriteInt32(setIdflag)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRilCallback, "requestSetIdCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRilCallback, MethodIAGnssRilCallbackRequestSetIdCb)
 	if _err != nil {
-		_code = TransactionIAGnssRilCallbackRequestSetIdCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRilCallback, MethodIAGnssRilCallbackRequestSetIdCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *AGnssRilCallbackProxy) RequestRefLocCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnssRilCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRilCallback, "requestRefLocCb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAGnssRilCallback, MethodIAGnssRilCallbackRequestRefLocCb)
 	if _err != nil {
-		_code = TransactionIAGnssRilCallbackRequestRefLocCb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAGnssRilCallback, MethodIAGnssRilCallbackRequestRefLocCb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +100,10 @@ type AGnssRilCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AGnssRilCallbackStub)(nil)
+
+func (s *AGnssRilCallbackStub) Descriptor() string {
+	return DescriptorIAGnssRilCallback
+}
 
 func (s *AGnssRilCallbackStub) OnTransaction(
 	ctx context.Context,

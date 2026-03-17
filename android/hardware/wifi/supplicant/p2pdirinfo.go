@@ -21,30 +21,9 @@ func (s *P2pDirInfo) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.CipherVersion))
-	if s.DeviceInterfaceMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DeviceInterfaceMacAddress)))
-		for _, _item := range s.DeviceInterfaceMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Nonce == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Nonce)))
-		for _, _item := range s.Nonce {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.DirTag == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DirTag)))
-		for _, _item := range s.DirTag {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.DeviceInterfaceMacAddress, 6)
+	p.WriteByteArray(s.Nonce)
+	p.WriteByteArray(s.DirTag)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -64,49 +43,19 @@ func (s *P2pDirInfo) UnmarshalParcel(
 	}
 	s.CipherVersion = supplicantP2pDirInfo.CipherVersion(_cipherVersionRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.DeviceInterfaceMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.DeviceInterfaceMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.DeviceInterfaceMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Nonce, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Nonce = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Nonce[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.DirTag, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.DirTag = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.DirTag[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

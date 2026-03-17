@@ -20,6 +20,12 @@ const (
 	TransactionIBackAnimationCustomizeStatusBarAppearance = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBackAnimationSetBackToLauncherCallback    = "setBackToLauncherCallback"
+	MethodIBackAnimationClearBackToLauncherCallback  = "clearBackToLauncherCallback"
+	MethodIBackAnimationCustomizeStatusBarAppearance = "customizeStatusBarAppearance"
+)
+
 type IBackAnimation interface {
 	AsBinder() binder.IBinder
 	SetBackToLauncherCallback(ctx context.Context, callback window.IOnBackInvokedCallback, runner view.IRemoteAnimationRunner) error
@@ -28,17 +34,17 @@ type IBackAnimation interface {
 }
 
 type BackAnimationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackAnimationProxy(
 	remote binder.IBinder,
 ) *BackAnimationProxy {
-	return &BackAnimationProxy{remote: remote}
+	return &BackAnimationProxy{Remote: remote}
 }
 
 func (p *BackAnimationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackAnimation = (*BackAnimationProxy)(nil)
@@ -50,15 +56,15 @@ func (p *BackAnimationProxy) SetBackToLauncherCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, runner.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, runner.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimation, "setBackToLauncherCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimation, MethodIBackAnimationSetBackToLauncherCallback)
 	if _err != nil {
-		_code = TransactionIBackAnimationSetBackToLauncherCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimation, MethodIBackAnimationSetBackToLauncherCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +83,12 @@ func (p *BackAnimationProxy) ClearBackToLauncherCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimation, "clearBackToLauncherCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimation, MethodIBackAnimationClearBackToLauncherCallback)
 	if _err != nil {
-		_code = TransactionIBackAnimationClearBackToLauncherCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimation, MethodIBackAnimationClearBackToLauncherCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +112,12 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimation, "customizeStatusBarAppearance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackAnimation, MethodIBackAnimationCustomizeStatusBarAppearance)
 	if _err != nil {
-		_code = TransactionIBackAnimationCustomizeStatusBarAppearance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackAnimation, MethodIBackAnimationCustomizeStatusBarAppearance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,6 +137,10 @@ type BackAnimationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackAnimationStub)(nil)
+
+func (s *BackAnimationStub) Descriptor() string {
+	return DescriptorIBackAnimation
+}
 
 func (s *BackAnimationStub) OnTransaction(
 	ctx context.Context,

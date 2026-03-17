@@ -16,6 +16,11 @@ const (
 	TransactionIUwbGetChip  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIUwbGetChips = "getChips"
+	MethodIUwbGetChip  = "getChip"
+)
+
 type IUwb interface {
 	AsBinder() binder.IBinder
 	GetChips(ctx context.Context) ([]string, error)
@@ -23,17 +28,17 @@ type IUwb interface {
 }
 
 type UwbProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUwbProxy(
 	remote binder.IBinder,
 ) *UwbProxy {
-	return &UwbProxy{remote: remote}
+	return &UwbProxy{Remote: remote}
 }
 
 func (p *UwbProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUwb = (*UwbProxy)(nil)
@@ -45,12 +50,12 @@ func (p *UwbProxy) GetChips(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUwb)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwb, "getChips")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwb, MethodIUwbGetChips)
 	if _err != nil {
-		_code = TransactionIUwbGetChips
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUwb, MethodIUwbGetChips, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +91,12 @@ func (p *UwbProxy) GetChip(
 	_data.WriteInterfaceToken(DescriptorIUwb)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUwb, "getChip")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUwb, MethodIUwbGetChip)
 	if _err != nil {
-		_code = TransactionIUwbGetChip
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUwb, MethodIUwbGetChip, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,7 +110,7 @@ func (p *UwbProxy) GetChip(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewUwbChipProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewUwbChipProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -116,6 +121,10 @@ type UwbStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UwbStub)(nil)
+
+func (s *UwbStub) Descriptor() string {
+	return DescriptorIUwb
+}
 
 func (s *UwbStub) OnTransaction(
 	ctx context.Context,

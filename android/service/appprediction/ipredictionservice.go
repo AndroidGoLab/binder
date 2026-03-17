@@ -3,9 +3,9 @@ package appprediction
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	prediction "github.com/xaionaro-go/binder/android/app/prediction"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,6 +26,18 @@ const (
 	TransactionIPredictionServiceRequestServiceFeatures      = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIPredictionServiceOnCreatePredictionSession   = "onCreatePredictionSession"
+	MethodIPredictionServiceNotifyAppTargetEvent        = "notifyAppTargetEvent"
+	MethodIPredictionServiceNotifyLaunchLocationShown   = "notifyLaunchLocationShown"
+	MethodIPredictionServiceSortAppTargets              = "sortAppTargets"
+	MethodIPredictionServiceRegisterPredictionUpdates   = "registerPredictionUpdates"
+	MethodIPredictionServiceUnregisterPredictionUpdates = "unregisterPredictionUpdates"
+	MethodIPredictionServiceRequestPredictionUpdate     = "requestPredictionUpdate"
+	MethodIPredictionServiceOnDestroyPredictionSession  = "onDestroyPredictionSession"
+	MethodIPredictionServiceRequestServiceFeatures      = "requestServiceFeatures"
+)
+
 type IPredictionService interface {
 	AsBinder() binder.IBinder
 	OnCreatePredictionSession(ctx context.Context, context_ prediction.AppPredictionContext, sessionId prediction.AppPredictionSessionId) error
@@ -36,21 +48,21 @@ type IPredictionService interface {
 	UnregisterPredictionUpdates(ctx context.Context, sessionId prediction.AppPredictionSessionId, callback prediction.IPredictionCallback) error
 	RequestPredictionUpdate(ctx context.Context, sessionId prediction.AppPredictionSessionId) error
 	OnDestroyPredictionSession(ctx context.Context, sessionId prediction.AppPredictionSessionId) error
-	RequestServiceFeatures(ctx context.Context, sessionId prediction.AppPredictionSessionId, callback ondeviceintelligence.IRemoteCallback) error
+	RequestServiceFeatures(ctx context.Context, sessionId prediction.AppPredictionSessionId, callback os.IRemoteCallback) error
 }
 
 type PredictionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPredictionServiceProxy(
 	remote binder.IBinder,
 ) *PredictionServiceProxy {
-	return &PredictionServiceProxy{remote: remote}
+	return &PredictionServiceProxy{Remote: remote}
 }
 
 func (p *PredictionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPredictionService = (*PredictionServiceProxy)(nil)
@@ -71,12 +83,12 @@ func (p *PredictionServiceProxy) OnCreatePredictionSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "onCreatePredictionSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceOnCreatePredictionSession)
 	if _err != nil {
-		_code = TransactionIPredictionServiceOnCreatePredictionSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceOnCreatePredictionSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +108,12 @@ func (p *PredictionServiceProxy) NotifyAppTargetEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "notifyAppTargetEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceNotifyAppTargetEvent)
 	if _err != nil {
-		_code = TransactionIPredictionServiceNotifyAppTargetEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceNotifyAppTargetEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,12 +135,12 @@ func (p *PredictionServiceProxy) NotifyLaunchLocationShown(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "notifyLaunchLocationShown")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceNotifyLaunchLocationShown)
 	if _err != nil {
-		_code = TransactionIPredictionServiceNotifyLaunchLocationShown
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceNotifyLaunchLocationShown, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,14 +160,14 @@ func (p *PredictionServiceProxy) SortAppTargets(
 	if _err := targets.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "sortAppTargets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceSortAppTargets)
 	if _err != nil {
-		_code = TransactionIPredictionServiceSortAppTargets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceSortAppTargets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,14 +182,14 @@ func (p *PredictionServiceProxy) RegisterPredictionUpdates(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "registerPredictionUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceRegisterPredictionUpdates)
 	if _err != nil {
-		_code = TransactionIPredictionServiceRegisterPredictionUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceRegisterPredictionUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -192,14 +204,14 @@ func (p *PredictionServiceProxy) UnregisterPredictionUpdates(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "unregisterPredictionUpdates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceUnregisterPredictionUpdates)
 	if _err != nil {
-		_code = TransactionIPredictionServiceUnregisterPredictionUpdates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceUnregisterPredictionUpdates, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -214,12 +226,12 @@ func (p *PredictionServiceProxy) RequestPredictionUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "requestPredictionUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceRequestPredictionUpdate)
 	if _err != nil {
-		_code = TransactionIPredictionServiceRequestPredictionUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceRequestPredictionUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -234,19 +246,19 @@ func (p *PredictionServiceProxy) OnDestroyPredictionSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "onDestroyPredictionSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceOnDestroyPredictionSession)
 	if _err != nil {
-		_code = TransactionIPredictionServiceOnDestroyPredictionSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceOnDestroyPredictionSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *PredictionServiceProxy) RequestServiceFeatures(
 	ctx context.Context,
 	sessionId prediction.AppPredictionSessionId,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
@@ -254,14 +266,14 @@ func (p *PredictionServiceProxy) RequestServiceFeatures(
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPredictionService, "requestServiceFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPredictionService, MethodIPredictionServiceRequestServiceFeatures)
 	if _err != nil {
-		_code = TransactionIPredictionServiceRequestServiceFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPredictionService, MethodIPredictionServiceRequestServiceFeatures, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -272,6 +284,10 @@ type PredictionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PredictionServiceStub)(nil)
+
+func (s *PredictionServiceStub) Descriptor() string {
+	return DescriptorIPredictionService
+}
 
 func (s *PredictionServiceStub) OnTransaction(
 	ctx context.Context,
@@ -509,7 +525,7 @@ func (s *PredictionServiceStub) OnTransaction(
 			}
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
+		var _arg_callback os.IRemoteCallback
 		_ = _arg_callback
 		_err := s.Impl.RequestServiceFeatures(ctx, _arg_sessionId, _arg_callback)
 		_ = _err
@@ -531,7 +547,7 @@ type IPredictionServiceServer interface {
 	UnregisterPredictionUpdates(ctx context.Context, sessionId prediction.AppPredictionSessionId, callback prediction.IPredictionCallback) error
 	RequestPredictionUpdate(ctx context.Context, sessionId prediction.AppPredictionSessionId) error
 	OnDestroyPredictionSession(ctx context.Context, sessionId prediction.AppPredictionSessionId) error
-	RequestServiceFeatures(ctx context.Context, sessionId prediction.AppPredictionSessionId, callback ondeviceintelligence.IRemoteCallback) error
+	RequestServiceFeatures(ctx context.Context, sessionId prediction.AppPredictionSessionId, callback os.IRemoteCallback) error
 }
 
 type predictionServiceStubWrapper struct {
@@ -610,7 +626,7 @@ func (w *predictionServiceStubWrapper) OnDestroyPredictionSession(
 func (w *predictionServiceStubWrapper) RequestServiceFeatures(
 	ctx context.Context,
 	sessionId prediction.AppPredictionSessionId,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.RequestServiceFeatures(ctx, sessionId, callback)
 }

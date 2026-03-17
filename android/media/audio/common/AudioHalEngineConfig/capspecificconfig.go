@@ -9,8 +9,6 @@ import (
 type CapSpecificConfig struct {
 	Criteria       []interface{}
 	CriterionTypes []interface{}
-	CriteriaV2     []interface{}
-	Domains        []interface{}
 }
 
 var _ parcel.Parcelable = (*CapSpecificConfig)(nil)
@@ -28,16 +26,6 @@ func (s *CapSpecificConfig) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.CriterionTypes)))
-	}
-	if s.CriteriaV2 == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.CriteriaV2)))
-	}
-	if s.Domains == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Domains)))
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -71,28 +59,6 @@ func (s *CapSpecificConfig) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.CriterionTypes = make([]interface{}, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
-		}
-	}
-
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count2 >= 0 {
-		s.CriteriaV2 = make([]interface{}, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-		}
-	}
-
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count3 >= 0 {
-		s.Domains = make([]interface{}, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
 		}
 	}
 

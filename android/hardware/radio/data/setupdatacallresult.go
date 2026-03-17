@@ -54,6 +54,7 @@ func (s *SetupDataCallResult) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Addresses)))
 		for _, _item := range s.Addresses {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -93,6 +94,7 @@ func (s *SetupDataCallResult) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.QosSessions)))
 		for _, _item := range s.QosSessions {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -108,6 +110,7 @@ func (s *SetupDataCallResult) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.TrafficDescriptors)))
 		for _, _item := range s.TrafficDescriptors {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -166,6 +169,9 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Addresses = make([]LinkAddress, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Addresses[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -239,6 +245,9 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 	if _count4 >= 0 {
 		s.QosSessions = make([]QosSession, _count4)
 		for _i := int32(0); _i < _count4; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.QosSessions[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -267,6 +276,9 @@ func (s *SetupDataCallResult) UnmarshalParcel(
 	if _count5 >= 0 {
 		s.TrafficDescriptors = make([]TrafficDescriptor, _count5)
 		for _i := int32(0); _i < _count5; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.TrafficDescriptors[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

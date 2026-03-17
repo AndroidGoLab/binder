@@ -18,6 +18,13 @@ const (
 	TransactionIBiometricSensorReceiverOnAcquired                = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBiometricSensorReceiverOnAuthenticationSucceeded = "onAuthenticationSucceeded"
+	MethodIBiometricSensorReceiverOnAuthenticationFailed    = "onAuthenticationFailed"
+	MethodIBiometricSensorReceiverOnError                   = "onError"
+	MethodIBiometricSensorReceiverOnAcquired                = "onAcquired"
+)
+
 type IBiometricSensorReceiver interface {
 	AsBinder() binder.IBinder
 	OnAuthenticationSucceeded(ctx context.Context, sensorId int32, token []byte) error
@@ -27,17 +34,17 @@ type IBiometricSensorReceiver interface {
 }
 
 type BiometricSensorReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricSensorReceiverProxy(
 	remote binder.IBinder,
 ) *BiometricSensorReceiverProxy {
-	return &BiometricSensorReceiverProxy{remote: remote}
+	return &BiometricSensorReceiverProxy{Remote: remote}
 }
 
 func (p *BiometricSensorReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricSensorReceiver = (*BiometricSensorReceiverProxy)(nil)
@@ -59,12 +66,12 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationSucceeded(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onAuthenticationSucceeded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationSucceeded)
 	if _err != nil {
-		_code = TransactionIBiometricSensorReceiverOnAuthenticationSucceeded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationSucceeded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +83,12 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationFailed(
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
 	_data.WriteInt32(sensorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onAuthenticationFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationFailed)
 	if _err != nil {
-		_code = TransactionIBiometricSensorReceiverOnAuthenticationFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAuthenticationFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,12 +106,12 @@ func (p *BiometricSensorReceiverProxy) OnError(
 	_data.WriteInt32(error_)
 	_data.WriteInt32(vendorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnError)
 	if _err != nil {
-		_code = TransactionIBiometricSensorReceiverOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,12 +127,12 @@ func (p *BiometricSensorReceiverProxy) OnAcquired(
 	_data.WriteInt32(acquiredInfo)
 	_data.WriteInt32(vendorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onAcquired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAcquired)
 	if _err != nil {
-		_code = TransactionIBiometricSensorReceiverOnAcquired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricSensorReceiver, MethodIBiometricSensorReceiverOnAcquired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,6 +143,10 @@ type BiometricSensorReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricSensorReceiverStub)(nil)
+
+func (s *BiometricSensorReceiverStub) Descriptor() string {
+	return DescriptorIBiometricSensorReceiver
+}
 
 func (s *BiometricSensorReceiverStub) OnTransaction(
 	ctx context.Context,

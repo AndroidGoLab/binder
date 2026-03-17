@@ -15,23 +15,27 @@ const (
 	TransactionIRecommendationServiceCallbacksOnRecommendationsUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRecommendationServiceCallbacksOnRecommendationsUpdated = "onRecommendationsUpdated"
+)
+
 type IRecommendationServiceCallbacks interface {
 	AsBinder() binder.IBinder
 	OnRecommendationsUpdated(ctx context.Context, recommendations []RecommendationInfo) error
 }
 
 type RecommendationServiceCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecommendationServiceCallbacksProxy(
 	remote binder.IBinder,
 ) *RecommendationServiceCallbacksProxy {
-	return &RecommendationServiceCallbacksProxy{remote: remote}
+	return &RecommendationServiceCallbacksProxy{Remote: remote}
 }
 
 func (p *RecommendationServiceCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecommendationServiceCallbacks = (*RecommendationServiceCallbacksProxy)(nil)
@@ -47,18 +51,19 @@ func (p *RecommendationServiceCallbacksProxy) OnRecommendationsUpdated(
 	} else {
 		_data.WriteInt32(int32(len(recommendations)))
 		for _, _item := range recommendations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecommendationServiceCallbacks, "onRecommendationsUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecommendationServiceCallbacks, MethodIRecommendationServiceCallbacksOnRecommendationsUpdated)
 	if _err != nil {
-		_code = TransactionIRecommendationServiceCallbacksOnRecommendationsUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecommendationServiceCallbacks, MethodIRecommendationServiceCallbacksOnRecommendationsUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type RecommendationServiceCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecommendationServiceCallbacksStub)(nil)
+
+func (s *RecommendationServiceCallbacksStub) Descriptor() string {
+	return DescriptorIRecommendationServiceCallbacks
+}
 
 func (s *RecommendationServiceCallbacksStub) OnTransaction(
 	ctx context.Context,

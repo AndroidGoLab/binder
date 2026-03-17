@@ -32,24 +32,19 @@ func (s *LeAudioAseConfiguration) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.CodecConfiguration)))
 		for _, _item := range s.CodecConfiguration {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.VendorCodecConfiguration == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.VendorCodecConfiguration)))
-		for _, _item := range s.VendorCodecConfiguration {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.VendorCodecConfiguration)
 	if s.Metadata == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Metadata)))
 		for _, _item := range s.Metadata {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -92,25 +87,18 @@ func (s *LeAudioAseConfiguration) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.CodecConfiguration = make([]CodecSpecificConfigurationLtv, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.CodecConfiguration[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.VendorCodecConfiguration, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.VendorCodecConfiguration = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.VendorCodecConfiguration[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count2 int32
@@ -121,6 +109,9 @@ func (s *LeAudioAseConfiguration) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Metadata = make([]MetadataLtv, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Metadata[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

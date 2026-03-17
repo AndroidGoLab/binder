@@ -32,6 +32,25 @@ const (
 	TransactionISoundTriggerSessionQueryParameter             = binder.FirstCallTransaction + 15
 )
 
+const (
+	MethodISoundTriggerSessionGetSoundModel              = "getSoundModel"
+	MethodISoundTriggerSessionUpdateSoundModel           = "updateSoundModel"
+	MethodISoundTriggerSessionDeleteSoundModel           = "deleteSoundModel"
+	MethodISoundTriggerSessionStartRecognition           = "startRecognition"
+	MethodISoundTriggerSessionStopRecognition            = "stopRecognition"
+	MethodISoundTriggerSessionLoadGenericSoundModel      = "loadGenericSoundModel"
+	MethodISoundTriggerSessionLoadKeyphraseSoundModel    = "loadKeyphraseSoundModel"
+	MethodISoundTriggerSessionStartRecognitionForService = "startRecognitionForService"
+	MethodISoundTriggerSessionStopRecognitionForService  = "stopRecognitionForService"
+	MethodISoundTriggerSessionUnloadSoundModel           = "unloadSoundModel"
+	MethodISoundTriggerSessionIsRecognitionActive        = "isRecognitionActive"
+	MethodISoundTriggerSessionGetModelState              = "getModelState"
+	MethodISoundTriggerSessionGetModuleProperties        = "getModuleProperties"
+	MethodISoundTriggerSessionSetParameter               = "setParameter"
+	MethodISoundTriggerSessionGetParameter               = "getParameter"
+	MethodISoundTriggerSessionQueryParameter             = "queryParameter"
+)
+
 type ISoundTriggerSession interface {
 	AsBinder() binder.IBinder
 	GetSoundModel(ctx context.Context, soundModelId interface{}) (soundtrigger.SoundTriggerGenericSoundModel, error)
@@ -53,17 +72,17 @@ type ISoundTriggerSession interface {
 }
 
 type SoundTriggerSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundTriggerSessionProxy(
 	remote binder.IBinder,
 ) *SoundTriggerSessionProxy {
-	return &SoundTriggerSessionProxy{remote: remote}
+	return &SoundTriggerSessionProxy{Remote: remote}
 }
 
 func (p *SoundTriggerSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundTriggerSession = (*SoundTriggerSessionProxy)(nil)
@@ -76,12 +95,12 @@ func (p *SoundTriggerSessionProxy) GetSoundModel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "getSoundModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetSoundModel)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionGetSoundModel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetSoundModel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,12 +133,12 @@ func (p *SoundTriggerSessionProxy) UpdateSoundModel(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "updateSoundModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionUpdateSoundModel)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionUpdateSoundModel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionUpdateSoundModel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,12 +158,12 @@ func (p *SoundTriggerSessionProxy) DeleteSoundModel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "deleteSoundModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionDeleteSoundModel)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionDeleteSoundModel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionDeleteSoundModel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,19 +190,19 @@ func (p *SoundTriggerSessionProxy) StartRecognition(
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteBool(runInBatterySaver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "startRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionStartRecognition)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionStartRecognition
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionStartRecognition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,14 +227,14 @@ func (p *SoundTriggerSessionProxy) StopRecognition(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "stopRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionStopRecognition)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionStopRecognition
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionStopRecognition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -244,12 +263,12 @@ func (p *SoundTriggerSessionProxy) LoadGenericSoundModel(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "loadGenericSoundModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionLoadGenericSoundModel)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionLoadGenericSoundModel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionLoadGenericSoundModel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -278,12 +297,12 @@ func (p *SoundTriggerSessionProxy) LoadKeyphraseSoundModel(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "loadKeyphraseSoundModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionLoadKeyphraseSoundModel)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionLoadKeyphraseSoundModel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionLoadKeyphraseSoundModel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -319,12 +338,12 @@ func (p *SoundTriggerSessionProxy) StartRecognitionForService(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "startRecognitionForService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionStartRecognitionForService)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionStartRecognitionForService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionStartRecognitionForService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -349,12 +368,12 @@ func (p *SoundTriggerSessionProxy) StopRecognitionForService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "stopRecognitionForService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionStopRecognitionForService)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionStopRecognitionForService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionStopRecognitionForService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -379,12 +398,12 @@ func (p *SoundTriggerSessionProxy) UnloadSoundModel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "unloadSoundModel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionUnloadSoundModel)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionUnloadSoundModel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionUnloadSoundModel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -409,12 +428,12 @@ func (p *SoundTriggerSessionProxy) IsRecognitionActive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "isRecognitionActive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionIsRecognitionActive)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionIsRecognitionActive
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionIsRecognitionActive, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -439,12 +458,12 @@ func (p *SoundTriggerSessionProxy) GetModelState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "getModelState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetModelState)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionGetModelState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetModelState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -468,12 +487,12 @@ func (p *SoundTriggerSessionProxy) GetModuleProperties(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "getModuleProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetModuleProperties)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionGetModuleProperties
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetModuleProperties, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -507,12 +526,12 @@ func (p *SoundTriggerSessionProxy) SetParameter(
 	_data.WriteInt32(int32(modelParam))
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "setParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionSetParameter)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionSetParameter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionSetParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -539,12 +558,12 @@ func (p *SoundTriggerSessionProxy) GetParameter(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 	_data.WriteInt32(int32(modelParam))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "getParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetParameter)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionGetParameter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionGetParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -571,12 +590,12 @@ func (p *SoundTriggerSessionProxy) QueryParameter(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
 	_data.WriteInt32(int32(modelParam))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerSession, "queryParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerSession, MethodISoundTriggerSessionQueryParameter)
 	if _err != nil {
-		_code = TransactionISoundTriggerSessionQueryParameter
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerSession, MethodISoundTriggerSessionQueryParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -605,6 +624,10 @@ type SoundTriggerSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerSessionStub)(nil)
+
+func (s *SoundTriggerSessionStub) Descriptor() string {
+	return DescriptorISoundTriggerSession
+}
 
 func (s *SoundTriggerSessionStub) OnTransaction(
 	ctx context.Context,

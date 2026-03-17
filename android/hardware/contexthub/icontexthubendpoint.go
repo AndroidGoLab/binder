@@ -21,6 +21,16 @@ const (
 	TransactionIContextHubEndpointSendMessageDeliveryStatus  = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIContextHubEndpointGetAssignedHubEndpointInfo = "getAssignedHubEndpointInfo"
+	MethodIContextHubEndpointOpenSession                = "openSession"
+	MethodIContextHubEndpointCloseSession               = "closeSession"
+	MethodIContextHubEndpointOpenSessionRequestComplete = "openSessionRequestComplete"
+	MethodIContextHubEndpointUnregister                 = "unregister"
+	MethodIContextHubEndpointSendMessage                = "sendMessage"
+	MethodIContextHubEndpointSendMessageDeliveryStatus  = "sendMessageDeliveryStatus"
+)
+
 type IContextHubEndpoint interface {
 	AsBinder() binder.IBinder
 	GetAssignedHubEndpointInfo(ctx context.Context) (HubEndpointInfo, error)
@@ -33,17 +43,17 @@ type IContextHubEndpoint interface {
 }
 
 type ContextHubEndpointProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubEndpointProxy(
 	remote binder.IBinder,
 ) *ContextHubEndpointProxy {
-	return &ContextHubEndpointProxy{remote: remote}
+	return &ContextHubEndpointProxy{Remote: remote}
 }
 
 func (p *ContextHubEndpointProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubEndpoint = (*ContextHubEndpointProxy)(nil)
@@ -55,12 +65,12 @@ func (p *ContextHubEndpointProxy) GetAssignedHubEndpointInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpoint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "getAssignedHubEndpointInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointGetAssignedHubEndpointInfo)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointGetAssignedHubEndpointInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointGetAssignedHubEndpointInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -96,12 +106,12 @@ func (p *ContextHubEndpointProxy) OpenSession(
 	}
 	_data.WriteString16(serviceDescriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "openSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointOpenSession)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointOpenSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointOpenSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -128,12 +138,12 @@ func (p *ContextHubEndpointProxy) CloseSession(
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "closeSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointCloseSession)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointCloseSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointCloseSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,12 +164,12 @@ func (p *ContextHubEndpointProxy) OpenSessionRequestComplete(
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpoint)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "openSessionRequestComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointOpenSessionRequestComplete)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointOpenSessionRequestComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointOpenSessionRequestComplete, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,12 +188,12 @@ func (p *ContextHubEndpointProxy) Unregister(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpoint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "unregister")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointUnregister)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointUnregister
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointUnregister, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -210,12 +220,12 @@ func (p *ContextHubEndpointProxy) SendMessage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "sendMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointSendMessage)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointSendMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointSendMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -240,12 +250,12 @@ func (p *ContextHubEndpointProxy) SendMessageDeliveryStatus(
 	_data.WriteInt32(messageSeqNumber)
 	_data.WritePaddedByte(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "sendMessageDeliveryStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpoint, MethodIContextHubEndpointSendMessageDeliveryStatus)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointSendMessageDeliveryStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpoint, MethodIContextHubEndpointSendMessageDeliveryStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -265,6 +275,10 @@ type ContextHubEndpointStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubEndpointStub)(nil)
+
+func (s *ContextHubEndpointStub) Descriptor() string {
+	return DescriptorIContextHubEndpoint
+}
 
 func (s *ContextHubEndpointStub) OnTransaction(
 	ctx context.Context,

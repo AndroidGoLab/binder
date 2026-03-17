@@ -16,6 +16,11 @@ const (
 	TransactionIDataVerifyResetData  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDataVerifyVerifyData = "verifyData"
+	MethodIDataVerifyResetData  = "resetData"
+)
+
 type IDataVerify interface {
 	AsBinder() binder.IBinder
 	VerifyData(ctx context.Context, pdu []byte) (bool, error)
@@ -23,17 +28,17 @@ type IDataVerify interface {
 }
 
 type DataVerifyProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDataVerifyProxy(
 	remote binder.IBinder,
 ) *DataVerifyProxy {
-	return &DataVerifyProxy{remote: remote}
+	return &DataVerifyProxy{Remote: remote}
 }
 
 func (p *DataVerifyProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDataVerify = (*DataVerifyProxy)(nil)
@@ -54,12 +59,12 @@ func (p *DataVerifyProxy) VerifyData(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataVerify, "verifyData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataVerify, MethodIDataVerifyVerifyData)
 	if _err != nil {
-		_code = TransactionIDataVerifyVerifyData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDataVerify, MethodIDataVerifyVerifyData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +87,12 @@ func (p *DataVerifyProxy) ResetData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataVerify)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDataVerify, "resetData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDataVerify, MethodIDataVerifyResetData)
 	if _err != nil {
-		_code = TransactionIDataVerifyResetData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDataVerify, MethodIDataVerifyResetData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,6 +112,10 @@ type DataVerifyStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DataVerifyStub)(nil)
+
+func (s *DataVerifyStub) Descriptor() string {
+	return DescriptorIDataVerify
+}
 
 func (s *DataVerifyStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionICountryListenerOnCountryDetected = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICountryListenerOnCountryDetected = "onCountryDetected"
+)
+
 type ICountryListener interface {
 	AsBinder() binder.IBinder
 	OnCountryDetected(ctx context.Context, country Country) error
 }
 
 type CountryListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCountryListenerProxy(
 	remote binder.IBinder,
 ) *CountryListenerProxy {
-	return &CountryListenerProxy{remote: remote}
+	return &CountryListenerProxy{Remote: remote}
 }
 
 func (p *CountryListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICountryListener = (*CountryListenerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *CountryListenerProxy) OnCountryDetected(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICountryListener, "onCountryDetected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICountryListener, MethodICountryListenerOnCountryDetected)
 	if _err != nil {
-		_code = TransactionICountryListenerOnCountryDetected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICountryListener, MethodICountryListenerOnCountryDetected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type CountryListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CountryListenerStub)(nil)
+
+func (s *CountryListenerStub) Descriptor() string {
+	return DescriptorICountryListener
+}
 
 func (s *CountryListenerStub) OnTransaction(
 	ctx context.Context,

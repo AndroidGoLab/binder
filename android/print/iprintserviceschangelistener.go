@@ -15,23 +15,27 @@ const (
 	TransactionIPrintServicesChangeListenerOnPrintServicesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPrintServicesChangeListenerOnPrintServicesChanged = "onPrintServicesChanged"
+)
+
 type IPrintServicesChangeListener interface {
 	AsBinder() binder.IBinder
 	OnPrintServicesChanged(ctx context.Context) error
 }
 
 type PrintServicesChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrintServicesChangeListenerProxy(
 	remote binder.IBinder,
 ) *PrintServicesChangeListenerProxy {
-	return &PrintServicesChangeListenerProxy{remote: remote}
+	return &PrintServicesChangeListenerProxy{Remote: remote}
 }
 
 func (p *PrintServicesChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrintServicesChangeListener = (*PrintServicesChangeListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *PrintServicesChangeListenerProxy) OnPrintServicesChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServicesChangeListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintServicesChangeListener, "onPrintServicesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintServicesChangeListener, MethodIPrintServicesChangeListenerOnPrintServicesChanged)
 	if _err != nil {
-		_code = TransactionIPrintServicesChangeListenerOnPrintServicesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintServicesChangeListener, MethodIPrintServicesChangeListenerOnPrintServicesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type PrintServicesChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrintServicesChangeListenerStub)(nil)
+
+func (s *PrintServicesChangeListenerStub) Descriptor() string {
+	return DescriptorIPrintServicesChangeListener
+}
 
 func (s *PrintServicesChangeListenerStub) OnTransaction(
 	ctx context.Context,

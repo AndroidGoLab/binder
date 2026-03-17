@@ -3,7 +3,6 @@ package media
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,29 +21,39 @@ const (
 	TransactionIAudioPolicyServiceClientOnVolumeRangeInitRequest       = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIAudioPolicyServiceClientOnAudioVolumeGroupChanged      = "onAudioVolumeGroupChanged"
+	MethodIAudioPolicyServiceClientOnAudioPortListUpdate          = "onAudioPortListUpdate"
+	MethodIAudioPolicyServiceClientOnAudioPatchListUpdate         = "onAudioPatchListUpdate"
+	MethodIAudioPolicyServiceClientOnDynamicPolicyMixStateUpdate  = "onDynamicPolicyMixStateUpdate"
+	MethodIAudioPolicyServiceClientOnRecordingConfigurationUpdate = "onRecordingConfigurationUpdate"
+	MethodIAudioPolicyServiceClientOnRoutingUpdated               = "onRoutingUpdated"
+	MethodIAudioPolicyServiceClientOnVolumeRangeInitRequest       = "onVolumeRangeInitRequest"
+)
+
 type IAudioPolicyServiceClient interface {
 	AsBinder() binder.IBinder
 	OnAudioVolumeGroupChanged(ctx context.Context, group int32, flags int32) error
 	OnAudioPortListUpdate(ctx context.Context) error
 	OnAudioPatchListUpdate(ctx context.Context) error
 	OnDynamicPolicyMixStateUpdate(ctx context.Context, regId string, state int32) error
-	OnRecordingConfigurationUpdate(ctx context.Context, event int32, clientInfo RecordClientInfo, clientConfig common.AudioConfigBase, clientEffects []EffectDescriptor, deviceConfig common.AudioConfigBase, effects []EffectDescriptor, patchHandle int32, source common.AudioSource) error
+	OnRecordingConfigurationUpdate(ctx context.Context, event int32, clientInfo RecordClientInfo, clientConfig interface{}, clientEffects []EffectDescriptor, deviceConfig interface{}, effects []EffectDescriptor, patchHandle int32, source interface{}) error
 	OnRoutingUpdated(ctx context.Context) error
 	OnVolumeRangeInitRequest(ctx context.Context) error
 }
 
 type AudioPolicyServiceClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioPolicyServiceClientProxy(
 	remote binder.IBinder,
 ) *AudioPolicyServiceClientProxy {
-	return &AudioPolicyServiceClientProxy{remote: remote}
+	return &AudioPolicyServiceClientProxy{Remote: remote}
 }
 
 func (p *AudioPolicyServiceClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioPolicyServiceClient = (*AudioPolicyServiceClientProxy)(nil)
@@ -59,12 +68,12 @@ func (p *AudioPolicyServiceClientProxy) OnAudioVolumeGroupChanged(
 	_data.WriteInt32(group)
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onAudioVolumeGroupChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnAudioVolumeGroupChanged)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnAudioVolumeGroupChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnAudioVolumeGroupChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +83,12 @@ func (p *AudioPolicyServiceClientProxy) OnAudioPortListUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onAudioPortListUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnAudioPortListUpdate)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnAudioPortListUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnAudioPortListUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,12 +98,12 @@ func (p *AudioPolicyServiceClientProxy) OnAudioPatchListUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onAudioPatchListUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnAudioPatchListUpdate)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnAudioPatchListUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnAudioPatchListUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,12 +117,12 @@ func (p *AudioPolicyServiceClientProxy) OnDynamicPolicyMixStateUpdate(
 	_data.WriteString16(regId)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onDynamicPolicyMixStateUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnDynamicPolicyMixStateUpdate)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnDynamicPolicyMixStateUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnDynamicPolicyMixStateUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,12 +130,12 @@ func (p *AudioPolicyServiceClientProxy) OnRecordingConfigurationUpdate(
 	ctx context.Context,
 	event int32,
 	clientInfo RecordClientInfo,
-	clientConfig common.AudioConfigBase,
+	clientConfig interface{},
 	clientEffects []EffectDescriptor,
-	deviceConfig common.AudioConfigBase,
+	deviceConfig interface{},
 	effects []EffectDescriptor,
 	patchHandle int32,
-	source common.AudioSource,
+	source interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyServiceClient)
@@ -135,43 +144,36 @@ func (p *AudioPolicyServiceClientProxy) OnRecordingConfigurationUpdate(
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := clientConfig.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	if clientEffects == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(clientEffects)))
 		for _, _item := range clientEffects {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := deviceConfig.MarshalParcel(_data); _err != nil {
-		return _err
 	}
 	if effects == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(effects)))
 		for _, _item := range effects {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 	_data.WriteInt32(patchHandle)
-	_data.WriteInt32(int32(source))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onRecordingConfigurationUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnRecordingConfigurationUpdate)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnRecordingConfigurationUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnRecordingConfigurationUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -181,12 +183,12 @@ func (p *AudioPolicyServiceClientProxy) OnRoutingUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onRoutingUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnRoutingUpdated)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnRoutingUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnRoutingUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,12 +198,12 @@ func (p *AudioPolicyServiceClientProxy) OnVolumeRangeInitRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyServiceClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onVolumeRangeInitRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnVolumeRangeInitRequest)
 	if _err != nil {
-		_code = TransactionIAudioPolicyServiceClientOnVolumeRangeInitRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioPolicyServiceClient, MethodIAudioPolicyServiceClientOnVolumeRangeInitRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,6 +214,10 @@ type AudioPolicyServiceClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioPolicyServiceClientStub)(nil)
+
+func (s *AudioPolicyServiceClientStub) Descriptor() string {
+	return DescriptorIAudioPolicyServiceClient
+}
 
 func (s *AudioPolicyServiceClientStub) OnTransaction(
 	ctx context.Context,
@@ -283,33 +289,11 @@ func (s *AudioPolicyServiceClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_clientConfig common.AudioConfigBase
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_clientConfig.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_clientConfig interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_clientEffects []EffectDescriptor
 		_ = _arg_clientEffects
-		var _arg_deviceConfig common.AudioConfigBase
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_deviceConfig.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_deviceConfig interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_effects []EffectDescriptor
 		_ = _arg_effects
@@ -317,11 +301,7 @@ func (s *AudioPolicyServiceClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_source, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_source := common.AudioSource(_raw_source)
+		var _arg_source interface{}
 		_err = s.Impl.OnRecordingConfigurationUpdate(ctx, _arg_event, _arg_clientInfo, _arg_clientConfig, _arg_clientEffects, _arg_deviceConfig, _arg_effects, _arg_patchHandle, _arg_source)
 		_ = _err
 		return nil, nil
@@ -352,7 +332,7 @@ type IAudioPolicyServiceClientServer interface {
 	OnAudioPortListUpdate(ctx context.Context) error
 	OnAudioPatchListUpdate(ctx context.Context) error
 	OnDynamicPolicyMixStateUpdate(ctx context.Context, regId string, state int32) error
-	OnRecordingConfigurationUpdate(ctx context.Context, event int32, clientInfo RecordClientInfo, clientConfig common.AudioConfigBase, clientEffects []EffectDescriptor, deviceConfig common.AudioConfigBase, effects []EffectDescriptor, patchHandle int32, source common.AudioSource) error
+	OnRecordingConfigurationUpdate(ctx context.Context, event int32, clientInfo RecordClientInfo, clientConfig interface{}, clientEffects []EffectDescriptor, deviceConfig interface{}, effects []EffectDescriptor, patchHandle int32, source interface{}) error
 	OnRoutingUpdated(ctx context.Context) error
 	OnVolumeRangeInitRequest(ctx context.Context) error
 }
@@ -398,12 +378,12 @@ func (w *audioPolicyServiceClientStubWrapper) OnRecordingConfigurationUpdate(
 	ctx context.Context,
 	event int32,
 	clientInfo RecordClientInfo,
-	clientConfig common.AudioConfigBase,
+	clientConfig interface{},
 	clientEffects []EffectDescriptor,
-	deviceConfig common.AudioConfigBase,
+	deviceConfig interface{},
 	effects []EffectDescriptor,
 	patchHandle int32,
-	source common.AudioSource,
+	source interface{},
 ) error {
 	return w.impl.OnRecordingConfigurationUpdate(ctx, event, clientInfo, clientConfig, clientEffects, deviceConfig, effects, patchHandle, source)
 }

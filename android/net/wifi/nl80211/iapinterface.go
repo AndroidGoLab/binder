@@ -16,6 +16,11 @@ const (
 	TransactionIApInterfaceGetInterfaceName = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIApInterfaceRegisterCallback = "registerCallback"
+	MethodIApInterfaceGetInterfaceName = "getInterfaceName"
+)
+
 type IApInterface interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback IApInterfaceEventCallback) (bool, error)
@@ -29,17 +34,17 @@ const (
 )
 
 type ApInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewApInterfaceProxy(
 	remote binder.IBinder,
 ) *ApInterfaceProxy {
-	return &ApInterfaceProxy{remote: remote}
+	return &ApInterfaceProxy{Remote: remote}
 }
 
 func (p *ApInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IApInterface = (*ApInterfaceProxy)(nil)
@@ -51,14 +56,14 @@ func (p *ApInterfaceProxy) RegisterCallback(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApInterface, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterface, MethodIApInterfaceRegisterCallback)
 	if _err != nil {
-		_code = TransactionIApInterfaceRegisterCallback
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIApInterface, MethodIApInterfaceRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +87,12 @@ func (p *ApInterfaceProxy) GetInterfaceName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApInterface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApInterface, "getInterfaceName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApInterface, MethodIApInterfaceGetInterfaceName)
 	if _err != nil {
-		_code = TransactionIApInterfaceGetInterfaceName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIApInterface, MethodIApInterfaceGetInterfaceName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,6 +116,10 @@ type ApInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ApInterfaceStub)(nil)
+
+func (s *ApInterfaceStub) Descriptor() string {
+	return DescriptorIApInterface
+}
 
 func (s *ApInterfaceStub) OnTransaction(
 	ctx context.Context,

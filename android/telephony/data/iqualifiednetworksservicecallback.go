@@ -13,30 +13,36 @@ import (
 const DescriptorIQualifiedNetworksServiceCallback = "android.telephony.data.IQualifiedNetworksServiceCallback"
 
 const (
-	TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged  = binder.FirstCallTransaction + 0
-	TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested    = binder.FirstCallTransaction + 1
-	TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType = binder.FirstCallTransaction + 2
+	TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged = binder.FirstCallTransaction + 0
+	TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested   = binder.FirstCallTransaction + 1
+	TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged = "onQualifiedNetworkTypesChanged"
+	MethodIQualifiedNetworksServiceCallbackOnNetworkValidationRequested   = "onNetworkValidationRequested"
+	MethodIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType = "onReconnectQualifedNetworkType"
 )
 
 type IQualifiedNetworksServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnQualifiedNetworkTypesChanged(ctx context.Context, apnTypes int32, qualifiedNetworkTypes []int32) error
 	OnNetworkValidationRequested(ctx context.Context, networkCapability int32, callback telephony.IIntegerConsumer) error
-	OnReconnectQualifiedNetworkType(ctx context.Context, apnTypes int32, qualifiedNetworkType int32) error
+	OnReconnectQualifedNetworkType(ctx context.Context, apnTypes int32, qualifiedNetworkType int32) error
 }
 
 type QualifiedNetworksServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewQualifiedNetworksServiceCallbackProxy(
 	remote binder.IBinder,
 ) *QualifiedNetworksServiceCallbackProxy {
-	return &QualifiedNetworksServiceCallbackProxy{remote: remote}
+	return &QualifiedNetworksServiceCallbackProxy{Remote: remote}
 }
 
 func (p *QualifiedNetworksServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IQualifiedNetworksServiceCallback = (*QualifiedNetworksServiceCallbackProxy)(nil)
@@ -58,12 +64,12 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnQualifiedNetworkTypesChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onQualifiedNetworkTypesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,18 +81,18 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnNetworkValidationRequested(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksServiceCallback)
 	_data.WriteInt32(networkCapability)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onNetworkValidationRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnNetworkValidationRequested)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnNetworkValidationRequested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
-func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifiedNetworkType(
+func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifedNetworkType(
 	ctx context.Context,
 	apnTypes int32,
 	qualifiedNetworkType int32,
@@ -96,12 +102,12 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifiedNetworkType(
 	_data.WriteInt32(apnTypes)
 	_data.WriteInt32(qualifiedNetworkType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onReconnectQualifiedNetworkType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType)
 	if _err != nil {
-		_code = TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQualifiedNetworksServiceCallback, MethodIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,6 +118,10 @@ type QualifiedNetworksServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*QualifiedNetworksServiceCallbackStub)(nil)
+
+func (s *QualifiedNetworksServiceCallbackStub) Descriptor() string {
+	return DescriptorIQualifiedNetworksServiceCallback
+}
 
 func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -147,7 +157,7 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 		_err = s.Impl.OnNetworkValidationRequested(ctx, _arg_networkCapability, _arg_callback)
 		_ = _err
 		return nil, nil
-	case TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType:
+	case TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifedNetworkType:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -159,7 +169,7 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnReconnectQualifiedNetworkType(ctx, _arg_apnTypes, _arg_qualifiedNetworkType)
+		_err = s.Impl.OnReconnectQualifedNetworkType(ctx, _arg_apnTypes, _arg_qualifiedNetworkType)
 		_ = _err
 		return nil, nil
 	default:
@@ -173,7 +183,7 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 type IQualifiedNetworksServiceCallbackServer interface {
 	OnQualifiedNetworkTypesChanged(ctx context.Context, apnTypes int32, qualifiedNetworkTypes []int32) error
 	OnNetworkValidationRequested(ctx context.Context, networkCapability int32, callback telephony.IIntegerConsumer) error
-	OnReconnectQualifiedNetworkType(ctx context.Context, apnTypes int32, qualifiedNetworkType int32) error
+	OnReconnectQualifedNetworkType(ctx context.Context, apnTypes int32, qualifiedNetworkType int32) error
 }
 
 type qualifiedNetworksServiceCallbackStubWrapper struct {
@@ -201,12 +211,12 @@ func (w *qualifiedNetworksServiceCallbackStubWrapper) OnNetworkValidationRequest
 	return w.impl.OnNetworkValidationRequested(ctx, networkCapability, callback)
 }
 
-func (w *qualifiedNetworksServiceCallbackStubWrapper) OnReconnectQualifiedNetworkType(
+func (w *qualifiedNetworksServiceCallbackStubWrapper) OnReconnectQualifedNetworkType(
 	ctx context.Context,
 	apnTypes int32,
 	qualifiedNetworkType int32,
 ) error {
-	return w.impl.OnReconnectQualifiedNetworkType(ctx, apnTypes, qualifiedNetworkType)
+	return w.impl.OnReconnectQualifedNetworkType(ctx, apnTypes, qualifiedNetworkType)
 }
 
 var _ IQualifiedNetworksServiceCallback = (*qualifiedNetworksServiceCallbackStubWrapper)(nil)

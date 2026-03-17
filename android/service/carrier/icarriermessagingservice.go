@@ -21,6 +21,15 @@ const (
 	TransactionICarrierMessagingServiceDownloadMms          = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodICarrierMessagingServiceFilterSms            = "filterSms"
+	MethodICarrierMessagingServiceSendTextSms          = "sendTextSms"
+	MethodICarrierMessagingServiceSendDataSms          = "sendDataSms"
+	MethodICarrierMessagingServiceSendMultipartTextSms = "sendMultipartTextSms"
+	MethodICarrierMessagingServiceSendMms              = "sendMms"
+	MethodICarrierMessagingServiceDownloadMms          = "downloadMms"
+)
+
 type ICarrierMessagingService interface {
 	AsBinder() binder.IBinder
 	FilterSms(ctx context.Context, pdu MessagePdu, format string, destPort int32, subId int32, callback ICarrierMessagingCallback) error
@@ -32,17 +41,17 @@ type ICarrierMessagingService interface {
 }
 
 type CarrierMessagingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierMessagingServiceProxy(
 	remote binder.IBinder,
 ) *CarrierMessagingServiceProxy {
-	return &CarrierMessagingServiceProxy{remote: remote}
+	return &CarrierMessagingServiceProxy{Remote: remote}
 }
 
 func (p *CarrierMessagingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierMessagingService = (*CarrierMessagingServiceProxy)(nil)
@@ -64,14 +73,14 @@ func (p *CarrierMessagingServiceProxy) FilterSms(
 	_data.WriteString16(format)
 	_data.WriteInt32(destPort)
 	_data.WriteInt32(subId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "filterSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceFilterSms)
 	if _err != nil {
-		_code = TransactionICarrierMessagingServiceFilterSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingService, MethodICarrierMessagingServiceFilterSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,14 +98,14 @@ func (p *CarrierMessagingServiceProxy) SendTextSms(
 	_data.WriteInt32(subId)
 	_data.WriteString16(destAddress)
 	_data.WriteInt32(sendSmsFlag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendTextSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendTextSms)
 	if _err != nil {
-		_code = TransactionICarrierMessagingServiceSendTextSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendTextSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,14 +132,14 @@ func (p *CarrierMessagingServiceProxy) SendDataSms(
 	_data.WriteString16(destAddress)
 	_data.WriteInt32(destPort)
 	_data.WriteInt32(sendSmsFlag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendDataSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendDataSms)
 	if _err != nil {
-		_code = TransactionICarrierMessagingServiceSendDataSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendDataSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,14 +164,14 @@ func (p *CarrierMessagingServiceProxy) SendMultipartTextSms(
 	_data.WriteInt32(subId)
 	_data.WriteString16(destAddress)
 	_data.WriteInt32(sendSmsFlag)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendMultipartTextSms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMultipartTextSms)
 	if _err != nil {
-		_code = TransactionICarrierMessagingServiceSendMultipartTextSms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMultipartTextSms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -184,14 +193,14 @@ func (p *CarrierMessagingServiceProxy) SendMms(
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendMms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMms)
 	if _err != nil {
-		_code = TransactionICarrierMessagingServiceSendMms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingService, MethodICarrierMessagingServiceSendMms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,14 +222,14 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "downloadMms")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierMessagingService, MethodICarrierMessagingServiceDownloadMms)
 	if _err != nil {
-		_code = TransactionICarrierMessagingServiceDownloadMms
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierMessagingService, MethodICarrierMessagingServiceDownloadMms, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -231,6 +240,10 @@ type CarrierMessagingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierMessagingServiceStub)(nil)
+
+func (s *CarrierMessagingServiceStub) Descriptor() string {
+	return DescriptorICarrierMessagingService
+}
 
 func (s *CarrierMessagingServiceStub) OnTransaction(
 	ctx context.Context,

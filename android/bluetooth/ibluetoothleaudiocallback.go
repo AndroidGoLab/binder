@@ -12,12 +12,19 @@ import (
 const DescriptorIBluetoothLeAudioCallback = "android.bluetooth.IBluetoothLeAudioCallback"
 
 const (
-	TransactionIBluetoothLeAudioCallbackOnCodecConfigChanged                     = binder.FirstCallTransaction + 0
-	TransactionIBluetoothLeAudioCallbackOnGroupNodeAdded                         = binder.FirstCallTransaction + 1
-	TransactionIBluetoothLeAudioCallbackOnGroupNodeRemoved                       = binder.FirstCallTransaction + 2
-	TransactionIBluetoothLeAudioCallbackOnGroupStatusChanged                     = binder.FirstCallTransaction + 3
-	TransactionIBluetoothLeAudioCallbackOnGroupStreamStatusChanged               = binder.FirstCallTransaction + 4
-	TransactionIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged = binder.FirstCallTransaction + 5
+	TransactionIBluetoothLeAudioCallbackOnCodecConfigChanged       = binder.FirstCallTransaction + 0
+	TransactionIBluetoothLeAudioCallbackOnGroupNodeAdded           = binder.FirstCallTransaction + 1
+	TransactionIBluetoothLeAudioCallbackOnGroupNodeRemoved         = binder.FirstCallTransaction + 2
+	TransactionIBluetoothLeAudioCallbackOnGroupStatusChanged       = binder.FirstCallTransaction + 3
+	TransactionIBluetoothLeAudioCallbackOnGroupStreamStatusChanged = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodIBluetoothLeAudioCallbackOnCodecConfigChanged       = "onCodecConfigChanged"
+	MethodIBluetoothLeAudioCallbackOnGroupNodeAdded           = "onGroupNodeAdded"
+	MethodIBluetoothLeAudioCallbackOnGroupNodeRemoved         = "onGroupNodeRemoved"
+	MethodIBluetoothLeAudioCallbackOnGroupStatusChanged       = "onGroupStatusChanged"
+	MethodIBluetoothLeAudioCallbackOnGroupStreamStatusChanged = "onGroupStreamStatusChanged"
 )
 
 type IBluetoothLeAudioCallback interface {
@@ -27,21 +34,20 @@ type IBluetoothLeAudioCallback interface {
 	OnGroupNodeRemoved(ctx context.Context, device BluetoothDevice, groupId int32) error
 	OnGroupStatusChanged(ctx context.Context, groupId int32, groupStatus int32) error
 	OnGroupStreamStatusChanged(ctx context.Context, groupId int32, groupStreamStatus int32) error
-	OnBroadcastToUnicastFallbackGroupChanged(ctx context.Context, groupId int32) error
 }
 
 type BluetoothLeAudioCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothLeAudioCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothLeAudioCallbackProxy {
-	return &BluetoothLeAudioCallbackProxy{remote: remote}
+	return &BluetoothLeAudioCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothLeAudioCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothLeAudioCallback = (*BluetoothLeAudioCallbackProxy)(nil)
@@ -59,12 +65,12 @@ func (p *BluetoothLeAudioCallbackProxy) OnCodecConfigChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onCodecConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnCodecConfigChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothLeAudioCallbackOnCodecConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnCodecConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +87,12 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeAdded(
 	}
 	_data.WriteInt32(groupId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupNodeAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeAdded)
 	if _err != nil {
-		_code = TransactionIBluetoothLeAudioCallbackOnGroupNodeAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +109,12 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeRemoved(
 	}
 	_data.WriteInt32(groupId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupNodeRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeRemoved)
 	if _err != nil {
-		_code = TransactionIBluetoothLeAudioCallbackOnGroupNodeRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupNodeRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +128,12 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStatusChanged(
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(groupStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStatusChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothLeAudioCallbackOnGroupStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,29 +147,12 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStreamStatusChanged(
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(groupStreamStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupStreamStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStreamStatusChanged)
 	if _err != nil {
-		_code = TransactionIBluetoothLeAudioCallbackOnGroupStreamStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLeAudioCallback, MethodIBluetoothLeAudioCallbackOnGroupStreamStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BluetoothLeAudioCallbackProxy) OnBroadcastToUnicastFallbackGroupChanged(
-	ctx context.Context,
-	groupId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothLeAudioCallback)
-	_data.WriteInt32(groupId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onBroadcastToUnicastFallbackGroupChanged")
-	if _err != nil {
-		_code = TransactionIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,6 +163,10 @@ type BluetoothLeAudioCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeAudioCallbackStub)(nil)
+
+func (s *BluetoothLeAudioCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothLeAudioCallback
+}
 
 func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -280,17 +273,6 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 		_err = s.Impl.OnGroupStreamStatusChanged(ctx, _arg_groupId, _arg_groupStreamStatus)
 		_ = _err
 		return nil, nil
-	case TransactionIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_groupId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnBroadcastToUnicastFallbackGroupChanged(ctx, _arg_groupId)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -305,7 +287,6 @@ type IBluetoothLeAudioCallbackServer interface {
 	OnGroupNodeRemoved(ctx context.Context, device BluetoothDevice, groupId int32) error
 	OnGroupStatusChanged(ctx context.Context, groupId int32, groupStatus int32) error
 	OnGroupStreamStatusChanged(ctx context.Context, groupId int32, groupStreamStatus int32) error
-	OnBroadcastToUnicastFallbackGroupChanged(ctx context.Context, groupId int32) error
 }
 
 type bluetoothLeAudioCallbackStubWrapper struct {
@@ -355,13 +336,6 @@ func (w *bluetoothLeAudioCallbackStubWrapper) OnGroupStreamStatusChanged(
 	groupStreamStatus int32,
 ) error {
 	return w.impl.OnGroupStreamStatusChanged(ctx, groupId, groupStreamStatus)
-}
-
-func (w *bluetoothLeAudioCallbackStubWrapper) OnBroadcastToUnicastFallbackGroupChanged(
-	ctx context.Context,
-	groupId int32,
-) error {
-	return w.impl.OnBroadcastToUnicastFallbackGroupChanged(ctx, groupId)
 }
 
 var _ IBluetoothLeAudioCallback = (*bluetoothLeAudioCallbackStubWrapper)(nil)

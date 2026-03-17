@@ -15,23 +15,27 @@ const (
 	TransactionIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched = "onMediaKeyEventDispatched"
+)
+
 type IOnMediaKeyEventDispatchedListener interface {
 	AsBinder() binder.IBinder
 	OnMediaKeyEventDispatched(ctx context.Context, event interface{}, packageName string, sessionToken MediaSessionToken) error
 }
 
 type OnMediaKeyEventDispatchedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnMediaKeyEventDispatchedListenerProxy(
 	remote binder.IBinder,
 ) *OnMediaKeyEventDispatchedListenerProxy {
-	return &OnMediaKeyEventDispatchedListenerProxy{remote: remote}
+	return &OnMediaKeyEventDispatchedListenerProxy{Remote: remote}
 }
 
 func (p *OnMediaKeyEventDispatchedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnMediaKeyEventDispatchedListener = (*OnMediaKeyEventDispatchedListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *OnMediaKeyEventDispatchedListenerProxy) OnMediaKeyEventDispatched(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnMediaKeyEventDispatchedListener, "onMediaKeyEventDispatched")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnMediaKeyEventDispatchedListener, MethodIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched)
 	if _err != nil {
-		_code = TransactionIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnMediaKeyEventDispatchedListener, MethodIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type OnMediaKeyEventDispatchedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnMediaKeyEventDispatchedListenerStub)(nil)
+
+func (s *OnMediaKeyEventDispatchedListenerStub) Descriptor() string {
+	return DescriptorIOnMediaKeyEventDispatchedListener
+}
 
 func (s *OnMediaKeyEventDispatchedListenerStub) OnTransaction(
 	ctx context.Context,

@@ -28,23 +28,9 @@ func (s *KeepaliveRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Type)
-	if s.SourceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SourceAddress)))
-		for _, _item := range s.SourceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.SourceAddress)
 	p.WriteInt32(s.SourcePort)
-	if s.DestinationAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DestinationAddress)))
-		for _, _item := range s.DestinationAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.DestinationAddress)
 	p.WriteInt32(s.DestinationPort)
 	p.WriteInt32(s.MaxKeepaliveIntervalMillis)
 	p.WriteInt32(s.Cid)
@@ -66,19 +52,9 @@ func (s *KeepaliveRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.SourceAddress, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.SourceAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.SourceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.SourcePort, _err = p.ReadInt32()
@@ -86,19 +62,9 @@ func (s *KeepaliveRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.DestinationAddress, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.DestinationAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.DestinationAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DestinationPort, _err = p.ReadInt32()

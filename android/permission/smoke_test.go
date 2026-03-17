@@ -50,3 +50,14 @@ func TestSmoke_PermissionControllerProxy(t *testing.T) {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)
 	}
 }
+
+func TestSmoke_PermissionManagerProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewPermissionManagerProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("PermissionManagerProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}

@@ -5,7 +5,6 @@ package ImeiInfo
 type ImeiType int32
 
 const (
-	ImeiTypeINVALID   ImeiType = 0
 	ImeiTypePRIMARY   ImeiType = 1
 	ImeiTypeSECONDARY ImeiType = 2
 )

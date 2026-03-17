@@ -17,6 +17,12 @@ const (
 	TransactionIInlineSuggestionRenderServiceDestroySuggestionViews           = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInlineSuggestionRenderServiceRenderSuggestion                 = "renderSuggestion"
+	MethodIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo = "getInlineSuggestionsRendererInfo"
+	MethodIInlineSuggestionRenderServiceDestroySuggestionViews           = "destroySuggestionViews"
+)
+
 type IInlineSuggestionRenderService interface {
 	AsBinder() binder.IBinder
 	RenderSuggestion(ctx context.Context, callback IInlineSuggestionUiCallback, presentation InlinePresentation, width int32, height int32, hostInputToken binder.IBinder, displayId int32, sessionId int32) error
@@ -25,17 +31,17 @@ type IInlineSuggestionRenderService interface {
 }
 
 type InlineSuggestionRenderServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInlineSuggestionRenderServiceProxy(
 	remote binder.IBinder,
 ) *InlineSuggestionRenderServiceProxy {
-	return &InlineSuggestionRenderServiceProxy{remote: remote}
+	return &InlineSuggestionRenderServiceProxy{Remote: remote}
 }
 
 func (p *InlineSuggestionRenderServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInlineSuggestionRenderService = (*InlineSuggestionRenderServiceProxy)(nil)
@@ -50,27 +56,27 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 	displayId int32,
 	sessionId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := presentation.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
-	binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, hostInputToken, p.Remote.Transport())
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "renderSuggestion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceRenderSuggestion)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionRenderServiceRenderSuggestion
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceRenderSuggestion, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +87,12 @@ func (p *InlineSuggestionRenderServiceProxy) GetInlineSuggestionsRendererInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "getInlineSuggestionsRendererInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,18 +100,18 @@ func (p *InlineSuggestionRenderServiceProxy) DestroySuggestionViews(
 	ctx context.Context,
 	sessionId int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "destroySuggestionViews")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceDestroySuggestionViews)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionRenderServiceDestroySuggestionViews
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionRenderService, MethodIInlineSuggestionRenderServiceDestroySuggestionViews, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,6 +122,10 @@ type InlineSuggestionRenderServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionRenderServiceStub)(nil)
+
+func (s *InlineSuggestionRenderServiceStub) Descriptor() string {
+	return DescriptorIInlineSuggestionRenderService
+}
 
 func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 	ctx context.Context,

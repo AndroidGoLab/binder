@@ -22,6 +22,20 @@ const (
 	TransactionITaskOrganizerControllerGetImeTarget                           = binder.FirstCallTransaction + 6
 	TransactionITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot      = binder.FirstCallTransaction + 7
 	TransactionITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible = binder.FirstCallTransaction + 8
+	TransactionITaskOrganizerControllerUpdateCameraCompatControlState         = binder.FirstCallTransaction + 9
+)
+
+const (
+	MethodITaskOrganizerControllerRegisterTaskOrganizer                  = "registerTaskOrganizer"
+	MethodITaskOrganizerControllerUnregisterTaskOrganizer                = "unregisterTaskOrganizer"
+	MethodITaskOrganizerControllerCreateRootTask                         = "createRootTask"
+	MethodITaskOrganizerControllerDeleteRootTask                         = "deleteRootTask"
+	MethodITaskOrganizerControllerGetChildTasks                          = "getChildTasks"
+	MethodITaskOrganizerControllerGetRootTasks                           = "getRootTasks"
+	MethodITaskOrganizerControllerGetImeTarget                           = "getImeTarget"
+	MethodITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot      = "setInterceptBackPressedOnTaskRoot"
+	MethodITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible = "restartTaskTopActivityProcessIfVisible"
+	MethodITaskOrganizerControllerUpdateCameraCompatControlState         = "updateCameraCompatControlState"
 )
 
 type ITaskOrganizerController interface {
@@ -35,20 +49,21 @@ type ITaskOrganizerController interface {
 	GetImeTarget(ctx context.Context, display int32) (WindowContainerToken, error)
 	SetInterceptBackPressedOnTaskRoot(ctx context.Context, task WindowContainerToken, interceptBackPressed bool) error
 	RestartTaskTopActivityProcessIfVisible(ctx context.Context, task WindowContainerToken) error
+	UpdateCameraCompatControlState(ctx context.Context, task WindowContainerToken, state int32) error
 }
 
 type TaskOrganizerControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTaskOrganizerControllerProxy(
 	remote binder.IBinder,
 ) *TaskOrganizerControllerProxy {
-	return &TaskOrganizerControllerProxy{remote: remote}
+	return &TaskOrganizerControllerProxy{Remote: remote}
 }
 
 func (p *TaskOrganizerControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITaskOrganizerController = (*TaskOrganizerControllerProxy)(nil)
@@ -60,14 +75,14 @@ func (p *TaskOrganizerControllerProxy) RegisterTaskOrganizer(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "registerTaskOrganizer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRegisterTaskOrganizer)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerRegisterTaskOrganizer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRegisterTaskOrganizer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,14 +101,14 @@ func (p *TaskOrganizerControllerProxy) UnregisterTaskOrganizer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "unregisterTaskOrganizer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUnregisterTaskOrganizer)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerUnregisterTaskOrganizer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUnregisterTaskOrganizer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,15 +132,15 @@ func (p *TaskOrganizerControllerProxy) CreateRootTask(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(windowingMode)
-	binder.WriteBinderToParcel(ctx, _data, launchCookie, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, launchCookie, p.Remote.Transport())
 	_data.WriteBool(removeWithTaskOrganizer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "createRootTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerCreateRootTask)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerCreateRootTask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerCreateRootTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -150,12 +165,12 @@ func (p *TaskOrganizerControllerProxy) DeleteRootTask(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "deleteRootTask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerDeleteRootTask)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerDeleteRootTask
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerDeleteRootTask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -193,12 +208,12 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "getChildTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetChildTasks)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerGetChildTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetChildTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -216,6 +231,9 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 	if _count >= 0 {
 		_result = make([]app.ActivityManagerRunningTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -242,12 +260,12 @@ func (p *TaskOrganizerControllerProxy) GetRootTasks(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "getRootTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetRootTasks)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerGetRootTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetRootTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -265,6 +283,9 @@ func (p *TaskOrganizerControllerProxy) GetRootTasks(
 	if _count >= 0 {
 		_result = make([]app.ActivityManagerRunningTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -282,12 +303,12 @@ func (p *TaskOrganizerControllerProxy) GetImeTarget(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "getImeTarget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetImeTarget)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerGetImeTarget
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerGetImeTarget, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -322,12 +343,12 @@ func (p *TaskOrganizerControllerProxy) SetInterceptBackPressedOnTaskRoot(
 	}
 	_data.WriteBool(interceptBackPressed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "setInterceptBackPressedOnTaskRoot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -351,12 +372,43 @@ func (p *TaskOrganizerControllerProxy) RestartTaskTopActivityProcessIfVisible(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizerController, "restartTaskTopActivityProcessIfVisible")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible)
 	if _err != nil {
-		_code = TransactionITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *TaskOrganizerControllerProxy) UpdateCameraCompatControlState(
+	ctx context.Context,
+	task WindowContainerToken,
+	state int32,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
+	_data.WriteInt32(1)
+	if _err := task.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(state)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUpdateCameraCompatControlState)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskOrganizerController, MethodITaskOrganizerControllerUpdateCameraCompatControlState, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -376,6 +428,10 @@ type TaskOrganizerControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TaskOrganizerControllerStub)(nil)
+
+func (s *TaskOrganizerControllerStub) Descriptor() string {
+	return DescriptorITaskOrganizerController
+}
 
 func (s *TaskOrganizerControllerStub) OnTransaction(
 	ctx context.Context,
@@ -588,6 +644,34 @@ func (s *TaskOrganizerControllerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
+	case TransactionITaskOrganizerControllerUpdateCameraCompatControlState:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_task WindowContainerToken
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_task.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_state, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateCameraCompatControlState(ctx, _arg_task, _arg_state)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -606,6 +690,7 @@ type ITaskOrganizerControllerServer interface {
 	GetImeTarget(ctx context.Context, display int32) (WindowContainerToken, error)
 	SetInterceptBackPressedOnTaskRoot(ctx context.Context, task WindowContainerToken, interceptBackPressed bool) error
 	RestartTaskTopActivityProcessIfVisible(ctx context.Context, task WindowContainerToken) error
+	UpdateCameraCompatControlState(ctx context.Context, task WindowContainerToken, state int32) error
 }
 
 type taskOrganizerControllerStubWrapper struct {
@@ -684,6 +769,14 @@ func (w *taskOrganizerControllerStubWrapper) RestartTaskTopActivityProcessIfVisi
 	task WindowContainerToken,
 ) error {
 	return w.impl.RestartTaskTopActivityProcessIfVisible(ctx, task)
+}
+
+func (w *taskOrganizerControllerStubWrapper) UpdateCameraCompatControlState(
+	ctx context.Context,
+	task WindowContainerToken,
+	state int32,
+) error {
+	return w.impl.UpdateCameraCompatControlState(ctx, task, state)
 }
 
 var _ ITaskOrganizerController = (*taskOrganizerControllerStubWrapper)(nil)

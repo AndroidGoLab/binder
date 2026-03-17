@@ -25,6 +25,20 @@ const (
 	TransactionISapCallbackTransferProtocolResponse         = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodISapCallbackApduResponse                     = "apduResponse"
+	MethodISapCallbackConnectResponse                  = "connectResponse"
+	MethodISapCallbackDisconnectIndication             = "disconnectIndication"
+	MethodISapCallbackDisconnectResponse               = "disconnectResponse"
+	MethodISapCallbackErrorResponse                    = "errorResponse"
+	MethodISapCallbackPowerResponse                    = "powerResponse"
+	MethodISapCallbackResetSimResponse                 = "resetSimResponse"
+	MethodISapCallbackStatusIndication                 = "statusIndication"
+	MethodISapCallbackTransferAtrResponse              = "transferAtrResponse"
+	MethodISapCallbackTransferCardReaderStatusResponse = "transferCardReaderStatusResponse"
+	MethodISapCallbackTransferProtocolResponse         = "transferProtocolResponse"
+)
+
 type ISapCallback interface {
 	AsBinder() binder.IBinder
 	ApduResponse(ctx context.Context, serial int32, resultCode SapResultCode, apduRsp []byte) error
@@ -41,17 +55,17 @@ type ISapCallback interface {
 }
 
 type SapCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSapCallbackProxy(
 	remote binder.IBinder,
 ) *SapCallbackProxy {
-	return &SapCallbackProxy{remote: remote}
+	return &SapCallbackProxy{Remote: remote}
 }
 
 func (p *SapCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISapCallback = (*SapCallbackProxy)(nil)
@@ -75,12 +89,12 @@ func (p *SapCallbackProxy) ApduResponse(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "apduResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackApduResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackApduResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackApduResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +110,12 @@ func (p *SapCallbackProxy) ConnectResponse(
 	_data.WriteInt32(int32(sapConnectRsp))
 	_data.WriteInt32(maxMsgSizeBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "connectResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackConnectResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackConnectResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackConnectResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +129,12 @@ func (p *SapCallbackProxy) DisconnectIndication(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(disconnectType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "disconnectIndication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackDisconnectIndication)
 	if _err != nil {
-		_code = TransactionISapCallbackDisconnectIndication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackDisconnectIndication, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +146,12 @@ func (p *SapCallbackProxy) DisconnectResponse(
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "disconnectResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackDisconnectResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackDisconnectResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackDisconnectResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,12 +163,12 @@ func (p *SapCallbackProxy) ErrorResponse(
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "errorResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackErrorResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackErrorResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackErrorResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,12 +182,12 @@ func (p *SapCallbackProxy) PowerResponse(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "powerResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackPowerResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackPowerResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackPowerResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,12 +201,12 @@ func (p *SapCallbackProxy) ResetSimResponse(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "resetSimResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackResetSimResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackResetSimResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackResetSimResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -206,12 +220,12 @@ func (p *SapCallbackProxy) StatusIndication(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(status))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "statusIndication")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackStatusIndication)
 	if _err != nil {
-		_code = TransactionISapCallbackStatusIndication
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackStatusIndication, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -234,12 +248,12 @@ func (p *SapCallbackProxy) TransferAtrResponse(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "transferAtrResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferAtrResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackTransferAtrResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackTransferAtrResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -255,12 +269,12 @@ func (p *SapCallbackProxy) TransferCardReaderStatusResponse(
 	_data.WriteInt32(int32(resultCode))
 	_data.WriteInt32(cardReaderStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "transferCardReaderStatusResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferCardReaderStatusResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackTransferCardReaderStatusResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackTransferCardReaderStatusResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -274,12 +288,12 @@ func (p *SapCallbackProxy) TransferProtocolResponse(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISapCallback, "transferProtocolResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISapCallback, MethodISapCallbackTransferProtocolResponse)
 	if _err != nil {
-		_code = TransactionISapCallbackTransferProtocolResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISapCallback, MethodISapCallbackTransferProtocolResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -290,6 +304,10 @@ type SapCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SapCallbackStub)(nil)
+
+func (s *SapCallbackStub) Descriptor() string {
+	return DescriptorISapCallback
+}
 
 func (s *SapCallbackStub) OnTransaction(
 	ctx context.Context,

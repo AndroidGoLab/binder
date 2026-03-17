@@ -20,6 +20,13 @@ const (
 	TransactionIFactoryDestroyEffect   = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIFactoryQueryEffects    = "queryEffects"
+	MethodIFactoryQueryProcessing = "queryProcessing"
+	MethodIFactoryCreateEffect    = "createEffect"
+	MethodIFactoryDestroyEffect   = "destroyEffect"
+)
+
 type IFactory interface {
 	AsBinder() binder.IBinder
 	QueryEffects(ctx context.Context, type_ *common.AudioUuid, implementation *common.AudioUuid, proxy *common.AudioUuid) ([]Descriptor, error)
@@ -29,17 +36,17 @@ type IFactory interface {
 }
 
 type FactoryProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFactoryProxy(
 	remote binder.IBinder,
 ) *FactoryProxy {
-	return &FactoryProxy{remote: remote}
+	return &FactoryProxy{Remote: remote}
 }
 
 func (p *FactoryProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFactory = (*FactoryProxy)(nil)
@@ -75,12 +82,12 @@ func (p *FactoryProxy) QueryEffects(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "queryEffects")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryQueryEffects)
 	if _err != nil {
-		_code = TransactionIFactoryQueryEffects
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFactory, MethodIFactoryQueryEffects, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,6 +105,9 @@ func (p *FactoryProxy) QueryEffects(
 	if _count >= 0 {
 		_result = make([]Descriptor, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -121,12 +131,12 @@ func (p *FactoryProxy) QueryProcessing(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "queryProcessing")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryQueryProcessing)
 	if _err != nil {
-		_code = TransactionIFactoryQueryProcessing
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFactory, MethodIFactoryQueryProcessing, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -144,6 +154,9 @@ func (p *FactoryProxy) QueryProcessing(
 	if _count >= 0 {
 		_result = make([]Processing, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -164,12 +177,12 @@ func (p *FactoryProxy) CreateEffect(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "createEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryCreateEffect)
 	if _err != nil {
-		_code = TransactionIFactoryCreateEffect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFactory, MethodIFactoryCreateEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -183,7 +196,7 @@ func (p *FactoryProxy) CreateEffect(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEffectProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewEffectProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -193,14 +206,14 @@ func (p *FactoryProxy) DestroyEffect(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
-	binder.WriteBinderToParcel(ctx, _data, handle.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, handle.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "destroyEffect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFactory, MethodIFactoryDestroyEffect)
 	if _err != nil {
-		_code = TransactionIFactoryDestroyEffect
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFactory, MethodIFactoryDestroyEffect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -220,6 +233,10 @@ type FactoryStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FactoryStub)(nil)
+
+func (s *FactoryStub) Descriptor() string {
+	return DescriptorIFactory
+}
 
 func (s *FactoryStub) OnTransaction(
 	ctx context.Context,

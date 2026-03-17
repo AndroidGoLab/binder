@@ -27,6 +27,7 @@ func (s *CarrierRestrictions) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.AllowedCarriers)))
 		for _, _item := range s.AllowedCarriers {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -37,6 +38,7 @@ func (s *CarrierRestrictions) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExcludedCarriers)))
 		for _, _item := range s.ExcludedCarriers {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -49,6 +51,7 @@ func (s *CarrierRestrictions) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.AllowedCarrierInfoList)))
 		for _, _item := range s.AllowedCarrierInfoList {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -59,6 +62,7 @@ func (s *CarrierRestrictions) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExcludedCarrierInfoList)))
 		for _, _item := range s.ExcludedCarrierInfoList {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -85,6 +89,9 @@ func (s *CarrierRestrictions) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.AllowedCarriers = make([]Carrier, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AllowedCarriers[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -99,6 +106,9 @@ func (s *CarrierRestrictions) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.ExcludedCarriers = make([]Carrier, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExcludedCarriers[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -124,6 +134,9 @@ func (s *CarrierRestrictions) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.AllowedCarrierInfoList = make([]CarrierInfo, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AllowedCarrierInfoList[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -138,6 +151,9 @@ func (s *CarrierRestrictions) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.ExcludedCarrierInfoList = make([]CarrierInfo, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExcludedCarrierInfoList[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

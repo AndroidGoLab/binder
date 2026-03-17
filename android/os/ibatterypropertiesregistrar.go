@@ -16,6 +16,11 @@ const (
 	TransactionIBatteryPropertiesRegistrarScheduleUpdate = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBatteryPropertiesRegistrarGetProperty    = "getProperty"
+	MethodIBatteryPropertiesRegistrarScheduleUpdate = "scheduleUpdate"
+)
+
 type IBatteryPropertiesRegistrar interface {
 	AsBinder() binder.IBinder
 	GetProperty(ctx context.Context, id int32, prop BatteryProperty) (int32, error)
@@ -23,17 +28,17 @@ type IBatteryPropertiesRegistrar interface {
 }
 
 type BatteryPropertiesRegistrarProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBatteryPropertiesRegistrarProxy(
 	remote binder.IBinder,
 ) *BatteryPropertiesRegistrarProxy {
-	return &BatteryPropertiesRegistrarProxy{remote: remote}
+	return &BatteryPropertiesRegistrarProxy{Remote: remote}
 }
 
 func (p *BatteryPropertiesRegistrarProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBatteryPropertiesRegistrar = (*BatteryPropertiesRegistrarProxy)(nil)
@@ -48,12 +53,12 @@ func (p *BatteryPropertiesRegistrarProxy) GetProperty(
 	_data.WriteInterfaceToken(DescriptorIBatteryPropertiesRegistrar)
 	_data.WriteInt32(id)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBatteryPropertiesRegistrar, "getProperty")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryPropertiesRegistrar, MethodIBatteryPropertiesRegistrarGetProperty)
 	if _err != nil {
-		_code = TransactionIBatteryPropertiesRegistrarGetProperty
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBatteryPropertiesRegistrar, MethodIBatteryPropertiesRegistrarGetProperty, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,12 +84,12 @@ func (p *BatteryPropertiesRegistrarProxy) ScheduleUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryPropertiesRegistrar)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBatteryPropertiesRegistrar, "scheduleUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBatteryPropertiesRegistrar, MethodIBatteryPropertiesRegistrarScheduleUpdate)
 	if _err != nil {
-		_code = TransactionIBatteryPropertiesRegistrarScheduleUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBatteryPropertiesRegistrar, MethodIBatteryPropertiesRegistrarScheduleUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,6 +100,10 @@ type BatteryPropertiesRegistrarStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BatteryPropertiesRegistrarStub)(nil)
+
+func (s *BatteryPropertiesRegistrarStub) Descriptor() string {
+	return DescriptorIBatteryPropertiesRegistrar
+}
 
 func (s *BatteryPropertiesRegistrarStub) OnTransaction(
 	ctx context.Context,

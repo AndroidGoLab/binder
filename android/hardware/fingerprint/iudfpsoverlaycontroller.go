@@ -20,6 +20,15 @@ const (
 	TransactionIUdfpsOverlayControllerSetDebugMessage      = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIUdfpsOverlayControllerShowUdfpsOverlay     = "showUdfpsOverlay"
+	MethodIUdfpsOverlayControllerHideUdfpsOverlay     = "hideUdfpsOverlay"
+	MethodIUdfpsOverlayControllerOnAcquired           = "onAcquired"
+	MethodIUdfpsOverlayControllerOnEnrollmentProgress = "onEnrollmentProgress"
+	MethodIUdfpsOverlayControllerOnEnrollmentHelp     = "onEnrollmentHelp"
+	MethodIUdfpsOverlayControllerSetDebugMessage      = "setDebugMessage"
+)
+
 type IUdfpsOverlayController interface {
 	AsBinder() binder.IBinder
 	ShowUdfpsOverlay(ctx context.Context, requestId int64, sensorId int32, reason int32, callback IUdfpsOverlayControllerCallback) error
@@ -31,17 +40,17 @@ type IUdfpsOverlayController interface {
 }
 
 type UdfpsOverlayControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUdfpsOverlayControllerProxy(
 	remote binder.IBinder,
 ) *UdfpsOverlayControllerProxy {
-	return &UdfpsOverlayControllerProxy{remote: remote}
+	return &UdfpsOverlayControllerProxy{Remote: remote}
 }
 
 func (p *UdfpsOverlayControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUdfpsOverlayController = (*UdfpsOverlayControllerProxy)(nil)
@@ -58,14 +67,14 @@ func (p *UdfpsOverlayControllerProxy) ShowUdfpsOverlay(
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(reason)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "showUdfpsOverlay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerShowUdfpsOverlay)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerShowUdfpsOverlay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerShowUdfpsOverlay, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +86,12 @@ func (p *UdfpsOverlayControllerProxy) HideUdfpsOverlay(
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "hideUdfpsOverlay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerHideUdfpsOverlay)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerHideUdfpsOverlay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerHideUdfpsOverlay, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +105,12 @@ func (p *UdfpsOverlayControllerProxy) OnAcquired(
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(acquiredInfo)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onAcquired")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnAcquired)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerOnAcquired
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnAcquired, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +124,12 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentProgress(
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(remaining)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onEnrollmentProgress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentProgress)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerOnEnrollmentProgress
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentProgress, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +141,12 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentHelp(
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onEnrollmentHelp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentHelp)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerOnEnrollmentHelp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerOnEnrollmentHelp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,12 +160,12 @@ func (p *UdfpsOverlayControllerProxy) SetDebugMessage(
 	_data.WriteInt32(sensorId)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "setDebugMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerSetDebugMessage)
 	if _err != nil {
-		_code = TransactionIUdfpsOverlayControllerSetDebugMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUdfpsOverlayController, MethodIUdfpsOverlayControllerSetDebugMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,6 +176,10 @@ type UdfpsOverlayControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UdfpsOverlayControllerStub)(nil)
+
+func (s *UdfpsOverlayControllerStub) Descriptor() string {
+	return DescriptorIUdfpsOverlayController
+}
 
 func (s *UdfpsOverlayControllerStub) OnTransaction(
 	ctx context.Context,

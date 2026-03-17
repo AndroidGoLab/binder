@@ -16,6 +16,11 @@ const (
 	TransactionIAccessorGetInstanceName = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAccessorAddConnection   = "addConnection"
+	MethodIAccessorGetInstanceName = "getInstanceName"
+)
+
 type IAccessor interface {
 	AsBinder() binder.IBinder
 	AddConnection(ctx context.Context) (int32, error)
@@ -31,17 +36,17 @@ const (
 )
 
 type AccessorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessorProxy(
 	remote binder.IBinder,
 ) *AccessorProxy {
-	return &AccessorProxy{remote: remote}
+	return &AccessorProxy{Remote: remote}
 }
 
 func (p *AccessorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessor = (*AccessorProxy)(nil)
@@ -53,12 +58,12 @@ func (p *AccessorProxy) AddConnection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessor, "addConnection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessor, MethodIAccessorAddConnection)
 	if _err != nil {
-		_code = TransactionIAccessorAddConnection
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessor, MethodIAccessorAddConnection, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,12 +87,12 @@ func (p *AccessorProxy) GetInstanceName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessor, "getInstanceName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessor, MethodIAccessorGetInstanceName)
 	if _err != nil {
-		_code = TransactionIAccessorGetInstanceName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessor, MethodIAccessorGetInstanceName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,6 +116,10 @@ type AccessorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessorStub)(nil)
+
+func (s *AccessorStub) Descriptor() string {
+	return DescriptorIAccessor
+}
 
 func (s *AccessorStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer = "onRotateGraphicsStatsBuffer"
+)
+
 type IGraphicsStatsCallback interface {
 	AsBinder() binder.IBinder
 	OnRotateGraphicsStatsBuffer(ctx context.Context) error
 }
 
 type GraphicsStatsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGraphicsStatsCallbackProxy(
 	remote binder.IBinder,
 ) *GraphicsStatsCallbackProxy {
-	return &GraphicsStatsCallbackProxy{remote: remote}
+	return &GraphicsStatsCallbackProxy{Remote: remote}
 }
 
 func (p *GraphicsStatsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGraphicsStatsCallback = (*GraphicsStatsCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *GraphicsStatsCallbackProxy) OnRotateGraphicsStatsBuffer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicsStatsCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicsStatsCallback, "onRotateGraphicsStatsBuffer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicsStatsCallback, MethodIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer)
 	if _err != nil {
-		_code = TransactionIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicsStatsCallback, MethodIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type GraphicsStatsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GraphicsStatsCallbackStub)(nil)
+
+func (s *GraphicsStatsCallbackStub) Descriptor() string {
+	return DescriptorIGraphicsStatsCallback
+}
 
 func (s *GraphicsStatsCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -12,7 +12,6 @@ const (
 	LeAudioCodecCapabilitiesTagLc3Capabilities            int32 = 0
 	LeAudioCodecCapabilitiesTagVendorCapabillities        int32 = 1
 	LeAudioCodecCapabilitiesTagAptxAdaptiveLeCapabilities int32 = 2
-	LeAudioCodecCapabilitiesTagOpusCapabilities           int32 = 3
 )
 
 type LeAudioCodecCapabilities struct {
@@ -20,7 +19,6 @@ type LeAudioCodecCapabilities struct {
 	Lc3Capabilities            audio.Lc3Capabilities
 	VendorCapabillities        VendorCapabilities
 	AptxAdaptiveLeCapabilities audio.AptxAdaptiveLeCapabilities
-	OpusCapabilities           audio.OpusCapabilities
 }
 
 var _ parcel.Parcelable = (*LeAudioCodecCapabilities)(nil)
@@ -70,21 +68,6 @@ func (u *LeAudioCodecCapabilities) SetAptxAdaptiveLeCapabilities(
 	u.AptxAdaptiveLeCapabilities = v
 }
 
-func (u *LeAudioCodecCapabilities) GetOpusCapabilities() (audio.OpusCapabilities, bool) {
-	if u.Tag != LeAudioCodecCapabilitiesTagOpusCapabilities {
-		var _zero audio.OpusCapabilities
-		return _zero, false
-	}
-	return u.OpusCapabilities, true
-}
-
-func (u *LeAudioCodecCapabilities) SetOpusCapabilities(
-	v audio.OpusCapabilities,
-) {
-	u.Tag = LeAudioCodecCapabilitiesTagOpusCapabilities
-	u.OpusCapabilities = v
-}
-
 func (u *LeAudioCodecCapabilities) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -93,19 +76,18 @@ func (u *LeAudioCodecCapabilities) MarshalParcel(
 
 	switch u.Tag {
 	case LeAudioCodecCapabilitiesTagLc3Capabilities:
+		p.WriteInt32(1)
 		if _err := u.Lc3Capabilities.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecCapabilitiesTagVendorCapabillities:
+		p.WriteInt32(1)
 		if _err := u.VendorCapabillities.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecCapabilitiesTagAptxAdaptiveLeCapabilities:
+		p.WriteInt32(1)
 		if _err := u.AptxAdaptiveLeCapabilities.MarshalParcel(p); _err != nil {
-			return _err
-		}
-	case LeAudioCodecCapabilitiesTagOpusCapabilities:
-		if _err := u.OpusCapabilities.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:
@@ -131,19 +113,24 @@ func (u *LeAudioCodecCapabilities) UnmarshalParcel(
 
 	switch u.Tag {
 	case LeAudioCodecCapabilitiesTagLc3Capabilities:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Lc3Capabilities.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecCapabilitiesTagVendorCapabillities:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VendorCapabillities.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case LeAudioCodecCapabilitiesTagAptxAdaptiveLeCapabilities:
-		if _err = u.AptxAdaptiveLeCapabilities.UnmarshalParcel(p); _err != nil {
+		if _, _err = p.ReadInt32(); _err != nil {
 			return _err
 		}
-	case LeAudioCodecCapabilitiesTagOpusCapabilities:
-		if _err = u.OpusCapabilities.UnmarshalParcel(p); _err != nil {
+		if _err = u.AptxAdaptiveLeCapabilities.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	default:

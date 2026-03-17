@@ -17,6 +17,12 @@ const (
 	TransactionICredentialProviderServiceOnClearCredentialState  = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICredentialProviderServiceOnBeginGetCredential    = "onBeginGetCredential"
+	MethodICredentialProviderServiceOnBeginCreateCredential = "onBeginCreateCredential"
+	MethodICredentialProviderServiceOnClearCredentialState  = "onClearCredentialState"
+)
+
 type ICredentialProviderService interface {
 	AsBinder() binder.IBinder
 	OnBeginGetCredential(ctx context.Context, request BeginGetCredentialRequest, callback IBeginGetCredentialCallback) error
@@ -25,17 +31,17 @@ type ICredentialProviderService interface {
 }
 
 type CredentialProviderServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCredentialProviderServiceProxy(
 	remote binder.IBinder,
 ) *CredentialProviderServiceProxy {
-	return &CredentialProviderServiceProxy{remote: remote}
+	return &CredentialProviderServiceProxy{Remote: remote}
 }
 
 func (p *CredentialProviderServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICredentialProviderService = (*CredentialProviderServiceProxy)(nil)
@@ -51,14 +57,14 @@ func (p *CredentialProviderServiceProxy) OnBeginGetCredential(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialProviderService, "onBeginGetCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialProviderService, MethodICredentialProviderServiceOnBeginGetCredential)
 	if _err != nil {
-		_code = TransactionICredentialProviderServiceOnBeginGetCredential
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialProviderService, MethodICredentialProviderServiceOnBeginGetCredential, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,14 +79,14 @@ func (p *CredentialProviderServiceProxy) OnBeginCreateCredential(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialProviderService, "onBeginCreateCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialProviderService, MethodICredentialProviderServiceOnBeginCreateCredential)
 	if _err != nil {
-		_code = TransactionICredentialProviderServiceOnBeginCreateCredential
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialProviderService, MethodICredentialProviderServiceOnBeginCreateCredential, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,14 +101,14 @@ func (p *CredentialProviderServiceProxy) OnClearCredentialState(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialProviderService, "onClearCredentialState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialProviderService, MethodICredentialProviderServiceOnClearCredentialState)
 	if _err != nil {
-		_code = TransactionICredentialProviderServiceOnClearCredentialState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialProviderService, MethodICredentialProviderServiceOnClearCredentialState, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +119,10 @@ type CredentialProviderServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CredentialProviderServiceStub)(nil)
+
+func (s *CredentialProviderServiceStub) Descriptor() string {
+	return DescriptorICredentialProviderService
+}
 
 func (s *CredentialProviderServiceStub) OnTransaction(
 	ctx context.Context,

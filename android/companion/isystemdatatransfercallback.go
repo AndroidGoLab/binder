@@ -16,6 +16,11 @@ const (
 	TransactionISystemDataTransferCallbackOnError  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISystemDataTransferCallbackOnResult = "onResult"
+	MethodISystemDataTransferCallbackOnError  = "onError"
+)
+
 type ISystemDataTransferCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context) error
@@ -23,17 +28,17 @@ type ISystemDataTransferCallback interface {
 }
 
 type SystemDataTransferCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSystemDataTransferCallbackProxy(
 	remote binder.IBinder,
 ) *SystemDataTransferCallbackProxy {
-	return &SystemDataTransferCallbackProxy{remote: remote}
+	return &SystemDataTransferCallbackProxy{Remote: remote}
 }
 
 func (p *SystemDataTransferCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISystemDataTransferCallback = (*SystemDataTransferCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *SystemDataTransferCallbackProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemDataTransferCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemDataTransferCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemDataTransferCallback, MethodISystemDataTransferCallbackOnResult)
 	if _err != nil {
-		_code = TransactionISystemDataTransferCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISystemDataTransferCallback, MethodISystemDataTransferCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *SystemDataTransferCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorISystemDataTransferCallback)
 	_data.WriteString16(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISystemDataTransferCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISystemDataTransferCallback, MethodISystemDataTransferCallbackOnError)
 	if _err != nil {
-		_code = TransactionISystemDataTransferCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISystemDataTransferCallback, MethodISystemDataTransferCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type SystemDataTransferCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SystemDataTransferCallbackStub)(nil)
+
+func (s *SystemDataTransferCallbackStub) Descriptor() string {
+	return DescriptorISystemDataTransferCallback
+}
 
 func (s *SystemDataTransferCallbackStub) OnTransaction(
 	ctx context.Context,

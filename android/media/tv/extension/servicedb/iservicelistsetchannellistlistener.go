@@ -15,23 +15,27 @@ const (
 	TransactionIServiceListSetChannelListListenerOnCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIServiceListSetChannelListListenerOnCompleted = "onCompleted"
+)
+
 type IServiceListSetChannelListListener interface {
 	AsBinder() binder.IBinder
 	OnCompleted(ctx context.Context, setChannelListResult int32) error
 }
 
 type ServiceListSetChannelListListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListSetChannelListListenerProxy(
 	remote binder.IBinder,
 ) *ServiceListSetChannelListListenerProxy {
-	return &ServiceListSetChannelListListenerProxy{remote: remote}
+	return &ServiceListSetChannelListListenerProxy{Remote: remote}
 }
 
 func (p *ServiceListSetChannelListListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListSetChannelListListener = (*ServiceListSetChannelListListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ServiceListSetChannelListListenerProxy) OnCompleted(
 	_data.WriteInterfaceToken(DescriptorIServiceListSetChannelListListener)
 	_data.WriteInt32(setChannelListResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListSetChannelListListener, "onCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListSetChannelListListener, MethodIServiceListSetChannelListListenerOnCompleted)
 	if _err != nil {
-		_code = TransactionIServiceListSetChannelListListenerOnCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListSetChannelListListener, MethodIServiceListSetChannelListListenerOnCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ServiceListSetChannelListListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListSetChannelListListenerStub)(nil)
+
+func (s *ServiceListSetChannelListListenerStub) Descriptor() string {
+	return DescriptorIServiceListSetChannelListListener
+}
 
 func (s *ServiceListSetChannelListListenerStub) OnTransaction(
 	ctx context.Context,

@@ -20,6 +20,13 @@ const (
 	TransactionIMediaContainerServiceCalculateInstalledSize = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIMediaContainerServiceCopyPackage            = "copyPackage"
+	MethodIMediaContainerServiceGetMinimalPackageInfo  = "getMinimalPackageInfo"
+	MethodIMediaContainerServiceGetObbInfo             = "getObbInfo"
+	MethodIMediaContainerServiceCalculateInstalledSize = "calculateInstalledSize"
+)
+
 type IMediaContainerService interface {
 	AsBinder() binder.IBinder
 	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
@@ -29,17 +36,17 @@ type IMediaContainerService interface {
 }
 
 type MediaContainerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaContainerServiceProxy(
 	remote binder.IBinder,
 ) *MediaContainerServiceProxy {
-	return &MediaContainerServiceProxy{remote: remote}
+	return &MediaContainerServiceProxy{Remote: remote}
 }
 
 func (p *MediaContainerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaContainerService = (*MediaContainerServiceProxy)(nil)
@@ -53,14 +60,14 @@ func (p *MediaContainerServiceProxy) CopyPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
-	binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, target.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "copyPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceCopyPackage)
 	if _err != nil {
-		_code = TransactionIMediaContainerServiceCopyPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaContainerService, MethodIMediaContainerServiceCopyPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,12 +97,12 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 	_data.WriteInt32(flags)
 	_data.WriteString16(abiOverride)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "getMinimalPackageInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceGetMinimalPackageInfo)
 	if _err != nil {
-		_code = TransactionIMediaContainerServiceGetMinimalPackageInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaContainerService, MethodIMediaContainerServiceGetMinimalPackageInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,12 +124,12 @@ func (p *MediaContainerServiceProxy) GetObbInfo(
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(filename)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "getObbInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceGetObbInfo)
 	if _err != nil {
-		_code = TransactionIMediaContainerServiceGetObbInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaContainerService, MethodIMediaContainerServiceGetObbInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,12 +162,12 @@ func (p *MediaContainerServiceProxy) CalculateInstalledSize(
 	_data.WriteString16(packagePath)
 	_data.WriteString16(abiOverride)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "calculateInstalledSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaContainerService, MethodIMediaContainerServiceCalculateInstalledSize)
 	if _err != nil {
-		_code = TransactionIMediaContainerServiceCalculateInstalledSize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaContainerService, MethodIMediaContainerServiceCalculateInstalledSize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -184,6 +191,10 @@ type MediaContainerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaContainerServiceStub)(nil)
+
+func (s *MediaContainerServiceStub) Descriptor() string {
+	return DescriptorIMediaContainerService
+}
 
 func (s *MediaContainerServiceStub) OnTransaction(
 	ctx context.Context,

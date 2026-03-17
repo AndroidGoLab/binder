@@ -15,23 +15,27 @@ const (
 	TransactionIActivityRecognitionHardwareWatcherOnInstanceChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIActivityRecognitionHardwareWatcherOnInstanceChanged = "onInstanceChanged"
+)
+
 type IActivityRecognitionHardwareWatcher interface {
 	AsBinder() binder.IBinder
 	OnInstanceChanged(ctx context.Context, instance IActivityRecognitionHardware) error
 }
 
 type ActivityRecognitionHardwareWatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityRecognitionHardwareWatcherProxy(
 	remote binder.IBinder,
 ) *ActivityRecognitionHardwareWatcherProxy {
-	return &ActivityRecognitionHardwareWatcherProxy{remote: remote}
+	return &ActivityRecognitionHardwareWatcherProxy{Remote: remote}
 }
 
 func (p *ActivityRecognitionHardwareWatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityRecognitionHardwareWatcher = (*ActivityRecognitionHardwareWatcherProxy)(nil)
@@ -42,14 +46,14 @@ func (p *ActivityRecognitionHardwareWatcherProxy) OnInstanceChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardwareWatcher)
-	binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, instance.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareWatcher, "onInstanceChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardwareWatcher, MethodIActivityRecognitionHardwareWatcherOnInstanceChanged)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareWatcherOnInstanceChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardwareWatcher, MethodIActivityRecognitionHardwareWatcherOnInstanceChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type ActivityRecognitionHardwareWatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareWatcherStub)(nil)
+
+func (s *ActivityRecognitionHardwareWatcherStub) Descriptor() string {
+	return DescriptorIActivityRecognitionHardwareWatcher
+}
 
 func (s *ActivityRecognitionHardwareWatcherStub) OnTransaction(
 	ctx context.Context,

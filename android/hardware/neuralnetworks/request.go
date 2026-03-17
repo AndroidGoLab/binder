@@ -23,6 +23,7 @@ func (s *Request) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Inputs)))
 		for _, _item := range s.Inputs {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -33,6 +34,7 @@ func (s *Request) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Outputs)))
 		for _, _item := range s.Outputs {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -43,6 +45,7 @@ func (s *Request) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Pools)))
 		for _, _item := range s.Pools {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -69,6 +72,9 @@ func (s *Request) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Inputs = make([]RequestArgument, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Inputs[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -83,6 +89,9 @@ func (s *Request) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.Outputs = make([]RequestArgument, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Outputs[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -97,6 +106,9 @@ func (s *Request) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Pools = make([]RequestMemoryPool, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Pools[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

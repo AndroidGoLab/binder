@@ -30,6 +30,7 @@ func (s *GnssAlmanac) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.SatelliteAlmanac)))
 		for _, _item := range s.SatelliteAlmanac {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -76,6 +77,9 @@ func (s *GnssAlmanac) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.SatelliteAlmanac = make([]gnss_assistanceGnssAlmanac.GnssSatelliteAlmanac, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.SatelliteAlmanac[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

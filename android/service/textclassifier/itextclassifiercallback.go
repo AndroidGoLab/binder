@@ -17,6 +17,11 @@ const (
 	TransactionITextClassifierCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITextClassifierCallbackOnSuccess = "onSuccess"
+	MethodITextClassifierCallbackOnFailure = "onFailure"
+)
+
 type ITextClassifierCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result os.Bundle) error
@@ -24,17 +29,17 @@ type ITextClassifierCallback interface {
 }
 
 type TextClassifierCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTextClassifierCallbackProxy(
 	remote binder.IBinder,
 ) *TextClassifierCallbackProxy {
-	return &TextClassifierCallbackProxy{remote: remote}
+	return &TextClassifierCallbackProxy{Remote: remote}
 }
 
 func (p *TextClassifierCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITextClassifierCallback = (*TextClassifierCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *TextClassifierCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextClassifierCallback, MethodITextClassifierCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionITextClassifierCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextClassifierCallback, MethodITextClassifierCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +70,12 @@ func (p *TextClassifierCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITextClassifierCallback, MethodITextClassifierCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionITextClassifierCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITextClassifierCallback, MethodITextClassifierCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +86,10 @@ type TextClassifierCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TextClassifierCallbackStub)(nil)
+
+func (s *TextClassifierCallbackStub) Descriptor() string {
+	return DescriptorITextClassifierCallback
+}
 
 func (s *TextClassifierCallbackStub) OnTransaction(
 	ctx context.Context,

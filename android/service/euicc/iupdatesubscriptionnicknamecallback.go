@@ -15,23 +15,27 @@ const (
 	TransactionIUpdateSubscriptionNicknameCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUpdateSubscriptionNicknameCallbackOnComplete = "onComplete"
+)
+
 type IUpdateSubscriptionNicknameCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type UpdateSubscriptionNicknameCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUpdateSubscriptionNicknameCallbackProxy(
 	remote binder.IBinder,
 ) *UpdateSubscriptionNicknameCallbackProxy {
-	return &UpdateSubscriptionNicknameCallbackProxy{remote: remote}
+	return &UpdateSubscriptionNicknameCallbackProxy{Remote: remote}
 }
 
 func (p *UpdateSubscriptionNicknameCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUpdateSubscriptionNicknameCallback = (*UpdateSubscriptionNicknameCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *UpdateSubscriptionNicknameCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIUpdateSubscriptionNicknameCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUpdateSubscriptionNicknameCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUpdateSubscriptionNicknameCallback, MethodIUpdateSubscriptionNicknameCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIUpdateSubscriptionNicknameCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUpdateSubscriptionNicknameCallback, MethodIUpdateSubscriptionNicknameCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UpdateSubscriptionNicknameCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UpdateSubscriptionNicknameCallbackStub)(nil)
+
+func (s *UpdateSubscriptionNicknameCallbackStub) Descriptor() string {
+	return DescriptorIUpdateSubscriptionNicknameCallback
+}
 
 func (s *UpdateSubscriptionNicknameCallbackStub) OnTransaction(
 	ctx context.Context,

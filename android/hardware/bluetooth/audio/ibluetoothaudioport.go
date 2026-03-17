@@ -22,6 +22,16 @@ const (
 	TransactionIBluetoothAudioPortSetLatencyMode          = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIBluetoothAudioPortGetPresentationPosition = "getPresentationPosition"
+	MethodIBluetoothAudioPortStartStream             = "startStream"
+	MethodIBluetoothAudioPortStopStream              = "stopStream"
+	MethodIBluetoothAudioPortSuspendStream           = "suspendStream"
+	MethodIBluetoothAudioPortUpdateSourceMetadata    = "updateSourceMetadata"
+	MethodIBluetoothAudioPortUpdateSinkMetadata      = "updateSinkMetadata"
+	MethodIBluetoothAudioPortSetLatencyMode          = "setLatencyMode"
+)
+
 type IBluetoothAudioPort interface {
 	AsBinder() binder.IBinder
 	GetPresentationPosition(ctx context.Context) (PresentationPosition, error)
@@ -34,17 +44,17 @@ type IBluetoothAudioPort interface {
 }
 
 type BluetoothAudioPortProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothAudioPortProxy(
 	remote binder.IBinder,
 ) *BluetoothAudioPortProxy {
-	return &BluetoothAudioPortProxy{remote: remote}
+	return &BluetoothAudioPortProxy{Remote: remote}
 }
 
 func (p *BluetoothAudioPortProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothAudioPort = (*BluetoothAudioPortProxy)(nil)
@@ -56,12 +66,12 @@ func (p *BluetoothAudioPortProxy) GetPresentationPosition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "getPresentationPosition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortGetPresentationPosition)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortGetPresentationPosition
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortGetPresentationPosition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,12 +101,12 @@ func (p *BluetoothAudioPortProxy) StartStream(
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 	_data.WriteBool(isLowLatency)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "startStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortStartStream)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortStartStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortStartStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -115,12 +125,12 @@ func (p *BluetoothAudioPortProxy) StopStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "stopStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortStopStream)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortStopStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortStopStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,12 +149,12 @@ func (p *BluetoothAudioPortProxy) SuspendStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "suspendStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortSuspendStream)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortSuspendStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortSuspendStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,12 +178,12 @@ func (p *BluetoothAudioPortProxy) UpdateSourceMetadata(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "updateSourceMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortUpdateSourceMetadata)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortUpdateSourceMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortUpdateSourceMetadata, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,12 +207,12 @@ func (p *BluetoothAudioPortProxy) UpdateSinkMetadata(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "updateSinkMetadata")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortUpdateSinkMetadata)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortUpdateSinkMetadata
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortUpdateSinkMetadata, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -223,12 +233,12 @@ func (p *BluetoothAudioPortProxy) SetLatencyMode(
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
 	_data.WriteInt32(int32(latencyMode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "setLatencyMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortSetLatencyMode)
 	if _err != nil {
-		_code = TransactionIBluetoothAudioPortSetLatencyMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAudioPort, MethodIBluetoothAudioPortSetLatencyMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -248,6 +258,10 @@ type BluetoothAudioPortStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAudioPortStub)(nil)
+
+func (s *BluetoothAudioPortStub) Descriptor() string {
+	return DescriptorIBluetoothAudioPort
+}
 
 func (s *BluetoothAudioPortStub) OnTransaction(
 	ctx context.Context,

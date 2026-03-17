@@ -15,23 +15,27 @@ const (
 	TransactionIEuiccServiceDumpResultCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEuiccServiceDumpResultCallbackOnComplete = "onComplete"
+)
+
 type IEuiccServiceDumpResultCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, logs string) error
 }
 
 type EuiccServiceDumpResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEuiccServiceDumpResultCallbackProxy(
 	remote binder.IBinder,
 ) *EuiccServiceDumpResultCallbackProxy {
-	return &EuiccServiceDumpResultCallbackProxy{remote: remote}
+	return &EuiccServiceDumpResultCallbackProxy{Remote: remote}
 }
 
 func (p *EuiccServiceDumpResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEuiccServiceDumpResultCallback = (*EuiccServiceDumpResultCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *EuiccServiceDumpResultCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIEuiccServiceDumpResultCallback)
 	_data.WriteString16(logs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEuiccServiceDumpResultCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEuiccServiceDumpResultCallback, MethodIEuiccServiceDumpResultCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIEuiccServiceDumpResultCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEuiccServiceDumpResultCallback, MethodIEuiccServiceDumpResultCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type EuiccServiceDumpResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EuiccServiceDumpResultCallbackStub)(nil)
+
+func (s *EuiccServiceDumpResultCallbackStub) Descriptor() string {
+	return DescriptorIEuiccServiceDumpResultCallback
+}
 
 func (s *EuiccServiceDumpResultCallbackStub) OnTransaction(
 	ctx context.Context,

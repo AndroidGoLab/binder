@@ -18,6 +18,13 @@ const (
 	TransactionIKeystoreOperationAbort     = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIKeystoreOperationUpdateAad = "updateAad"
+	MethodIKeystoreOperationUpdate    = "update"
+	MethodIKeystoreOperationFinish    = "finish"
+	MethodIKeystoreOperationAbort     = "abort"
+)
+
 type IKeystoreOperation interface {
 	AsBinder() binder.IBinder
 	UpdateAad(ctx context.Context, aadInput []byte) error
@@ -27,17 +34,17 @@ type IKeystoreOperation interface {
 }
 
 type KeystoreOperationProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewKeystoreOperationProxy(
 	remote binder.IBinder,
 ) *KeystoreOperationProxy {
-	return &KeystoreOperationProxy{remote: remote}
+	return &KeystoreOperationProxy{Remote: remote}
 }
 
 func (p *KeystoreOperationProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IKeystoreOperation = (*KeystoreOperationProxy)(nil)
@@ -57,12 +64,12 @@ func (p *KeystoreOperationProxy) UpdateAad(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "updateAad")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdateAad)
 	if _err != nil {
-		_code = TransactionIKeystoreOperationUpdateAad
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdateAad, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,12 +98,12 @@ func (p *KeystoreOperationProxy) Update(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "update")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdate)
 	if _err != nil {
-		_code = TransactionIKeystoreOperationUpdate
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreOperation, MethodIKeystoreOperationUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -148,12 +155,12 @@ func (p *KeystoreOperationProxy) Finish(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationFinish)
 	if _err != nil {
-		_code = TransactionIKeystoreOperationFinish
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreOperation, MethodIKeystoreOperationFinish, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -186,12 +193,12 @@ func (p *KeystoreOperationProxy) Abort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreOperation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "abort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIKeystoreOperation, MethodIKeystoreOperationAbort)
 	if _err != nil {
-		_code = TransactionIKeystoreOperationAbort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIKeystoreOperation, MethodIKeystoreOperationAbort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -211,6 +218,10 @@ type KeystoreOperationStub struct {
 }
 
 var _ binder.TransactionReceiver = (*KeystoreOperationStub)(nil)
+
+func (s *KeystoreOperationStub) Descriptor() string {
+	return DescriptorIKeystoreOperation
+}
 
 func (s *KeystoreOperationStub) OnTransaction(
 	ctx context.Context,

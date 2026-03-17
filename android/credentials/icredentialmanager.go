@@ -3,8 +3,8 @@ package credentials
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,13 +28,28 @@ const (
 	TransactionICredentialManagerIsServiceEnabled                        = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodICredentialManagerExecuteGetCredential                    = "executeGetCredential"
+	MethodICredentialManagerExecutePrepareGetCredential             = "executePrepareGetCredential"
+	MethodICredentialManagerExecuteCreateCredential                 = "executeCreateCredential"
+	MethodICredentialManagerGetCandidateCredentials                 = "getCandidateCredentials"
+	MethodICredentialManagerClearCredentialState                    = "clearCredentialState"
+	MethodICredentialManagerSetEnabledProviders                     = "setEnabledProviders"
+	MethodICredentialManagerRegisterCredentialDescription           = "registerCredentialDescription"
+	MethodICredentialManagerUnregisterCredentialDescription         = "unregisterCredentialDescription"
+	MethodICredentialManagerIsEnabledCredentialProviderService      = "isEnabledCredentialProviderService"
+	MethodICredentialManagerGetCredentialProviderServices           = "getCredentialProviderServices"
+	MethodICredentialManagerGetCredentialProviderServicesForTesting = "getCredentialProviderServicesForTesting"
+	MethodICredentialManagerIsServiceEnabled                        = "isServiceEnabled"
+)
+
 type ICredentialManager interface {
 	AsBinder() binder.IBinder
-	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
-	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
-	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
-	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (ondeviceintelligence.ICancellationSignal, error)
-	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (ondeviceintelligence.ICancellationSignal, error)
+	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (common.ICancellationSignal, error)
+	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (common.ICancellationSignal, error)
+	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (common.ICancellationSignal, error)
+	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (common.ICancellationSignal, error)
+	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (common.ICancellationSignal, error)
 	SetEnabledProviders(ctx context.Context, primaryProviders []string, providers []string, callback ISetEnabledProvidersCallback) error
 	RegisterCredentialDescription(ctx context.Context, request RegisterCredentialDescriptionRequest) error
 	UnregisterCredentialDescription(ctx context.Context, request UnregisterCredentialDescriptionRequest) error
@@ -45,17 +60,17 @@ type ICredentialManager interface {
 }
 
 type CredentialManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCredentialManagerProxy(
 	remote binder.IBinder,
 ) *CredentialManagerProxy {
-	return &CredentialManagerProxy{remote: remote}
+	return &CredentialManagerProxy{Remote: remote}
 }
 
 func (p *CredentialManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICredentialManager = (*CredentialManagerProxy)(nil)
@@ -64,24 +79,24 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	ctx context.Context,
 	request GetCredentialRequest,
 	callback IGetCredentialCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
-	_identity := p.remote.Identity()
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "executeGetCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerExecuteGetCredential)
 	if _err != nil {
-		_code = TransactionICredentialManagerExecuteGetCredential
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerExecuteGetCredential, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -95,7 +110,7 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -104,25 +119,25 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	request GetCredentialRequest,
 	prepareGetCredentialCallback IPrepareGetCredentialCallback,
 	getCredentialCallback IGetCredentialCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
-	_identity := p.remote.Identity()
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, prepareGetCredentialCallback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, getCredentialCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, prepareGetCredentialCallback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, getCredentialCallback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "executePrepareGetCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerExecutePrepareGetCredential)
 	if _err != nil {
-		_code = TransactionICredentialManagerExecutePrepareGetCredential
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerExecutePrepareGetCredential, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -136,7 +151,7 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -144,24 +159,24 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	ctx context.Context,
 	request CreateCredentialRequest,
 	callback ICreateCredentialCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
-	_identity := p.remote.Identity()
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "executeCreateCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerExecuteCreateCredential)
 	if _err != nil {
-		_code = TransactionICredentialManagerExecuteCreateCredential
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerExecuteCreateCredential, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,7 +190,7 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -184,25 +199,25 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	request GetCredentialRequest,
 	callback IGetCandidateCredentialsCallback,
 	clientCallback binder.IBinder,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
-	_identity := p.remote.Identity()
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, clientCallback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientCallback, p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "getCandidateCredentials")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerGetCandidateCredentials)
 	if _err != nil {
-		_code = TransactionICredentialManagerGetCandidateCredentials
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerGetCandidateCredentials, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -216,7 +231,7 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -224,24 +239,24 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	ctx context.Context,
 	request ClearCredentialStateRequest,
 	callback IClearCredentialStateCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
-	var _result ondeviceintelligence.ICancellationSignal
-	_identity := p.remote.Identity()
+) (common.ICancellationSignal, error) {
+	var _result common.ICancellationSignal
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "clearCredentialState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerClearCredentialState)
 	if _err != nil {
-		_code = TransactionICredentialManagerClearCredentialState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerClearCredentialState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -255,7 +270,7 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -265,7 +280,7 @@ func (p *CredentialManagerProxy) SetEnabledProviders(
 	providers []string,
 	callback ISetEnabledProvidersCallback,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	if primaryProviders == nil {
@@ -285,14 +300,14 @@ func (p *CredentialManagerProxy) SetEnabledProviders(
 		}
 	}
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "setEnabledProviders")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerSetEnabledProviders)
 	if _err != nil {
-		_code = TransactionICredentialManagerSetEnabledProviders
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerSetEnabledProviders, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -309,7 +324,7 @@ func (p *CredentialManagerProxy) RegisterCredentialDescription(
 	ctx context.Context,
 	request RegisterCredentialDescriptionRequest,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
@@ -318,12 +333,12 @@ func (p *CredentialManagerProxy) RegisterCredentialDescription(
 	}
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "registerCredentialDescription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerRegisterCredentialDescription)
 	if _err != nil {
-		_code = TransactionICredentialManagerRegisterCredentialDescription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerRegisterCredentialDescription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -340,7 +355,7 @@ func (p *CredentialManagerProxy) UnregisterCredentialDescription(
 	ctx context.Context,
 	request UnregisterCredentialDescriptionRequest,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
@@ -349,12 +364,12 @@ func (p *CredentialManagerProxy) UnregisterCredentialDescription(
 	}
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "unregisterCredentialDescription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerUnregisterCredentialDescription)
 	if _err != nil {
-		_code = TransactionICredentialManagerUnregisterCredentialDescription
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerUnregisterCredentialDescription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -372,7 +387,7 @@ func (p *CredentialManagerProxy) IsEnabledCredentialProviderService(
 	componentName content.ComponentName,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(1)
@@ -381,12 +396,12 @@ func (p *CredentialManagerProxy) IsEnabledCredentialProviderService(
 	}
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "isEnabledCredentialProviderService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerIsEnabledCredentialProviderService)
 	if _err != nil {
-		_code = TransactionICredentialManagerIsEnabledCredentialProviderService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerIsEnabledCredentialProviderService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -408,18 +423,18 @@ func (p *CredentialManagerProxy) GetCredentialProviderServices(
 	providerFilter int32,
 ) ([]CredentialProviderInfo, error) {
 	var _result []CredentialProviderInfo
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(providerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "getCredentialProviderServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServices)
 	if _err != nil {
-		_code = TransactionICredentialManagerGetCredentialProviderServices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -437,6 +452,9 @@ func (p *CredentialManagerProxy) GetCredentialProviderServices(
 	if _count >= 0 {
 		_result = make([]CredentialProviderInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -454,12 +472,12 @@ func (p *CredentialManagerProxy) GetCredentialProviderServicesForTesting(
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 	_data.WriteInt32(providerFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "getCredentialProviderServicesForTesting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServicesForTesting)
 	if _err != nil {
-		_code = TransactionICredentialManagerGetCredentialProviderServicesForTesting
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerGetCredentialProviderServicesForTesting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -477,6 +495,9 @@ func (p *CredentialManagerProxy) GetCredentialProviderServicesForTesting(
 	if _count >= 0 {
 		_result = make([]CredentialProviderInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -492,12 +513,12 @@ func (p *CredentialManagerProxy) IsServiceEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "isServiceEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICredentialManager, MethodICredentialManagerIsServiceEnabled)
 	if _err != nil {
-		_code = TransactionICredentialManagerIsServiceEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICredentialManager, MethodICredentialManagerIsServiceEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -521,6 +542,10 @@ type CredentialManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CredentialManagerStub)(nil)
+
+func (s *CredentialManagerStub) Descriptor() string {
+	return DescriptorICredentialManager
+}
 
 func (s *CredentialManagerStub) OnTransaction(
 	ctx context.Context,
@@ -861,11 +886,11 @@ func (s *CredentialManagerStub) OnTransaction(
 // provide to NewCredentialManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICredentialManagerServer interface {
-	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
-	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
-	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
-	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (ondeviceintelligence.ICancellationSignal, error)
-	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (ondeviceintelligence.ICancellationSignal, error)
+	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (common.ICancellationSignal, error)
+	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (common.ICancellationSignal, error)
+	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (common.ICancellationSignal, error)
+	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (common.ICancellationSignal, error)
+	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (common.ICancellationSignal, error)
 	SetEnabledProviders(ctx context.Context, primaryProviders []string, providers []string, callback ISetEnabledProvidersCallback) error
 	RegisterCredentialDescription(ctx context.Context, request RegisterCredentialDescriptionRequest) error
 	UnregisterCredentialDescription(ctx context.Context, request UnregisterCredentialDescriptionRequest) error
@@ -888,7 +913,7 @@ func (w *credentialManagerStubWrapper) ExecuteGetCredential(
 	ctx context.Context,
 	request GetCredentialRequest,
 	callback IGetCredentialCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.ExecuteGetCredential(ctx, request, callback)
 }
 
@@ -897,7 +922,7 @@ func (w *credentialManagerStubWrapper) ExecutePrepareGetCredential(
 	request GetCredentialRequest,
 	prepareGetCredentialCallback IPrepareGetCredentialCallback,
 	getCredentialCallback IGetCredentialCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.ExecutePrepareGetCredential(ctx, request, prepareGetCredentialCallback, getCredentialCallback)
 }
 
@@ -905,7 +930,7 @@ func (w *credentialManagerStubWrapper) ExecuteCreateCredential(
 	ctx context.Context,
 	request CreateCredentialRequest,
 	callback ICreateCredentialCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.ExecuteCreateCredential(ctx, request, callback)
 }
 
@@ -914,7 +939,7 @@ func (w *credentialManagerStubWrapper) GetCandidateCredentials(
 	request GetCredentialRequest,
 	callback IGetCandidateCredentialsCallback,
 	clientCallback binder.IBinder,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.GetCandidateCredentials(ctx, request, callback, clientCallback)
 }
 
@@ -922,7 +947,7 @@ func (w *credentialManagerStubWrapper) ClearCredentialState(
 	ctx context.Context,
 	request ClearCredentialStateRequest,
 	callback IClearCredentialStateCallback,
-) (ondeviceintelligence.ICancellationSignal, error) {
+) (common.ICancellationSignal, error) {
 	return w.impl.ClearCredentialState(ctx, request, callback)
 }
 

@@ -15,23 +15,27 @@ const (
 	TransactionICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged = "dispatchCommunicationDeviceChanged"
+)
+
 type ICommunicationDeviceDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchCommunicationDeviceChanged(ctx context.Context, portId int32) error
 }
 
 type CommunicationDeviceDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCommunicationDeviceDispatcherProxy(
 	remote binder.IBinder,
 ) *CommunicationDeviceDispatcherProxy {
-	return &CommunicationDeviceDispatcherProxy{remote: remote}
+	return &CommunicationDeviceDispatcherProxy{Remote: remote}
 }
 
 func (p *CommunicationDeviceDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICommunicationDeviceDispatcher = (*CommunicationDeviceDispatcherProxy)(nil)
@@ -44,12 +48,12 @@ func (p *CommunicationDeviceDispatcherProxy) DispatchCommunicationDeviceChanged(
 	_data.WriteInterfaceToken(DescriptorICommunicationDeviceDispatcher)
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICommunicationDeviceDispatcher, "dispatchCommunicationDeviceChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICommunicationDeviceDispatcher, MethodICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged)
 	if _err != nil {
-		_code = TransactionICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICommunicationDeviceDispatcher, MethodICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type CommunicationDeviceDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CommunicationDeviceDispatcherStub)(nil)
+
+func (s *CommunicationDeviceDispatcherStub) Descriptor() string {
+	return DescriptorICommunicationDeviceDispatcher
+}
 
 func (s *CommunicationDeviceDispatcherStub) OnTransaction(
 	ctx context.Context,

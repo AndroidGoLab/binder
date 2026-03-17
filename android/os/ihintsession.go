@@ -3,7 +3,6 @@ package os
 import (
 	"context"
 	"fmt"
-	power "github.com/xaionaro-go/binder/android/hardware/power"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +18,15 @@ const (
 	TransactionIHintSessionSendHint                  = binder.FirstCallTransaction + 3
 	TransactionIHintSessionSetMode                   = binder.FirstCallTransaction + 4
 	TransactionIHintSessionReportActualWorkDuration2 = binder.FirstCallTransaction + 5
-	TransactionIHintSessionAssociateToLayers         = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodIHintSessionUpdateTargetWorkDuration  = "updateTargetWorkDuration"
+	MethodIHintSessionReportActualWorkDuration  = "reportActualWorkDuration"
+	MethodIHintSessionClose                     = "close"
+	MethodIHintSessionSendHint                  = "sendHint"
+	MethodIHintSessionSetMode                   = "setMode"
+	MethodIHintSessionReportActualWorkDuration2 = "reportActualWorkDuration2"
 )
 
 type IHintSession interface {
@@ -29,22 +36,21 @@ type IHintSession interface {
 	Close(ctx context.Context) error
 	SendHint(ctx context.Context, hint int32) error
 	SetMode(ctx context.Context, mode int32, enabled bool) error
-	ReportActualWorkDuration2(ctx context.Context, workDurations []power.WorkDuration) error
-	AssociateToLayers(ctx context.Context, layerTokens []binder.IBinder) error
+	ReportActualWorkDuration2(ctx context.Context, workDurations []interface{}) error
 }
 
 type HintSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHintSessionProxy(
 	remote binder.IBinder,
 ) *HintSessionProxy {
-	return &HintSessionProxy{remote: remote}
+	return &HintSessionProxy{Remote: remote}
 }
 
 func (p *HintSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHintSession = (*HintSessionProxy)(nil)
@@ -57,12 +63,12 @@ func (p *HintSessionProxy) UpdateTargetWorkDuration(
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt64(targetDurationNanos)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "updateTargetWorkDuration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionUpdateTargetWorkDuration)
 	if _err != nil {
-		_code = TransactionIHintSessionUpdateTargetWorkDuration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintSession, MethodIHintSessionUpdateTargetWorkDuration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,12 +96,12 @@ func (p *HintSessionProxy) ReportActualWorkDuration(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "reportActualWorkDuration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration)
 	if _err != nil {
-		_code = TransactionIHintSessionReportActualWorkDuration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +111,12 @@ func (p *HintSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionClose)
 	if _err != nil {
-		_code = TransactionIHintSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintSession, MethodIHintSessionClose, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +128,12 @@ func (p *HintSessionProxy) SendHint(
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt32(hint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "sendHint")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionSendHint)
 	if _err != nil {
-		_code = TransactionIHintSessionSendHint
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintSession, MethodIHintSessionSendHint, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,18 +147,18 @@ func (p *HintSessionProxy) SetMode(
 	_data.WriteInt32(mode)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "setMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionSetMode)
 	if _err != nil {
-		_code = TransactionIHintSessionSetMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintSession, MethodIHintSessionSetMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *HintSessionProxy) ReportActualWorkDuration2(
 	ctx context.Context,
-	workDurations []power.WorkDuration,
+	workDurations []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
@@ -160,43 +166,14 @@ func (p *HintSessionProxy) ReportActualWorkDuration2(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(workDurations)))
-		for _, _item := range workDurations {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "reportActualWorkDuration2")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration2)
 	if _err != nil {
-		_code = TransactionIHintSessionReportActualWorkDuration2
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHintSession, MethodIHintSessionReportActualWorkDuration2, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *HintSessionProxy) AssociateToLayers(
-	ctx context.Context,
-	layerTokens []binder.IBinder,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIHintSession)
-	if layerTokens == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(layerTokens)))
-		for _, _item := range layerTokens {
-			_data.WriteStrongBinder(_item.Handle())
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "associateToLayers")
-	if _err != nil {
-		_code = TransactionIHintSessionAssociateToLayers
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -207,6 +184,10 @@ type HintSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HintSessionStub)(nil)
+
+func (s *HintSessionStub) Descriptor() string {
+	return DescriptorIHintSession
+}
 
 func (s *HintSessionStub) OnTransaction(
 	ctx context.Context,
@@ -276,19 +257,9 @@ func (s *HintSessionStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_workDurations []power.WorkDuration
+		var _arg_workDurations []interface{}
 		_ = _arg_workDurations
 		_err := s.Impl.ReportActualWorkDuration2(ctx, _arg_workDurations)
-		_ = _err
-		return nil, nil
-	case TransactionIHintSessionAssociateToLayers:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_layerTokens []binder.IBinder
-		_ = _arg_layerTokens
-		_err := s.Impl.AssociateToLayers(ctx, _arg_layerTokens)
 		_ = _err
 		return nil, nil
 	default:
@@ -305,8 +276,7 @@ type IHintSessionServer interface {
 	Close(ctx context.Context) error
 	SendHint(ctx context.Context, hint int32) error
 	SetMode(ctx context.Context, mode int32, enabled bool) error
-	ReportActualWorkDuration2(ctx context.Context, workDurations []power.WorkDuration) error
-	AssociateToLayers(ctx context.Context, layerTokens []binder.IBinder) error
+	ReportActualWorkDuration2(ctx context.Context, workDurations []interface{}) error
 }
 
 type hintSessionStubWrapper struct {
@@ -356,16 +326,9 @@ func (w *hintSessionStubWrapper) SetMode(
 
 func (w *hintSessionStubWrapper) ReportActualWorkDuration2(
 	ctx context.Context,
-	workDurations []power.WorkDuration,
+	workDurations []interface{},
 ) error {
 	return w.impl.ReportActualWorkDuration2(ctx, workDurations)
-}
-
-func (w *hintSessionStubWrapper) AssociateToLayers(
-	ctx context.Context,
-	layerTokens []binder.IBinder,
-) error {
-	return w.impl.AssociateToLayers(ctx, layerTokens)
 }
 
 var _ IHintSession = (*hintSessionStubWrapper)(nil)

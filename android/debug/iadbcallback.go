@@ -15,23 +15,27 @@ const (
 	TransactionIAdbCallbackOnDebuggingChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAdbCallbackOnDebuggingChanged = "onDebuggingChanged"
+)
+
 type IAdbCallback interface {
 	AsBinder() binder.IBinder
 	OnDebuggingChanged(ctx context.Context, enabled bool, type_ AdbTransportType) error
 }
 
 type AdbCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAdbCallbackProxy(
 	remote binder.IBinder,
 ) *AdbCallbackProxy {
-	return &AdbCallbackProxy{remote: remote}
+	return &AdbCallbackProxy{Remote: remote}
 }
 
 func (p *AdbCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAdbCallback = (*AdbCallbackProxy)(nil)
@@ -46,12 +50,12 @@ func (p *AdbCallbackProxy) OnDebuggingChanged(
 	_data.WriteBool(enabled)
 	_data.WritePaddedByte(byte(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAdbCallback, "onDebuggingChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAdbCallback, MethodIAdbCallbackOnDebuggingChanged)
 	if _err != nil {
-		_code = TransactionIAdbCallbackOnDebuggingChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAdbCallback, MethodIAdbCallbackOnDebuggingChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type AdbCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AdbCallbackStub)(nil)
+
+func (s *AdbCallbackStub) Descriptor() string {
+	return DescriptorIAdbCallback
+}
 
 func (s *AdbCallbackStub) OnTransaction(
 	ctx context.Context,

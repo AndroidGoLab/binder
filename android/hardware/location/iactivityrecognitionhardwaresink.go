@@ -15,23 +15,27 @@ const (
 	TransactionIActivityRecognitionHardwareSinkOnActivityChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIActivityRecognitionHardwareSinkOnActivityChanged = "onActivityChanged"
+)
+
 type IActivityRecognitionHardwareSink interface {
 	AsBinder() binder.IBinder
 	OnActivityChanged(ctx context.Context, event ActivityChangedEvent) error
 }
 
 type ActivityRecognitionHardwareSinkProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityRecognitionHardwareSinkProxy(
 	remote binder.IBinder,
 ) *ActivityRecognitionHardwareSinkProxy {
-	return &ActivityRecognitionHardwareSinkProxy{remote: remote}
+	return &ActivityRecognitionHardwareSinkProxy{Remote: remote}
 }
 
 func (p *ActivityRecognitionHardwareSinkProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityRecognitionHardwareSink = (*ActivityRecognitionHardwareSinkProxy)(nil)
@@ -47,12 +51,12 @@ func (p *ActivityRecognitionHardwareSinkProxy) OnActivityChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareSink, "onActivityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityRecognitionHardwareSink, MethodIActivityRecognitionHardwareSinkOnActivityChanged)
 	if _err != nil {
-		_code = TransactionIActivityRecognitionHardwareSinkOnActivityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityRecognitionHardwareSink, MethodIActivityRecognitionHardwareSinkOnActivityChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,6 +76,10 @@ type ActivityRecognitionHardwareSinkStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareSinkStub)(nil)
+
+func (s *ActivityRecognitionHardwareSinkStub) Descriptor() string {
+	return DescriptorIActivityRecognitionHardwareSink
+}
 
 func (s *ActivityRecognitionHardwareSinkStub) OnTransaction(
 	ctx context.Context,

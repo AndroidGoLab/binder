@@ -16,23 +16,27 @@ const (
 	TransactionISrvccStartedCallbackOnSrvccCallNotified = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISrvccStartedCallbackOnSrvccCallNotified = "onSrvccCallNotified"
+)
+
 type ISrvccStartedCallback interface {
 	AsBinder() binder.IBinder
 	OnSrvccCallNotified(ctx context.Context, profiles []ims.SrvccCall) error
 }
 
 type SrvccStartedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSrvccStartedCallbackProxy(
 	remote binder.IBinder,
 ) *SrvccStartedCallbackProxy {
-	return &SrvccStartedCallbackProxy{remote: remote}
+	return &SrvccStartedCallbackProxy{Remote: remote}
 }
 
 func (p *SrvccStartedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISrvccStartedCallback = (*SrvccStartedCallbackProxy)(nil)
@@ -48,18 +52,19 @@ func (p *SrvccStartedCallbackProxy) OnSrvccCallNotified(
 	} else {
 		_data.WriteInt32(int32(len(profiles)))
 		for _, _item := range profiles {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISrvccStartedCallback, "onSrvccCallNotified")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISrvccStartedCallback, MethodISrvccStartedCallbackOnSrvccCallNotified)
 	if _err != nil {
-		_code = TransactionISrvccStartedCallbackOnSrvccCallNotified
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISrvccStartedCallback, MethodISrvccStartedCallbackOnSrvccCallNotified, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +75,10 @@ type SrvccStartedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SrvccStartedCallbackStub)(nil)
+
+func (s *SrvccStartedCallbackStub) Descriptor() string {
+	return DescriptorISrvccStartedCallback
+}
 
 func (s *SrvccStartedCallbackStub) OnTransaction(
 	ctx context.Context,

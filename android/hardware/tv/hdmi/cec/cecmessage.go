@@ -24,14 +24,7 @@ func (s *CecMessage) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WritePaddedByte(byte(s.Initiator))
 	p.WritePaddedByte(byte(s.Destination))
-	if s.Body == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Body)))
-		for _, _item := range s.Body {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Body)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -57,19 +50,9 @@ func (s *CecMessage) UnmarshalParcel(
 	}
 	s.Destination = CecLogicalAddress(_destinationRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Body, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Body = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Body[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

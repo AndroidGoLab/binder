@@ -11,8 +11,8 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/binder/binder"
+	"github.com/xaionaro-go/binder/logger"
 	aidlerrors "github.com/xaionaro-go/binder/errors"
 	"github.com/xaionaro-go/binder/parcel"
 	"golang.org/x/sys/unix"
@@ -37,6 +37,14 @@ const readBufferSize = 1024
 type receiverEntry struct {
 	receiver binder.TransactionReceiver
 }
+
+// replyWriteBufSize is the size of the pre-allocated buffer for BC_REPLY:
+// 4 bytes (command) + 64 bytes (binderTransactionData) = 68.
+const replyWriteBufSize = 4 + 64
+
+// freeBufferBufSize is the size of the pre-allocated buffer for BC_FREE_BUFFER:
+// 4 bytes (command) + 8 bytes (pointer) = 12.
+const freeBufferBufSize = 4 + 8
 
 // Driver implements binder.Transport using /dev/binder.
 type Driver struct {
@@ -255,24 +263,37 @@ func (d *Driver) Transact(
 	}
 
 	// Parse the read buffer for BR codes. The kernel may split
-	// BR_TRANSACTION_COMPLETE and BR_REPLY across separate ioctl reads --
-	// if we got TC but no reply yet, read again to wait for BR_REPLY.
+	// BR_TRANSACTION_COMPLETE and BR_REPLY across separate ioctl reads.
+	// Additionally, when the remote service makes a callback into our
+	// process during the transaction (e.g. INTERFACE_TRANSACTION), the
+	// kernel delivers BR_TRANSACTION to this thread. After we handle
+	// that inline and send BC_REPLY, the kernel may send more events
+	// before our original BR_REPLY arrives. We track
+	// BR_TRANSACTION_COMPLETE across reads because it might appear in
+	// an earlier buffer than BR_REPLY.
 	isOneway := flags&binder.FlagOneway != 0
+	gotTC := false
 	for {
-		reply, gotReply, err := d.parseReadBuffer(ctx, readBuf[:bwr.readConsumed])
+		reply, gotReply, tc, err := d.parseReadBuffer(ctx, readBuf[:bwr.readConsumed])
 		if err != nil {
 			return nil, err
 		}
+		if tc {
+			gotTC = true
+		}
 
 		// If we received BR_REPLY (even with empty data), or this is
-		// a oneway transaction, return the result.
-		if gotReply || isOneway {
+		// a oneway transaction (only needs TC), return the result.
+		switch {
+		case gotReply:
+			return reply, nil
+		case isOneway && gotTC:
 			return reply, nil
 		}
 
-		// BR_TRANSACTION_COMPLETE without BR_REPLY -- the service hasn't
-		// responded yet. Issue a read-only ioctl to wait for BR_REPLY.
-		logger.Debugf(ctx, "Transact: got BR_TRANSACTION_COMPLETE without BR_REPLY, reading again")
+		// We haven't received BR_REPLY yet. Issue a read-only ioctl to
+		// wait for more events from the kernel.
+		logger.Tracef(ctx, "Transact: waiting for BR_REPLY, reading again (gotTC=%v)", gotTC)
 		bwr.writeSize = 0
 		bwr.writeConsumed = 0
 		bwr.readConsumed = 0
@@ -283,9 +304,11 @@ func (d *Driver) Transact(
 }
 
 // parseReadBuffer processes BR_* codes from the read buffer.
-// Returns the reply parcel and whether BR_REPLY was seen.
-// gotReply is false when only BR_TRANSACTION_COMPLETE was received
-// (the service hasn't responded yet — caller should read again).
+// Returns:
+//   - reply: the reply parcel (valid only when gotReply is true)
+//   - gotReply: whether BR_REPLY was seen
+//   - gotTC: whether BR_TRANSACTION_COMPLETE was seen
+//   - err: any parse error
 //
 // The kernel may deliver BR_INCREFS, BR_ACQUIRE, BR_RELEASE, BR_DECREFS,
 // and even BR_TRANSACTION to the transacting thread before BR_REPLY.
@@ -293,7 +316,7 @@ func (d *Driver) Transact(
 func (d *Driver) parseReadBuffer(
 	ctx context.Context,
 	buf []byte,
-) (_reply *parcel.Parcel, _gotReply bool, _err error) {
+) (_reply *parcel.Parcel, _gotReply bool, _gotTC bool, _err error) {
 	logger.Tracef(ctx, "parseReadBuffer")
 	defer func() { logger.Tracef(ctx, "/parseReadBuffer: %v", _err) }()
 
@@ -304,7 +327,7 @@ func (d *Driver) parseReadBuffer(
 
 	for offset < len(buf) {
 		if offset+4 > len(buf) {
-			return nil, false, fmt.Errorf("binder: truncated BR code at offset %d", offset)
+			return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR code at offset %d", offset)
 		}
 
 		cmd := binary.LittleEndian.Uint32(buf[offset:])
@@ -312,26 +335,26 @@ func (d *Driver) parseReadBuffer(
 
 		switch cmd {
 		case brNoop:
-			logger.Debugf(ctx, "BR_NOOP")
+			logger.Tracef(ctx, "BR_NOOP")
 
 		case brTransactionComplete:
-			logger.Debugf(ctx, "BR_TRANSACTION_COMPLETE")
+			logger.Tracef(ctx, "BR_TRANSACTION_COMPLETE")
 			gotTransactionComplete = true
 
 		case brReply:
-			logger.Debugf(ctx, "BR_REPLY")
+			logger.Tracef(ctx, "BR_REPLY")
 			if offset+txnSize > len(buf) {
-				return nil, true, fmt.Errorf("binder: truncated BR_REPLY data at offset %d", offset)
+				return nil, true, gotTransactionComplete, fmt.Errorf("binder: truncated BR_REPLY data at offset %d", offset)
 			}
 
 			var txn binderTransactionData
 			copyBytesToStruct(unsafe.Pointer(&txn), buf[offset:], unsafe.Sizeof(txn))
 			offset += txnSize
 
-			logger.Debugf(ctx, "BR_REPLY: flags=0x%x dataSize=%d offsetsSize=%d", txn.flags, txn.dataSize, txn.offsetsSize)
+			logger.Tracef(ctx, "BR_REPLY: flags=0x%x dataSize=%d offsetsSize=%d", txn.flags, txn.dataSize, txn.offsetsSize)
 
 			if txn.dataSize == 0 {
-				return parcel.New(), true, nil
+				return parcel.New(), true, gotTransactionComplete, nil
 			}
 
 			replyData := d.copyFromMapped(txn.dataBuffer, txn.dataSize)
@@ -343,10 +366,10 @@ func (d *Driver) parseReadBuffer(
 				if len(replyData) >= 4 {
 					statusCode := int32(binary.LittleEndian.Uint32(replyData))
 					if statusCode != 0 {
-						return nil, true, fmt.Errorf("binder: kernel status error: %d (0x%x)", statusCode, uint32(statusCode))
+						return nil, true, gotTransactionComplete, fmt.Errorf("binder: kernel status error: %d (0x%x)", statusCode, uint32(statusCode))
 					}
 				}
-				return parcel.New(), true, nil
+				return parcel.New(), true, gotTransactionComplete, nil
 			}
 
 			d.acquireReplyHandles(ctx, replyData, txn.offsetsBuffer, txn.offsetsSize)
@@ -355,12 +378,12 @@ func (d *Driver) parseReadBuffer(
 				logger.Warnf(ctx, "failed to free binder buffer: %v", err)
 			}
 
-			return parcel.FromBytes(replyData), true, nil
+			return parcel.FromBytes(replyData), true, gotTransactionComplete, nil
 
 		case brTransaction:
-			logger.Debugf(ctx, "parseReadBuffer: BR_TRANSACTION (inline)")
+			logger.Tracef(ctx, "parseReadBuffer: BR_TRANSACTION (inline)")
 			if offset+txnSize > len(buf) {
-				return nil, false, fmt.Errorf("binder: truncated BR_TRANSACTION at offset %d", offset)
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_TRANSACTION at offset %d", offset)
 			}
 
 			var txn binderTransactionData
@@ -371,71 +394,67 @@ func (d *Driver) parseReadBuffer(
 			d.handleIncomingTransaction(ctx, &txn)
 
 		case brIncRefs:
-			logger.Debugf(ctx, "parseReadBuffer: BR_INCREFS")
+			logger.Tracef(ctx, "parseReadBuffer: BR_INCREFS")
 			if offset+ptrCookieSize > len(buf) {
-				return nil, false, fmt.Errorf("binder: truncated BR_INCREFS at offset %d", offset)
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_INCREFS at offset %d", offset)
 			}
 			d.handleRefCommand(ctx, bcIncRefsDone, buf[offset:offset+ptrCookieSize])
 			offset += ptrCookieSize
 
 		case brAcquire:
-			logger.Debugf(ctx, "parseReadBuffer: BR_ACQUIRE")
+			logger.Tracef(ctx, "parseReadBuffer: BR_ACQUIRE")
 			if offset+ptrCookieSize > len(buf) {
-				return nil, false, fmt.Errorf("binder: truncated BR_ACQUIRE at offset %d", offset)
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_ACQUIRE at offset %d", offset)
 			}
 			d.handleRefCommand(ctx, bcAcquireDone, buf[offset:offset+ptrCookieSize])
 			offset += ptrCookieSize
 
 		case brRelease:
-			logger.Debugf(ctx, "parseReadBuffer: BR_RELEASE")
+			logger.Tracef(ctx, "parseReadBuffer: BR_RELEASE")
 			if offset+ptrCookieSize > len(buf) {
-				return nil, false, fmt.Errorf("binder: truncated BR_RELEASE at offset %d", offset)
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_RELEASE at offset %d", offset)
 			}
 			offset += ptrCookieSize
 
 		case brDecrefs:
-			logger.Debugf(ctx, "parseReadBuffer: BR_DECREFS")
+			logger.Tracef(ctx, "parseReadBuffer: BR_DECREFS")
 			if offset+ptrCookieSize > len(buf) {
-				return nil, false, fmt.Errorf("binder: truncated BR_DECREFS at offset %d", offset)
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_DECREFS at offset %d", offset)
 			}
 			offset += ptrCookieSize
 
 		case brDeadReply:
-			logger.Debugf(ctx, "BR_DEAD_REPLY")
-			return nil, true, &aidlerrors.TransactionError{
+			logger.Tracef(ctx, "BR_DEAD_REPLY")
+			return nil, true, gotTransactionComplete, &aidlerrors.TransactionError{
 				Code: aidlerrors.TransactionErrorDeadObject,
 			}
 
 		case brFailedReply:
-			logger.Debugf(ctx, "BR_FAILED_REPLY")
-			return nil, true, &aidlerrors.TransactionError{
+			logger.Tracef(ctx, "BR_FAILED_REPLY")
+			return nil, true, gotTransactionComplete, &aidlerrors.TransactionError{
 				Code: aidlerrors.TransactionErrorFailedTransaction,
 			}
 
 		case brError:
 			if offset+4 > len(buf) {
-				return nil, false, fmt.Errorf("binder: truncated BR_ERROR data")
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_ERROR data")
 			}
 			errCode := int32(binary.LittleEndian.Uint32(buf[offset:]))
 			offset += 4
-			return nil, false, fmt.Errorf("binder: BR_ERROR %d", errCode)
+			return nil, false, gotTransactionComplete, fmt.Errorf("binder: BR_ERROR %d", errCode)
 
 		case brSpawnLooper:
-			logger.Debugf(ctx, "BR_SPAWN_LOOPER (ignored)")
+			logger.Tracef(ctx, "BR_SPAWN_LOOPER (ignored)")
 
 		default:
 			logger.Warnf(ctx, "binder: unknown BR code 0x%08x at offset %d", cmd, offset-4)
-			return nil, false, fmt.Errorf("binder: unknown BR code 0x%08x", cmd)
+			return nil, false, gotTransactionComplete, fmt.Errorf("binder: unknown BR code 0x%08x", cmd)
 		}
 	}
 
-	if !gotTransactionComplete {
-		return nil, false, fmt.Errorf("binder: did not receive BR_TRANSACTION_COMPLETE")
-	}
-
-	// BR_TRANSACTION_COMPLETE without BR_REPLY — the service hasn't
-	// responded yet. Caller should issue another read ioctl.
-	return parcel.New(), false, nil
+	// Return what we found. The caller (Transact) tracks gotTC across
+	// reads and decides when to issue another ioctl.
+	return parcel.New(), false, gotTransactionComplete, nil
 }
 
 // acquireReplyHandles scans the reply's flat_binder_objects (located via the
@@ -467,7 +486,7 @@ func (d *Driver) acquireReplyHandles(
 		objType := binary.LittleEndian.Uint32(replyData[objOffset:])
 		if objType == binderTypeHandle {
 			handle := binary.LittleEndian.Uint32(replyData[objOffset+8:])
-			logger.Debugf(ctx, "acquiring handle %d from reply", handle)
+			logger.Tracef(ctx, "acquiring handle %d from reply", handle)
 
 			// Send BC_INCREFS + BC_ACQUIRE in a single write.
 			buf := make([]byte, 16)
@@ -593,12 +612,9 @@ func (d *Driver) writeDeathCommand(
 
 // writeCommand issues a write-only BINDER_WRITE_READ ioctl.
 func (d *Driver) writeCommand(
-	ctx context.Context,
+	_ context.Context,
 	writeBuf []byte,
-) (_err error) {
-	logger.Tracef(ctx, "writeCommand")
-	defer func() { logger.Tracef(ctx, "/writeCommand: %v", _err) }()
-
+) error {
 	bwr := binderWriteRead{
 		writeSize:   uint64(len(writeBuf)),
 		writeBuffer: uint64(uintptr(unsafe.Pointer(&writeBuf[0]))),

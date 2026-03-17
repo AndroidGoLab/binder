@@ -3,7 +3,7 @@ package biometrics
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -16,23 +16,27 @@ const (
 	TransactionIBiometricServiceLockoutResetCallbackOnLockoutReset = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBiometricServiceLockoutResetCallbackOnLockoutReset = "onLockoutReset"
+)
+
 type IBiometricServiceLockoutResetCallback interface {
 	AsBinder() binder.IBinder
-	OnLockoutReset(ctx context.Context, sensorId int32, callback ondeviceintelligence.IRemoteCallback) error
+	OnLockoutReset(ctx context.Context, sensorId int32, callback os.IRemoteCallback) error
 }
 
 type BiometricServiceLockoutResetCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBiometricServiceLockoutResetCallbackProxy(
 	remote binder.IBinder,
 ) *BiometricServiceLockoutResetCallbackProxy {
-	return &BiometricServiceLockoutResetCallbackProxy{remote: remote}
+	return &BiometricServiceLockoutResetCallbackProxy{Remote: remote}
 }
 
 func (p *BiometricServiceLockoutResetCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBiometricServiceLockoutResetCallback = (*BiometricServiceLockoutResetCallbackProxy)(nil)
@@ -40,19 +44,19 @@ var _ IBiometricServiceLockoutResetCallback = (*BiometricServiceLockoutResetCall
 func (p *BiometricServiceLockoutResetCallbackProxy) OnLockoutReset(
 	ctx context.Context,
 	sensorId int32,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricServiceLockoutResetCallback)
 	_data.WriteInt32(sensorId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceLockoutResetCallback, "onLockoutReset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBiometricServiceLockoutResetCallback, MethodIBiometricServiceLockoutResetCallbackOnLockoutReset)
 	if _err != nil {
-		_code = TransactionIBiometricServiceLockoutResetCallbackOnLockoutReset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBiometricServiceLockoutResetCallback, MethodIBiometricServiceLockoutResetCallbackOnLockoutReset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type BiometricServiceLockoutResetCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BiometricServiceLockoutResetCallbackStub)(nil)
+
+func (s *BiometricServiceLockoutResetCallbackStub) Descriptor() string {
+	return DescriptorIBiometricServiceLockoutResetCallback
+}
 
 func (s *BiometricServiceLockoutResetCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -79,7 +87,7 @@ func (s *BiometricServiceLockoutResetCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_callback ondeviceintelligence.IRemoteCallback
+		var _arg_callback os.IRemoteCallback
 		_ = _arg_callback
 		_err = s.Impl.OnLockoutReset(ctx, _arg_sensorId, _arg_callback)
 		_ = _err
@@ -93,7 +101,7 @@ func (s *BiometricServiceLockoutResetCallbackStub) OnTransaction(
 // provide to NewBiometricServiceLockoutResetCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBiometricServiceLockoutResetCallbackServer interface {
-	OnLockoutReset(ctx context.Context, sensorId int32, callback ondeviceintelligence.IRemoteCallback) error
+	OnLockoutReset(ctx context.Context, sensorId int32, callback os.IRemoteCallback) error
 }
 
 type biometricServiceLockoutResetCallbackStubWrapper struct {
@@ -108,7 +116,7 @@ func (w *biometricServiceLockoutResetCallbackStubWrapper) AsBinder() binder.IBin
 func (w *biometricServiceLockoutResetCallbackStubWrapper) OnLockoutReset(
 	ctx context.Context,
 	sensorId int32,
-	callback ondeviceintelligence.IRemoteCallback,
+	callback os.IRemoteCallback,
 ) error {
 	return w.impl.OnLockoutReset(ctx, sensorId, callback)
 }

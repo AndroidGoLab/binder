@@ -15,23 +15,27 @@ const (
 	TransactionITrustedPresentationListenerOnTrustedPresentationChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITrustedPresentationListenerOnTrustedPresentationChanged = "onTrustedPresentationChanged"
+)
+
 type ITrustedPresentationListener interface {
 	AsBinder() binder.IBinder
 	OnTrustedPresentationChanged(ctx context.Context, enteredTrustedStateIds []int32, exitedTrustedStateIds []int32) error
 }
 
 type TrustedPresentationListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTrustedPresentationListenerProxy(
 	remote binder.IBinder,
 ) *TrustedPresentationListenerProxy {
-	return &TrustedPresentationListenerProxy{remote: remote}
+	return &TrustedPresentationListenerProxy{Remote: remote}
 }
 
 func (p *TrustedPresentationListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITrustedPresentationListener = (*TrustedPresentationListenerProxy)(nil)
@@ -60,12 +64,12 @@ func (p *TrustedPresentationListenerProxy) OnTrustedPresentationChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITrustedPresentationListener, "onTrustedPresentationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITrustedPresentationListener, MethodITrustedPresentationListenerOnTrustedPresentationChanged)
 	if _err != nil {
-		_code = TransactionITrustedPresentationListenerOnTrustedPresentationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITrustedPresentationListener, MethodITrustedPresentationListenerOnTrustedPresentationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +80,10 @@ type TrustedPresentationListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TrustedPresentationListenerStub)(nil)
+
+func (s *TrustedPresentationListenerStub) Descriptor() string {
+	return DescriptorITrustedPresentationListener
+}
 
 func (s *TrustedPresentationListenerStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFeatureProvisioningCallbackOnFeatureProvisioningChanged    = "onFeatureProvisioningChanged"
+	MethodIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged = "onRcsFeatureProvisioningChanged"
+)
+
 type IFeatureProvisioningCallback interface {
 	AsBinder() binder.IBinder
 	OnFeatureProvisioningChanged(ctx context.Context, capability int32, tech int32, isProvisioned bool) error
@@ -23,17 +28,17 @@ type IFeatureProvisioningCallback interface {
 }
 
 type FeatureProvisioningCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFeatureProvisioningCallbackProxy(
 	remote binder.IBinder,
 ) *FeatureProvisioningCallbackProxy {
-	return &FeatureProvisioningCallbackProxy{remote: remote}
+	return &FeatureProvisioningCallbackProxy{Remote: remote}
 }
 
 func (p *FeatureProvisioningCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFeatureProvisioningCallback = (*FeatureProvisioningCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *FeatureProvisioningCallbackProxy) OnFeatureProvisioningChanged(
 	_data.WriteInt32(tech)
 	_data.WriteBool(isProvisioned)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureProvisioningCallback, "onFeatureProvisioningChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnFeatureProvisioningChanged)
 	if _err != nil {
-		_code = TransactionIFeatureProvisioningCallbackOnFeatureProvisioningChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnFeatureProvisioningChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +76,12 @@ func (p *FeatureProvisioningCallbackProxy) OnRcsFeatureProvisioningChanged(
 	_data.WriteInt32(tech)
 	_data.WriteBool(isProvisioned)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFeatureProvisioningCallback, "onRcsFeatureProvisioningChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged)
 	if _err != nil {
-		_code = TransactionIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFeatureProvisioningCallback, MethodIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type FeatureProvisioningCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FeatureProvisioningCallbackStub)(nil)
+
+func (s *FeatureProvisioningCallbackStub) Descriptor() string {
+	return DescriptorIFeatureProvisioningCallback
+}
 
 func (s *FeatureProvisioningCallbackStub) OnTransaction(
 	ctx context.Context,

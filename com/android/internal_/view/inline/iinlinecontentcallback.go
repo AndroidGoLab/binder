@@ -18,6 +18,12 @@ const (
 	TransactionIInlineContentCallbackOnLongClick = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInlineContentCallbackOnContent   = "onContent"
+	MethodIInlineContentCallbackOnClick     = "onClick"
+	MethodIInlineContentCallbackOnLongClick = "onLongClick"
+)
+
 type IInlineContentCallback interface {
 	AsBinder() binder.IBinder
 	OnContent(ctx context.Context, content view.SurfaceControlViewHostSurfacePackage, width int32, height int32) error
@@ -26,17 +32,17 @@ type IInlineContentCallback interface {
 }
 
 type InlineContentCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInlineContentCallbackProxy(
 	remote binder.IBinder,
 ) *InlineContentCallbackProxy {
-	return &InlineContentCallbackProxy{remote: remote}
+	return &InlineContentCallbackProxy{Remote: remote}
 }
 
 func (p *InlineContentCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInlineContentCallback = (*InlineContentCallbackProxy)(nil)
@@ -56,12 +62,12 @@ func (p *InlineContentCallbackProxy) OnContent(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentCallback, "onContent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnContent)
 	if _err != nil {
-		_code = TransactionIInlineContentCallbackOnContent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnContent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +77,12 @@ func (p *InlineContentCallbackProxy) OnClick(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentCallback, "onClick")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnClick)
 	if _err != nil {
-		_code = TransactionIInlineContentCallbackOnClick
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnClick, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +92,12 @@ func (p *InlineContentCallbackProxy) OnLongClick(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentCallback, "onLongClick")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnLongClick)
 	if _err != nil {
-		_code = TransactionIInlineContentCallbackOnLongClick
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineContentCallback, MethodIInlineContentCallbackOnLongClick, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +108,10 @@ type InlineContentCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InlineContentCallbackStub)(nil)
+
+func (s *InlineContentCallbackStub) Descriptor() string {
+	return DescriptorIInlineContentCallback
+}
 
 func (s *InlineContentCallbackStub) OnTransaction(
 	ctx context.Context,

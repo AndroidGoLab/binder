@@ -17,6 +17,12 @@ const (
 	TransactionIGameServiceGameStarted  = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGameServiceConnected    = "connected"
+	MethodIGameServiceDisconnected = "disconnected"
+	MethodIGameServiceGameStarted  = "gameStarted"
+)
+
 type IGameService interface {
 	AsBinder() binder.IBinder
 	Connected(ctx context.Context, gameServiceController IGameServiceController) error
@@ -25,17 +31,17 @@ type IGameService interface {
 }
 
 type GameServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameServiceProxy(
 	remote binder.IBinder,
 ) *GameServiceProxy {
-	return &GameServiceProxy{remote: remote}
+	return &GameServiceProxy{Remote: remote}
 }
 
 func (p *GameServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameService = (*GameServiceProxy)(nil)
@@ -46,14 +52,14 @@ func (p *GameServiceProxy) Connected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameService)
-	binder.WriteBinderToParcel(ctx, _data, gameServiceController.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, gameServiceController.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameService, "connected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameService, MethodIGameServiceConnected)
 	if _err != nil {
-		_code = TransactionIGameServiceConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameService, MethodIGameServiceConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *GameServiceProxy) Disconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameService, "disconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameService, MethodIGameServiceDisconnected)
 	if _err != nil {
-		_code = TransactionIGameServiceDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameService, MethodIGameServiceDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +89,12 @@ func (p *GameServiceProxy) GameStarted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameService, "gameStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameService, MethodIGameServiceGameStarted)
 	if _err != nil {
-		_code = TransactionIGameServiceGameStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGameService, MethodIGameServiceGameStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +105,10 @@ type GameServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameServiceStub)(nil)
+
+func (s *GameServiceStub) Descriptor() string {
+	return DescriptorIGameService
+}
 
 func (s *GameServiceStub) OnTransaction(
 	ctx context.Context,

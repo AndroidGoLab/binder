@@ -15,23 +15,27 @@ const (
 	TransactionISyncStatusObserverOnStatusChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISyncStatusObserverOnStatusChanged = "onStatusChanged"
+)
+
 type ISyncStatusObserver interface {
 	AsBinder() binder.IBinder
 	OnStatusChanged(ctx context.Context, which int32) error
 }
 
 type SyncStatusObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSyncStatusObserverProxy(
 	remote binder.IBinder,
 ) *SyncStatusObserverProxy {
-	return &SyncStatusObserverProxy{remote: remote}
+	return &SyncStatusObserverProxy{Remote: remote}
 }
 
 func (p *SyncStatusObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISyncStatusObserver = (*SyncStatusObserverProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SyncStatusObserverProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorISyncStatusObserver)
 	_data.WriteInt32(which)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncStatusObserver, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncStatusObserver, MethodISyncStatusObserverOnStatusChanged)
 	if _err != nil {
-		_code = TransactionISyncStatusObserverOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncStatusObserver, MethodISyncStatusObserverOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SyncStatusObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SyncStatusObserverStub)(nil)
+
+func (s *SyncStatusObserverStub) Descriptor() string {
+	return DescriptorISyncStatusObserver
+}
 
 func (s *SyncStatusObserverStub) OnTransaction(
 	ctx context.Context,

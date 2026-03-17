@@ -3,7 +3,6 @@ package inputmethod
 import (
 	"context"
 	"fmt"
-	graphics "github.com/xaionaro-go/binder/android/graphics"
 	net "github.com/xaionaro-go/binder/android/net"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -28,14 +27,31 @@ const (
 	TransactionIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod           = binder.FirstCallTransaction + 9
 	TransactionIInputMethodPrivilegedOperationsSwitchToNextInputMethod               = binder.FirstCallTransaction + 10
 	TransactionIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod = binder.FirstCallTransaction + 11
-	TransactionIInputMethodPrivilegedOperationsOnImeSwitchButtonClickFromClient      = binder.FirstCallTransaction + 12
-	TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync                 = binder.FirstCallTransaction + 13
-	TransactionIInputMethodPrivilegedOperationsApplyImeVisibilityAsync               = binder.FirstCallTransaction + 14
-	TransactionIInputMethodPrivilegedOperationsOnStylusHandwritingReady              = binder.FirstCallTransaction + 15
-	TransactionIInputMethodPrivilegedOperationsResetStylusHandwriting                = binder.FirstCallTransaction + 16
-	TransactionIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync             = binder.FirstCallTransaction + 17
-	TransactionIInputMethodPrivilegedOperationsSetHandwritingSurfaceNotTouchable     = binder.FirstCallTransaction + 18
-	TransactionIInputMethodPrivilegedOperationsSetHandwritingTouchableRegion         = binder.FirstCallTransaction + 19
+	TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync                 = binder.FirstCallTransaction + 12
+	TransactionIInputMethodPrivilegedOperationsApplyImeVisibilityAsync               = binder.FirstCallTransaction + 13
+	TransactionIInputMethodPrivilegedOperationsOnStylusHandwritingReady              = binder.FirstCallTransaction + 14
+	TransactionIInputMethodPrivilegedOperationsResetStylusHandwriting                = binder.FirstCallTransaction + 15
+	TransactionIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync             = binder.FirstCallTransaction + 16
+)
+
+const (
+	MethodIInputMethodPrivilegedOperationsSetImeWindowStatusAsync               = "setImeWindowStatusAsync"
+	MethodIInputMethodPrivilegedOperationsReportStartInputAsync                 = "reportStartInputAsync"
+	MethodIInputMethodPrivilegedOperationsCreateInputContentUriToken            = "createInputContentUriToken"
+	MethodIInputMethodPrivilegedOperationsReportFullscreenModeAsync             = "reportFullscreenModeAsync"
+	MethodIInputMethodPrivilegedOperationsSetInputMethod                        = "setInputMethod"
+	MethodIInputMethodPrivilegedOperationsSetInputMethodAndSubtype              = "setInputMethodAndSubtype"
+	MethodIInputMethodPrivilegedOperationsHideMySoftInput                       = "hideMySoftInput"
+	MethodIInputMethodPrivilegedOperationsShowMySoftInput                       = "showMySoftInput"
+	MethodIInputMethodPrivilegedOperationsUpdateStatusIconAsync                 = "updateStatusIconAsync"
+	MethodIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod           = "switchToPreviousInputMethod"
+	MethodIInputMethodPrivilegedOperationsSwitchToNextInputMethod               = "switchToNextInputMethod"
+	MethodIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod = "shouldOfferSwitchingToNextInputMethod"
+	MethodIInputMethodPrivilegedOperationsNotifyUserActionAsync                 = "notifyUserActionAsync"
+	MethodIInputMethodPrivilegedOperationsApplyImeVisibilityAsync               = "applyImeVisibilityAsync"
+	MethodIInputMethodPrivilegedOperationsOnStylusHandwritingReady              = "onStylusHandwritingReady"
+	MethodIInputMethodPrivilegedOperationsResetStylusHandwriting                = "resetStylusHandwriting"
+	MethodIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync             = "switchKeyboardLayoutAsync"
 )
 
 type IInputMethodPrivilegedOperations interface {
@@ -52,28 +68,25 @@ type IInputMethodPrivilegedOperations interface {
 	SwitchToPreviousInputMethod(ctx context.Context, future infra.AndroidFuture) error
 	SwitchToNextInputMethod(ctx context.Context, onlyCurrentIme bool, future infra.AndroidFuture) error
 	ShouldOfferSwitchingToNextInputMethod(ctx context.Context, future infra.AndroidFuture) error
-	OnImeSwitchButtonClickFromClient(ctx context.Context, displayId int32) error
 	NotifyUserActionAsync(ctx context.Context) error
 	ApplyImeVisibilityAsync(ctx context.Context, showOrHideInputToken binder.IBinder, setVisible bool, statsToken viewInputmethod.ImeTrackerToken) error
 	OnStylusHandwritingReady(ctx context.Context, requestId int32, pid int32) error
 	ResetStylusHandwriting(ctx context.Context, requestId int32) error
 	SwitchKeyboardLayoutAsync(ctx context.Context, direction int32) error
-	SetHandwritingSurfaceNotTouchable(ctx context.Context, notTouchable bool) error
-	SetHandwritingTouchableRegion(ctx context.Context, region graphics.Region) error
 }
 
 type InputMethodPrivilegedOperationsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputMethodPrivilegedOperationsProxy(
 	remote binder.IBinder,
 ) *InputMethodPrivilegedOperationsProxy {
-	return &InputMethodPrivilegedOperationsProxy{remote: remote}
+	return &InputMethodPrivilegedOperationsProxy{Remote: remote}
 }
 
 func (p *InputMethodPrivilegedOperationsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputMethodPrivilegedOperations = (*InputMethodPrivilegedOperationsProxy)(nil)
@@ -88,12 +101,12 @@ func (p *InputMethodPrivilegedOperationsProxy) SetImeWindowStatusAsync(
 	_data.WriteInt32(vis)
 	_data.WriteInt32(backDisposition)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "setImeWindowStatusAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetImeWindowStatusAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSetImeWindowStatusAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetImeWindowStatusAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,14 +116,14 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportStartInputAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	binder.WriteBinderToParcel(ctx, _data, startInputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, startInputToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "reportStartInputAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportStartInputAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsReportStartInputAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportStartInputAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,12 +145,12 @@ func (p *InputMethodPrivilegedOperationsProxy) CreateInputContentUriToken(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "createInputContentUriToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsCreateInputContentUriToken)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsCreateInputContentUriToken
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsCreateInputContentUriToken, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,12 +162,12 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportFullscreenModeAsync(
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteBool(fullscreen)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "reportFullscreenModeAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportFullscreenModeAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsReportFullscreenModeAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsReportFullscreenModeAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,12 +184,12 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethod(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "setInputMethod")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethod)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSetInputMethod
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethod, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,12 +211,12 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethodAndSubtype(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "setInputMethodAndSubtype")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethodAndSubtype)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSetInputMethodAndSubtype
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSetInputMethodAndSubtype, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -227,12 +240,12 @@ func (p *InputMethodPrivilegedOperationsProxy) HideMySoftInput(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "hideMySoftInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsHideMySoftInput)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsHideMySoftInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsHideMySoftInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -256,12 +269,12 @@ func (p *InputMethodPrivilegedOperationsProxy) ShowMySoftInput(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "showMySoftInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShowMySoftInput)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsShowMySoftInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShowMySoftInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -275,12 +288,12 @@ func (p *InputMethodPrivilegedOperationsProxy) UpdateStatusIconAsync(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(iconId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "updateStatusIconAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsUpdateStatusIconAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsUpdateStatusIconAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsUpdateStatusIconAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -295,12 +308,12 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToPreviousInputMethod(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "switchToPreviousInputMethod")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -317,12 +330,12 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToNextInputMethod(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "switchToNextInputMethod")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToNextInputMethod)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSwitchToNextInputMethod
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchToNextInputMethod, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -337,29 +350,12 @@ func (p *InputMethodPrivilegedOperationsProxy) ShouldOfferSwitchingToNextInputMe
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "shouldOfferSwitchingToNextInputMethod")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *InputMethodPrivilegedOperationsProxy) OnImeSwitchButtonClickFromClient(
-	ctx context.Context,
-	displayId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "onImeSwitchButtonClickFromClient")
-	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsOnImeSwitchButtonClickFromClient
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -369,12 +365,12 @@ func (p *InputMethodPrivilegedOperationsProxy) NotifyUserActionAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "notifyUserActionAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsNotifyUserActionAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsNotifyUserActionAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -386,19 +382,19 @@ func (p *InputMethodPrivilegedOperationsProxy) ApplyImeVisibilityAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	binder.WriteBinderToParcel(ctx, _data, showOrHideInputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, showOrHideInputToken, p.Remote.Transport())
 	_data.WriteBool(setVisible)
 	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "applyImeVisibilityAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsApplyImeVisibilityAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsApplyImeVisibilityAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsApplyImeVisibilityAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -412,12 +408,12 @@ func (p *InputMethodPrivilegedOperationsProxy) OnStylusHandwritingReady(
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "onStylusHandwritingReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsOnStylusHandwritingReady)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsOnStylusHandwritingReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsOnStylusHandwritingReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -429,12 +425,12 @@ func (p *InputMethodPrivilegedOperationsProxy) ResetStylusHandwriting(
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(requestId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "resetStylusHandwriting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsResetStylusHandwriting)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsResetStylusHandwriting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsResetStylusHandwriting, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -446,49 +442,12 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchKeyboardLayoutAsync(
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteInt32(direction)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "switchKeyboardLayoutAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync)
 	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodPrivilegedOperations, MethodIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *InputMethodPrivilegedOperationsProxy) SetHandwritingSurfaceNotTouchable(
-	ctx context.Context,
-	notTouchable bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteBool(notTouchable)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "setHandwritingSurfaceNotTouchable")
-	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSetHandwritingSurfaceNotTouchable
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *InputMethodPrivilegedOperationsProxy) SetHandwritingTouchableRegion(
-	ctx context.Context,
-	region graphics.Region,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
-	_data.WriteInt32(1)
-	if _err := region.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodPrivilegedOperations, "setHandwritingTouchableRegion")
-	if _err != nil {
-		_code = TransactionIInputMethodPrivilegedOperationsSetHandwritingTouchableRegion
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -499,6 +458,10 @@ type InputMethodPrivilegedOperationsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputMethodPrivilegedOperationsStub)(nil)
+
+func (s *InputMethodPrivilegedOperationsStub) Descriptor() string {
+	return DescriptorIInputMethodPrivilegedOperations
+}
 
 func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 	ctx context.Context,
@@ -789,17 +752,6 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_err := s.Impl.ShouldOfferSwitchingToNextInputMethod(ctx, _arg_future)
 		_ = _err
 		return nil, nil
-	case TransactionIInputMethodPrivilegedOperationsOnImeSwitchButtonClickFromClient:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnImeSwitchButtonClickFromClient(ctx, _arg_displayId)
-		_ = _err
-		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -870,36 +822,6 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_err = s.Impl.SwitchKeyboardLayoutAsync(ctx, _arg_direction)
 		_ = _err
 		return nil, nil
-	case TransactionIInputMethodPrivilegedOperationsSetHandwritingSurfaceNotTouchable:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_notTouchable, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetHandwritingSurfaceNotTouchable(ctx, _arg_notTouchable)
-		_ = _err
-		return nil, nil
-	case TransactionIInputMethodPrivilegedOperationsSetHandwritingTouchableRegion:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_region graphics.Region
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_region.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.SetHandwritingTouchableRegion(ctx, _arg_region)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -921,14 +843,11 @@ type IInputMethodPrivilegedOperationsServer interface {
 	SwitchToPreviousInputMethod(ctx context.Context, future infra.AndroidFuture) error
 	SwitchToNextInputMethod(ctx context.Context, onlyCurrentIme bool, future infra.AndroidFuture) error
 	ShouldOfferSwitchingToNextInputMethod(ctx context.Context, future infra.AndroidFuture) error
-	OnImeSwitchButtonClickFromClient(ctx context.Context, displayId int32) error
 	NotifyUserActionAsync(ctx context.Context) error
 	ApplyImeVisibilityAsync(ctx context.Context, showOrHideInputToken binder.IBinder, setVisible bool, statsToken viewInputmethod.ImeTrackerToken) error
 	OnStylusHandwritingReady(ctx context.Context, requestId int32, pid int32) error
 	ResetStylusHandwriting(ctx context.Context, requestId int32) error
 	SwitchKeyboardLayoutAsync(ctx context.Context, direction int32) error
-	SetHandwritingSurfaceNotTouchable(ctx context.Context, notTouchable bool) error
-	SetHandwritingTouchableRegion(ctx context.Context, region graphics.Region) error
 }
 
 type inputMethodPrivilegedOperationsStubWrapper struct {
@@ -1038,13 +957,6 @@ func (w *inputMethodPrivilegedOperationsStubWrapper) ShouldOfferSwitchingToNextI
 	return w.impl.ShouldOfferSwitchingToNextInputMethod(ctx, future)
 }
 
-func (w *inputMethodPrivilegedOperationsStubWrapper) OnImeSwitchButtonClickFromClient(
-	ctx context.Context,
-	displayId int32,
-) error {
-	return w.impl.OnImeSwitchButtonClickFromClient(ctx, displayId)
-}
-
 func (w *inputMethodPrivilegedOperationsStubWrapper) NotifyUserActionAsync(
 	ctx context.Context,
 ) error {
@@ -1080,20 +992,6 @@ func (w *inputMethodPrivilegedOperationsStubWrapper) SwitchKeyboardLayoutAsync(
 	direction int32,
 ) error {
 	return w.impl.SwitchKeyboardLayoutAsync(ctx, direction)
-}
-
-func (w *inputMethodPrivilegedOperationsStubWrapper) SetHandwritingSurfaceNotTouchable(
-	ctx context.Context,
-	notTouchable bool,
-) error {
-	return w.impl.SetHandwritingSurfaceNotTouchable(ctx, notTouchable)
-}
-
-func (w *inputMethodPrivilegedOperationsStubWrapper) SetHandwritingTouchableRegion(
-	ctx context.Context,
-	region graphics.Region,
-) error {
-	return w.impl.SetHandwritingTouchableRegion(ctx, region)
 }
 
 var _ IInputMethodPrivilegedOperations = (*inputMethodPrivilegedOperationsStubWrapper)(nil)

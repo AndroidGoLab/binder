@@ -18,6 +18,12 @@ const (
 	TransactionILcnConflictSetListener          = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodILcnConflictGetLcnConflictGroups = "getLcnConflictGroups"
+	MethodILcnConflictResolveLcnConflict   = "resolveLcnConflict"
+	MethodILcnConflictSetListener          = "setListener"
+)
+
 type ILcnConflict interface {
 	AsBinder() binder.IBinder
 	GetLcnConflictGroups(ctx context.Context) ([]os.Bundle, error)
@@ -26,17 +32,17 @@ type ILcnConflict interface {
 }
 
 type LcnConflictProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLcnConflictProxy(
 	remote binder.IBinder,
 ) *LcnConflictProxy {
-	return &LcnConflictProxy{remote: remote}
+	return &LcnConflictProxy{Remote: remote}
 }
 
 func (p *LcnConflictProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILcnConflict = (*LcnConflictProxy)(nil)
@@ -48,12 +54,12 @@ func (p *LcnConflictProxy) GetLcnConflictGroups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnConflict)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnConflict, "getLcnConflictGroups")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnConflict, MethodILcnConflictGetLcnConflictGroups)
 	if _err != nil {
-		_code = TransactionILcnConflictGetLcnConflictGroups
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILcnConflict, MethodILcnConflictGetLcnConflictGroups, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -71,6 +77,9 @@ func (p *LcnConflictProxy) GetLcnConflictGroups(
 	if _count >= 0 {
 		_result = make([]os.Bundle, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -91,18 +100,19 @@ func (p *LcnConflictProxy) ResolveLcnConflict(
 	} else {
 		_data.WriteInt32(int32(len(lcnConflictSettings)))
 		for _, _item := range lcnConflictSettings {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnConflict, "resolveLcnConflict")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnConflict, MethodILcnConflictResolveLcnConflict)
 	if _err != nil {
-		_code = TransactionILcnConflictResolveLcnConflict
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILcnConflict, MethodILcnConflictResolveLcnConflict, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,14 +136,14 @@ func (p *LcnConflictProxy) SetListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnConflict)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorILcnConflict, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILcnConflict, MethodILcnConflictSetListener)
 	if _err != nil {
-		_code = TransactionILcnConflictSetListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILcnConflict, MethodILcnConflictSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -157,6 +167,10 @@ type LcnConflictStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LcnConflictStub)(nil)
+
+func (s *LcnConflictStub) Descriptor() string {
+	return DescriptorILcnConflict
+}
 
 func (s *LcnConflictStub) OnTransaction(
 	ctx context.Context,

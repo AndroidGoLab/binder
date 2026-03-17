@@ -137,7 +137,7 @@ func writeUnionMarshalParcel(
 		f.P("\tcase %s:", tagConst)
 
 		if field.Type.IsArray || field.Type.Name == "List" {
-			writeArrayFieldToParcel(f, field.Type, fieldAccess, "p", opts, typeRef)
+			writeArrayFieldToParcel(f, field.Type, fieldAccess, "p", structName, opts, typeRef)
 			continue
 		}
 
@@ -149,6 +149,9 @@ func writeUnionMarshalParcel(
 		info := marshalForTypeWithCycleCheck(field.Type, opts, typeRef)
 		if info.WriteExpr != "" {
 			if isMarshalParcelWrite(info.WriteExpr) {
+				// NDK AIDL wire format: int32(1) non-null indicator before
+				// parcelable variant, matching writeTypedObject semantics.
+				f.P("\t\tp.WriteInt32(1)")
 				f.P("\t\tif _err := %s.MarshalParcel(p); _err != nil {", fieldAccess)
 				f.P("\t\t\treturn _err")
 				f.P("\t\t}")
@@ -202,7 +205,7 @@ func writeUnionUnmarshalParcel(
 		f.P("\tcase %s:", tagConst)
 
 		if field.Type.IsArray || field.Type.Name == "List" {
-			readArrayFieldFromParcel(f, field.Type, fieldAccess, "p", arrayIdx, opts, typeRef)
+			readArrayFieldFromParcel(f, field.Type, fieldAccess, "p", arrayIdx, structName, opts, typeRef)
 			arrayIdx++
 			continue
 		}
@@ -221,6 +224,11 @@ func writeUnionUnmarshalParcel(
 
 		switch {
 		case isUnmarshalParcelRead(info.ReadExpr):
+			// NDK AIDL wire format: int32 non-null indicator before
+			// parcelable variant, matching readTypedObject semantics.
+			f.P("\t\tif _, _err = p.ReadInt32(); _err != nil {")
+			f.P("\t\t\treturn _err")
+			f.P("\t\t}")
 			f.P("\t\tif _err = u.%s.UnmarshalParcel(p); _err != nil {", goFieldName)
 			f.P("\t\t\treturn _err")
 			f.P("\t\t}")

@@ -16,6 +16,11 @@ const (
 	TransactionIRebootEscrowRetrieveKey = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRebootEscrowStoreKey    = "storeKey"
+	MethodIRebootEscrowRetrieveKey = "retrieveKey"
+)
+
 type IRebootEscrow interface {
 	AsBinder() binder.IBinder
 	StoreKey(ctx context.Context, kek []byte) error
@@ -23,17 +28,17 @@ type IRebootEscrow interface {
 }
 
 type RebootEscrowProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRebootEscrowProxy(
 	remote binder.IBinder,
 ) *RebootEscrowProxy {
-	return &RebootEscrowProxy{remote: remote}
+	return &RebootEscrowProxy{Remote: remote}
 }
 
 func (p *RebootEscrowProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRebootEscrow = (*RebootEscrowProxy)(nil)
@@ -53,12 +58,12 @@ func (p *RebootEscrowProxy) StoreKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRebootEscrow, "storeKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRebootEscrow, MethodIRebootEscrowStoreKey)
 	if _err != nil {
-		_code = TransactionIRebootEscrowStoreKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRebootEscrow, MethodIRebootEscrowStoreKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +83,12 @@ func (p *RebootEscrowProxy) RetrieveKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRebootEscrow)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRebootEscrow, "retrieveKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRebootEscrow, MethodIRebootEscrowRetrieveKey)
 	if _err != nil {
-		_code = TransactionIRebootEscrowRetrieveKey
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRebootEscrow, MethodIRebootEscrowRetrieveKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,6 +122,10 @@ type RebootEscrowStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RebootEscrowStub)(nil)
+
+func (s *RebootEscrowStub) Descriptor() string {
+	return DescriptorIRebootEscrow
+}
 
 func (s *RebootEscrowStub) OnTransaction(
 	ctx context.Context,

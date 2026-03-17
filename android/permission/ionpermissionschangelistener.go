@@ -15,23 +15,27 @@ const (
 	TransactionIOnPermissionsChangeListenerOnPermissionsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnPermissionsChangeListenerOnPermissionsChanged = "onPermissionsChanged"
+)
+
 type IOnPermissionsChangeListener interface {
 	AsBinder() binder.IBinder
 	OnPermissionsChanged(ctx context.Context, uid int32, persistentDeviceId string) error
 }
 
 type OnPermissionsChangeListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnPermissionsChangeListenerProxy(
 	remote binder.IBinder,
 ) *OnPermissionsChangeListenerProxy {
-	return &OnPermissionsChangeListenerProxy{remote: remote}
+	return &OnPermissionsChangeListenerProxy{Remote: remote}
 }
 
 func (p *OnPermissionsChangeListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnPermissionsChangeListener = (*OnPermissionsChangeListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *OnPermissionsChangeListenerProxy) OnPermissionsChanged(
 	_data.WriteInt32(uid)
 	_data.WriteString16(persistentDeviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnPermissionsChangeListener, "onPermissionsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnPermissionsChangeListener, MethodIOnPermissionsChangeListenerOnPermissionsChanged)
 	if _err != nil {
-		_code = TransactionIOnPermissionsChangeListenerOnPermissionsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnPermissionsChangeListener, MethodIOnPermissionsChangeListenerOnPermissionsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type OnPermissionsChangeListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnPermissionsChangeListenerStub)(nil)
+
+func (s *OnPermissionsChangeListenerStub) Descriptor() string {
+	return DescriptorIOnPermissionsChangeListener
+}
 
 func (s *OnPermissionsChangeListenerStub) OnTransaction(
 	ctx context.Context,

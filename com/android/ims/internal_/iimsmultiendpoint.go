@@ -16,6 +16,11 @@ const (
 	TransactionIImsMultiEndpointRequestImsExternalCallStateInfo = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIImsMultiEndpointSetListener                     = "setListener"
+	MethodIImsMultiEndpointRequestImsExternalCallStateInfo = "requestImsExternalCallStateInfo"
+)
+
 type IImsMultiEndpoint interface {
 	AsBinder() binder.IBinder
 	SetListener(ctx context.Context, listener IImsExternalCallStateListener) error
@@ -23,17 +28,17 @@ type IImsMultiEndpoint interface {
 }
 
 type ImsMultiEndpointProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsMultiEndpointProxy(
 	remote binder.IBinder,
 ) *ImsMultiEndpointProxy {
-	return &ImsMultiEndpointProxy{remote: remote}
+	return &ImsMultiEndpointProxy{Remote: remote}
 }
 
 func (p *ImsMultiEndpointProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsMultiEndpoint = (*ImsMultiEndpointProxy)(nil)
@@ -44,14 +49,14 @@ func (p *ImsMultiEndpointProxy) SetListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMultiEndpoint)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMultiEndpoint, "setListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMultiEndpoint, MethodIImsMultiEndpointSetListener)
 	if _err != nil {
-		_code = TransactionIImsMultiEndpointSetListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMultiEndpoint, MethodIImsMultiEndpointSetListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,12 +75,12 @@ func (p *ImsMultiEndpointProxy) RequestImsExternalCallStateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMultiEndpoint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsMultiEndpoint, "requestImsExternalCallStateInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsMultiEndpoint, MethodIImsMultiEndpointRequestImsExternalCallStateInfo)
 	if _err != nil {
-		_code = TransactionIImsMultiEndpointRequestImsExternalCallStateInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsMultiEndpoint, MethodIImsMultiEndpointRequestImsExternalCallStateInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,6 +100,10 @@ type ImsMultiEndpointStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsMultiEndpointStub)(nil)
+
+func (s *ImsMultiEndpointStub) Descriptor() string {
+	return DescriptorIImsMultiEndpoint
+}
 
 func (s *ImsMultiEndpointStub) OnTransaction(
 	ctx context.Context,

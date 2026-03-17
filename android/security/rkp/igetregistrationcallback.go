@@ -17,6 +17,12 @@ const (
 	TransactionIGetRegistrationCallbackOnError   = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGetRegistrationCallbackOnSuccess = "onSuccess"
+	MethodIGetRegistrationCallbackOnCancel  = "onCancel"
+	MethodIGetRegistrationCallbackOnError   = "onError"
+)
+
 type IGetRegistrationCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, registration IRegistration) error
@@ -25,17 +31,17 @@ type IGetRegistrationCallback interface {
 }
 
 type GetRegistrationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGetRegistrationCallbackProxy(
 	remote binder.IBinder,
 ) *GetRegistrationCallbackProxy {
-	return &GetRegistrationCallbackProxy{remote: remote}
+	return &GetRegistrationCallbackProxy{Remote: remote}
 }
 
 func (p *GetRegistrationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGetRegistrationCallback = (*GetRegistrationCallbackProxy)(nil)
@@ -46,14 +52,14 @@ func (p *GetRegistrationCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
-	binder.WriteBinderToParcel(ctx, _data, registration.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, registration.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetRegistrationCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIGetRegistrationCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *GetRegistrationCallbackProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetRegistrationCallback, "onCancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnCancel)
 	if _err != nil {
-		_code = TransactionIGetRegistrationCallbackOnCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *GetRegistrationCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIGetRegistrationCallback)
 	_data.WriteString16(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGetRegistrationCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnError)
 	if _err != nil {
-		_code = TransactionIGetRegistrationCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGetRegistrationCallback, MethodIGetRegistrationCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +102,10 @@ type GetRegistrationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GetRegistrationCallbackStub)(nil)
+
+func (s *GetRegistrationCallbackStub) Descriptor() string {
+	return DescriptorIGetRegistrationCallback
+}
 
 func (s *GetRegistrationCallbackStub) OnTransaction(
 	ctx context.Context,

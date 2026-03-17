@@ -27,6 +27,20 @@ const (
 	TransactionIInputMethodSessionInvalidateInput        = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIInputMethodSessionUpdateExtractedText    = "updateExtractedText"
+	MethodIInputMethodSessionUpdateSelection        = "updateSelection"
+	MethodIInputMethodSessionViewClicked            = "viewClicked"
+	MethodIInputMethodSessionUpdateCursor           = "updateCursor"
+	MethodIInputMethodSessionDisplayCompletions     = "displayCompletions"
+	MethodIInputMethodSessionAppPrivateCommand      = "appPrivateCommand"
+	MethodIInputMethodSessionFinishSession          = "finishSession"
+	MethodIInputMethodSessionUpdateCursorAnchorInfo = "updateCursorAnchorInfo"
+	MethodIInputMethodSessionRemoveImeSurface       = "removeImeSurface"
+	MethodIInputMethodSessionFinishInput            = "finishInput"
+	MethodIInputMethodSessionInvalidateInput        = "invalidateInput"
+)
+
 type IInputMethodSession interface {
 	AsBinder() binder.IBinder
 	UpdateExtractedText(ctx context.Context, token int32, text viewInputmethod.ExtractedText) error
@@ -43,17 +57,17 @@ type IInputMethodSession interface {
 }
 
 type InputMethodSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputMethodSessionProxy(
 	remote binder.IBinder,
 ) *InputMethodSessionProxy {
-	return &InputMethodSessionProxy{remote: remote}
+	return &InputMethodSessionProxy{Remote: remote}
 }
 
 func (p *InputMethodSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputMethodSession = (*InputMethodSessionProxy)(nil)
@@ -71,12 +85,12 @@ func (p *InputMethodSessionProxy) UpdateExtractedText(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateExtractedText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateExtractedText)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionUpdateExtractedText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateExtractedText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +112,12 @@ func (p *InputMethodSessionProxy) UpdateSelection(
 	_data.WriteInt32(candidatesStart)
 	_data.WriteInt32(candidatesEnd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateSelection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateSelection)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionUpdateSelection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateSelection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +129,12 @@ func (p *InputMethodSessionProxy) ViewClicked(
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteBool(focusChanged)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "viewClicked")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionViewClicked)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionViewClicked
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionViewClicked, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,12 +149,12 @@ func (p *InputMethodSessionProxy) UpdateCursor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateCursor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursor)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionUpdateCursor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,18 +169,19 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 	} else {
 		_data.WriteInt32(int32(len(completions)))
 		for _, _item := range completions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "displayCompletions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionDisplayCompletions)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionDisplayCompletions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionDisplayCompletions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,12 +194,12 @@ func (p *InputMethodSessionProxy) AppPrivateCommand(
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteString16(action)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "appPrivateCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionAppPrivateCommand)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionAppPrivateCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionAppPrivateCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,12 +209,12 @@ func (p *InputMethodSessionProxy) FinishSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "finishSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionFinishSession)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionFinishSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionFinishSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -214,12 +229,12 @@ func (p *InputMethodSessionProxy) UpdateCursorAnchorInfo(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateCursorAnchorInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursorAnchorInfo)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionUpdateCursorAnchorInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionUpdateCursorAnchorInfo, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -229,12 +244,12 @@ func (p *InputMethodSessionProxy) RemoveImeSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "removeImeSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionRemoveImeSurface)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionRemoveImeSurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionRemoveImeSurface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -244,12 +259,12 @@ func (p *InputMethodSessionProxy) FinishInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "finishInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionFinishInput)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionFinishInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionFinishInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -265,15 +280,15 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputConnection.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "invalidateInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputMethodSession, MethodIInputMethodSessionInvalidateInput)
 	if _err != nil {
-		_code = TransactionIInputMethodSessionInvalidateInput
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputMethodSession, MethodIInputMethodSessionInvalidateInput, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -284,6 +299,10 @@ type InputMethodSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputMethodSessionStub)(nil)
+
+func (s *InputMethodSessionStub) Descriptor() string {
+	return DescriptorIInputMethodSession
+}
 
 func (s *InputMethodSessionStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIVibrationSessionAbort = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVibrationSessionClose = "close"
+	MethodIVibrationSessionAbort = "abort"
+)
+
 type IVibrationSession interface {
 	AsBinder() binder.IBinder
 	Close(ctx context.Context) error
@@ -23,17 +28,17 @@ type IVibrationSession interface {
 }
 
 type VibrationSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVibrationSessionProxy(
 	remote binder.IBinder,
 ) *VibrationSessionProxy {
-	return &VibrationSessionProxy{remote: remote}
+	return &VibrationSessionProxy{Remote: remote}
 }
 
 func (p *VibrationSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVibrationSession = (*VibrationSessionProxy)(nil)
@@ -44,12 +49,12 @@ func (p *VibrationSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "close")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrationSession, MethodIVibrationSessionClose)
 	if _err != nil {
-		_code = TransactionIVibrationSessionClose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrationSession, MethodIVibrationSessionClose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,12 +73,12 @@ func (p *VibrationSessionProxy) Abort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "abort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVibrationSession, MethodIVibrationSessionAbort)
 	if _err != nil {
-		_code = TransactionIVibrationSessionAbort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVibrationSession, MethodIVibrationSessionAbort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,6 +98,10 @@ type VibrationSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VibrationSessionStub)(nil)
+
+func (s *VibrationSessionStub) Descriptor() string {
+	return DescriptorIVibrationSession
+}
 
 func (s *VibrationSessionStub) OnTransaction(
 	ctx context.Context,

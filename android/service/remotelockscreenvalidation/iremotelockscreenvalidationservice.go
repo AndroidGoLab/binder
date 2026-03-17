@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteLockscreenValidationServiceValidateLockscreenGuess = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteLockscreenValidationServiceValidateLockscreenGuess = "validateLockscreenGuess"
+)
+
 type IRemoteLockscreenValidationService interface {
 	AsBinder() binder.IBinder
 	ValidateLockscreenGuess(ctx context.Context, guess []byte, callback IRemoteLockscreenValidationCallback) error
 }
 
 type RemoteLockscreenValidationServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteLockscreenValidationServiceProxy(
 	remote binder.IBinder,
 ) *RemoteLockscreenValidationServiceProxy {
-	return &RemoteLockscreenValidationServiceProxy{remote: remote}
+	return &RemoteLockscreenValidationServiceProxy{Remote: remote}
 }
 
 func (p *RemoteLockscreenValidationServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteLockscreenValidationService = (*RemoteLockscreenValidationServiceProxy)(nil)
@@ -51,14 +55,14 @@ func (p *RemoteLockscreenValidationServiceProxy) ValidateLockscreenGuess(
 			_data.WritePaddedByte(_item)
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationService, "validateLockscreenGuess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteLockscreenValidationService, MethodIRemoteLockscreenValidationServiceValidateLockscreenGuess)
 	if _err != nil {
-		_code = TransactionIRemoteLockscreenValidationServiceValidateLockscreenGuess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteLockscreenValidationService, MethodIRemoteLockscreenValidationServiceValidateLockscreenGuess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,6 +82,10 @@ type RemoteLockscreenValidationServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteLockscreenValidationServiceStub)(nil)
+
+func (s *RemoteLockscreenValidationServiceStub) Descriptor() string {
+	return DescriptorIRemoteLockscreenValidationService
+}
 
 func (s *RemoteLockscreenValidationServiceStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,13 @@ const (
 	TransactionIPlatformCompatNativeIsChangeEnabledByUid         = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIPlatformCompatNativeReportChangeByPackageName    = "reportChangeByPackageName"
+	MethodIPlatformCompatNativeReportChangeByUid            = "reportChangeByUid"
+	MethodIPlatformCompatNativeIsChangeEnabledByPackageName = "isChangeEnabledByPackageName"
+	MethodIPlatformCompatNativeIsChangeEnabledByUid         = "isChangeEnabledByUid"
+)
+
 type IPlatformCompatNative interface {
 	AsBinder() binder.IBinder
 	ReportChangeByPackageName(ctx context.Context, changeId int64, packageName string) error
@@ -27,17 +34,17 @@ type IPlatformCompatNative interface {
 }
 
 type PlatformCompatNativeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPlatformCompatNativeProxy(
 	remote binder.IBinder,
 ) *PlatformCompatNativeProxy {
-	return &PlatformCompatNativeProxy{remote: remote}
+	return &PlatformCompatNativeProxy{Remote: remote}
 }
 
 func (p *PlatformCompatNativeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPlatformCompatNative = (*PlatformCompatNativeProxy)(nil)
@@ -47,19 +54,19 @@ func (p *PlatformCompatNativeProxy) ReportChangeByPackageName(
 	changeId int64,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "reportChangeByPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByPackageName)
 	if _err != nil {
-		_code = TransactionIPlatformCompatNativeReportChangeByPackageName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +89,12 @@ func (p *PlatformCompatNativeProxy) ReportChangeByUid(
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "reportChangeByUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByUid)
 	if _err != nil {
-		_code = TransactionIPlatformCompatNativeReportChangeByUid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeReportChangeByUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,19 +113,19 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByPackageName(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompatNative)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "isChangeEnabledByPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByPackageName)
 	if _err != nil {
-		_code = TransactionIPlatformCompatNativeIsChangeEnabledByPackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -146,12 +153,12 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByUid(
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "isChangeEnabledByUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByUid)
 	if _err != nil {
-		_code = TransactionIPlatformCompatNativeIsChangeEnabledByUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompatNative, MethodIPlatformCompatNativeIsChangeEnabledByUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,6 +182,10 @@ type PlatformCompatNativeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PlatformCompatNativeStub)(nil)
+
+func (s *PlatformCompatNativeStub) Descriptor() string {
+	return DescriptorIPlatformCompatNative
+}
 
 func (s *PlatformCompatNativeStub) OnTransaction(
 	ctx context.Context,

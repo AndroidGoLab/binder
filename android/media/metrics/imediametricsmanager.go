@@ -27,6 +27,22 @@ const (
 	TransactionIMediaMetricsManagerReleaseSessionId         = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIMediaMetricsManagerReportPlaybackMetrics    = "reportPlaybackMetrics"
+	MethodIMediaMetricsManagerGetPlaybackSessionId     = "getPlaybackSessionId"
+	MethodIMediaMetricsManagerGetRecordingSessionId    = "getRecordingSessionId"
+	MethodIMediaMetricsManagerReportNetworkEvent       = "reportNetworkEvent"
+	MethodIMediaMetricsManagerReportPlaybackErrorEvent = "reportPlaybackErrorEvent"
+	MethodIMediaMetricsManagerReportPlaybackStateEvent = "reportPlaybackStateEvent"
+	MethodIMediaMetricsManagerReportTrackChangeEvent   = "reportTrackChangeEvent"
+	MethodIMediaMetricsManagerReportEditingEndedEvent  = "reportEditingEndedEvent"
+	MethodIMediaMetricsManagerGetTranscodingSessionId  = "getTranscodingSessionId"
+	MethodIMediaMetricsManagerGetEditingSessionId      = "getEditingSessionId"
+	MethodIMediaMetricsManagerGetBundleSessionId       = "getBundleSessionId"
+	MethodIMediaMetricsManagerReportBundleMetrics      = "reportBundleMetrics"
+	MethodIMediaMetricsManagerReleaseSessionId         = "releaseSessionId"
+)
+
 type IMediaMetricsManager interface {
 	AsBinder() binder.IBinder
 	ReportPlaybackMetrics(ctx context.Context, sessionId string, metrics PlaybackMetrics) error
@@ -45,17 +61,17 @@ type IMediaMetricsManager interface {
 }
 
 type MediaMetricsManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaMetricsManagerProxy(
 	remote binder.IBinder,
 ) *MediaMetricsManagerProxy {
-	return &MediaMetricsManagerProxy{remote: remote}
+	return &MediaMetricsManagerProxy{Remote: remote}
 }
 
 func (p *MediaMetricsManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaMetricsManager = (*MediaMetricsManagerProxy)(nil)
@@ -65,7 +81,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 	sessionId string,
 	metrics PlaybackMetrics,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
@@ -75,12 +91,12 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackMetrics")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackMetrics)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportPlaybackMetrics
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackMetrics, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,17 +113,17 @@ func (p *MediaMetricsManagerProxy) GetPlaybackSessionId(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getPlaybackSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetPlaybackSessionId)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerGetPlaybackSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetPlaybackSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -128,17 +144,17 @@ func (p *MediaMetricsManagerProxy) GetRecordingSessionId(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getRecordingSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetRecordingSessionId)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerGetRecordingSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetRecordingSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -160,7 +176,7 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 	sessionId string,
 	event NetworkEvent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
@@ -170,12 +186,12 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportNetworkEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportNetworkEvent)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportNetworkEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportNetworkEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,7 +209,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 	sessionId string,
 	event PlaybackErrorEvent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
@@ -203,12 +219,12 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackErrorEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackErrorEvent)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportPlaybackErrorEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackErrorEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,7 +242,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 	sessionId string,
 	event PlaybackStateEvent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
@@ -236,12 +252,12 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackStateEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackStateEvent)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportPlaybackStateEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportPlaybackStateEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -259,7 +275,7 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 	sessionId string,
 	event TrackChangeEvent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
@@ -269,12 +285,12 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportTrackChangeEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportTrackChangeEvent)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportTrackChangeEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportTrackChangeEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -292,7 +308,7 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 	sessionId string,
 	event EditingEndedEvent,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
@@ -302,12 +318,12 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportEditingEndedEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportEditingEndedEvent)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportEditingEndedEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportEditingEndedEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -324,17 +340,17 @@ func (p *MediaMetricsManagerProxy) GetTranscodingSessionId(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getTranscodingSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetTranscodingSessionId)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerGetTranscodingSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetTranscodingSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -355,17 +371,17 @@ func (p *MediaMetricsManagerProxy) GetEditingSessionId(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getEditingSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetEditingSessionId)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerGetEditingSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetEditingSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -386,17 +402,17 @@ func (p *MediaMetricsManagerProxy) GetBundleSessionId(
 	ctx context.Context,
 ) (string, error) {
 	var _result string
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getBundleSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetBundleSessionId)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerGetBundleSessionId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerGetBundleSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -418,18 +434,18 @@ func (p *MediaMetricsManagerProxy) ReportBundleMetrics(
 	sessionId string,
 	metrics interface{},
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportBundleMetrics")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportBundleMetrics)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReportBundleMetrics
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReportBundleMetrics, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -446,18 +462,18 @@ func (p *MediaMetricsManagerProxy) ReleaseSessionId(
 	ctx context.Context,
 	sessionId string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "releaseSessionId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReleaseSessionId)
 	if _err != nil {
-		_code = TransactionIMediaMetricsManagerReleaseSessionId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsManager, MethodIMediaMetricsManagerReleaseSessionId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -477,6 +493,10 @@ type MediaMetricsManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaMetricsManagerStub)(nil)
+
+func (s *MediaMetricsManagerStub) Descriptor() string {
+	return DescriptorIMediaMetricsManager
+}
 
 func (s *MediaMetricsManagerStub) OnTransaction(
 	ctx context.Context,

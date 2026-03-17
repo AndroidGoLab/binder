@@ -16,23 +16,27 @@ const (
 	TransactionIApnSourceServiceGetApns = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIApnSourceServiceGetApns = "getApns"
+)
+
 type IApnSourceService interface {
 	AsBinder() binder.IBinder
 	GetApns(ctx context.Context, subId int32) ([]content.ContentValues, error)
 }
 
 type ApnSourceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewApnSourceServiceProxy(
 	remote binder.IBinder,
 ) *ApnSourceServiceProxy {
-	return &ApnSourceServiceProxy{remote: remote}
+	return &ApnSourceServiceProxy{Remote: remote}
 }
 
 func (p *ApnSourceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IApnSourceService = (*ApnSourceServiceProxy)(nil)
@@ -46,12 +50,12 @@ func (p *ApnSourceServiceProxy) GetApns(
 	_data.WriteInterfaceToken(DescriptorIApnSourceService)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIApnSourceService, "getApns")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApnSourceService, MethodIApnSourceServiceGetApns)
 	if _err != nil {
-		_code = TransactionIApnSourceServiceGetApns
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIApnSourceService, MethodIApnSourceServiceGetApns, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -69,6 +73,9 @@ func (p *ApnSourceServiceProxy) GetApns(
 	if _count >= 0 {
 		_result = make([]content.ContentValues, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -84,6 +91,10 @@ type ApnSourceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ApnSourceServiceStub)(nil)
+
+func (s *ApnSourceServiceStub) Descriptor() string {
+	return DescriptorIApnSourceService
+}
 
 func (s *ApnSourceServiceStub) OnTransaction(
 	ctx context.Context,

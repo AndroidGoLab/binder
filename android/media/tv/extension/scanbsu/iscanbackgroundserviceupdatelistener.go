@@ -18,6 +18,12 @@ const (
 	TransactionIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIScanBackgroundServiceUpdateListenerOnChannelListUpdate            = "onChannelListUpdate"
+	MethodIScanBackgroundServiceUpdateListenerOnNetworkListUpdate            = "onNetworkListUpdate"
+	MethodIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate = "onTransportStreamingListUpdate"
+)
+
 type IScanBackgroundServiceUpdateListener interface {
 	AsBinder() binder.IBinder
 	OnChannelListUpdate(ctx context.Context, sessionToken string, updateInfos []os.Bundle) error
@@ -26,17 +32,17 @@ type IScanBackgroundServiceUpdateListener interface {
 }
 
 type ScanBackgroundServiceUpdateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScanBackgroundServiceUpdateListenerProxy(
 	remote binder.IBinder,
 ) *ScanBackgroundServiceUpdateListenerProxy {
-	return &ScanBackgroundServiceUpdateListenerProxy{remote: remote}
+	return &ScanBackgroundServiceUpdateListenerProxy{Remote: remote}
 }
 
 func (p *ScanBackgroundServiceUpdateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScanBackgroundServiceUpdateListener = (*ScanBackgroundServiceUpdateListenerProxy)(nil)
@@ -50,12 +56,12 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnChannelListUpdate(
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdateListener)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onChannelListUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanBackgroundServiceUpdateListener, MethodIScanBackgroundServiceUpdateListenerOnChannelListUpdate)
 	if _err != nil {
-		_code = TransactionIScanBackgroundServiceUpdateListenerOnChannelListUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanBackgroundServiceUpdateListener, MethodIScanBackgroundServiceUpdateListenerOnChannelListUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,6 +77,9 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnChannelListUpdate(
 	if _outCount0 >= 0 {
 		updateInfos = make([]os.Bundle, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = updateInfos[_i].UnmarshalParcel(_reply); _err != nil {
 				return _err
 			}
@@ -89,12 +98,12 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnNetworkListUpdate(
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdateListener)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onNetworkListUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanBackgroundServiceUpdateListener, MethodIScanBackgroundServiceUpdateListenerOnNetworkListUpdate)
 	if _err != nil {
-		_code = TransactionIScanBackgroundServiceUpdateListenerOnNetworkListUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanBackgroundServiceUpdateListener, MethodIScanBackgroundServiceUpdateListenerOnNetworkListUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,6 +119,9 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnNetworkListUpdate(
 	if _outCount0 >= 0 {
 		updateInfos = make([]os.Bundle, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = updateInfos[_i].UnmarshalParcel(_reply); _err != nil {
 				return _err
 			}
@@ -128,12 +140,12 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnTransportStreamingListUpdat
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdateListener)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onTransportStreamingListUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanBackgroundServiceUpdateListener, MethodIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate)
 	if _err != nil {
-		_code = TransactionIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIScanBackgroundServiceUpdateListener, MethodIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,6 +161,9 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnTransportStreamingListUpdat
 	if _outCount0 >= 0 {
 		updateInfos = make([]os.Bundle, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = updateInfos[_i].UnmarshalParcel(_reply); _err != nil {
 				return _err
 			}
@@ -165,6 +180,10 @@ type ScanBackgroundServiceUpdateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScanBackgroundServiceUpdateListenerStub)(nil)
+
+func (s *ScanBackgroundServiceUpdateListenerStub) Descriptor() string {
+	return DescriptorIScanBackgroundServiceUpdateListener
+}
 
 func (s *ScanBackgroundServiceUpdateListenerStub) OnTransaction(
 	ctx context.Context,

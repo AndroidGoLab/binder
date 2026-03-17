@@ -15,23 +15,27 @@ const (
 	TransactionIAndroidFutureComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAndroidFutureComplete = "complete"
+)
+
 type IAndroidFuture interface {
 	AsBinder() binder.IBinder
 	Complete(ctx context.Context, resultContainer AndroidFuture) error
 }
 
 type AndroidFutureProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAndroidFutureProxy(
 	remote binder.IBinder,
 ) *AndroidFutureProxy {
-	return &AndroidFutureProxy{remote: remote}
+	return &AndroidFutureProxy{Remote: remote}
 }
 
 func (p *AndroidFutureProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAndroidFuture = (*AndroidFutureProxy)(nil)
@@ -47,12 +51,12 @@ func (p *AndroidFutureProxy) Complete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAndroidFuture, "complete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAndroidFuture, MethodIAndroidFutureComplete)
 	if _err != nil {
-		_code = TransactionIAndroidFutureComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAndroidFuture, MethodIAndroidFutureComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type AndroidFutureStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AndroidFutureStub)(nil)
+
+func (s *AndroidFutureStub) Descriptor() string {
+	return DescriptorIAndroidFuture
+}
 
 func (s *AndroidFutureStub) OnTransaction(
 	ctx context.Context,

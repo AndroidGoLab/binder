@@ -17,6 +17,11 @@ const (
 	TransactionIServiceListGetServiceListInfo = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIServiceListGetServiceListIds  = "getServiceListIds"
+	MethodIServiceListGetServiceListInfo = "getServiceListInfo"
+)
+
 type IServiceList interface {
 	AsBinder() binder.IBinder
 	GetServiceListIds(ctx context.Context) ([]string, error)
@@ -24,17 +29,17 @@ type IServiceList interface {
 }
 
 type ServiceListProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListProxy(
 	remote binder.IBinder,
 ) *ServiceListProxy {
-	return &ServiceListProxy{remote: remote}
+	return &ServiceListProxy{Remote: remote}
 }
 
 func (p *ServiceListProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceList = (*ServiceListProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ServiceListProxy) GetServiceListIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceList)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceList, "getServiceListIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceList, MethodIServiceListGetServiceListIds)
 	if _err != nil {
-		_code = TransactionIServiceListGetServiceListIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceList, MethodIServiceListGetServiceListIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -96,12 +101,12 @@ func (p *ServiceListProxy) GetServiceListInfo(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceList, "getServiceListInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceList, MethodIServiceListGetServiceListInfo)
 	if _err != nil {
-		_code = TransactionIServiceListGetServiceListInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceList, MethodIServiceListGetServiceListInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,6 +135,10 @@ type ServiceListStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListStub)(nil)
+
+func (s *ServiceListStub) Descriptor() string {
+	return DescriptorIServiceList
+}
 
 func (s *ServiceListStub) OnTransaction(
 	ctx context.Context,

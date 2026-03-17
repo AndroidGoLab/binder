@@ -22,6 +22,17 @@ const (
 	TransactionIAppOpsUserServiceAssertEmptyAsyncNoted                                  = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog              = "callApiThatNotesSyncOpNativelyAndCheckLog"
+	MethodIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog = "callApiThatNotesNonPermissionSyncOpNativelyAndCheckLog"
+	MethodIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog        = "callOnewayApiThatNotesSyncOpNativelyAndCheckLog"
+	MethodIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog      = "callApiThatNotesSyncOpOtherUidNativelyAndCheckLog"
+	MethodIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage   = "callApiThatNotesAsyncOpNativelyAndCheckCustomMessage"
+	MethodIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog             = "callApiThatNotesAsyncOpNativelyAndCheckLog"
+	MethodIAppOpsUserServiceCallFreezeAndNoteSyncOp                                = "callFreezeAndNoteSyncOp"
+	MethodIAppOpsUserServiceAssertEmptyAsyncNoted                                  = "assertEmptyAsyncNoted"
+)
+
 type IAppOpsUserService interface {
 	AsBinder() binder.IBinder
 	CallApiThatNotesSyncOpNativelyAndCheckLog(ctx context.Context, client IAppOpsUserClient) error
@@ -35,17 +46,17 @@ type IAppOpsUserService interface {
 }
 
 type AppOpsUserServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppOpsUserServiceProxy(
 	remote binder.IBinder,
 ) *AppOpsUserServiceProxy {
-	return &AppOpsUserServiceProxy{remote: remote}
+	return &AppOpsUserServiceProxy{Remote: remote}
 }
 
 func (p *AppOpsUserServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppOpsUserService = (*AppOpsUserServiceProxy)(nil)
@@ -56,14 +67,14 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesSyncOpNativelyAndCheckLog(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesSyncOpNativelyAndCheckLog")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,14 +93,14 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesNonPermissionSyncOpNativelyAndC
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesNonPermissionSyncOpNativelyAndCheckLog")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,14 +119,14 @@ func (p *AppOpsUserServiceProxy) CallOnewayApiThatNotesSyncOpNativelyAndCheckLog
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callOnewayApiThatNotesSyncOpNativelyAndCheckLog")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,14 +145,14 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesSyncOpOtherUidNativelyAndCheckL
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesSyncOpOtherUidNativelyAndCheckLog")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -160,14 +171,14 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesAsyncOpNativelyAndCheckCustomMe
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesAsyncOpNativelyAndCheckCustomMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -186,14 +197,14 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesAsyncOpNativelyAndCheckLog(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesAsyncOpNativelyAndCheckLog")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -212,14 +223,14 @@ func (p *AppOpsUserServiceProxy) CallFreezeAndNoteSyncOp(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
-	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, client.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callFreezeAndNoteSyncOp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallFreezeAndNoteSyncOp)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceCallFreezeAndNoteSyncOp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceCallFreezeAndNoteSyncOp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -238,12 +249,12 @@ func (p *AppOpsUserServiceProxy) AssertEmptyAsyncNoted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "assertEmptyAsyncNoted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserService, MethodIAppOpsUserServiceAssertEmptyAsyncNoted)
 	if _err != nil {
-		_code = TransactionIAppOpsUserServiceAssertEmptyAsyncNoted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserService, MethodIAppOpsUserServiceAssertEmptyAsyncNoted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -263,6 +274,10 @@ type AppOpsUserServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppOpsUserServiceStub)(nil)
+
+func (s *AppOpsUserServiceStub) Descriptor() string {
+	return DescriptorIAppOpsUserService
+}
 
 func (s *AppOpsUserServiceStub) OnTransaction(
 	ctx context.Context,

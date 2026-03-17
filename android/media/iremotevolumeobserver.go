@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteVolumeObserverDispatchRemoteVolumeUpdate = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteVolumeObserverDispatchRemoteVolumeUpdate = "dispatchRemoteVolumeUpdate"
+)
+
 type IRemoteVolumeObserver interface {
 	AsBinder() binder.IBinder
 	DispatchRemoteVolumeUpdate(ctx context.Context, direction int32, value int32) error
 }
 
 type RemoteVolumeObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteVolumeObserverProxy(
 	remote binder.IBinder,
 ) *RemoteVolumeObserverProxy {
-	return &RemoteVolumeObserverProxy{remote: remote}
+	return &RemoteVolumeObserverProxy{Remote: remote}
 }
 
 func (p *RemoteVolumeObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteVolumeObserver = (*RemoteVolumeObserverProxy)(nil)
@@ -46,12 +50,12 @@ func (p *RemoteVolumeObserverProxy) DispatchRemoteVolumeUpdate(
 	_data.WriteInt32(direction)
 	_data.WriteInt32(value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteVolumeObserver, "dispatchRemoteVolumeUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteVolumeObserver, MethodIRemoteVolumeObserverDispatchRemoteVolumeUpdate)
 	if _err != nil {
-		_code = TransactionIRemoteVolumeObserverDispatchRemoteVolumeUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteVolumeObserver, MethodIRemoteVolumeObserverDispatchRemoteVolumeUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type RemoteVolumeObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteVolumeObserverStub)(nil)
+
+func (s *RemoteVolumeObserverStub) Descriptor() string {
+	return DescriptorIRemoteVolumeObserver
+}
 
 func (s *RemoteVolumeObserverStub) OnTransaction(
 	ctx context.Context,

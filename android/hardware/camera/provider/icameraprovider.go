@@ -23,6 +23,16 @@ const (
 	TransactionICameraProviderIsConcurrentStreamCombinationSupported = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodICameraProviderSetCallback                            = "setCallback"
+	MethodICameraProviderGetVendorTags                          = "getVendorTags"
+	MethodICameraProviderGetCameraIdList                        = "getCameraIdList"
+	MethodICameraProviderGetCameraDeviceInterface               = "getCameraDeviceInterface"
+	MethodICameraProviderNotifyDeviceStateChange                = "notifyDeviceStateChange"
+	MethodICameraProviderGetConcurrentCameraIds                 = "getConcurrentCameraIds"
+	MethodICameraProviderIsConcurrentStreamCombinationSupported = "isConcurrentStreamCombinationSupported"
+)
+
 type ICameraProvider interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback ICameraProviderCallback) error
@@ -42,17 +52,17 @@ const (
 )
 
 type CameraProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraProviderProxy(
 	remote binder.IBinder,
 ) *CameraProviderProxy {
-	return &CameraProviderProxy{remote: remote}
+	return &CameraProviderProxy{Remote: remote}
 }
 
 func (p *CameraProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraProvider = (*CameraProviderProxy)(nil)
@@ -63,14 +73,14 @@ func (p *CameraProviderProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderSetCallback)
 	if _err != nil {
-		_code = TransactionICameraProviderSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,12 +100,12 @@ func (p *CameraProviderProxy) GetVendorTags(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getVendorTags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetVendorTags)
 	if _err != nil {
-		_code = TransactionICameraProviderGetVendorTags
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderGetVendorTags, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,6 +123,9 @@ func (p *CameraProviderProxy) GetVendorTags(
 	if _count >= 0 {
 		_result = make([]common.VendorTagSection, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -128,12 +141,12 @@ func (p *CameraProviderProxy) GetCameraIdList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getCameraIdList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetCameraIdList)
 	if _err != nil {
-		_code = TransactionICameraProviderGetCameraIdList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderGetCameraIdList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,12 +182,12 @@ func (p *CameraProviderProxy) GetCameraDeviceInterface(
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 	_data.WriteString16(cameraDeviceName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getCameraDeviceInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetCameraDeviceInterface)
 	if _err != nil {
-		_code = TransactionICameraProviderGetCameraDeviceInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderGetCameraDeviceInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,7 +201,7 @@ func (p *CameraProviderProxy) GetCameraDeviceInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = device.NewCameraDeviceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = device.NewCameraDeviceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -200,12 +213,12 @@ func (p *CameraProviderProxy) NotifyDeviceStateChange(
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 	_data.WriteInt64(deviceState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "notifyDeviceStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderNotifyDeviceStateChange)
 	if _err != nil {
-		_code = TransactionICameraProviderNotifyDeviceStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderNotifyDeviceStateChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,12 +238,12 @@ func (p *CameraProviderProxy) GetConcurrentCameraIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getConcurrentCameraIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderGetConcurrentCameraIds)
 	if _err != nil {
-		_code = TransactionICameraProviderGetConcurrentCameraIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderGetConcurrentCameraIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -248,6 +261,9 @@ func (p *CameraProviderProxy) GetConcurrentCameraIds(
 	if _count >= 0 {
 		_result = make([]ConcurrentCameraIdCombination, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -268,18 +284,19 @@ func (p *CameraProviderProxy) IsConcurrentStreamCombinationSupported(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "isConcurrentStreamCombinationSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraProvider, MethodICameraProviderIsConcurrentStreamCombinationSupported)
 	if _err != nil {
-		_code = TransactionICameraProviderIsConcurrentStreamCombinationSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraProvider, MethodICameraProviderIsConcurrentStreamCombinationSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -303,6 +320,10 @@ type CameraProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraProviderStub)(nil)
+
+func (s *CameraProviderStub) Descriptor() string {
+	return DescriptorICameraProvider
+}
 
 func (s *CameraProviderStub) OnTransaction(
 	ctx context.Context,

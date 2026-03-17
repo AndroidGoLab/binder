@@ -22,62 +22,13 @@ func (s *AnqpData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.VenueName == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.VenueName)))
-		for _, _item := range s.VenueName {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.RoamingConsortium == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.RoamingConsortium)))
-		for _, _item := range s.RoamingConsortium {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.IpAddrTypeAvailability == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.IpAddrTypeAvailability)))
-		for _, _item := range s.IpAddrTypeAvailability {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.NaiRealm == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.NaiRealm)))
-		for _, _item := range s.NaiRealm {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Anqp3gppCellularNetwork == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Anqp3gppCellularNetwork)))
-		for _, _item := range s.Anqp3gppCellularNetwork {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.DomainName == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DomainName)))
-		for _, _item := range s.DomainName {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.VenueUrl == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.VenueUrl)))
-		for _, _item := range s.VenueUrl {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.VenueName)
+	p.WriteByteArray(s.RoamingConsortium)
+	p.WriteByteArray(s.IpAddrTypeAvailability)
+	p.WriteByteArray(s.NaiRealm)
+	p.WriteByteArray(s.Anqp3gppCellularNetwork)
+	p.WriteByteArray(s.DomainName)
+	p.WriteByteArray(s.VenueUrl)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -91,109 +42,39 @@ func (s *AnqpData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.VenueName, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.VenueName = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.VenueName[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.RoamingConsortium, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.RoamingConsortium = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.RoamingConsortium[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.IpAddrTypeAvailability, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.IpAddrTypeAvailability = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.IpAddrTypeAvailability[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.NaiRealm, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.NaiRealm = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.NaiRealm[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count4 int32
-	_count4, _err = p.ReadInt32()
+	s.Anqp3gppCellularNetwork, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count4 >= 0 {
-		s.Anqp3gppCellularNetwork = make([]byte, _count4)
-		for _i := int32(0); _i < _count4; _i++ {
-			s.Anqp3gppCellularNetwork[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count5 int32
-	_count5, _err = p.ReadInt32()
+	s.DomainName, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count5 >= 0 {
-		s.DomainName = make([]byte, _count5)
-		for _i := int32(0); _i < _count5; _i++ {
-			s.DomainName[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count6 int32
-	_count6, _err = p.ReadInt32()
+	s.VenueUrl, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count6 >= 0 {
-		s.VenueUrl = make([]byte, _count6)
-		for _i := int32(0); _i < _count6; _i++ {
-			s.VenueUrl[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

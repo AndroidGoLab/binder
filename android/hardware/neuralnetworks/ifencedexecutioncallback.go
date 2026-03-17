@@ -15,23 +15,27 @@ const (
 	TransactionIFencedExecutionCallbackGetExecutionInfo = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIFencedExecutionCallbackGetExecutionInfo = "getExecutionInfo"
+)
+
 type IFencedExecutionCallback interface {
 	AsBinder() binder.IBinder
 	GetExecutionInfo(ctx context.Context, timingLaunched Timing, timingFenced Timing) (ErrorStatus, error)
 }
 
 type FencedExecutionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFencedExecutionCallbackProxy(
 	remote binder.IBinder,
 ) *FencedExecutionCallbackProxy {
-	return &FencedExecutionCallbackProxy{remote: remote}
+	return &FencedExecutionCallbackProxy{Remote: remote}
 }
 
 func (p *FencedExecutionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFencedExecutionCallback = (*FencedExecutionCallbackProxy)(nil)
@@ -45,12 +49,12 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFencedExecutionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFencedExecutionCallback, "getExecutionInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFencedExecutionCallback, MethodIFencedExecutionCallbackGetExecutionInfo)
 	if _err != nil {
-		_code = TransactionIFencedExecutionCallbackGetExecutionInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFencedExecutionCallback, MethodIFencedExecutionCallbackGetExecutionInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,6 +85,10 @@ type FencedExecutionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FencedExecutionCallbackStub)(nil)
+
+func (s *FencedExecutionCallbackStub) Descriptor() string {
+	return DescriptorIFencedExecutionCallback
+}
 
 func (s *FencedExecutionCallbackStub) OnTransaction(
 	ctx context.Context,

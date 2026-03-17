@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime/pprof"
 
+	"github.com/facebookincubator/go-belt"
+	"github.com/facebookincubator/go-belt/tool/logger"
+	"github.com/facebookincubator/go-belt/tool/logger/implementation/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -13,13 +17,53 @@ const (
 )
 
 func newRootCmd() *cobra.Command {
+	logLevel := logger.LevelWarning
+
 	cmd := &cobra.Command{
 		Use:   "bindercli",
 		Short: "CLI tool for interacting with Android Binder services",
 		Long: `bindercli is a command-line interface for listing, inspecting,
 and invoking Android Binder services using AIDL-generated Go bindings.`,
+		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
+			l := logrus.Default().WithLevel(logLevel)
+			ctx := belt.CtxWithBelt(cmd.Context(), belt.New())
+			ctx = logger.CtxWithLogger(ctx, l)
+			cmd.SetContext(ctx)
+
+			cpuFile, _ := cmd.Flags().GetString("cpuprofile")
+			if cpuFile != "" {
+				f, err := os.Create(cpuFile)
+				if err != nil {
+					return fmt.Errorf("creating CPU profile: %w", err)
+				}
+				pprof.StartCPUProfile(f)
+			}
+			return nil
+		},
+		PersistentPostRunE: func(cmd *cobra.Command, _ []string) error {
+			cpuFile, _ := cmd.Flags().GetString("cpuprofile")
+			if cpuFile != "" {
+				pprof.StopCPUProfile()
+			}
+
+			memFile, _ := cmd.Flags().GetString("memprofile")
+			if memFile != "" {
+				f, err := os.Create(memFile)
+				if err != nil {
+					return fmt.Errorf("creating memory profile: %w", err)
+				}
+				defer f.Close()
+				pprof.WriteHeapProfile(f)
+			}
+			return nil
+		},
 	}
 
+	cmd.PersistentFlags().Var(
+		&logLevel,
+		"log-level",
+		"log level: trace, debug, info, warning, error, fatal, panic",
+	)
 	cmd.PersistentFlags().String(
 		"format",
 		"auto",
@@ -40,9 +84,20 @@ and invoking Android Binder services using AIDL-generated Go bindings.`,
 		0,
 		"Android API level to target (0 = auto-detect from device)",
 	)
+	cmd.PersistentFlags().String(
+		"cpuprofile",
+		"",
+		"write CPU profile to file",
+	)
+	cmd.PersistentFlags().String(
+		"memprofile",
+		"",
+		"write memory profile to file",
+	)
 
 	cmd.AddCommand(newServiceCmd())
 	cmd.AddCommand(newAIDLCmd())
+	cmd.AddCommand(newCameraCmd())
 	addGeneratedCommands(cmd)
 
 	return cmd

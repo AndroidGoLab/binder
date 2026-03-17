@@ -15,23 +15,27 @@ const (
 	TransactionIRetainSubscriptionsForFactoryResetCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRetainSubscriptionsForFactoryResetCallbackOnComplete = "onComplete"
+)
+
 type IRetainSubscriptionsForFactoryResetCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, result int32) error
 }
 
 type RetainSubscriptionsForFactoryResetCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRetainSubscriptionsForFactoryResetCallbackProxy(
 	remote binder.IBinder,
 ) *RetainSubscriptionsForFactoryResetCallbackProxy {
-	return &RetainSubscriptionsForFactoryResetCallbackProxy{remote: remote}
+	return &RetainSubscriptionsForFactoryResetCallbackProxy{Remote: remote}
 }
 
 func (p *RetainSubscriptionsForFactoryResetCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRetainSubscriptionsForFactoryResetCallback = (*RetainSubscriptionsForFactoryResetCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *RetainSubscriptionsForFactoryResetCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIRetainSubscriptionsForFactoryResetCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRetainSubscriptionsForFactoryResetCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRetainSubscriptionsForFactoryResetCallback, MethodIRetainSubscriptionsForFactoryResetCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIRetainSubscriptionsForFactoryResetCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRetainSubscriptionsForFactoryResetCallback, MethodIRetainSubscriptionsForFactoryResetCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type RetainSubscriptionsForFactoryResetCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RetainSubscriptionsForFactoryResetCallbackStub)(nil)
+
+func (s *RetainSubscriptionsForFactoryResetCallbackStub) Descriptor() string {
+	return DescriptorIRetainSubscriptionsForFactoryResetCallback
+}
 
 func (s *RetainSubscriptionsForFactoryResetCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,12 @@ const (
 	TransactionIDumpstateDeviceSetVerboseLoggingEnabled = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIDumpstateDeviceDumpstateBoard           = "dumpstateBoard"
+	MethodIDumpstateDeviceGetVerboseLoggingEnabled = "getVerboseLoggingEnabled"
+	MethodIDumpstateDeviceSetVerboseLoggingEnabled = "setVerboseLoggingEnabled"
+)
+
 type IDumpstateDevice interface {
 	AsBinder() binder.IBinder
 	DumpstateBoard(ctx context.Context, fd []int32, mode dumpstateIDumpstateDevice.DumpstateMode, timeoutMillis int64) error
@@ -31,17 +37,17 @@ const (
 )
 
 type DumpstateDeviceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDumpstateDeviceProxy(
 	remote binder.IBinder,
 ) *DumpstateDeviceProxy {
-	return &DumpstateDeviceProxy{remote: remote}
+	return &DumpstateDeviceProxy{Remote: remote}
 }
 
 func (p *DumpstateDeviceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDumpstateDevice = (*DumpstateDeviceProxy)(nil)
@@ -65,12 +71,12 @@ func (p *DumpstateDeviceProxy) DumpstateBoard(
 	_data.WriteInt32(int32(mode))
 	_data.WriteInt64(timeoutMillis)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateDevice, "dumpstateBoard")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceDumpstateBoard)
 	if _err != nil {
-		_code = TransactionIDumpstateDeviceDumpstateBoard
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateDevice, MethodIDumpstateDeviceDumpstateBoard, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,12 +96,12 @@ func (p *DumpstateDeviceProxy) GetVerboseLoggingEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateDevice, "getVerboseLoggingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceGetVerboseLoggingEnabled)
 	if _err != nil {
-		_code = TransactionIDumpstateDeviceGetVerboseLoggingEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateDevice, MethodIDumpstateDeviceGetVerboseLoggingEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -120,12 +126,12 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateDevice, "setVerboseLoggingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDumpstateDevice, MethodIDumpstateDeviceSetVerboseLoggingEnabled)
 	if _err != nil {
-		_code = TransactionIDumpstateDeviceSetVerboseLoggingEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDumpstateDevice, MethodIDumpstateDeviceSetVerboseLoggingEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -145,6 +151,10 @@ type DumpstateDeviceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DumpstateDeviceStub)(nil)
+
+func (s *DumpstateDeviceStub) Descriptor() string {
+	return DescriptorIDumpstateDevice
+}
 
 func (s *DumpstateDeviceStub) OnTransaction(
 	ctx context.Context,

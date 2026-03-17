@@ -16,6 +16,11 @@ const (
 	TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISensorPrivacyListenerOnSensorPrivacyChanged      = "onSensorPrivacyChanged"
+	MethodISensorPrivacyListenerOnSensorPrivacyStateChanged = "onSensorPrivacyStateChanged"
+)
+
 type ISensorPrivacyListener interface {
 	AsBinder() binder.IBinder
 	OnSensorPrivacyChanged(ctx context.Context, toggleType int32, sensor int32, enabled bool) error
@@ -23,17 +28,17 @@ type ISensorPrivacyListener interface {
 }
 
 type SensorPrivacyListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSensorPrivacyListenerProxy(
 	remote binder.IBinder,
 ) *SensorPrivacyListenerProxy {
-	return &SensorPrivacyListenerProxy{remote: remote}
+	return &SensorPrivacyListenerProxy{Remote: remote}
 }
 
 func (p *SensorPrivacyListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISensorPrivacyListener = (*SensorPrivacyListenerProxy)(nil)
@@ -50,12 +55,12 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyChanged(
 	_data.WriteInt32(sensor)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyListener, "onSensorPrivacyChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyChanged)
 	if _err != nil {
-		_code = TransactionISensorPrivacyListenerOnSensorPrivacyChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,12 +76,12 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 	_data.WriteInt32(sensor)
 	_data.WriteInt32(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyListener, "onSensorPrivacyStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyStateChanged)
 	if _err != nil {
-		_code = TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISensorPrivacyListener, MethodISensorPrivacyListenerOnSensorPrivacyStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +92,10 @@ type SensorPrivacyListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SensorPrivacyListenerStub)(nil)
+
+func (s *SensorPrivacyListenerStub) Descriptor() string {
+	return DescriptorISensorPrivacyListener
+}
 
 func (s *SensorPrivacyListenerStub) OnTransaction(
 	ctx context.Context,

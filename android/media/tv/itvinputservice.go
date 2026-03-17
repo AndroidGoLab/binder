@@ -29,6 +29,21 @@ const (
 	TransactionITvInputServiceNotifyHdmiDeviceUpdated             = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodITvInputServiceRegisterCallback                    = "registerCallback"
+	MethodITvInputServiceUnregisterCallback                  = "unregisterCallback"
+	MethodITvInputServiceCreateSession                       = "createSession"
+	MethodITvInputServiceCreateRecordingSession              = "createRecordingSession"
+	MethodITvInputServiceGetAvailableExtensionInterfaceNames = "getAvailableExtensionInterfaceNames"
+	MethodITvInputServiceGetExtensionInterface               = "getExtensionInterface"
+	MethodITvInputServiceGetExtensionInterfacePermission     = "getExtensionInterfacePermission"
+	MethodITvInputServiceNotifyHardwareAdded                 = "notifyHardwareAdded"
+	MethodITvInputServiceNotifyHardwareRemoved               = "notifyHardwareRemoved"
+	MethodITvInputServiceNotifyHdmiDeviceAdded               = "notifyHdmiDeviceAdded"
+	MethodITvInputServiceNotifyHdmiDeviceRemoved             = "notifyHdmiDeviceRemoved"
+	MethodITvInputServiceNotifyHdmiDeviceUpdated             = "notifyHdmiDeviceUpdated"
+)
+
 type ITvInputService interface {
 	AsBinder() binder.IBinder
 	RegisterCallback(ctx context.Context, callback ITvInputServiceCallback) error
@@ -46,17 +61,17 @@ type ITvInputService interface {
 }
 
 type TvInputServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTvInputServiceProxy(
 	remote binder.IBinder,
 ) *TvInputServiceProxy {
-	return &TvInputServiceProxy{remote: remote}
+	return &TvInputServiceProxy{Remote: remote}
 }
 
 func (p *TvInputServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITvInputService = (*TvInputServiceProxy)(nil)
@@ -67,14 +82,14 @@ func (p *TvInputServiceProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceRegisterCallback)
 	if _err != nil {
-		_code = TransactionITvInputServiceRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceRegisterCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,14 +99,14 @@ func (p *TvInputServiceProxy) UnregisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceUnregisterCallback)
 	if _err != nil {
-		_code = TransactionITvInputServiceUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceUnregisterCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,7 +124,7 @@ func (p *TvInputServiceProxy) CreateSession(
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(inputId)
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
@@ -117,12 +132,12 @@ func (p *TvInputServiceProxy) CreateSession(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceCreateSession)
 	if _err != nil {
-		_code = TransactionITvInputServiceCreateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceCreateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,16 +149,16 @@ func (p *TvInputServiceProxy) CreateRecordingSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(inputId)
 	_data.WriteString16(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "createRecordingSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceCreateRecordingSession)
 	if _err != nil {
-		_code = TransactionITvInputServiceCreateRecordingSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceCreateRecordingSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -154,12 +169,12 @@ func (p *TvInputServiceProxy) GetAvailableExtensionInterfaceNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "getAvailableExtensionInterfaceNames")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceGetAvailableExtensionInterfaceNames)
 	if _err != nil {
-		_code = TransactionITvInputServiceGetAvailableExtensionInterfaceNames
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceGetAvailableExtensionInterfaceNames, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -195,12 +210,12 @@ func (p *TvInputServiceProxy) GetExtensionInterface(
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "getExtensionInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceGetExtensionInterface)
 	if _err != nil {
-		_code = TransactionITvInputServiceGetExtensionInterface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceGetExtensionInterface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -214,7 +229,7 @@ func (p *TvInputServiceProxy) GetExtensionInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -227,12 +242,12 @@ func (p *TvInputServiceProxy) GetExtensionInterfacePermission(
 	_data.WriteInterfaceToken(DescriptorITvInputService)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "getExtensionInterfacePermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceGetExtensionInterfacePermission)
 	if _err != nil {
-		_code = TransactionITvInputServiceGetExtensionInterfacePermission
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceGetExtensionInterfacePermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -260,12 +275,12 @@ func (p *TvInputServiceProxy) NotifyHardwareAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHardwareAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHardwareAdded)
 	if _err != nil {
-		_code = TransactionITvInputServiceNotifyHardwareAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceNotifyHardwareAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -280,12 +295,12 @@ func (p *TvInputServiceProxy) NotifyHardwareRemoved(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHardwareRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHardwareRemoved)
 	if _err != nil {
-		_code = TransactionITvInputServiceNotifyHardwareRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceNotifyHardwareRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -300,12 +315,12 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHdmiDeviceAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceAdded)
 	if _err != nil {
-		_code = TransactionITvInputServiceNotifyHdmiDeviceAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -320,12 +335,12 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceRemoved(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHdmiDeviceRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceRemoved)
 	if _err != nil {
-		_code = TransactionITvInputServiceNotifyHdmiDeviceRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -340,12 +355,12 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHdmiDeviceUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceUpdated)
 	if _err != nil {
-		_code = TransactionITvInputServiceNotifyHdmiDeviceUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITvInputService, MethodITvInputServiceNotifyHdmiDeviceUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -356,6 +371,10 @@ type TvInputServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TvInputServiceStub)(nil)
+
+func (s *TvInputServiceStub) Descriptor() string {
+	return DescriptorITvInputService
+}
 
 func (s *TvInputServiceStub) OnTransaction(
 	ctx context.Context,

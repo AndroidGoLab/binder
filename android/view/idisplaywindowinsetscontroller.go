@@ -14,12 +14,19 @@ import (
 const DescriptorIDisplayWindowInsetsController = "android.view.IDisplayWindowInsetsController"
 
 const (
-	TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged              = binder.FirstCallTransaction + 0
-	TransactionIDisplayWindowInsetsControllerInsetsChanged                        = binder.FirstCallTransaction + 1
-	TransactionIDisplayWindowInsetsControllerInsetsControlChanged                 = binder.FirstCallTransaction + 2
-	TransactionIDisplayWindowInsetsControllerShowInsets                           = binder.FirstCallTransaction + 3
-	TransactionIDisplayWindowInsetsControllerHideInsets                           = binder.FirstCallTransaction + 4
-	TransactionIDisplayWindowInsetsControllerSetImeInputTargetRequestedVisibility = binder.FirstCallTransaction + 5
+	TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged = binder.FirstCallTransaction + 0
+	TransactionIDisplayWindowInsetsControllerInsetsChanged           = binder.FirstCallTransaction + 1
+	TransactionIDisplayWindowInsetsControllerInsetsControlChanged    = binder.FirstCallTransaction + 2
+	TransactionIDisplayWindowInsetsControllerShowInsets              = binder.FirstCallTransaction + 3
+	TransactionIDisplayWindowInsetsControllerHideInsets              = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodIDisplayWindowInsetsControllerTopFocusedWindowChanged = "topFocusedWindowChanged"
+	MethodIDisplayWindowInsetsControllerInsetsChanged           = "insetsChanged"
+	MethodIDisplayWindowInsetsControllerInsetsControlChanged    = "insetsControlChanged"
+	MethodIDisplayWindowInsetsControllerShowInsets              = "showInsets"
+	MethodIDisplayWindowInsetsControllerHideInsets              = "hideInsets"
 )
 
 type IDisplayWindowInsetsController interface {
@@ -29,21 +36,20 @@ type IDisplayWindowInsetsController interface {
 	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	HideInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
-	SetImeInputTargetRequestedVisibility(ctx context.Context, visible bool, statsToken inputmethod.ImeTrackerToken) error
 }
 
 type DisplayWindowInsetsControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayWindowInsetsControllerProxy(
 	remote binder.IBinder,
 ) *DisplayWindowInsetsControllerProxy {
-	return &DisplayWindowInsetsControllerProxy{remote: remote}
+	return &DisplayWindowInsetsControllerProxy{Remote: remote}
 }
 
 func (p *DisplayWindowInsetsControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayWindowInsetsController = (*DisplayWindowInsetsControllerProxy)(nil)
@@ -61,12 +67,12 @@ func (p *DisplayWindowInsetsControllerProxy) TopFocusedWindowChanged(
 	}
 	_data.WriteInt32(requestedVisibleTypes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "topFocusedWindowChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerTopFocusedWindowChanged)
 	if _err != nil {
-		_code = TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerTopFocusedWindowChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +87,12 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "insetsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsChanged)
 	if _err != nil {
-		_code = TransactionIDisplayWindowInsetsControllerInsetsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,18 +112,19 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsControlChanged(
 	} else {
 		_data.WriteInt32(int32(len(activeControls)))
 		for _, _item := range activeControls {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "insetsControlChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsControlChanged)
 	if _err != nil {
-		_code = TransactionIDisplayWindowInsetsControllerInsetsControlChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerInsetsControlChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,12 +146,12 @@ func (p *DisplayWindowInsetsControllerProxy) ShowInsets(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "showInsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerShowInsets)
 	if _err != nil {
-		_code = TransactionIDisplayWindowInsetsControllerShowInsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerShowInsets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,34 +173,12 @@ func (p *DisplayWindowInsetsControllerProxy) HideInsets(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "hideInsets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerHideInsets)
 	if _err != nil {
-		_code = TransactionIDisplayWindowInsetsControllerHideInsets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayWindowInsetsController, MethodIDisplayWindowInsetsControllerHideInsets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DisplayWindowInsetsControllerProxy) SetImeInputTargetRequestedVisibility(
-	ctx context.Context,
-	visible bool,
-	statsToken inputmethod.ImeTrackerToken,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
-	_data.WriteBool(visible)
-	_data.WriteInt32(1)
-	if _err := statsToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "setImeInputTargetRequestedVisibility")
-	if _err != nil {
-		_code = TransactionIDisplayWindowInsetsControllerSetImeInputTargetRequestedVisibility
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -204,6 +189,10 @@ type DisplayWindowInsetsControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayWindowInsetsControllerStub)(nil)
+
+func (s *DisplayWindowInsetsControllerStub) Descriptor() string {
+	return DescriptorIDisplayWindowInsetsController
+}
 
 func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 	ctx context.Context,
@@ -329,29 +318,6 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		_err = s.Impl.HideInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
 		_ = _err
 		return nil, nil
-	case TransactionIDisplayWindowInsetsControllerSetImeInputTargetRequestedVisibility:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_visible, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_statsToken inputmethod.ImeTrackerToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.SetImeInputTargetRequestedVisibility(ctx, _arg_visible, _arg_statsToken)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -366,7 +332,6 @@ type IDisplayWindowInsetsControllerServer interface {
 	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
 	HideInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
-	SetImeInputTargetRequestedVisibility(ctx context.Context, visible bool, statsToken inputmethod.ImeTrackerToken) error
 }
 
 type displayWindowInsetsControllerStubWrapper struct {
@@ -417,14 +382,6 @@ func (w *displayWindowInsetsControllerStubWrapper) HideInsets(
 	statsToken *inputmethod.ImeTrackerToken,
 ) error {
 	return w.impl.HideInsets(ctx, types, fromIme, statsToken)
-}
-
-func (w *displayWindowInsetsControllerStubWrapper) SetImeInputTargetRequestedVisibility(
-	ctx context.Context,
-	visible bool,
-	statsToken inputmethod.ImeTrackerToken,
-) error {
-	return w.impl.SetImeInputTargetRequestedVisibility(ctx, visible, statsToken)
 }
 
 var _ IDisplayWindowInsetsController = (*displayWindowInsetsControllerStubWrapper)(nil)

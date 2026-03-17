@@ -19,32 +19,39 @@ const (
 	TransactionIAutoFillServiceOnSaveRequest               = binder.FirstCallTransaction + 3
 	TransactionIAutoFillServiceOnSavedPasswordCountRequest = binder.FirstCallTransaction + 4
 	TransactionIAutoFillServiceOnConvertCredentialRequest  = binder.FirstCallTransaction + 5
-	TransactionIAutoFillServiceOnSessionDestroyed          = binder.FirstCallTransaction + 6
+)
+
+const (
+	MethodIAutoFillServiceOnConnectedStateChanged     = "onConnectedStateChanged"
+	MethodIAutoFillServiceOnFillRequest               = "onFillRequest"
+	MethodIAutoFillServiceOnFillCredentialRequest     = "onFillCredentialRequest"
+	MethodIAutoFillServiceOnSaveRequest               = "onSaveRequest"
+	MethodIAutoFillServiceOnSavedPasswordCountRequest = "onSavedPasswordCountRequest"
+	MethodIAutoFillServiceOnConvertCredentialRequest  = "onConvertCredentialRequest"
 )
 
 type IAutoFillService interface {
 	AsBinder() binder.IBinder
 	OnConnectedStateChanged(ctx context.Context, connected bool) error
 	OnFillRequest(ctx context.Context, request FillRequest, callback IFillCallback) error
-	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client binder.IBinder) error
+	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client interface{}) error
 	OnSaveRequest(ctx context.Context, request SaveRequest, callback ISaveCallback) error
 	OnSavedPasswordCountRequest(ctx context.Context, receiver os.IResultReceiver) error
 	OnConvertCredentialRequest(ctx context.Context, convertCredentialRequest ConvertCredentialRequest, convertCredentialCallback IConvertCredentialCallback) error
-	OnSessionDestroyed(ctx context.Context, history FillEventHistory) error
 }
 
 type AutoFillServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAutoFillServiceProxy(
 	remote binder.IBinder,
 ) *AutoFillServiceProxy {
-	return &AutoFillServiceProxy{remote: remote}
+	return &AutoFillServiceProxy{Remote: remote}
 }
 
 func (p *AutoFillServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAutoFillService = (*AutoFillServiceProxy)(nil)
@@ -57,12 +64,12 @@ func (p *AutoFillServiceProxy) OnConnectedStateChanged(
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteBool(connected)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onConnectedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnConnectedStateChanged)
 	if _err != nil {
-		_code = TransactionIAutoFillServiceOnConnectedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillService, MethodIAutoFillServiceOnConnectedStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,14 +84,14 @@ func (p *AutoFillServiceProxy) OnFillRequest(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onFillRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnFillRequest)
 	if _err != nil {
-		_code = TransactionIAutoFillServiceOnFillRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillService, MethodIAutoFillServiceOnFillRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,7 +99,7 @@ func (p *AutoFillServiceProxy) OnFillCredentialRequest(
 	ctx context.Context,
 	request FillRequest,
 	callback IFillCallback,
-	client binder.IBinder,
+	client interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
@@ -100,15 +107,14 @@ func (p *AutoFillServiceProxy) OnFillCredentialRequest(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, client, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onFillCredentialRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnFillCredentialRequest)
 	if _err != nil {
-		_code = TransactionIAutoFillServiceOnFillCredentialRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillService, MethodIAutoFillServiceOnFillCredentialRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,14 +129,14 @@ func (p *AutoFillServiceProxy) OnSaveRequest(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSaveRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnSaveRequest)
 	if _err != nil {
-		_code = TransactionIAutoFillServiceOnSaveRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillService, MethodIAutoFillServiceOnSaveRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,14 +146,14 @@ func (p *AutoFillServiceProxy) OnSavedPasswordCountRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
-	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, receiver.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSavedPasswordCountRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnSavedPasswordCountRequest)
 	if _err != nil {
-		_code = TransactionIAutoFillServiceOnSavedPasswordCountRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillService, MethodIAutoFillServiceOnSavedPasswordCountRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,34 +168,14 @@ func (p *AutoFillServiceProxy) OnConvertCredentialRequest(
 	if _err := convertCredentialRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, convertCredentialCallback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, convertCredentialCallback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onConvertCredentialRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAutoFillService, MethodIAutoFillServiceOnConvertCredentialRequest)
 	if _err != nil {
-		_code = TransactionIAutoFillServiceOnConvertCredentialRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAutoFillService, MethodIAutoFillServiceOnConvertCredentialRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *AutoFillServiceProxy) OnSessionDestroyed(
-	ctx context.Context,
-	history FillEventHistory,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAutoFillService)
-	_data.WriteInt32(1)
-	if _err := history.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSessionDestroyed")
-	if _err != nil {
-		_code = TransactionIAutoFillServiceOnSessionDestroyed
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,6 +186,10 @@ type AutoFillServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AutoFillServiceStub)(nil)
+
+func (s *AutoFillServiceStub) Descriptor() string {
+	return DescriptorIAutoFillService
+}
 
 func (s *AutoFillServiceStub) OnTransaction(
 	ctx context.Context,
@@ -259,9 +249,7 @@ func (s *AutoFillServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IFillCallback
 		_ = _arg_callback
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_client binder.IBinder
-		_ = _arg_client
+		var _arg_client interface{}
 		_err := s.Impl.OnFillCredentialRequest(ctx, _arg_request, _arg_callback, _arg_client)
 		_ = _err
 		return nil, nil
@@ -319,25 +307,6 @@ func (s *AutoFillServiceStub) OnTransaction(
 		_err := s.Impl.OnConvertCredentialRequest(ctx, _arg_convertCredentialRequest, _arg_convertCredentialCallback)
 		_ = _err
 		return nil, nil
-	case TransactionIAutoFillServiceOnSessionDestroyed:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_history FillEventHistory
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_history.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnSessionDestroyed(ctx, _arg_history)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -349,11 +318,10 @@ func (s *AutoFillServiceStub) OnTransaction(
 type IAutoFillServiceServer interface {
 	OnConnectedStateChanged(ctx context.Context, connected bool) error
 	OnFillRequest(ctx context.Context, request FillRequest, callback IFillCallback) error
-	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client binder.IBinder) error
+	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client interface{}) error
 	OnSaveRequest(ctx context.Context, request SaveRequest, callback ISaveCallback) error
 	OnSavedPasswordCountRequest(ctx context.Context, receiver os.IResultReceiver) error
 	OnConvertCredentialRequest(ctx context.Context, convertCredentialRequest ConvertCredentialRequest, convertCredentialCallback IConvertCredentialCallback) error
-	OnSessionDestroyed(ctx context.Context, history FillEventHistory) error
 }
 
 type autoFillServiceStubWrapper struct {
@@ -384,7 +352,7 @@ func (w *autoFillServiceStubWrapper) OnFillCredentialRequest(
 	ctx context.Context,
 	request FillRequest,
 	callback IFillCallback,
-	client binder.IBinder,
+	client interface{},
 ) error {
 	return w.impl.OnFillCredentialRequest(ctx, request, callback, client)
 }
@@ -410,13 +378,6 @@ func (w *autoFillServiceStubWrapper) OnConvertCredentialRequest(
 	convertCredentialCallback IConvertCredentialCallback,
 ) error {
 	return w.impl.OnConvertCredentialRequest(ctx, convertCredentialRequest, convertCredentialCallback)
-}
-
-func (w *autoFillServiceStubWrapper) OnSessionDestroyed(
-	ctx context.Context,
-	history FillEventHistory,
-) error {
-	return w.impl.OnSessionDestroyed(ctx, history)
 }
 
 var _ IAutoFillService = (*autoFillServiceStubWrapper)(nil)

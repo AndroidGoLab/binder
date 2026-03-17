@@ -21,6 +21,16 @@ const (
 	TransactionIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIAppOpsUserClientNoteSyncOpNative                   = "noteSyncOpNative"
+	MethodIAppOpsUserClientNoteNonPermissionSyncOpNative      = "noteNonPermissionSyncOpNative"
+	MethodIAppOpsUserClientNoteSyncOpOnewayNative             = "noteSyncOpOnewayNative"
+	MethodIAppOpsUserClientFreezeAndNoteSyncOp                = "freezeAndNoteSyncOp"
+	MethodIAppOpsUserClientNoteSyncOpOtherUidNative           = "noteSyncOpOtherUidNative"
+	MethodIAppOpsUserClientNoteAsyncOpNative                  = "noteAsyncOpNative"
+	MethodIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage = "noteAsyncOpNativeWithCustomMessage"
+)
+
 type IAppOpsUserClient interface {
 	AsBinder() binder.IBinder
 	NoteSyncOpNative(ctx context.Context) error
@@ -33,17 +43,17 @@ type IAppOpsUserClient interface {
 }
 
 type AppOpsUserClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppOpsUserClientProxy(
 	remote binder.IBinder,
 ) *AppOpsUserClientProxy {
-	return &AppOpsUserClientProxy{remote: remote}
+	return &AppOpsUserClientProxy{Remote: remote}
 }
 
 func (p *AppOpsUserClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppOpsUserClient = (*AppOpsUserClientProxy)(nil)
@@ -54,12 +64,12 @@ func (p *AppOpsUserClientProxy) NoteSyncOpNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpNative")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteSyncOpNative)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientNoteSyncOpNative
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteSyncOpNative, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,12 +88,12 @@ func (p *AppOpsUserClientProxy) NoteNonPermissionSyncOpNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteNonPermissionSyncOpNative")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteNonPermissionSyncOpNative)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientNoteNonPermissionSyncOpNative
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteNonPermissionSyncOpNative, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,12 +112,12 @@ func (p *AppOpsUserClientProxy) NoteSyncOpOnewayNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpOnewayNative")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteSyncOpOnewayNative)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientNoteSyncOpOnewayNative
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteSyncOpOnewayNative, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,12 +127,12 @@ func (p *AppOpsUserClientProxy) FreezeAndNoteSyncOp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "freezeAndNoteSyncOp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientFreezeAndNoteSyncOp)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientFreezeAndNoteSyncOp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientFreezeAndNoteSyncOp, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,12 +151,12 @@ func (p *AppOpsUserClientProxy) NoteSyncOpOtherUidNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpOtherUidNative")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteSyncOpOtherUidNative)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientNoteSyncOpOtherUidNative
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteSyncOpOtherUidNative, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -165,12 +175,12 @@ func (p *AppOpsUserClientProxy) NoteAsyncOpNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteAsyncOpNative")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteAsyncOpNative)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientNoteAsyncOpNative
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteAsyncOpNative, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,12 +199,12 @@ func (p *AppOpsUserClientProxy) NoteAsyncOpNativeWithCustomMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteAsyncOpNativeWithCustomMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage)
 	if _err != nil {
-		_code = TransactionIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppOpsUserClient, MethodIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,6 +224,10 @@ type AppOpsUserClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AppOpsUserClientStub)(nil)
+
+func (s *AppOpsUserClientStub) Descriptor() string {
+	return DescriptorIAppOpsUserClient
+}
 
 func (s *AppOpsUserClientStub) OnTransaction(
 	ctx context.Context,

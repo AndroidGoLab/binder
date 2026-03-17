@@ -16,6 +16,11 @@ const (
 	TransactionIBfsccTestAppCmdServiceWaitAndConsumeNotifications = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBfsccTestAppCmdServiceListenTo                    = "listenTo"
+	MethodIBfsccTestAppCmdServiceWaitAndConsumeNotifications = "waitAndConsumeNotifications"
+)
+
 type IBfsccTestAppCmdService interface {
 	AsBinder() binder.IBinder
 	ListenTo(ctx context.Context, binder_ binder.IBinder) error
@@ -23,17 +28,17 @@ type IBfsccTestAppCmdService interface {
 }
 
 type BfsccTestAppCmdServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBfsccTestAppCmdServiceProxy(
 	remote binder.IBinder,
 ) *BfsccTestAppCmdServiceProxy {
-	return &BfsccTestAppCmdServiceProxy{remote: remote}
+	return &BfsccTestAppCmdServiceProxy{Remote: remote}
 }
 
 func (p *BfsccTestAppCmdServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBfsccTestAppCmdService = (*BfsccTestAppCmdServiceProxy)(nil)
@@ -44,14 +49,14 @@ func (p *BfsccTestAppCmdServiceProxy) ListenTo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBfsccTestAppCmdService)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBfsccTestAppCmdService, "listenTo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBfsccTestAppCmdService, MethodIBfsccTestAppCmdServiceListenTo)
 	if _err != nil {
-		_code = TransactionIBfsccTestAppCmdServiceListenTo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBfsccTestAppCmdService, MethodIBfsccTestAppCmdServiceListenTo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,12 +76,12 @@ func (p *BfsccTestAppCmdServiceProxy) WaitAndConsumeNotifications(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBfsccTestAppCmdService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBfsccTestAppCmdService, "waitAndConsumeNotifications")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBfsccTestAppCmdService, MethodIBfsccTestAppCmdServiceWaitAndConsumeNotifications)
 	if _err != nil {
-		_code = TransactionIBfsccTestAppCmdServiceWaitAndConsumeNotifications
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBfsccTestAppCmdService, MethodIBfsccTestAppCmdServiceWaitAndConsumeNotifications, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,6 +115,10 @@ type BfsccTestAppCmdServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BfsccTestAppCmdServiceStub)(nil)
+
+func (s *BfsccTestAppCmdServiceStub) Descriptor() string {
+	return DescriptorIBfsccTestAppCmdService
+}
 
 func (s *BfsccTestAppCmdServiceStub) OnTransaction(
 	ctx context.Context,

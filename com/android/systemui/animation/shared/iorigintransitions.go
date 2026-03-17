@@ -17,6 +17,11 @@ const (
 	TransactionIOriginTransitionsCancelOriginTransition = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIOriginTransitionsMakeOriginTransition   = "makeOriginTransition"
+	MethodIOriginTransitionsCancelOriginTransition = "cancelOriginTransition"
+)
+
 type IOriginTransitions interface {
 	AsBinder() binder.IBinder
 	MakeOriginTransition(ctx context.Context, launchTransition window.RemoteTransition, returnTransition window.RemoteTransition) (window.RemoteTransition, error)
@@ -24,17 +29,17 @@ type IOriginTransitions interface {
 }
 
 type OriginTransitionsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOriginTransitionsProxy(
 	remote binder.IBinder,
 ) *OriginTransitionsProxy {
-	return &OriginTransitionsProxy{remote: remote}
+	return &OriginTransitionsProxy{Remote: remote}
 }
 
 func (p *OriginTransitionsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOriginTransitions = (*OriginTransitionsProxy)(nil)
@@ -56,12 +61,12 @@ func (p *OriginTransitionsProxy) MakeOriginTransition(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOriginTransitions, "makeOriginTransition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOriginTransitions, MethodIOriginTransitionsMakeOriginTransition)
 	if _err != nil {
-		_code = TransactionIOriginTransitionsMakeOriginTransition
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOriginTransitions, MethodIOriginTransitionsMakeOriginTransition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,12 +99,12 @@ func (p *OriginTransitionsProxy) CancelOriginTransition(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOriginTransitions, "cancelOriginTransition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOriginTransitions, MethodIOriginTransitionsCancelOriginTransition)
 	if _err != nil {
-		_code = TransactionIOriginTransitionsCancelOriginTransition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOriginTransitions, MethodIOriginTransitionsCancelOriginTransition, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -119,6 +124,10 @@ type OriginTransitionsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OriginTransitionsStub)(nil)
+
+func (s *OriginTransitionsStub) Descriptor() string {
+	return DescriptorIOriginTransitions
+}
 
 func (s *OriginTransitionsStub) OnTransaction(
 	ctx context.Context,

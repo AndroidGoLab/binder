@@ -21,22 +21,8 @@ func (s *UsdMessageInfo) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.OwnId)
 	p.WriteInt32(s.PeerId)
-	if s.PeerMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerMacAddress)))
-		for _, _item := range s.PeerMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Message == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Message)))
-		for _, _item := range s.Message {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerMacAddress, 6)
+	p.WriteByteArray(s.Message)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -60,34 +46,14 @@ func (s *UsdMessageInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Message, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Message = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Message[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

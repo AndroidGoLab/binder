@@ -58,18 +58,12 @@ func (u *OperandExtraParams) MarshalParcel(
 
 	switch u.Tag {
 	case OperandExtraParamsTagChannelQuant:
+		p.WriteInt32(1)
 		if _err := u.ChannelQuant.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperandExtraParamsTagExtension:
-		if u.Extension == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Extension)))
-			for _, _item := range u.Extension {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.Extension)
 	default:
 		return fmt.Errorf("unknown union tag %d for OperandExtraParams", u.Tag)
 	}
@@ -93,24 +87,17 @@ func (u *OperandExtraParams) UnmarshalParcel(
 
 	switch u.Tag {
 	case OperandExtraParamsTagChannelQuant:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ChannelQuant.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case OperandExtraParamsTagExtension:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.Extension, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.Extension = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.Extension[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for OperandExtraParams", u.Tag)

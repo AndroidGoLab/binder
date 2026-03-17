@@ -16,6 +16,11 @@ const (
 	TransactionIDeviceStateServiceUnregisterListener = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIDeviceStateServiceRegisterListener   = "registerListener"
+	MethodIDeviceStateServiceUnregisterListener = "unregisterListener"
+)
+
 type IDeviceStateService interface {
 	AsBinder() binder.IBinder
 	RegisterListener(ctx context.Context, listener IDeviceStateListener) error
@@ -23,17 +28,17 @@ type IDeviceStateService interface {
 }
 
 type DeviceStateServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceStateServiceProxy(
 	remote binder.IBinder,
 ) *DeviceStateServiceProxy {
-	return &DeviceStateServiceProxy{remote: remote}
+	return &DeviceStateServiceProxy{Remote: remote}
 }
 
 func (p *DeviceStateServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceStateService = (*DeviceStateServiceProxy)(nil)
@@ -44,14 +49,14 @@ func (p *DeviceStateServiceProxy) RegisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateService, "registerListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateService, MethodIDeviceStateServiceRegisterListener)
 	if _err != nil {
-		_code = TransactionIDeviceStateServiceRegisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateService, MethodIDeviceStateServiceRegisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,14 +75,14 @@ func (p *DeviceStateServiceProxy) UnregisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateService, "unregisterListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceStateService, MethodIDeviceStateServiceUnregisterListener)
 	if _err != nil {
-		_code = TransactionIDeviceStateServiceUnregisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceStateService, MethodIDeviceStateServiceUnregisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,6 +102,10 @@ type DeviceStateServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceStateServiceStub)(nil)
+
+func (s *DeviceStateServiceStub) Descriptor() string {
+	return DescriptorIDeviceStateService
+}
 
 func (s *DeviceStateServiceStub) OnTransaction(
 	ctx context.Context,

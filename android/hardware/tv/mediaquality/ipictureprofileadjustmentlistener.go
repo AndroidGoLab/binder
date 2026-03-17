@@ -18,6 +18,13 @@ const (
 	TransactionIPictureProfileAdjustmentListenerOnRequestPictureParameters     = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIPictureProfileAdjustmentListenerOnPictureProfileAdjusted       = "onPictureProfileAdjusted"
+	MethodIPictureProfileAdjustmentListenerOnParamCapabilityChanged       = "onParamCapabilityChanged"
+	MethodIPictureProfileAdjustmentListenerOnVendorParamCapabilityChanged = "onVendorParamCapabilityChanged"
+	MethodIPictureProfileAdjustmentListenerOnRequestPictureParameters     = "onRequestPictureParameters"
+)
+
 type IPictureProfileAdjustmentListener interface {
 	AsBinder() binder.IBinder
 	OnPictureProfileAdjusted(ctx context.Context, pictureProfile PictureProfile) error
@@ -27,17 +34,17 @@ type IPictureProfileAdjustmentListener interface {
 }
 
 type PictureProfileAdjustmentListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPictureProfileAdjustmentListenerProxy(
 	remote binder.IBinder,
 ) *PictureProfileAdjustmentListenerProxy {
-	return &PictureProfileAdjustmentListenerProxy{remote: remote}
+	return &PictureProfileAdjustmentListenerProxy{Remote: remote}
 }
 
 func (p *PictureProfileAdjustmentListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPictureProfileAdjustmentListener = (*PictureProfileAdjustmentListenerProxy)(nil)
@@ -53,12 +60,12 @@ func (p *PictureProfileAdjustmentListenerProxy) OnPictureProfileAdjusted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onPictureProfileAdjusted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnPictureProfileAdjusted)
 	if _err != nil {
-		_code = TransactionIPictureProfileAdjustmentListenerOnPictureProfileAdjusted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnPictureProfileAdjusted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,18 +82,19 @@ func (p *PictureProfileAdjustmentListenerProxy) OnParamCapabilityChanged(
 	} else {
 		_data.WriteInt32(int32(len(caps)))
 		for _, _item := range caps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onParamCapabilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnParamCapabilityChanged)
 	if _err != nil {
-		_code = TransactionIPictureProfileAdjustmentListenerOnParamCapabilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnParamCapabilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,18 +111,19 @@ func (p *PictureProfileAdjustmentListenerProxy) OnVendorParamCapabilityChanged(
 	} else {
 		_data.WriteInt32(int32(len(caps)))
 		for _, _item := range caps {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onVendorParamCapabilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnVendorParamCapabilityChanged)
 	if _err != nil {
-		_code = TransactionIPictureProfileAdjustmentListenerOnVendorParamCapabilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnVendorParamCapabilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,12 +135,12 @@ func (p *PictureProfileAdjustmentListenerProxy) OnRequestPictureParameters(
 	_data.WriteInterfaceToken(DescriptorIPictureProfileAdjustmentListener)
 	_data.WriteInt64(pictureProfileId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onRequestPictureParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnRequestPictureParameters)
 	if _err != nil {
-		_code = TransactionIPictureProfileAdjustmentListenerOnRequestPictureParameters
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPictureProfileAdjustmentListener, MethodIPictureProfileAdjustmentListenerOnRequestPictureParameters, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,6 +151,10 @@ type PictureProfileAdjustmentListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PictureProfileAdjustmentListenerStub)(nil)
+
+func (s *PictureProfileAdjustmentListenerStub) Descriptor() string {
+	return DescriptorIPictureProfileAdjustmentListener
+}
 
 func (s *PictureProfileAdjustmentListenerStub) OnTransaction(
 	ctx context.Context,

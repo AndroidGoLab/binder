@@ -18,6 +18,16 @@ const (
 	TransactionIPrintDocumentAdapterLayout      = binder.FirstCallTransaction + 2
 	TransactionIPrintDocumentAdapterWrite       = binder.FirstCallTransaction + 3
 	TransactionIPrintDocumentAdapterFinish      = binder.FirstCallTransaction + 4
+	TransactionIPrintDocumentAdapterKill        = binder.FirstCallTransaction + 5
+)
+
+const (
+	MethodIPrintDocumentAdapterSetObserver = "setObserver"
+	MethodIPrintDocumentAdapterStart       = "start"
+	MethodIPrintDocumentAdapterLayout      = "layout"
+	MethodIPrintDocumentAdapterWrite       = "write"
+	MethodIPrintDocumentAdapterFinish      = "finish"
+	MethodIPrintDocumentAdapterKill        = "kill"
 )
 
 type IPrintDocumentAdapter interface {
@@ -27,20 +37,21 @@ type IPrintDocumentAdapter interface {
 	Layout(ctx context.Context, oldAttributes PrintAttributes, newAttributes PrintAttributes, callback ILayoutResultCallback, metadata os.Bundle, sequence int32) error
 	Write(ctx context.Context, pages []PageRange, fd int32, callback IWriteResultCallback, sequence int32) error
 	Finish(ctx context.Context) error
+	Kill(ctx context.Context, reason string) error
 }
 
 type PrintDocumentAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPrintDocumentAdapterProxy(
 	remote binder.IBinder,
 ) *PrintDocumentAdapterProxy {
-	return &PrintDocumentAdapterProxy{remote: remote}
+	return &PrintDocumentAdapterProxy{Remote: remote}
 }
 
 func (p *PrintDocumentAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPrintDocumentAdapter = (*PrintDocumentAdapterProxy)(nil)
@@ -51,14 +62,14 @@ func (p *PrintDocumentAdapterProxy) SetObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
-	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "setObserver")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterSetObserver)
 	if _err != nil {
-		_code = TransactionIPrintDocumentAdapterSetObserver
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterSetObserver, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,12 +79,12 @@ func (p *PrintDocumentAdapterProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterStart)
 	if _err != nil {
-		_code = TransactionIPrintDocumentAdapterStart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterStart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,19 +106,19 @@ func (p *PrintDocumentAdapterProxy) Layout(
 	if _err := newAttributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := metadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "layout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterLayout)
 	if _err != nil {
-		_code = TransactionIPrintDocumentAdapterLayout
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterLayout, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,21 +136,22 @@ func (p *PrintDocumentAdapterProxy) Write(
 	} else {
 		_data.WriteInt32(int32(len(pages)))
 		for _, _item := range pages {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 	_data.WriteFileDescriptor(fd)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "write")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterWrite)
 	if _err != nil {
-		_code = TransactionIPrintDocumentAdapterWrite
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterWrite, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,12 +161,29 @@ func (p *PrintDocumentAdapterProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterFinish)
 	if _err != nil {
-		_code = TransactionIPrintDocumentAdapterFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterFinish, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *PrintDocumentAdapterProxy) Kill(
+	ctx context.Context,
+	reason string,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
+	_data.WriteString16(reason)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterKill)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPrintDocumentAdapter, MethodIPrintDocumentAdapterKill, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,6 +194,10 @@ type PrintDocumentAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PrintDocumentAdapterStub)(nil)
+
+func (s *PrintDocumentAdapterStub) Descriptor() string {
+	return DescriptorIPrintDocumentAdapter
+}
 
 func (s *PrintDocumentAdapterStub) OnTransaction(
 	ctx context.Context,
@@ -267,6 +300,17 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 		_err := s.Impl.Finish(ctx)
 		_ = _err
 		return nil, nil
+	case TransactionIPrintDocumentAdapterKill:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Kill(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -281,6 +325,7 @@ type IPrintDocumentAdapterServer interface {
 	Layout(ctx context.Context, oldAttributes PrintAttributes, newAttributes PrintAttributes, callback ILayoutResultCallback, metadata os.Bundle, sequence int32) error
 	Write(ctx context.Context, pages []PageRange, fd int32, callback IWriteResultCallback, sequence int32) error
 	Finish(ctx context.Context) error
+	Kill(ctx context.Context, reason string) error
 }
 
 type printDocumentAdapterStubWrapper struct {
@@ -330,6 +375,13 @@ func (w *printDocumentAdapterStubWrapper) Finish(
 	ctx context.Context,
 ) error {
 	return w.impl.Finish(ctx)
+}
+
+func (w *printDocumentAdapterStubWrapper) Kill(
+	ctx context.Context,
+	reason string,
+) error {
+	return w.impl.Kill(ctx, reason)
 }
 
 var _ IPrintDocumentAdapter = (*printDocumentAdapterStubWrapper)(nil)

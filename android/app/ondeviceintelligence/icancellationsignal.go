@@ -15,23 +15,27 @@ const (
 	TransactionICancellationSignalCancel = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICancellationSignalCancel = "cancel"
+)
+
 type ICancellationSignal interface {
 	AsBinder() binder.IBinder
 	Cancel(ctx context.Context) error
 }
 
 type CancellationSignalProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCancellationSignalProxy(
 	remote binder.IBinder,
 ) *CancellationSignalProxy {
-	return &CancellationSignalProxy{remote: remote}
+	return &CancellationSignalProxy{Remote: remote}
 }
 
 func (p *CancellationSignalProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICancellationSignal = (*CancellationSignalProxy)(nil)
@@ -42,12 +46,12 @@ func (p *CancellationSignalProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICancellationSignal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICancellationSignal, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICancellationSignal, MethodICancellationSignalCancel)
 	if _err != nil {
-		_code = TransactionICancellationSignalCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICancellationSignal, MethodICancellationSignalCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type CancellationSignalStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CancellationSignalStub)(nil)
+
+func (s *CancellationSignalStub) Descriptor() string {
+	return DescriptorICancellationSignal
+}
 
 func (s *CancellationSignalStub) OnTransaction(
 	ctx context.Context,

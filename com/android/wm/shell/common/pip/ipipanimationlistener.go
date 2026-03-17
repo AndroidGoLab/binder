@@ -17,6 +17,12 @@ const (
 	TransactionIPipAnimationListenerOnExpandPip                    = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIPipAnimationListenerOnPipAnimationStarted          = "onPipAnimationStarted"
+	MethodIPipAnimationListenerOnPipResourceDimensionsChanged = "onPipResourceDimensionsChanged"
+	MethodIPipAnimationListenerOnExpandPip                    = "onExpandPip"
+)
+
 type IPipAnimationListener interface {
 	AsBinder() binder.IBinder
 	OnPipAnimationStarted(ctx context.Context) error
@@ -25,17 +31,17 @@ type IPipAnimationListener interface {
 }
 
 type PipAnimationListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPipAnimationListenerProxy(
 	remote binder.IBinder,
 ) *PipAnimationListenerProxy {
-	return &PipAnimationListenerProxy{remote: remote}
+	return &PipAnimationListenerProxy{Remote: remote}
 }
 
 func (p *PipAnimationListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPipAnimationListener = (*PipAnimationListenerProxy)(nil)
@@ -46,12 +52,12 @@ func (p *PipAnimationListenerProxy) OnPipAnimationStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPipAnimationListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPipAnimationListener, "onPipAnimationStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipAnimationStarted)
 	if _err != nil {
-		_code = TransactionIPipAnimationListenerOnPipAnimationStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipAnimationStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,12 +71,12 @@ func (p *PipAnimationListenerProxy) OnPipResourceDimensionsChanged(
 	_data.WriteInt32(cornerRadius)
 	_data.WriteInt32(shadowRadius)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPipAnimationListener, "onPipResourceDimensionsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipResourceDimensionsChanged)
 	if _err != nil {
-		_code = TransactionIPipAnimationListenerOnPipResourceDimensionsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnPipResourceDimensionsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *PipAnimationListenerProxy) OnExpandPip(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPipAnimationListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPipAnimationListener, "onExpandPip")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnExpandPip)
 	if _err != nil {
-		_code = TransactionIPipAnimationListenerOnExpandPip
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPipAnimationListener, MethodIPipAnimationListenerOnExpandPip, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +102,10 @@ type PipAnimationListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PipAnimationListenerStub)(nil)
+
+func (s *PipAnimationListenerStub) Descriptor() string {
+	return DescriptorIPipAnimationListener
+}
 
 func (s *PipAnimationListenerStub) OnTransaction(
 	ctx context.Context,

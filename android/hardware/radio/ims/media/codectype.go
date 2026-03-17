@@ -5,10 +5,9 @@ package media
 type CodecType int32
 
 const (
-	CodecTypeINVALID CodecType = 0
-	CodecTypeAMR     CodecType = (1 << 0)
-	CodecTypeAmrWb   CodecType = (1 << 1)
-	CodecTypeEVS     CodecType = (1 << 2)
-	CodecTypePCMA    CodecType = (1 << 3)
-	CodecTypePCMU    CodecType = (1 << 4)
+	CodecTypeAMR   CodecType = (1 << 0)
+	CodecTypeAmrWb CodecType = (1 << 1)
+	CodecTypeEVS   CodecType = (1 << 2)
+	CodecTypePCMA  CodecType = (1 << 3)
+	CodecTypePCMU  CodecType = (1 << 4)
 )

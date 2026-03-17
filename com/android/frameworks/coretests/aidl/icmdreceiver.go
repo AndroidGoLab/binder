@@ -17,6 +17,12 @@ const (
 	TransactionICmdReceiverFinishHost             = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICmdReceiverDoSomeWork             = "doSomeWork"
+	MethodICmdReceiverShowApplicationOverlay = "showApplicationOverlay"
+	MethodICmdReceiverFinishHost             = "finishHost"
+)
+
 type ICmdReceiver interface {
 	AsBinder() binder.IBinder
 	DoSomeWork(ctx context.Context, durationMs int32) error
@@ -25,17 +31,17 @@ type ICmdReceiver interface {
 }
 
 type CmdReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCmdReceiverProxy(
 	remote binder.IBinder,
 ) *CmdReceiverProxy {
-	return &CmdReceiverProxy{remote: remote}
+	return &CmdReceiverProxy{Remote: remote}
 }
 
 func (p *CmdReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICmdReceiver = (*CmdReceiverProxy)(nil)
@@ -48,12 +54,12 @@ func (p *CmdReceiverProxy) DoSomeWork(
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 	_data.WriteInt32(durationMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICmdReceiver, "doSomeWork")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICmdReceiver, MethodICmdReceiverDoSomeWork)
 	if _err != nil {
-		_code = TransactionICmdReceiverDoSomeWork
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICmdReceiver, MethodICmdReceiverDoSomeWork, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,12 +78,12 @@ func (p *CmdReceiverProxy) ShowApplicationOverlay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICmdReceiver, "showApplicationOverlay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICmdReceiver, MethodICmdReceiverShowApplicationOverlay)
 	if _err != nil {
-		_code = TransactionICmdReceiverShowApplicationOverlay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICmdReceiver, MethodICmdReceiverShowApplicationOverlay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,12 +102,12 @@ func (p *CmdReceiverProxy) FinishHost(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICmdReceiver, "finishHost")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICmdReceiver, MethodICmdReceiverFinishHost)
 	if _err != nil {
-		_code = TransactionICmdReceiverFinishHost
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICmdReceiver, MethodICmdReceiverFinishHost, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,6 +127,10 @@ type CmdReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CmdReceiverStub)(nil)
+
+func (s *CmdReceiverStub) Descriptor() string {
+	return DescriptorICmdReceiver
+}
 
 func (s *CmdReceiverStub) OnTransaction(
 	ctx context.Context,

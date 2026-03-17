@@ -15,23 +15,27 @@ const (
 	TransactionIUserInitializationCompleteCallbackOnUserInitializationComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUserInitializationCompleteCallbackOnUserInitializationComplete = "onUserInitializationComplete"
+)
+
 type IUserInitializationCompleteCallback interface {
 	AsBinder() binder.IBinder
 	OnUserInitializationComplete(ctx context.Context) error
 }
 
 type UserInitializationCompleteCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUserInitializationCompleteCallbackProxy(
 	remote binder.IBinder,
 ) *UserInitializationCompleteCallbackProxy {
-	return &UserInitializationCompleteCallbackProxy{remote: remote}
+	return &UserInitializationCompleteCallbackProxy{Remote: remote}
 }
 
 func (p *UserInitializationCompleteCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUserInitializationCompleteCallback = (*UserInitializationCompleteCallbackProxy)(nil)
@@ -39,17 +43,17 @@ var _ IUserInitializationCompleteCallback = (*UserInitializationCompleteCallback
 func (p *UserInitializationCompleteCallbackProxy) OnUserInitializationComplete(
 	ctx context.Context,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserInitializationCompleteCallback)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUserInitializationCompleteCallback, "onUserInitializationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUserInitializationCompleteCallback, MethodIUserInitializationCompleteCallbackOnUserInitializationComplete)
 	if _err != nil {
-		_code = TransactionIUserInitializationCompleteCallbackOnUserInitializationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUserInitializationCompleteCallback, MethodIUserInitializationCompleteCallbackOnUserInitializationComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UserInitializationCompleteCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UserInitializationCompleteCallbackStub)(nil)
+
+func (s *UserInitializationCompleteCallbackStub) Descriptor() string {
+	return DescriptorIUserInitializationCompleteCallback
+}
 
 func (s *UserInitializationCompleteCallbackStub) OnTransaction(
 	ctx context.Context,

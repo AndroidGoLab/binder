@@ -16,6 +16,11 @@ const (
 	TransactionICarrierPrivilegesCallbackOnCarrierServiceChanged    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodICarrierPrivilegesCallbackOnCarrierPrivilegesChanged = "onCarrierPrivilegesChanged"
+	MethodICarrierPrivilegesCallbackOnCarrierServiceChanged    = "onCarrierServiceChanged"
+)
+
 type ICarrierPrivilegesCallback interface {
 	AsBinder() binder.IBinder
 	OnCarrierPrivilegesChanged(ctx context.Context, privilegedPackageNames []string, privilegedUids []int32) error
@@ -23,17 +28,17 @@ type ICarrierPrivilegesCallback interface {
 }
 
 type CarrierPrivilegesCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCarrierPrivilegesCallbackProxy(
 	remote binder.IBinder,
 ) *CarrierPrivilegesCallbackProxy {
-	return &CarrierPrivilegesCallbackProxy{remote: remote}
+	return &CarrierPrivilegesCallbackProxy{Remote: remote}
 }
 
 func (p *CarrierPrivilegesCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICarrierPrivilegesCallback = (*CarrierPrivilegesCallbackProxy)(nil)
@@ -62,12 +67,12 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierPrivilegesChanged(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierPrivilegesCallback, "onCarrierPrivilegesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierPrivilegesChanged)
 	if _err != nil {
-		_code = TransactionICarrierPrivilegesCallbackOnCarrierPrivilegesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierPrivilegesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,12 +86,12 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierServiceChanged(
 	_data.WriteString16(carrierServicePackageName)
 	_data.WriteInt32(carrierServiceUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICarrierPrivilegesCallback, "onCarrierServiceChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierServiceChanged)
 	if _err != nil {
-		_code = TransactionICarrierPrivilegesCallbackOnCarrierServiceChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICarrierPrivilegesCallback, MethodICarrierPrivilegesCallbackOnCarrierServiceChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,6 +102,10 @@ type CarrierPrivilegesCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CarrierPrivilegesCallbackStub)(nil)
+
+func (s *CarrierPrivilegesCallbackStub) Descriptor() string {
+	return DescriptorICarrierPrivilegesCallback
+}
 
 func (s *CarrierPrivilegesCallbackStub) OnTransaction(
 	ctx context.Context,

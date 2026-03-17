@@ -16,6 +16,11 @@ const (
 	TransactionIProcessResultImplOnCaptureProcessProgressed = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIProcessResultImplOnCaptureCompleted         = "onCaptureCompleted"
+	MethodIProcessResultImplOnCaptureProcessProgressed = "onCaptureProcessProgressed"
+)
+
 type IProcessResultImpl interface {
 	AsBinder() binder.IBinder
 	OnCaptureCompleted(ctx context.Context, shutterTimestamp int64, results interface{}) error
@@ -23,17 +28,17 @@ type IProcessResultImpl interface {
 }
 
 type ProcessResultImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProcessResultImplProxy(
 	remote binder.IBinder,
 ) *ProcessResultImplProxy {
-	return &ProcessResultImplProxy{remote: remote}
+	return &ProcessResultImplProxy{Remote: remote}
 }
 
 func (p *ProcessResultImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProcessResultImpl = (*ProcessResultImplProxy)(nil)
@@ -47,12 +52,12 @@ func (p *ProcessResultImplProxy) OnCaptureCompleted(
 	_data.WriteInterfaceToken(DescriptorIProcessResultImpl)
 	_data.WriteInt64(shutterTimestamp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessResultImpl, "onCaptureCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureCompleted)
 	if _err != nil {
-		_code = TransactionIProcessResultImplOnCaptureCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,12 +78,12 @@ func (p *ProcessResultImplProxy) OnCaptureProcessProgressed(
 	_data.WriteInterfaceToken(DescriptorIProcessResultImpl)
 	_data.WriteInt32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessResultImpl, "onCaptureProcessProgressed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureProcessProgressed)
 	if _err != nil {
-		_code = TransactionIProcessResultImplOnCaptureProcessProgressed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessResultImpl, MethodIProcessResultImplOnCaptureProcessProgressed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,6 +103,10 @@ type ProcessResultImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProcessResultImplStub)(nil)
+
+func (s *ProcessResultImplStub) Descriptor() string {
+	return DescriptorIProcessResultImpl
+}
 
 func (s *ProcessResultImplStub) OnTransaction(
 	ctx context.Context,

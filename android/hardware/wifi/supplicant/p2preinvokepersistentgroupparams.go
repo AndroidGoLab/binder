@@ -18,14 +18,7 @@ func (s *P2pReinvokePersistentGroupParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.PeerMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PeerMacAddress)))
-		for _, _item := range s.PeerMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.PeerMacAddress, 6)
 	p.WriteInt32(s.PersistentNetworkId)
 	p.WriteInt32(s.DeviceIdentityEntryId)
 
@@ -41,19 +34,9 @@ func (s *P2pReinvokePersistentGroupParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.PeerMacAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.PeerMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.PeerMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.PersistentNetworkId, _err = p.ReadInt32()

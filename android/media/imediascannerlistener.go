@@ -16,23 +16,27 @@ const (
 	TransactionIMediaScannerListenerScanCompleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMediaScannerListenerScanCompleted = "scanCompleted"
+)
+
 type IMediaScannerListener interface {
 	AsBinder() binder.IBinder
 	ScanCompleted(ctx context.Context, path string, uri net.Uri) error
 }
 
 type MediaScannerListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaScannerListenerProxy(
 	remote binder.IBinder,
 ) *MediaScannerListenerProxy {
-	return &MediaScannerListenerProxy{remote: remote}
+	return &MediaScannerListenerProxy{Remote: remote}
 }
 
 func (p *MediaScannerListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaScannerListener = (*MediaScannerListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *MediaScannerListenerProxy) ScanCompleted(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerListener, "scanCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaScannerListener, MethodIMediaScannerListenerScanCompleted)
 	if _err != nil {
-		_code = TransactionIMediaScannerListenerScanCompleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaScannerListener, MethodIMediaScannerListenerScanCompleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type MediaScannerListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaScannerListenerStub)(nil)
+
+func (s *MediaScannerListenerStub) Descriptor() string {
+	return DescriptorIMediaScannerListener
+}
 
 func (s *MediaScannerListenerStub) OnTransaction(
 	ctx context.Context,

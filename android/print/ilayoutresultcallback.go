@@ -3,7 +3,7 @@ package print
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,46 +19,53 @@ const (
 	TransactionILayoutResultCallbackOnLayoutCanceled = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodILayoutResultCallbackOnLayoutStarted  = "onLayoutStarted"
+	MethodILayoutResultCallbackOnLayoutFinished = "onLayoutFinished"
+	MethodILayoutResultCallbackOnLayoutFailed   = "onLayoutFailed"
+	MethodILayoutResultCallbackOnLayoutCanceled = "onLayoutCanceled"
+)
+
 type ILayoutResultCallback interface {
 	AsBinder() binder.IBinder
-	OnLayoutStarted(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal, sequence int32) error
+	OnLayoutStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnLayoutFinished(ctx context.Context, info PrintDocumentInfo, changed bool, sequence int32) error
 	OnLayoutFailed(ctx context.Context, error_ interface{}, sequence int32) error
 	OnLayoutCanceled(ctx context.Context, sequence int32) error
 }
 
 type LayoutResultCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLayoutResultCallbackProxy(
 	remote binder.IBinder,
 ) *LayoutResultCallbackProxy {
-	return &LayoutResultCallbackProxy{remote: remote}
+	return &LayoutResultCallbackProxy{Remote: remote}
 }
 
 func (p *LayoutResultCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILayoutResultCallback = (*LayoutResultCallbackProxy)(nil)
 
 func (p *LayoutResultCallbackProxy) OnLayoutStarted(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutStarted)
 	if _err != nil {
-		_code = TransactionILayoutResultCallbackOnLayoutStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +84,12 @@ func (p *LayoutResultCallbackProxy) OnLayoutFinished(
 	_data.WriteBool(changed)
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutFinished)
 	if _err != nil {
-		_code = TransactionILayoutResultCallbackOnLayoutFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +102,12 @@ func (p *LayoutResultCallbackProxy) OnLayoutFailed(
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutFailed)
 	if _err != nil {
-		_code = TransactionILayoutResultCallbackOnLayoutFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,12 +119,12 @@ func (p *LayoutResultCallbackProxy) OnLayoutCanceled(
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	_data.WriteInt32(sequence)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutCanceled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutCanceled)
 	if _err != nil {
-		_code = TransactionILayoutResultCallbackOnLayoutCanceled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILayoutResultCallback, MethodILayoutResultCallbackOnLayoutCanceled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,6 +135,10 @@ type LayoutResultCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LayoutResultCallbackStub)(nil)
+
+func (s *LayoutResultCallbackStub) Descriptor() string {
+	return DescriptorILayoutResultCallback
+}
 
 func (s *LayoutResultCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -140,7 +151,7 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
@@ -208,7 +219,7 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 // provide to NewLayoutResultCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ILayoutResultCallbackServer interface {
-	OnLayoutStarted(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal, sequence int32) error
+	OnLayoutStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
 	OnLayoutFinished(ctx context.Context, info PrintDocumentInfo, changed bool, sequence int32) error
 	OnLayoutFailed(ctx context.Context, error_ interface{}, sequence int32) error
 	OnLayoutCanceled(ctx context.Context, sequence int32) error
@@ -225,7 +236,7 @@ func (w *layoutResultCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *layoutResultCallbackStubWrapper) OnLayoutStarted(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 	sequence int32,
 ) error {
 	return w.impl.OnLayoutStarted(ctx, cancellation, sequence)

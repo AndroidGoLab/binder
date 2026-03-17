@@ -17,6 +17,11 @@ const (
 	TransactionIRemoteSessionCallbackOnSessionChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRemoteSessionCallbackOnVolumeChanged  = "onVolumeChanged"
+	MethodIRemoteSessionCallbackOnSessionChanged = "onSessionChanged"
+)
+
 type IRemoteSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnVolumeChanged(ctx context.Context, sessionToken session.MediaSessionToken, flags int32) error
@@ -24,17 +29,17 @@ type IRemoteSessionCallback interface {
 }
 
 type RemoteSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteSessionCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteSessionCallbackProxy {
-	return &RemoteSessionCallbackProxy{remote: remote}
+	return &RemoteSessionCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteSessionCallback = (*RemoteSessionCallbackProxy)(nil)
@@ -52,12 +57,12 @@ func (p *RemoteSessionCallbackProxy) OnVolumeChanged(
 	}
 	_data.WriteInt32(flags)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onVolumeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnVolumeChanged)
 	if _err != nil {
-		_code = TransactionIRemoteSessionCallbackOnVolumeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnVolumeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +77,12 @@ func (p *RemoteSessionCallbackProxy) OnSessionChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onSessionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnSessionChanged)
 	if _err != nil {
-		_code = TransactionIRemoteSessionCallbackOnSessionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteSessionCallback, MethodIRemoteSessionCallbackOnSessionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,6 +93,10 @@ type RemoteSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteSessionCallbackStub)(nil)
+
+func (s *RemoteSessionCallbackStub) Descriptor() string {
+	return DescriptorIRemoteSessionCallback
+}
 
 func (s *RemoteSessionCallbackStub) OnTransaction(
 	ctx context.Context,

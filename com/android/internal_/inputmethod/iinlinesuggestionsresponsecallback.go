@@ -17,23 +17,27 @@ const (
 	TransactionIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse = "onInlineSuggestionsResponse"
+)
+
 type IInlineSuggestionsResponseCallback interface {
 	AsBinder() binder.IBinder
 	OnInlineSuggestionsResponse(ctx context.Context, fieldId autofill.AutofillId, response viewInputmethod.InlineSuggestionsResponse) error
 }
 
 type InlineSuggestionsResponseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInlineSuggestionsResponseCallbackProxy(
 	remote binder.IBinder,
 ) *InlineSuggestionsResponseCallbackProxy {
-	return &InlineSuggestionsResponseCallbackProxy{remote: remote}
+	return &InlineSuggestionsResponseCallbackProxy{Remote: remote}
 }
 
 func (p *InlineSuggestionsResponseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInlineSuggestionsResponseCallback = (*InlineSuggestionsResponseCallbackProxy)(nil)
@@ -54,12 +58,12 @@ func (p *InlineSuggestionsResponseCallbackProxy) OnInlineSuggestionsResponse(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsResponseCallback, "onInlineSuggestionsResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineSuggestionsResponseCallback, MethodIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse)
 	if _err != nil {
-		_code = TransactionIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineSuggestionsResponseCallback, MethodIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +74,10 @@ type InlineSuggestionsResponseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InlineSuggestionsResponseCallbackStub)(nil)
+
+func (s *InlineSuggestionsResponseCallbackStub) Descriptor() string {
+	return DescriptorIInlineSuggestionsResponseCallback
+}
 
 func (s *InlineSuggestionsResponseCallbackStub) OnTransaction(
 	ctx context.Context,

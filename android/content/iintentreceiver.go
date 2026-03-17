@@ -15,23 +15,27 @@ const (
 	TransactionIIntentReceiverPerformReceive = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIntentReceiverPerformReceive = "performReceive"
+)
+
 type IIntentReceiver interface {
 	AsBinder() binder.IBinder
 	PerformReceive(ctx context.Context, intent Intent, resultCode int32, data string, extras interface{}, ordered bool, sticky bool, sendingUser int32) error
 }
 
 type IntentReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntentReceiverProxy(
 	remote binder.IBinder,
 ) *IntentReceiverProxy {
-	return &IntentReceiverProxy{remote: remote}
+	return &IntentReceiverProxy{Remote: remote}
 }
 
 func (p *IntentReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntentReceiver = (*IntentReceiverProxy)(nil)
@@ -58,12 +62,12 @@ func (p *IntentReceiverProxy) PerformReceive(
 	_data.WriteBool(sticky)
 	_data.WriteInt32(sendingUser)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntentReceiver, "performReceive")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntentReceiver, MethodIIntentReceiverPerformReceive)
 	if _err != nil {
-		_code = TransactionIIntentReceiverPerformReceive
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntentReceiver, MethodIIntentReceiverPerformReceive, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +78,10 @@ type IntentReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntentReceiverStub)(nil)
+
+func (s *IntentReceiverStub) Descriptor() string {
+	return DescriptorIIntentReceiver
+}
 
 func (s *IntentReceiverStub) OnTransaction(
 	ctx context.Context,

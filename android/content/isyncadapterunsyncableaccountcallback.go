@@ -15,23 +15,27 @@ const (
 	TransactionISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone = "onUnsyncableAccountDone"
+)
+
 type ISyncAdapterUnsyncableAccountCallback interface {
 	AsBinder() binder.IBinder
 	OnUnsyncableAccountDone(ctx context.Context, isReady bool) error
 }
 
 type SyncAdapterUnsyncableAccountCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSyncAdapterUnsyncableAccountCallbackProxy(
 	remote binder.IBinder,
 ) *SyncAdapterUnsyncableAccountCallbackProxy {
-	return &SyncAdapterUnsyncableAccountCallbackProxy{remote: remote}
+	return &SyncAdapterUnsyncableAccountCallbackProxy{Remote: remote}
 }
 
 func (p *SyncAdapterUnsyncableAccountCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISyncAdapterUnsyncableAccountCallback = (*SyncAdapterUnsyncableAccountCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SyncAdapterUnsyncableAccountCallbackProxy) OnUnsyncableAccountDone(
 	_data.WriteInterfaceToken(DescriptorISyncAdapterUnsyncableAccountCallback)
 	_data.WriteBool(isReady)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapterUnsyncableAccountCallback, "onUnsyncableAccountDone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISyncAdapterUnsyncableAccountCallback, MethodISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone)
 	if _err != nil {
-		_code = TransactionISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISyncAdapterUnsyncableAccountCallback, MethodISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SyncAdapterUnsyncableAccountCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SyncAdapterUnsyncableAccountCallbackStub)(nil)
+
+func (s *SyncAdapterUnsyncableAccountCallbackStub) Descriptor() string {
+	return DescriptorISyncAdapterUnsyncableAccountCallback
+}
 
 func (s *SyncAdapterUnsyncableAccountCallbackStub) OnTransaction(
 	ctx context.Context,

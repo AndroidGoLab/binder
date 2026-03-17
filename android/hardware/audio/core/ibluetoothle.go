@@ -18,6 +18,13 @@ const (
 	TransactionIBluetoothLeReconfigureOffload             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIBluetoothLeIsEnabled                      = "isEnabled"
+	MethodIBluetoothLeSetEnabled                     = "setEnabled"
+	MethodIBluetoothLeSupportsOffloadReconfiguration = "supportsOffloadReconfiguration"
+	MethodIBluetoothLeReconfigureOffload             = "reconfigureOffload"
+)
+
 type IBluetoothLe interface {
 	AsBinder() binder.IBinder
 	IsEnabled(ctx context.Context) (bool, error)
@@ -27,17 +34,17 @@ type IBluetoothLe interface {
 }
 
 type BluetoothLeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothLeProxy(
 	remote binder.IBinder,
 ) *BluetoothLeProxy {
-	return &BluetoothLeProxy{remote: remote}
+	return &BluetoothLeProxy{Remote: remote}
 }
 
 func (p *BluetoothLeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothLe = (*BluetoothLeProxy)(nil)
@@ -49,12 +56,12 @@ func (p *BluetoothLeProxy) IsEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLe)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLe, "isEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLe, MethodIBluetoothLeIsEnabled)
 	if _err != nil {
-		_code = TransactionIBluetoothLeIsEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLe, MethodIBluetoothLeIsEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,12 +86,12 @@ func (p *BluetoothLeProxy) SetEnabled(
 	_data.WriteInterfaceToken(DescriptorIBluetoothLe)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLe, "setEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLe, MethodIBluetoothLeSetEnabled)
 	if _err != nil {
-		_code = TransactionIBluetoothLeSetEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLe, MethodIBluetoothLeSetEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,12 +111,12 @@ func (p *BluetoothLeProxy) SupportsOffloadReconfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothLe)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLe, "supportsOffloadReconfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLe, MethodIBluetoothLeSupportsOffloadReconfiguration)
 	if _err != nil {
-		_code = TransactionIBluetoothLeSupportsOffloadReconfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLe, MethodIBluetoothLeSupportsOffloadReconfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,18 +144,19 @@ func (p *BluetoothLeProxy) ReconfigureOffload(
 	} else {
 		_data.WriteInt32(int32(len(parameters)))
 		for _, _item := range parameters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLe, "reconfigureOffload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLe, MethodIBluetoothLeReconfigureOffload)
 	if _err != nil {
-		_code = TransactionIBluetoothLeReconfigureOffload
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothLe, MethodIBluetoothLeReconfigureOffload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,6 +176,10 @@ type BluetoothLeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothLeStub)(nil)
+
+func (s *BluetoothLeStub) Descriptor() string {
+	return DescriptorIBluetoothLe
+}
 
 func (s *BluetoothLeStub) OnTransaction(
 	ctx context.Context,

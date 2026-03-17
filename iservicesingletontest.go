@@ -15,23 +15,27 @@ const (
 	TransactionIServiceSingletonTestInc = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIServiceSingletonTestInc = "inc"
+)
+
 type IServiceSingletonTest interface {
 	AsBinder() binder.IBinder
 	Inc(ctx context.Context) (int32, error)
 }
 
 type ServiceSingletonTestProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceSingletonTestProxy(
 	remote binder.IBinder,
 ) *ServiceSingletonTestProxy {
-	return &ServiceSingletonTestProxy{remote: remote}
+	return &ServiceSingletonTestProxy{Remote: remote}
 }
 
 func (p *ServiceSingletonTestProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceSingletonTest = (*ServiceSingletonTestProxy)(nil)
@@ -43,12 +47,12 @@ func (p *ServiceSingletonTestProxy) Inc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceSingletonTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceSingletonTest, "inc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceSingletonTest, MethodIServiceSingletonTestInc)
 	if _err != nil {
-		_code = TransactionIServiceSingletonTestInc
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceSingletonTest, MethodIServiceSingletonTestInc, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type ServiceSingletonTestStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceSingletonTestStub)(nil)
+
+func (s *ServiceSingletonTestStub) Descriptor() string {
+	return DescriptorIServiceSingletonTest
+}
 
 func (s *ServiceSingletonTestStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIStagedApexObserverOnApexStaged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIStagedApexObserverOnApexStaged = "onApexStaged"
+)
+
 type IStagedApexObserver interface {
 	AsBinder() binder.IBinder
 	OnApexStaged(ctx context.Context, event ApexStagedEvent) error
 }
 
 type StagedApexObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStagedApexObserverProxy(
 	remote binder.IBinder,
 ) *StagedApexObserverProxy {
-	return &StagedApexObserverProxy{remote: remote}
+	return &StagedApexObserverProxy{Remote: remote}
 }
 
 func (p *StagedApexObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStagedApexObserver = (*StagedApexObserverProxy)(nil)
@@ -47,12 +51,12 @@ func (p *StagedApexObserverProxy) OnApexStaged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStagedApexObserver, "onApexStaged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStagedApexObserver, MethodIStagedApexObserverOnApexStaged)
 	if _err != nil {
-		_code = TransactionIStagedApexObserverOnApexStaged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStagedApexObserver, MethodIStagedApexObserverOnApexStaged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type StagedApexObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StagedApexObserverStub)(nil)
+
+func (s *StagedApexObserverStub) Descriptor() string {
+	return DescriptorIStagedApexObserver
+}
 
 func (s *StagedApexObserverStub) OnTransaction(
 	ctx context.Context,

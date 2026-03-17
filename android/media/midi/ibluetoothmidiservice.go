@@ -16,23 +16,27 @@ const (
 	TransactionIBluetoothMidiServiceAddBluetoothDevice = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBluetoothMidiServiceAddBluetoothDevice = "addBluetoothDevice"
+)
+
 type IBluetoothMidiService interface {
 	AsBinder() binder.IBinder
 	AddBluetoothDevice(ctx context.Context, bluetoothDevice bluetooth.BluetoothDevice) (binder.IBinder, error)
 }
 
 type BluetoothMidiServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothMidiServiceProxy(
 	remote binder.IBinder,
 ) *BluetoothMidiServiceProxy {
-	return &BluetoothMidiServiceProxy{remote: remote}
+	return &BluetoothMidiServiceProxy{Remote: remote}
 }
 
 func (p *BluetoothMidiServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothMidiService = (*BluetoothMidiServiceProxy)(nil)
@@ -49,12 +53,12 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMidiService, "addBluetoothDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothMidiService, MethodIBluetoothMidiServiceAddBluetoothDevice)
 	if _err != nil {
-		_code = TransactionIBluetoothMidiServiceAddBluetoothDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothMidiService, MethodIBluetoothMidiServiceAddBluetoothDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,7 +72,7 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -79,6 +83,10 @@ type BluetoothMidiServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothMidiServiceStub)(nil)
+
+func (s *BluetoothMidiServiceStub) Descriptor() string {
+	return DescriptorIBluetoothMidiService
+}
 
 func (s *BluetoothMidiServiceStub) OnTransaction(
 	ctx context.Context,

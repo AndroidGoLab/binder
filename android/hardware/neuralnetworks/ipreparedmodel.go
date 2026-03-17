@@ -20,6 +20,15 @@ const (
 	TransactionIPreparedModelExecuteFencedWithConfig        = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIPreparedModelExecuteSynchronously           = "executeSynchronously"
+	MethodIPreparedModelExecuteFenced                  = "executeFenced"
+	MethodIPreparedModelConfigureExecutionBurst        = "configureExecutionBurst"
+	MethodIPreparedModelCreateReusableExecution        = "createReusableExecution"
+	MethodIPreparedModelExecuteSynchronouslyWithConfig = "executeSynchronouslyWithConfig"
+	MethodIPreparedModelExecuteFencedWithConfig        = "executeFencedWithConfig"
+)
+
 type IPreparedModel interface {
 	AsBinder() binder.IBinder
 	ExecuteSynchronously(ctx context.Context, request Request, measureTiming bool, deadlineNs int64, loopTimeoutDurationNs int64) (ExecutionResult, error)
@@ -36,17 +45,17 @@ const (
 )
 
 type PreparedModelProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPreparedModelProxy(
 	remote binder.IBinder,
 ) *PreparedModelProxy {
-	return &PreparedModelProxy{remote: remote}
+	return &PreparedModelProxy{Remote: remote}
 }
 
 func (p *PreparedModelProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPreparedModel = (*PreparedModelProxy)(nil)
@@ -69,12 +78,12 @@ func (p *PreparedModelProxy) ExecuteSynchronously(
 	_data.WriteInt64(deadlineNs)
 	_data.WriteInt64(loopTimeoutDurationNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeSynchronously")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelExecuteSynchronously)
 	if _err != nil {
-		_code = TransactionIPreparedModelExecuteSynchronously
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModel, MethodIPreparedModelExecuteSynchronously, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,12 +134,12 @@ func (p *PreparedModelProxy) ExecuteFenced(
 	_data.WriteInt64(loopTimeoutDurationNs)
 	_data.WriteInt64(durationNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeFenced")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelExecuteFenced)
 	if _err != nil {
-		_code = TransactionIPreparedModelExecuteFenced
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModel, MethodIPreparedModelExecuteFenced, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,12 +168,12 @@ func (p *PreparedModelProxy) ConfigureExecutionBurst(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "configureExecutionBurst")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelConfigureExecutionBurst)
 	if _err != nil {
-		_code = TransactionIPreparedModelConfigureExecutionBurst
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModel, MethodIPreparedModelConfigureExecutionBurst, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -178,7 +187,7 @@ func (p *PreparedModelProxy) ConfigureExecutionBurst(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBurstProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewBurstProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -199,12 +208,12 @@ func (p *PreparedModelProxy) CreateReusableExecution(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "createReusableExecution")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelCreateReusableExecution)
 	if _err != nil {
-		_code = TransactionIPreparedModelCreateReusableExecution
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModel, MethodIPreparedModelCreateReusableExecution, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -218,7 +227,7 @@ func (p *PreparedModelProxy) CreateReusableExecution(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewExecutionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewExecutionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -241,12 +250,12 @@ func (p *PreparedModelProxy) ExecuteSynchronouslyWithConfig(
 	}
 	_data.WriteInt64(deadlineNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeSynchronouslyWithConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelExecuteSynchronouslyWithConfig)
 	if _err != nil {
-		_code = TransactionIPreparedModelExecuteSynchronouslyWithConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModel, MethodIPreparedModelExecuteSynchronouslyWithConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -298,12 +307,12 @@ func (p *PreparedModelProxy) ExecuteFencedWithConfig(
 	_data.WriteInt64(deadlineNs)
 	_data.WriteInt64(durationNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeFencedWithConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPreparedModel, MethodIPreparedModelExecuteFencedWithConfig)
 	if _err != nil {
-		_code = TransactionIPreparedModelExecuteFencedWithConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPreparedModel, MethodIPreparedModelExecuteFencedWithConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -332,6 +341,10 @@ type PreparedModelStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PreparedModelStub)(nil)
+
+func (s *PreparedModelStub) Descriptor() string {
+	return DescriptorIPreparedModel
+}
 
 func (s *PreparedModelStub) OnTransaction(
 	ctx context.Context,

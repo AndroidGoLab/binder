@@ -15,23 +15,27 @@ const (
 	TransactionIMediaQualityCallbackNotifyAmbientBacklightEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMediaQualityCallbackNotifyAmbientBacklightEvent = "notifyAmbientBacklightEvent"
+)
+
 type IMediaQualityCallback interface {
 	AsBinder() binder.IBinder
 	NotifyAmbientBacklightEvent(ctx context.Context, event AmbientBacklightEvent) error
 }
 
 type MediaQualityCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaQualityCallbackProxy(
 	remote binder.IBinder,
 ) *MediaQualityCallbackProxy {
-	return &MediaQualityCallbackProxy{remote: remote}
+	return &MediaQualityCallbackProxy{Remote: remote}
 }
 
 func (p *MediaQualityCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaQualityCallback = (*MediaQualityCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *MediaQualityCallbackProxy) NotifyAmbientBacklightEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityCallback, "notifyAmbientBacklightEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaQualityCallback, MethodIMediaQualityCallbackNotifyAmbientBacklightEvent)
 	if _err != nil {
-		_code = TransactionIMediaQualityCallbackNotifyAmbientBacklightEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaQualityCallback, MethodIMediaQualityCallbackNotifyAmbientBacklightEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type MediaQualityCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaQualityCallbackStub)(nil)
+
+func (s *MediaQualityCallbackStub) Descriptor() string {
+	return DescriptorIMediaQualityCallback
+}
 
 func (s *MediaQualityCallbackStub) OnTransaction(
 	ctx context.Context,

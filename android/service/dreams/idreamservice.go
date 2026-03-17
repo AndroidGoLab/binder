@@ -3,7 +3,7 @@ package dreams
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,32 +13,36 @@ import (
 const DescriptorIDreamService = "android.service.dreams.IDreamService"
 
 const (
-	TransactionIDreamServiceAttach      = binder.FirstCallTransaction + 0
-	TransactionIDreamServiceDetach      = binder.FirstCallTransaction + 1
-	TransactionIDreamServiceWakeUp      = binder.FirstCallTransaction + 2
-	TransactionIDreamServiceComeToFront = binder.FirstCallTransaction + 3
+	TransactionIDreamServiceAttach = binder.FirstCallTransaction + 0
+	TransactionIDreamServiceDetach = binder.FirstCallTransaction + 1
+	TransactionIDreamServiceWakeUp = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIDreamServiceAttach = "attach"
+	MethodIDreamServiceDetach = "detach"
+	MethodIDreamServiceWakeUp = "wakeUp"
 )
 
 type IDreamService interface {
 	AsBinder() binder.IBinder
-	Attach(ctx context.Context, windowToken binder.IBinder, canDoze bool, isPreviewMode bool, started ondeviceintelligence.IRemoteCallback) error
+	Attach(ctx context.Context, windowToken binder.IBinder, canDoze bool, isPreviewMode bool, started os.IRemoteCallback) error
 	Detach(ctx context.Context) error
 	WakeUp(ctx context.Context) error
-	ComeToFront(ctx context.Context) error
 }
 
 type DreamServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDreamServiceProxy(
 	remote binder.IBinder,
 ) *DreamServiceProxy {
-	return &DreamServiceProxy{remote: remote}
+	return &DreamServiceProxy{Remote: remote}
 }
 
 func (p *DreamServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDreamService = (*DreamServiceProxy)(nil)
@@ -48,21 +52,21 @@ func (p *DreamServiceProxy) Attach(
 	windowToken binder.IBinder,
 	canDoze bool,
 	isPreviewMode bool,
-	started ondeviceintelligence.IRemoteCallback,
+	started os.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteBool(canDoze)
 	_data.WriteBool(isPreviewMode)
-	binder.WriteBinderToParcel(ctx, _data, started.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, started.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "attach")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamService, MethodIDreamServiceAttach)
 	if _err != nil {
-		_code = TransactionIDreamServiceAttach
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamService, MethodIDreamServiceAttach, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +76,12 @@ func (p *DreamServiceProxy) Detach(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "detach")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamService, MethodIDreamServiceDetach)
 	if _err != nil {
-		_code = TransactionIDreamServiceDetach
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamService, MethodIDreamServiceDetach, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,27 +91,12 @@ func (p *DreamServiceProxy) WakeUp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "wakeUp")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamService, MethodIDreamServiceWakeUp)
 	if _err != nil {
-		_code = TransactionIDreamServiceWakeUp
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamService, MethodIDreamServiceWakeUp, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DreamServiceProxy) ComeToFront(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamService)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "comeToFront")
-	if _err != nil {
-		_code = TransactionIDreamServiceComeToFront
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,6 +107,10 @@ type DreamServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DreamServiceStub)(nil)
+
+func (s *DreamServiceStub) Descriptor() string {
+	return DescriptorIDreamService
+}
 
 func (s *DreamServiceStub) OnTransaction(
 	ctx context.Context,
@@ -141,7 +134,7 @@ func (s *DreamServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_started ondeviceintelligence.IRemoteCallback
+		var _arg_started os.IRemoteCallback
 		_ = _arg_started
 		_err = s.Impl.Attach(ctx, _arg_windowToken, _arg_canDoze, _arg_isPreviewMode, _arg_started)
 		_ = _err
@@ -160,13 +153,6 @@ func (s *DreamServiceStub) OnTransaction(
 		_err := s.Impl.WakeUp(ctx)
 		_ = _err
 		return nil, nil
-	case TransactionIDreamServiceComeToFront:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.ComeToFront(ctx)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -176,10 +162,9 @@ func (s *DreamServiceStub) OnTransaction(
 // provide to NewDreamServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDreamServiceServer interface {
-	Attach(ctx context.Context, windowToken binder.IBinder, canDoze bool, isPreviewMode bool, started ondeviceintelligence.IRemoteCallback) error
+	Attach(ctx context.Context, windowToken binder.IBinder, canDoze bool, isPreviewMode bool, started os.IRemoteCallback) error
 	Detach(ctx context.Context) error
 	WakeUp(ctx context.Context) error
-	ComeToFront(ctx context.Context) error
 }
 
 type dreamServiceStubWrapper struct {
@@ -196,7 +181,7 @@ func (w *dreamServiceStubWrapper) Attach(
 	windowToken binder.IBinder,
 	canDoze bool,
 	isPreviewMode bool,
-	started ondeviceintelligence.IRemoteCallback,
+	started os.IRemoteCallback,
 ) error {
 	return w.impl.Attach(ctx, windowToken, canDoze, isPreviewMode, started)
 }
@@ -211,12 +196,6 @@ func (w *dreamServiceStubWrapper) WakeUp(
 	ctx context.Context,
 ) error {
 	return w.impl.WakeUp(ctx)
-}
-
-func (w *dreamServiceStubWrapper) ComeToFront(
-	ctx context.Context,
-) error {
-	return w.impl.ComeToFront(ctx)
 }
 
 var _ IDreamService = (*dreamServiceStubWrapper)(nil)

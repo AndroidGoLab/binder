@@ -15,23 +15,27 @@ const (
 	TransactionIMuxTuneCreateSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMuxTuneCreateSession = "createSession"
+)
+
 type IMuxTune interface {
 	AsBinder() binder.IBinder
 	CreateSession(ctx context.Context, broadcastType int32, clientToken string) (IMuxTuneSession, error)
 }
 
 type MuxTuneProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMuxTuneProxy(
 	remote binder.IBinder,
 ) *MuxTuneProxy {
-	return &MuxTuneProxy{remote: remote}
+	return &MuxTuneProxy{Remote: remote}
 }
 
 func (p *MuxTuneProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMuxTune = (*MuxTuneProxy)(nil)
@@ -47,12 +51,12 @@ func (p *MuxTuneProxy) CreateSession(
 	_data.WriteInt32(broadcastType)
 	_data.WriteString16(clientToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMuxTune, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMuxTune, MethodIMuxTuneCreateSession)
 	if _err != nil {
-		_code = TransactionIMuxTuneCreateSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMuxTune, MethodIMuxTuneCreateSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -66,7 +70,7 @@ func (p *MuxTuneProxy) CreateSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMuxTuneSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewMuxTuneSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -77,6 +81,10 @@ type MuxTuneStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MuxTuneStub)(nil)
+
+func (s *MuxTuneStub) Descriptor() string {
+	return DescriptorIMuxTune
+}
 
 func (s *MuxTuneStub) OnTransaction(
 	ctx context.Context,

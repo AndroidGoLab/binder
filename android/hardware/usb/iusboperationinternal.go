@@ -15,23 +15,27 @@ const (
 	TransactionIUsbOperationInternalOnOperationComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUsbOperationInternalOnOperationComplete = "onOperationComplete"
+)
+
 type IUsbOperationInternal interface {
 	AsBinder() binder.IBinder
 	OnOperationComplete(ctx context.Context, status int32) error
 }
 
 type UsbOperationInternalProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUsbOperationInternalProxy(
 	remote binder.IBinder,
 ) *UsbOperationInternalProxy {
-	return &UsbOperationInternalProxy{remote: remote}
+	return &UsbOperationInternalProxy{Remote: remote}
 }
 
 func (p *UsbOperationInternalProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUsbOperationInternal = (*UsbOperationInternalProxy)(nil)
@@ -44,12 +48,12 @@ func (p *UsbOperationInternalProxy) OnOperationComplete(
 	_data.WriteInterfaceToken(DescriptorIUsbOperationInternal)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUsbOperationInternal, "onOperationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUsbOperationInternal, MethodIUsbOperationInternalOnOperationComplete)
 	if _err != nil {
-		_code = TransactionIUsbOperationInternalOnOperationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUsbOperationInternal, MethodIUsbOperationInternalOnOperationComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type UsbOperationInternalStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UsbOperationInternalStub)(nil)
+
+func (s *UsbOperationInternalStub) Descriptor() string {
+	return DescriptorIUsbOperationInternal
+}
 
 func (s *UsbOperationInternalStub) OnTransaction(
 	ctx context.Context,

@@ -16,17 +16,17 @@ type ISecureElementListener interface {
 }
 
 type SecureElementListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureElementListenerProxy(
 	remote binder.IBinder,
 ) *SecureElementListenerProxy {
-	return &SecureElementListenerProxy{remote: remote}
+	return &SecureElementListenerProxy{Remote: remote}
 }
 
 func (p *SecureElementListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureElementListener = (*SecureElementListenerProxy)(nil)
@@ -38,6 +38,10 @@ type SecureElementListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureElementListenerStub)(nil)
+
+func (s *SecureElementListenerStub) Descriptor() string {
+	return DescriptorISecureElementListener
+}
 
 func (s *SecureElementListenerStub) OnTransaction(
 	ctx context.Context,

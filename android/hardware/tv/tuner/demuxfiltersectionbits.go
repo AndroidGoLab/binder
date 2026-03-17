@@ -18,30 +18,9 @@ func (s *DemuxFilterSectionBits) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Filter == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Filter)))
-		for _, _item := range s.Filter {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Mask == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Mask)))
-		for _, _item := range s.Mask {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Mode == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Mode)))
-		for _, _item := range s.Mode {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Filter)
+	p.WriteByteArray(s.Mask)
+	p.WriteByteArray(s.Mode)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -55,49 +34,19 @@ func (s *DemuxFilterSectionBits) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Filter, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Filter = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Filter[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Mask, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Mask = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Mask[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.Mode, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.Mode = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.Mode[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

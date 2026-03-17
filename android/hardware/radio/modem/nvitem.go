@@ -5,7 +5,6 @@ package modem
 type NvItem int32
 
 const (
-	NvItemINVALID                 NvItem = 0
 	NvItemCdmaMeid                NvItem = 1
 	NvItemCdmaMin                 NvItem = 2
 	NvItemCdmaMdn                 NvItem = 3

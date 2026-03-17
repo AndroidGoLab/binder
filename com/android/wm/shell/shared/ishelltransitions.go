@@ -23,6 +23,16 @@ const (
 	TransactionIShellTransitionsSetFocusTransitionListener  = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIShellTransitionsRegisterRemote              = "registerRemote"
+	MethodIShellTransitionsUnregisterRemote            = "unregisterRemote"
+	MethodIShellTransitionsGetShellApplyToken          = "getShellApplyToken"
+	MethodIShellTransitionsSetHomeTransitionListener   = "setHomeTransitionListener"
+	MethodIShellTransitionsGetHomeTaskOverlayContainer = "getHomeTaskOverlayContainer"
+	MethodIShellTransitionsRegisterRemoteForTakeover   = "registerRemoteForTakeover"
+	MethodIShellTransitionsSetFocusTransitionListener  = "setFocusTransitionListener"
+)
+
 type IShellTransitions interface {
 	AsBinder() binder.IBinder
 	RegisterRemote(ctx context.Context, filter window.TransitionFilter, remoteTransition window.RemoteTransition) error
@@ -35,17 +45,17 @@ type IShellTransitions interface {
 }
 
 type ShellTransitionsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewShellTransitionsProxy(
 	remote binder.IBinder,
 ) *ShellTransitionsProxy {
-	return &ShellTransitionsProxy{remote: remote}
+	return &ShellTransitionsProxy{Remote: remote}
 }
 
 func (p *ShellTransitionsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IShellTransitions = (*ShellTransitionsProxy)(nil)
@@ -66,12 +76,12 @@ func (p *ShellTransitionsProxy) RegisterRemote(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "registerRemote")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsRegisterRemote)
 	if _err != nil {
-		_code = TransactionIShellTransitionsRegisterRemote
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsRegisterRemote, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +96,12 @@ func (p *ShellTransitionsProxy) UnregisterRemote(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "unregisterRemote")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsUnregisterRemote)
 	if _err != nil {
-		_code = TransactionIShellTransitionsUnregisterRemote
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsUnregisterRemote, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,12 +112,12 @@ func (p *ShellTransitionsProxy) GetShellApplyToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "getShellApplyToken")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsGetShellApplyToken)
 	if _err != nil {
-		_code = TransactionIShellTransitionsGetShellApplyToken
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsGetShellApplyToken, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,7 +131,7 @@ func (p *ShellTransitionsProxy) GetShellApplyToken(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -131,14 +141,14 @@ func (p *ShellTransitionsProxy) SetHomeTransitionListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "setHomeTransitionListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsSetHomeTransitionListener)
 	if _err != nil {
-		_code = TransactionIShellTransitionsSetHomeTransitionListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsSetHomeTransitionListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,12 +159,12 @@ func (p *ShellTransitionsProxy) GetHomeTaskOverlayContainer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "getHomeTaskOverlayContainer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsGetHomeTaskOverlayContainer)
 	if _err != nil {
-		_code = TransactionIShellTransitionsGetHomeTaskOverlayContainer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsGetHomeTaskOverlayContainer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -192,12 +202,12 @@ func (p *ShellTransitionsProxy) RegisterRemoteForTakeover(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "registerRemoteForTakeover")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsRegisterRemoteForTakeover)
 	if _err != nil {
-		_code = TransactionIShellTransitionsRegisterRemoteForTakeover
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsRegisterRemoteForTakeover, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -207,14 +217,14 @@ func (p *ShellTransitionsProxy) SetFocusTransitionListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "setFocusTransitionListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIShellTransitions, MethodIShellTransitionsSetFocusTransitionListener)
 	if _err != nil {
-		_code = TransactionIShellTransitionsSetFocusTransitionListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIShellTransitions, MethodIShellTransitionsSetFocusTransitionListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,6 +235,10 @@ type ShellTransitionsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ShellTransitionsStub)(nil)
+
+func (s *ShellTransitionsStub) Descriptor() string {
+	return DescriptorIShellTransitions
+}
 
 func (s *ShellTransitionsStub) OnTransaction(
 	ctx context.Context,

@@ -111,14 +111,17 @@ func (u *AccessTechnologySpecificInfo) MarshalParcel(
 	case AccessTechnologySpecificInfoTagNoinit:
 		p.WriteBool(u.Noinit)
 	case AccessTechnologySpecificInfoTagCdmaInfo:
+		p.WriteInt32(1)
 		if _err := u.CdmaInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AccessTechnologySpecificInfoTagEutranInfo:
+		p.WriteInt32(1)
 		if _err := u.EutranInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AccessTechnologySpecificInfoTagNgranNrVopsInfo:
+		p.WriteInt32(1)
 		if _err := u.NgranNrVopsInfo.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -152,14 +155,23 @@ func (u *AccessTechnologySpecificInfo) UnmarshalParcel(
 			return _err
 		}
 	case AccessTechnologySpecificInfoTagCdmaInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.CdmaInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AccessTechnologySpecificInfoTagEutranInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.EutranInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AccessTechnologySpecificInfoTagNgranNrVopsInfo:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.NgranNrVopsInfo.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

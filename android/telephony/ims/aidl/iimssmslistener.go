@@ -18,6 +18,13 @@ const (
 	TransactionIImsSmsListenerOnMemoryAvailableResult   = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIImsSmsListenerOnSendSmsResult           = "onSendSmsResult"
+	MethodIImsSmsListenerOnSmsStatusReportReceived = "onSmsStatusReportReceived"
+	MethodIImsSmsListenerOnSmsReceived             = "onSmsReceived"
+	MethodIImsSmsListenerOnMemoryAvailableResult   = "onMemoryAvailableResult"
+)
+
 type IImsSmsListener interface {
 	AsBinder() binder.IBinder
 	OnSendSmsResult(ctx context.Context, token int32, messageRef int32, status int32, reason int32, networkErrorCode int32) error
@@ -27,17 +34,17 @@ type IImsSmsListener interface {
 }
 
 type ImsSmsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsSmsListenerProxy(
 	remote binder.IBinder,
 ) *ImsSmsListenerProxy {
-	return &ImsSmsListenerProxy{remote: remote}
+	return &ImsSmsListenerProxy{Remote: remote}
 }
 
 func (p *ImsSmsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsSmsListener = (*ImsSmsListenerProxy)(nil)
@@ -58,12 +65,12 @@ func (p *ImsSmsListenerProxy) OnSendSmsResult(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(networkErrorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onSendSmsResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSendSmsResult)
 	if _err != nil {
-		_code = TransactionIImsSmsListenerOnSendSmsResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsSmsListener, MethodIImsSmsListenerOnSendSmsResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +93,12 @@ func (p *ImsSmsListenerProxy) OnSmsStatusReportReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onSmsStatusReportReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsStatusReportReceived)
 	if _err != nil {
-		_code = TransactionIImsSmsListenerOnSmsStatusReportReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsStatusReportReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,12 +121,12 @@ func (p *ImsSmsListenerProxy) OnSmsReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onSmsReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsReceived)
 	if _err != nil {
-		_code = TransactionIImsSmsListenerOnSmsReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsSmsListener, MethodIImsSmsListenerOnSmsReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,12 +142,12 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 	_data.WriteInt32(status)
 	_data.WriteInt32(networkErrorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onMemoryAvailableResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsSmsListener, MethodIImsSmsListenerOnMemoryAvailableResult)
 	if _err != nil {
-		_code = TransactionIImsSmsListenerOnMemoryAvailableResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsSmsListener, MethodIImsSmsListenerOnMemoryAvailableResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,6 +158,10 @@ type ImsSmsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsSmsListenerStub)(nil)
+
+func (s *ImsSmsListenerStub) Descriptor() string {
+	return DescriptorIImsSmsListener
+}
 
 func (s *ImsSmsListenerStub) OnTransaction(
 	ctx context.Context,

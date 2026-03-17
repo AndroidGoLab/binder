@@ -16,6 +16,11 @@ const (
 	TransactionILightsGetLights     = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodILightsSetLightState = "setLightState"
+	MethodILightsGetLights     = "getLights"
+)
+
 type ILights interface {
 	AsBinder() binder.IBinder
 	SetLightState(ctx context.Context, id int32, state HwLightState) error
@@ -23,17 +28,17 @@ type ILights interface {
 }
 
 type LightsProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLightsProxy(
 	remote binder.IBinder,
 ) *LightsProxy {
-	return &LightsProxy{remote: remote}
+	return &LightsProxy{Remote: remote}
 }
 
 func (p *LightsProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILights = (*LightsProxy)(nil)
@@ -51,12 +56,12 @@ func (p *LightsProxy) SetLightState(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILights, "setLightState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILights, MethodILightsSetLightState)
 	if _err != nil {
-		_code = TransactionILightsSetLightState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILights, MethodILightsSetLightState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,12 +81,12 @@ func (p *LightsProxy) GetLights(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILights)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILights, "getLights")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILights, MethodILightsGetLights)
 	if _err != nil {
-		_code = TransactionILightsGetLights
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILights, MethodILightsGetLights, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,6 +104,9 @@ func (p *LightsProxy) GetLights(
 	if _count >= 0 {
 		_result = make([]HwLight, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -114,6 +122,10 @@ type LightsStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LightsStub)(nil)
+
+func (s *LightsStub) Descriptor() string {
+	return DescriptorILights
+}
 
 func (s *LightsStub) OnTransaction(
 	ctx context.Context,

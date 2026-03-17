@@ -16,23 +16,27 @@ const (
 	TransactionISpellCheckerServiceGetISpellCheckerSession = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISpellCheckerServiceGetISpellCheckerSession = "getISpellCheckerSession"
+)
+
 type ISpellCheckerService interface {
 	AsBinder() binder.IBinder
 	GetISpellCheckerSession(ctx context.Context, locale string, listener ISpellCheckerSessionListener, bundle os.Bundle, supportedAttributes int32, callback ISpellCheckerServiceCallback) error
 }
 
 type SpellCheckerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpellCheckerServiceProxy(
 	remote binder.IBinder,
 ) *SpellCheckerServiceProxy {
-	return &SpellCheckerServiceProxy{remote: remote}
+	return &SpellCheckerServiceProxy{Remote: remote}
 }
 
 func (p *SpellCheckerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpellCheckerService = (*SpellCheckerServiceProxy)(nil)
@@ -48,20 +52,20 @@ func (p *SpellCheckerServiceProxy) GetISpellCheckerSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerService)
 	_data.WriteString16(locale)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(supportedAttributes)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerService, "getISpellCheckerSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerService, MethodISpellCheckerServiceGetISpellCheckerSession)
 	if _err != nil {
-		_code = TransactionISpellCheckerServiceGetISpellCheckerSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerService, MethodISpellCheckerServiceGetISpellCheckerSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +76,10 @@ type SpellCheckerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerServiceStub)(nil)
+
+func (s *SpellCheckerServiceStub) Descriptor() string {
+	return DescriptorISpellCheckerService
+}
 
 func (s *SpellCheckerServiceStub) OnTransaction(
 	ctx context.Context,

@@ -24,6 +24,18 @@ const (
 	TransactionIRingtonePlayerOpenRingtone          = binder.FirstCallTransaction + 8
 )
 
+const (
+	MethodIRingtonePlayerPlay                  = "play"
+	MethodIRingtonePlayerPlayWithVolumeShaping = "playWithVolumeShaping"
+	MethodIRingtonePlayerStop                  = "stop"
+	MethodIRingtonePlayerIsPlaying             = "isPlaying"
+	MethodIRingtonePlayerSetPlaybackProperties = "setPlaybackProperties"
+	MethodIRingtonePlayerPlayAsync             = "playAsync"
+	MethodIRingtonePlayerStopAsync             = "stopAsync"
+	MethodIRingtonePlayerGetTitle              = "getTitle"
+	MethodIRingtonePlayerOpenRingtone          = "openRingtone"
+)
+
 type IRingtonePlayer interface {
 	AsBinder() binder.IBinder
 	Play(ctx context.Context, token binder.IBinder, uri net.Uri, aa AudioAttributes, volume float32, looping bool) error
@@ -38,17 +50,17 @@ type IRingtonePlayer interface {
 }
 
 type RingtonePlayerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRingtonePlayerProxy(
 	remote binder.IBinder,
 ) *RingtonePlayerProxy {
-	return &RingtonePlayerProxy{remote: remote}
+	return &RingtonePlayerProxy{Remote: remote}
 }
 
 func (p *RingtonePlayerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRingtonePlayer = (*RingtonePlayerProxy)(nil)
@@ -63,7 +75,7 @@ func (p *RingtonePlayerProxy) Play(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
@@ -75,12 +87,12 @@ func (p *RingtonePlayerProxy) Play(
 	_data.WriteFloat32(volume)
 	_data.WriteBool(looping)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "play")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlay)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerPlay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerPlay, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +107,7 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
@@ -114,12 +126,12 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "playWithVolumeShaping")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayWithVolumeShaping)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerPlayWithVolumeShaping
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayWithVolumeShaping, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,14 +141,14 @@ func (p *RingtonePlayerProxy) Stop(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "stop")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerStop)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerStop
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerStop, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,14 +159,14 @@ func (p *RingtonePlayerProxy) IsPlaying(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "isPlaying")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerIsPlaying)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerIsPlaying
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerIsPlaying, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,17 +192,17 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteFloat32(volume)
 	_data.WriteBool(looping)
 	_data.WriteBool(hapticGeneratorEnabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "setPlaybackProperties")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerSetPlaybackProperties)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerSetPlaybackProperties
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerSetPlaybackProperties, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -215,12 +227,12 @@ func (p *RingtonePlayerProxy) PlayAsync(
 	}
 	_data.WriteFloat32(volume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "playAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayAsync)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerPlayAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerPlayAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -230,12 +242,12 @@ func (p *RingtonePlayerProxy) StopAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "stopAsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerStopAsync)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerStopAsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerStopAsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -251,12 +263,12 @@ func (p *RingtonePlayerProxy) GetTitle(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "getTitle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerGetTitle)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerGetTitle
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerGetTitle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -285,12 +297,12 @@ func (p *RingtonePlayerProxy) OpenRingtone(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "openRingtone")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRingtonePlayer, MethodIRingtonePlayerOpenRingtone)
 	if _err != nil {
-		_code = TransactionIRingtonePlayerOpenRingtone
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRingtonePlayer, MethodIRingtonePlayerOpenRingtone, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -314,6 +326,10 @@ type RingtonePlayerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RingtonePlayerStub)(nil)
+
+func (s *RingtonePlayerStub) Descriptor() string {
+	return DescriptorIRingtonePlayer
+}
 
 func (s *RingtonePlayerStub) OnTransaction(
 	ctx context.Context,

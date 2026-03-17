@@ -17,6 +17,12 @@ const (
 	TransactionIInputSurfaceConnect         = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInputSurfaceGetSurface      = "getSurface"
+	MethodIInputSurfaceGetConfigurable = "getConfigurable"
+	MethodIInputSurfaceConnect         = "connect"
+)
+
 type IInputSurface interface {
 	AsBinder() binder.IBinder
 	GetSurface(ctx context.Context) (interface{}, error)
@@ -25,17 +31,17 @@ type IInputSurface interface {
 }
 
 type InputSurfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputSurfaceProxy(
 	remote binder.IBinder,
 ) *InputSurfaceProxy {
-	return &InputSurfaceProxy{remote: remote}
+	return &InputSurfaceProxy{Remote: remote}
 }
 
 func (p *InputSurfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputSurface = (*InputSurfaceProxy)(nil)
@@ -47,12 +53,12 @@ func (p *InputSurfaceProxy) GetSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSurface, "getSurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurface, MethodIInputSurfaceGetSurface)
 	if _err != nil {
-		_code = TransactionIInputSurfaceGetSurface
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSurface, MethodIInputSurfaceGetSurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,12 +78,12 @@ func (p *InputSurfaceProxy) GetConfigurable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSurface, "getConfigurable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurface, MethodIInputSurfaceGetConfigurable)
 	if _err != nil {
-		_code = TransactionIInputSurfaceGetConfigurable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSurface, MethodIInputSurfaceGetConfigurable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +97,7 @@ func (p *InputSurfaceProxy) GetConfigurable(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewConfigurableProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -102,14 +108,14 @@ func (p *InputSurfaceProxy) Connect(
 	var _result IInputSurfaceConnection
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
-	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sink.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputSurface, "connect")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputSurface, MethodIInputSurfaceConnect)
 	if _err != nil {
-		_code = TransactionIInputSurfaceConnect
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputSurface, MethodIInputSurfaceConnect, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +129,7 @@ func (p *InputSurfaceProxy) Connect(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -134,6 +140,10 @@ type InputSurfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputSurfaceStub)(nil)
+
+func (s *InputSurfaceStub) Descriptor() string {
+	return DescriptorIInputSurface
+}
 
 func (s *InputSurfaceStub) OnTransaction(
 	ctx context.Context,

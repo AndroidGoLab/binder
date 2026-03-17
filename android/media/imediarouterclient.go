@@ -17,6 +17,12 @@ const (
 	TransactionIMediaRouterClientOnGroupRouteSelected = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMediaRouterClientOnStateChanged       = "onStateChanged"
+	MethodIMediaRouterClientOnRestoreRoute       = "onRestoreRoute"
+	MethodIMediaRouterClientOnGroupRouteSelected = "onGroupRouteSelected"
+)
+
 type IMediaRouterClient interface {
 	AsBinder() binder.IBinder
 	OnStateChanged(ctx context.Context) error
@@ -25,17 +31,17 @@ type IMediaRouterClient interface {
 }
 
 type MediaRouterClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaRouterClientProxy(
 	remote binder.IBinder,
 ) *MediaRouterClientProxy {
-	return &MediaRouterClientProxy{remote: remote}
+	return &MediaRouterClientProxy{Remote: remote}
 }
 
 func (p *MediaRouterClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaRouterClient = (*MediaRouterClientProxy)(nil)
@@ -46,12 +52,12 @@ func (p *MediaRouterClientProxy) OnStateChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterClient, "onStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnStateChanged)
 	if _err != nil {
-		_code = TransactionIMediaRouterClientOnStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouterClient, MethodIMediaRouterClientOnStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +67,12 @@ func (p *MediaRouterClientProxy) OnRestoreRoute(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterClient, "onRestoreRoute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnRestoreRoute)
 	if _err != nil {
-		_code = TransactionIMediaRouterClientOnRestoreRoute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouterClient, MethodIMediaRouterClientOnRestoreRoute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,12 +84,12 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 	_data.WriteString16(routeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterClient, "onGroupRouteSelected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRouterClient, MethodIMediaRouterClientOnGroupRouteSelected)
 	if _err != nil {
-		_code = TransactionIMediaRouterClientOnGroupRouteSelected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRouterClient, MethodIMediaRouterClientOnGroupRouteSelected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,6 +100,10 @@ type MediaRouterClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaRouterClientStub)(nil)
+
+func (s *MediaRouterClientStub) Descriptor() string {
+	return DescriptorIMediaRouterClient
+}
 
 func (s *MediaRouterClientStub) OnTransaction(
 	ctx context.Context,

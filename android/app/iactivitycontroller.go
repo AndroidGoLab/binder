@@ -21,6 +21,15 @@ const (
 	TransactionIActivityControllerSystemNotResponding   = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIActivityControllerActivityStarting      = "activityStarting"
+	MethodIActivityControllerActivityResuming      = "activityResuming"
+	MethodIActivityControllerAppCrashed            = "appCrashed"
+	MethodIActivityControllerAppEarlyNotResponding = "appEarlyNotResponding"
+	MethodIActivityControllerAppNotResponding      = "appNotResponding"
+	MethodIActivityControllerSystemNotResponding   = "systemNotResponding"
+)
+
 type IActivityController interface {
 	AsBinder() binder.IBinder
 	ActivityStarting(ctx context.Context, intent content.Intent, pkg string) (bool, error)
@@ -32,17 +41,17 @@ type IActivityController interface {
 }
 
 type ActivityControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityControllerProxy(
 	remote binder.IBinder,
 ) *ActivityControllerProxy {
-	return &ActivityControllerProxy{remote: remote}
+	return &ActivityControllerProxy{Remote: remote}
 }
 
 func (p *ActivityControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityController = (*ActivityControllerProxy)(nil)
@@ -61,12 +70,12 @@ func (p *ActivityControllerProxy) ActivityStarting(
 	}
 	_data.WriteString16(pkg)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "activityStarting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerActivityStarting)
 	if _err != nil {
-		_code = TransactionIActivityControllerActivityStarting
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityController, MethodIActivityControllerActivityStarting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -92,12 +101,12 @@ func (p *ActivityControllerProxy) ActivityResuming(
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(pkg)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "activityResuming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerActivityResuming)
 	if _err != nil {
-		_code = TransactionIActivityControllerActivityResuming
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityController, MethodIActivityControllerActivityResuming, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -133,12 +142,12 @@ func (p *ActivityControllerProxy) AppCrashed(
 	_data.WriteInt64(timeMillis)
 	_data.WriteString16(stackTrace)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "appCrashed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerAppCrashed)
 	if _err != nil {
-		_code = TransactionIActivityControllerAppCrashed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityController, MethodIActivityControllerAppCrashed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,12 +177,12 @@ func (p *ActivityControllerProxy) AppEarlyNotResponding(
 	_data.WriteInt32(pid)
 	_data.WriteString16(annotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "appEarlyNotResponding")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerAppEarlyNotResponding)
 	if _err != nil {
-		_code = TransactionIActivityControllerAppEarlyNotResponding
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityController, MethodIActivityControllerAppEarlyNotResponding, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,12 +212,12 @@ func (p *ActivityControllerProxy) AppNotResponding(
 	_data.WriteInt32(pid)
 	_data.WriteString16(processStats)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "appNotResponding")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerAppNotResponding)
 	if _err != nil {
-		_code = TransactionIActivityControllerAppNotResponding
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityController, MethodIActivityControllerAppNotResponding, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -234,12 +243,12 @@ func (p *ActivityControllerProxy) SystemNotResponding(
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(msg)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "systemNotResponding")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityController, MethodIActivityControllerSystemNotResponding)
 	if _err != nil {
-		_code = TransactionIActivityControllerSystemNotResponding
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityController, MethodIActivityControllerSystemNotResponding, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -263,6 +272,10 @@ type ActivityControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityControllerStub)(nil)
+
+func (s *ActivityControllerStub) Descriptor() string {
+	return DescriptorIActivityController
+}
 
 func (s *ActivityControllerStub) OnTransaction(
 	ctx context.Context,

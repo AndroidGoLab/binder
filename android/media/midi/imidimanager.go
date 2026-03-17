@@ -29,6 +29,22 @@ const (
 	TransactionIMidiManagerUpdateTotalBytes       = binder.FirstCallTransaction + 12
 )
 
+const (
+	MethodIMidiManagerGetDevices             = "getDevices"
+	MethodIMidiManagerGetDevicesForTransport = "getDevicesForTransport"
+	MethodIMidiManagerRegisterListener       = "registerListener"
+	MethodIMidiManagerUnregisterListener     = "unregisterListener"
+	MethodIMidiManagerOpenDevice             = "openDevice"
+	MethodIMidiManagerOpenBluetoothDevice    = "openBluetoothDevice"
+	MethodIMidiManagerCloseDevice            = "closeDevice"
+	MethodIMidiManagerRegisterDeviceServer   = "registerDeviceServer"
+	MethodIMidiManagerUnregisterDeviceServer = "unregisterDeviceServer"
+	MethodIMidiManagerGetServiceDeviceInfo   = "getServiceDeviceInfo"
+	MethodIMidiManagerGetDeviceStatus        = "getDeviceStatus"
+	MethodIMidiManagerSetDeviceStatus        = "setDeviceStatus"
+	MethodIMidiManagerUpdateTotalBytes       = "updateTotalBytes"
+)
+
 type IMidiManager interface {
 	AsBinder() binder.IBinder
 	GetDevices(ctx context.Context) ([]interface{}, error)
@@ -47,17 +63,17 @@ type IMidiManager interface {
 }
 
 type MidiManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMidiManagerProxy(
 	remote binder.IBinder,
 ) *MidiManagerProxy {
-	return &MidiManagerProxy{remote: remote}
+	return &MidiManagerProxy{Remote: remote}
 }
 
 func (p *MidiManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMidiManager = (*MidiManagerProxy)(nil)
@@ -69,12 +85,12 @@ func (p *MidiManagerProxy) GetDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDevices)
 	if _err != nil {
-		_code = TransactionIMidiManagerGetDevices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerGetDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,12 +122,12 @@ func (p *MidiManagerProxy) GetDevicesForTransport(
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteInt32(transport)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getDevicesForTransport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDevicesForTransport)
 	if _err != nil {
-		_code = TransactionIMidiManagerGetDevicesForTransport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerGetDevicesForTransport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,15 +157,15 @@ func (p *MidiManagerProxy) RegisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "registerListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerRegisterListener)
 	if _err != nil {
-		_code = TransactionIMidiManagerRegisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerRegisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,15 +185,15 @@ func (p *MidiManagerProxy) UnregisterListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "unregisterListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerUnregisterListener)
 	if _err != nil {
-		_code = TransactionIMidiManagerUnregisterListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerUnregisterListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -198,15 +214,15 @@ func (p *MidiManagerProxy) OpenDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "openDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerOpenDevice)
 	if _err != nil {
-		_code = TransactionIMidiManagerOpenDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerOpenDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,19 +243,19 @@ func (p *MidiManagerProxy) OpenBluetoothDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "openBluetoothDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerOpenBluetoothDevice)
 	if _err != nil {
-		_code = TransactionIMidiManagerOpenBluetoothDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerOpenBluetoothDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -259,15 +275,15 @@ func (p *MidiManagerProxy) CloseDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, deviceToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientToken, p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, deviceToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "closeDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerCloseDevice)
 	if _err != nil {
-		_code = TransactionIMidiManagerCloseDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerCloseDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -294,7 +310,7 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(numInputPorts)
 	_data.WriteInt32(numOutputPorts)
 	if inputPortNames == nil {
@@ -320,12 +336,12 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 	_data.WriteInt32(type_)
 	_data.WriteInt32(defaultProtocol)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "registerDeviceServer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerRegisterDeviceServer)
 	if _err != nil {
-		_code = TransactionIMidiManagerRegisterDeviceServer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerRegisterDeviceServer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -344,14 +360,14 @@ func (p *MidiManagerProxy) UnregisterDeviceServer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "unregisterDeviceServer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerUnregisterDeviceServer)
 	if _err != nil {
-		_code = TransactionIMidiManagerUnregisterDeviceServer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerUnregisterDeviceServer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -375,12 +391,12 @@ func (p *MidiManagerProxy) GetServiceDeviceInfo(
 	_data.WriteString16(packageName)
 	_data.WriteString16(className)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getServiceDeviceInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetServiceDeviceInfo)
 	if _err != nil {
-		_code = TransactionIMidiManagerGetServiceDeviceInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerGetServiceDeviceInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -401,12 +417,12 @@ func (p *MidiManagerProxy) GetDeviceStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getDeviceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerGetDeviceStatus)
 	if _err != nil {
-		_code = TransactionIMidiManagerGetDeviceStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerGetDeviceStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -435,18 +451,18 @@ func (p *MidiManagerProxy) SetDeviceStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "setDeviceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerSetDeviceStatus)
 	if _err != nil {
-		_code = TransactionIMidiManagerSetDeviceStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerSetDeviceStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -467,16 +483,16 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
-	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, server.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(inputBytes)
 	_data.WriteInt32(outputBytes)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "updateTotalBytes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiManager, MethodIMidiManagerUpdateTotalBytes)
 	if _err != nil {
-		_code = TransactionIMidiManagerUpdateTotalBytes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiManager, MethodIMidiManagerUpdateTotalBytes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -496,6 +512,10 @@ type MidiManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MidiManagerStub)(nil)
+
+func (s *MidiManagerStub) Descriptor() string {
+	return DescriptorIMidiManager
+}
 
 func (s *MidiManagerStub) OnTransaction(
 	ctx context.Context,

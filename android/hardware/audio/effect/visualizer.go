@@ -162,26 +162,22 @@ func (u *Visualizer) MarshalParcel(
 
 	switch u.Tag {
 	case VisualizerTagId:
+		p.WriteInt32(1)
 		if _err := u.Id.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagVendor:
+		p.WriteInt32(1)
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagMeasurement:
+		p.WriteInt32(1)
 		if _err := u.Measurement.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagCaptureSampleBuffer:
-		if u.CaptureSampleBuffer == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.CaptureSampleBuffer)))
-			for _, _item := range u.CaptureSampleBuffer {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.CaptureSampleBuffer)
 	case VisualizerTagLatencyMs:
 		p.WriteInt32(u.LatencyMs)
 	case VisualizerTagCaptureSamples:
@@ -213,32 +209,31 @@ func (u *Visualizer) UnmarshalParcel(
 
 	switch u.Tag {
 	case VisualizerTagId:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Id.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagVendor:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagMeasurement:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Measurement.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagCaptureSampleBuffer:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.CaptureSampleBuffer, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.CaptureSampleBuffer = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.CaptureSampleBuffer[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case VisualizerTagLatencyMs:
 		u.LatencyMs, _err = p.ReadInt32()

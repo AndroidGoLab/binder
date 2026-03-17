@@ -17,34 +17,44 @@ const (
 	TransactionITaskFragmentOrganizerControllerUnregisterOrganizer        = binder.FirstCallTransaction + 1
 	TransactionITaskFragmentOrganizerControllerRegisterRemoteAnimations   = binder.FirstCallTransaction + 2
 	TransactionITaskFragmentOrganizerControllerUnregisterRemoteAnimations = binder.FirstCallTransaction + 3
-	TransactionITaskFragmentOrganizerControllerSetSavedState              = binder.FirstCallTransaction + 4
+	TransactionITaskFragmentOrganizerControllerIsActivityEmbedded         = binder.FirstCallTransaction + 4
 	TransactionITaskFragmentOrganizerControllerOnTransactionHandled       = binder.FirstCallTransaction + 5
 	TransactionITaskFragmentOrganizerControllerApplyTransaction           = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodITaskFragmentOrganizerControllerRegisterOrganizer          = "registerOrganizer"
+	MethodITaskFragmentOrganizerControllerUnregisterOrganizer        = "unregisterOrganizer"
+	MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations   = "registerRemoteAnimations"
+	MethodITaskFragmentOrganizerControllerUnregisterRemoteAnimations = "unregisterRemoteAnimations"
+	MethodITaskFragmentOrganizerControllerIsActivityEmbedded         = "isActivityEmbedded"
+	MethodITaskFragmentOrganizerControllerOnTransactionHandled       = "onTransactionHandled"
+	MethodITaskFragmentOrganizerControllerApplyTransaction           = "applyTransaction"
+)
+
 type ITaskFragmentOrganizerController interface {
 	AsBinder() binder.IBinder
-	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool, outSavedState interface{}) error
+	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool) error
 	UnregisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer) error
 	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition view.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer) error
-	SetSavedState(ctx context.Context, organizer ITaskFragmentOrganizer, savedState interface{}) error
+	IsActivityEmbedded(ctx context.Context, activityToken binder.IBinder) (bool, error)
 	OnTransactionHandled(ctx context.Context, transactionToken binder.IBinder, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool) error
 	ApplyTransaction(ctx context.Context, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool, remoteTransition RemoteTransition) error
 }
 
 type TaskFragmentOrganizerControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTaskFragmentOrganizerControllerProxy(
 	remote binder.IBinder,
 ) *TaskFragmentOrganizerControllerProxy {
-	return &TaskFragmentOrganizerControllerProxy{remote: remote}
+	return &TaskFragmentOrganizerControllerProxy{Remote: remote}
 }
 
 func (p *TaskFragmentOrganizerControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITaskFragmentOrganizerController = (*TaskFragmentOrganizerControllerProxy)(nil)
@@ -53,19 +63,18 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterOrganizer(
 	ctx context.Context,
 	organizer ITaskFragmentOrganizer,
 	isSystemOrganizer bool,
-	outSavedState interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteBool(isSystemOrganizer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "registerOrganizer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterOrganizer)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerRegisterOrganizer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterOrganizer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,14 +93,14 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterOrganizer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "unregisterOrganizer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterOrganizer)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerUnregisterOrganizer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterOrganizer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -111,18 +120,18 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterRemoteAnimations(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := definition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "registerRemoteAnimations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerRegisterRemoteAnimations
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerRegisterRemoteAnimations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,14 +150,14 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterRemoteAnimations(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "unregisterRemoteAnimations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterRemoteAnimations)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerUnregisterRemoteAnimations
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerUnregisterRemoteAnimations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -161,31 +170,35 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterRemoteAnimations(
 	return nil
 }
 
-func (p *TaskFragmentOrganizerControllerProxy) SetSavedState(
+func (p *TaskFragmentOrganizerControllerProxy) IsActivityEmbedded(
 	ctx context.Context,
-	organizer ITaskFragmentOrganizer,
-	savedState interface{},
-) error {
+	activityToken binder.IBinder,
+) (bool, error) {
+	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, activityToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "setSavedState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerIsActivityEmbedded)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerSetSavedState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerIsActivityEmbedded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		return _err
+		return _result, _err
 	}
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
+		return _result, _err
 	}
 
-	return nil
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
 }
 
 func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
@@ -197,7 +210,7 @@ func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
-	binder.WriteBinderToParcel(ctx, _data, transactionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, transactionToken, p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := wct.MarshalParcel(_data); _err != nil {
 		return _err
@@ -205,12 +218,12 @@ func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
 	_data.WriteInt32(transitionType)
 	_data.WriteBool(shouldApplyIndependently)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "onTransactionHandled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerOnTransactionHandled)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerOnTransactionHandled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerOnTransactionHandled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -243,12 +256,12 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "applyTransaction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerApplyTransaction)
 	if _err != nil {
-		_code = TransactionITaskFragmentOrganizerControllerApplyTransaction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITaskFragmentOrganizerController, MethodITaskFragmentOrganizerControllerApplyTransaction, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,6 +282,10 @@ type TaskFragmentOrganizerControllerStub struct {
 
 var _ binder.TransactionReceiver = (*TaskFragmentOrganizerControllerStub)(nil)
 
+func (s *TaskFragmentOrganizerControllerStub) Descriptor() string {
+	return DescriptorITaskFragmentOrganizerController
+}
+
 func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -286,8 +303,7 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outSavedState interface{}
-		_err = s.Impl.RegisterOrganizer(ctx, _arg_organizer, _arg_isSystemOrganizer, _arg_outSavedState)
+		_err = s.Impl.RegisterOrganizer(ctx, _arg_organizer, _arg_isSystemOrganizer)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -352,21 +368,21 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionITaskFragmentOrganizerControllerSetSavedState:
+	case TransactionITaskFragmentOrganizerControllerIsActivityEmbedded:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_organizer ITaskFragmentOrganizer
-		_ = _arg_organizer
-		var _arg_savedState interface{}
-		_err := s.Impl.SetSavedState(ctx, _arg_organizer, _arg_savedState)
+		var _arg_activityToken binder.IBinder
+		_ = _arg_activityToken
+		_result, _err := s.Impl.IsActivityEmbedded(ctx, _arg_activityToken)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITaskFragmentOrganizerControllerOnTransactionHandled:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -456,11 +472,11 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 // provide to NewTaskFragmentOrganizerControllerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITaskFragmentOrganizerControllerServer interface {
-	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool, outSavedState interface{}) error
+	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool) error
 	UnregisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer) error
 	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition view.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer) error
-	SetSavedState(ctx context.Context, organizer ITaskFragmentOrganizer, savedState interface{}) error
+	IsActivityEmbedded(ctx context.Context, activityToken binder.IBinder) (bool, error)
 	OnTransactionHandled(ctx context.Context, transactionToken binder.IBinder, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool) error
 	ApplyTransaction(ctx context.Context, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool, remoteTransition RemoteTransition) error
 }
@@ -478,9 +494,8 @@ func (w *taskFragmentOrganizerControllerStubWrapper) RegisterOrganizer(
 	ctx context.Context,
 	organizer ITaskFragmentOrganizer,
 	isSystemOrganizer bool,
-	outSavedState interface{},
 ) error {
-	return w.impl.RegisterOrganizer(ctx, organizer, isSystemOrganizer, outSavedState)
+	return w.impl.RegisterOrganizer(ctx, organizer, isSystemOrganizer)
 }
 
 func (w *taskFragmentOrganizerControllerStubWrapper) UnregisterOrganizer(
@@ -505,12 +520,11 @@ func (w *taskFragmentOrganizerControllerStubWrapper) UnregisterRemoteAnimations(
 	return w.impl.UnregisterRemoteAnimations(ctx, organizer)
 }
 
-func (w *taskFragmentOrganizerControllerStubWrapper) SetSavedState(
+func (w *taskFragmentOrganizerControllerStubWrapper) IsActivityEmbedded(
 	ctx context.Context,
-	organizer ITaskFragmentOrganizer,
-	savedState interface{},
-) error {
-	return w.impl.SetSavedState(ctx, organizer, savedState)
+	activityToken binder.IBinder,
+) (bool, error) {
+	return w.impl.IsActivityEmbedded(ctx, activityToken)
 }
 
 func (w *taskFragmentOrganizerControllerStubWrapper) OnTransactionHandled(

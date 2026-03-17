@@ -15,23 +15,27 @@ const (
 	TransactionIGbaServiceAuthenticationRequest = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGbaServiceAuthenticationRequest = "authenticationRequest"
+)
+
 type IGbaService interface {
 	AsBinder() binder.IBinder
 	AuthenticationRequest(ctx context.Context, request GbaAuthRequest) error
 }
 
 type GbaServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGbaServiceProxy(
 	remote binder.IBinder,
 ) *GbaServiceProxy {
-	return &GbaServiceProxy{remote: remote}
+	return &GbaServiceProxy{Remote: remote}
 }
 
 func (p *GbaServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGbaService = (*GbaServiceProxy)(nil)
@@ -47,12 +51,12 @@ func (p *GbaServiceProxy) AuthenticationRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGbaService, "authenticationRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGbaService, MethodIGbaServiceAuthenticationRequest)
 	if _err != nil {
-		_code = TransactionIGbaServiceAuthenticationRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGbaService, MethodIGbaServiceAuthenticationRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type GbaServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GbaServiceStub)(nil)
+
+func (s *GbaServiceStub) Descriptor() string {
+	return DescriptorIGbaService
+}
 
 func (s *GbaServiceStub) OnTransaction(
 	ctx context.Context,

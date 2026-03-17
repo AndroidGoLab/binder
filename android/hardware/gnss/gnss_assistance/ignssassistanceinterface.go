@@ -16,6 +16,11 @@ const (
 	TransactionIGnssAssistanceInterfaceSetCallback          = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssAssistanceInterfaceInjectGnssAssistance = "injectGnssAssistance"
+	MethodIGnssAssistanceInterfaceSetCallback          = "setCallback"
+)
+
 type IGnssAssistanceInterface interface {
 	AsBinder() binder.IBinder
 	InjectGnssAssistance(ctx context.Context, gnssAssistance GnssAssistance) error
@@ -23,17 +28,17 @@ type IGnssAssistanceInterface interface {
 }
 
 type GnssAssistanceInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssAssistanceInterfaceProxy(
 	remote binder.IBinder,
 ) *GnssAssistanceInterfaceProxy {
-	return &GnssAssistanceInterfaceProxy{remote: remote}
+	return &GnssAssistanceInterfaceProxy{Remote: remote}
 }
 
 func (p *GnssAssistanceInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssAssistanceInterface = (*GnssAssistanceInterfaceProxy)(nil)
@@ -49,12 +54,12 @@ func (p *GnssAssistanceInterfaceProxy) InjectGnssAssistance(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAssistanceInterface, "injectGnssAssistance")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAssistanceInterface, MethodIGnssAssistanceInterfaceInjectGnssAssistance)
 	if _err != nil {
-		_code = TransactionIGnssAssistanceInterfaceInjectGnssAssistance
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAssistanceInterface, MethodIGnssAssistanceInterfaceInjectGnssAssistance, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,14 +78,14 @@ func (p *GnssAssistanceInterfaceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssAssistanceInterface)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssAssistanceInterface, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssAssistanceInterface, MethodIGnssAssistanceInterfaceSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssAssistanceInterfaceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssAssistanceInterface, MethodIGnssAssistanceInterfaceSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,6 +105,10 @@ type GnssAssistanceInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssAssistanceInterfaceStub)(nil)
+
+func (s *GnssAssistanceInterfaceStub) Descriptor() string {
+	return DescriptorIGnssAssistanceInterface
+}
 
 func (s *GnssAssistanceInterfaceStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionISecurityStateManagerGetGlobalSecurityState = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISecurityStateManagerGetGlobalSecurityState = "getGlobalSecurityState"
+)
+
 type ISecurityStateManager interface {
 	AsBinder() binder.IBinder
 	GetGlobalSecurityState(ctx context.Context) (Bundle, error)
 }
 
 type SecurityStateManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecurityStateManagerProxy(
 	remote binder.IBinder,
 ) *SecurityStateManagerProxy {
-	return &SecurityStateManagerProxy{remote: remote}
+	return &SecurityStateManagerProxy{Remote: remote}
 }
 
 func (p *SecurityStateManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecurityStateManager = (*SecurityStateManagerProxy)(nil)
@@ -43,12 +47,12 @@ func (p *SecurityStateManagerProxy) GetGlobalSecurityState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecurityStateManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecurityStateManager, "getGlobalSecurityState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecurityStateManager, MethodISecurityStateManagerGetGlobalSecurityState)
 	if _err != nil {
-		_code = TransactionISecurityStateManagerGetGlobalSecurityState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecurityStateManager, MethodISecurityStateManagerGetGlobalSecurityState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,6 +81,10 @@ type SecurityStateManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecurityStateManagerStub)(nil)
+
+func (s *SecurityStateManagerStub) Descriptor() string {
+	return DescriptorISecurityStateManager
+}
 
 func (s *SecurityStateManagerStub) OnTransaction(
 	ctx context.Context,

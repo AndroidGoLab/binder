@@ -17,6 +17,11 @@ const (
 	TransactionIScanInterfaceGetParameters = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIScanInterfaceCreateSession = "createSession"
+	MethodIScanInterfaceGetParameters = "getParameters"
+)
+
 type IScanInterface interface {
 	AsBinder() binder.IBinder
 	CreateSession(ctx context.Context, broadcastType int32, countryCode string, operator string, listener IScanListener) (binder.IBinder, error)
@@ -24,17 +29,17 @@ type IScanInterface interface {
 }
 
 type ScanInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewScanInterfaceProxy(
 	remote binder.IBinder,
 ) *ScanInterfaceProxy {
-	return &ScanInterfaceProxy{remote: remote}
+	return &ScanInterfaceProxy{Remote: remote}
 }
 
 func (p *ScanInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IScanInterface = (*ScanInterfaceProxy)(nil)
@@ -52,14 +57,14 @@ func (p *ScanInterfaceProxy) CreateSession(
 	_data.WriteInt32(broadcastType)
 	_data.WriteString16(countryCode)
 	_data.WriteString16(operator)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanInterface, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanInterface, MethodIScanInterfaceCreateSession)
 	if _err != nil {
-		_code = TransactionIScanInterfaceCreateSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScanInterface, MethodIScanInterfaceCreateSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,7 +78,7 @@ func (p *ScanInterfaceProxy) CreateSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -95,12 +100,12 @@ func (p *ScanInterfaceProxy) GetParameters(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIScanInterface, "getParameters")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIScanInterface, MethodIScanInterfaceGetParameters)
 	if _err != nil {
-		_code = TransactionIScanInterfaceGetParameters
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIScanInterface, MethodIScanInterfaceGetParameters, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,6 +134,10 @@ type ScanInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ScanInterfaceStub)(nil)
+
+func (s *ScanInterfaceStub) Descriptor() string {
+	return DescriptorIScanInterface
+}
 
 func (s *ScanInterfaceStub) OnTransaction(
 	ctx context.Context,

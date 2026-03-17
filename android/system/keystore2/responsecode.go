@@ -22,5 +22,4 @@ const (
 	ResponseCodeOutOfKeysTransientError              ResponseCode = 25
 	ResponseCodeOutOfKeysPermanentError              ResponseCode = 26
 	ResponseCodeGetAttestationApplicationIdFailed    ResponseCode = 27
-	ResponseCodeInfoNotAvailable                     ResponseCode = 28
 )

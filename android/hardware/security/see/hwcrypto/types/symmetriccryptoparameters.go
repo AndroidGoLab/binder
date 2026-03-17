@@ -41,6 +41,7 @@ func (u *SymmetricCryptoParameters) MarshalParcel(
 
 	switch u.Tag {
 	case SymmetricCryptoParametersTagAes:
+		p.WriteInt32(1)
 		if _err := u.Aes.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -67,6 +68,9 @@ func (u *SymmetricCryptoParameters) UnmarshalParcel(
 
 	switch u.Tag {
 	case SymmetricCryptoParametersTagAes:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Aes.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

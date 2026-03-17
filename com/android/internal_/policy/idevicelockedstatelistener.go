@@ -15,23 +15,27 @@ const (
 	TransactionIDeviceLockedStateListenerOnDeviceLockedStateChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeviceLockedStateListenerOnDeviceLockedStateChanged = "onDeviceLockedStateChanged"
+)
+
 type IDeviceLockedStateListener interface {
 	AsBinder() binder.IBinder
 	OnDeviceLockedStateChanged(ctx context.Context, isDeviceLocked bool) error
 }
 
 type DeviceLockedStateListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceLockedStateListenerProxy(
 	remote binder.IBinder,
 ) *DeviceLockedStateListenerProxy {
-	return &DeviceLockedStateListenerProxy{remote: remote}
+	return &DeviceLockedStateListenerProxy{Remote: remote}
 }
 
 func (p *DeviceLockedStateListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceLockedStateListener = (*DeviceLockedStateListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *DeviceLockedStateListenerProxy) OnDeviceLockedStateChanged(
 	_data.WriteInterfaceToken(DescriptorIDeviceLockedStateListener)
 	_data.WriteBool(isDeviceLocked)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceLockedStateListener, "onDeviceLockedStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceLockedStateListener, MethodIDeviceLockedStateListenerOnDeviceLockedStateChanged)
 	if _err != nil {
-		_code = TransactionIDeviceLockedStateListenerOnDeviceLockedStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceLockedStateListener, MethodIDeviceLockedStateListenerOnDeviceLockedStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type DeviceLockedStateListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceLockedStateListenerStub)(nil)
+
+func (s *DeviceLockedStateListenerStub) Descriptor() string {
+	return DescriptorIDeviceLockedStateListener
+}
 
 func (s *DeviceLockedStateListenerStub) OnTransaction(
 	ctx context.Context,

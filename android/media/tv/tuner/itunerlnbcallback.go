@@ -17,6 +17,11 @@ const (
 	TransactionITunerLnbCallbackOnDiseqcMessage = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITunerLnbCallbackOnEvent         = "onEvent"
+	MethodITunerLnbCallbackOnDiseqcMessage = "onDiseqcMessage"
+)
+
 type ITunerLnbCallback interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, lnbEventType tvTuner.LnbEventType) error
@@ -24,17 +29,17 @@ type ITunerLnbCallback interface {
 }
 
 type TunerLnbCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerLnbCallbackProxy(
 	remote binder.IBinder,
 ) *TunerLnbCallbackProxy {
-	return &TunerLnbCallbackProxy{remote: remote}
+	return &TunerLnbCallbackProxy{Remote: remote}
 }
 
 func (p *TunerLnbCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerLnbCallback = (*TunerLnbCallbackProxy)(nil)
@@ -47,12 +52,12 @@ func (p *TunerLnbCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorITunerLnbCallback)
 	_data.WriteInt32(int32(lnbEventType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnbCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionITunerLnbCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,12 +85,12 @@ func (p *TunerLnbCallbackProxy) OnDiseqcMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerLnbCallback, "onDiseqcMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnDiseqcMessage)
 	if _err != nil {
-		_code = TransactionITunerLnbCallbackOnDiseqcMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerLnbCallback, MethodITunerLnbCallbackOnDiseqcMessage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,6 +110,10 @@ type TunerLnbCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerLnbCallbackStub)(nil)
+
+func (s *TunerLnbCallbackStub) Descriptor() string {
+	return DescriptorITunerLnbCallback
+}
 
 func (s *TunerLnbCallbackStub) OnTransaction(
 	ctx context.Context,

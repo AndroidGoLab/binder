@@ -40,6 +40,7 @@ func (m *MockBinder) Transact(
 // The mock doesn't care about transaction codes — it returns
 // SecurityException regardless.
 func (m *MockBinder) ResolveCode(
+	_ context.Context,
 	_ string,
 	_ string,
 ) (binder.TransactionCode, error) {

@@ -5,7 +5,6 @@ package network
 type Domain int32
 
 const (
-	DomainINVALID Domain = 0
-	DomainCS      Domain = (1 << 0)
-	DomainPS      Domain = (1 << 1)
+	DomainCS Domain = (1 << 0)
+	DomainPS Domain = (1 << 1)
 )

@@ -59,10 +59,12 @@ func (u *AdditionalInfoPayload) MarshalParcel(
 
 	switch u.Tag {
 	case AdditionalInfoPayloadTagDataInt32:
+		p.WriteInt32(1)
 		if _err := u.DataInt32.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AdditionalInfoPayloadTagDataFloat:
+		p.WriteInt32(1)
 		if _err := u.DataFloat.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -89,10 +91,16 @@ func (u *AdditionalInfoPayload) UnmarshalParcel(
 
 	switch u.Tag {
 	case AdditionalInfoPayloadTagDataInt32:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DataInt32.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AdditionalInfoPayloadTagDataFloat:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DataFloat.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

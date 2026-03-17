@@ -17,70 +17,123 @@ import (
 const DescriptorIDisplayManager = "android.hardware.display.IDisplayManager"
 
 const (
-	TransactionIDisplayManagerGetDisplayInfo                           = binder.FirstCallTransaction + 0
-	TransactionIDisplayManagerGetDisplayIds                            = binder.FirstCallTransaction + 1
-	TransactionIDisplayManagerIsUidPresentOnDisplay                    = binder.FirstCallTransaction + 2
-	TransactionIDisplayManagerRegisterCallback                         = binder.FirstCallTransaction + 3
-	TransactionIDisplayManagerRegisterCallbackWithEventMask            = binder.FirstCallTransaction + 4
-	TransactionIDisplayManagerStartWifiDisplayScan                     = binder.FirstCallTransaction + 5
-	TransactionIDisplayManagerStopWifiDisplayScan                      = binder.FirstCallTransaction + 6
-	TransactionIDisplayManagerConnectWifiDisplay                       = binder.FirstCallTransaction + 7
-	TransactionIDisplayManagerDisconnectWifiDisplay                    = binder.FirstCallTransaction + 8
-	TransactionIDisplayManagerRenameWifiDisplay                        = binder.FirstCallTransaction + 9
-	TransactionIDisplayManagerForgetWifiDisplay                        = binder.FirstCallTransaction + 10
-	TransactionIDisplayManagerPauseWifiDisplay                         = binder.FirstCallTransaction + 11
-	TransactionIDisplayManagerResumeWifiDisplay                        = binder.FirstCallTransaction + 12
-	TransactionIDisplayManagerGetWifiDisplayStatus                     = binder.FirstCallTransaction + 13
-	TransactionIDisplayManagerSetUserDisabledHdrTypes                  = binder.FirstCallTransaction + 14
-	TransactionIDisplayManagerSetAreUserDisabledHdrTypesAllowed        = binder.FirstCallTransaction + 15
-	TransactionIDisplayManagerAreUserDisabledHdrTypesAllowed           = binder.FirstCallTransaction + 16
-	TransactionIDisplayManagerGetUserDisabledHdrTypes                  = binder.FirstCallTransaction + 17
-	TransactionIDisplayManagerOverrideHdrTypes                         = binder.FirstCallTransaction + 18
-	TransactionIDisplayManagerRequestColorMode                         = binder.FirstCallTransaction + 19
-	TransactionIDisplayManagerCreateVirtualDisplay                     = binder.FirstCallTransaction + 20
-	TransactionIDisplayManagerResizeVirtualDisplay                     = binder.FirstCallTransaction + 21
-	TransactionIDisplayManagerSetVirtualDisplaySurface                 = binder.FirstCallTransaction + 22
-	TransactionIDisplayManagerReleaseVirtualDisplay                    = binder.FirstCallTransaction + 23
-	TransactionIDisplayManagerSetVirtualDisplayRotation                = binder.FirstCallTransaction + 24
-	TransactionIDisplayManagerGetStableDisplaySize                     = binder.FirstCallTransaction + 25
-	TransactionIDisplayManagerGetBrightnessEvents                      = binder.FirstCallTransaction + 26
-	TransactionIDisplayManagerGetAmbientBrightnessStats                = binder.FirstCallTransaction + 27
-	TransactionIDisplayManagerSetBrightnessConfigurationForUser        = binder.FirstCallTransaction + 28
-	TransactionIDisplayManagerSetBrightnessConfigurationForDisplay     = binder.FirstCallTransaction + 29
-	TransactionIDisplayManagerGetBrightnessConfigurationForDisplay     = binder.FirstCallTransaction + 30
-	TransactionIDisplayManagerGetBrightnessConfigurationForUser        = binder.FirstCallTransaction + 31
-	TransactionIDisplayManagerGetDefaultBrightnessConfiguration        = binder.FirstCallTransaction + 32
-	TransactionIDisplayManagerIsMinimalPostProcessingRequested         = binder.FirstCallTransaction + 33
-	TransactionIDisplayManagerSetTemporaryBrightness                   = binder.FirstCallTransaction + 34
-	TransactionIDisplayManagerSetBrightness                            = binder.FirstCallTransaction + 35
-	TransactionIDisplayManagerGetBrightness                            = binder.FirstCallTransaction + 36
-	TransactionIDisplayManagerSetTemporaryAutoBrightnessAdjustment     = binder.FirstCallTransaction + 37
-	TransactionIDisplayManagerGetMinimumBrightnessCurve                = binder.FirstCallTransaction + 38
-	TransactionIDisplayManagerGetBrightnessInfo                        = binder.FirstCallTransaction + 39
-	TransactionIDisplayManagerGetPreferredWideGamutColorSpaceId        = binder.FirstCallTransaction + 40
-	TransactionIDisplayManagerSetUserPreferredDisplayMode              = binder.FirstCallTransaction + 41
-	TransactionIDisplayManagerGetUserPreferredDisplayMode              = binder.FirstCallTransaction + 42
-	TransactionIDisplayManagerGetSystemPreferredDisplayMode            = binder.FirstCallTransaction + 43
-	TransactionIDisplayManagerSetHdrConversionMode                     = binder.FirstCallTransaction + 44
-	TransactionIDisplayManagerGetHdrConversionModeSetting              = binder.FirstCallTransaction + 45
-	TransactionIDisplayManagerGetHdrConversionMode                     = binder.FirstCallTransaction + 46
-	TransactionIDisplayManagerGetSupportedHdrOutputTypes               = binder.FirstCallTransaction + 47
-	TransactionIDisplayManagerSetShouldAlwaysRespectAppRequestedMode   = binder.FirstCallTransaction + 48
-	TransactionIDisplayManagerShouldAlwaysRespectAppRequestedMode      = binder.FirstCallTransaction + 49
-	TransactionIDisplayManagerSetRefreshRateSwitchingType              = binder.FirstCallTransaction + 50
-	TransactionIDisplayManagerGetRefreshRateSwitchingType              = binder.FirstCallTransaction + 51
-	TransactionIDisplayManagerGetDisplayDecorationSupport              = binder.FirstCallTransaction + 52
-	TransactionIDisplayManagerSetDisplayIdToMirror                     = binder.FirstCallTransaction + 53
-	TransactionIDisplayManagerGetOverlaySupport                        = binder.FirstCallTransaction + 54
-	TransactionIDisplayManagerEnableConnectedDisplay                   = binder.FirstCallTransaction + 55
-	TransactionIDisplayManagerDisableConnectedDisplay                  = binder.FirstCallTransaction + 56
-	TransactionIDisplayManagerRequestDisplayPower                      = binder.FirstCallTransaction + 57
-	TransactionIDisplayManagerRequestDisplayModes                      = binder.FirstCallTransaction + 58
-	TransactionIDisplayManagerGetHighestHdrSdrRatio                    = binder.FirstCallTransaction + 59
-	TransactionIDisplayManagerGetDozeBrightnessSensorValueToBrightness = binder.FirstCallTransaction + 60
-	TransactionIDisplayManagerGetDefaultDozeBrightness                 = binder.FirstCallTransaction + 61
-	TransactionIDisplayManagerGetDisplayTopology                       = binder.FirstCallTransaction + 62
-	TransactionIDisplayManagerSetDisplayTopology                       = binder.FirstCallTransaction + 63
+	TransactionIDisplayManagerGetDisplayInfo                         = binder.FirstCallTransaction + 0
+	TransactionIDisplayManagerGetDisplayIds                          = binder.FirstCallTransaction + 1
+	TransactionIDisplayManagerIsUidPresentOnDisplay                  = binder.FirstCallTransaction + 2
+	TransactionIDisplayManagerRegisterCallback                       = binder.FirstCallTransaction + 3
+	TransactionIDisplayManagerRegisterCallbackWithEventMask          = binder.FirstCallTransaction + 4
+	TransactionIDisplayManagerStartWifiDisplayScan                   = binder.FirstCallTransaction + 5
+	TransactionIDisplayManagerStopWifiDisplayScan                    = binder.FirstCallTransaction + 6
+	TransactionIDisplayManagerConnectWifiDisplay                     = binder.FirstCallTransaction + 7
+	TransactionIDisplayManagerDisconnectWifiDisplay                  = binder.FirstCallTransaction + 8
+	TransactionIDisplayManagerRenameWifiDisplay                      = binder.FirstCallTransaction + 9
+	TransactionIDisplayManagerForgetWifiDisplay                      = binder.FirstCallTransaction + 10
+	TransactionIDisplayManagerPauseWifiDisplay                       = binder.FirstCallTransaction + 11
+	TransactionIDisplayManagerResumeWifiDisplay                      = binder.FirstCallTransaction + 12
+	TransactionIDisplayManagerGetWifiDisplayStatus                   = binder.FirstCallTransaction + 13
+	TransactionIDisplayManagerSetUserDisabledHdrTypes                = binder.FirstCallTransaction + 14
+	TransactionIDisplayManagerSetAreUserDisabledHdrTypesAllowed      = binder.FirstCallTransaction + 15
+	TransactionIDisplayManagerAreUserDisabledHdrTypesAllowed         = binder.FirstCallTransaction + 16
+	TransactionIDisplayManagerGetUserDisabledHdrTypes                = binder.FirstCallTransaction + 17
+	TransactionIDisplayManagerOverrideHdrTypes                       = binder.FirstCallTransaction + 18
+	TransactionIDisplayManagerRequestColorMode                       = binder.FirstCallTransaction + 19
+	TransactionIDisplayManagerCreateVirtualDisplay                   = binder.FirstCallTransaction + 20
+	TransactionIDisplayManagerResizeVirtualDisplay                   = binder.FirstCallTransaction + 21
+	TransactionIDisplayManagerSetVirtualDisplaySurface               = binder.FirstCallTransaction + 22
+	TransactionIDisplayManagerReleaseVirtualDisplay                  = binder.FirstCallTransaction + 23
+	TransactionIDisplayManagerSetVirtualDisplayState                 = binder.FirstCallTransaction + 24
+	TransactionIDisplayManagerGetStableDisplaySize                   = binder.FirstCallTransaction + 25
+	TransactionIDisplayManagerGetBrightnessEvents                    = binder.FirstCallTransaction + 26
+	TransactionIDisplayManagerGetAmbientBrightnessStats              = binder.FirstCallTransaction + 27
+	TransactionIDisplayManagerSetBrightnessConfigurationForUser      = binder.FirstCallTransaction + 28
+	TransactionIDisplayManagerSetBrightnessConfigurationForDisplay   = binder.FirstCallTransaction + 29
+	TransactionIDisplayManagerGetBrightnessConfigurationForDisplay   = binder.FirstCallTransaction + 30
+	TransactionIDisplayManagerGetBrightnessConfigurationForUser      = binder.FirstCallTransaction + 31
+	TransactionIDisplayManagerGetDefaultBrightnessConfiguration      = binder.FirstCallTransaction + 32
+	TransactionIDisplayManagerIsMinimalPostProcessingRequested       = binder.FirstCallTransaction + 33
+	TransactionIDisplayManagerSetTemporaryBrightness                 = binder.FirstCallTransaction + 34
+	TransactionIDisplayManagerSetBrightness                          = binder.FirstCallTransaction + 35
+	TransactionIDisplayManagerGetBrightness                          = binder.FirstCallTransaction + 36
+	TransactionIDisplayManagerSetTemporaryAutoBrightnessAdjustment   = binder.FirstCallTransaction + 37
+	TransactionIDisplayManagerGetMinimumBrightnessCurve              = binder.FirstCallTransaction + 38
+	TransactionIDisplayManagerGetBrightnessInfo                      = binder.FirstCallTransaction + 39
+	TransactionIDisplayManagerGetPreferredWideGamutColorSpaceId      = binder.FirstCallTransaction + 40
+	TransactionIDisplayManagerSetUserPreferredDisplayMode            = binder.FirstCallTransaction + 41
+	TransactionIDisplayManagerGetUserPreferredDisplayMode            = binder.FirstCallTransaction + 42
+	TransactionIDisplayManagerGetSystemPreferredDisplayMode          = binder.FirstCallTransaction + 43
+	TransactionIDisplayManagerSetHdrConversionMode                   = binder.FirstCallTransaction + 44
+	TransactionIDisplayManagerGetHdrConversionModeSetting            = binder.FirstCallTransaction + 45
+	TransactionIDisplayManagerGetHdrConversionMode                   = binder.FirstCallTransaction + 46
+	TransactionIDisplayManagerGetSupportedHdrOutputTypes             = binder.FirstCallTransaction + 47
+	TransactionIDisplayManagerSetShouldAlwaysRespectAppRequestedMode = binder.FirstCallTransaction + 48
+	TransactionIDisplayManagerShouldAlwaysRespectAppRequestedMode    = binder.FirstCallTransaction + 49
+	TransactionIDisplayManagerSetRefreshRateSwitchingType            = binder.FirstCallTransaction + 50
+	TransactionIDisplayManagerGetRefreshRateSwitchingType            = binder.FirstCallTransaction + 51
+	TransactionIDisplayManagerGetDisplayDecorationSupport            = binder.FirstCallTransaction + 52
+	TransactionIDisplayManagerSetDisplayIdToMirror                   = binder.FirstCallTransaction + 53
+	TransactionIDisplayManagerGetOverlaySupport                      = binder.FirstCallTransaction + 54
+	TransactionIDisplayManagerEnableConnectedDisplay                 = binder.FirstCallTransaction + 55
+	TransactionIDisplayManagerDisableConnectedDisplay                = binder.FirstCallTransaction + 56
+)
+
+const (
+	MethodIDisplayManagerGetDisplayInfo                         = "getDisplayInfo"
+	MethodIDisplayManagerGetDisplayIds                          = "getDisplayIds"
+	MethodIDisplayManagerIsUidPresentOnDisplay                  = "isUidPresentOnDisplay"
+	MethodIDisplayManagerRegisterCallback                       = "registerCallback"
+	MethodIDisplayManagerRegisterCallbackWithEventMask          = "registerCallbackWithEventMask"
+	MethodIDisplayManagerStartWifiDisplayScan                   = "startWifiDisplayScan"
+	MethodIDisplayManagerStopWifiDisplayScan                    = "stopWifiDisplayScan"
+	MethodIDisplayManagerConnectWifiDisplay                     = "connectWifiDisplay"
+	MethodIDisplayManagerDisconnectWifiDisplay                  = "disconnectWifiDisplay"
+	MethodIDisplayManagerRenameWifiDisplay                      = "renameWifiDisplay"
+	MethodIDisplayManagerForgetWifiDisplay                      = "forgetWifiDisplay"
+	MethodIDisplayManagerPauseWifiDisplay                       = "pauseWifiDisplay"
+	MethodIDisplayManagerResumeWifiDisplay                      = "resumeWifiDisplay"
+	MethodIDisplayManagerGetWifiDisplayStatus                   = "getWifiDisplayStatus"
+	MethodIDisplayManagerSetUserDisabledHdrTypes                = "setUserDisabledHdrTypes"
+	MethodIDisplayManagerSetAreUserDisabledHdrTypesAllowed      = "setAreUserDisabledHdrTypesAllowed"
+	MethodIDisplayManagerAreUserDisabledHdrTypesAllowed         = "areUserDisabledHdrTypesAllowed"
+	MethodIDisplayManagerGetUserDisabledHdrTypes                = "getUserDisabledHdrTypes"
+	MethodIDisplayManagerOverrideHdrTypes                       = "overrideHdrTypes"
+	MethodIDisplayManagerRequestColorMode                       = "requestColorMode"
+	MethodIDisplayManagerCreateVirtualDisplay                   = "createVirtualDisplay"
+	MethodIDisplayManagerResizeVirtualDisplay                   = "resizeVirtualDisplay"
+	MethodIDisplayManagerSetVirtualDisplaySurface               = "setVirtualDisplaySurface"
+	MethodIDisplayManagerReleaseVirtualDisplay                  = "releaseVirtualDisplay"
+	MethodIDisplayManagerSetVirtualDisplayState                 = "setVirtualDisplayState"
+	MethodIDisplayManagerGetStableDisplaySize                   = "getStableDisplaySize"
+	MethodIDisplayManagerGetBrightnessEvents                    = "getBrightnessEvents"
+	MethodIDisplayManagerGetAmbientBrightnessStats              = "getAmbientBrightnessStats"
+	MethodIDisplayManagerSetBrightnessConfigurationForUser      = "setBrightnessConfigurationForUser"
+	MethodIDisplayManagerSetBrightnessConfigurationForDisplay   = "setBrightnessConfigurationForDisplay"
+	MethodIDisplayManagerGetBrightnessConfigurationForDisplay   = "getBrightnessConfigurationForDisplay"
+	MethodIDisplayManagerGetBrightnessConfigurationForUser      = "getBrightnessConfigurationForUser"
+	MethodIDisplayManagerGetDefaultBrightnessConfiguration      = "getDefaultBrightnessConfiguration"
+	MethodIDisplayManagerIsMinimalPostProcessingRequested       = "isMinimalPostProcessingRequested"
+	MethodIDisplayManagerSetTemporaryBrightness                 = "setTemporaryBrightness"
+	MethodIDisplayManagerSetBrightness                          = "setBrightness"
+	MethodIDisplayManagerGetBrightness                          = "getBrightness"
+	MethodIDisplayManagerSetTemporaryAutoBrightnessAdjustment   = "setTemporaryAutoBrightnessAdjustment"
+	MethodIDisplayManagerGetMinimumBrightnessCurve              = "getMinimumBrightnessCurve"
+	MethodIDisplayManagerGetBrightnessInfo                      = "getBrightnessInfo"
+	MethodIDisplayManagerGetPreferredWideGamutColorSpaceId      = "getPreferredWideGamutColorSpaceId"
+	MethodIDisplayManagerSetUserPreferredDisplayMode            = "setUserPreferredDisplayMode"
+	MethodIDisplayManagerGetUserPreferredDisplayMode            = "getUserPreferredDisplayMode"
+	MethodIDisplayManagerGetSystemPreferredDisplayMode          = "getSystemPreferredDisplayMode"
+	MethodIDisplayManagerSetHdrConversionMode                   = "setHdrConversionMode"
+	MethodIDisplayManagerGetHdrConversionModeSetting            = "getHdrConversionModeSetting"
+	MethodIDisplayManagerGetHdrConversionMode                   = "getHdrConversionMode"
+	MethodIDisplayManagerGetSupportedHdrOutputTypes             = "getSupportedHdrOutputTypes"
+	MethodIDisplayManagerSetShouldAlwaysRespectAppRequestedMode = "setShouldAlwaysRespectAppRequestedMode"
+	MethodIDisplayManagerShouldAlwaysRespectAppRequestedMode    = "shouldAlwaysRespectAppRequestedMode"
+	MethodIDisplayManagerSetRefreshRateSwitchingType            = "setRefreshRateSwitchingType"
+	MethodIDisplayManagerGetRefreshRateSwitchingType            = "getRefreshRateSwitchingType"
+	MethodIDisplayManagerGetDisplayDecorationSupport            = "getDisplayDecorationSupport"
+	MethodIDisplayManagerSetDisplayIdToMirror                   = "setDisplayIdToMirror"
+	MethodIDisplayManagerGetOverlaySupport                      = "getOverlaySupport"
+	MethodIDisplayManagerEnableConnectedDisplay                 = "enableConnectedDisplay"
+	MethodIDisplayManagerDisableConnectedDisplay                = "disableConnectedDisplay"
 )
 
 type IDisplayManager interface {
@@ -109,7 +162,7 @@ type IDisplayManager interface {
 	ResizeVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback, width int32, height int32, densityDpi int32) error
 	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface interface{}) error
 	ReleaseVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback) error
-	SetVirtualDisplayRotation(ctx context.Context, token IVirtualDisplayCallback, rotation int32) error
+	SetVirtualDisplayState(ctx context.Context, token IVirtualDisplayCallback, isOn bool) error
 	GetStableDisplaySize(ctx context.Context) (graphics.Point, error)
 	GetBrightnessEvents(ctx context.Context) (pm.ParceledListSlice, error)
 	GetAmbientBrightnessStats(ctx context.Context) (pm.ParceledListSlice, error)
@@ -142,27 +195,20 @@ type IDisplayManager interface {
 	GetOverlaySupport(ctx context.Context) (gui.OverlayProperties, error)
 	EnableConnectedDisplay(ctx context.Context, displayId int32) error
 	DisableConnectedDisplay(ctx context.Context, displayId int32) error
-	RequestDisplayPower(ctx context.Context, displayId int32, state int32) (bool, error)
-	RequestDisplayModes(ctx context.Context, token binder.IBinder, displayId int32, modeIds []int32) error
-	GetHighestHdrSdrRatio(ctx context.Context, displayId int32) (float32, error)
-	GetDozeBrightnessSensorValueToBrightness(ctx context.Context, displayId int32) ([]float32, error)
-	GetDefaultDozeBrightness(ctx context.Context, displayId int32) (float32, error)
-	GetDisplayTopology(ctx context.Context) (DisplayTopology, error)
-	SetDisplayTopology(ctx context.Context, topology DisplayTopology) error
 }
 
 type DisplayManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayManagerProxy(
 	remote binder.IBinder,
 ) *DisplayManagerProxy {
-	return &DisplayManagerProxy{remote: remote}
+	return &DisplayManagerProxy{Remote: remote}
 }
 
 func (p *DisplayManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayManager = (*DisplayManagerProxy)(nil)
@@ -176,12 +222,12 @@ func (p *DisplayManagerProxy) GetDisplayInfo(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetDisplayInfo)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetDisplayInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetDisplayInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,12 +249,12 @@ func (p *DisplayManagerProxy) GetDisplayIds(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteBool(includeDisabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetDisplayIds)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetDisplayIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetDisplayIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,12 +292,12 @@ func (p *DisplayManagerProxy) IsUidPresentOnDisplay(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "isUidPresentOnDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerIsUidPresentOnDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerIsUidPresentOnDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerIsUidPresentOnDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -274,14 +320,14 @@ func (p *DisplayManagerProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerRegisterCallback)
 	if _err != nil {
-		_code = TransactionIDisplayManagerRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -301,15 +347,15 @@ func (p *DisplayManagerProxy) RegisterCallbackWithEventMask(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt64(eventsMask)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "registerCallbackWithEventMask")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerRegisterCallbackWithEventMask)
 	if _err != nil {
-		_code = TransactionIDisplayManagerRegisterCallbackWithEventMask
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerRegisterCallbackWithEventMask, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -328,12 +374,12 @@ func (p *DisplayManagerProxy) StartWifiDisplayScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "startWifiDisplayScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerStartWifiDisplayScan)
 	if _err != nil {
-		_code = TransactionIDisplayManagerStartWifiDisplayScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerStartWifiDisplayScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -352,12 +398,12 @@ func (p *DisplayManagerProxy) StopWifiDisplayScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "stopWifiDisplayScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerStopWifiDisplayScan)
 	if _err != nil {
-		_code = TransactionIDisplayManagerStopWifiDisplayScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerStopWifiDisplayScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -378,12 +424,12 @@ func (p *DisplayManagerProxy) ConnectWifiDisplay(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(address)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "connectWifiDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerConnectWifiDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerConnectWifiDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerConnectWifiDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -402,12 +448,12 @@ func (p *DisplayManagerProxy) DisconnectWifiDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "disconnectWifiDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerDisconnectWifiDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerDisconnectWifiDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerDisconnectWifiDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -430,12 +476,12 @@ func (p *DisplayManagerProxy) RenameWifiDisplay(
 	_data.WriteString16(address)
 	_data.WriteString16(alias)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "renameWifiDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerRenameWifiDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerRenameWifiDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerRenameWifiDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -456,12 +502,12 @@ func (p *DisplayManagerProxy) ForgetWifiDisplay(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(address)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "forgetWifiDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerForgetWifiDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerForgetWifiDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerForgetWifiDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -480,12 +526,12 @@ func (p *DisplayManagerProxy) PauseWifiDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "pauseWifiDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerPauseWifiDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerPauseWifiDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerPauseWifiDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -504,12 +550,12 @@ func (p *DisplayManagerProxy) ResumeWifiDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "resumeWifiDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerResumeWifiDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerResumeWifiDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerResumeWifiDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -529,12 +575,12 @@ func (p *DisplayManagerProxy) GetWifiDisplayStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getWifiDisplayStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetWifiDisplayStatus)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetWifiDisplayStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetWifiDisplayStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -571,12 +617,12 @@ func (p *DisplayManagerProxy) SetUserDisabledHdrTypes(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setUserDisabledHdrTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetUserDisabledHdrTypes)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetUserDisabledHdrTypes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetUserDisabledHdrTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -597,12 +643,12 @@ func (p *DisplayManagerProxy) SetAreUserDisabledHdrTypesAllowed(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteBool(areUserDisabledHdrTypesAllowed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setAreUserDisabledHdrTypesAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetAreUserDisabledHdrTypesAllowed)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetAreUserDisabledHdrTypesAllowed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetAreUserDisabledHdrTypesAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -622,12 +668,12 @@ func (p *DisplayManagerProxy) AreUserDisabledHdrTypesAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "areUserDisabledHdrTypesAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerAreUserDisabledHdrTypesAllowed)
 	if _err != nil {
-		_code = TransactionIDisplayManagerAreUserDisabledHdrTypesAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerAreUserDisabledHdrTypesAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -651,12 +697,12 @@ func (p *DisplayManagerProxy) GetUserDisabledHdrTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getUserDisabledHdrTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetUserDisabledHdrTypes)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetUserDisabledHdrTypes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetUserDisabledHdrTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -700,12 +746,12 @@ func (p *DisplayManagerProxy) OverrideHdrTypes(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "overrideHdrTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerOverrideHdrTypes)
 	if _err != nil {
-		_code = TransactionIDisplayManagerOverrideHdrTypes
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerOverrideHdrTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -728,12 +774,12 @@ func (p *DisplayManagerProxy) RequestColorMode(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(colorMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "requestColorMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerRequestColorMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerRequestColorMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerRequestColorMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -760,16 +806,16 @@ func (p *DisplayManagerProxy) CreateVirtualDisplay(
 	if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, projectionToken.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, projectionToken.AsBinder(), p.Remote.Transport())
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "createVirtualDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerCreateVirtualDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerCreateVirtualDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerCreateVirtualDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -795,17 +841,17 @@ func (p *DisplayManagerProxy) ResizeVirtualDisplay(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 	_data.WriteInt32(densityDpi)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "resizeVirtualDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerResizeVirtualDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerResizeVirtualDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerResizeVirtualDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -825,14 +871,14 @@ func (p *DisplayManagerProxy) SetVirtualDisplaySurface(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setVirtualDisplaySurface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetVirtualDisplaySurface)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetVirtualDisplaySurface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetVirtualDisplaySurface, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -851,14 +897,14 @@ func (p *DisplayManagerProxy) ReleaseVirtualDisplay(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "releaseVirtualDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerReleaseVirtualDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerReleaseVirtualDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerReleaseVirtualDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -871,22 +917,22 @@ func (p *DisplayManagerProxy) ReleaseVirtualDisplay(
 	return nil
 }
 
-func (p *DisplayManagerProxy) SetVirtualDisplayRotation(
+func (p *DisplayManagerProxy) SetVirtualDisplayState(
 	ctx context.Context,
 	token IVirtualDisplayCallback,
-	rotation int32,
+	isOn bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(rotation)
+	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.Remote.Transport())
+	_data.WriteBool(isOn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setVirtualDisplayRotation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetVirtualDisplayState)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetVirtualDisplayRotation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetVirtualDisplayState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -906,12 +952,12 @@ func (p *DisplayManagerProxy) GetStableDisplaySize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getStableDisplaySize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetStableDisplaySize)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetStableDisplaySize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetStableDisplaySize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -937,17 +983,17 @@ func (p *DisplayManagerProxy) GetBrightnessEvents(
 	ctx context.Context,
 ) (pm.ParceledListSlice, error) {
 	var _result pm.ParceledListSlice
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(_identity.PackageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessEvents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessEvents)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetBrightnessEvents
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessEvents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -976,12 +1022,12 @@ func (p *DisplayManagerProxy) GetAmbientBrightnessStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getAmbientBrightnessStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetAmbientBrightnessStats)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetAmbientBrightnessStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetAmbientBrightnessStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1008,7 +1054,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForUser(
 	c BrightnessConfiguration,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(1)
@@ -1018,12 +1064,12 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForUser(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setBrightnessConfigurationForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetBrightnessConfigurationForUser)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetBrightnessConfigurationForUser
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetBrightnessConfigurationForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1042,7 +1088,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForDisplay(
 	uniqueDisplayId string,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(1)
@@ -1053,12 +1099,12 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForDisplay(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setBrightnessConfigurationForDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetBrightnessConfigurationForDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetBrightnessConfigurationForDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetBrightnessConfigurationForDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1076,18 +1122,18 @@ func (p *DisplayManagerProxy) GetBrightnessConfigurationForDisplay(
 	uniqueDisplayId string,
 ) (BrightnessConfiguration, error) {
 	var _result BrightnessConfiguration
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteString16(uniqueDisplayId)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessConfigurationForDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessConfigurationForDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetBrightnessConfigurationForDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessConfigurationForDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1113,17 +1159,17 @@ func (p *DisplayManagerProxy) GetBrightnessConfigurationForUser(
 	ctx context.Context,
 ) (BrightnessConfiguration, error) {
 	var _result BrightnessConfiguration
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessConfigurationForUser")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessConfigurationForUser)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetBrightnessConfigurationForUser
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessConfigurationForUser, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1152,12 +1198,12 @@ func (p *DisplayManagerProxy) GetDefaultBrightnessConfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDefaultBrightnessConfiguration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetDefaultBrightnessConfiguration)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetDefaultBrightnessConfiguration
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetDefaultBrightnessConfiguration, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1188,12 +1234,12 @@ func (p *DisplayManagerProxy) IsMinimalPostProcessingRequested(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "isMinimalPostProcessingRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerIsMinimalPostProcessingRequested)
 	if _err != nil {
-		_code = TransactionIDisplayManagerIsMinimalPostProcessingRequested
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerIsMinimalPostProcessingRequested, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1220,12 +1266,12 @@ func (p *DisplayManagerProxy) SetTemporaryBrightness(
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(brightness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setTemporaryBrightness")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetTemporaryBrightness)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetTemporaryBrightness
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetTemporaryBrightness, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1248,12 +1294,12 @@ func (p *DisplayManagerProxy) SetBrightness(
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(brightness)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setBrightness")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetBrightness)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetBrightness
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetBrightness, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1275,12 +1321,12 @@ func (p *DisplayManagerProxy) GetBrightness(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightness")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetBrightness)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetBrightness
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetBrightness, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1305,12 +1351,12 @@ func (p *DisplayManagerProxy) SetTemporaryAutoBrightnessAdjustment(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteFloat32(adjustment)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setTemporaryAutoBrightnessAdjustment")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetTemporaryAutoBrightnessAdjustment)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetTemporaryAutoBrightnessAdjustment
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetTemporaryAutoBrightnessAdjustment, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1330,12 +1376,12 @@ func (p *DisplayManagerProxy) GetMinimumBrightnessCurve(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getMinimumBrightnessCurve")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetMinimumBrightnessCurve)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetMinimumBrightnessCurve
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetMinimumBrightnessCurve, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1366,12 +1412,12 @@ func (p *DisplayManagerProxy) GetBrightnessInfo(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessInfo)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetBrightnessInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetBrightnessInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1400,12 +1446,12 @@ func (p *DisplayManagerProxy) GetPreferredWideGamutColorSpaceId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getPreferredWideGamutColorSpaceId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetPreferredWideGamutColorSpaceId)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetPreferredWideGamutColorSpaceId
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetPreferredWideGamutColorSpaceId, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1432,12 +1478,12 @@ func (p *DisplayManagerProxy) SetUserPreferredDisplayMode(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(int32(mode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setUserPreferredDisplayMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetUserPreferredDisplayMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetUserPreferredDisplayMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetUserPreferredDisplayMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1459,12 +1505,12 @@ func (p *DisplayManagerProxy) GetUserPreferredDisplayMode(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getUserPreferredDisplayMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetUserPreferredDisplayMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetUserPreferredDisplayMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetUserPreferredDisplayMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1491,12 +1537,12 @@ func (p *DisplayManagerProxy) GetSystemPreferredDisplayMode(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getSystemPreferredDisplayMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetSystemPreferredDisplayMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetSystemPreferredDisplayMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetSystemPreferredDisplayMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1525,12 +1571,12 @@ func (p *DisplayManagerProxy) SetHdrConversionMode(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setHdrConversionMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetHdrConversionMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetHdrConversionMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetHdrConversionMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1550,12 +1596,12 @@ func (p *DisplayManagerProxy) GetHdrConversionModeSetting(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getHdrConversionModeSetting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetHdrConversionModeSetting)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetHdrConversionModeSetting
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetHdrConversionModeSetting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1584,12 +1630,12 @@ func (p *DisplayManagerProxy) GetHdrConversionMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getHdrConversionMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetHdrConversionMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetHdrConversionMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetHdrConversionMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1618,12 +1664,12 @@ func (p *DisplayManagerProxy) GetSupportedHdrOutputTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getSupportedHdrOutputTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetSupportedHdrOutputTypes)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetSupportedHdrOutputTypes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetSupportedHdrOutputTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1658,12 +1704,12 @@ func (p *DisplayManagerProxy) SetShouldAlwaysRespectAppRequestedMode(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setShouldAlwaysRespectAppRequestedMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetShouldAlwaysRespectAppRequestedMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetShouldAlwaysRespectAppRequestedMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetShouldAlwaysRespectAppRequestedMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1683,12 +1729,12 @@ func (p *DisplayManagerProxy) ShouldAlwaysRespectAppRequestedMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "shouldAlwaysRespectAppRequestedMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerShouldAlwaysRespectAppRequestedMode)
 	if _err != nil {
-		_code = TransactionIDisplayManagerShouldAlwaysRespectAppRequestedMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerShouldAlwaysRespectAppRequestedMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1713,12 +1759,12 @@ func (p *DisplayManagerProxy) SetRefreshRateSwitchingType(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(newValue)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setRefreshRateSwitchingType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetRefreshRateSwitchingType)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetRefreshRateSwitchingType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetRefreshRateSwitchingType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1738,12 +1784,12 @@ func (p *DisplayManagerProxy) GetRefreshRateSwitchingType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getRefreshRateSwitchingType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetRefreshRateSwitchingType)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetRefreshRateSwitchingType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetRefreshRateSwitchingType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1769,12 +1815,12 @@ func (p *DisplayManagerProxy) GetDisplayDecorationSupport(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayDecorationSupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetDisplayDecorationSupport)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetDisplayDecorationSupport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetDisplayDecorationSupport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1803,15 +1849,15 @@ func (p *DisplayManagerProxy) SetDisplayIdToMirror(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setDisplayIdToMirror")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerSetDisplayIdToMirror)
 	if _err != nil {
-		_code = TransactionIDisplayManagerSetDisplayIdToMirror
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerSetDisplayIdToMirror, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1831,12 +1877,12 @@ func (p *DisplayManagerProxy) GetOverlaySupport(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getOverlaySupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerGetOverlaySupport)
 	if _err != nil {
-		_code = TransactionIDisplayManagerGetOverlaySupport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerGetOverlaySupport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1866,12 +1912,12 @@ func (p *DisplayManagerProxy) EnableConnectedDisplay(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "enableConnectedDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerEnableConnectedDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerEnableConnectedDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerEnableConnectedDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1892,248 +1938,12 @@ func (p *DisplayManagerProxy) DisableConnectedDisplay(
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "disableConnectedDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayManager, MethodIDisplayManagerDisableConnectedDisplay)
 	if _err != nil {
-		_code = TransactionIDisplayManagerDisableConnectedDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayManager, MethodIDisplayManagerDisableConnectedDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *DisplayManagerProxy) RequestDisplayPower(
-	ctx context.Context,
-	displayId int32,
-	state int32,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	_data.WriteInt32(displayId)
-	_data.WriteInt32(state)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "requestDisplayPower")
-	if _err != nil {
-		_code = TransactionIDisplayManagerRequestDisplayPower
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *DisplayManagerProxy) RequestDisplayModes(
-	ctx context.Context,
-	token binder.IBinder,
-	displayId int32,
-	modeIds []int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
-	_data.WriteInt32(displayId)
-	if modeIds == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(modeIds)))
-		for _, _item := range modeIds {
-			_data.WriteInt32(_item)
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "requestDisplayModes")
-	if _err != nil {
-		_code = TransactionIDisplayManagerRequestDisplayModes
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *DisplayManagerProxy) GetHighestHdrSdrRatio(
-	ctx context.Context,
-	displayId int32,
-) (float32, error) {
-	var _result float32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getHighestHdrSdrRatio")
-	if _err != nil {
-		_code = TransactionIDisplayManagerGetHighestHdrSdrRatio
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadFloat32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *DisplayManagerProxy) GetDozeBrightnessSensorValueToBrightness(
-	ctx context.Context,
-	displayId int32,
-) ([]float32, error) {
-	var _result []float32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDozeBrightnessSensorValueToBrightness")
-	if _err != nil {
-		_code = TransactionIDisplayManagerGetDozeBrightnessSensorValueToBrightness
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]float32, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadFloat32()
-			if _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *DisplayManagerProxy) GetDefaultDozeBrightness(
-	ctx context.Context,
-	displayId int32,
-) (float32, error) {
-	var _result float32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	_data.WriteInt32(displayId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDefaultDozeBrightness")
-	if _err != nil {
-		_code = TransactionIDisplayManagerGetDefaultDozeBrightness
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadFloat32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *DisplayManagerProxy) GetDisplayTopology(
-	ctx context.Context,
-) (DisplayTopology, error) {
-	var _result DisplayTopology
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayTopology")
-	if _err != nil {
-		_code = TransactionIDisplayManagerGetDisplayTopology
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *DisplayManagerProxy) SetDisplayTopology(
-	ctx context.Context,
-	topology DisplayTopology,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDisplayManager)
-	_data.WriteInt32(1)
-	if _err := topology.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setDisplayTopology")
-	if _err != nil {
-		_code = TransactionIDisplayManagerSetDisplayTopology
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2153,6 +1963,10 @@ type DisplayManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayManagerStub)(nil)
+
+func (s *DisplayManagerStub) Descriptor() string {
+	return DescriptorIDisplayManager
+}
 
 func (s *DisplayManagerStub) OnTransaction(
 	ctx context.Context,
@@ -2568,18 +2382,18 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIDisplayManagerSetVirtualDisplayRotation:
+	case TransactionIDisplayManagerSetVirtualDisplayState:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IVirtualDisplayCallback
 		_ = _arg_token
-		_arg_rotation, _err := _data.ReadInt32()
+		_arg_isOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SetVirtualDisplayRotation(ctx, _arg_token, _arg_rotation)
+		_err = s.Impl.SetVirtualDisplayState(ctx, _arg_token, _arg_isOn)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -3171,141 +2985,6 @@ func (s *DisplayManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIDisplayManagerRequestDisplayPower:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_state, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.RequestDisplayPower(ctx, _arg_displayId, _arg_state)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
-	case TransactionIDisplayManagerRequestDisplayModes:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_token binder.IBinder
-		_ = _arg_token
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_modeIds []int32
-		_ = _arg_modeIds
-		_err = s.Impl.RequestDisplayModes(ctx, _arg_token, _arg_displayId, _arg_modeIds)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIDisplayManagerGetHighestHdrSdrRatio:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetHighestHdrSdrRatio(ctx, _arg_displayId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteFloat32(_result)
-		return _reply, nil
-	case TransactionIDisplayManagerGetDozeBrightnessSensorValueToBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetDozeBrightnessSensorValueToBrightness(ctx, _arg_displayId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIDisplayManagerGetDefaultDozeBrightness:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_displayId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetDefaultDozeBrightness(ctx, _arg_displayId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteFloat32(_result)
-		return _reply, nil
-	case TransactionIDisplayManagerGetDisplayTopology:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetDisplayTopology(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIDisplayManagerSetDisplayTopology:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_topology DisplayTopology
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_topology.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.SetDisplayTopology(ctx, _arg_topology)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -3339,7 +3018,7 @@ type IDisplayManagerServer interface {
 	ResizeVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback, width int32, height int32, densityDpi int32) error
 	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface interface{}) error
 	ReleaseVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback) error
-	SetVirtualDisplayRotation(ctx context.Context, token IVirtualDisplayCallback, rotation int32) error
+	SetVirtualDisplayState(ctx context.Context, token IVirtualDisplayCallback, isOn bool) error
 	GetStableDisplaySize(ctx context.Context) (graphics.Point, error)
 	GetBrightnessEvents(ctx context.Context) (pm.ParceledListSlice, error)
 	GetAmbientBrightnessStats(ctx context.Context) (pm.ParceledListSlice, error)
@@ -3372,13 +3051,6 @@ type IDisplayManagerServer interface {
 	GetOverlaySupport(ctx context.Context) (gui.OverlayProperties, error)
 	EnableConnectedDisplay(ctx context.Context, displayId int32) error
 	DisableConnectedDisplay(ctx context.Context, displayId int32) error
-	RequestDisplayPower(ctx context.Context, displayId int32, state int32) (bool, error)
-	RequestDisplayModes(ctx context.Context, token binder.IBinder, displayId int32, modeIds []int32) error
-	GetHighestHdrSdrRatio(ctx context.Context, displayId int32) (float32, error)
-	GetDozeBrightnessSensorValueToBrightness(ctx context.Context, displayId int32) ([]float32, error)
-	GetDefaultDozeBrightness(ctx context.Context, displayId int32) (float32, error)
-	GetDisplayTopology(ctx context.Context) (DisplayTopology, error)
-	SetDisplayTopology(ctx context.Context, topology DisplayTopology) error
 }
 
 type displayManagerStubWrapper struct {
@@ -3562,12 +3234,12 @@ func (w *displayManagerStubWrapper) ReleaseVirtualDisplay(
 	return w.impl.ReleaseVirtualDisplay(ctx, token)
 }
 
-func (w *displayManagerStubWrapper) SetVirtualDisplayRotation(
+func (w *displayManagerStubWrapper) SetVirtualDisplayState(
 	ctx context.Context,
 	token IVirtualDisplayCallback,
-	rotation int32,
+	isOn bool,
 ) error {
-	return w.impl.SetVirtualDisplayRotation(ctx, token, rotation)
+	return w.impl.SetVirtualDisplayState(ctx, token, isOn)
 }
 
 func (w *displayManagerStubWrapper) GetStableDisplaySize(
@@ -3786,57 +3458,6 @@ func (w *displayManagerStubWrapper) DisableConnectedDisplay(
 	displayId int32,
 ) error {
 	return w.impl.DisableConnectedDisplay(ctx, displayId)
-}
-
-func (w *displayManagerStubWrapper) RequestDisplayPower(
-	ctx context.Context,
-	displayId int32,
-	state int32,
-) (bool, error) {
-	return w.impl.RequestDisplayPower(ctx, displayId, state)
-}
-
-func (w *displayManagerStubWrapper) RequestDisplayModes(
-	ctx context.Context,
-	token binder.IBinder,
-	displayId int32,
-	modeIds []int32,
-) error {
-	return w.impl.RequestDisplayModes(ctx, token, displayId, modeIds)
-}
-
-func (w *displayManagerStubWrapper) GetHighestHdrSdrRatio(
-	ctx context.Context,
-	displayId int32,
-) (float32, error) {
-	return w.impl.GetHighestHdrSdrRatio(ctx, displayId)
-}
-
-func (w *displayManagerStubWrapper) GetDozeBrightnessSensorValueToBrightness(
-	ctx context.Context,
-	displayId int32,
-) ([]float32, error) {
-	return w.impl.GetDozeBrightnessSensorValueToBrightness(ctx, displayId)
-}
-
-func (w *displayManagerStubWrapper) GetDefaultDozeBrightness(
-	ctx context.Context,
-	displayId int32,
-) (float32, error) {
-	return w.impl.GetDefaultDozeBrightness(ctx, displayId)
-}
-
-func (w *displayManagerStubWrapper) GetDisplayTopology(
-	ctx context.Context,
-) (DisplayTopology, error) {
-	return w.impl.GetDisplayTopology(ctx)
-}
-
-func (w *displayManagerStubWrapper) SetDisplayTopology(
-	ctx context.Context,
-	topology DisplayTopology,
-) error {
-	return w.impl.SetDisplayTopology(ctx, topology)
 }
 
 var _ IDisplayManager = (*displayManagerStubWrapper)(nil)

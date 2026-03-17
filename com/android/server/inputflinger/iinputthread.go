@@ -12,30 +12,30 @@ import (
 const DescriptorIInputThread = "com.android.server.inputflinger.IInputThread"
 
 const (
-	TransactionIInputThreadFinish     = binder.FirstCallTransaction + 0
-	TransactionIInputThreadWake       = binder.FirstCallTransaction + 1
-	TransactionIInputThreadSleepUntil = binder.FirstCallTransaction + 2
+	TransactionIInputThreadFinish = binder.FirstCallTransaction + 0
+)
+
+const (
+	MethodIInputThreadFinish = "finish"
 )
 
 type IInputThread interface {
 	AsBinder() binder.IBinder
 	Finish(ctx context.Context) error
-	Wake(ctx context.Context) error
-	SleepUntil(ctx context.Context, whenNanos int64) error
 }
 
 type InputThreadProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputThreadProxy(
 	remote binder.IBinder,
 ) *InputThreadProxy {
-	return &InputThreadProxy{remote: remote}
+	return &InputThreadProxy{Remote: remote}
 }
 
 func (p *InputThreadProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputThread = (*InputThreadProxy)(nil)
@@ -46,62 +46,12 @@ func (p *InputThreadProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputThread)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputThread, "finish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputThread, MethodIInputThreadFinish)
 	if _err != nil {
-		_code = TransactionIInputThreadFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputThread, MethodIInputThreadFinish, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputThreadProxy) Wake(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputThread)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputThread, "wake")
-	if _err != nil {
-		_code = TransactionIInputThreadWake
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputThreadProxy) SleepUntil(
-	ctx context.Context,
-	whenNanos int64,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputThread)
-	_data.WriteInt64(whenNanos)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputThread, "sleepUntil")
-	if _err != nil {
-		_code = TransactionIInputThreadSleepUntil
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,6 +72,10 @@ type InputThreadStub struct {
 
 var _ binder.TransactionReceiver = (*InputThreadStub)(nil)
 
+func (s *InputThreadStub) Descriptor() string {
+	return DescriptorIInputThread
+}
+
 func (s *InputThreadStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -140,34 +94,6 @@ func (s *InputThreadStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIInputThreadWake:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.Wake(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputThreadSleepUntil:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_whenNanos, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SleepUntil(ctx, _arg_whenNanos)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -178,8 +104,6 @@ func (s *InputThreadStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IInputThreadServer interface {
 	Finish(ctx context.Context) error
-	Wake(ctx context.Context) error
-	SleepUntil(ctx context.Context, whenNanos int64) error
 }
 
 type inputThreadStubWrapper struct {
@@ -195,19 +119,6 @@ func (w *inputThreadStubWrapper) Finish(
 	ctx context.Context,
 ) error {
 	return w.impl.Finish(ctx)
-}
-
-func (w *inputThreadStubWrapper) Wake(
-	ctx context.Context,
-) error {
-	return w.impl.Wake(ctx)
-}
-
-func (w *inputThreadStubWrapper) SleepUntil(
-	ctx context.Context,
-	whenNanos int64,
-) error {
-	return w.impl.SleepUntil(ctx, whenNanos)
 }
 
 var _ IInputThread = (*inputThreadStubWrapper)(nil)

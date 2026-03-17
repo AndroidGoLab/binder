@@ -16,23 +16,27 @@ const (
 	TransactionIGeofenceProviderSetGeofenceHardware = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGeofenceProviderSetGeofenceHardware = "setGeofenceHardware"
+)
+
 type IGeofenceProvider interface {
 	AsBinder() binder.IBinder
 	SetGeofenceHardware(ctx context.Context, proxy hardwareLocation.IGeofenceHardware) error
 }
 
 type GeofenceProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGeofenceProviderProxy(
 	remote binder.IBinder,
 ) *GeofenceProviderProxy {
-	return &GeofenceProviderProxy{remote: remote}
+	return &GeofenceProviderProxy{Remote: remote}
 }
 
 func (p *GeofenceProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGeofenceProvider = (*GeofenceProviderProxy)(nil)
@@ -43,14 +47,14 @@ func (p *GeofenceProviderProxy) SetGeofenceHardware(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGeofenceProvider)
-	binder.WriteBinderToParcel(ctx, _data, proxy.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, proxy.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceProvider, "setGeofenceHardware")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeofenceProvider, MethodIGeofenceProviderSetGeofenceHardware)
 	if _err != nil {
-		_code = TransactionIGeofenceProviderSetGeofenceHardware
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGeofenceProvider, MethodIGeofenceProviderSetGeofenceHardware, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +65,10 @@ type GeofenceProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GeofenceProviderStub)(nil)
+
+func (s *GeofenceProviderStub) Descriptor() string {
+	return DescriptorIGeofenceProvider
+}
 
 func (s *GeofenceProviderStub) OnTransaction(
 	ctx context.Context,

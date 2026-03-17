@@ -22,30 +22,9 @@ func (s *P2pInvitationEventParams) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.SrcAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SrcAddress)))
-		for _, _item := range s.SrcAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.GoDeviceAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.GoDeviceAddress)))
-		for _, _item := range s.GoDeviceAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Bssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Bssid)))
-		for _, _item := range s.Bssid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.SrcAddress, 6)
+	p.WriteFixedByteArray(s.GoDeviceAddress, 6)
+	p.WriteFixedByteArray(s.Bssid, 6)
 	p.WriteInt32(s.PersistentNetworkId)
 	p.WriteInt32(s.OperatingFrequencyMHz)
 	if s.VendorData == nil {
@@ -53,6 +32,7 @@ func (s *P2pInvitationEventParams) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -71,49 +51,19 @@ func (s *P2pInvitationEventParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.SrcAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.SrcAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.SrcAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.GoDeviceAddress, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.GoDeviceAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.GoDeviceAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.Bssid, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.Bssid = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.Bssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.PersistentNetworkId, _err = p.ReadInt32()
@@ -134,6 +84,9 @@ func (s *P2pInvitationEventParams) UnmarshalParcel(
 	if _count3 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count3)
 		for _i := int32(0); _i < _count3; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

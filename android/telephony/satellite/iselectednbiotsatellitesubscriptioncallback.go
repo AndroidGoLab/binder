@@ -15,23 +15,27 @@ const (
 	TransactionISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged = "onSelectedNbIotSatelliteSubscriptionChanged"
+)
+
 type ISelectedNbIotSatelliteSubscriptionCallback interface {
 	AsBinder() binder.IBinder
 	OnSelectedNbIotSatelliteSubscriptionChanged(ctx context.Context, selectedSubId int32) error
 }
 
 type SelectedNbIotSatelliteSubscriptionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSelectedNbIotSatelliteSubscriptionCallbackProxy(
 	remote binder.IBinder,
 ) *SelectedNbIotSatelliteSubscriptionCallbackProxy {
-	return &SelectedNbIotSatelliteSubscriptionCallbackProxy{remote: remote}
+	return &SelectedNbIotSatelliteSubscriptionCallbackProxy{Remote: remote}
 }
 
 func (p *SelectedNbIotSatelliteSubscriptionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISelectedNbIotSatelliteSubscriptionCallback = (*SelectedNbIotSatelliteSubscriptionCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SelectedNbIotSatelliteSubscriptionCallbackProxy) OnSelectedNbIotSatelli
 	_data.WriteInterfaceToken(DescriptorISelectedNbIotSatelliteSubscriptionCallback)
 	_data.WriteInt32(selectedSubId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISelectedNbIotSatelliteSubscriptionCallback, "onSelectedNbIotSatelliteSubscriptionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISelectedNbIotSatelliteSubscriptionCallback, MethodISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged)
 	if _err != nil {
-		_code = TransactionISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISelectedNbIotSatelliteSubscriptionCallback, MethodISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SelectedNbIotSatelliteSubscriptionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SelectedNbIotSatelliteSubscriptionCallbackStub)(nil)
+
+func (s *SelectedNbIotSatelliteSubscriptionCallbackStub) Descriptor() string {
+	return DescriptorISelectedNbIotSatelliteSubscriptionCallback
+}
 
 func (s *SelectedNbIotSatelliteSubscriptionCallbackStub) OnTransaction(
 	ctx context.Context,

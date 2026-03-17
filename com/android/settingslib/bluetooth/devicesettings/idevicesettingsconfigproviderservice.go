@@ -15,23 +15,27 @@ const (
 	TransactionIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig = "getDeviceSettingsConfig"
+)
+
 type IDeviceSettingsConfigProviderService interface {
 	AsBinder() binder.IBinder
 	GetDeviceSettingsConfig(ctx context.Context, device DeviceInfo, callback IGetDeviceSettingsConfigCallback) error
 }
 
 type DeviceSettingsConfigProviderServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceSettingsConfigProviderServiceProxy(
 	remote binder.IBinder,
 ) *DeviceSettingsConfigProviderServiceProxy {
-	return &DeviceSettingsConfigProviderServiceProxy{remote: remote}
+	return &DeviceSettingsConfigProviderServiceProxy{Remote: remote}
 }
 
 func (p *DeviceSettingsConfigProviderServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceSettingsConfigProviderService = (*DeviceSettingsConfigProviderServiceProxy)(nil)
@@ -47,14 +51,14 @@ func (p *DeviceSettingsConfigProviderServiceProxy) GetDeviceSettingsConfig(
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsConfigProviderService, "getDeviceSettingsConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceSettingsConfigProviderService, MethodIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig)
 	if _err != nil {
-		_code = TransactionIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceSettingsConfigProviderService, MethodIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,6 +78,10 @@ type DeviceSettingsConfigProviderServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceSettingsConfigProviderServiceStub)(nil)
+
+func (s *DeviceSettingsConfigProviderServiceStub) Descriptor() string {
+	return DescriptorIDeviceSettingsConfigProviderService
+}
 
 func (s *DeviceSettingsConfigProviderServiceStub) OnTransaction(
 	ctx context.Context,

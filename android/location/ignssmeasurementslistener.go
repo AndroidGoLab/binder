@@ -16,6 +16,11 @@ const (
 	TransactionIGnssMeasurementsListenerOnStatusChanged            = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGnssMeasurementsListenerOnGnssMeasurementsReceived = "onGnssMeasurementsReceived"
+	MethodIGnssMeasurementsListenerOnStatusChanged            = "onStatusChanged"
+)
+
 type IGnssMeasurementsListener interface {
 	AsBinder() binder.IBinder
 	OnGnssMeasurementsReceived(ctx context.Context, event GnssMeasurementsEvent) error
@@ -23,17 +28,17 @@ type IGnssMeasurementsListener interface {
 }
 
 type GnssMeasurementsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssMeasurementsListenerProxy(
 	remote binder.IBinder,
 ) *GnssMeasurementsListenerProxy {
-	return &GnssMeasurementsListenerProxy{remote: remote}
+	return &GnssMeasurementsListenerProxy{Remote: remote}
 }
 
 func (p *GnssMeasurementsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssMeasurementsListener = (*GnssMeasurementsListenerProxy)(nil)
@@ -49,12 +54,12 @@ func (p *GnssMeasurementsListenerProxy) OnGnssMeasurementsReceived(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementsListener, "onGnssMeasurementsReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnGnssMeasurementsReceived)
 	if _err != nil {
-		_code = TransactionIGnssMeasurementsListenerOnGnssMeasurementsReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnGnssMeasurementsReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *GnssMeasurementsListenerProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementsListener)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementsListener, "onStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnStatusChanged)
 	if _err != nil {
-		_code = TransactionIGnssMeasurementsListenerOnStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssMeasurementsListener, MethodIGnssMeasurementsListenerOnStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type GnssMeasurementsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssMeasurementsListenerStub)(nil)
+
+func (s *GnssMeasurementsListenerStub) Descriptor() string {
+	return DescriptorIGnssMeasurementsListener
+}
 
 func (s *GnssMeasurementsListenerStub) OnTransaction(
 	ctx context.Context,

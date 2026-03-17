@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteProvisioningGetRegistration = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteProvisioningGetRegistration = "getRegistration"
+)
+
 type IRemoteProvisioning interface {
 	AsBinder() binder.IBinder
 	GetRegistration(ctx context.Context, irpcName string, callback IGetRegistrationCallback) error
 }
 
 type RemoteProvisioningProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteProvisioningProxy(
 	remote binder.IBinder,
 ) *RemoteProvisioningProxy {
-	return &RemoteProvisioningProxy{remote: remote}
+	return &RemoteProvisioningProxy{Remote: remote}
 }
 
 func (p *RemoteProvisioningProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteProvisioning = (*RemoteProvisioningProxy)(nil)
@@ -44,14 +48,14 @@ func (p *RemoteProvisioningProxy) GetRegistration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteProvisioning)
 	_data.WriteString16(irpcName)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteProvisioning, "getRegistration")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteProvisioning, MethodIRemoteProvisioningGetRegistration)
 	if _err != nil {
-		_code = TransactionIRemoteProvisioningGetRegistration
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteProvisioning, MethodIRemoteProvisioningGetRegistration, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type RemoteProvisioningStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteProvisioningStub)(nil)
+
+func (s *RemoteProvisioningStub) Descriptor() string {
+	return DescriptorIRemoteProvisioning
+}
 
 func (s *RemoteProvisioningStub) OnTransaction(
 	ctx context.Context,

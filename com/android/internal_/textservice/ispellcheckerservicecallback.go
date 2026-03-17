@@ -15,23 +15,27 @@ const (
 	TransactionISpellCheckerServiceCallbackOnSessionCreated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISpellCheckerServiceCallbackOnSessionCreated = "onSessionCreated"
+)
+
 type ISpellCheckerServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnSessionCreated(ctx context.Context, newSession ISpellCheckerSession) error
 }
 
 type SpellCheckerServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpellCheckerServiceCallbackProxy(
 	remote binder.IBinder,
 ) *SpellCheckerServiceCallbackProxy {
-	return &SpellCheckerServiceCallbackProxy{remote: remote}
+	return &SpellCheckerServiceCallbackProxy{Remote: remote}
 }
 
 func (p *SpellCheckerServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpellCheckerServiceCallback = (*SpellCheckerServiceCallbackProxy)(nil)
@@ -42,14 +46,14 @@ func (p *SpellCheckerServiceCallbackProxy) OnSessionCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerServiceCallback)
-	binder.WriteBinderToParcel(ctx, _data, newSession.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, newSession.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerServiceCallback, "onSessionCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpellCheckerServiceCallback, MethodISpellCheckerServiceCallbackOnSessionCreated)
 	if _err != nil {
-		_code = TransactionISpellCheckerServiceCallbackOnSessionCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpellCheckerServiceCallback, MethodISpellCheckerServiceCallbackOnSessionCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SpellCheckerServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpellCheckerServiceCallbackStub)(nil)
+
+func (s *SpellCheckerServiceCallbackStub) Descriptor() string {
+	return DescriptorISpellCheckerServiceCallback
+}
 
 func (s *SpellCheckerServiceCallbackStub) OnTransaction(
 	ctx context.Context,

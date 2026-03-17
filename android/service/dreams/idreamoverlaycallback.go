@@ -13,27 +13,29 @@ const DescriptorIDreamOverlayCallback = "android.service.dreams.IDreamOverlayCal
 
 const (
 	TransactionIDreamOverlayCallbackOnExitRequested = binder.FirstCallTransaction + 0
-	TransactionIDreamOverlayCallbackOnRedirectWake  = binder.FirstCallTransaction + 1
+)
+
+const (
+	MethodIDreamOverlayCallbackOnExitRequested = "onExitRequested"
 )
 
 type IDreamOverlayCallback interface {
 	AsBinder() binder.IBinder
 	OnExitRequested(ctx context.Context) error
-	OnRedirectWake(ctx context.Context, redirect bool) error
 }
 
 type DreamOverlayCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDreamOverlayCallbackProxy(
 	remote binder.IBinder,
 ) *DreamOverlayCallbackProxy {
-	return &DreamOverlayCallbackProxy{remote: remote}
+	return &DreamOverlayCallbackProxy{Remote: remote}
 }
 
 func (p *DreamOverlayCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDreamOverlayCallback = (*DreamOverlayCallbackProxy)(nil)
@@ -44,30 +46,22 @@ func (p *DreamOverlayCallbackProxy) OnExitRequested(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayCallback, "onExitRequested")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDreamOverlayCallback, MethodIDreamOverlayCallbackOnExitRequested)
 	if _err != nil {
-		_code = TransactionIDreamOverlayCallbackOnExitRequested
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDreamOverlayCallback, MethodIDreamOverlayCallbackOnExitRequested, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *DreamOverlayCallbackProxy) OnRedirectWake(
-	ctx context.Context,
-	redirect bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIDreamOverlayCallback)
-	_data.WriteBool(redirect)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayCallback, "onRedirectWake")
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		_code = TransactionIDreamOverlayCallbackOnRedirectWake
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	return nil
 }
 
 // DreamOverlayCallbackStub dispatches incoming binder transactions
@@ -77,6 +71,10 @@ type DreamOverlayCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DreamOverlayCallbackStub)(nil)
+
+func (s *DreamOverlayCallbackStub) Descriptor() string {
+	return DescriptorIDreamOverlayCallback
+}
 
 func (s *DreamOverlayCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -89,19 +87,13 @@ func (s *DreamOverlayCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		_err := s.Impl.OnExitRequested(ctx)
-		_ = _err
-		return nil, nil
-	case TransactionIDreamOverlayCallbackOnRedirectWake:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_redirect, _err := _data.ReadBool()
+		_reply := parcel.New()
 		if _err != nil {
-			return nil, _err
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
-		_err = s.Impl.OnRedirectWake(ctx, _arg_redirect)
-		_ = _err
-		return nil, nil
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -112,7 +104,6 @@ func (s *DreamOverlayCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IDreamOverlayCallbackServer interface {
 	OnExitRequested(ctx context.Context) error
-	OnRedirectWake(ctx context.Context, redirect bool) error
 }
 
 type dreamOverlayCallbackStubWrapper struct {
@@ -128,13 +119,6 @@ func (w *dreamOverlayCallbackStubWrapper) OnExitRequested(
 	ctx context.Context,
 ) error {
 	return w.impl.OnExitRequested(ctx)
-}
-
-func (w *dreamOverlayCallbackStubWrapper) OnRedirectWake(
-	ctx context.Context,
-	redirect bool,
-) error {
-	return w.impl.OnRedirectWake(ctx, redirect)
 }
 
 var _ IDreamOverlayCallback = (*dreamOverlayCallbackStubWrapper)(nil)

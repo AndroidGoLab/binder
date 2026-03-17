@@ -77,6 +77,7 @@ func (u *DemuxTlvFilterSettingsFilterSettings) MarshalParcel(
 	case DemuxTlvFilterSettingsFilterSettingsTagNoinit:
 		p.WriteBool(u.Noinit)
 	case DemuxTlvFilterSettingsFilterSettingsTagSection:
+		p.WriteInt32(1)
 		if _err := u.Section.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -110,6 +111,9 @@ func (u *DemuxTlvFilterSettingsFilterSettings) UnmarshalParcel(
 			return _err
 		}
 	case DemuxTlvFilterSettingsFilterSettingsTagSection:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Section.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

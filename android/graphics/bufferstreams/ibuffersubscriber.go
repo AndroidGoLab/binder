@@ -19,6 +19,14 @@ const (
 	TransactionIBufferSubscriberOnComplete          = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIBufferSubscriberOnSubscribe         = "onSubscribe"
+	MethodIBufferSubscriberOnBufferCacheUpdate = "onBufferCacheUpdate"
+	MethodIBufferSubscriberOnNext              = "onNext"
+	MethodIBufferSubscriberOnError             = "onError"
+	MethodIBufferSubscriberOnComplete          = "onComplete"
+)
+
 type IBufferSubscriber interface {
 	AsBinder() binder.IBinder
 	OnSubscribe(ctx context.Context, subscription IBufferSubscription) error
@@ -29,17 +37,17 @@ type IBufferSubscriber interface {
 }
 
 type BufferSubscriberProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBufferSubscriberProxy(
 	remote binder.IBinder,
 ) *BufferSubscriberProxy {
-	return &BufferSubscriberProxy{remote: remote}
+	return &BufferSubscriberProxy{Remote: remote}
 }
 
 func (p *BufferSubscriberProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBufferSubscriber = (*BufferSubscriberProxy)(nil)
@@ -50,14 +58,14 @@ func (p *BufferSubscriberProxy) OnSubscribe(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
-	binder.WriteBinderToParcel(ctx, _data, subscription.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, subscription.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onSubscribe")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnSubscribe)
 	if _err != nil {
-		_code = TransactionIBufferSubscriberOnSubscribe
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscriber, MethodIBufferSubscriberOnSubscribe, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +80,12 @@ func (p *BufferSubscriberProxy) OnBufferCacheUpdate(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onBufferCacheUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnBufferCacheUpdate)
 	if _err != nil {
-		_code = TransactionIBufferSubscriberOnBufferCacheUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscriber, MethodIBufferSubscriberOnBufferCacheUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,12 +100,12 @@ func (p *BufferSubscriberProxy) OnNext(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onNext")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnNext)
 	if _err != nil {
-		_code = TransactionIBufferSubscriberOnNext
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscriber, MethodIBufferSubscriberOnNext, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,12 +115,12 @@ func (p *BufferSubscriberProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnError)
 	if _err != nil {
-		_code = TransactionIBufferSubscriberOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscriber, MethodIBufferSubscriberOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +130,12 @@ func (p *BufferSubscriberProxy) OnComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBufferSubscriber, MethodIBufferSubscriberOnComplete)
 	if _err != nil {
-		_code = TransactionIBufferSubscriberOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBufferSubscriber, MethodIBufferSubscriberOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,6 +146,10 @@ type BufferSubscriberStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BufferSubscriberStub)(nil)
+
+func (s *BufferSubscriberStub) Descriptor() string {
+	return DescriptorIBufferSubscriber
+}
 
 func (s *BufferSubscriberStub) OnTransaction(
 	ctx context.Context,

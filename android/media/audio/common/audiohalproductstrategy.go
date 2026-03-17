@@ -9,8 +9,6 @@ import (
 type AudioHalProductStrategy struct {
 	Id               int32
 	AttributesGroups []AudioHalAttributesGroup
-	Name             string
-	ZoneId           int32
 }
 
 const (
@@ -29,13 +27,12 @@ func (s *AudioHalProductStrategy) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.AttributesGroups)))
 		for _, _item := range s.AttributesGroups {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	p.WriteString16(s.Name)
-	p.WriteInt32(s.ZoneId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -62,20 +59,13 @@ func (s *AudioHalProductStrategy) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.AttributesGroups = make([]AudioHalAttributesGroup, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.AttributesGroups[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	s.Name, _err = p.ReadString16()
-	if _err != nil {
-		return _err
-	}
-
-	s.ZoneId, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

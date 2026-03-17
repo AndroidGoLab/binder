@@ -51,28 +51,6 @@ func TestSmoke_InputSensorEventListenerProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_KeyGestureEventListenerProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewKeyGestureEventListenerProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("KeyGestureEventListenerProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
-func TestSmoke_KeyGestureHandlerProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewKeyGestureHandlerProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("KeyGestureHandlerProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_KeyboardBacklightListenerProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewKeyboardBacklightListenerProxy(mock)

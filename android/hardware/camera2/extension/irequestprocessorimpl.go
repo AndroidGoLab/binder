@@ -20,6 +20,15 @@ const (
 	TransactionIRequestProcessorImplStopRepeating     = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIRequestProcessorImplSetImageProcessor = "setImageProcessor"
+	MethodIRequestProcessorImplSubmit            = "submit"
+	MethodIRequestProcessorImplSubmitBurst       = "submitBurst"
+	MethodIRequestProcessorImplSetRepeating      = "setRepeating"
+	MethodIRequestProcessorImplAbortCaptures     = "abortCaptures"
+	MethodIRequestProcessorImplStopRepeating     = "stopRepeating"
+)
+
 type IRequestProcessorImpl interface {
 	AsBinder() binder.IBinder
 	SetImageProcessor(ctx context.Context, outputConfigId OutputConfigId, imageProcessor IImageProcessorImpl) error
@@ -31,17 +40,17 @@ type IRequestProcessorImpl interface {
 }
 
 type RequestProcessorImplProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRequestProcessorImplProxy(
 	remote binder.IBinder,
 ) *RequestProcessorImplProxy {
-	return &RequestProcessorImplProxy{remote: remote}
+	return &RequestProcessorImplProxy{Remote: remote}
 }
 
 func (p *RequestProcessorImplProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRequestProcessorImpl = (*RequestProcessorImplProxy)(nil)
@@ -57,14 +66,14 @@ func (p *RequestProcessorImplProxy) SetImageProcessor(
 	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, imageProcessor.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, imageProcessor.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "setImageProcessor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetImageProcessor)
 	if _err != nil {
-		_code = TransactionIRequestProcessorImplSetImageProcessor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetImageProcessor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -89,14 +98,14 @@ func (p *RequestProcessorImplProxy) Submit(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "submit")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmit)
 	if _err != nil {
-		_code = TransactionIRequestProcessorImplSubmit
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmit, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,19 +135,20 @@ func (p *RequestProcessorImplProxy) SubmitBurst(
 	} else {
 		_data.WriteInt32(int32(len(requests)))
 		for _, _item := range requests {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "submitBurst")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmitBurst)
 	if _err != nil {
-		_code = TransactionIRequestProcessorImplSubmitBurst
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSubmitBurst, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,14 +177,14 @@ func (p *RequestProcessorImplProxy) SetRepeating(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "setRepeating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetRepeating)
 	if _err != nil {
-		_code = TransactionIRequestProcessorImplSetRepeating
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplSetRepeating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -197,12 +207,12 @@ func (p *RequestProcessorImplProxy) AbortCaptures(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "abortCaptures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplAbortCaptures)
 	if _err != nil {
-		_code = TransactionIRequestProcessorImplAbortCaptures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplAbortCaptures, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,12 +231,12 @@ func (p *RequestProcessorImplProxy) StopRepeating(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "stopRepeating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplStopRepeating)
 	if _err != nil {
-		_code = TransactionIRequestProcessorImplStopRepeating
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRequestProcessorImpl, MethodIRequestProcessorImplStopRepeating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -246,6 +256,10 @@ type RequestProcessorImplStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RequestProcessorImplStub)(nil)
+
+func (s *RequestProcessorImplStub) Descriptor() string {
+	return DescriptorIRequestProcessorImpl
+}
 
 func (s *RequestProcessorImplStub) OnTransaction(
 	ctx context.Context,

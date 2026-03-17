@@ -18,6 +18,12 @@ const (
 	TransactionIServiceListImportSessionRelease           = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIServiceListImportSessionImportServiceList = "importServiceList"
+	MethodIServiceListImportSessionPreload           = "preload"
+	MethodIServiceListImportSessionRelease           = "release"
+)
+
 type IServiceListImportSession interface {
 	AsBinder() binder.IBinder
 	ImportServiceList(ctx context.Context, pfd int32, importParams os.Bundle) (int32, error)
@@ -26,17 +32,17 @@ type IServiceListImportSession interface {
 }
 
 type ServiceListImportSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListImportSessionProxy(
 	remote binder.IBinder,
 ) *ServiceListImportSessionProxy {
-	return &ServiceListImportSessionProxy{remote: remote}
+	return &ServiceListImportSessionProxy{Remote: remote}
 }
 
 func (p *ServiceListImportSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListImportSession = (*ServiceListImportSessionProxy)(nil)
@@ -55,12 +61,12 @@ func (p *ServiceListImportSessionProxy) ImportServiceList(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportSession, "importServiceList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListImportSession, MethodIServiceListImportSessionImportServiceList)
 	if _err != nil {
-		_code = TransactionIServiceListImportSessionImportServiceList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListImportSession, MethodIServiceListImportSessionImportServiceList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +92,12 @@ func (p *ServiceListImportSessionProxy) Preload(
 	_data.WriteInterfaceToken(DescriptorIServiceListImportSession)
 	_data.WriteFileDescriptor(pfd)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportSession, "preload")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListImportSession, MethodIServiceListImportSessionPreload)
 	if _err != nil {
-		_code = TransactionIServiceListImportSessionPreload
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListImportSession, MethodIServiceListImportSessionPreload, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,12 +121,12 @@ func (p *ServiceListImportSessionProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListImportSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportSession, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListImportSession, MethodIServiceListImportSessionRelease)
 	if _err != nil {
-		_code = TransactionIServiceListImportSessionRelease
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListImportSession, MethodIServiceListImportSessionRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -144,6 +150,10 @@ type ServiceListImportSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListImportSessionStub)(nil)
+
+func (s *ServiceListImportSessionStub) Descriptor() string {
+	return DescriptorIServiceListImportSession
+}
 
 func (s *ServiceListImportSessionStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionIAccountManagerResponseOnError  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAccountManagerResponseOnResult = "onResult"
+	MethodIAccountManagerResponseOnError  = "onError"
+)
+
 type IAccountManagerResponse interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, value interface{}) error
@@ -23,17 +28,17 @@ type IAccountManagerResponse interface {
 }
 
 type AccountManagerResponseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccountManagerResponseProxy(
 	remote binder.IBinder,
 ) *AccountManagerResponseProxy {
-	return &AccountManagerResponseProxy{remote: remote}
+	return &AccountManagerResponseProxy{Remote: remote}
 }
 
 func (p *AccountManagerResponseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccountManagerResponse = (*AccountManagerResponseProxy)(nil)
@@ -45,12 +50,12 @@ func (p *AccountManagerResponseProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManagerResponse)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountManagerResponse, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManagerResponse, MethodIAccountManagerResponseOnResult)
 	if _err != nil {
-		_code = TransactionIAccountManagerResponseOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountManagerResponse, MethodIAccountManagerResponseOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,12 +69,12 @@ func (p *AccountManagerResponseProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccountManagerResponse, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccountManagerResponse, MethodIAccountManagerResponseOnError)
 	if _err != nil {
-		_code = TransactionIAccountManagerResponseOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccountManagerResponse, MethodIAccountManagerResponseOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,6 +85,10 @@ type AccountManagerResponseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccountManagerResponseStub)(nil)
+
+func (s *AccountManagerResponseStub) Descriptor() string {
+	return DescriptorIAccountManagerResponse
+}
 
 func (s *AccountManagerResponseStub) OnTransaction(
 	ctx context.Context,

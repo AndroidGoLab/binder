@@ -36,29 +36,53 @@ const (
 	TransactionIBluetoothHapClientUnregisterCallback                 = binder.FirstCallTransaction + 20
 )
 
+const (
+	MethodIBluetoothHapClientGetConnectedDevices                = "getConnectedDevices"
+	MethodIBluetoothHapClientGetDevicesMatchingConnectionStates = "getDevicesMatchingConnectionStates"
+	MethodIBluetoothHapClientGetConnectionState                 = "getConnectionState"
+	MethodIBluetoothHapClientSetConnectionPolicy                = "setConnectionPolicy"
+	MethodIBluetoothHapClientGetConnectionPolicy                = "getConnectionPolicy"
+	MethodIBluetoothHapClientGetHapGroup                        = "getHapGroup"
+	MethodIBluetoothHapClientGetActivePresetIndex               = "getActivePresetIndex"
+	MethodIBluetoothHapClientGetActivePresetInfo                = "getActivePresetInfo"
+	MethodIBluetoothHapClientSelectPreset                       = "selectPreset"
+	MethodIBluetoothHapClientSelectPresetForGroup               = "selectPresetForGroup"
+	MethodIBluetoothHapClientSwitchToNextPreset                 = "switchToNextPreset"
+	MethodIBluetoothHapClientSwitchToNextPresetForGroup         = "switchToNextPresetForGroup"
+	MethodIBluetoothHapClientSwitchToPreviousPreset             = "switchToPreviousPreset"
+	MethodIBluetoothHapClientSwitchToPreviousPresetForGroup     = "switchToPreviousPresetForGroup"
+	MethodIBluetoothHapClientGetPresetInfo                      = "getPresetInfo"
+	MethodIBluetoothHapClientGetAllPresetInfo                   = "getAllPresetInfo"
+	MethodIBluetoothHapClientGetFeatures                        = "getFeatures"
+	MethodIBluetoothHapClientSetPresetName                      = "setPresetName"
+	MethodIBluetoothHapClientSetPresetNameForGroup              = "setPresetNameForGroup"
+	MethodIBluetoothHapClientRegisterCallback                   = "registerCallback"
+	MethodIBluetoothHapClientUnregisterCallback                 = "unregisterCallback"
+)
+
 type IBluetoothHapClient interface {
 	AsBinder() binder.IBinder
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetHapGroup(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetActivePresetIndex(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetActivePresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothHapPresetInfo, error)
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetHapGroup(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetActivePresetIndex(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetActivePresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
 	SelectPreset(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource) error
 	SelectPresetForGroup(ctx context.Context, groupId int32, presetIndex int32, attributionSource content.AttributionSource) error
 	SwitchToNextPreset(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
 	SwitchToNextPresetForGroup(ctx context.Context, groupId int32, attributionSource content.AttributionSource) error
 	SwitchToPreviousPreset(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
 	SwitchToPreviousPresetForGroup(ctx context.Context, groupId int32, attributionSource content.AttributionSource) error
-	GetPresetInfo(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource) (BluetoothHapPresetInfo, error)
-	GetAllPresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) ([]BluetoothHapPresetInfo, error)
-	GetFeatures(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetPresetInfo(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetAllPresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetFeatures(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
 	SetPresetName(ctx context.Context, device BluetoothDevice, presetIndex int32, name string, attributionSource content.AttributionSource) error
 	SetPresetNameForGroup(ctx context.Context, groupId int32, presetIndex int32, name string, attributionSource content.AttributionSource) error
-	RegisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource) error
+	RegisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 const (
@@ -73,17 +97,17 @@ const (
 )
 
 type BluetoothHapClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothHapClientProxy(
 	remote binder.IBinder,
 ) *BluetoothHapClientProxy {
-	return &BluetoothHapClientProxy{remote: remote}
+	return &BluetoothHapClientProxy{Remote: remote}
 }
 
 func (p *BluetoothHapClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothHapClient = (*BluetoothHapClientProxy)(nil)
@@ -91,52 +115,30 @@ var _ IBluetoothHapClient = (*BluetoothHapClientProxy)(nil)
 func (p *BluetoothHapClientProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectedDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetConnectedDevices)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetConnectedDevices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetConnectedDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	if states == nil {
@@ -149,77 +151,42 @@ func (p *BluetoothHapClientProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getDevicesMatchingConnectionStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetDevicesMatchingConnectionStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetConnectionState)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetConnectionState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) SetConnectionPolicy(
@@ -227,201 +194,131 @@ func (p *BluetoothHapClientProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	var _result bool
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(connectionPolicy)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setConnectionPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSetConnectionPolicy)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSetConnectionPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSetConnectionPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectionPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetConnectionPolicy)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetConnectionPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetConnectionPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetHapGroup(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getHapGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetHapGroup)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetHapGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetHapGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetActivePresetIndex(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getActivePresetIndex")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetActivePresetIndex)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetActivePresetIndex
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetActivePresetIndex, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetActivePresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (BluetoothHapPresetInfo, error) {
-	var _result BluetoothHapPresetInfo
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getActivePresetInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetActivePresetInfo)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetActivePresetInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetActivePresetInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) SelectPreset(
@@ -442,12 +339,12 @@ func (p *BluetoothHapClientProxy) SelectPreset(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "selectPreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSelectPreset)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSelectPreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSelectPreset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -466,12 +363,12 @@ func (p *BluetoothHapClientProxy) SelectPresetForGroup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "selectPresetForGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSelectPresetForGroup)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSelectPresetForGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSelectPresetForGroup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -491,12 +388,12 @@ func (p *BluetoothHapClientProxy) SwitchToNextPreset(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToNextPreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToNextPreset)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSwitchToNextPreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToNextPreset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -513,12 +410,12 @@ func (p *BluetoothHapClientProxy) SwitchToNextPresetForGroup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToNextPresetForGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToNextPresetForGroup)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSwitchToNextPresetForGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToNextPresetForGroup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -538,12 +435,12 @@ func (p *BluetoothHapClientProxy) SwitchToPreviousPreset(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToPreviousPreset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToPreviousPreset)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSwitchToPreviousPreset
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToPreviousPreset, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -560,12 +457,12 @@ func (p *BluetoothHapClientProxy) SwitchToPreviousPresetForGroup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToPreviousPresetForGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToPreviousPresetForGroup)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSwitchToPreviousPresetForGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSwitchToPreviousPresetForGroup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -574,132 +471,79 @@ func (p *BluetoothHapClientProxy) GetPresetInfo(
 	device BluetoothDevice,
 	presetIndex int32,
 	attributionSource content.AttributionSource,
-) (BluetoothHapPresetInfo, error) {
-	var _result BluetoothHapPresetInfo
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(presetIndex)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getPresetInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetPresetInfo)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetPresetInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetPresetInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetAllPresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) ([]BluetoothHapPresetInfo, error) {
-	var _result []BluetoothHapPresetInfo
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getAllPresetInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetAllPresetInfo)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetAllPresetInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetAllPresetInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothHapPresetInfo, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) GetFeatures(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getFeatures")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetFeatures)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientGetFeatures
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientGetFeatures, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) SetPresetName(
@@ -722,12 +566,12 @@ func (p *BluetoothHapClientProxy) SetPresetName(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setPresetName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSetPresetName)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSetPresetName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSetPresetName, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -748,12 +592,12 @@ func (p *BluetoothHapClientProxy) SetPresetNameForGroup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setPresetNameForGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSetPresetNameForGroup)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientSetPresetNameForGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientSetPresetNameForGroup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -761,62 +605,46 @@ func (p *BluetoothHapClientProxy) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothHapClientCallback,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientRegisterCallback)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothHapClientProxy) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothHapClientCallback,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "unregisterCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothHapClient, MethodIBluetoothHapClientUnregisterCallback)
 	if _err != nil {
-		_code = TransactionIBluetoothHapClientUnregisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothHapClient, MethodIBluetoothHapClientUnregisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // BluetoothHapClientStub dispatches incoming binder transactions
@@ -826,6 +654,10 @@ type BluetoothHapClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothHapClientStub)(nil)
+
+func (s *BluetoothHapClientStub) Descriptor() string {
+	return DescriptorIBluetoothHapClient
+}
 
 func (s *BluetoothHapClientStub) OnTransaction(
 	ctx context.Context,
@@ -849,16 +681,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetDevicesMatchingConnectionStates:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -878,16 +704,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetConnectionState:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -916,15 +736,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientSetConnectionPolicy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -957,15 +772,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetConnectionPolicy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -994,15 +804,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetHapGroup:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1031,15 +836,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetHapGroup(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetHapGroup(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetActivePresetIndex:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1068,15 +868,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetActivePresetIndex(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetActivePresetIndex(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetActivePresetInfo:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1105,18 +900,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetActivePresetInfo(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetActivePresetInfo(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientSelectPreset:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1319,18 +1106,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetPresetInfo(ctx, _arg_device, _arg_presetIndex, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.GetPresetInfo(ctx, _arg_device, _arg_presetIndex, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetAllPresetInfo:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1359,16 +1138,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetAllPresetInfo(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetAllPresetInfo(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientGetFeatures:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1397,15 +1170,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetFeatures(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetFeatures(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientSetPresetName:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1495,14 +1263,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.RegisterCallback(ctx, _arg_callback, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.RegisterCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothHapClientUnregisterCallback:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -1522,14 +1286,10 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.UnregisterCallback(ctx, _arg_callback, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1539,27 +1299,27 @@ func (s *BluetoothHapClientStub) OnTransaction(
 // provide to NewBluetoothHapClientStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothHapClientServer interface {
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetHapGroup(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetActivePresetIndex(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetActivePresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothHapPresetInfo, error)
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetHapGroup(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetActivePresetIndex(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetActivePresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
 	SelectPreset(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource) error
 	SelectPresetForGroup(ctx context.Context, groupId int32, presetIndex int32, attributionSource content.AttributionSource) error
 	SwitchToNextPreset(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
 	SwitchToNextPresetForGroup(ctx context.Context, groupId int32, attributionSource content.AttributionSource) error
 	SwitchToPreviousPreset(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
 	SwitchToPreviousPresetForGroup(ctx context.Context, groupId int32, attributionSource content.AttributionSource) error
-	GetPresetInfo(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource) (BluetoothHapPresetInfo, error)
-	GetAllPresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) ([]BluetoothHapPresetInfo, error)
-	GetFeatures(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetPresetInfo(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetAllPresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetFeatures(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
 	SetPresetName(ctx context.Context, device BluetoothDevice, presetIndex int32, name string, attributionSource content.AttributionSource) error
 	SetPresetNameForGroup(ctx context.Context, groupId int32, presetIndex int32, name string, attributionSource content.AttributionSource) error
-	RegisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource) error
+	RegisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type bluetoothHapClientStubWrapper struct {
@@ -1574,24 +1334,27 @@ func (w *bluetoothHapClientStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothHapClientStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetConnectedDevices(ctx, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetConnectionState(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) SetConnectionPolicy(
@@ -1599,40 +1362,45 @@ func (w *bluetoothHapClientStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetConnectionPolicy(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetHapGroup(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetHapGroup(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetHapGroup(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetActivePresetIndex(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetActivePresetIndex(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetActivePresetIndex(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetActivePresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (BluetoothHapPresetInfo, error) {
-	return w.impl.GetActivePresetInfo(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetActivePresetInfo(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) SelectPreset(
@@ -1690,24 +1458,27 @@ func (w *bluetoothHapClientStubWrapper) GetPresetInfo(
 	device BluetoothDevice,
 	presetIndex int32,
 	attributionSource content.AttributionSource,
-) (BluetoothHapPresetInfo, error) {
-	return w.impl.GetPresetInfo(ctx, device, presetIndex, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetPresetInfo(ctx, device, presetIndex, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetAllPresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) ([]BluetoothHapPresetInfo, error) {
-	return w.impl.GetAllPresetInfo(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetAllPresetInfo(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) GetFeatures(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetFeatures(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetFeatures(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) SetPresetName(
@@ -1734,16 +1505,18 @@ func (w *bluetoothHapClientStubWrapper) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothHapClientCallback,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.RegisterCallback(ctx, callback, attributionSource)
+	return w.impl.RegisterCallback(ctx, callback, attributionSource, receiver)
 }
 
 func (w *bluetoothHapClientStubWrapper) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothHapClientCallback,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.UnregisterCallback(ctx, callback, attributionSource)
+	return w.impl.UnregisterCallback(ctx, callback, attributionSource, receiver)
 }
 
 var _ IBluetoothHapClient = (*bluetoothHapClientStubWrapper)(nil)

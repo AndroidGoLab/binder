@@ -15,23 +15,27 @@ const (
 	TransactionICameraInjectionSessionStopInjection = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICameraInjectionSessionStopInjection = "stopInjection"
+)
+
 type ICameraInjectionSession interface {
 	AsBinder() binder.IBinder
 	StopInjection(ctx context.Context) error
 }
 
 type CameraInjectionSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraInjectionSessionProxy(
 	remote binder.IBinder,
 ) *CameraInjectionSessionProxy {
-	return &CameraInjectionSessionProxy{remote: remote}
+	return &CameraInjectionSessionProxy{Remote: remote}
 }
 
 func (p *CameraInjectionSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraInjectionSession = (*CameraInjectionSessionProxy)(nil)
@@ -42,12 +46,12 @@ func (p *CameraInjectionSessionProxy) StopInjection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraInjectionSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionSession, "stopInjection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraInjectionSession, MethodICameraInjectionSessionStopInjection)
 	if _err != nil {
-		_code = TransactionICameraInjectionSessionStopInjection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraInjectionSession, MethodICameraInjectionSessionStopInjection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type CameraInjectionSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraInjectionSessionStub)(nil)
+
+func (s *CameraInjectionSessionStub) Descriptor() string {
+	return DescriptorICameraInjectionSession
+}
 
 func (s *CameraInjectionSessionStub) OnTransaction(
 	ctx context.Context,

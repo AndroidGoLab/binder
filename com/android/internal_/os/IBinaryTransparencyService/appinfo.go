@@ -29,14 +29,7 @@ func (s *AppInfo) MarshalParcel(
 	p.WriteString16(s.PackageName)
 	p.WriteInt64(s.LongVersion)
 	p.WriteString16(s.SplitName)
-	if s.Digest == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Digest)))
-		for _, _item := range s.Digest {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.Digest)
 	p.WriteInt32(s.DigestAlgorithm)
 	if s.SignerDigests == nil {
 		p.WriteInt32(-1)
@@ -86,19 +79,9 @@ func (s *AppInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Digest, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Digest = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Digest[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DigestAlgorithm, _err = p.ReadInt32()

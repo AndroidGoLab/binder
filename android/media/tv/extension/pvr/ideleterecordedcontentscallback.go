@@ -15,23 +15,27 @@ const (
 	TransactionIDeleteRecordedContentsCallbackOnRecordedContentsDeleted = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeleteRecordedContentsCallbackOnRecordedContentsDeleted = "onRecordedContentsDeleted"
+)
+
 type IDeleteRecordedContentsCallback interface {
 	AsBinder() binder.IBinder
 	OnRecordedContentsDeleted(ctx context.Context, contentUri []string, result []int32) error
 }
 
 type DeleteRecordedContentsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeleteRecordedContentsCallbackProxy(
 	remote binder.IBinder,
 ) *DeleteRecordedContentsCallbackProxy {
-	return &DeleteRecordedContentsCallbackProxy{remote: remote}
+	return &DeleteRecordedContentsCallbackProxy{Remote: remote}
 }
 
 func (p *DeleteRecordedContentsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeleteRecordedContentsCallback = (*DeleteRecordedContentsCallbackProxy)(nil)
@@ -60,12 +64,12 @@ func (p *DeleteRecordedContentsCallbackProxy) OnRecordedContentsDeleted(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeleteRecordedContentsCallback, "onRecordedContentsDeleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeleteRecordedContentsCallback, MethodIDeleteRecordedContentsCallbackOnRecordedContentsDeleted)
 	if _err != nil {
-		_code = TransactionIDeleteRecordedContentsCallbackOnRecordedContentsDeleted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeleteRecordedContentsCallback, MethodIDeleteRecordedContentsCallbackOnRecordedContentsDeleted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +80,10 @@ type DeleteRecordedContentsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeleteRecordedContentsCallbackStub)(nil)
+
+func (s *DeleteRecordedContentsCallbackStub) Descriptor() string {
+	return DescriptorIDeleteRecordedContentsCallback
+}
 
 func (s *DeleteRecordedContentsCallbackStub) OnTransaction(
 	ctx context.Context,

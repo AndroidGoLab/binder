@@ -21,28 +21,37 @@ const (
 	TransactionIBluetoothAvrcpControllerSendGroupNavigationCmd             = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIBluetoothAvrcpControllerGetConnectedDevices                = "getConnectedDevices"
+	MethodIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates = "getDevicesMatchingConnectionStates"
+	MethodIBluetoothAvrcpControllerGetConnectionState                 = "getConnectionState"
+	MethodIBluetoothAvrcpControllerGetPlayerSettings                  = "getPlayerSettings"
+	MethodIBluetoothAvrcpControllerSetPlayerApplicationSetting        = "setPlayerApplicationSetting"
+	MethodIBluetoothAvrcpControllerSendGroupNavigationCmd             = "sendGroupNavigationCmd"
+)
+
 type IBluetoothAvrcpController interface {
 	AsBinder() binder.IBinder
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetPlayerSettings(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothAvrcpPlayerSettings, error)
-	SetPlayerApplicationSetting(ctx context.Context, plAppSetting BluetoothAvrcpPlayerSettings, attributionSource content.AttributionSource) error
-	SendGroupNavigationCmd(ctx context.Context, device BluetoothDevice, keyCode int32, keyState int32, attributionSource content.AttributionSource) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetPlayerSettings(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPlayerApplicationSetting(ctx context.Context, plAppSetting BluetoothAvrcpPlayerSettings, attributionSource content.AttributionSource, receiver interface{}) error
+	SendGroupNavigationCmd(ctx context.Context, device BluetoothDevice, keyCode int32, keyState int32, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type BluetoothAvrcpControllerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothAvrcpControllerProxy(
 	remote binder.IBinder,
 ) *BluetoothAvrcpControllerProxy {
-	return &BluetoothAvrcpControllerProxy{remote: remote}
+	return &BluetoothAvrcpControllerProxy{Remote: remote}
 }
 
 func (p *BluetoothAvrcpControllerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothAvrcpController = (*BluetoothAvrcpControllerProxy)(nil)
@@ -50,52 +59,30 @@ var _ IBluetoothAvrcpController = (*BluetoothAvrcpControllerProxy)(nil)
 func (p *BluetoothAvrcpControllerProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getConnectedDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetConnectedDevices)
 	if _err != nil {
-		_code = TransactionIBluetoothAvrcpControllerGetConnectedDevices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetConnectedDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothAvrcpControllerProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	if states == nil {
@@ -108,127 +95,75 @@ func (p *BluetoothAvrcpControllerProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getDevicesMatchingConnectionStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		_code = TransactionIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothAvrcpControllerProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetConnectionState)
 	if _err != nil {
-		_code = TransactionIBluetoothAvrcpControllerGetConnectionState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothAvrcpControllerProxy) GetPlayerSettings(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (BluetoothAvrcpPlayerSettings, error) {
-	var _result BluetoothAvrcpPlayerSettings
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getPlayerSettings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetPlayerSettings)
 	if _err != nil {
-		_code = TransactionIBluetoothAvrcpControllerGetPlayerSettings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerGetPlayerSettings, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothAvrcpControllerProxy) SetPlayerApplicationSetting(
 	ctx context.Context,
 	plAppSetting BluetoothAvrcpPlayerSettings,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
@@ -241,22 +176,13 @@ func (p *BluetoothAvrcpControllerProxy) SetPlayerApplicationSetting(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "setPlayerApplicationSetting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerSetPlayerApplicationSetting)
 	if _err != nil {
-		_code = TransactionIBluetoothAvrcpControllerSetPlayerApplicationSetting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerSetPlayerApplicationSetting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothAvrcpControllerProxy) SendGroupNavigationCmd(
@@ -265,6 +191,7 @@ func (p *BluetoothAvrcpControllerProxy) SendGroupNavigationCmd(
 	keyCode int32,
 	keyState int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
@@ -279,22 +206,13 @@ func (p *BluetoothAvrcpControllerProxy) SendGroupNavigationCmd(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "sendGroupNavigationCmd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerSendGroupNavigationCmd)
 	if _err != nil {
-		_code = TransactionIBluetoothAvrcpControllerSendGroupNavigationCmd
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothAvrcpController, MethodIBluetoothAvrcpControllerSendGroupNavigationCmd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // BluetoothAvrcpControllerStub dispatches incoming binder transactions
@@ -304,6 +222,10 @@ type BluetoothAvrcpControllerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothAvrcpControllerStub)(nil)
+
+func (s *BluetoothAvrcpControllerStub) Descriptor() string {
+	return DescriptorIBluetoothAvrcpController
+}
 
 func (s *BluetoothAvrcpControllerStub) OnTransaction(
 	ctx context.Context,
@@ -327,16 +249,10 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -356,16 +272,10 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothAvrcpControllerGetConnectionState:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -394,15 +304,10 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothAvrcpControllerGetPlayerSettings:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -431,18 +336,10 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetPlayerSettings(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetPlayerSettings(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothAvrcpControllerSetPlayerApplicationSetting:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -471,14 +368,10 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.SetPlayerApplicationSetting(ctx, _arg_plAppSetting, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.SetPlayerApplicationSetting(ctx, _arg_plAppSetting, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothAvrcpControllerSendGroupNavigationCmd:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -515,14 +408,10 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		_err = s.Impl.SendGroupNavigationCmd(ctx, _arg_device, _arg_keyCode, _arg_keyState, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SendGroupNavigationCmd(ctx, _arg_device, _arg_keyCode, _arg_keyState, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -532,12 +421,12 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 // provide to NewBluetoothAvrcpControllerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothAvrcpControllerServer interface {
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetPlayerSettings(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothAvrcpPlayerSettings, error)
-	SetPlayerApplicationSetting(ctx context.Context, plAppSetting BluetoothAvrcpPlayerSettings, attributionSource content.AttributionSource) error
-	SendGroupNavigationCmd(ctx context.Context, device BluetoothDevice, keyCode int32, keyState int32, attributionSource content.AttributionSource) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetPlayerSettings(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetPlayerApplicationSetting(ctx context.Context, plAppSetting BluetoothAvrcpPlayerSettings, attributionSource content.AttributionSource, receiver interface{}) error
+	SendGroupNavigationCmd(ctx context.Context, device BluetoothDevice, keyCode int32, keyState int32, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type bluetoothAvrcpControllerStubWrapper struct {
@@ -552,40 +441,45 @@ func (w *bluetoothAvrcpControllerStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothAvrcpControllerStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetConnectedDevices(ctx, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
 
 func (w *bluetoothAvrcpControllerStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
 
 func (w *bluetoothAvrcpControllerStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetConnectionState(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothAvrcpControllerStubWrapper) GetPlayerSettings(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (BluetoothAvrcpPlayerSettings, error) {
-	return w.impl.GetPlayerSettings(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetPlayerSettings(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothAvrcpControllerStubWrapper) SetPlayerApplicationSetting(
 	ctx context.Context,
 	plAppSetting BluetoothAvrcpPlayerSettings,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.SetPlayerApplicationSetting(ctx, plAppSetting, attributionSource)
+	return w.impl.SetPlayerApplicationSetting(ctx, plAppSetting, attributionSource, receiver)
 }
 
 func (w *bluetoothAvrcpControllerStubWrapper) SendGroupNavigationCmd(
@@ -594,8 +488,9 @@ func (w *bluetoothAvrcpControllerStubWrapper) SendGroupNavigationCmd(
 	keyCode int32,
 	keyState int32,
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.SendGroupNavigationCmd(ctx, device, keyCode, keyState, attributionSource)
+	return w.impl.SendGroupNavigationCmd(ctx, device, keyCode, keyState, attributionSource, receiver)
 }
 
 var _ IBluetoothAvrcpController = (*bluetoothAvrcpControllerStubWrapper)(nil)

@@ -16,6 +16,11 @@ const (
 	TransactionIProxyServiceSetPacFile     = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIProxyServiceResolvePacFile = "resolvePacFile"
+	MethodIProxyServiceSetPacFile     = "setPacFile"
+)
+
 type IProxyService interface {
 	AsBinder() binder.IBinder
 	ResolvePacFile(ctx context.Context, host string, url string) (string, error)
@@ -23,17 +28,17 @@ type IProxyService interface {
 }
 
 type ProxyServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProxyServiceProxy(
 	remote binder.IBinder,
 ) *ProxyServiceProxy {
-	return &ProxyServiceProxy{remote: remote}
+	return &ProxyServiceProxy{Remote: remote}
 }
 
 func (p *ProxyServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProxyService = (*ProxyServiceProxy)(nil)
@@ -49,12 +54,12 @@ func (p *ProxyServiceProxy) ResolvePacFile(
 	_data.WriteString16(host)
 	_data.WriteString16(url)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProxyService, "resolvePacFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProxyService, MethodIProxyServiceResolvePacFile)
 	if _err != nil {
-		_code = TransactionIProxyServiceResolvePacFile
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIProxyService, MethodIProxyServiceResolvePacFile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,12 +84,12 @@ func (p *ProxyServiceProxy) SetPacFile(
 	_data.WriteInterfaceToken(DescriptorIProxyService)
 	_data.WriteString16(scriptContents)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProxyService, "setPacFile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProxyService, MethodIProxyServiceSetPacFile)
 	if _err != nil {
-		_code = TransactionIProxyServiceSetPacFile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProxyService, MethodIProxyServiceSetPacFile, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,6 +100,10 @@ type ProxyServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProxyServiceStub)(nil)
+
+func (s *ProxyServiceStub) Descriptor() string {
+	return DescriptorIProxyService
+}
 
 func (s *ProxyServiceStub) OnTransaction(
 	ctx context.Context,

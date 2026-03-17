@@ -37,6 +37,31 @@ const (
 	TransactionIPlatformCompatGetOverrideValidator              = binder.FirstCallTransaction + 21
 )
 
+const (
+	MethodIPlatformCompatReportChange                      = "reportChange"
+	MethodIPlatformCompatReportChangeByPackageName         = "reportChangeByPackageName"
+	MethodIPlatformCompatReportChangeByUid                 = "reportChangeByUid"
+	MethodIPlatformCompatIsChangeEnabled                   = "isChangeEnabled"
+	MethodIPlatformCompatIsChangeEnabledByPackageName      = "isChangeEnabledByPackageName"
+	MethodIPlatformCompatIsChangeEnabledByUid              = "isChangeEnabledByUid"
+	MethodIPlatformCompatSetOverrides                      = "setOverrides"
+	MethodIPlatformCompatPutAllOverridesOnReleaseBuilds    = "putAllOverridesOnReleaseBuilds"
+	MethodIPlatformCompatPutOverridesOnReleaseBuilds       = "putOverridesOnReleaseBuilds"
+	MethodIPlatformCompatSetOverridesForTest               = "setOverridesForTest"
+	MethodIPlatformCompatClearOverride                     = "clearOverride"
+	MethodIPlatformCompatClearOverrideForTest              = "clearOverrideForTest"
+	MethodIPlatformCompatRemoveAllOverridesOnReleaseBuilds = "removeAllOverridesOnReleaseBuilds"
+	MethodIPlatformCompatRemoveOverridesOnReleaseBuilds    = "removeOverridesOnReleaseBuilds"
+	MethodIPlatformCompatEnableTargetSdkChanges            = "enableTargetSdkChanges"
+	MethodIPlatformCompatDisableTargetSdkChanges           = "disableTargetSdkChanges"
+	MethodIPlatformCompatClearOverrides                    = "clearOverrides"
+	MethodIPlatformCompatClearOverridesForTest             = "clearOverridesForTest"
+	MethodIPlatformCompatGetAppConfig                      = "getAppConfig"
+	MethodIPlatformCompatListAllChanges                    = "listAllChanges"
+	MethodIPlatformCompatListUIChanges                     = "listUIChanges"
+	MethodIPlatformCompatGetOverrideValidator              = "getOverrideValidator"
+)
+
 type IPlatformCompat interface {
 	AsBinder() binder.IBinder
 	ReportChange(ctx context.Context, changeId int64, appInfo pm.ApplicationInfo) error
@@ -64,17 +89,17 @@ type IPlatformCompat interface {
 }
 
 type PlatformCompatProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPlatformCompatProxy(
 	remote binder.IBinder,
 ) *PlatformCompatProxy {
-	return &PlatformCompatProxy{remote: remote}
+	return &PlatformCompatProxy{Remote: remote}
 }
 
 func (p *PlatformCompatProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPlatformCompat = (*PlatformCompatProxy)(nil)
@@ -92,12 +117,12 @@ func (p *PlatformCompatProxy) ReportChange(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "reportChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChange)
 	if _err != nil {
-		_code = TransactionIPlatformCompatReportChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatReportChange, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -115,19 +140,19 @@ func (p *PlatformCompatProxy) ReportChangeByPackageName(
 	changeId int64,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "reportChangeByPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByPackageName)
 	if _err != nil {
-		_code = TransactionIPlatformCompatReportChangeByPackageName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -150,12 +175,12 @@ func (p *PlatformCompatProxy) ReportChangeByUid(
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "reportChangeByUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByUid)
 	if _err != nil {
-		_code = TransactionIPlatformCompatReportChangeByUid
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatReportChangeByUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -182,12 +207,12 @@ func (p *PlatformCompatProxy) IsChangeEnabled(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "isChangeEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabled)
 	if _err != nil {
-		_code = TransactionIPlatformCompatIsChangeEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -210,19 +235,19 @@ func (p *PlatformCompatProxy) IsChangeEnabledByPackageName(
 	packageName string,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "isChangeEnabledByPackageName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByPackageName)
 	if _err != nil {
-		_code = TransactionIPlatformCompatIsChangeEnabledByPackageName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByPackageName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,12 +275,12 @@ func (p *PlatformCompatProxy) IsChangeEnabledByUid(
 	_data.WriteInt64(changeId)
 	_data.WriteInt32(uid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "isChangeEnabledByUid")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByUid)
 	if _err != nil {
-		_code = TransactionIPlatformCompatIsChangeEnabledByUid
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatIsChangeEnabledByUid, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -285,12 +310,12 @@ func (p *PlatformCompatProxy) SetOverrides(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "setOverrides")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatSetOverrides)
 	if _err != nil {
-		_code = TransactionIPlatformCompatSetOverrides
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatSetOverrides, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -314,12 +339,12 @@ func (p *PlatformCompatProxy) PutAllOverridesOnReleaseBuilds(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "putAllOverridesOnReleaseBuilds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatPutAllOverridesOnReleaseBuilds)
 	if _err != nil {
-		_code = TransactionIPlatformCompatPutAllOverridesOnReleaseBuilds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatPutAllOverridesOnReleaseBuilds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -345,12 +370,12 @@ func (p *PlatformCompatProxy) PutOverridesOnReleaseBuilds(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "putOverridesOnReleaseBuilds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatPutOverridesOnReleaseBuilds)
 	if _err != nil {
-		_code = TransactionIPlatformCompatPutOverridesOnReleaseBuilds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatPutOverridesOnReleaseBuilds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -376,12 +401,12 @@ func (p *PlatformCompatProxy) SetOverridesForTest(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "setOverridesForTest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatSetOverridesForTest)
 	if _err != nil {
-		_code = TransactionIPlatformCompatSetOverridesForTest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatSetOverridesForTest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -405,12 +430,12 @@ func (p *PlatformCompatProxy) ClearOverride(
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "clearOverride")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverride)
 	if _err != nil {
-		_code = TransactionIPlatformCompatClearOverride
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatClearOverride, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -438,12 +463,12 @@ func (p *PlatformCompatProxy) ClearOverrideForTest(
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "clearOverrideForTest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrideForTest)
 	if _err != nil {
-		_code = TransactionIPlatformCompatClearOverrideForTest
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrideForTest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -471,12 +496,12 @@ func (p *PlatformCompatProxy) RemoveAllOverridesOnReleaseBuilds(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "removeAllOverridesOnReleaseBuilds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatRemoveAllOverridesOnReleaseBuilds)
 	if _err != nil {
-		_code = TransactionIPlatformCompatRemoveAllOverridesOnReleaseBuilds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatRemoveAllOverridesOnReleaseBuilds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -502,12 +527,12 @@ func (p *PlatformCompatProxy) RemoveOverridesOnReleaseBuilds(
 	}
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "removeOverridesOnReleaseBuilds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatRemoveOverridesOnReleaseBuilds)
 	if _err != nil {
-		_code = TransactionIPlatformCompatRemoveOverridesOnReleaseBuilds
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatRemoveOverridesOnReleaseBuilds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -531,12 +556,12 @@ func (p *PlatformCompatProxy) EnableTargetSdkChanges(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(targetSdkVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "enableTargetSdkChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatEnableTargetSdkChanges)
 	if _err != nil {
-		_code = TransactionIPlatformCompatEnableTargetSdkChanges
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatEnableTargetSdkChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -564,12 +589,12 @@ func (p *PlatformCompatProxy) DisableTargetSdkChanges(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(targetSdkVersion)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "disableTargetSdkChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatDisableTargetSdkChanges)
 	if _err != nil {
-		_code = TransactionIPlatformCompatDisableTargetSdkChanges
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatDisableTargetSdkChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -594,12 +619,12 @@ func (p *PlatformCompatProxy) ClearOverrides(
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "clearOverrides")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrides)
 	if _err != nil {
-		_code = TransactionIPlatformCompatClearOverrides
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatClearOverrides, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -620,12 +645,12 @@ func (p *PlatformCompatProxy) ClearOverridesForTest(
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "clearOverridesForTest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatClearOverridesForTest)
 	if _err != nil {
-		_code = TransactionIPlatformCompatClearOverridesForTest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatClearOverridesForTest, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -650,12 +675,12 @@ func (p *PlatformCompatProxy) GetAppConfig(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "getAppConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatGetAppConfig)
 	if _err != nil {
-		_code = TransactionIPlatformCompatGetAppConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatGetAppConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -684,12 +709,12 @@ func (p *PlatformCompatProxy) ListAllChanges(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "listAllChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatListAllChanges)
 	if _err != nil {
-		_code = TransactionIPlatformCompatListAllChanges
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatListAllChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -707,6 +732,9 @@ func (p *PlatformCompatProxy) ListAllChanges(
 	if _count >= 0 {
 		_result = make([]CompatibilityChangeInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -722,12 +750,12 @@ func (p *PlatformCompatProxy) ListUIChanges(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "listUIChanges")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatListUIChanges)
 	if _err != nil {
-		_code = TransactionIPlatformCompatListUIChanges
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatListUIChanges, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -745,6 +773,9 @@ func (p *PlatformCompatProxy) ListUIChanges(
 	if _count >= 0 {
 		_result = make([]CompatibilityChangeInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -760,12 +791,12 @@ func (p *PlatformCompatProxy) GetOverrideValidator(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompat, "getOverrideValidator")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPlatformCompat, MethodIPlatformCompatGetOverrideValidator)
 	if _err != nil {
-		_code = TransactionIPlatformCompatGetOverrideValidator
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPlatformCompat, MethodIPlatformCompatGetOverrideValidator, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -779,7 +810,7 @@ func (p *PlatformCompatProxy) GetOverrideValidator(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewOverrideValidatorProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewOverrideValidatorProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -790,6 +821,10 @@ type PlatformCompatStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PlatformCompatStub)(nil)
+
+func (s *PlatformCompatStub) Descriptor() string {
+	return DescriptorIPlatformCompat
+}
 
 func (s *PlatformCompatStub) OnTransaction(
 	ctx context.Context,

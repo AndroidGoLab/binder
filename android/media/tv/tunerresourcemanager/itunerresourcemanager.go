@@ -12,40 +12,75 @@ import (
 const DescriptorITunerResourceManager = "android.media.tv.tunerresourcemanager.ITunerResourceManager"
 
 const (
-	TransactionITunerResourceManagerRegisterClientProfile         = binder.FirstCallTransaction + 0
-	TransactionITunerResourceManagerUnregisterClientProfile       = binder.FirstCallTransaction + 1
-	TransactionITunerResourceManagerUpdateClientPriority          = binder.FirstCallTransaction + 2
-	TransactionITunerResourceManagerHasUnusedFrontend             = binder.FirstCallTransaction + 3
-	TransactionITunerResourceManagerIsLowestPriority              = binder.FirstCallTransaction + 4
-	TransactionITunerResourceManagerSetFrontendInfoList           = binder.FirstCallTransaction + 5
-	TransactionITunerResourceManagerUpdateCasInfo                 = binder.FirstCallTransaction + 6
-	TransactionITunerResourceManagerSetDemuxInfoList              = binder.FirstCallTransaction + 7
-	TransactionITunerResourceManagerSetLnbInfoList                = binder.FirstCallTransaction + 8
-	TransactionITunerResourceManagerSetResourceOwnershipRetention = binder.FirstCallTransaction + 9
-	TransactionITunerResourceManagerRequestFrontend               = binder.FirstCallTransaction + 10
-	TransactionITunerResourceManagerSetMaxNumberOfFrontends       = binder.FirstCallTransaction + 11
-	TransactionITunerResourceManagerGetMaxNumberOfFrontends       = binder.FirstCallTransaction + 12
-	TransactionITunerResourceManagerShareFrontend                 = binder.FirstCallTransaction + 13
-	TransactionITunerResourceManagerTransferOwner                 = binder.FirstCallTransaction + 14
-	TransactionITunerResourceManagerRequestDemux                  = binder.FirstCallTransaction + 15
-	TransactionITunerResourceManagerRequestDescrambler            = binder.FirstCallTransaction + 16
-	TransactionITunerResourceManagerRequestCasSession             = binder.FirstCallTransaction + 17
-	TransactionITunerResourceManagerRequestCiCam                  = binder.FirstCallTransaction + 18
-	TransactionITunerResourceManagerRequestLnb                    = binder.FirstCallTransaction + 19
-	TransactionITunerResourceManagerReleaseFrontend               = binder.FirstCallTransaction + 20
-	TransactionITunerResourceManagerReleaseDemux                  = binder.FirstCallTransaction + 21
-	TransactionITunerResourceManagerReleaseDescrambler            = binder.FirstCallTransaction + 22
-	TransactionITunerResourceManagerReleaseCasSession             = binder.FirstCallTransaction + 23
-	TransactionITunerResourceManagerReleaseCiCam                  = binder.FirstCallTransaction + 24
-	TransactionITunerResourceManagerReleaseLnb                    = binder.FirstCallTransaction + 25
-	TransactionITunerResourceManagerIsHigherPriority              = binder.FirstCallTransaction + 26
-	TransactionITunerResourceManagerStoreResourceMap              = binder.FirstCallTransaction + 27
-	TransactionITunerResourceManagerClearResourceMap              = binder.FirstCallTransaction + 28
-	TransactionITunerResourceManagerRestoreResourceMap            = binder.FirstCallTransaction + 29
-	TransactionITunerResourceManagerAcquireLock                   = binder.FirstCallTransaction + 30
-	TransactionITunerResourceManagerReleaseLock                   = binder.FirstCallTransaction + 31
-	TransactionITunerResourceManagerGetClientPriority             = binder.FirstCallTransaction + 32
-	TransactionITunerResourceManagerGetConfigPriority             = binder.FirstCallTransaction + 33
+	TransactionITunerResourceManagerRegisterClientProfile   = binder.FirstCallTransaction + 0
+	TransactionITunerResourceManagerUnregisterClientProfile = binder.FirstCallTransaction + 1
+	TransactionITunerResourceManagerUpdateClientPriority    = binder.FirstCallTransaction + 2
+	TransactionITunerResourceManagerHasUnusedFrontend       = binder.FirstCallTransaction + 3
+	TransactionITunerResourceManagerIsLowestPriority        = binder.FirstCallTransaction + 4
+	TransactionITunerResourceManagerSetFrontendInfoList     = binder.FirstCallTransaction + 5
+	TransactionITunerResourceManagerUpdateCasInfo           = binder.FirstCallTransaction + 6
+	TransactionITunerResourceManagerSetDemuxInfoList        = binder.FirstCallTransaction + 7
+	TransactionITunerResourceManagerSetLnbInfoList          = binder.FirstCallTransaction + 8
+	TransactionITunerResourceManagerRequestFrontend         = binder.FirstCallTransaction + 9
+	TransactionITunerResourceManagerSetMaxNumberOfFrontends = binder.FirstCallTransaction + 10
+	TransactionITunerResourceManagerGetMaxNumberOfFrontends = binder.FirstCallTransaction + 11
+	TransactionITunerResourceManagerShareFrontend           = binder.FirstCallTransaction + 12
+	TransactionITunerResourceManagerTransferOwner           = binder.FirstCallTransaction + 13
+	TransactionITunerResourceManagerRequestDemux            = binder.FirstCallTransaction + 14
+	TransactionITunerResourceManagerRequestDescrambler      = binder.FirstCallTransaction + 15
+	TransactionITunerResourceManagerRequestCasSession       = binder.FirstCallTransaction + 16
+	TransactionITunerResourceManagerRequestCiCam            = binder.FirstCallTransaction + 17
+	TransactionITunerResourceManagerRequestLnb              = binder.FirstCallTransaction + 18
+	TransactionITunerResourceManagerReleaseFrontend         = binder.FirstCallTransaction + 19
+	TransactionITunerResourceManagerReleaseDemux            = binder.FirstCallTransaction + 20
+	TransactionITunerResourceManagerReleaseDescrambler      = binder.FirstCallTransaction + 21
+	TransactionITunerResourceManagerReleaseCasSession       = binder.FirstCallTransaction + 22
+	TransactionITunerResourceManagerReleaseCiCam            = binder.FirstCallTransaction + 23
+	TransactionITunerResourceManagerReleaseLnb              = binder.FirstCallTransaction + 24
+	TransactionITunerResourceManagerIsHigherPriority        = binder.FirstCallTransaction + 25
+	TransactionITunerResourceManagerStoreResourceMap        = binder.FirstCallTransaction + 26
+	TransactionITunerResourceManagerClearResourceMap        = binder.FirstCallTransaction + 27
+	TransactionITunerResourceManagerRestoreResourceMap      = binder.FirstCallTransaction + 28
+	TransactionITunerResourceManagerAcquireLock             = binder.FirstCallTransaction + 29
+	TransactionITunerResourceManagerReleaseLock             = binder.FirstCallTransaction + 30
+	TransactionITunerResourceManagerGetClientPriority       = binder.FirstCallTransaction + 31
+	TransactionITunerResourceManagerGetConfigPriority       = binder.FirstCallTransaction + 32
+)
+
+const (
+	MethodITunerResourceManagerRegisterClientProfile   = "registerClientProfile"
+	MethodITunerResourceManagerUnregisterClientProfile = "unregisterClientProfile"
+	MethodITunerResourceManagerUpdateClientPriority    = "updateClientPriority"
+	MethodITunerResourceManagerHasUnusedFrontend       = "hasUnusedFrontend"
+	MethodITunerResourceManagerIsLowestPriority        = "isLowestPriority"
+	MethodITunerResourceManagerSetFrontendInfoList     = "setFrontendInfoList"
+	MethodITunerResourceManagerUpdateCasInfo           = "updateCasInfo"
+	MethodITunerResourceManagerSetDemuxInfoList        = "setDemuxInfoList"
+	MethodITunerResourceManagerSetLnbInfoList          = "setLnbInfoList"
+	MethodITunerResourceManagerRequestFrontend         = "requestFrontend"
+	MethodITunerResourceManagerSetMaxNumberOfFrontends = "setMaxNumberOfFrontends"
+	MethodITunerResourceManagerGetMaxNumberOfFrontends = "getMaxNumberOfFrontends"
+	MethodITunerResourceManagerShareFrontend           = "shareFrontend"
+	MethodITunerResourceManagerTransferOwner           = "transferOwner"
+	MethodITunerResourceManagerRequestDemux            = "requestDemux"
+	MethodITunerResourceManagerRequestDescrambler      = "requestDescrambler"
+	MethodITunerResourceManagerRequestCasSession       = "requestCasSession"
+	MethodITunerResourceManagerRequestCiCam            = "requestCiCam"
+	MethodITunerResourceManagerRequestLnb              = "requestLnb"
+	MethodITunerResourceManagerReleaseFrontend         = "releaseFrontend"
+	MethodITunerResourceManagerReleaseDemux            = "releaseDemux"
+	MethodITunerResourceManagerReleaseDescrambler      = "releaseDescrambler"
+	MethodITunerResourceManagerReleaseCasSession       = "releaseCasSession"
+	MethodITunerResourceManagerReleaseCiCam            = "releaseCiCam"
+	MethodITunerResourceManagerReleaseLnb              = "releaseLnb"
+	MethodITunerResourceManagerIsHigherPriority        = "isHigherPriority"
+	MethodITunerResourceManagerStoreResourceMap        = "storeResourceMap"
+	MethodITunerResourceManagerClearResourceMap        = "clearResourceMap"
+	MethodITunerResourceManagerRestoreResourceMap      = "restoreResourceMap"
+	MethodITunerResourceManagerAcquireLock             = "acquireLock"
+	MethodITunerResourceManagerReleaseLock             = "releaseLock"
+	MethodITunerResourceManagerGetClientPriority       = "getClientPriority"
+	MethodITunerResourceManagerGetConfigPriority       = "getConfigPriority"
 )
 
 type ITunerResourceManager interface {
@@ -58,24 +93,23 @@ type ITunerResourceManager interface {
 	SetFrontendInfoList(ctx context.Context, infos []TunerFrontendInfo) error
 	UpdateCasInfo(ctx context.Context, casSystemId int32, maxSessionNum int32) error
 	SetDemuxInfoList(ctx context.Context, infos []TunerDemuxInfo) error
-	SetLnbInfoList(ctx context.Context, lnbIds []int64) error
-	SetResourceOwnershipRetention(ctx context.Context, clientId int32, enabled bool) error
-	RequestFrontend(ctx context.Context, request TunerFrontendRequest, frontendHandle []int64) (bool, error)
+	SetLnbInfoList(ctx context.Context, lnbIds []int32) error
+	RequestFrontend(ctx context.Context, request TunerFrontendRequest, frontendHandle []int32) (bool, error)
 	SetMaxNumberOfFrontends(ctx context.Context, frontendType int32, maxNum int32) (bool, error)
 	GetMaxNumberOfFrontends(ctx context.Context, frontendType int32) (int32, error)
 	ShareFrontend(ctx context.Context, selfClientId int32, targetClientId int32) error
 	TransferOwner(ctx context.Context, resourceType int32, currentOwnerId int32, newOwnerId int32) (bool, error)
-	RequestDemux(ctx context.Context, request TunerDemuxRequest, demuxHandle []int64) (bool, error)
-	RequestDescrambler(ctx context.Context, request TunerDescramblerRequest, descramblerHandle []int64) (bool, error)
-	RequestCasSession(ctx context.Context, request CasSessionRequest, casSessionHandle []int64) (bool, error)
-	RequestCiCam(ctx context.Context, request TunerCiCamRequest, ciCamHandle []int64) (bool, error)
-	RequestLnb(ctx context.Context, request TunerLnbRequest, lnbHandle []int64) (bool, error)
-	ReleaseFrontend(ctx context.Context, frontendHandle int64, clientId int32) error
-	ReleaseDemux(ctx context.Context, demuxHandle int64, clientId int32) error
-	ReleaseDescrambler(ctx context.Context, descramblerHandle int64, clientId int32) error
-	ReleaseCasSession(ctx context.Context, casSessionHandle int64, clientId int32) error
-	ReleaseCiCam(ctx context.Context, ciCamHandle int64, clientId int32) error
-	ReleaseLnb(ctx context.Context, lnbHandle int64, clientId int32) error
+	RequestDemux(ctx context.Context, request TunerDemuxRequest, demuxHandle []int32) (bool, error)
+	RequestDescrambler(ctx context.Context, request TunerDescramblerRequest, descramblerHandle []int32) (bool, error)
+	RequestCasSession(ctx context.Context, request CasSessionRequest, casSessionHandle []int32) (bool, error)
+	RequestCiCam(ctx context.Context, request TunerCiCamRequest, ciCamHandle []int32) (bool, error)
+	RequestLnb(ctx context.Context, request TunerLnbRequest, lnbHandle []int32) (bool, error)
+	ReleaseFrontend(ctx context.Context, frontendHandle int32, clientId int32) error
+	ReleaseDemux(ctx context.Context, demuxHandle int32, clientId int32) error
+	ReleaseDescrambler(ctx context.Context, descramblerHandle int32, clientId int32) error
+	ReleaseCasSession(ctx context.Context, casSessionHandle int32, clientId int32) error
+	ReleaseCiCam(ctx context.Context, ciCamHandle int32, clientId int32) error
+	ReleaseLnb(ctx context.Context, lnbHandle int32, clientId int32) error
 	IsHigherPriority(ctx context.Context, challengerProfile ResourceClientProfile, holderProfile ResourceClientProfile) (bool, error)
 	StoreResourceMap(ctx context.Context, resourceType int32) error
 	ClearResourceMap(ctx context.Context, resourceType int32) error
@@ -87,17 +121,17 @@ type ITunerResourceManager interface {
 }
 
 type TunerResourceManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTunerResourceManagerProxy(
 	remote binder.IBinder,
 ) *TunerResourceManagerProxy {
-	return &TunerResourceManagerProxy{remote: remote}
+	return &TunerResourceManagerProxy{Remote: remote}
 }
 
 func (p *TunerResourceManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITunerResourceManager = (*TunerResourceManagerProxy)(nil)
@@ -114,14 +148,14 @@ func (p *TunerResourceManagerProxy) RegisterClientProfile(
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "registerClientProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRegisterClientProfile)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRegisterClientProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRegisterClientProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,12 +189,12 @@ func (p *TunerResourceManagerProxy) UnregisterClientProfile(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "unregisterClientProfile")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUnregisterClientProfile)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerUnregisterClientProfile
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerUnregisterClientProfile, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -186,12 +220,12 @@ func (p *TunerResourceManagerProxy) UpdateClientPriority(
 	_data.WriteInt32(priority)
 	_data.WriteInt32(niceValue)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "updateClientPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateClientPriority)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerUpdateClientPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateClientPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -217,12 +251,12 @@ func (p *TunerResourceManagerProxy) HasUnusedFrontend(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(frontendType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "hasUnusedFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerHasUnusedFrontend)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerHasUnusedFrontend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerHasUnusedFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,12 +284,12 @@ func (p *TunerResourceManagerProxy) IsLowestPriority(
 	_data.WriteInt32(clientId)
 	_data.WriteInt32(frontendType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "isLowestPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerIsLowestPriority)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerIsLowestPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerIsLowestPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -283,18 +317,19 @@ func (p *TunerResourceManagerProxy) SetFrontendInfoList(
 	} else {
 		_data.WriteInt32(int32(len(infos)))
 		for _, _item := range infos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "setFrontendInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetFrontendInfoList)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerSetFrontendInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerSetFrontendInfoList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -317,12 +352,12 @@ func (p *TunerResourceManagerProxy) UpdateCasInfo(
 	_data.WriteInt32(casSystemId)
 	_data.WriteInt32(maxSessionNum)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "updateCasInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateCasInfo)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerUpdateCasInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerUpdateCasInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -346,18 +381,19 @@ func (p *TunerResourceManagerProxy) SetDemuxInfoList(
 	} else {
 		_data.WriteInt32(int32(len(infos)))
 		for _, _item := range infos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "setDemuxInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetDemuxInfoList)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerSetDemuxInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerSetDemuxInfoList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -372,7 +408,7 @@ func (p *TunerResourceManagerProxy) SetDemuxInfoList(
 
 func (p *TunerResourceManagerProxy) SetLnbInfoList(
 	ctx context.Context,
-	lnbIds []int64,
+	lnbIds []int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
@@ -381,44 +417,16 @@ func (p *TunerResourceManagerProxy) SetLnbInfoList(
 	} else {
 		_data.WriteInt32(int32(len(lnbIds)))
 		for _, _item := range lnbIds {
-			_data.WriteInt64(_item)
+			_data.WriteInt32(_item)
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "setLnbInfoList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetLnbInfoList)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerSetLnbInfoList
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerSetLnbInfoList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *TunerResourceManagerProxy) SetResourceOwnershipRetention(
-	ctx context.Context,
-	clientId int32,
-	enabled bool,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt32(clientId)
-	_data.WriteBool(enabled)
-
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "setResourceOwnershipRetention")
-	if _err != nil {
-		_code = TransactionITunerResourceManagerSetResourceOwnershipRetention
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -434,7 +442,7 @@ func (p *TunerResourceManagerProxy) SetResourceOwnershipRetention(
 func (p *TunerResourceManagerProxy) RequestFrontend(
 	ctx context.Context,
 	request TunerFrontendRequest,
-	frontendHandle []int64,
+	frontendHandle []int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -444,12 +452,12 @@ func (p *TunerResourceManagerProxy) RequestFrontend(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "requestFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestFrontend)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRequestFrontend
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRequestFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -463,9 +471,9 @@ func (p *TunerResourceManagerProxy) RequestFrontend(
 		return _result, _err
 	}
 	if _outCount0 >= 0 {
-		frontendHandle = make([]int64, _outCount0)
+		frontendHandle = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
-			frontendHandle[_i], _err = _reply.ReadInt64()
+			frontendHandle[_i], _err = _reply.ReadInt32()
 			if _err != nil {
 				return _result, _err
 			}
@@ -490,12 +498,12 @@ func (p *TunerResourceManagerProxy) SetMaxNumberOfFrontends(
 	_data.WriteInt32(frontendType)
 	_data.WriteInt32(maxNum)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "setMaxNumberOfFrontends")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerSetMaxNumberOfFrontends)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerSetMaxNumberOfFrontends
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerSetMaxNumberOfFrontends, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -521,12 +529,12 @@ func (p *TunerResourceManagerProxy) GetMaxNumberOfFrontends(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(frontendType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "getMaxNumberOfFrontends")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetMaxNumberOfFrontends)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerGetMaxNumberOfFrontends
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerGetMaxNumberOfFrontends, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -553,12 +561,12 @@ func (p *TunerResourceManagerProxy) ShareFrontend(
 	_data.WriteInt32(selfClientId)
 	_data.WriteInt32(targetClientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "shareFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerShareFrontend)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerShareFrontend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerShareFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -584,12 +592,12 @@ func (p *TunerResourceManagerProxy) TransferOwner(
 	_data.WriteInt32(currentOwnerId)
 	_data.WriteInt32(newOwnerId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "transferOwner")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerTransferOwner)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerTransferOwner
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerTransferOwner, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -609,7 +617,7 @@ func (p *TunerResourceManagerProxy) TransferOwner(
 func (p *TunerResourceManagerProxy) RequestDemux(
 	ctx context.Context,
 	request TunerDemuxRequest,
-	demuxHandle []int64,
+	demuxHandle []int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -619,12 +627,12 @@ func (p *TunerResourceManagerProxy) RequestDemux(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "requestDemux")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDemux)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRequestDemux
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDemux, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -638,9 +646,9 @@ func (p *TunerResourceManagerProxy) RequestDemux(
 		return _result, _err
 	}
 	if _outCount0 >= 0 {
-		demuxHandle = make([]int64, _outCount0)
+		demuxHandle = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
-			demuxHandle[_i], _err = _reply.ReadInt64()
+			demuxHandle[_i], _err = _reply.ReadInt32()
 			if _err != nil {
 				return _result, _err
 			}
@@ -657,7 +665,7 @@ func (p *TunerResourceManagerProxy) RequestDemux(
 func (p *TunerResourceManagerProxy) RequestDescrambler(
 	ctx context.Context,
 	request TunerDescramblerRequest,
-	descramblerHandle []int64,
+	descramblerHandle []int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -667,12 +675,12 @@ func (p *TunerResourceManagerProxy) RequestDescrambler(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "requestDescrambler")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDescrambler)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRequestDescrambler
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRequestDescrambler, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -686,9 +694,9 @@ func (p *TunerResourceManagerProxy) RequestDescrambler(
 		return _result, _err
 	}
 	if _outCount0 >= 0 {
-		descramblerHandle = make([]int64, _outCount0)
+		descramblerHandle = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
-			descramblerHandle[_i], _err = _reply.ReadInt64()
+			descramblerHandle[_i], _err = _reply.ReadInt32()
 			if _err != nil {
 				return _result, _err
 			}
@@ -705,7 +713,7 @@ func (p *TunerResourceManagerProxy) RequestDescrambler(
 func (p *TunerResourceManagerProxy) RequestCasSession(
 	ctx context.Context,
 	request CasSessionRequest,
-	casSessionHandle []int64,
+	casSessionHandle []int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -715,12 +723,12 @@ func (p *TunerResourceManagerProxy) RequestCasSession(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "requestCasSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCasSession)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRequestCasSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCasSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -734,9 +742,9 @@ func (p *TunerResourceManagerProxy) RequestCasSession(
 		return _result, _err
 	}
 	if _outCount0 >= 0 {
-		casSessionHandle = make([]int64, _outCount0)
+		casSessionHandle = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
-			casSessionHandle[_i], _err = _reply.ReadInt64()
+			casSessionHandle[_i], _err = _reply.ReadInt32()
 			if _err != nil {
 				return _result, _err
 			}
@@ -753,7 +761,7 @@ func (p *TunerResourceManagerProxy) RequestCasSession(
 func (p *TunerResourceManagerProxy) RequestCiCam(
 	ctx context.Context,
 	request TunerCiCamRequest,
-	ciCamHandle []int64,
+	ciCamHandle []int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -763,12 +771,12 @@ func (p *TunerResourceManagerProxy) RequestCiCam(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "requestCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCiCam)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRequestCiCam
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRequestCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -782,9 +790,9 @@ func (p *TunerResourceManagerProxy) RequestCiCam(
 		return _result, _err
 	}
 	if _outCount0 >= 0 {
-		ciCamHandle = make([]int64, _outCount0)
+		ciCamHandle = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
-			ciCamHandle[_i], _err = _reply.ReadInt64()
+			ciCamHandle[_i], _err = _reply.ReadInt32()
 			if _err != nil {
 				return _result, _err
 			}
@@ -801,7 +809,7 @@ func (p *TunerResourceManagerProxy) RequestCiCam(
 func (p *TunerResourceManagerProxy) RequestLnb(
 	ctx context.Context,
 	request TunerLnbRequest,
-	lnbHandle []int64,
+	lnbHandle []int32,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -811,12 +819,12 @@ func (p *TunerResourceManagerProxy) RequestLnb(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "requestLnb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRequestLnb)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRequestLnb
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRequestLnb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -830,9 +838,9 @@ func (p *TunerResourceManagerProxy) RequestLnb(
 		return _result, _err
 	}
 	if _outCount0 >= 0 {
-		lnbHandle = make([]int64, _outCount0)
+		lnbHandle = make([]int32, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
-			lnbHandle[_i], _err = _reply.ReadInt64()
+			lnbHandle[_i], _err = _reply.ReadInt32()
 			if _err != nil {
 				return _result, _err
 			}
@@ -848,20 +856,20 @@ func (p *TunerResourceManagerProxy) RequestLnb(
 
 func (p *TunerResourceManagerProxy) ReleaseFrontend(
 	ctx context.Context,
-	frontendHandle int64,
+	frontendHandle int32,
 	clientId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt64(frontendHandle)
+	_data.WriteInt32(frontendHandle)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseFrontend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseFrontend)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseFrontend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseFrontend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -876,20 +884,20 @@ func (p *TunerResourceManagerProxy) ReleaseFrontend(
 
 func (p *TunerResourceManagerProxy) ReleaseDemux(
 	ctx context.Context,
-	demuxHandle int64,
+	demuxHandle int32,
 	clientId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt64(demuxHandle)
+	_data.WriteInt32(demuxHandle)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseDemux")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDemux)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseDemux
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDemux, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -904,20 +912,20 @@ func (p *TunerResourceManagerProxy) ReleaseDemux(
 
 func (p *TunerResourceManagerProxy) ReleaseDescrambler(
 	ctx context.Context,
-	descramblerHandle int64,
+	descramblerHandle int32,
 	clientId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt64(descramblerHandle)
+	_data.WriteInt32(descramblerHandle)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseDescrambler")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDescrambler)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseDescrambler
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseDescrambler, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -932,20 +940,20 @@ func (p *TunerResourceManagerProxy) ReleaseDescrambler(
 
 func (p *TunerResourceManagerProxy) ReleaseCasSession(
 	ctx context.Context,
-	casSessionHandle int64,
+	casSessionHandle int32,
 	clientId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt64(casSessionHandle)
+	_data.WriteInt32(casSessionHandle)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseCasSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCasSession)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseCasSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCasSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -960,20 +968,20 @@ func (p *TunerResourceManagerProxy) ReleaseCasSession(
 
 func (p *TunerResourceManagerProxy) ReleaseCiCam(
 	ctx context.Context,
-	ciCamHandle int64,
+	ciCamHandle int32,
 	clientId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt64(ciCamHandle)
+	_data.WriteInt32(ciCamHandle)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseCiCam")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCiCam)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseCiCam
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseCiCam, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -988,20 +996,20 @@ func (p *TunerResourceManagerProxy) ReleaseCiCam(
 
 func (p *TunerResourceManagerProxy) ReleaseLnb(
 	ctx context.Context,
-	lnbHandle int64,
+	lnbHandle int32,
 	clientId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
-	_data.WriteInt64(lnbHandle)
+	_data.WriteInt32(lnbHandle)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseLnb")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLnb)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseLnb
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLnb, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1031,12 +1039,12 @@ func (p *TunerResourceManagerProxy) IsHigherPriority(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "isHigherPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerIsHigherPriority)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerIsHigherPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerIsHigherPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1061,12 +1069,12 @@ func (p *TunerResourceManagerProxy) StoreResourceMap(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(resourceType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "storeResourceMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerStoreResourceMap)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerStoreResourceMap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerStoreResourceMap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1087,12 +1095,12 @@ func (p *TunerResourceManagerProxy) ClearResourceMap(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(resourceType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "clearResourceMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerClearResourceMap)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerClearResourceMap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerClearResourceMap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1113,12 +1121,12 @@ func (p *TunerResourceManagerProxy) RestoreResourceMap(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(resourceType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "restoreResourceMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerRestoreResourceMap)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerRestoreResourceMap
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerRestoreResourceMap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1142,12 +1150,12 @@ func (p *TunerResourceManagerProxy) AcquireLock(
 	_data.WriteInt32(clientId)
 	_data.WriteInt64(clientThreadId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "acquireLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerAcquireLock)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerAcquireLock
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerAcquireLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1173,12 +1181,12 @@ func (p *TunerResourceManagerProxy) ReleaseLock(
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
 	_data.WriteInt32(clientId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "releaseLock")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLock)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerReleaseLock
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerReleaseLock, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1206,12 +1214,12 @@ func (p *TunerResourceManagerProxy) GetClientPriority(
 	_data.WriteInt32(useCase)
 	_data.WriteInt32(pid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "getClientPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetClientPriority)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerGetClientPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerGetClientPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1239,12 +1247,12 @@ func (p *TunerResourceManagerProxy) GetConfigPriority(
 	_data.WriteInt32(useCase)
 	_data.WriteBool(isForeground)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITunerResourceManager, "getConfigPriority")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITunerResourceManager, MethodITunerResourceManagerGetConfigPriority)
 	if _err != nil {
-		_code = TransactionITunerResourceManagerGetConfigPriority
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITunerResourceManager, MethodITunerResourceManagerGetConfigPriority, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1268,6 +1276,10 @@ type TunerResourceManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TunerResourceManagerStub)(nil)
+
+func (s *TunerResourceManagerStub) Descriptor() string {
+	return DescriptorITunerResourceManager
+}
 
 func (s *TunerResourceManagerStub) OnTransaction(
 	ctx context.Context,
@@ -1437,29 +1449,9 @@ func (s *TunerResourceManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_lnbIds []int64
+		var _arg_lnbIds []int32
 		_ = _arg_lnbIds
 		_err := s.Impl.SetLnbInfoList(ctx, _arg_lnbIds)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionITunerResourceManagerSetResourceOwnershipRetention:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_clientId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_enabled, _err := _data.ReadBool()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.SetResourceOwnershipRetention(ctx, _arg_clientId, _arg_enabled)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1483,7 +1475,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_frontendHandle []int64
+		var _arg_frontendHandle []int32
 		_result, _err := s.Impl.RequestFrontend(ctx, _arg_request, _arg_frontendHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1592,7 +1584,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_demuxHandle []int64
+		var _arg_demuxHandle []int32
 		_result, _err := s.Impl.RequestDemux(ctx, _arg_request, _arg_demuxHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1618,7 +1610,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_descramblerHandle []int64
+		var _arg_descramblerHandle []int32
 		_result, _err := s.Impl.RequestDescrambler(ctx, _arg_request, _arg_descramblerHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1644,7 +1636,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_casSessionHandle []int64
+		var _arg_casSessionHandle []int32
 		_result, _err := s.Impl.RequestCasSession(ctx, _arg_request, _arg_casSessionHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1670,7 +1662,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_ciCamHandle []int64
+		var _arg_ciCamHandle []int32
 		_result, _err := s.Impl.RequestCiCam(ctx, _arg_request, _arg_ciCamHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1696,7 +1688,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_lnbHandle []int64
+		var _arg_lnbHandle []int32
 		_result, _err := s.Impl.RequestLnb(ctx, _arg_request, _arg_lnbHandle)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1710,7 +1702,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendHandle, _err := _data.ReadInt64()
+		_arg_frontendHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1730,7 +1722,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxHandle, _err := _data.ReadInt64()
+		_arg_demuxHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1750,7 +1742,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_descramblerHandle, _err := _data.ReadInt64()
+		_arg_descramblerHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1770,7 +1762,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_casSessionHandle, _err := _data.ReadInt64()
+		_arg_casSessionHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1790,7 +1782,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ciCamHandle, _err := _data.ReadInt64()
+		_arg_ciCamHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1810,7 +1802,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lnbHandle, _err := _data.ReadInt64()
+		_arg_lnbHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2008,24 +2000,23 @@ type ITunerResourceManagerServer interface {
 	SetFrontendInfoList(ctx context.Context, infos []TunerFrontendInfo) error
 	UpdateCasInfo(ctx context.Context, casSystemId int32, maxSessionNum int32) error
 	SetDemuxInfoList(ctx context.Context, infos []TunerDemuxInfo) error
-	SetLnbInfoList(ctx context.Context, lnbIds []int64) error
-	SetResourceOwnershipRetention(ctx context.Context, clientId int32, enabled bool) error
-	RequestFrontend(ctx context.Context, request TunerFrontendRequest, frontendHandle []int64) (bool, error)
+	SetLnbInfoList(ctx context.Context, lnbIds []int32) error
+	RequestFrontend(ctx context.Context, request TunerFrontendRequest, frontendHandle []int32) (bool, error)
 	SetMaxNumberOfFrontends(ctx context.Context, frontendType int32, maxNum int32) (bool, error)
 	GetMaxNumberOfFrontends(ctx context.Context, frontendType int32) (int32, error)
 	ShareFrontend(ctx context.Context, selfClientId int32, targetClientId int32) error
 	TransferOwner(ctx context.Context, resourceType int32, currentOwnerId int32, newOwnerId int32) (bool, error)
-	RequestDemux(ctx context.Context, request TunerDemuxRequest, demuxHandle []int64) (bool, error)
-	RequestDescrambler(ctx context.Context, request TunerDescramblerRequest, descramblerHandle []int64) (bool, error)
-	RequestCasSession(ctx context.Context, request CasSessionRequest, casSessionHandle []int64) (bool, error)
-	RequestCiCam(ctx context.Context, request TunerCiCamRequest, ciCamHandle []int64) (bool, error)
-	RequestLnb(ctx context.Context, request TunerLnbRequest, lnbHandle []int64) (bool, error)
-	ReleaseFrontend(ctx context.Context, frontendHandle int64, clientId int32) error
-	ReleaseDemux(ctx context.Context, demuxHandle int64, clientId int32) error
-	ReleaseDescrambler(ctx context.Context, descramblerHandle int64, clientId int32) error
-	ReleaseCasSession(ctx context.Context, casSessionHandle int64, clientId int32) error
-	ReleaseCiCam(ctx context.Context, ciCamHandle int64, clientId int32) error
-	ReleaseLnb(ctx context.Context, lnbHandle int64, clientId int32) error
+	RequestDemux(ctx context.Context, request TunerDemuxRequest, demuxHandle []int32) (bool, error)
+	RequestDescrambler(ctx context.Context, request TunerDescramblerRequest, descramblerHandle []int32) (bool, error)
+	RequestCasSession(ctx context.Context, request CasSessionRequest, casSessionHandle []int32) (bool, error)
+	RequestCiCam(ctx context.Context, request TunerCiCamRequest, ciCamHandle []int32) (bool, error)
+	RequestLnb(ctx context.Context, request TunerLnbRequest, lnbHandle []int32) (bool, error)
+	ReleaseFrontend(ctx context.Context, frontendHandle int32, clientId int32) error
+	ReleaseDemux(ctx context.Context, demuxHandle int32, clientId int32) error
+	ReleaseDescrambler(ctx context.Context, descramblerHandle int32, clientId int32) error
+	ReleaseCasSession(ctx context.Context, casSessionHandle int32, clientId int32) error
+	ReleaseCiCam(ctx context.Context, ciCamHandle int32, clientId int32) error
+	ReleaseLnb(ctx context.Context, lnbHandle int32, clientId int32) error
 	IsHigherPriority(ctx context.Context, challengerProfile ResourceClientProfile, holderProfile ResourceClientProfile) (bool, error)
 	StoreResourceMap(ctx context.Context, resourceType int32) error
 	ClearResourceMap(ctx context.Context, resourceType int32) error
@@ -2109,23 +2100,15 @@ func (w *tunerResourceManagerStubWrapper) SetDemuxInfoList(
 
 func (w *tunerResourceManagerStubWrapper) SetLnbInfoList(
 	ctx context.Context,
-	lnbIds []int64,
+	lnbIds []int32,
 ) error {
 	return w.impl.SetLnbInfoList(ctx, lnbIds)
-}
-
-func (w *tunerResourceManagerStubWrapper) SetResourceOwnershipRetention(
-	ctx context.Context,
-	clientId int32,
-	enabled bool,
-) error {
-	return w.impl.SetResourceOwnershipRetention(ctx, clientId, enabled)
 }
 
 func (w *tunerResourceManagerStubWrapper) RequestFrontend(
 	ctx context.Context,
 	request TunerFrontendRequest,
-	frontendHandle []int64,
+	frontendHandle []int32,
 ) (bool, error) {
 	return w.impl.RequestFrontend(ctx, request, frontendHandle)
 }
@@ -2165,7 +2148,7 @@ func (w *tunerResourceManagerStubWrapper) TransferOwner(
 func (w *tunerResourceManagerStubWrapper) RequestDemux(
 	ctx context.Context,
 	request TunerDemuxRequest,
-	demuxHandle []int64,
+	demuxHandle []int32,
 ) (bool, error) {
 	return w.impl.RequestDemux(ctx, request, demuxHandle)
 }
@@ -2173,7 +2156,7 @@ func (w *tunerResourceManagerStubWrapper) RequestDemux(
 func (w *tunerResourceManagerStubWrapper) RequestDescrambler(
 	ctx context.Context,
 	request TunerDescramblerRequest,
-	descramblerHandle []int64,
+	descramblerHandle []int32,
 ) (bool, error) {
 	return w.impl.RequestDescrambler(ctx, request, descramblerHandle)
 }
@@ -2181,7 +2164,7 @@ func (w *tunerResourceManagerStubWrapper) RequestDescrambler(
 func (w *tunerResourceManagerStubWrapper) RequestCasSession(
 	ctx context.Context,
 	request CasSessionRequest,
-	casSessionHandle []int64,
+	casSessionHandle []int32,
 ) (bool, error) {
 	return w.impl.RequestCasSession(ctx, request, casSessionHandle)
 }
@@ -2189,7 +2172,7 @@ func (w *tunerResourceManagerStubWrapper) RequestCasSession(
 func (w *tunerResourceManagerStubWrapper) RequestCiCam(
 	ctx context.Context,
 	request TunerCiCamRequest,
-	ciCamHandle []int64,
+	ciCamHandle []int32,
 ) (bool, error) {
 	return w.impl.RequestCiCam(ctx, request, ciCamHandle)
 }
@@ -2197,14 +2180,14 @@ func (w *tunerResourceManagerStubWrapper) RequestCiCam(
 func (w *tunerResourceManagerStubWrapper) RequestLnb(
 	ctx context.Context,
 	request TunerLnbRequest,
-	lnbHandle []int64,
+	lnbHandle []int32,
 ) (bool, error) {
 	return w.impl.RequestLnb(ctx, request, lnbHandle)
 }
 
 func (w *tunerResourceManagerStubWrapper) ReleaseFrontend(
 	ctx context.Context,
-	frontendHandle int64,
+	frontendHandle int32,
 	clientId int32,
 ) error {
 	return w.impl.ReleaseFrontend(ctx, frontendHandle, clientId)
@@ -2212,7 +2195,7 @@ func (w *tunerResourceManagerStubWrapper) ReleaseFrontend(
 
 func (w *tunerResourceManagerStubWrapper) ReleaseDemux(
 	ctx context.Context,
-	demuxHandle int64,
+	demuxHandle int32,
 	clientId int32,
 ) error {
 	return w.impl.ReleaseDemux(ctx, demuxHandle, clientId)
@@ -2220,7 +2203,7 @@ func (w *tunerResourceManagerStubWrapper) ReleaseDemux(
 
 func (w *tunerResourceManagerStubWrapper) ReleaseDescrambler(
 	ctx context.Context,
-	descramblerHandle int64,
+	descramblerHandle int32,
 	clientId int32,
 ) error {
 	return w.impl.ReleaseDescrambler(ctx, descramblerHandle, clientId)
@@ -2228,7 +2211,7 @@ func (w *tunerResourceManagerStubWrapper) ReleaseDescrambler(
 
 func (w *tunerResourceManagerStubWrapper) ReleaseCasSession(
 	ctx context.Context,
-	casSessionHandle int64,
+	casSessionHandle int32,
 	clientId int32,
 ) error {
 	return w.impl.ReleaseCasSession(ctx, casSessionHandle, clientId)
@@ -2236,7 +2219,7 @@ func (w *tunerResourceManagerStubWrapper) ReleaseCasSession(
 
 func (w *tunerResourceManagerStubWrapper) ReleaseCiCam(
 	ctx context.Context,
-	ciCamHandle int64,
+	ciCamHandle int32,
 	clientId int32,
 ) error {
 	return w.impl.ReleaseCiCam(ctx, ciCamHandle, clientId)
@@ -2244,7 +2227,7 @@ func (w *tunerResourceManagerStubWrapper) ReleaseCiCam(
 
 func (w *tunerResourceManagerStubWrapper) ReleaseLnb(
 	ctx context.Context,
-	lnbHandle int64,
+	lnbHandle int32,
 	clientId int32,
 ) error {
 	return w.impl.ReleaseLnb(ctx, lnbHandle, clientId)

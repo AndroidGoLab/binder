@@ -14,17 +14,23 @@ import (
 const DescriptorIAppWidgetHost = "com.android.internal.appwidget.IAppWidgetHost"
 
 const (
-	TransactionIAppWidgetHostUpdateAppWidgetDeferred = binder.FirstCallTransaction + 0
-	TransactionIAppWidgetHostUpdateAppWidget         = binder.FirstCallTransaction + 1
-	TransactionIAppWidgetHostProviderChanged         = binder.FirstCallTransaction + 2
-	TransactionIAppWidgetHostProvidersChanged        = binder.FirstCallTransaction + 3
-	TransactionIAppWidgetHostViewDataChanged         = binder.FirstCallTransaction + 4
-	TransactionIAppWidgetHostAppWidgetRemoved        = binder.FirstCallTransaction + 5
+	TransactionIAppWidgetHostUpdateAppWidget  = binder.FirstCallTransaction + 0
+	TransactionIAppWidgetHostProviderChanged  = binder.FirstCallTransaction + 1
+	TransactionIAppWidgetHostProvidersChanged = binder.FirstCallTransaction + 2
+	TransactionIAppWidgetHostViewDataChanged  = binder.FirstCallTransaction + 3
+	TransactionIAppWidgetHostAppWidgetRemoved = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodIAppWidgetHostUpdateAppWidget  = "updateAppWidget"
+	MethodIAppWidgetHostProviderChanged  = "providerChanged"
+	MethodIAppWidgetHostProvidersChanged = "providersChanged"
+	MethodIAppWidgetHostViewDataChanged  = "viewDataChanged"
+	MethodIAppWidgetHostAppWidgetRemoved = "appWidgetRemoved"
 )
 
 type IAppWidgetHost interface {
 	AsBinder() binder.IBinder
-	UpdateAppWidgetDeferred(ctx context.Context, appWidgetId int32) error
 	UpdateAppWidget(ctx context.Context, appWidgetId int32, views widget.RemoteViews) error
 	ProviderChanged(ctx context.Context, appWidgetId int32, info androidAppwidget.AppWidgetProviderInfo) error
 	ProvidersChanged(ctx context.Context) error
@@ -33,37 +39,20 @@ type IAppWidgetHost interface {
 }
 
 type AppWidgetHostProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAppWidgetHostProxy(
 	remote binder.IBinder,
 ) *AppWidgetHostProxy {
-	return &AppWidgetHostProxy{remote: remote}
+	return &AppWidgetHostProxy{Remote: remote}
 }
 
 func (p *AppWidgetHostProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAppWidgetHost = (*AppWidgetHostProxy)(nil)
-
-func (p *AppWidgetHostProxy) UpdateAppWidgetDeferred(
-	ctx context.Context,
-	appWidgetId int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
-	_data.WriteInt32(appWidgetId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "updateAppWidgetDeferred")
-	if _err != nil {
-		_code = TransactionIAppWidgetHostUpdateAppWidgetDeferred
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
 
 func (p *AppWidgetHostProxy) UpdateAppWidget(
 	ctx context.Context,
@@ -78,12 +67,12 @@ func (p *AppWidgetHostProxy) UpdateAppWidget(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "updateAppWidget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostUpdateAppWidget)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostUpdateAppWidget
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHost, MethodIAppWidgetHostUpdateAppWidget, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,12 +89,12 @@ func (p *AppWidgetHostProxy) ProviderChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "providerChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostProviderChanged)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostProviderChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHost, MethodIAppWidgetHostProviderChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +104,12 @@ func (p *AppWidgetHostProxy) ProvidersChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "providersChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostProvidersChanged)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostProvidersChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHost, MethodIAppWidgetHostProvidersChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,12 +123,12 @@ func (p *AppWidgetHostProxy) ViewDataChanged(
 	_data.WriteInt32(appWidgetId)
 	_data.WriteInt32(viewId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "viewDataChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostViewDataChanged)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostViewDataChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHost, MethodIAppWidgetHostViewDataChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,12 +140,12 @@ func (p *AppWidgetHostProxy) AppWidgetRemoved(
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "appWidgetRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAppWidgetHost, MethodIAppWidgetHostAppWidgetRemoved)
 	if _err != nil {
-		_code = TransactionIAppWidgetHostAppWidgetRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAppWidgetHost, MethodIAppWidgetHostAppWidgetRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,23 +157,16 @@ type AppWidgetHostStub struct {
 
 var _ binder.TransactionReceiver = (*AppWidgetHostStub)(nil)
 
+func (s *AppWidgetHostStub) Descriptor() string {
+	return DescriptorIAppWidgetHost
+}
+
 func (s *AppWidgetHostStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
-	case TransactionIAppWidgetHostUpdateAppWidgetDeferred:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_appWidgetId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.UpdateAppWidgetDeferred(ctx, _arg_appWidgetId)
-		_ = _err
-		return nil, nil
 	case TransactionIAppWidgetHostUpdateAppWidget:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -273,7 +255,6 @@ func (s *AppWidgetHostStub) OnTransaction(
 // provide to NewAppWidgetHostStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAppWidgetHostServer interface {
-	UpdateAppWidgetDeferred(ctx context.Context, appWidgetId int32) error
 	UpdateAppWidget(ctx context.Context, appWidgetId int32, views widget.RemoteViews) error
 	ProviderChanged(ctx context.Context, appWidgetId int32, info androidAppwidget.AppWidgetProviderInfo) error
 	ProvidersChanged(ctx context.Context) error
@@ -288,13 +269,6 @@ type appWidgetHostStubWrapper struct {
 
 func (w *appWidgetHostStubWrapper) AsBinder() binder.IBinder {
 	return w.stubBinder
-}
-
-func (w *appWidgetHostStubWrapper) UpdateAppWidgetDeferred(
-	ctx context.Context,
-	appWidgetId int32,
-) error {
-	return w.impl.UpdateAppWidgetDeferred(ctx, appWidgetId)
 }
 
 func (w *appWidgetHostStubWrapper) UpdateAppWidget(

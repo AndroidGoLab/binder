@@ -11,6 +11,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
+	"github.com/xaionaro-go/binder/tools/pkg/codegen"
 	"github.com/xaionaro-go/binder/tools/pkg/servicemap"
 )
 
@@ -152,7 +153,7 @@ func parseNameTransform(directive string) (nameTransformFunc, error) {
 		suffix := strings.TrimPrefix(directive, "strip_suffix:")
 		return makeStripSuffixTransform(suffix), nil
 	case directive == "":
-		return screamingSnakeToPascal, nil
+		return codegen.ScreamingSnakeToPascal, nil
 	default:
 		return nil, fmt.Errorf("unknown name_transform directive: %s", directive)
 	}
@@ -167,25 +168,10 @@ func parseNameTransform(directive string) (nameTransformFunc, error) {
 //	GPS_HARDWARE_PROVIDER -> GpsHardware + Provider -> GpsHardwareProvider
 func makeStripSuffixTransform(suffix string) nameTransformFunc {
 	suffixWithUnderscore := "_" + suffix
-	pascalSuffix := screamingSnakeToPascal(suffix)
+	pascalSuffix := codegen.ScreamingSnakeToPascal(suffix)
 
 	return func(javaName string) string {
 		stripped := strings.TrimSuffix(javaName, suffixWithUnderscore)
-		return screamingSnakeToPascal(stripped) + pascalSuffix
+		return codegen.ScreamingSnakeToPascal(stripped) + pascalSuffix
 	}
-}
-
-// screamingSnakeToPascal converts a SCREAMING_SNAKE_CASE identifier to PascalCase.
-// For example, "GPS_HARDWARE" becomes "GpsHardware".
-func screamingSnakeToPascal(s string) string {
-	parts := strings.Split(s, "_")
-	var buf strings.Builder
-	for _, part := range parts {
-		if part == "" {
-			continue
-		}
-		buf.WriteString(strings.ToUpper(part[:1]))
-		buf.WriteString(strings.ToLower(part[1:]))
-	}
-	return buf.String()
 }

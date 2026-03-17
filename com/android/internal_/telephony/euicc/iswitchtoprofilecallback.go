@@ -16,23 +16,27 @@ const (
 	TransactionISwitchToProfileCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISwitchToProfileCallbackOnComplete = "onComplete"
+)
+
 type ISwitchToProfileCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, profile serviceEuicc.EuiccProfileInfo) error
 }
 
 type SwitchToProfileCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSwitchToProfileCallbackProxy(
 	remote binder.IBinder,
 ) *SwitchToProfileCallbackProxy {
-	return &SwitchToProfileCallbackProxy{remote: remote}
+	return &SwitchToProfileCallbackProxy{Remote: remote}
 }
 
 func (p *SwitchToProfileCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISwitchToProfileCallback = (*SwitchToProfileCallbackProxy)(nil)
@@ -50,12 +54,12 @@ func (p *SwitchToProfileCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISwitchToProfileCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISwitchToProfileCallback, MethodISwitchToProfileCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionISwitchToProfileCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISwitchToProfileCallback, MethodISwitchToProfileCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type SwitchToProfileCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SwitchToProfileCallbackStub)(nil)
+
+func (s *SwitchToProfileCallbackStub) Descriptor() string {
+	return DescriptorISwitchToProfileCallback
+}
 
 func (s *SwitchToProfileCallbackStub) OnTransaction(
 	ctx context.Context,

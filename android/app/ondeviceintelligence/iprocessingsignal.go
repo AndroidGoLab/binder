@@ -15,23 +15,27 @@ const (
 	TransactionIProcessingSignalSendSignal = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIProcessingSignalSendSignal = "sendSignal"
+)
+
 type IProcessingSignal interface {
 	AsBinder() binder.IBinder
 	SendSignal(ctx context.Context, actionParams interface{}) error
 }
 
 type ProcessingSignalProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewProcessingSignalProxy(
 	remote binder.IBinder,
 ) *ProcessingSignalProxy {
-	return &ProcessingSignalProxy{remote: remote}
+	return &ProcessingSignalProxy{Remote: remote}
 }
 
 func (p *ProcessingSignalProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IProcessingSignal = (*ProcessingSignalProxy)(nil)
@@ -43,12 +47,12 @@ func (p *ProcessingSignalProxy) SendSignal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessingSignal)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIProcessingSignal, "sendSignal")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIProcessingSignal, MethodIProcessingSignalSendSignal)
 	if _err != nil {
-		_code = TransactionIProcessingSignalSendSignal
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIProcessingSignal, MethodIProcessingSignalSendSignal, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +63,10 @@ type ProcessingSignalStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ProcessingSignalStub)(nil)
+
+func (s *ProcessingSignalStub) Descriptor() string {
+	return DescriptorIProcessingSignal
+}
 
 func (s *ProcessingSignalStub) OnTransaction(
 	ctx context.Context,

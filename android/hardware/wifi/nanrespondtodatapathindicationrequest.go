@@ -28,22 +28,8 @@ func (s *NanRespondToDataPathIndicationRequest) MarshalParcel(
 	if _err := s.SecurityConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.AppInfo == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.AppInfo)))
-		for _, _item := range s.AppInfo {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ServiceNameOutOfBand == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ServiceNameOutOfBand)))
-		for _, _item := range s.ServiceNameOutOfBand {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.AppInfo)
+	p.WriteByteArray(s.ServiceNameOutOfBand)
 	p.WritePaddedByte(s.DiscoverySessionId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -77,34 +63,14 @@ func (s *NanRespondToDataPathIndicationRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.AppInfo, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.AppInfo = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.AppInfo[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.ServiceNameOutOfBand, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.ServiceNameOutOfBand = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.ServiceNameOutOfBand[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.DiscoverySessionId, _err = p.ReadPaddedByte()

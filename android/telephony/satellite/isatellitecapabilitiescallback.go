@@ -15,23 +15,27 @@ const (
 	TransactionISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged = "onSatelliteCapabilitiesChanged"
+)
+
 type ISatelliteCapabilitiesCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteCapabilitiesChanged(ctx context.Context, capabilities SatelliteCapabilities) error
 }
 
 type SatelliteCapabilitiesCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteCapabilitiesCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteCapabilitiesCallbackProxy {
-	return &SatelliteCapabilitiesCallbackProxy{remote: remote}
+	return &SatelliteCapabilitiesCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteCapabilitiesCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteCapabilitiesCallback = (*SatelliteCapabilitiesCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *SatelliteCapabilitiesCallbackProxy) OnSatelliteCapabilitiesChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCapabilitiesCallback, "onSatelliteCapabilitiesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteCapabilitiesCallback, MethodISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged)
 	if _err != nil {
-		_code = TransactionISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteCapabilitiesCallback, MethodISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type SatelliteCapabilitiesCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteCapabilitiesCallbackStub)(nil)
+
+func (s *SatelliteCapabilitiesCallbackStub) Descriptor() string {
+	return DescriptorISatelliteCapabilitiesCallback
+}
 
 func (s *SatelliteCapabilitiesCallbackStub) OnTransaction(
 	ctx context.Context,

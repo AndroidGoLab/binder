@@ -15,23 +15,27 @@ const (
 	TransactionIBooleanConsumerAccept = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBooleanConsumerAccept = "accept"
+)
+
 type IBooleanConsumer interface {
 	AsBinder() binder.IBinder
 	Accept(ctx context.Context, result bool) error
 }
 
 type BooleanConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBooleanConsumerProxy(
 	remote binder.IBinder,
 ) *BooleanConsumerProxy {
-	return &BooleanConsumerProxy{remote: remote}
+	return &BooleanConsumerProxy{Remote: remote}
 }
 
 func (p *BooleanConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBooleanConsumer = (*BooleanConsumerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *BooleanConsumerProxy) Accept(
 	_data.WriteInterfaceToken(DescriptorIBooleanConsumer)
 	_data.WriteBool(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBooleanConsumer, "accept")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBooleanConsumer, MethodIBooleanConsumerAccept)
 	if _err != nil {
-		_code = TransactionIBooleanConsumerAccept
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBooleanConsumer, MethodIBooleanConsumerAccept, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type BooleanConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BooleanConsumerStub)(nil)
+
+func (s *BooleanConsumerStub) Descriptor() string {
+	return DescriptorIBooleanConsumer
+}
 
 func (s *BooleanConsumerStub) OnTransaction(
 	ctx context.Context,

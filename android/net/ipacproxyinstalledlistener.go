@@ -15,23 +15,27 @@ const (
 	TransactionIPacProxyInstalledListenerOnPacProxyInstalled = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPacProxyInstalledListenerOnPacProxyInstalled = "onPacProxyInstalled"
+)
+
 type IPacProxyInstalledListener interface {
 	AsBinder() binder.IBinder
 	OnPacProxyInstalled(ctx context.Context, network interface{}, proxy interface{}) error
 }
 
 type PacProxyInstalledListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPacProxyInstalledListenerProxy(
 	remote binder.IBinder,
 ) *PacProxyInstalledListenerProxy {
-	return &PacProxyInstalledListenerProxy{remote: remote}
+	return &PacProxyInstalledListenerProxy{Remote: remote}
 }
 
 func (p *PacProxyInstalledListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPacProxyInstalledListener = (*PacProxyInstalledListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPacProxyInstalledListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyInstalledListener, "onPacProxyInstalled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyInstalledListener, MethodIPacProxyInstalledListenerOnPacProxyInstalled)
 	if _err != nil {
-		_code = TransactionIPacProxyInstalledListenerOnPacProxyInstalled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPacProxyInstalledListener, MethodIPacProxyInstalledListenerOnPacProxyInstalled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type PacProxyInstalledListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PacProxyInstalledListenerStub)(nil)
+
+func (s *PacProxyInstalledListenerStub) Descriptor() string {
+	return DescriptorIPacProxyInstalledListener
+}
 
 func (s *PacProxyInstalledListenerStub) OnTransaction(
 	ctx context.Context,

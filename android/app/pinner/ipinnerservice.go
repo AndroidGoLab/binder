@@ -15,23 +15,27 @@ const (
 	TransactionIPinnerServiceGetPinnerStats = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIPinnerServiceGetPinnerStats = "getPinnerStats"
+)
+
 type IPinnerService interface {
 	AsBinder() binder.IBinder
 	GetPinnerStats(ctx context.Context) ([]PinnedFileStat, error)
 }
 
 type PinnerServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPinnerServiceProxy(
 	remote binder.IBinder,
 ) *PinnerServiceProxy {
-	return &PinnerServiceProxy{remote: remote}
+	return &PinnerServiceProxy{Remote: remote}
 }
 
 func (p *PinnerServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPinnerService = (*PinnerServiceProxy)(nil)
@@ -43,12 +47,12 @@ func (p *PinnerServiceProxy) GetPinnerStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPinnerService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPinnerService, "getPinnerStats")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPinnerService, MethodIPinnerServiceGetPinnerStats)
 	if _err != nil {
-		_code = TransactionIPinnerServiceGetPinnerStats
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPinnerService, MethodIPinnerServiceGetPinnerStats, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -66,6 +70,9 @@ func (p *PinnerServiceProxy) GetPinnerStats(
 	if _count >= 0 {
 		_result = make([]PinnedFileStat, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -81,6 +88,10 @@ type PinnerServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PinnerServiceStub)(nil)
+
+func (s *PinnerServiceStub) Descriptor() string {
+	return DescriptorIPinnerService
+}
 
 func (s *PinnerServiceStub) OnTransaction(
 	ctx context.Context,

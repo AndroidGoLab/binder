@@ -13,30 +13,49 @@ import (
 const DescriptorIBluetoothCsipSetCoordinator = "android.bluetooth.IBluetoothCsipSetCoordinator"
 
 const (
-	TransactionIBluetoothCsipSetCoordinatorGetConnectedDevices                = binder.FirstCallTransaction + 0
-	TransactionIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates = binder.FirstCallTransaction + 1
-	TransactionIBluetoothCsipSetCoordinatorGetConnectionState                 = binder.FirstCallTransaction + 2
-	TransactionIBluetoothCsipSetCoordinatorSetConnectionPolicy                = binder.FirstCallTransaction + 3
-	TransactionIBluetoothCsipSetCoordinatorGetConnectionPolicy                = binder.FirstCallTransaction + 4
-	TransactionIBluetoothCsipSetCoordinatorGetAllGroupIds                     = binder.FirstCallTransaction + 5
-	TransactionIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice            = binder.FirstCallTransaction + 6
-	TransactionIBluetoothCsipSetCoordinatorGetDesiredGroupSize                = binder.FirstCallTransaction + 7
-	TransactionIBluetoothCsipSetCoordinatorLockGroup                          = binder.FirstCallTransaction + 8
-	TransactionIBluetoothCsipSetCoordinatorUnlockGroup                        = binder.FirstCallTransaction + 9
+	TransactionIBluetoothCsipSetCoordinatorConnect                            = binder.FirstCallTransaction + 0
+	TransactionIBluetoothCsipSetCoordinatorDisconnect                         = binder.FirstCallTransaction + 1
+	TransactionIBluetoothCsipSetCoordinatorGetConnectedDevices                = binder.FirstCallTransaction + 2
+	TransactionIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates = binder.FirstCallTransaction + 3
+	TransactionIBluetoothCsipSetCoordinatorGetConnectionState                 = binder.FirstCallTransaction + 4
+	TransactionIBluetoothCsipSetCoordinatorSetConnectionPolicy                = binder.FirstCallTransaction + 5
+	TransactionIBluetoothCsipSetCoordinatorGetConnectionPolicy                = binder.FirstCallTransaction + 6
+	TransactionIBluetoothCsipSetCoordinatorGetAllGroupIds                     = binder.FirstCallTransaction + 7
+	TransactionIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice            = binder.FirstCallTransaction + 8
+	TransactionIBluetoothCsipSetCoordinatorGetDesiredGroupSize                = binder.FirstCallTransaction + 9
+	TransactionIBluetoothCsipSetCoordinatorLockGroup                          = binder.FirstCallTransaction + 10
+	TransactionIBluetoothCsipSetCoordinatorUnlockGroup                        = binder.FirstCallTransaction + 11
+)
+
+const (
+	MethodIBluetoothCsipSetCoordinatorConnect                            = "connect"
+	MethodIBluetoothCsipSetCoordinatorDisconnect                         = "disconnect"
+	MethodIBluetoothCsipSetCoordinatorGetConnectedDevices                = "getConnectedDevices"
+	MethodIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates = "getDevicesMatchingConnectionStates"
+	MethodIBluetoothCsipSetCoordinatorGetConnectionState                 = "getConnectionState"
+	MethodIBluetoothCsipSetCoordinatorSetConnectionPolicy                = "setConnectionPolicy"
+	MethodIBluetoothCsipSetCoordinatorGetConnectionPolicy                = "getConnectionPolicy"
+	MethodIBluetoothCsipSetCoordinatorGetAllGroupIds                     = "getAllGroupIds"
+	MethodIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice            = "getGroupUuidMapByDevice"
+	MethodIBluetoothCsipSetCoordinatorGetDesiredGroupSize                = "getDesiredGroupSize"
+	MethodIBluetoothCsipSetCoordinatorLockGroup                          = "lockGroup"
+	MethodIBluetoothCsipSetCoordinatorUnlockGroup                        = "unlockGroup"
 )
 
 type IBluetoothCsipSetCoordinator interface {
 	AsBinder() binder.IBinder
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetAllGroupIds(ctx context.Context, uuid interface{}, attributionSource content.AttributionSource) ([]interface{}, error)
-	GetGroupUuidMapByDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (map[interface{}]interface{}, error)
-	GetDesiredGroupSize(ctx context.Context, group_id int32, attributionSource content.AttributionSource) (int32, error)
-	LockGroup(ctx context.Context, groupId int32, callback IBluetoothCsipSetCoordinatorLockCallback, attributionSource content.AttributionSource) (interface{}, error)
-	UnlockGroup(ctx context.Context, lockUuid interface{}, attributionSource content.AttributionSource) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetAllGroupIds(ctx context.Context, uuid interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	GetGroupUuidMapByDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDesiredGroupSize(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver interface{}) error
+	LockGroup(ctx context.Context, groupId int32, callback IBluetoothCsipSetCoordinatorLockCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	UnlockGroup(ctx context.Context, lockUuid interface{}, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 const (
@@ -52,70 +71,100 @@ const (
 )
 
 type BluetoothCsipSetCoordinatorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothCsipSetCoordinatorProxy(
 	remote binder.IBinder,
 ) *BluetoothCsipSetCoordinatorProxy {
-	return &BluetoothCsipSetCoordinatorProxy{remote: remote}
+	return &BluetoothCsipSetCoordinatorProxy{Remote: remote}
 }
 
 func (p *BluetoothCsipSetCoordinatorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothCsipSetCoordinator = (*BluetoothCsipSetCoordinatorProxy)(nil)
 
+func (p *BluetoothCsipSetCoordinatorProxy) Connect(
+	ctx context.Context,
+	device BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorConnect)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorConnect, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCsipSetCoordinatorProxy) Disconnect(
+	ctx context.Context,
+	device BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorDisconnect)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorDisconnect, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
 func (p *BluetoothCsipSetCoordinatorProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getConnectedDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetConnectedDevices)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetConnectedDevices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetConnectedDevices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothCsipSetCoordinatorProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	var _result []BluetoothDevice
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
 	if states == nil {
@@ -128,77 +177,42 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetDevicesMatchingConnectionStates(
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getDevicesMatchingConnectionStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]BluetoothDevice, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothCsipSetCoordinatorProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getConnectionState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetConnectionState)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetConnectionState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetConnectionState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothCsipSetCoordinatorProxy) SetConnectionPolicy(
@@ -206,249 +220,60 @@ func (p *BluetoothCsipSetCoordinatorProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	var _result bool
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(connectionPolicy)
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "setConnectionPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorSetConnectionPolicy)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorSetConnectionPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorSetConnectionPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothCsipSetCoordinatorProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
+	receiver interface{},
+) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
+		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getConnectionPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetConnectionPolicy)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetConnectionPolicy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetConnectionPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 func (p *BluetoothCsipSetCoordinatorProxy) GetAllGroupIds(
 	ctx context.Context,
 	uuid interface{},
 	attributionSource content.AttributionSource,
-) ([]interface{}, error) {
-	var _result []interface{}
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getAllGroupIds")
-	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetAllGroupIds
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]interface{}, _count)
-		for _i := int32(0); _i < _count; _i++ {
-		}
-	}
-	return _result, nil
-}
-
-func (p *BluetoothCsipSetCoordinatorProxy) GetGroupUuidMapByDevice(
-	ctx context.Context,
-	device BluetoothDevice,
-	attributionSource content.AttributionSource,
-) (map[interface{}]interface{}, error) {
-	var _result map[interface{}]interface{}
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
-	_data.WriteInt32(1)
-	if _err := device.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getGroupUuidMapByDevice")
-	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_mapCount, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _mapCount >= 0 {
-		_result = make(map[interface{}]interface{}, _mapCount)
-		for _mi := int32(0); _mi < _mapCount; _mi++ {
-			_mk, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_mv, _err := _reply.ReadString16()
-			if _err != nil {
-				return _result, _err
-			}
-			_result[_mk] = _mv
-		}
-	}
-	return _result, nil
-}
-
-func (p *BluetoothCsipSetCoordinatorProxy) GetDesiredGroupSize(
-	ctx context.Context,
-	group_id int32,
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
-	_data.WriteInt32(group_id)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getDesiredGroupSize")
-	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorGetDesiredGroupSize
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *BluetoothCsipSetCoordinatorProxy) LockGroup(
-	ctx context.Context,
-	groupId int32,
-	callback IBluetoothCsipSetCoordinatorLockCallback,
-	attributionSource content.AttributionSource,
-) (interface{}, error) {
-	var _result interface{}
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
-	_data.WriteInt32(groupId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "lockGroup")
-	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorLockGroup
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	return _result, nil
-}
-
-func (p *BluetoothCsipSetCoordinatorProxy) UnlockGroup(
-	ctx context.Context,
-	lockUuid interface{},
-	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
@@ -457,22 +282,109 @@ func (p *BluetoothCsipSetCoordinatorProxy) UnlockGroup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "unlockGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetAllGroupIds)
 	if _err != nil {
-		_code = TransactionIBluetoothCsipSetCoordinatorUnlockGroup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetAllGroupIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCsipSetCoordinatorProxy) GetGroupUuidMapByDevice(
+	ctx context.Context,
+	device BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
+	_data.WriteInt32(1)
+	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	return nil
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCsipSetCoordinatorProxy) GetDesiredGroupSize(
+	ctx context.Context,
+	group_id int32,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
+	_data.WriteInt32(group_id)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetDesiredGroupSize)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorGetDesiredGroupSize, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCsipSetCoordinatorProxy) LockGroup(
+	ctx context.Context,
+	groupId int32,
+	callback IBluetoothCsipSetCoordinatorLockCallback,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
+	_data.WriteInt32(groupId)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorLockGroup)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorLockGroup, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
+}
+
+func (p *BluetoothCsipSetCoordinatorProxy) UnlockGroup(
+	ctx context.Context,
+	lockUuid interface{},
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIBluetoothCsipSetCoordinator)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorUnlockGroup)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothCsipSetCoordinator, MethodIBluetoothCsipSetCoordinatorUnlockGroup, _err)
+	}
+
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	return _err
 }
 
 // BluetoothCsipSetCoordinatorStub dispatches incoming binder transactions
@@ -483,12 +395,80 @@ type BluetoothCsipSetCoordinatorStub struct {
 
 var _ binder.TransactionReceiver = (*BluetoothCsipSetCoordinatorStub)(nil)
 
+func (s *BluetoothCsipSetCoordinatorStub) Descriptor() string {
+	return DescriptorIBluetoothCsipSetCoordinator
+}
+
 func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
 	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
+	case TransactionIBluetoothCsipSetCoordinatorConnect:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIBluetoothCsipSetCoordinatorDisconnect:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_device BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetConnectedDevices:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -505,16 +485,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -534,16 +508,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetConnectionState:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -572,15 +540,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorSetConnectionPolicy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -613,15 +576,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetConnectionPolicy:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -650,15 +608,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetAllGroupIds:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -676,16 +629,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetAllGroupIds(ctx, _arg_uuid, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetAllGroupIds(ctx, _arg_uuid, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -714,16 +661,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetGroupUuidMapByDevice(ctx, _arg_device, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: map return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.GetGroupUuidMapByDevice(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetDesiredGroupSize:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -744,15 +685,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.GetDesiredGroupSize(ctx, _arg_group_id, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.GetDesiredGroupSize(ctx, _arg_group_id, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorLockGroup:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -776,15 +712,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_result, _err := s.Impl.LockGroup(ctx, _arg_groupId, _arg_callback, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_ = _result
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err = s.Impl.LockGroup(ctx, _arg_groupId, _arg_callback, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	case TransactionIBluetoothCsipSetCoordinatorUnlockGroup:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -802,14 +733,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 				}
 			}
 		}
-		_err := s.Impl.UnlockGroup(ctx, _arg_lockUuid, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
+		var _arg_receiver interface{}
+		_err := s.Impl.UnlockGroup(ctx, _arg_lockUuid, _arg_attributionSource, _arg_receiver)
+		_ = _err
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -819,16 +746,18 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 // provide to NewBluetoothCsipSetCoordinatorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothCsipSetCoordinatorServer interface {
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
-	GetAllGroupIds(ctx context.Context, uuid interface{}, attributionSource content.AttributionSource) ([]interface{}, error)
-	GetGroupUuidMapByDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (map[interface{}]interface{}, error)
-	GetDesiredGroupSize(ctx context.Context, group_id int32, attributionSource content.AttributionSource) (int32, error)
-	LockGroup(ctx context.Context, groupId int32, callback IBluetoothCsipSetCoordinatorLockCallback, attributionSource content.AttributionSource) (interface{}, error)
-	UnlockGroup(ctx context.Context, lockUuid interface{}, attributionSource content.AttributionSource) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver interface{}) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetAllGroupIds(ctx context.Context, uuid interface{}, attributionSource content.AttributionSource, receiver interface{}) error
+	GetGroupUuidMapByDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver interface{}) error
+	GetDesiredGroupSize(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver interface{}) error
+	LockGroup(ctx context.Context, groupId int32, callback IBluetoothCsipSetCoordinatorLockCallback, attributionSource content.AttributionSource, receiver interface{}) error
+	UnlockGroup(ctx context.Context, lockUuid interface{}, attributionSource content.AttributionSource, receiver interface{}) error
 }
 
 type bluetoothCsipSetCoordinatorStubWrapper struct {
@@ -840,27 +769,48 @@ func (w *bluetoothCsipSetCoordinatorStubWrapper) AsBinder() binder.IBinder {
 	return w.stubBinder
 }
 
+func (w *bluetoothCsipSetCoordinatorStubWrapper) Connect(
+	ctx context.Context,
+	device BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.Connect(ctx, device, attributionSource, receiver)
+}
+
+func (w *bluetoothCsipSetCoordinatorStubWrapper) Disconnect(
+	ctx context.Context,
+	device BluetoothDevice,
+	attributionSource content.AttributionSource,
+	receiver interface{},
+) error {
+	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
+}
+
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetConnectedDevices(ctx, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-) ([]BluetoothDevice, error) {
-	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetConnectionState(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) SetConnectionPolicy(
@@ -868,40 +818,45 @@ func (w *bluetoothCsipSetCoordinatorStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-) (bool, error) {
-	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetConnectionPolicy(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetAllGroupIds(
 	ctx context.Context,
 	uuid interface{},
 	attributionSource content.AttributionSource,
-) ([]interface{}, error) {
-	return w.impl.GetAllGroupIds(ctx, uuid, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetAllGroupIds(ctx, uuid, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetGroupUuidMapByDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-) (map[interface{}]interface{}, error) {
-	return w.impl.GetGroupUuidMapByDevice(ctx, device, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetGroupUuidMapByDevice(ctx, device, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) GetDesiredGroupSize(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.GetDesiredGroupSize(ctx, group_id, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.GetDesiredGroupSize(ctx, group_id, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) LockGroup(
@@ -909,16 +864,18 @@ func (w *bluetoothCsipSetCoordinatorStubWrapper) LockGroup(
 	groupId int32,
 	callback IBluetoothCsipSetCoordinatorLockCallback,
 	attributionSource content.AttributionSource,
-) (interface{}, error) {
-	return w.impl.LockGroup(ctx, groupId, callback, attributionSource)
+	receiver interface{},
+) error {
+	return w.impl.LockGroup(ctx, groupId, callback, attributionSource, receiver)
 }
 
 func (w *bluetoothCsipSetCoordinatorStubWrapper) UnlockGroup(
 	ctx context.Context,
 	lockUuid interface{},
 	attributionSource content.AttributionSource,
+	receiver interface{},
 ) error {
-	return w.impl.UnlockGroup(ctx, lockUuid, attributionSource)
+	return w.impl.UnlockGroup(ctx, lockUuid, attributionSource, receiver)
 }
 
 var _ IBluetoothCsipSetCoordinator = (*bluetoothCsipSetCoordinatorStubWrapper)(nil)

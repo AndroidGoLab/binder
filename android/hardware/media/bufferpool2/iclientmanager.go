@@ -17,6 +17,11 @@ const (
 	TransactionIClientManagerRegisterPassiveSender = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIClientManagerRegisterSender        = "registerSender"
+	MethodIClientManagerRegisterPassiveSender = "registerPassiveSender"
+)
+
 type IClientManager interface {
 	AsBinder() binder.IBinder
 	RegisterSender(ctx context.Context, bufferPool IAccessor) (bufferpool2IClientManager.Registration, error)
@@ -24,17 +29,17 @@ type IClientManager interface {
 }
 
 type ClientManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewClientManagerProxy(
 	remote binder.IBinder,
 ) *ClientManagerProxy {
-	return &ClientManagerProxy{remote: remote}
+	return &ClientManagerProxy{Remote: remote}
 }
 
 func (p *ClientManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IClientManager = (*ClientManagerProxy)(nil)
@@ -46,14 +51,14 @@ func (p *ClientManagerProxy) RegisterSender(
 	var _result bufferpool2IClientManager.Registration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientManager)
-	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientManager, "registerSender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientManager, MethodIClientManagerRegisterSender)
 	if _err != nil {
-		_code = TransactionIClientManagerRegisterSender
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientManager, MethodIClientManagerRegisterSender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,14 +87,14 @@ func (p *ClientManagerProxy) RegisterPassiveSender(
 	var _result bufferpool2IClientManager.Registration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientManager)
-	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, bufferPool.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIClientManager, "registerPassiveSender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIClientManager, MethodIClientManagerRegisterPassiveSender)
 	if _err != nil {
-		_code = TransactionIClientManagerRegisterPassiveSender
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIClientManager, MethodIClientManagerRegisterPassiveSender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,6 +123,10 @@ type ClientManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ClientManagerStub)(nil)
+
+func (s *ClientManagerStub) Descriptor() string {
+	return DescriptorIClientManager
+}
 
 func (s *ClientManagerStub) OnTransaction(
 	ctx context.Context,

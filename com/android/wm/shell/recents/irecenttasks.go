@@ -6,8 +6,9 @@ import (
 	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
 	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
-	shared "github.com/xaionaro-go/binder/com/android/wm/shell/shared"
+	util "github.com/xaionaro-go/binder/com/android/wm/shell/util"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -23,27 +24,35 @@ const (
 	TransactionIRecentTasksStartRecentsTransition        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIRecentTasksRegisterRecentTasksListener   = "registerRecentTasksListener"
+	MethodIRecentTasksUnregisterRecentTasksListener = "unregisterRecentTasksListener"
+	MethodIRecentTasksGetRecentTasks                = "getRecentTasks"
+	MethodIRecentTasksGetRunningTasks               = "getRunningTasks"
+	MethodIRecentTasksStartRecentsTransition        = "startRecentsTransition"
+)
+
 type IRecentTasks interface {
 	AsBinder() binder.IBinder
 	RegisterRecentTasksListener(ctx context.Context, listener IRecentTasksListener) error
 	UnregisterRecentTasksListener(ctx context.Context, listener IRecentTasksListener) error
-	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) ([]shared.GroupedTaskInfo, error)
+	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) ([]util.GroupedRecentTaskInfo, error)
 	GetRunningTasks(ctx context.Context, maxNum int32) ([]app.ActivityManagerRunningTaskInfo, error)
-	StartRecentsTransition(ctx context.Context, intent app.PendingIntent, fillIn content.Intent, options os.Bundle, appThread app.IApplicationThread, listener IRecentsAnimationRunner) error
+	StartRecentsTransition(ctx context.Context, intent app.PendingIntent, fillIn content.Intent, options os.Bundle, appThread app.IApplicationThread, listener view.IRecentsAnimationRunner) error
 }
 
 type RecentTasksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecentTasksProxy(
 	remote binder.IBinder,
 ) *RecentTasksProxy {
-	return &RecentTasksProxy{remote: remote}
+	return &RecentTasksProxy{Remote: remote}
 }
 
 func (p *RecentTasksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecentTasks = (*RecentTasksProxy)(nil)
@@ -54,14 +63,14 @@ func (p *RecentTasksProxy) RegisterRecentTasksListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "registerRecentTasksListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksRegisterRecentTasksListener)
 	if _err != nil {
-		_code = TransactionIRecentTasksRegisterRecentTasksListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasks, MethodIRecentTasksRegisterRecentTasksListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,14 +80,14 @@ func (p *RecentTasksProxy) UnregisterRecentTasksListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "unregisterRecentTasksListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksUnregisterRecentTasksListener)
 	if _err != nil {
-		_code = TransactionIRecentTasksUnregisterRecentTasksListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasks, MethodIRecentTasksUnregisterRecentTasksListener, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,21 +95,21 @@ func (p *RecentTasksProxy) GetRecentTasks(
 	ctx context.Context,
 	maxNum int32,
 	flags int32,
-) ([]shared.GroupedTaskInfo, error) {
-	var _result []shared.GroupedTaskInfo
-	_identity := p.remote.Identity()
+) ([]util.GroupedRecentTaskInfo, error) {
+	var _result []util.GroupedRecentTaskInfo
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteInt32(maxNum)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "getRecentTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksGetRecentTasks)
 	if _err != nil {
-		_code = TransactionIRecentTasksGetRecentTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasks, MethodIRecentTasksGetRecentTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,8 +125,11 @@ func (p *RecentTasksProxy) GetRecentTasks(
 	}
 
 	if _count >= 0 {
-		_result = make([]shared.GroupedTaskInfo, _count)
+		_result = make([]util.GroupedRecentTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -135,12 +147,12 @@ func (p *RecentTasksProxy) GetRunningTasks(
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteInt32(maxNum)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "getRunningTasks")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksGetRunningTasks)
 	if _err != nil {
-		_code = TransactionIRecentTasksGetRunningTasks
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasks, MethodIRecentTasksGetRunningTasks, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -158,6 +170,9 @@ func (p *RecentTasksProxy) GetRunningTasks(
 	if _count >= 0 {
 		_result = make([]app.ActivityManagerRunningTaskInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -172,7 +187,7 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 	fillIn content.Intent,
 	options os.Bundle,
 	appThread app.IApplicationThread,
-	listener IRecentsAnimationRunner,
+	listener view.IRecentsAnimationRunner,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
@@ -188,15 +203,15 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.remote.Transport())
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, appThread.AsBinder(), p.Remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "startRecentsTransition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecentTasks, MethodIRecentTasksStartRecentsTransition)
 	if _err != nil {
-		_code = TransactionIRecentTasksStartRecentsTransition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecentTasks, MethodIRecentTasksStartRecentsTransition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -207,6 +222,10 @@ type RecentTasksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecentTasksStub)(nil)
+
+func (s *RecentTasksStub) Descriptor() string {
+	return DescriptorIRecentTasks
+}
 
 func (s *RecentTasksStub) OnTransaction(
 	ctx context.Context,
@@ -321,7 +340,7 @@ func (s *RecentTasksStub) OnTransaction(
 		var _arg_appThread app.IApplicationThread
 		_ = _arg_appThread
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener IRecentsAnimationRunner
+		var _arg_listener view.IRecentsAnimationRunner
 		_ = _arg_listener
 		_err := s.Impl.StartRecentsTransition(ctx, _arg_intent, _arg_fillIn, _arg_options, _arg_appThread, _arg_listener)
 		_ = _err
@@ -337,9 +356,9 @@ func (s *RecentTasksStub) OnTransaction(
 type IRecentTasksServer interface {
 	RegisterRecentTasksListener(ctx context.Context, listener IRecentTasksListener) error
 	UnregisterRecentTasksListener(ctx context.Context, listener IRecentTasksListener) error
-	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) ([]shared.GroupedTaskInfo, error)
+	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) ([]util.GroupedRecentTaskInfo, error)
 	GetRunningTasks(ctx context.Context, maxNum int32) ([]app.ActivityManagerRunningTaskInfo, error)
-	StartRecentsTransition(ctx context.Context, intent app.PendingIntent, fillIn content.Intent, options os.Bundle, appThread app.IApplicationThread, listener IRecentsAnimationRunner) error
+	StartRecentsTransition(ctx context.Context, intent app.PendingIntent, fillIn content.Intent, options os.Bundle, appThread app.IApplicationThread, listener view.IRecentsAnimationRunner) error
 }
 
 type recentTasksStubWrapper struct {
@@ -369,7 +388,7 @@ func (w *recentTasksStubWrapper) GetRecentTasks(
 	ctx context.Context,
 	maxNum int32,
 	flags int32,
-) ([]shared.GroupedTaskInfo, error) {
+) ([]util.GroupedRecentTaskInfo, error) {
 	return w.impl.GetRecentTasks(ctx, maxNum, flags)
 }
 
@@ -386,7 +405,7 @@ func (w *recentTasksStubWrapper) StartRecentsTransition(
 	fillIn content.Intent,
 	options os.Bundle,
 	appThread app.IApplicationThread,
-	listener IRecentsAnimationRunner,
+	listener view.IRecentsAnimationRunner,
 ) error {
 	return w.impl.StartRecentsTransition(ctx, intent, fillIn, options, appThread, listener)
 }

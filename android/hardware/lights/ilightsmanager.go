@@ -19,6 +19,14 @@ const (
 	TransactionILightsManagerSetLightStates = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodILightsManagerGetLights      = "getLights"
+	MethodILightsManagerGetLightState  = "getLightState"
+	MethodILightsManagerOpenSession    = "openSession"
+	MethodILightsManagerCloseSession   = "closeSession"
+	MethodILightsManagerSetLightStates = "setLightStates"
+)
+
 type ILightsManager interface {
 	AsBinder() binder.IBinder
 	GetLights(ctx context.Context) ([]Light, error)
@@ -29,17 +37,17 @@ type ILightsManager interface {
 }
 
 type LightsManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLightsManagerProxy(
 	remote binder.IBinder,
 ) *LightsManagerProxy {
-	return &LightsManagerProxy{remote: remote}
+	return &LightsManagerProxy{Remote: remote}
 }
 
 func (p *LightsManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILightsManager = (*LightsManagerProxy)(nil)
@@ -51,12 +59,12 @@ func (p *LightsManagerProxy) GetLights(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "getLights")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerGetLights)
 	if _err != nil {
-		_code = TransactionILightsManagerGetLights
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILightsManager, MethodILightsManagerGetLights, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +82,9 @@ func (p *LightsManagerProxy) GetLights(
 	if _count >= 0 {
 		_result = make([]Light, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -91,12 +102,12 @@ func (p *LightsManagerProxy) GetLightState(
 	_data.WriteInterfaceToken(DescriptorILightsManager)
 	_data.WriteInt32(lightId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "getLightState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerGetLightState)
 	if _err != nil {
-		_code = TransactionILightsManagerGetLightState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorILightsManager, MethodILightsManagerGetLightState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,15 +136,15 @@ func (p *LightsManagerProxy) OpenSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	_data.WriteInt32(priority)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "openSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerOpenSession)
 	if _err != nil {
-		_code = TransactionILightsManagerOpenSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILightsManager, MethodILightsManagerOpenSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -152,14 +163,14 @@ func (p *LightsManagerProxy) CloseSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "closeSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerCloseSession)
 	if _err != nil {
-		_code = TransactionILightsManagerCloseSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILightsManager, MethodILightsManagerCloseSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,7 +191,7 @@ func (p *LightsManagerProxy) SetLightStates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILightsManager)
-	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, sessionToken, p.Remote.Transport())
 	if lightIds == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -194,18 +205,19 @@ func (p *LightsManagerProxy) SetLightStates(
 	} else {
 		_data.WriteInt32(int32(len(states)))
 		for _, _item := range states {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "setLightStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILightsManager, MethodILightsManagerSetLightStates)
 	if _err != nil {
-		_code = TransactionILightsManagerSetLightStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILightsManager, MethodILightsManagerSetLightStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,6 +237,10 @@ type LightsManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LightsManagerStub)(nil)
+
+func (s *LightsManagerStub) Descriptor() string {
+	return DescriptorILightsManager
+}
 
 func (s *LightsManagerStub) OnTransaction(
 	ctx context.Context,

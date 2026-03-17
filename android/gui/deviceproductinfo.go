@@ -22,26 +22,12 @@ func (s *DeviceProductInfo) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Name)
-	if s.ManufacturerPnpId == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ManufacturerPnpId)))
-		for _, _item := range s.ManufacturerPnpId {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ManufacturerPnpId)
 	p.WriteString16(s.ProductId)
 	if _err := s.ManufactureOrModelDate.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.RelativeAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.RelativeAddress)))
-		for _, _item := range s.RelativeAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.RelativeAddress)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -60,19 +46,9 @@ func (s *DeviceProductInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ManufacturerPnpId, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ManufacturerPnpId = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ManufacturerPnpId[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.ProductId, _err = p.ReadString16()
@@ -84,19 +60,9 @@ func (s *DeviceProductInfo) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.RelativeAddress, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.RelativeAddress = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.RelativeAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

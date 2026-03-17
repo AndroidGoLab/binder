@@ -30,14 +30,7 @@ func (s *CodecParameters) MarshalParcel(
 	p.WriteInt32(s.MaxBitrate)
 	p.WriteBool(s.LowLatency)
 	p.WriteBool(s.Lossless)
-	if s.VendorSpecificParameters == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.VendorSpecificParameters)))
-		for _, _item := range s.VendorSpecificParameters {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.VendorSpecificParameters)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -87,19 +80,9 @@ func (s *CodecParameters) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.VendorSpecificParameters, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.VendorSpecificParameters = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.VendorSpecificParameters[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

@@ -17,6 +17,12 @@ const (
 	TransactionITradeInModeEnterEvaluationMode     = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodITradeInModeStart                   = "start"
+	MethodITradeInModeIsEvaluationModeAllowed = "isEvaluationModeAllowed"
+	MethodITradeInModeEnterEvaluationMode     = "enterEvaluationMode"
+)
+
 type ITradeInMode interface {
 	AsBinder() binder.IBinder
 	Start(ctx context.Context) (bool, error)
@@ -25,17 +31,17 @@ type ITradeInMode interface {
 }
 
 type TradeInModeProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTradeInModeProxy(
 	remote binder.IBinder,
 ) *TradeInModeProxy {
-	return &TradeInModeProxy{remote: remote}
+	return &TradeInModeProxy{Remote: remote}
 }
 
 func (p *TradeInModeProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITradeInMode = (*TradeInModeProxy)(nil)
@@ -47,12 +53,12 @@ func (p *TradeInModeProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITradeInMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITradeInMode, "start")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITradeInMode, MethodITradeInModeStart)
 	if _err != nil {
-		_code = TransactionITradeInModeStart
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITradeInMode, MethodITradeInModeStart, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,12 +82,12 @@ func (p *TradeInModeProxy) IsEvaluationModeAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITradeInMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITradeInMode, "isEvaluationModeAllowed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITradeInMode, MethodITradeInModeIsEvaluationModeAllowed)
 	if _err != nil {
-		_code = TransactionITradeInModeIsEvaluationModeAllowed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITradeInMode, MethodITradeInModeIsEvaluationModeAllowed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,12 +111,12 @@ func (p *TradeInModeProxy) EnterEvaluationMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITradeInMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITradeInMode, "enterEvaluationMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITradeInMode, MethodITradeInModeEnterEvaluationMode)
 	if _err != nil {
-		_code = TransactionITradeInModeEnterEvaluationMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITradeInMode, MethodITradeInModeEnterEvaluationMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -134,6 +140,10 @@ type TradeInModeStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TradeInModeStub)(nil)
+
+func (s *TradeInModeStub) Descriptor() string {
+	return DescriptorITradeInMode
+}
 
 func (s *TradeInModeStub) OnTransaction(
 	ctx context.Context,

@@ -16,6 +16,11 @@ const (
 	TransactionITestServerKillNow        = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITestServerCreateProducer = "createProducer"
+	MethodITestServerKillNow        = "killNow"
+)
+
 type ITestServer interface {
 	AsBinder() binder.IBinder
 	CreateProducer(ctx context.Context) (interface{}, error)
@@ -23,17 +28,17 @@ type ITestServer interface {
 }
 
 type TestServerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTestServerProxy(
 	remote binder.IBinder,
 ) *TestServerProxy {
-	return &TestServerProxy{remote: remote}
+	return &TestServerProxy{Remote: remote}
 }
 
 func (p *TestServerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITestServer = (*TestServerProxy)(nil)
@@ -45,12 +50,12 @@ func (p *TestServerProxy) CreateProducer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestServer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestServer, "createProducer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestServer, MethodITestServerCreateProducer)
 	if _err != nil {
-		_code = TransactionITestServerCreateProducer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITestServer, MethodITestServerCreateProducer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -69,12 +74,12 @@ func (p *TestServerProxy) KillNow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestServer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITestServer, "killNow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITestServer, MethodITestServerKillNow)
 	if _err != nil {
-		_code = TransactionITestServerKillNow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITestServer, MethodITestServerKillNow, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,6 +99,10 @@ type TestServerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TestServerStub)(nil)
+
+func (s *TestServerStub) Descriptor() string {
+	return DescriptorITestServer
+}
 
 func (s *TestServerStub) OnTransaction(
 	ctx context.Context,

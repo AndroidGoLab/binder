@@ -16,6 +16,11 @@ const (
 	TransactionIImsEcbmListenerExitedECBM  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIImsEcbmListenerEnteredECBM = "enteredECBM"
+	MethodIImsEcbmListenerExitedECBM  = "exitedECBM"
+)
+
 type IImsEcbmListener interface {
 	AsBinder() binder.IBinder
 	EnteredECBM(ctx context.Context) error
@@ -23,17 +28,17 @@ type IImsEcbmListener interface {
 }
 
 type ImsEcbmListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsEcbmListenerProxy(
 	remote binder.IBinder,
 ) *ImsEcbmListenerProxy {
-	return &ImsEcbmListenerProxy{remote: remote}
+	return &ImsEcbmListenerProxy{Remote: remote}
 }
 
 func (p *ImsEcbmListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsEcbmListener = (*ImsEcbmListenerProxy)(nil)
@@ -44,12 +49,12 @@ func (p *ImsEcbmListenerProxy) EnteredECBM(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsEcbmListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbmListener, "enteredECBM")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbmListener, MethodIImsEcbmListenerEnteredECBM)
 	if _err != nil {
-		_code = TransactionIImsEcbmListenerEnteredECBM
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsEcbmListener, MethodIImsEcbmListenerEnteredECBM, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,12 +64,12 @@ func (p *ImsEcbmListenerProxy) ExitedECBM(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsEcbmListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbmListener, "exitedECBM")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsEcbmListener, MethodIImsEcbmListenerExitedECBM)
 	if _err != nil {
-		_code = TransactionIImsEcbmListenerExitedECBM
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsEcbmListener, MethodIImsEcbmListenerExitedECBM, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +80,10 @@ type ImsEcbmListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsEcbmListenerStub)(nil)
+
+func (s *ImsEcbmListenerStub) Descriptor() string {
+	return DescriptorIImsEcbmListener
+}
 
 func (s *ImsEcbmListenerStub) OnTransaction(
 	ctx context.Context,

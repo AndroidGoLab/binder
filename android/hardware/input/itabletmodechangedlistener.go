@@ -15,23 +15,27 @@ const (
 	TransactionITabletModeChangedListenerOnTabletModeChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITabletModeChangedListenerOnTabletModeChanged = "onTabletModeChanged"
+)
+
 type ITabletModeChangedListener interface {
 	AsBinder() binder.IBinder
 	OnTabletModeChanged(ctx context.Context, whenNanos int64, inTabletMode bool) error
 }
 
 type TabletModeChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTabletModeChangedListenerProxy(
 	remote binder.IBinder,
 ) *TabletModeChangedListenerProxy {
-	return &TabletModeChangedListenerProxy{remote: remote}
+	return &TabletModeChangedListenerProxy{Remote: remote}
 }
 
 func (p *TabletModeChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITabletModeChangedListener = (*TabletModeChangedListenerProxy)(nil)
@@ -46,12 +50,12 @@ func (p *TabletModeChangedListenerProxy) OnTabletModeChanged(
 	_data.WriteInt64(whenNanos)
 	_data.WriteBool(inTabletMode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITabletModeChangedListener, "onTabletModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITabletModeChangedListener, MethodITabletModeChangedListenerOnTabletModeChanged)
 	if _err != nil {
-		_code = TransactionITabletModeChangedListenerOnTabletModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITabletModeChangedListener, MethodITabletModeChangedListenerOnTabletModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +66,10 @@ type TabletModeChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TabletModeChangedListenerStub)(nil)
+
+func (s *TabletModeChangedListenerStub) Descriptor() string {
+	return DescriptorITabletModeChangedListener
+}
 
 func (s *TabletModeChangedListenerStub) OnTransaction(
 	ctx context.Context,

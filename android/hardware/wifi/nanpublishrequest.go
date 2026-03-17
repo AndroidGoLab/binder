@@ -15,7 +15,6 @@ type NanPublishRequest struct {
 	PairingConfig              NanPairingConfig
 	IdentityKey                []byte
 	VendorData                 []common.OuiKeyedData
-	RangingResultsRequired     bool
 }
 
 var _ parcel.Parcelable = (*NanPublishRequest)(nil)
@@ -33,25 +32,18 @@ func (s *NanPublishRequest) MarshalParcel(
 	if _err := s.PairingConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.IdentityKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.IdentityKey)))
-		for _, _item := range s.IdentityKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.IdentityKey, 16)
 	if s.VendorData == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	p.WriteBool(s.RangingResultsRequired)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -90,19 +82,9 @@ func (s *NanPublishRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.IdentityKey, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.IdentityKey = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.IdentityKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -113,15 +95,13 @@ func (s *NanPublishRequest) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
-	}
-
-	s.RangingResultsRequired, _err = p.ReadBool()
-	if _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

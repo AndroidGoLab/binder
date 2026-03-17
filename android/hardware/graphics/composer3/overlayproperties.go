@@ -10,7 +10,6 @@ import (
 type OverlayProperties struct {
 	Combinations            []guiOverlayProperties.SupportedBufferCombinations
 	SupportMixedColorSpaces bool
-	LutProperties           []LutProperties
 }
 
 var _ parcel.Parcelable = (*OverlayProperties)(nil)
@@ -24,22 +23,13 @@ func (s *OverlayProperties) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Combinations)))
 		for _, _item := range s.Combinations {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 	p.WriteBool(s.SupportMixedColorSpaces)
-	if s.LutProperties == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.LutProperties)))
-		for _, _item := range s.LutProperties {
-			if _err := _item.MarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
-	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -61,6 +51,9 @@ func (s *OverlayProperties) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Combinations = make([]guiOverlayProperties.SupportedBufferCombinations, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Combinations[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -70,20 +63,6 @@ func (s *OverlayProperties) UnmarshalParcel(
 	s.SupportMixedColorSpaces, _err = p.ReadBool()
 	if _err != nil {
 		return _err
-	}
-
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count1 >= 0 {
-		s.LutProperties = make([]LutProperties, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			if _err = s.LutProperties[_i].UnmarshalParcel(p); _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

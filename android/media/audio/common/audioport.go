@@ -29,6 +29,7 @@ func (s *AudioPort) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Profiles)))
 		for _, _item := range s.Profiles {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -42,6 +43,7 @@ func (s *AudioPort) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.ExtraAudioDescriptors)))
 		for _, _item := range s.ExtraAudioDescriptors {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -52,6 +54,7 @@ func (s *AudioPort) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Gains)))
 		for _, _item := range s.Gains {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -91,6 +94,9 @@ func (s *AudioPort) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Profiles = make([]AudioProfile, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Profiles[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -109,6 +115,9 @@ func (s *AudioPort) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.ExtraAudioDescriptors = make([]ExtraAudioDescriptor, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.ExtraAudioDescriptors[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -123,6 +132,9 @@ func (s *AudioPort) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.Gains = make([]AudioGain, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Gains[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	gui "github.com/xaionaro-go/binder/android/gui"
 	hardwareCommon "github.com/xaionaro-go/binder/android/hardware/common"
-	drm "github.com/xaionaro-go/binder/android/hardware/drm"
 	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -63,9 +62,56 @@ const (
 	TransactionIComposerClientSetRefreshRateChangedCallbackDebugEnabled = binder.FirstCallTransaction + 44
 	TransactionIComposerClientGetDisplayConfigurations                  = binder.FirstCallTransaction + 45
 	TransactionIComposerClientNotifyExpectedPresent                     = binder.FirstCallTransaction + 46
-	TransactionIComposerClientGetMaxLayerPictureProfiles                = binder.FirstCallTransaction + 47
-	TransactionIComposerClientStartHdcpNegotiation                      = binder.FirstCallTransaction + 48
-	TransactionIComposerClientGetLuts                                   = binder.FirstCallTransaction + 49
+)
+
+const (
+	MethodIComposerClientCreateLayer                               = "createLayer"
+	MethodIComposerClientCreateVirtualDisplay                      = "createVirtualDisplay"
+	MethodIComposerClientDestroyLayer                              = "destroyLayer"
+	MethodIComposerClientDestroyVirtualDisplay                     = "destroyVirtualDisplay"
+	MethodIComposerClientExecuteCommands                           = "executeCommands"
+	MethodIComposerClientGetActiveConfig                           = "getActiveConfig"
+	MethodIComposerClientGetColorModes                             = "getColorModes"
+	MethodIComposerClientGetDataspaceSaturationMatrix              = "getDataspaceSaturationMatrix"
+	MethodIComposerClientGetDisplayAttribute                       = "getDisplayAttribute"
+	MethodIComposerClientGetDisplayCapabilities                    = "getDisplayCapabilities"
+	MethodIComposerClientGetDisplayConfigs                         = "getDisplayConfigs"
+	MethodIComposerClientGetDisplayConnectionType                  = "getDisplayConnectionType"
+	MethodIComposerClientGetDisplayIdentificationData              = "getDisplayIdentificationData"
+	MethodIComposerClientGetDisplayName                            = "getDisplayName"
+	MethodIComposerClientGetDisplayVsyncPeriod                     = "getDisplayVsyncPeriod"
+	MethodIComposerClientGetDisplayedContentSample                 = "getDisplayedContentSample"
+	MethodIComposerClientGetDisplayedContentSamplingAttributes     = "getDisplayedContentSamplingAttributes"
+	MethodIComposerClientGetDisplayPhysicalOrientation             = "getDisplayPhysicalOrientation"
+	MethodIComposerClientGetHdrCapabilities                        = "getHdrCapabilities"
+	MethodIComposerClientGetMaxVirtualDisplayCount                 = "getMaxVirtualDisplayCount"
+	MethodIComposerClientGetPerFrameMetadataKeys                   = "getPerFrameMetadataKeys"
+	MethodIComposerClientGetReadbackBufferAttributes               = "getReadbackBufferAttributes"
+	MethodIComposerClientGetReadbackBufferFence                    = "getReadbackBufferFence"
+	MethodIComposerClientGetRenderIntents                          = "getRenderIntents"
+	MethodIComposerClientGetSupportedContentTypes                  = "getSupportedContentTypes"
+	MethodIComposerClientGetDisplayDecorationSupport               = "getDisplayDecorationSupport"
+	MethodIComposerClientRegisterCallback                          = "registerCallback"
+	MethodIComposerClientSetActiveConfig                           = "setActiveConfig"
+	MethodIComposerClientSetActiveConfigWithConstraints            = "setActiveConfigWithConstraints"
+	MethodIComposerClientSetBootDisplayConfig                      = "setBootDisplayConfig"
+	MethodIComposerClientClearBootDisplayConfig                    = "clearBootDisplayConfig"
+	MethodIComposerClientGetPreferredBootDisplayConfig             = "getPreferredBootDisplayConfig"
+	MethodIComposerClientSetAutoLowLatencyMode                     = "setAutoLowLatencyMode"
+	MethodIComposerClientSetClientTargetSlotCount                  = "setClientTargetSlotCount"
+	MethodIComposerClientSetColorMode                              = "setColorMode"
+	MethodIComposerClientSetContentType                            = "setContentType"
+	MethodIComposerClientSetDisplayedContentSamplingEnabled        = "setDisplayedContentSamplingEnabled"
+	MethodIComposerClientSetPowerMode                              = "setPowerMode"
+	MethodIComposerClientSetReadbackBuffer                         = "setReadbackBuffer"
+	MethodIComposerClientSetVsyncEnabled                           = "setVsyncEnabled"
+	MethodIComposerClientSetIdleTimerEnabled                       = "setIdleTimerEnabled"
+	MethodIComposerClientGetOverlaySupport                         = "getOverlaySupport"
+	MethodIComposerClientGetHdrConversionCapabilities              = "getHdrConversionCapabilities"
+	MethodIComposerClientSetHdrConversionStrategy                  = "setHdrConversionStrategy"
+	MethodIComposerClientSetRefreshRateChangedCallbackDebugEnabled = "setRefreshRateChangedCallbackDebugEnabled"
+	MethodIComposerClientGetDisplayConfigurations                  = "getDisplayConfigurations"
+	MethodIComposerClientNotifyExpectedPresent                     = "notifyExpectedPresent"
 )
 
 type IComposerClient interface {
@@ -117,39 +163,34 @@ type IComposerClient interface {
 	SetRefreshRateChangedCallbackDebugEnabled(ctx context.Context, display int64, enabled bool) error
 	GetDisplayConfigurations(ctx context.Context, display int64, maxFrameIntervalNs int32) ([]DisplayConfiguration, error)
 	NotifyExpectedPresent(ctx context.Context, display int64, expectedPresentTime ClockMonotonicTimestamp, frameIntervalNs int32) error
-	GetMaxLayerPictureProfiles(ctx context.Context, display int64) (int32, error)
-	StartHdcpNegotiation(ctx context.Context, display int64, levels drm.HdcpLevels) error
-	GetLuts(ctx context.Context, display int64, buffers []Buffer) ([]Luts, error)
 }
 
 const (
-	IComposerClientExBadConfig                 int32 = 1
-	IComposerClientExBadDisplay                int32 = 2
-	IComposerClientExBadLayer                  int32 = 3
-	IComposerClientExBadParameter              int32 = 4
-	IComposerClientExReserved                  int32 = 5
-	IComposerClientExNoResources               int32 = 6
-	IComposerClientExNotValidated              int32 = 7
-	IComposerClientExUnsupported               int32 = 8
-	IComposerClientExSeamlessNotAllowed        int32 = 9
-	IComposerClientExSeamlessNotPossible       int32 = 10
-	IComposerClientExConfigFailed              int32 = 11
-	IComposerClientExPictureProfileMaxExceeded int32 = 12
-	IComposerClientInvalidConfiguration        int32 = 2147483647
+	IComposerClientExBadConfig           int32 = 1
+	IComposerClientExBadDisplay          int32 = 2
+	IComposerClientExBadLayer            int32 = 3
+	IComposerClientExBadParameter        int32 = 4
+	IComposerClientExReserved            int32 = 5
+	IComposerClientExNoResources         int32 = 6
+	IComposerClientExNotValidated        int32 = 7
+	IComposerClientExUnsupported         int32 = 8
+	IComposerClientExSeamlessNotAllowed  int32 = 9
+	IComposerClientExSeamlessNotPossible int32 = 10
+	IComposerClientInvalidConfiguration  int32 = 2147483647
 )
 
 type ComposerClientProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewComposerClientProxy(
 	remote binder.IBinder,
 ) *ComposerClientProxy {
-	return &ComposerClientProxy{remote: remote}
+	return &ComposerClientProxy{Remote: remote}
 }
 
 func (p *ComposerClientProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IComposerClient = (*ComposerClientProxy)(nil)
@@ -165,12 +206,12 @@ func (p *ComposerClientProxy) CreateLayer(
 	_data.WriteInt64(display)
 	_data.WriteInt32(bufferSlotCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "createLayer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientCreateLayer)
 	if _err != nil {
-		_code = TransactionIComposerClientCreateLayer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientCreateLayer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,12 +243,12 @@ func (p *ComposerClientProxy) CreateVirtualDisplay(
 	_data.WriteInt32(int32(formatHint))
 	_data.WriteInt32(outputBufferSlotCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "createVirtualDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientCreateVirtualDisplay)
 	if _err != nil {
-		_code = TransactionIComposerClientCreateVirtualDisplay
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientCreateVirtualDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -239,12 +280,12 @@ func (p *ComposerClientProxy) DestroyLayer(
 	_data.WriteInt64(display)
 	_data.WriteInt64(layer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "destroyLayer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientDestroyLayer)
 	if _err != nil {
-		_code = TransactionIComposerClientDestroyLayer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientDestroyLayer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -265,12 +306,12 @@ func (p *ComposerClientProxy) DestroyVirtualDisplay(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "destroyVirtualDisplay")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientDestroyVirtualDisplay)
 	if _err != nil {
-		_code = TransactionIComposerClientDestroyVirtualDisplay
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientDestroyVirtualDisplay, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -295,18 +336,19 @@ func (p *ComposerClientProxy) ExecuteCommands(
 	} else {
 		_data.WriteInt32(int32(len(commands)))
 		for _, _item := range commands {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "executeCommands")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientExecuteCommands)
 	if _err != nil {
-		_code = TransactionIComposerClientExecuteCommands
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientExecuteCommands, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -324,6 +366,9 @@ func (p *ComposerClientProxy) ExecuteCommands(
 	if _count >= 0 {
 		_result = make([]CommandResultPayload, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -341,12 +386,12 @@ func (p *ComposerClientProxy) GetActiveConfig(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getActiveConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetActiveConfig)
 	if _err != nil {
-		_code = TransactionIComposerClientGetActiveConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetActiveConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -372,12 +417,12 @@ func (p *ComposerClientProxy) GetColorModes(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getColorModes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetColorModes)
 	if _err != nil {
-		_code = TransactionIComposerClientGetColorModes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetColorModes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -414,12 +459,12 @@ func (p *ComposerClientProxy) GetDataspaceSaturationMatrix(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt32(int32(dataspace))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDataspaceSaturationMatrix")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDataspaceSaturationMatrix)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDataspaceSaturationMatrix
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDataspaceSaturationMatrix, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -459,12 +504,12 @@ func (p *ComposerClientProxy) GetDisplayAttribute(
 	_data.WriteInt32(config)
 	_data.WriteInt32(int32(attribute))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayAttribute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayAttribute)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayAttribute
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayAttribute, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -490,12 +535,12 @@ func (p *ComposerClientProxy) GetDisplayCapabilities(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayCapabilities)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -532,12 +577,12 @@ func (p *ComposerClientProxy) GetDisplayConfigs(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayConfigs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigs)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayConfigs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -573,12 +618,12 @@ func (p *ComposerClientProxy) GetDisplayConnectionType(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayConnectionType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConnectionType)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayConnectionType
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayConnectionType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -605,12 +650,12 @@ func (p *ComposerClientProxy) GetDisplayIdentificationData(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayIdentificationData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayIdentificationData)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayIdentificationData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayIdentificationData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -641,12 +686,12 @@ func (p *ComposerClientProxy) GetDisplayName(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayName)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayName
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayName, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -672,12 +717,12 @@ func (p *ComposerClientProxy) GetDisplayVsyncPeriod(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayVsyncPeriod")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayVsyncPeriod)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayVsyncPeriod
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayVsyncPeriod, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -707,12 +752,12 @@ func (p *ComposerClientProxy) GetDisplayedContentSample(
 	_data.WriteInt64(maxFrames)
 	_data.WriteInt64(timestamp)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayedContentSample")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSample)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayedContentSample
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSample, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -743,12 +788,12 @@ func (p *ComposerClientProxy) GetDisplayedContentSamplingAttributes(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayedContentSamplingAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSamplingAttributes)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayedContentSamplingAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayedContentSamplingAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -779,12 +824,12 @@ func (p *ComposerClientProxy) GetDisplayPhysicalOrientation(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayPhysicalOrientation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayPhysicalOrientation)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayPhysicalOrientation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayPhysicalOrientation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -811,12 +856,12 @@ func (p *ComposerClientProxy) GetHdrCapabilities(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getHdrCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetHdrCapabilities)
 	if _err != nil {
-		_code = TransactionIComposerClientGetHdrCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetHdrCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -845,12 +890,12 @@ func (p *ComposerClientProxy) GetMaxVirtualDisplayCount(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getMaxVirtualDisplayCount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetMaxVirtualDisplayCount)
 	if _err != nil {
-		_code = TransactionIComposerClientGetMaxVirtualDisplayCount
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetMaxVirtualDisplayCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -876,12 +921,12 @@ func (p *ComposerClientProxy) GetPerFrameMetadataKeys(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getPerFrameMetadataKeys")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetPerFrameMetadataKeys)
 	if _err != nil {
-		_code = TransactionIComposerClientGetPerFrameMetadataKeys
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetPerFrameMetadataKeys, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -918,12 +963,12 @@ func (p *ComposerClientProxy) GetReadbackBufferAttributes(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getReadbackBufferAttributes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferAttributes)
 	if _err != nil {
-		_code = TransactionIComposerClientGetReadbackBufferAttributes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferAttributes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -954,12 +999,12 @@ func (p *ComposerClientProxy) GetReadbackBufferFence(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getReadbackBufferFence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferFence)
 	if _err != nil {
-		_code = TransactionIComposerClientGetReadbackBufferFence
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetReadbackBufferFence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -987,12 +1032,12 @@ func (p *ComposerClientProxy) GetRenderIntents(
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(mode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getRenderIntents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetRenderIntents)
 	if _err != nil {
-		_code = TransactionIComposerClientGetRenderIntents
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetRenderIntents, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1029,12 +1074,12 @@ func (p *ComposerClientProxy) GetSupportedContentTypes(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getSupportedContentTypes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetSupportedContentTypes)
 	if _err != nil {
-		_code = TransactionIComposerClientGetSupportedContentTypes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetSupportedContentTypes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1071,12 +1116,12 @@ func (p *ComposerClientProxy) GetDisplayDecorationSupport(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayDecorationSupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayDecorationSupport)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayDecorationSupport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayDecorationSupport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1104,14 +1149,14 @@ func (p *ComposerClientProxy) RegisterCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "registerCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientRegisterCallback)
 	if _err != nil {
-		_code = TransactionIComposerClientRegisterCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientRegisterCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1134,12 +1179,12 @@ func (p *ComposerClientProxy) SetActiveConfig(
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setActiveConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetActiveConfig)
 	if _err != nil {
-		_code = TransactionIComposerClientSetActiveConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetActiveConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1168,12 +1213,12 @@ func (p *ComposerClientProxy) SetActiveConfigWithConstraints(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setActiveConfigWithConstraints")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetActiveConfigWithConstraints)
 	if _err != nil {
-		_code = TransactionIComposerClientSetActiveConfigWithConstraints
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetActiveConfigWithConstraints, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1205,12 +1250,12 @@ func (p *ComposerClientProxy) SetBootDisplayConfig(
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setBootDisplayConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetBootDisplayConfig)
 	if _err != nil {
-		_code = TransactionIComposerClientSetBootDisplayConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetBootDisplayConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1231,12 +1276,12 @@ func (p *ComposerClientProxy) ClearBootDisplayConfig(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "clearBootDisplayConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientClearBootDisplayConfig)
 	if _err != nil {
-		_code = TransactionIComposerClientClearBootDisplayConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientClearBootDisplayConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1258,12 +1303,12 @@ func (p *ComposerClientProxy) GetPreferredBootDisplayConfig(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getPreferredBootDisplayConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetPreferredBootDisplayConfig)
 	if _err != nil {
-		_code = TransactionIComposerClientGetPreferredBootDisplayConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetPreferredBootDisplayConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1290,12 +1335,12 @@ func (p *ComposerClientProxy) SetAutoLowLatencyMode(
 	_data.WriteInt64(display)
 	_data.WriteBool(on)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setAutoLowLatencyMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetAutoLowLatencyMode)
 	if _err != nil {
-		_code = TransactionIComposerClientSetAutoLowLatencyMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetAutoLowLatencyMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1318,12 +1363,12 @@ func (p *ComposerClientProxy) SetClientTargetSlotCount(
 	_data.WriteInt64(display)
 	_data.WriteInt32(clientTargetSlotCount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setClientTargetSlotCount")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetClientTargetSlotCount)
 	if _err != nil {
-		_code = TransactionIComposerClientSetClientTargetSlotCount
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetClientTargetSlotCount, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1348,12 +1393,12 @@ func (p *ComposerClientProxy) SetColorMode(
 	_data.WriteInt32(int32(mode))
 	_data.WriteInt32(int32(intent))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setColorMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetColorMode)
 	if _err != nil {
-		_code = TransactionIComposerClientSetColorMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetColorMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1376,12 +1421,12 @@ func (p *ComposerClientProxy) SetContentType(
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setContentType")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetContentType)
 	if _err != nil {
-		_code = TransactionIComposerClientSetContentType
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetContentType, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1408,12 +1453,12 @@ func (p *ComposerClientProxy) SetDisplayedContentSamplingEnabled(
 	_data.WritePaddedByte(byte(componentMask))
 	_data.WriteInt64(maxFrames)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setDisplayedContentSamplingEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetDisplayedContentSamplingEnabled)
 	if _err != nil {
-		_code = TransactionIComposerClientSetDisplayedContentSamplingEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetDisplayedContentSamplingEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1436,12 +1481,12 @@ func (p *ComposerClientProxy) SetPowerMode(
 	_data.WriteInt64(display)
 	_data.WriteInt32(int32(mode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setPowerMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetPowerMode)
 	if _err != nil {
-		_code = TransactionIComposerClientSetPowerMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetPowerMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1473,12 +1518,12 @@ func (p *ComposerClientProxy) SetReadbackBuffer(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setReadbackBuffer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetReadbackBuffer)
 	if _err != nil {
-		_code = TransactionIComposerClientSetReadbackBuffer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetReadbackBuffer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1501,12 +1546,12 @@ func (p *ComposerClientProxy) SetVsyncEnabled(
 	_data.WriteInt64(display)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setVsyncEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetVsyncEnabled)
 	if _err != nil {
-		_code = TransactionIComposerClientSetVsyncEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetVsyncEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1529,12 +1574,12 @@ func (p *ComposerClientProxy) SetIdleTimerEnabled(
 	_data.WriteInt64(display)
 	_data.WriteInt32(timeoutMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setIdleTimerEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetIdleTimerEnabled)
 	if _err != nil {
-		_code = TransactionIComposerClientSetIdleTimerEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetIdleTimerEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1554,12 +1599,12 @@ func (p *ComposerClientProxy) GetOverlaySupport(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getOverlaySupport")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetOverlaySupport)
 	if _err != nil {
-		_code = TransactionIComposerClientGetOverlaySupport
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetOverlaySupport, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1588,12 +1633,12 @@ func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getHdrConversionCapabilities")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetHdrConversionCapabilities)
 	if _err != nil {
-		_code = TransactionIComposerClientGetHdrConversionCapabilities
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetHdrConversionCapabilities, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1611,6 +1656,9 @@ func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 	if _count >= 0 {
 		_result = make([]gui.HdrConversionCapability, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1631,12 +1679,12 @@ func (p *ComposerClientProxy) SetHdrConversionStrategy(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setHdrConversionStrategy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetHdrConversionStrategy)
 	if _err != nil {
-		_code = TransactionIComposerClientSetHdrConversionStrategy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetHdrConversionStrategy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1664,12 +1712,12 @@ func (p *ComposerClientProxy) SetRefreshRateChangedCallbackDebugEnabled(
 	_data.WriteInt64(display)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "setRefreshRateChangedCallbackDebugEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientSetRefreshRateChangedCallbackDebugEnabled)
 	if _err != nil {
-		_code = TransactionIComposerClientSetRefreshRateChangedCallbackDebugEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientSetRefreshRateChangedCallbackDebugEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1693,12 +1741,12 @@ func (p *ComposerClientProxy) GetDisplayConfigurations(
 	_data.WriteInt64(display)
 	_data.WriteInt32(maxFrameIntervalNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getDisplayConfigurations")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigurations)
 	if _err != nil {
-		_code = TransactionIComposerClientGetDisplayConfigurations
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientGetDisplayConfigurations, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1716,6 +1764,9 @@ func (p *ComposerClientProxy) GetDisplayConfigurations(
 	if _count >= 0 {
 		_result = make([]DisplayConfiguration, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1739,117 +1790,13 @@ func (p *ComposerClientProxy) NotifyExpectedPresent(
 	}
 	_data.WriteInt32(frameIntervalNs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "notifyExpectedPresent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIComposerClient, MethodIComposerClientNotifyExpectedPresent)
 	if _err != nil {
-		_code = TransactionIComposerClientNotifyExpectedPresent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIComposerClient, MethodIComposerClientNotifyExpectedPresent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
-}
-
-func (p *ComposerClientProxy) GetMaxLayerPictureProfiles(
-	ctx context.Context,
-	display int64,
-) (int32, error) {
-	var _result int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getMaxLayerPictureProfiles")
-	if _err != nil {
-		_code = TransactionIComposerClientGetMaxLayerPictureProfiles
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *ComposerClientProxy) StartHdcpNegotiation(
-	ctx context.Context,
-	display int64,
-	levels drm.HdcpLevels,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	_data.WriteInt32(1)
-	if _err := levels.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "startHdcpNegotiation")
-	if _err != nil {
-		_code = TransactionIComposerClientStartHdcpNegotiation
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *ComposerClientProxy) GetLuts(
-	ctx context.Context,
-	display int64,
-	buffers []Buffer,
-) ([]Luts, error) {
-	var _result []Luts
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIComposerClient)
-	_data.WriteInt64(display)
-	if buffers == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(buffers)))
-		for _, _item := range buffers {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIComposerClient, "getLuts")
-	if _err != nil {
-		_code = TransactionIComposerClientGetLuts
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]Luts, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
 }
 
 // ComposerClientStub dispatches incoming binder transactions
@@ -1859,6 +1806,10 @@ type ComposerClientStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ComposerClientStub)(nil)
+
+func (s *ComposerClientStub) Descriptor() string {
+	return DescriptorIComposerClient
+}
 
 func (s *ComposerClientStub) OnTransaction(
 	ctx context.Context,
@@ -2832,67 +2783,6 @@ func (s *ComposerClientStub) OnTransaction(
 		_err = s.Impl.NotifyExpectedPresent(ctx, _arg_display, _arg_expectedPresentTime, _arg_frameIntervalNs)
 		_ = _err
 		return nil, nil
-	case TransactionIComposerClientGetMaxLayerPictureProfiles:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_display, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetMaxLayerPictureProfiles(ctx, _arg_display)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIComposerClientStartHdcpNegotiation:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_display, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_levels drm.HdcpLevels
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_levels.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.StartHdcpNegotiation(ctx, _arg_display, _arg_levels)
-		_ = _err
-		return nil, nil
-	case TransactionIComposerClientGetLuts:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_display, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_buffers []Buffer
-		_ = _arg_buffers
-		_result, _err := s.Impl.GetLuts(ctx, _arg_display, _arg_buffers)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -2949,9 +2839,6 @@ type IComposerClientServer interface {
 	SetRefreshRateChangedCallbackDebugEnabled(ctx context.Context, display int64, enabled bool) error
 	GetDisplayConfigurations(ctx context.Context, display int64, maxFrameIntervalNs int32) ([]DisplayConfiguration, error)
 	NotifyExpectedPresent(ctx context.Context, display int64, expectedPresentTime ClockMonotonicTimestamp, frameIntervalNs int32) error
-	GetMaxLayerPictureProfiles(ctx context.Context, display int64) (int32, error)
-	StartHdcpNegotiation(ctx context.Context, display int64, levels drm.HdcpLevels) error
-	GetLuts(ctx context.Context, display int64, buffers []Buffer) ([]Luts, error)
 }
 
 type composerClientStubWrapper struct {
@@ -3318,29 +3205,6 @@ func (w *composerClientStubWrapper) NotifyExpectedPresent(
 	frameIntervalNs int32,
 ) error {
 	return w.impl.NotifyExpectedPresent(ctx, display, expectedPresentTime, frameIntervalNs)
-}
-
-func (w *composerClientStubWrapper) GetMaxLayerPictureProfiles(
-	ctx context.Context,
-	display int64,
-) (int32, error) {
-	return w.impl.GetMaxLayerPictureProfiles(ctx, display)
-}
-
-func (w *composerClientStubWrapper) StartHdcpNegotiation(
-	ctx context.Context,
-	display int64,
-	levels drm.HdcpLevels,
-) error {
-	return w.impl.StartHdcpNegotiation(ctx, display, levels)
-}
-
-func (w *composerClientStubWrapper) GetLuts(
-	ctx context.Context,
-	display int64,
-	buffers []Buffer,
-) ([]Luts, error) {
-	return w.impl.GetLuts(ctx, display, buffers)
 }
 
 var _ IComposerClient = (*composerClientStubWrapper)(nil)

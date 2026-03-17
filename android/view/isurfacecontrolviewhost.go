@@ -21,6 +21,14 @@ const (
 	TransactionISurfaceControlViewHostAttachParentInterface        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodISurfaceControlViewHostOnConfigurationChanged       = "onConfigurationChanged"
+	MethodISurfaceControlViewHostOnDispatchDetachedFromWindow = "onDispatchDetachedFromWindow"
+	MethodISurfaceControlViewHostOnInsetsChanged              = "onInsetsChanged"
+	MethodISurfaceControlViewHostGetSurfaceSyncGroup          = "getSurfaceSyncGroup"
+	MethodISurfaceControlViewHostAttachParentInterface        = "attachParentInterface"
+)
+
 type ISurfaceControlViewHost interface {
 	AsBinder() binder.IBinder
 	OnConfigurationChanged(ctx context.Context, newConfig res.Configuration) error
@@ -31,17 +39,17 @@ type ISurfaceControlViewHost interface {
 }
 
 type SurfaceControlViewHostProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSurfaceControlViewHostProxy(
 	remote binder.IBinder,
 ) *SurfaceControlViewHostProxy {
-	return &SurfaceControlViewHostProxy{remote: remote}
+	return &SurfaceControlViewHostProxy{Remote: remote}
 }
 
 func (p *SurfaceControlViewHostProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISurfaceControlViewHost = (*SurfaceControlViewHostProxy)(nil)
@@ -57,12 +65,12 @@ func (p *SurfaceControlViewHostProxy) OnConfigurationChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnConfigurationChanged)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostOnConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnConfigurationChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,12 +80,12 @@ func (p *SurfaceControlViewHostProxy) OnDispatchDetachedFromWindow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onDispatchDetachedFromWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnDispatchDetachedFromWindow)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostOnDispatchDetachedFromWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnDispatchDetachedFromWindow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +105,12 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onInsetsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnInsetsChanged)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostOnInsetsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostOnInsetsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,12 +121,12 @@ func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "getSurfaceSyncGroup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostGetSurfaceSyncGroup)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostGetSurfaceSyncGroup
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostGetSurfaceSyncGroup, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,12 +151,12 @@ func (p *SurfaceControlViewHostProxy) AttachParentInterface(
 		_data.WriteInt32(-1)
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "attachParentInterface")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostAttachParentInterface)
 	if _err != nil {
-		_code = TransactionISurfaceControlViewHostAttachParentInterface
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISurfaceControlViewHost, MethodISurfaceControlViewHostAttachParentInterface, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,6 +167,10 @@ type SurfaceControlViewHostStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SurfaceControlViewHostStub)(nil)
+
+func (s *SurfaceControlViewHostStub) Descriptor() string {
+	return DescriptorISurfaceControlViewHost
+}
 
 func (s *SurfaceControlViewHostStub) OnTransaction(
 	ctx context.Context,

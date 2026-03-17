@@ -15,23 +15,27 @@ const (
 	TransactionIVcnUnderlyingNetworkPolicyListenerOnPolicyChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIVcnUnderlyingNetworkPolicyListenerOnPolicyChanged = "onPolicyChanged"
+)
+
 type IVcnUnderlyingNetworkPolicyListener interface {
 	AsBinder() binder.IBinder
 	OnPolicyChanged(ctx context.Context) error
 }
 
 type VcnUnderlyingNetworkPolicyListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVcnUnderlyingNetworkPolicyListenerProxy(
 	remote binder.IBinder,
 ) *VcnUnderlyingNetworkPolicyListenerProxy {
-	return &VcnUnderlyingNetworkPolicyListenerProxy{remote: remote}
+	return &VcnUnderlyingNetworkPolicyListenerProxy{Remote: remote}
 }
 
 func (p *VcnUnderlyingNetworkPolicyListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVcnUnderlyingNetworkPolicyListener = (*VcnUnderlyingNetworkPolicyListenerProxy)(nil)
@@ -42,12 +46,12 @@ func (p *VcnUnderlyingNetworkPolicyListenerProxy) OnPolicyChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnUnderlyingNetworkPolicyListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVcnUnderlyingNetworkPolicyListener, "onPolicyChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnUnderlyingNetworkPolicyListener, MethodIVcnUnderlyingNetworkPolicyListenerOnPolicyChanged)
 	if _err != nil {
-		_code = TransactionIVcnUnderlyingNetworkPolicyListenerOnPolicyChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVcnUnderlyingNetworkPolicyListener, MethodIVcnUnderlyingNetworkPolicyListenerOnPolicyChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type VcnUnderlyingNetworkPolicyListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VcnUnderlyingNetworkPolicyListenerStub)(nil)
+
+func (s *VcnUnderlyingNetworkPolicyListenerStub) Descriptor() string {
+	return DescriptorIVcnUnderlyingNetworkPolicyListener
+}
 
 func (s *VcnUnderlyingNetworkPolicyListenerStub) OnTransaction(
 	ctx context.Context,

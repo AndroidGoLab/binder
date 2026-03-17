@@ -25,6 +25,20 @@ const (
 	TransactionINetworkScoreServiceGetAllValidScorers          = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodINetworkScoreServiceUpdateScores                = "updateScores"
+	MethodINetworkScoreServiceClearScores                 = "clearScores"
+	MethodINetworkScoreServiceSetActiveScorer             = "setActiveScorer"
+	MethodINetworkScoreServiceDisableScoring              = "disableScoring"
+	MethodINetworkScoreServiceRegisterNetworkScoreCache   = "registerNetworkScoreCache"
+	MethodINetworkScoreServiceUnregisterNetworkScoreCache = "unregisterNetworkScoreCache"
+	MethodINetworkScoreServiceRequestScores               = "requestScores"
+	MethodINetworkScoreServiceIsCallerActiveScorer        = "isCallerActiveScorer"
+	MethodINetworkScoreServiceGetActiveScorerPackage      = "getActiveScorerPackage"
+	MethodINetworkScoreServiceGetActiveScorer             = "getActiveScorer"
+	MethodINetworkScoreServiceGetAllValidScorers          = "getAllValidScorers"
+)
+
 type INetworkScoreService interface {
 	AsBinder() binder.IBinder
 	UpdateScores(ctx context.Context, networks []ScoredNetwork) (bool, error)
@@ -41,17 +55,17 @@ type INetworkScoreService interface {
 }
 
 type NetworkScoreServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetworkScoreServiceProxy(
 	remote binder.IBinder,
 ) *NetworkScoreServiceProxy {
-	return &NetworkScoreServiceProxy{remote: remote}
+	return &NetworkScoreServiceProxy{Remote: remote}
 }
 
 func (p *NetworkScoreServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetworkScoreService = (*NetworkScoreServiceProxy)(nil)
@@ -68,18 +82,19 @@ func (p *NetworkScoreServiceProxy) UpdateScores(
 	} else {
 		_data.WriteInt32(int32(len(networks)))
 		for _, _item := range networks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "updateScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceUpdateScores)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceUpdateScores
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceUpdateScores, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,12 +118,12 @@ func (p *NetworkScoreServiceProxy) ClearScores(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "clearScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceClearScores)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceClearScores
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceClearScores, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -134,12 +149,12 @@ func (p *NetworkScoreServiceProxy) SetActiveScorer(
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteString16(packageName)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "setActiveScorer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceSetActiveScorer)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceSetActiveScorer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceSetActiveScorer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,12 +177,12 @@ func (p *NetworkScoreServiceProxy) DisableScoring(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "disableScoring")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceDisableScoring)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceDisableScoring
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceDisableScoring, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,15 +204,15 @@ func (p *NetworkScoreServiceProxy) RegisterNetworkScoreCache(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(networkType)
-	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(filterType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "registerNetworkScoreCache")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceRegisterNetworkScoreCache)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceRegisterNetworkScoreCache
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceRegisterNetworkScoreCache, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -218,14 +233,14 @@ func (p *NetworkScoreServiceProxy) UnregisterNetworkScoreCache(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(networkType)
-	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, scoreCache.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "unregisterNetworkScoreCache")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceUnregisterNetworkScoreCache)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceUnregisterNetworkScoreCache
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceUnregisterNetworkScoreCache, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -250,18 +265,19 @@ func (p *NetworkScoreServiceProxy) RequestScores(
 	} else {
 		_data.WriteInt32(int32(len(networks)))
 		for _, _item := range networks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "requestScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceRequestScores)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceRequestScores
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceRequestScores, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -282,17 +298,17 @@ func (p *NetworkScoreServiceProxy) IsCallerActiveScorer(
 	ctx context.Context,
 ) (bool, error) {
 	var _result bool
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(_identity.UID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "isCallerActiveScorer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceIsCallerActiveScorer)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceIsCallerActiveScorer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceIsCallerActiveScorer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -316,12 +332,12 @@ func (p *NetworkScoreServiceProxy) GetActiveScorerPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "getActiveScorerPackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceGetActiveScorerPackage)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceGetActiveScorerPackage
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceGetActiveScorerPackage, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -345,12 +361,12 @@ func (p *NetworkScoreServiceProxy) GetActiveScorer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "getActiveScorer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceGetActiveScorer)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceGetActiveScorer
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceGetActiveScorer, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -379,12 +395,12 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "getAllValidScorers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreService, MethodINetworkScoreServiceGetAllValidScorers)
 	if _err != nil {
-		_code = TransactionINetworkScoreServiceGetAllValidScorers
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreService, MethodINetworkScoreServiceGetAllValidScorers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -402,6 +418,9 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 	if _count >= 0 {
 		_result = make([]NetworkScorerAppData, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -417,6 +436,10 @@ type NetworkScoreServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetworkScoreServiceStub)(nil)
+
+func (s *NetworkScoreServiceStub) Descriptor() string {
+	return DescriptorINetworkScoreService
+}
 
 func (s *NetworkScoreServiceStub) OnTransaction(
 	ctx context.Context,

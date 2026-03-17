@@ -16,6 +16,11 @@ const (
 	TransactionISerialManagerOpenSerialPort = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISerialManagerGetSerialPorts = "getSerialPorts"
+	MethodISerialManagerOpenSerialPort = "openSerialPort"
+)
+
 type ISerialManager interface {
 	AsBinder() binder.IBinder
 	GetSerialPorts(ctx context.Context) ([]string, error)
@@ -23,17 +28,17 @@ type ISerialManager interface {
 }
 
 type SerialManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSerialManagerProxy(
 	remote binder.IBinder,
 ) *SerialManagerProxy {
-	return &SerialManagerProxy{remote: remote}
+	return &SerialManagerProxy{Remote: remote}
 }
 
 func (p *SerialManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISerialManager = (*SerialManagerProxy)(nil)
@@ -45,12 +50,12 @@ func (p *SerialManagerProxy) GetSerialPorts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISerialManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISerialManager, "getSerialPorts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISerialManager, MethodISerialManagerGetSerialPorts)
 	if _err != nil {
-		_code = TransactionISerialManagerGetSerialPorts
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISerialManager, MethodISerialManagerGetSerialPorts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,12 +91,12 @@ func (p *SerialManagerProxy) OpenSerialPort(
 	_data.WriteInterfaceToken(DescriptorISerialManager)
 	_data.WriteString16(name)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISerialManager, "openSerialPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISerialManager, MethodISerialManagerOpenSerialPort)
 	if _err != nil {
-		_code = TransactionISerialManagerOpenSerialPort
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISerialManager, MethodISerialManagerOpenSerialPort, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,6 +120,10 @@ type SerialManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SerialManagerStub)(nil)
+
+func (s *SerialManagerStub) Descriptor() string {
+	return DescriptorISerialManager
+}
 
 func (s *SerialManagerStub) OnTransaction(
 	ctx context.Context,

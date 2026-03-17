@@ -17,23 +17,27 @@ const (
 	TransactionICrossProfileServiceLaunchIntent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICrossProfileServiceLaunchIntent = "launchIntent"
+)
+
 type ICrossProfileService interface {
 	AsBinder() binder.IBinder
 	LaunchIntent(ctx context.Context, intent content.Intent, bundle os.Bundle) error
 }
 
 type CrossProfileServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCrossProfileServiceProxy(
 	remote binder.IBinder,
 ) *CrossProfileServiceProxy {
-	return &CrossProfileServiceProxy{remote: remote}
+	return &CrossProfileServiceProxy{Remote: remote}
 }
 
 func (p *CrossProfileServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICrossProfileService = (*CrossProfileServiceProxy)(nil)
@@ -54,12 +58,12 @@ func (p *CrossProfileServiceProxy) LaunchIntent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICrossProfileService, "launchIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossProfileService, MethodICrossProfileServiceLaunchIntent)
 	if _err != nil {
-		_code = TransactionICrossProfileServiceLaunchIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICrossProfileService, MethodICrossProfileServiceLaunchIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,6 +83,10 @@ type CrossProfileServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CrossProfileServiceStub)(nil)
+
+func (s *CrossProfileServiceStub) Descriptor() string {
+	return DescriptorICrossProfileService
+}
 
 func (s *CrossProfileServiceStub) OnTransaction(
 	ctx context.Context,

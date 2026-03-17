@@ -19,6 +19,14 @@ const (
 	TransactionIPresentationSessionGetCredential               = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIPresentationSessionGetEphemeralKeyPair         = "getEphemeralKeyPair"
+	MethodIPresentationSessionGetAuthChallenge            = "getAuthChallenge"
+	MethodIPresentationSessionSetReaderEphemeralPublicKey = "setReaderEphemeralPublicKey"
+	MethodIPresentationSessionSetSessionTranscript        = "setSessionTranscript"
+	MethodIPresentationSessionGetCredential               = "getCredential"
+)
+
 type IPresentationSession interface {
 	AsBinder() binder.IBinder
 	GetEphemeralKeyPair(ctx context.Context) ([]byte, error)
@@ -29,17 +37,17 @@ type IPresentationSession interface {
 }
 
 type PresentationSessionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPresentationSessionProxy(
 	remote binder.IBinder,
 ) *PresentationSessionProxy {
-	return &PresentationSessionProxy{remote: remote}
+	return &PresentationSessionProxy{Remote: remote}
 }
 
 func (p *PresentationSessionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPresentationSession = (*PresentationSessionProxy)(nil)
@@ -51,12 +59,12 @@ func (p *PresentationSessionProxy) GetEphemeralKeyPair(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "getEphemeralKeyPair")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetEphemeralKeyPair)
 	if _err != nil {
-		_code = TransactionIPresentationSessionGetEphemeralKeyPair
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresentationSession, MethodIPresentationSessionGetEphemeralKeyPair, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,12 +98,12 @@ func (p *PresentationSessionProxy) GetAuthChallenge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresentationSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "getAuthChallenge")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetAuthChallenge)
 	if _err != nil {
-		_code = TransactionIPresentationSessionGetAuthChallenge
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresentationSession, MethodIPresentationSessionGetAuthChallenge, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,12 +135,12 @@ func (p *PresentationSessionProxy) SetReaderEphemeralPublicKey(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "setReaderEphemeralPublicKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetReaderEphemeralPublicKey)
 	if _err != nil {
-		_code = TransactionIPresentationSessionSetReaderEphemeralPublicKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPresentationSession, MethodIPresentationSessionSetReaderEphemeralPublicKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -160,12 +168,12 @@ func (p *PresentationSessionProxy) SetSessionTranscript(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "setSessionTranscript")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionSetSessionTranscript)
 	if _err != nil {
-		_code = TransactionIPresentationSessionSetSessionTranscript
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPresentationSession, MethodIPresentationSessionSetSessionTranscript, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -194,12 +202,12 @@ func (p *PresentationSessionProxy) GetCredential(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "getCredential")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresentationSession, MethodIPresentationSessionGetCredential)
 	if _err != nil {
-		_code = TransactionIPresentationSessionGetCredential
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIPresentationSession, MethodIPresentationSessionGetCredential, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -213,7 +221,7 @@ func (p *PresentationSessionProxy) GetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewIdentityCredentialProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -224,6 +232,10 @@ type PresentationSessionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PresentationSessionStub)(nil)
+
+func (s *PresentationSessionStub) Descriptor() string {
+	return DescriptorIPresentationSession
+}
 
 func (s *PresentationSessionStub) OnTransaction(
 	ctx context.Context,

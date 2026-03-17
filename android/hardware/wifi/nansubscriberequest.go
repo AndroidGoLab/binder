@@ -39,6 +39,7 @@ func (s *NanSubscribeRequest) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.IntfAddr)))
 		for _, _item := range s.IntfAddr {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -47,19 +48,13 @@ func (s *NanSubscribeRequest) MarshalParcel(
 	if _err := s.PairingConfig.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if s.IdentityKey == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.IdentityKey)))
-		for _, _item := range s.IdentityKey {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.IdentityKey, 16)
 	if s.VendorData == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -117,6 +112,9 @@ func (s *NanSubscribeRequest) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.IntfAddr = make([]MacAddress, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.IntfAddr[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -127,19 +125,9 @@ func (s *NanSubscribeRequest) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.IdentityKey, _err = p.ReadFixedByteArray(16)
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.IdentityKey = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.IdentityKey[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count2 int32
@@ -150,6 +138,9 @@ func (s *NanSubscribeRequest) UnmarshalParcel(
 	if _count2 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count2)
 		for _i := int32(0); _i < _count2; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

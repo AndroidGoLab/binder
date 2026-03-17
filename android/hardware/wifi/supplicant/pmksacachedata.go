@@ -10,7 +10,6 @@ type PmkSaCacheData struct {
 	Bssid               []byte
 	ExpirationTimeInSec int64
 	SerializedEntry     []byte
-	Pmkid               []byte
 }
 
 var _ parcel.Parcelable = (*PmkSaCacheData)(nil)
@@ -19,31 +18,9 @@ func (s *PmkSaCacheData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Bssid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Bssid)))
-		for _, _item := range s.Bssid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Bssid, 6)
 	p.WriteInt64(s.ExpirationTimeInSec)
-	if s.SerializedEntry == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.SerializedEntry)))
-		for _, _item := range s.SerializedEntry {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Pmkid == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Pmkid)))
-		for _, _item := range s.Pmkid {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.SerializedEntry)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -57,19 +34,9 @@ func (s *PmkSaCacheData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Bssid, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Bssid = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Bssid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.ExpirationTimeInSec, _err = p.ReadInt64()
@@ -77,34 +44,9 @@ func (s *PmkSaCacheData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.SerializedEntry, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.SerializedEntry = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.SerializedEntry[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
-	}
-
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count2 >= 0 {
-		s.Pmkid = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.Pmkid[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

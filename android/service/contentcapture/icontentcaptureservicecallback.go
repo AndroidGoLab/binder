@@ -20,6 +20,13 @@ const (
 	TransactionIContentCaptureServiceCallbackWriteSessionFlush           = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIContentCaptureServiceCallbackSetContentCaptureWhitelist  = "setContentCaptureWhitelist"
+	MethodIContentCaptureServiceCallbackSetContentCaptureConditions = "setContentCaptureConditions"
+	MethodIContentCaptureServiceCallbackDisableSelf                 = "disableSelf"
+	MethodIContentCaptureServiceCallbackWriteSessionFlush           = "writeSessionFlush"
+)
+
 type IContentCaptureServiceCallback interface {
 	AsBinder() binder.IBinder
 	SetContentCaptureWhitelist(ctx context.Context, packages []string, activities []content.ComponentName) error
@@ -29,17 +36,17 @@ type IContentCaptureServiceCallback interface {
 }
 
 type ContentCaptureServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentCaptureServiceCallbackProxy(
 	remote binder.IBinder,
 ) *ContentCaptureServiceCallbackProxy {
-	return &ContentCaptureServiceCallbackProxy{remote: remote}
+	return &ContentCaptureServiceCallbackProxy{Remote: remote}
 }
 
 func (p *ContentCaptureServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentCaptureServiceCallback = (*ContentCaptureServiceCallbackProxy)(nil)
@@ -64,18 +71,19 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureWhitelist(
 	} else {
 		_data.WriteInt32(int32(len(activities)))
 		for _, _item := range activities {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "setContentCaptureWhitelist")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackSetContentCaptureWhitelist)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceCallbackSetContentCaptureWhitelist
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackSetContentCaptureWhitelist, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,18 +100,19 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureConditions(
 	} else {
 		_data.WriteInt32(int32(len(conditions)))
 		for _, _item := range conditions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "setContentCaptureConditions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackSetContentCaptureConditions)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceCallbackSetContentCaptureConditions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackSetContentCaptureConditions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,12 +122,12 @@ func (p *ContentCaptureServiceCallbackProxy) DisableSelf(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "disableSelf")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackDisableSelf)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceCallbackDisableSelf
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackDisableSelf, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,12 +156,12 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 	}
 	_data.WriteInt32(flushReason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "writeSessionFlush")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackWriteSessionFlush)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceCallbackWriteSessionFlush
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureServiceCallback, MethodIContentCaptureServiceCallbackWriteSessionFlush, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,6 +172,10 @@ type ContentCaptureServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureServiceCallbackStub)(nil)
+
+func (s *ContentCaptureServiceCallbackStub) Descriptor() string {
+	return DescriptorIContentCaptureServiceCallback
+}
 
 func (s *ContentCaptureServiceCallbackStub) OnTransaction(
 	ctx context.Context,

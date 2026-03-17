@@ -733,3 +733,70 @@ func TestMultipleStrongBinders(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, uint32(20), h2)
 }
+
+func TestWriteReadFixedByteArray(t *testing.T) {
+	p := New()
+
+	// Write a short name into a fixed 128-byte array.
+	name := []byte("test")
+	p.WriteFixedByteArray(name, 128)
+
+	p.SetPosition(0)
+
+	result, err := p.ReadFixedByteArray(128)
+	require.NoError(t, err)
+	assert.Len(t, result, 128)
+	assert.Equal(t, []byte("test"), result[:4])
+	// Remaining bytes must be zero.
+	for i := 4; i < 128; i++ {
+		assert.Equal(t, byte(0), result[i], "byte at index %d should be 0", i)
+	}
+}
+
+func TestWriteReadFixedByteArrayFull(t *testing.T) {
+	p := New()
+
+	// Write a full 128-byte array.
+	data := make([]byte, 128)
+	for i := range data {
+		data[i] = byte(i)
+	}
+	p.WriteFixedByteArray(data, 128)
+
+	p.SetPosition(0)
+
+	result, err := p.ReadFixedByteArray(128)
+	require.NoError(t, err)
+	assert.Equal(t, data, result)
+}
+
+func TestReadFixedByteArraySizeMismatch(t *testing.T) {
+	p := New()
+
+	// Write with size 64, but try to read as fixed size 128.
+	p.WriteInt32(64)
+	p.WriteRawBytes(make([]byte, 64))
+
+	p.SetPosition(0)
+
+	_, err := p.ReadFixedByteArray(128)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "size mismatch")
+}
+
+func TestWriteFixedByteArrayTruncatesLongInput(t *testing.T) {
+	p := New()
+
+	// Input longer than fixed size should be truncated.
+	long := make([]byte, 256)
+	for i := range long {
+		long[i] = byte(i % 256)
+	}
+	p.WriteFixedByteArray(long, 128)
+
+	p.SetPosition(0)
+
+	result, err := p.ReadFixedByteArray(128)
+	require.NoError(t, err)
+	assert.Equal(t, long[:128], result)
+}

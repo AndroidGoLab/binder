@@ -24,6 +24,17 @@ const (
 	TransactionIContentCaptureServiceOnActivityEvent      = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIContentCaptureServiceOnConnected          = "onConnected"
+	MethodIContentCaptureServiceOnDisconnected       = "onDisconnected"
+	MethodIContentCaptureServiceOnSessionStarted     = "onSessionStarted"
+	MethodIContentCaptureServiceOnSessionFinished    = "onSessionFinished"
+	MethodIContentCaptureServiceOnActivitySnapshot   = "onActivitySnapshot"
+	MethodIContentCaptureServiceOnDataRemovalRequest = "onDataRemovalRequest"
+	MethodIContentCaptureServiceOnDataShared         = "onDataShared"
+	MethodIContentCaptureServiceOnActivityEvent      = "onActivityEvent"
+)
+
 type IContentCaptureService interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context, callback binder.IBinder, verbose bool, debug bool) error
@@ -37,17 +48,17 @@ type IContentCaptureService interface {
 }
 
 type ContentCaptureServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentCaptureServiceProxy(
 	remote binder.IBinder,
 ) *ContentCaptureServiceProxy {
-	return &ContentCaptureServiceProxy{remote: remote}
+	return &ContentCaptureServiceProxy{Remote: remote}
 }
 
 func (p *ContentCaptureServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentCaptureService = (*ContentCaptureServiceProxy)(nil)
@@ -60,16 +71,16 @@ func (p *ContentCaptureServiceProxy) OnConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
-	binder.WriteBinderToParcel(ctx, _data, callback, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback, p.Remote.Transport())
 	_data.WriteBool(verbose)
 	_data.WriteBool(debug)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onConnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnConnected)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnConnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnConnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,12 +90,12 @@ func (p *ContentCaptureServiceProxy) OnDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onDisconnected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDisconnected)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnDisconnected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDisconnected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,15 +115,15 @@ func (p *ContentCaptureServiceProxy) OnSessionStarted(
 	}
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(uid)
-	binder.WriteBinderToParcel(ctx, _data, clientReceiver.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, clientReceiver.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(initialState)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onSessionStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnSessionStarted)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnSessionStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnSessionStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,12 +135,12 @@ func (p *ContentCaptureServiceProxy) OnSessionFinished(
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onSessionFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnSessionFinished)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnSessionFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnSessionFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,12 +157,12 @@ func (p *ContentCaptureServiceProxy) OnActivitySnapshot(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onActivitySnapshot")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnActivitySnapshot)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnActivitySnapshot
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnActivitySnapshot, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,12 +177,12 @@ func (p *ContentCaptureServiceProxy) OnDataRemovalRequest(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onDataRemovalRequest")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDataRemovalRequest)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnDataRemovalRequest
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDataRemovalRequest, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -186,14 +197,14 @@ func (p *ContentCaptureServiceProxy) OnDataShared(
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onDataShared")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDataShared)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnDataShared
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnDataShared, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -208,12 +219,12 @@ func (p *ContentCaptureServiceProxy) OnActivityEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onActivityEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureService, MethodIContentCaptureServiceOnActivityEvent)
 	if _err != nil {
-		_code = TransactionIContentCaptureServiceOnActivityEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureService, MethodIContentCaptureServiceOnActivityEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -224,6 +235,10 @@ type ContentCaptureServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureServiceStub)(nil)
+
+func (s *ContentCaptureServiceStub) Descriptor() string {
+	return DescriptorIContentCaptureService
+}
 
 func (s *ContentCaptureServiceStub) OnTransaction(
 	ctx context.Context,

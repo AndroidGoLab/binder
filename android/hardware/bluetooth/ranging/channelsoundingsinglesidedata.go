@@ -29,27 +29,14 @@ func (s *ChannelSoundingSingleSideData) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.StepTonePcts)))
 		for _, _item := range s.StepTonePcts {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
-	if s.PacketQuality == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PacketQuality)))
-		for _, _item := range s.PacketQuality {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.PacketRssiDbm == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.PacketRssiDbm)))
-		for _, _item := range s.PacketRssiDbm {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.PacketQuality)
+	p.WriteByteArray(s.PacketRssiDbm)
 	if s.PacketNadm == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -71,6 +58,7 @@ func (s *ChannelSoundingSingleSideData) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PacketPct1)))
 		for _, _item := range s.PacketPct1 {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -81,20 +69,14 @@ func (s *ChannelSoundingSingleSideData) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.PacketPct2)))
 		for _, _item := range s.PacketPct2 {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 	p.WritePaddedByte(s.ReferencePowerDbm)
-	if s.VendorSpecificCsSingleSidedata == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.VendorSpecificCsSingleSidedata)))
-		for _, _item := range s.VendorSpecificCsSingleSidedata {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.VendorSpecificCsSingleSidedata)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -116,40 +98,23 @@ func (s *ChannelSoundingSingleSideData) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.StepTonePcts = make([]StepTonePct, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.StepTonePcts[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.PacketQuality, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.PacketQuality = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.PacketQuality[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.PacketRssiDbm, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.PacketRssiDbm = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.PacketRssiDbm[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count3 int32
@@ -164,7 +129,7 @@ func (s *ChannelSoundingSingleSideData) UnmarshalParcel(
 			if _err != nil {
 				return _err
 			}
-			s.PacketNadm[_i] = *Nadm(_raw)
+			s.PacketNadm[_i] = Nadm(_raw)
 		}
 	}
 
@@ -191,6 +156,9 @@ func (s *ChannelSoundingSingleSideData) UnmarshalParcel(
 	if _count5 >= 0 {
 		s.PacketPct1 = make([]ComplexNumber, _count5)
 		for _i := int32(0); _i < _count5; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PacketPct1[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -205,6 +173,9 @@ func (s *ChannelSoundingSingleSideData) UnmarshalParcel(
 	if _count6 >= 0 {
 		s.PacketPct2 = make([]ComplexNumber, _count6)
 		for _i := int32(0); _i < _count6; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.PacketPct2[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -216,19 +187,9 @@ func (s *ChannelSoundingSingleSideData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count7 int32
-	_count7, _err = p.ReadInt32()
+	s.VendorSpecificCsSingleSidedata, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count7 >= 0 {
-		s.VendorSpecificCsSingleSidedata = make([]byte, _count7)
-		for _i := int32(0); _i < _count7; _i++ {
-			s.VendorSpecificCsSingleSidedata[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

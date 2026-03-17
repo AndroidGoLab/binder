@@ -16,6 +16,11 @@ const (
 	TransactionIServiceListImportListenerOnPreloaded = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIServiceListImportListenerOnImported  = "onImported"
+	MethodIServiceListImportListenerOnPreloaded = "onPreloaded"
+)
+
 type IServiceListImportListener interface {
 	AsBinder() binder.IBinder
 	OnImported(ctx context.Context, importResult int32) error
@@ -23,17 +28,17 @@ type IServiceListImportListener interface {
 }
 
 type ServiceListImportListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewServiceListImportListenerProxy(
 	remote binder.IBinder,
 ) *ServiceListImportListenerProxy {
-	return &ServiceListImportListenerProxy{remote: remote}
+	return &ServiceListImportListenerProxy{Remote: remote}
 }
 
 func (p *ServiceListImportListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IServiceListImportListener = (*ServiceListImportListenerProxy)(nil)
@@ -46,12 +51,12 @@ func (p *ServiceListImportListenerProxy) OnImported(
 	_data.WriteInterfaceToken(DescriptorIServiceListImportListener)
 	_data.WriteInt32(importResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportListener, "onImported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListImportListener, MethodIServiceListImportListenerOnImported)
 	if _err != nil {
-		_code = TransactionIServiceListImportListenerOnImported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListImportListener, MethodIServiceListImportListenerOnImported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,12 +77,12 @@ func (p *ServiceListImportListenerProxy) OnPreloaded(
 	_data.WriteInterfaceToken(DescriptorIServiceListImportListener)
 	_data.WriteInt32(preloadResult)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportListener, "onPreloaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIServiceListImportListener, MethodIServiceListImportListenerOnPreloaded)
 	if _err != nil {
-		_code = TransactionIServiceListImportListenerOnPreloaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIServiceListImportListener, MethodIServiceListImportListenerOnPreloaded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,6 +102,10 @@ type ServiceListImportListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ServiceListImportListenerStub)(nil)
+
+func (s *ServiceListImportListenerStub) Descriptor() string {
+	return DescriptorIServiceListImportListener
+}
 
 func (s *ServiceListImportListenerStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,12 @@ const (
 	TransactionIVideoSignalInfoGetVideoSignalInfo            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIVideoSignalInfoAddVideoSignalInfoListener    = "addVideoSignalInfoListener"
+	MethodIVideoSignalInfoRemoveVideoSignalInfoListener = "removeVideoSignalInfoListener"
+	MethodIVideoSignalInfoGetVideoSignalInfo            = "getVideoSignalInfo"
+)
+
 type IVideoSignalInfo interface {
 	AsBinder() binder.IBinder
 	AddVideoSignalInfoListener(ctx context.Context, clientToken string, listener IVideoSignalInfoListener) error
@@ -26,17 +32,17 @@ type IVideoSignalInfo interface {
 }
 
 type VideoSignalInfoProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVideoSignalInfoProxy(
 	remote binder.IBinder,
 ) *VideoSignalInfoProxy {
-	return &VideoSignalInfoProxy{remote: remote}
+	return &VideoSignalInfoProxy{Remote: remote}
 }
 
 func (p *VideoSignalInfoProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVideoSignalInfo = (*VideoSignalInfoProxy)(nil)
@@ -49,14 +55,14 @@ func (p *VideoSignalInfoProxy) AddVideoSignalInfoListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoSignalInfo)
 	_data.WriteString16(clientToken)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfo, "addVideoSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoSignalInfo, MethodIVideoSignalInfoAddVideoSignalInfoListener)
 	if _err != nil {
-		_code = TransactionIVideoSignalInfoAddVideoSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoSignalInfo, MethodIVideoSignalInfoAddVideoSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,14 +81,14 @@ func (p *VideoSignalInfoProxy) RemoveVideoSignalInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoSignalInfo)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfo, "removeVideoSignalInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoSignalInfo, MethodIVideoSignalInfoRemoveVideoSignalInfoListener)
 	if _err != nil {
-		_code = TransactionIVideoSignalInfoRemoveVideoSignalInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoSignalInfo, MethodIVideoSignalInfoRemoveVideoSignalInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,12 +110,12 @@ func (p *VideoSignalInfoProxy) GetVideoSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIVideoSignalInfo)
 	_data.WriteString16(sessionToken)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfo, "getVideoSignalInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVideoSignalInfo, MethodIVideoSignalInfoGetVideoSignalInfo)
 	if _err != nil {
-		_code = TransactionIVideoSignalInfoGetVideoSignalInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIVideoSignalInfo, MethodIVideoSignalInfoGetVideoSignalInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,6 +144,10 @@ type VideoSignalInfoStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VideoSignalInfoStub)(nil)
+
+func (s *VideoSignalInfoStub) Descriptor() string {
+	return DescriptorIVideoSignalInfo
+}
 
 func (s *VideoSignalInfoStub) OnTransaction(
 	ctx context.Context,

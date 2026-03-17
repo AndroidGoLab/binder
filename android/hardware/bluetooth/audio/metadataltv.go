@@ -76,14 +76,17 @@ func (u *MetadataLtv) MarshalParcel(
 
 	switch u.Tag {
 	case MetadataLtvTagPreferredAudioContexts:
+		p.WriteInt32(1)
 		if _err := u.PreferredAudioContexts.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case MetadataLtvTagStreamingAudioContexts:
+		p.WriteInt32(1)
 		if _err := u.StreamingAudioContexts.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case MetadataLtvTagVendorSpecific:
+		p.WriteInt32(1)
 		if _err := u.VendorSpecific.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -110,14 +113,23 @@ func (u *MetadataLtv) UnmarshalParcel(
 
 	switch u.Tag {
 	case MetadataLtvTagPreferredAudioContexts:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PreferredAudioContexts.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case MetadataLtvTagStreamingAudioContexts:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.StreamingAudioContexts.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case MetadataLtvTagVendorSpecific:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VendorSpecific.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

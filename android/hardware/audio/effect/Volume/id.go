@@ -59,6 +59,7 @@ func (u *Id) MarshalParcel(
 
 	switch u.Tag {
 	case IdTagVendorExtensionTag:
+		p.WriteInt32(1)
 		if _err := u.VendorExtensionTag.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -86,6 +87,9 @@ func (u *Id) UnmarshalParcel(
 
 	switch u.Tag {
 	case IdTagVendorExtensionTag:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.VendorExtensionTag.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

@@ -34,7 +34,29 @@ const (
 	TransactionISpatializerSetParameter                  = binder.FirstCallTransaction + 17
 	TransactionISpatializerGetParameter                  = binder.FirstCallTransaction + 18
 	TransactionISpatializerGetOutput                     = binder.FirstCallTransaction + 19
-	TransactionISpatializerGetSpatializedChannelMasks    = binder.FirstCallTransaction + 20
+)
+
+const (
+	MethodISpatializerRelease                       = "release"
+	MethodISpatializerGetSupportedLevels            = "getSupportedLevels"
+	MethodISpatializerSetLevel                      = "setLevel"
+	MethodISpatializerGetLevel                      = "getLevel"
+	MethodISpatializerIsHeadTrackingSupported       = "isHeadTrackingSupported"
+	MethodISpatializerGetSupportedHeadTrackingModes = "getSupportedHeadTrackingModes"
+	MethodISpatializerSetDesiredHeadTrackingMode    = "setDesiredHeadTrackingMode"
+	MethodISpatializerGetActualHeadTrackingMode     = "getActualHeadTrackingMode"
+	MethodISpatializerRecenterHeadTracker           = "recenterHeadTracker"
+	MethodISpatializerSetGlobalTransform            = "setGlobalTransform"
+	MethodISpatializerSetHeadSensor                 = "setHeadSensor"
+	MethodISpatializerSetScreenSensor               = "setScreenSensor"
+	MethodISpatializerSetDisplayOrientation         = "setDisplayOrientation"
+	MethodISpatializerSetHingeAngle                 = "setHingeAngle"
+	MethodISpatializerSetFoldState                  = "setFoldState"
+	MethodISpatializerGetSupportedModes             = "getSupportedModes"
+	MethodISpatializerRegisterHeadTrackingCallback  = "registerHeadTrackingCallback"
+	MethodISpatializerSetParameter                  = "setParameter"
+	MethodISpatializerGetParameter                  = "getParameter"
+	MethodISpatializerGetOutput                     = "getOutput"
 )
 
 type ISpatializer interface {
@@ -59,21 +81,20 @@ type ISpatializer interface {
 	SetParameter(ctx context.Context, key int32, value []byte) error
 	GetParameter(ctx context.Context, key int32, value []byte) error
 	GetOutput(ctx context.Context) (int32, error)
-	GetSpatializedChannelMasks(ctx context.Context) ([]int32, error)
 }
 
 type SpatializerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpatializerProxy(
 	remote binder.IBinder,
 ) *SpatializerProxy {
-	return &SpatializerProxy{remote: remote}
+	return &SpatializerProxy{Remote: remote}
 }
 
 func (p *SpatializerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpatializer = (*SpatializerProxy)(nil)
@@ -84,12 +105,12 @@ func (p *SpatializerProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "release")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerRelease)
 	if _err != nil {
-		_code = TransactionISpatializerRelease
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerRelease, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,12 +130,12 @@ func (p *SpatializerProxy) GetSupportedLevels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSupportedLevels")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetSupportedLevels)
 	if _err != nil {
-		_code = TransactionISpatializerGetSupportedLevels
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetSupportedLevels, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -144,12 +165,12 @@ func (p *SpatializerProxy) SetLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetLevel)
 	if _err != nil {
-		_code = TransactionISpatializerSetLevel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,12 +190,12 @@ func (p *SpatializerProxy) GetLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetLevel)
 	if _err != nil {
-		_code = TransactionISpatializerGetLevel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetLevel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -194,12 +215,12 @@ func (p *SpatializerProxy) IsHeadTrackingSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "isHeadTrackingSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerIsHeadTrackingSupported)
 	if _err != nil {
-		_code = TransactionISpatializerIsHeadTrackingSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerIsHeadTrackingSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -223,12 +244,12 @@ func (p *SpatializerProxy) GetSupportedHeadTrackingModes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSupportedHeadTrackingModes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetSupportedHeadTrackingModes)
 	if _err != nil {
-		_code = TransactionISpatializerGetSupportedHeadTrackingModes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetSupportedHeadTrackingModes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -258,12 +279,12 @@ func (p *SpatializerProxy) SetDesiredHeadTrackingMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setDesiredHeadTrackingMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetDesiredHeadTrackingMode)
 	if _err != nil {
-		_code = TransactionISpatializerSetDesiredHeadTrackingMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetDesiredHeadTrackingMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -283,12 +304,12 @@ func (p *SpatializerProxy) GetActualHeadTrackingMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getActualHeadTrackingMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetActualHeadTrackingMode)
 	if _err != nil {
-		_code = TransactionISpatializerGetActualHeadTrackingMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetActualHeadTrackingMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -307,12 +328,12 @@ func (p *SpatializerProxy) RecenterHeadTracker(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "recenterHeadTracker")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerRecenterHeadTracker)
 	if _err != nil {
-		_code = TransactionISpatializerRecenterHeadTracker
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerRecenterHeadTracker, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -340,12 +361,12 @@ func (p *SpatializerProxy) SetGlobalTransform(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setGlobalTransform")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetGlobalTransform)
 	if _err != nil {
-		_code = TransactionISpatializerSetGlobalTransform
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetGlobalTransform, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -366,12 +387,12 @@ func (p *SpatializerProxy) SetHeadSensor(
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteInt32(sensorHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setHeadSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetHeadSensor)
 	if _err != nil {
-		_code = TransactionISpatializerSetHeadSensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetHeadSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -392,12 +413,12 @@ func (p *SpatializerProxy) SetScreenSensor(
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteInt32(sensorHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setScreenSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetScreenSensor)
 	if _err != nil {
-		_code = TransactionISpatializerSetScreenSensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetScreenSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -418,12 +439,12 @@ func (p *SpatializerProxy) SetDisplayOrientation(
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteFloat32(physicalToLogicalAngle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setDisplayOrientation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetDisplayOrientation)
 	if _err != nil {
-		_code = TransactionISpatializerSetDisplayOrientation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetDisplayOrientation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -444,12 +465,12 @@ func (p *SpatializerProxy) SetHingeAngle(
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteFloat32(hingeAngle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setHingeAngle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetHingeAngle)
 	if _err != nil {
-		_code = TransactionISpatializerSetHingeAngle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetHingeAngle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -470,12 +491,12 @@ func (p *SpatializerProxy) SetFoldState(
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 	_data.WriteBool(folded)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setFoldState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetFoldState)
 	if _err != nil {
-		_code = TransactionISpatializerSetFoldState
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetFoldState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -495,12 +516,12 @@ func (p *SpatializerProxy) GetSupportedModes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSupportedModes")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetSupportedModes)
 	if _err != nil {
-		_code = TransactionISpatializerGetSupportedModes
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetSupportedModes, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -529,14 +550,14 @@ func (p *SpatializerProxy) RegisterHeadTrackingCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "registerHeadTrackingCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerRegisterHeadTrackingCallback)
 	if _err != nil {
-		_code = TransactionISpatializerRegisterHeadTrackingCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerRegisterHeadTrackingCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -566,12 +587,12 @@ func (p *SpatializerProxy) SetParameter(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerSetParameter)
 	if _err != nil {
-		_code = TransactionISpatializerSetParameter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerSetParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -601,12 +622,12 @@ func (p *SpatializerProxy) GetParameter(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getParameter")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetParameter)
 	if _err != nil {
-		_code = TransactionISpatializerGetParameter
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetParameter, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -639,12 +660,12 @@ func (p *SpatializerProxy) GetOutput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpatializer)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getOutput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializer, MethodISpatializerGetOutput)
 	if _err != nil {
-		_code = TransactionISpatializerGetOutput
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializer, MethodISpatializerGetOutput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -661,45 +682,6 @@ func (p *SpatializerProxy) GetOutput(
 	return _result, nil
 }
 
-func (p *SpatializerProxy) GetSpatializedChannelMasks(
-	ctx context.Context,
-) ([]int32, error) {
-	var _result []int32
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISpatializer)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSpatializedChannelMasks")
-	if _err != nil {
-		_code = TransactionISpatializerGetSpatializedChannelMasks
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]int32, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			_result[_i], _err = _reply.ReadInt32()
-			if _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
 // SpatializerStub dispatches incoming binder transactions
 // to a typed ISpatializer implementation.
 type SpatializerStub struct {
@@ -707,6 +689,10 @@ type SpatializerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpatializerStub)(nil)
+
+func (s *SpatializerStub) Descriptor() string {
+	return DescriptorISpatializer
+}
 
 func (s *SpatializerStub) OnTransaction(
 	ctx context.Context,
@@ -1006,20 +992,6 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
 		return _reply, nil
-	case TransactionISpatializerGetSpatializedChannelMasks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetSpatializedChannelMasks(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1049,7 +1021,6 @@ type ISpatializerServer interface {
 	SetParameter(ctx context.Context, key int32, value []byte) error
 	GetParameter(ctx context.Context, key int32, value []byte) error
 	GetOutput(ctx context.Context) (int32, error)
-	GetSpatializedChannelMasks(ctx context.Context) ([]int32, error)
 }
 
 type spatializerStubWrapper struct {
@@ -1192,12 +1163,6 @@ func (w *spatializerStubWrapper) GetOutput(
 	ctx context.Context,
 ) (int32, error) {
 	return w.impl.GetOutput(ctx)
-}
-
-func (w *spatializerStubWrapper) GetSpatializedChannelMasks(
-	ctx context.Context,
-) ([]int32, error) {
-	return w.impl.GetSpatializedChannelMasks(ctx)
 }
 
 var _ ISpatializer = (*spatializerStubWrapper)(nil)

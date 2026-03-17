@@ -16,6 +16,11 @@ const (
 	TransactionIEvsCameraStreamNotify       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIEvsCameraStreamDeliverFrame = "deliverFrame"
+	MethodIEvsCameraStreamNotify       = "notify"
+)
+
 type IEvsCameraStream interface {
 	AsBinder() binder.IBinder
 	DeliverFrame(ctx context.Context, buffer []BufferDesc) error
@@ -23,17 +28,17 @@ type IEvsCameraStream interface {
 }
 
 type EvsCameraStreamProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEvsCameraStreamProxy(
 	remote binder.IBinder,
 ) *EvsCameraStreamProxy {
-	return &EvsCameraStreamProxy{remote: remote}
+	return &EvsCameraStreamProxy{Remote: remote}
 }
 
 func (p *EvsCameraStreamProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEvsCameraStream = (*EvsCameraStreamProxy)(nil)
@@ -49,18 +54,19 @@ func (p *EvsCameraStreamProxy) DeliverFrame(
 	} else {
 		_data.WriteInt32(int32(len(buffer)))
 		for _, _item := range buffer {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsCameraStream, "deliverFrame")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCameraStream, MethodIEvsCameraStreamDeliverFrame)
 	if _err != nil {
-		_code = TransactionIEvsCameraStreamDeliverFrame
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsCameraStream, MethodIEvsCameraStreamDeliverFrame, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,12 +81,12 @@ func (p *EvsCameraStreamProxy) Notify(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEvsCameraStream, "notify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEvsCameraStream, MethodIEvsCameraStreamNotify)
 	if _err != nil {
-		_code = TransactionIEvsCameraStreamNotify
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEvsCameraStream, MethodIEvsCameraStreamNotify, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,6 +97,10 @@ type EvsCameraStreamStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EvsCameraStreamStub)(nil)
+
+func (s *EvsCameraStreamStub) Descriptor() string {
+	return DescriptorIEvsCameraStream
+}
 
 func (s *EvsCameraStreamStub) OnTransaction(
 	ctx context.Context,

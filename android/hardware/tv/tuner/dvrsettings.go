@@ -58,10 +58,12 @@ func (u *DvrSettings) MarshalParcel(
 
 	switch u.Tag {
 	case DvrSettingsTagRecord:
+		p.WriteInt32(1)
 		if _err := u.Record.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DvrSettingsTagPlayback:
+		p.WriteInt32(1)
 		if _err := u.Playback.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *DvrSettings) UnmarshalParcel(
 
 	switch u.Tag {
 	case DvrSettingsTagRecord:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Record.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DvrSettingsTagPlayback:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Playback.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

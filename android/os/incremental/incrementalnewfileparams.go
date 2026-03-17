@@ -20,30 +20,9 @@ func (s *IncrementalNewFileParams) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.Size)
-	if s.FileId == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.FileId)))
-		for _, _item := range s.FileId {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Metadata == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Metadata)))
-		for _, _item := range s.Metadata {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.Signature == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Signature)))
-		for _, _item := range s.Signature {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.FileId)
+	p.WriteByteArray(s.Metadata)
+	p.WriteByteArray(s.Signature)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -62,49 +41,19 @@ func (s *IncrementalNewFileParams) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.FileId, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.FileId = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.FileId[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.Metadata, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.Metadata = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Metadata[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.Signature, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.Signature = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.Signature[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

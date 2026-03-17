@@ -14,35 +14,65 @@ import (
 const DescriptorIBackupTransport = "com.android.internal.backup.IBackupTransport"
 
 const (
-	TransactionIBackupTransportName                                      = binder.FirstCallTransaction + 0
-	TransactionIBackupTransportConfigurationIntent                       = binder.FirstCallTransaction + 1
-	TransactionIBackupTransportCurrentDestinationString                  = binder.FirstCallTransaction + 2
-	TransactionIBackupTransportDataManagementIntent                      = binder.FirstCallTransaction + 3
-	TransactionIBackupTransportDataManagementIntentLabel                 = binder.FirstCallTransaction + 4
-	TransactionIBackupTransportTransportDirName                          = binder.FirstCallTransaction + 5
-	TransactionIBackupTransportRequestBackupTime                         = binder.FirstCallTransaction + 6
-	TransactionIBackupTransportInitializeDevice                          = binder.FirstCallTransaction + 7
-	TransactionIBackupTransportPerformBackup                             = binder.FirstCallTransaction + 8
-	TransactionIBackupTransportClearBackupData                           = binder.FirstCallTransaction + 9
-	TransactionIBackupTransportFinishBackup                              = binder.FirstCallTransaction + 10
-	TransactionIBackupTransportGetAvailableRestoreSets                   = binder.FirstCallTransaction + 11
-	TransactionIBackupTransportGetCurrentRestoreSet                      = binder.FirstCallTransaction + 12
-	TransactionIBackupTransportStartRestore                              = binder.FirstCallTransaction + 13
-	TransactionIBackupTransportNextRestorePackage                        = binder.FirstCallTransaction + 14
-	TransactionIBackupTransportGetRestoreData                            = binder.FirstCallTransaction + 15
-	TransactionIBackupTransportFinishRestore                             = binder.FirstCallTransaction + 16
-	TransactionIBackupTransportRequestFullBackupTime                     = binder.FirstCallTransaction + 17
-	TransactionIBackupTransportPerformFullBackup                         = binder.FirstCallTransaction + 18
-	TransactionIBackupTransportCheckFullBackupSize                       = binder.FirstCallTransaction + 19
-	TransactionIBackupTransportSendBackupData                            = binder.FirstCallTransaction + 20
-	TransactionIBackupTransportCancelFullBackup                          = binder.FirstCallTransaction + 21
-	TransactionIBackupTransportIsAppEligibleForBackup                    = binder.FirstCallTransaction + 22
-	TransactionIBackupTransportGetBackupQuota                            = binder.FirstCallTransaction + 23
-	TransactionIBackupTransportGetNextFullRestoreDataChunk               = binder.FirstCallTransaction + 24
-	TransactionIBackupTransportAbortFullRestore                          = binder.FirstCallTransaction + 25
-	TransactionIBackupTransportGetTransportFlags                         = binder.FirstCallTransaction + 26
-	TransactionIBackupTransportGetBackupManagerMonitor                   = binder.FirstCallTransaction + 27
-	TransactionIBackupTransportGetPackagesThatShouldNotUseRestrictedMode = binder.FirstCallTransaction + 28
+	TransactionIBackupTransportName                        = binder.FirstCallTransaction + 0
+	TransactionIBackupTransportConfigurationIntent         = binder.FirstCallTransaction + 1
+	TransactionIBackupTransportCurrentDestinationString    = binder.FirstCallTransaction + 2
+	TransactionIBackupTransportDataManagementIntent        = binder.FirstCallTransaction + 3
+	TransactionIBackupTransportDataManagementIntentLabel   = binder.FirstCallTransaction + 4
+	TransactionIBackupTransportTransportDirName            = binder.FirstCallTransaction + 5
+	TransactionIBackupTransportRequestBackupTime           = binder.FirstCallTransaction + 6
+	TransactionIBackupTransportInitializeDevice            = binder.FirstCallTransaction + 7
+	TransactionIBackupTransportPerformBackup               = binder.FirstCallTransaction + 8
+	TransactionIBackupTransportClearBackupData             = binder.FirstCallTransaction + 9
+	TransactionIBackupTransportFinishBackup                = binder.FirstCallTransaction + 10
+	TransactionIBackupTransportGetAvailableRestoreSets     = binder.FirstCallTransaction + 11
+	TransactionIBackupTransportGetCurrentRestoreSet        = binder.FirstCallTransaction + 12
+	TransactionIBackupTransportStartRestore                = binder.FirstCallTransaction + 13
+	TransactionIBackupTransportNextRestorePackage          = binder.FirstCallTransaction + 14
+	TransactionIBackupTransportGetRestoreData              = binder.FirstCallTransaction + 15
+	TransactionIBackupTransportFinishRestore               = binder.FirstCallTransaction + 16
+	TransactionIBackupTransportRequestFullBackupTime       = binder.FirstCallTransaction + 17
+	TransactionIBackupTransportPerformFullBackup           = binder.FirstCallTransaction + 18
+	TransactionIBackupTransportCheckFullBackupSize         = binder.FirstCallTransaction + 19
+	TransactionIBackupTransportSendBackupData              = binder.FirstCallTransaction + 20
+	TransactionIBackupTransportCancelFullBackup            = binder.FirstCallTransaction + 21
+	TransactionIBackupTransportIsAppEligibleForBackup      = binder.FirstCallTransaction + 22
+	TransactionIBackupTransportGetBackupQuota              = binder.FirstCallTransaction + 23
+	TransactionIBackupTransportGetNextFullRestoreDataChunk = binder.FirstCallTransaction + 24
+	TransactionIBackupTransportAbortFullRestore            = binder.FirstCallTransaction + 25
+	TransactionIBackupTransportGetTransportFlags           = binder.FirstCallTransaction + 26
+	TransactionIBackupTransportGetBackupManagerMonitor     = binder.FirstCallTransaction + 27
+)
+
+const (
+	MethodIBackupTransportName                        = "name"
+	MethodIBackupTransportConfigurationIntent         = "configurationIntent"
+	MethodIBackupTransportCurrentDestinationString    = "currentDestinationString"
+	MethodIBackupTransportDataManagementIntent        = "dataManagementIntent"
+	MethodIBackupTransportDataManagementIntentLabel   = "dataManagementIntentLabel"
+	MethodIBackupTransportTransportDirName            = "transportDirName"
+	MethodIBackupTransportRequestBackupTime           = "requestBackupTime"
+	MethodIBackupTransportInitializeDevice            = "initializeDevice"
+	MethodIBackupTransportPerformBackup               = "performBackup"
+	MethodIBackupTransportClearBackupData             = "clearBackupData"
+	MethodIBackupTransportFinishBackup                = "finishBackup"
+	MethodIBackupTransportGetAvailableRestoreSets     = "getAvailableRestoreSets"
+	MethodIBackupTransportGetCurrentRestoreSet        = "getCurrentRestoreSet"
+	MethodIBackupTransportStartRestore                = "startRestore"
+	MethodIBackupTransportNextRestorePackage          = "nextRestorePackage"
+	MethodIBackupTransportGetRestoreData              = "getRestoreData"
+	MethodIBackupTransportFinishRestore               = "finishRestore"
+	MethodIBackupTransportRequestFullBackupTime       = "requestFullBackupTime"
+	MethodIBackupTransportPerformFullBackup           = "performFullBackup"
+	MethodIBackupTransportCheckFullBackupSize         = "checkFullBackupSize"
+	MethodIBackupTransportSendBackupData              = "sendBackupData"
+	MethodIBackupTransportCancelFullBackup            = "cancelFullBackup"
+	MethodIBackupTransportIsAppEligibleForBackup      = "isAppEligibleForBackup"
+	MethodIBackupTransportGetBackupQuota              = "getBackupQuota"
+	MethodIBackupTransportGetNextFullRestoreDataChunk = "getNextFullRestoreDataChunk"
+	MethodIBackupTransportAbortFullRestore            = "abortFullRestore"
+	MethodIBackupTransportGetTransportFlags           = "getTransportFlags"
+	MethodIBackupTransportGetBackupManagerMonitor     = "getBackupManagerMonitor"
 )
 
 type IBackupTransport interface {
@@ -75,21 +105,20 @@ type IBackupTransport interface {
 	AbortFullRestore(ctx context.Context, callback ITransportStatusCallback) error
 	GetTransportFlags(ctx context.Context, resultFuture infra.AndroidFuture) error
 	GetBackupManagerMonitor(ctx context.Context, resultFuture infra.AndroidFuture) error
-	GetPackagesThatShouldNotUseRestrictedMode(ctx context.Context, packageNames []string, operationType int32, resultFuture infra.AndroidFuture) error
 }
 
 type BackupTransportProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBackupTransportProxy(
 	remote binder.IBinder,
 ) *BackupTransportProxy {
-	return &BackupTransportProxy{remote: remote}
+	return &BackupTransportProxy{Remote: remote}
 }
 
 func (p *BackupTransportProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBackupTransport = (*BackupTransportProxy)(nil)
@@ -105,12 +134,12 @@ func (p *BackupTransportProxy) Name(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "name")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportName)
 	if _err != nil {
-		_code = TransactionIBackupTransportName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportName, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,12 +154,12 @@ func (p *BackupTransportProxy) ConfigurationIntent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "configurationIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportConfigurationIntent)
 	if _err != nil {
-		_code = TransactionIBackupTransportConfigurationIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportConfigurationIntent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,12 +174,12 @@ func (p *BackupTransportProxy) CurrentDestinationString(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "currentDestinationString")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportCurrentDestinationString)
 	if _err != nil {
-		_code = TransactionIBackupTransportCurrentDestinationString
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportCurrentDestinationString, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,12 +194,12 @@ func (p *BackupTransportProxy) DataManagementIntent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "dataManagementIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntent)
 	if _err != nil {
-		_code = TransactionIBackupTransportDataManagementIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -185,12 +214,12 @@ func (p *BackupTransportProxy) DataManagementIntentLabel(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "dataManagementIntentLabel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntentLabel)
 	if _err != nil {
-		_code = TransactionIBackupTransportDataManagementIntentLabel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportDataManagementIntentLabel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -205,12 +234,12 @@ func (p *BackupTransportProxy) TransportDirName(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "transportDirName")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportTransportDirName)
 	if _err != nil {
-		_code = TransactionIBackupTransportTransportDirName
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportTransportDirName, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,12 +254,12 @@ func (p *BackupTransportProxy) RequestBackupTime(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "requestBackupTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportRequestBackupTime)
 	if _err != nil {
-		_code = TransactionIBackupTransportRequestBackupTime
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportRequestBackupTime, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -240,14 +269,14 @@ func (p *BackupTransportProxy) InitializeDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "initializeDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportInitializeDevice)
 	if _err != nil {
-		_code = TransactionIBackupTransportInitializeDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportInitializeDevice, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -266,14 +295,14 @@ func (p *BackupTransportProxy) PerformBackup(
 	}
 	_data.WriteFileDescriptor(inFd)
 	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "performBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportPerformBackup)
 	if _err != nil {
-		_code = TransactionIBackupTransportPerformBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportPerformBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,14 +317,14 @@ func (p *BackupTransportProxy) ClearBackupData(
 	if _err := packageInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "clearBackupData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportClearBackupData)
 	if _err != nil {
-		_code = TransactionIBackupTransportClearBackupData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportClearBackupData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -305,14 +334,14 @@ func (p *BackupTransportProxy) FinishBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "finishBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportFinishBackup)
 	if _err != nil {
-		_code = TransactionIBackupTransportFinishBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportFinishBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -327,12 +356,12 @@ func (p *BackupTransportProxy) GetAvailableRestoreSets(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getAvailableRestoreSets")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetAvailableRestoreSets)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetAvailableRestoreSets
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetAvailableRestoreSets, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -347,12 +376,12 @@ func (p *BackupTransportProxy) GetCurrentRestoreSet(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getCurrentRestoreSet")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetCurrentRestoreSet)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetCurrentRestoreSet
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetCurrentRestoreSet, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -370,19 +399,20 @@ func (p *BackupTransportProxy) StartRestore(
 	} else {
 		_data.WriteInt32(int32(len(packages)))
 		for _, _item := range packages {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "startRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportStartRestore)
 	if _err != nil {
-		_code = TransactionIBackupTransportStartRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportStartRestore, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -397,12 +427,12 @@ func (p *BackupTransportProxy) NextRestorePackage(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "nextRestorePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportNextRestorePackage)
 	if _err != nil {
-		_code = TransactionIBackupTransportNextRestorePackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportNextRestorePackage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -414,14 +444,14 @@ func (p *BackupTransportProxy) GetRestoreData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteFileDescriptor(outFd)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getRestoreData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetRestoreData)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetRestoreData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetRestoreData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -431,14 +461,14 @@ func (p *BackupTransportProxy) FinishRestore(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "finishRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportFinishRestore)
 	if _err != nil {
-		_code = TransactionIBackupTransportFinishRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportFinishRestore, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -453,12 +483,12 @@ func (p *BackupTransportProxy) RequestFullBackupTime(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "requestFullBackupTime")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportRequestFullBackupTime)
 	if _err != nil {
-		_code = TransactionIBackupTransportRequestFullBackupTime
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportRequestFullBackupTime, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -477,14 +507,14 @@ func (p *BackupTransportProxy) PerformFullBackup(
 	}
 	_data.WriteFileDescriptor(socket)
 	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "performFullBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportPerformFullBackup)
 	if _err != nil {
-		_code = TransactionIBackupTransportPerformFullBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportPerformFullBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -496,14 +526,14 @@ func (p *BackupTransportProxy) CheckFullBackupSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt64(size)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "checkFullBackupSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportCheckFullBackupSize)
 	if _err != nil {
-		_code = TransactionIBackupTransportCheckFullBackupSize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportCheckFullBackupSize, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -515,14 +545,14 @@ func (p *BackupTransportProxy) SendBackupData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteInt32(numBytes)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "sendBackupData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportSendBackupData)
 	if _err != nil {
-		_code = TransactionIBackupTransportSendBackupData
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportSendBackupData, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -532,14 +562,14 @@ func (p *BackupTransportProxy) CancelFullBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "cancelFullBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportCancelFullBackup)
 	if _err != nil {
-		_code = TransactionIBackupTransportCancelFullBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportCancelFullBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -561,12 +591,12 @@ func (p *BackupTransportProxy) IsAppEligibleForBackup(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "isAppEligibleForBackup")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportIsAppEligibleForBackup)
 	if _err != nil {
-		_code = TransactionIBackupTransportIsAppEligibleForBackup
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportIsAppEligibleForBackup, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -585,12 +615,12 @@ func (p *BackupTransportProxy) GetBackupQuota(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getBackupQuota")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetBackupQuota)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetBackupQuota
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetBackupQuota, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -602,14 +632,14 @@ func (p *BackupTransportProxy) GetNextFullRestoreDataChunk(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteFileDescriptor(socket)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getNextFullRestoreDataChunk")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetNextFullRestoreDataChunk)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetNextFullRestoreDataChunk
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetNextFullRestoreDataChunk, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -619,14 +649,14 @@ func (p *BackupTransportProxy) AbortFullRestore(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "abortFullRestore")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportAbortFullRestore)
 	if _err != nil {
-		_code = TransactionIBackupTransportAbortFullRestore
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportAbortFullRestore, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -641,12 +671,12 @@ func (p *BackupTransportProxy) GetTransportFlags(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getTransportFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetTransportFlags)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetTransportFlags
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetTransportFlags, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -661,43 +691,12 @@ func (p *BackupTransportProxy) GetBackupManagerMonitor(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getBackupManagerMonitor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBackupTransport, MethodIBackupTransportGetBackupManagerMonitor)
 	if _err != nil {
-		_code = TransactionIBackupTransportGetBackupManagerMonitor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBackupTransport, MethodIBackupTransportGetBackupManagerMonitor, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *BackupTransportProxy) GetPackagesThatShouldNotUseRestrictedMode(
-	ctx context.Context,
-	packageNames []string,
-	operationType int32,
-	resultFuture infra.AndroidFuture,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIBackupTransport)
-	if packageNames == nil {
-		_data.WriteInt32(-1)
-	} else {
-		_data.WriteInt32(int32(len(packageNames)))
-		for _, _item := range packageNames {
-			_data.WriteString16(_item)
-		}
-	}
-	_data.WriteInt32(operationType)
-	_data.WriteInt32(1)
-	if _err := resultFuture.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getPackagesThatShouldNotUseRestrictedMode")
-	if _err != nil {
-		_code = TransactionIBackupTransportGetPackagesThatShouldNotUseRestrictedMode
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -708,6 +707,10 @@ type BackupTransportStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BackupTransportStub)(nil)
+
+func (s *BackupTransportStub) Descriptor() string {
+	return DescriptorIBackupTransport
+}
 
 func (s *BackupTransportStub) OnTransaction(
 	ctx context.Context,
@@ -1229,32 +1232,6 @@ func (s *BackupTransportStub) OnTransaction(
 		_err := s.Impl.GetBackupManagerMonitor(ctx, _arg_resultFuture)
 		_ = _err
 		return nil, nil
-	case TransactionIBackupTransportGetPackagesThatShouldNotUseRestrictedMode:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_packageNames []string
-		_ = _arg_packageNames
-		_arg_operationType, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_resultFuture infra.AndroidFuture
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_resultFuture.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err = s.Impl.GetPackagesThatShouldNotUseRestrictedMode(ctx, _arg_packageNames, _arg_operationType, _arg_resultFuture)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -1292,7 +1269,6 @@ type IBackupTransportServer interface {
 	AbortFullRestore(ctx context.Context, callback ITransportStatusCallback) error
 	GetTransportFlags(ctx context.Context, resultFuture infra.AndroidFuture) error
 	GetBackupManagerMonitor(ctx context.Context, resultFuture infra.AndroidFuture) error
-	GetPackagesThatShouldNotUseRestrictedMode(ctx context.Context, packageNames []string, operationType int32, resultFuture infra.AndroidFuture) error
 }
 
 type backupTransportStubWrapper struct {
@@ -1515,15 +1491,6 @@ func (w *backupTransportStubWrapper) GetBackupManagerMonitor(
 	resultFuture infra.AndroidFuture,
 ) error {
 	return w.impl.GetBackupManagerMonitor(ctx, resultFuture)
-}
-
-func (w *backupTransportStubWrapper) GetPackagesThatShouldNotUseRestrictedMode(
-	ctx context.Context,
-	packageNames []string,
-	operationType int32,
-	resultFuture infra.AndroidFuture,
-) error {
-	return w.impl.GetPackagesThatShouldNotUseRestrictedMode(ctx, packageNames, operationType, resultFuture)
 }
 
 var _ IBackupTransport = (*backupTransportStubWrapper)(nil)

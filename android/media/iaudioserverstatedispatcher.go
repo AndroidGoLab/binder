@@ -15,23 +15,27 @@ const (
 	TransactionIAudioServerStateDispatcherDispatchAudioServerStateChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioServerStateDispatcherDispatchAudioServerStateChange = "dispatchAudioServerStateChange"
+)
+
 type IAudioServerStateDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchAudioServerStateChange(ctx context.Context, state bool) error
 }
 
 type AudioServerStateDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioServerStateDispatcherProxy(
 	remote binder.IBinder,
 ) *AudioServerStateDispatcherProxy {
-	return &AudioServerStateDispatcherProxy{remote: remote}
+	return &AudioServerStateDispatcherProxy{Remote: remote}
 }
 
 func (p *AudioServerStateDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioServerStateDispatcher = (*AudioServerStateDispatcherProxy)(nil)
@@ -44,12 +48,12 @@ func (p *AudioServerStateDispatcherProxy) DispatchAudioServerStateChange(
 	_data.WriteInterfaceToken(DescriptorIAudioServerStateDispatcher)
 	_data.WriteBool(state)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioServerStateDispatcher, "dispatchAudioServerStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioServerStateDispatcher, MethodIAudioServerStateDispatcherDispatchAudioServerStateChange)
 	if _err != nil {
-		_code = TransactionIAudioServerStateDispatcherDispatchAudioServerStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioServerStateDispatcher, MethodIAudioServerStateDispatcherDispatchAudioServerStateChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type AudioServerStateDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioServerStateDispatcherStub)(nil)
+
+func (s *AudioServerStateDispatcherStub) Descriptor() string {
+	return DescriptorIAudioServerStateDispatcher
+}
 
 func (s *AudioServerStateDispatcherStub) OnTransaction(
 	ctx context.Context,

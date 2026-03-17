@@ -39,7 +39,5 @@ const (
 	CameraMetadataSectionAndroidAutomotiveLens       CameraMetadataSection = 31
 	CameraMetadataSectionAndroidExtension            CameraMetadataSection = 32
 	CameraMetadataSectionAndroidJpegr                CameraMetadataSection = 33
-	CameraMetadataSectionAndroidSharedSession        CameraMetadataSection = 34
-	CameraMetadataSectionAndroidDesktopEffects       CameraMetadataSection = 35
 	CameraMetadataSectionVendorSection               CameraMetadataSection = 32768
 )

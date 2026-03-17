@@ -15,23 +15,27 @@ const (
 	TransactionITranslationServiceCallbackUpdateTranslationCapability = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodITranslationServiceCallbackUpdateTranslationCapability = "updateTranslationCapability"
+)
+
 type ITranslationServiceCallback interface {
 	AsBinder() binder.IBinder
 	UpdateTranslationCapability(ctx context.Context, capability TranslationCapability) error
 }
 
 type TranslationServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTranslationServiceCallbackProxy(
 	remote binder.IBinder,
 ) *TranslationServiceCallbackProxy {
-	return &TranslationServiceCallbackProxy{remote: remote}
+	return &TranslationServiceCallbackProxy{Remote: remote}
 }
 
 func (p *TranslationServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITranslationServiceCallback = (*TranslationServiceCallbackProxy)(nil)
@@ -47,12 +51,12 @@ func (p *TranslationServiceCallbackProxy) UpdateTranslationCapability(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranslationServiceCallback, "updateTranslationCapability")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranslationServiceCallback, MethodITranslationServiceCallbackUpdateTranslationCapability)
 	if _err != nil {
-		_code = TransactionITranslationServiceCallbackUpdateTranslationCapability
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranslationServiceCallback, MethodITranslationServiceCallbackUpdateTranslationCapability, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type TranslationServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TranslationServiceCallbackStub)(nil)
+
+func (s *TranslationServiceCallbackStub) Descriptor() string {
+	return DescriptorITranslationServiceCallback
+}
 
 func (s *TranslationServiceCallbackStub) OnTransaction(
 	ctx context.Context,

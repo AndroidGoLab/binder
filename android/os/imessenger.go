@@ -15,23 +15,27 @@ const (
 	TransactionIMessengerSend = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMessengerSend = "send"
+)
+
 type IMessenger interface {
 	AsBinder() binder.IBinder
 	Send(ctx context.Context, msg Message) error
 }
 
 type MessengerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMessengerProxy(
 	remote binder.IBinder,
 ) *MessengerProxy {
-	return &MessengerProxy{remote: remote}
+	return &MessengerProxy{Remote: remote}
 }
 
 func (p *MessengerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMessenger = (*MessengerProxy)(nil)
@@ -47,12 +51,12 @@ func (p *MessengerProxy) Send(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMessenger, "send")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMessenger, MethodIMessengerSend)
 	if _err != nil {
-		_code = TransactionIMessengerSend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMessenger, MethodIMessengerSend, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +67,10 @@ type MessengerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MessengerStub)(nil)
+
+func (s *MessengerStub) Descriptor() string {
+	return DescriptorIMessenger
+}
 
 func (s *MessengerStub) OnTransaction(
 	ctx context.Context,

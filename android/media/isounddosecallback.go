@@ -16,6 +16,11 @@ const (
 	TransactionISoundDoseCallbackOnNewCsdValue       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodISoundDoseCallbackOnMomentaryExposure = "onMomentaryExposure"
+	MethodISoundDoseCallbackOnNewCsdValue       = "onNewCsdValue"
+)
+
 type ISoundDoseCallback interface {
 	AsBinder() binder.IBinder
 	OnMomentaryExposure(ctx context.Context, currentMel float32, deviceId int32) error
@@ -23,17 +28,17 @@ type ISoundDoseCallback interface {
 }
 
 type SoundDoseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundDoseCallbackProxy(
 	remote binder.IBinder,
 ) *SoundDoseCallbackProxy {
-	return &SoundDoseCallbackProxy{remote: remote}
+	return &SoundDoseCallbackProxy{Remote: remote}
 }
 
 func (p *SoundDoseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundDoseCallback = (*SoundDoseCallbackProxy)(nil)
@@ -48,12 +53,12 @@ func (p *SoundDoseCallbackProxy) OnMomentaryExposure(
 	_data.WriteFloat32(currentMel)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDoseCallback, "onMomentaryExposure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnMomentaryExposure)
 	if _err != nil {
-		_code = TransactionISoundDoseCallbackOnMomentaryExposure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnMomentaryExposure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,18 +75,19 @@ func (p *SoundDoseCallbackProxy) OnNewCsdValue(
 	} else {
 		_data.WriteInt32(int32(len(records)))
 		for _, _item := range records {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDoseCallback, "onNewCsdValue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnNewCsdValue)
 	if _err != nil {
-		_code = TransactionISoundDoseCallbackOnNewCsdValue
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDoseCallback, MethodISoundDoseCallbackOnNewCsdValue, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +98,10 @@ type SoundDoseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseCallbackStub)(nil)
+
+func (s *SoundDoseCallbackStub) Descriptor() string {
+	return DescriptorISoundDoseCallback
+}
 
 func (s *SoundDoseCallbackStub) OnTransaction(
 	ctx context.Context,

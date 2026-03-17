@@ -3,7 +3,6 @@ package wallpaper
 import (
 	"context"
 	"fmt"
-	appWallpaper "github.com/xaionaro-go/binder/android/app/wallpaper"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -34,7 +33,26 @@ const (
 	TransactionIWallpaperEngineMirrorSurfaceControl     = binder.FirstCallTransaction + 14
 	TransactionIWallpaperEngineApplyDimming             = binder.FirstCallTransaction + 15
 	TransactionIWallpaperEngineSetWallpaperFlags        = binder.FirstCallTransaction + 16
-	TransactionIWallpaperEngineOnApplyWallpaper         = binder.FirstCallTransaction + 17
+)
+
+const (
+	MethodIWallpaperEngineSetDesiredSize           = "setDesiredSize"
+	MethodIWallpaperEngineSetDisplayPadding        = "setDisplayPadding"
+	MethodIWallpaperEngineSetVisibility            = "setVisibility"
+	MethodIWallpaperEngineOnScreenTurningOn        = "onScreenTurningOn"
+	MethodIWallpaperEngineOnScreenTurnedOn         = "onScreenTurnedOn"
+	MethodIWallpaperEngineSetInAmbientMode         = "setInAmbientMode"
+	MethodIWallpaperEngineDispatchPointer          = "dispatchPointer"
+	MethodIWallpaperEngineDispatchWallpaperCommand = "dispatchWallpaperCommand"
+	MethodIWallpaperEngineRequestWallpaperColors   = "requestWallpaperColors"
+	MethodIWallpaperEngineDestroy                  = "destroy"
+	MethodIWallpaperEngineSetZoomOut               = "setZoomOut"
+	MethodIWallpaperEngineResizePreview            = "resizePreview"
+	MethodIWallpaperEngineRemoveLocalColorsAreas   = "removeLocalColorsAreas"
+	MethodIWallpaperEngineAddLocalColorsAreas      = "addLocalColorsAreas"
+	MethodIWallpaperEngineMirrorSurfaceControl     = "mirrorSurfaceControl"
+	MethodIWallpaperEngineApplyDimming             = "applyDimming"
+	MethodIWallpaperEngineSetWallpaperFlags        = "setWallpaperFlags"
 )
 
 type IWallpaperEngine interface {
@@ -56,21 +74,20 @@ type IWallpaperEngine interface {
 	MirrorSurfaceControl(ctx context.Context) (view.SurfaceControl, error)
 	ApplyDimming(ctx context.Context, dimAmount float32) error
 	SetWallpaperFlags(ctx context.Context, which int32) error
-	OnApplyWallpaper(ctx context.Context, which int32) (appWallpaper.WallpaperDescription, error)
 }
 
 type WallpaperEngineProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWallpaperEngineProxy(
 	remote binder.IBinder,
 ) *WallpaperEngineProxy {
-	return &WallpaperEngineProxy{remote: remote}
+	return &WallpaperEngineProxy{Remote: remote}
 }
 
 func (p *WallpaperEngineProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWallpaperEngine = (*WallpaperEngineProxy)(nil)
@@ -85,12 +102,12 @@ func (p *WallpaperEngineProxy) SetDesiredSize(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setDesiredSize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineSetDesiredSize)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineSetDesiredSize
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineSetDesiredSize, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +122,12 @@ func (p *WallpaperEngineProxy) SetDisplayPadding(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setDisplayPadding")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineSetDisplayPadding)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineSetDisplayPadding
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineSetDisplayPadding, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +139,12 @@ func (p *WallpaperEngineProxy) SetVisibility(
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteBool(visible)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setVisibility")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineSetVisibility)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineSetVisibility
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineSetVisibility, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,12 +154,12 @@ func (p *WallpaperEngineProxy) OnScreenTurningOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "onScreenTurningOn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineOnScreenTurningOn)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineOnScreenTurningOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineOnScreenTurningOn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,12 +169,12 @@ func (p *WallpaperEngineProxy) OnScreenTurnedOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "onScreenTurnedOn")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineOnScreenTurnedOn)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineOnScreenTurnedOn
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineOnScreenTurnedOn, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,12 +188,12 @@ func (p *WallpaperEngineProxy) SetInAmbientMode(
 	_data.WriteBool(inAmbientDisplay)
 	_data.WriteInt64(animationDuration)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setInAmbientMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineSetInAmbientMode)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineSetInAmbientMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineSetInAmbientMode, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -191,12 +208,12 @@ func (p *WallpaperEngineProxy) DispatchPointer(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "dispatchPointer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineDispatchPointer)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineDispatchPointer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineDispatchPointer, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -219,12 +236,12 @@ func (p *WallpaperEngineProxy) DispatchWallpaperCommand(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "dispatchWallpaperCommand")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineDispatchWallpaperCommand)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineDispatchWallpaperCommand
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineDispatchWallpaperCommand, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -234,12 +251,12 @@ func (p *WallpaperEngineProxy) RequestWallpaperColors(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "requestWallpaperColors")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineRequestWallpaperColors)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineRequestWallpaperColors
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineRequestWallpaperColors, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -249,12 +266,12 @@ func (p *WallpaperEngineProxy) Destroy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "destroy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineDestroy)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineDestroy
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineDestroy, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -266,12 +283,12 @@ func (p *WallpaperEngineProxy) SetZoomOut(
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteFloat32(scale)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setZoomOut")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineSetZoomOut)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineSetZoomOut
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineSetZoomOut, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -286,12 +303,12 @@ func (p *WallpaperEngineProxy) ResizePreview(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "resizePreview")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineResizePreview)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineResizePreview
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineResizePreview, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -306,18 +323,19 @@ func (p *WallpaperEngineProxy) RemoveLocalColorsAreas(
 	} else {
 		_data.WriteInt32(int32(len(regions)))
 		for _, _item := range regions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "removeLocalColorsAreas")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineRemoveLocalColorsAreas)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineRemoveLocalColorsAreas
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineRemoveLocalColorsAreas, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -332,18 +350,19 @@ func (p *WallpaperEngineProxy) AddLocalColorsAreas(
 	} else {
 		_data.WriteInt32(int32(len(regions)))
 		for _, _item := range regions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "addLocalColorsAreas")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineAddLocalColorsAreas)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineAddLocalColorsAreas
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineAddLocalColorsAreas, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -354,12 +373,12 @@ func (p *WallpaperEngineProxy) MirrorSurfaceControl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "mirrorSurfaceControl")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineMirrorSurfaceControl)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineMirrorSurfaceControl
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineMirrorSurfaceControl, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -389,12 +408,12 @@ func (p *WallpaperEngineProxy) ApplyDimming(
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteFloat32(dimAmount)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "applyDimming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineApplyDimming)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineApplyDimming
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineApplyDimming, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -406,49 +425,13 @@ func (p *WallpaperEngineProxy) SetWallpaperFlags(
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
 	_data.WriteInt32(which)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setWallpaperFlags")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWallpaperEngine, MethodIWallpaperEngineSetWallpaperFlags)
 	if _err != nil {
-		_code = TransactionIWallpaperEngineSetWallpaperFlags
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWallpaperEngine, MethodIWallpaperEngineSetWallpaperFlags, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
-}
-
-func (p *WallpaperEngineProxy) OnApplyWallpaper(
-	ctx context.Context,
-	which int32,
-) (appWallpaper.WallpaperDescription, error) {
-	var _result appWallpaper.WallpaperDescription
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
-	_data.WriteInt32(which)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "onApplyWallpaper")
-	if _err != nil {
-		_code = TransactionIWallpaperEngineOnApplyWallpaper
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
 }
 
 // WallpaperEngineStub dispatches incoming binder transactions
@@ -458,6 +441,10 @@ type WallpaperEngineStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WallpaperEngineStub)(nil)
+
+func (s *WallpaperEngineStub) Descriptor() string {
+	return DescriptorIWallpaperEngine
+}
 
 func (s *WallpaperEngineStub) OnTransaction(
 	ctx context.Context,
@@ -695,26 +682,6 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_err = s.Impl.SetWallpaperFlags(ctx, _arg_which)
 		_ = _err
 		return nil, nil
-	case TransactionIWallpaperEngineOnApplyWallpaper:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_which, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.OnApplyWallpaper(ctx, _arg_which)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -741,7 +708,6 @@ type IWallpaperEngineServer interface {
 	MirrorSurfaceControl(ctx context.Context) (view.SurfaceControl, error)
 	ApplyDimming(ctx context.Context, dimAmount float32) error
 	SetWallpaperFlags(ctx context.Context, which int32) error
-	OnApplyWallpaper(ctx context.Context, which int32) (appWallpaper.WallpaperDescription, error)
 }
 
 type wallpaperEngineStubWrapper struct {
@@ -871,13 +837,6 @@ func (w *wallpaperEngineStubWrapper) SetWallpaperFlags(
 	which int32,
 ) error {
 	return w.impl.SetWallpaperFlags(ctx, which)
-}
-
-func (w *wallpaperEngineStubWrapper) OnApplyWallpaper(
-	ctx context.Context,
-	which int32,
-) (appWallpaper.WallpaperDescription, error) {
-	return w.impl.OnApplyWallpaper(ctx, which)
 }
 
 var _ IWallpaperEngine = (*wallpaperEngineStubWrapper)(nil)

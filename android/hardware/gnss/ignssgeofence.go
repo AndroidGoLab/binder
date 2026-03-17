@@ -19,6 +19,14 @@ const (
 	TransactionIGnssGeofenceRemoveGeofence = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIGnssGeofenceSetCallback    = "setCallback"
+	MethodIGnssGeofenceAddGeofence    = "addGeofence"
+	MethodIGnssGeofencePauseGeofence  = "pauseGeofence"
+	MethodIGnssGeofenceResumeGeofence = "resumeGeofence"
+	MethodIGnssGeofenceRemoveGeofence = "removeGeofence"
+)
+
 type IGnssGeofence interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssGeofenceCallback) error
@@ -29,17 +37,17 @@ type IGnssGeofence interface {
 }
 
 type GnssGeofenceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGnssGeofenceProxy(
 	remote binder.IBinder,
 ) *GnssGeofenceProxy {
-	return &GnssGeofenceProxy{remote: remote}
+	return &GnssGeofenceProxy{Remote: remote}
 }
 
 func (p *GnssGeofenceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGnssGeofence = (*GnssGeofenceProxy)(nil)
@@ -50,14 +58,14 @@ func (p *GnssGeofenceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofence, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofence, MethodIGnssGeofenceSetCallback)
 	if _err != nil {
-		_code = TransactionIGnssGeofenceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssGeofence, MethodIGnssGeofenceSetCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,12 +100,12 @@ func (p *GnssGeofenceProxy) AddGeofence(
 	_data.WriteInt32(notificationResponsivenessMs)
 	_data.WriteInt32(unknownTimerMs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofence, "addGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofence, MethodIGnssGeofenceAddGeofence)
 	if _err != nil {
-		_code = TransactionIGnssGeofenceAddGeofence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssGeofence, MethodIGnssGeofenceAddGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,12 +126,12 @@ func (p *GnssGeofenceProxy) PauseGeofence(
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofence, "pauseGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofence, MethodIGnssGeofencePauseGeofence)
 	if _err != nil {
-		_code = TransactionIGnssGeofencePauseGeofence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssGeofence, MethodIGnssGeofencePauseGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,12 +154,12 @@ func (p *GnssGeofenceProxy) ResumeGeofence(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransitions)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofence, "resumeGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofence, MethodIGnssGeofenceResumeGeofence)
 	if _err != nil {
-		_code = TransactionIGnssGeofenceResumeGeofence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssGeofence, MethodIGnssGeofenceResumeGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,12 +180,12 @@ func (p *GnssGeofenceProxy) RemoveGeofence(
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofence, "removeGeofence")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGnssGeofence, MethodIGnssGeofenceRemoveGeofence)
 	if _err != nil {
-		_code = TransactionIGnssGeofenceRemoveGeofence
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGnssGeofence, MethodIGnssGeofenceRemoveGeofence, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,6 +205,10 @@ type GnssGeofenceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GnssGeofenceStub)(nil)
+
+func (s *GnssGeofenceStub) Descriptor() string {
+	return DescriptorIGnssGeofence
+}
 
 func (s *GnssGeofenceStub) OnTransaction(
 	ctx context.Context,

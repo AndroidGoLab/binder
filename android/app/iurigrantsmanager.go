@@ -22,6 +22,16 @@ const (
 	TransactionIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem = binder.FirstCallTransaction + 6
 )
 
+const (
+	MethodIUriGrantsManagerTakePersistableUriPermission            = "takePersistableUriPermission"
+	MethodIUriGrantsManagerReleasePersistableUriPermission         = "releasePersistableUriPermission"
+	MethodIUriGrantsManagerGrantUriPermissionFromOwner             = "grantUriPermissionFromOwner"
+	MethodIUriGrantsManagerGetGrantedUriPermissions                = "getGrantedUriPermissions"
+	MethodIUriGrantsManagerClearGrantedUriPermissions              = "clearGrantedUriPermissions"
+	MethodIUriGrantsManagerGetUriPermissions                       = "getUriPermissions"
+	MethodIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem = "checkGrantUriPermission_ignoreNonSystem"
+)
+
 type IUriGrantsManager interface {
 	AsBinder() binder.IBinder
 	TakePersistableUriPermission(ctx context.Context, uri net.Uri, modeFlags int32, toPackage string) error
@@ -34,17 +44,17 @@ type IUriGrantsManager interface {
 }
 
 type UriGrantsManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUriGrantsManagerProxy(
 	remote binder.IBinder,
 ) *UriGrantsManagerProxy {
-	return &UriGrantsManagerProxy{remote: remote}
+	return &UriGrantsManagerProxy{Remote: remote}
 }
 
 func (p *UriGrantsManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUriGrantsManager = (*UriGrantsManagerProxy)(nil)
@@ -55,7 +65,7 @@ func (p *UriGrantsManagerProxy) TakePersistableUriPermission(
 	modeFlags int32,
 	toPackage string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteInt32(1)
@@ -66,12 +76,12 @@ func (p *UriGrantsManagerProxy) TakePersistableUriPermission(
 	_data.WriteString16(toPackage)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "takePersistableUriPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerTakePersistableUriPermission)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerTakePersistableUriPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerTakePersistableUriPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +100,7 @@ func (p *UriGrantsManagerProxy) ReleasePersistableUriPermission(
 	modeFlags int32,
 	toPackage string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteInt32(1)
@@ -101,12 +111,12 @@ func (p *UriGrantsManagerProxy) ReleasePersistableUriPermission(
 	_data.WriteString16(toPackage)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "releasePersistableUriPermission")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerReleasePersistableUriPermission)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerReleasePersistableUriPermission
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerReleasePersistableUriPermission, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,7 +141,7 @@ func (p *UriGrantsManagerProxy) GrantUriPermissionFromOwner(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
-	binder.WriteBinderToParcel(ctx, _data, owner, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, owner, p.Remote.Transport())
 	_data.WriteInt32(fromUid)
 	_data.WriteString16(targetPkg)
 	_data.WriteInt32(1)
@@ -142,12 +152,12 @@ func (p *UriGrantsManagerProxy) GrantUriPermissionFromOwner(
 	_data.WriteInt32(sourceUserId)
 	_data.WriteInt32(targetUserId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "grantUriPermissionFromOwner")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGrantUriPermissionFromOwner)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerGrantUriPermissionFromOwner
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerGrantUriPermissionFromOwner, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -165,18 +175,18 @@ func (p *UriGrantsManagerProxy) GetGrantedUriPermissions(
 	packageName string,
 ) (interface{}, error) {
 	var _result interface{}
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "getGrantedUriPermissions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetGrantedUriPermissions)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerGetGrantedUriPermissions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetGrantedUriPermissions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -193,18 +203,18 @@ func (p *UriGrantsManagerProxy) ClearGrantedUriPermissions(
 	ctx context.Context,
 	packageName string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "clearGrantedUriPermissions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerClearGrantedUriPermissions)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerClearGrantedUriPermissions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerClearGrantedUriPermissions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,12 +240,12 @@ func (p *UriGrantsManagerProxy) GetUriPermissions(
 	_data.WriteBool(incoming)
 	_data.WriteBool(persistedOnly)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "getUriPermissions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetUriPermissions)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerGetUriPermissions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerGetUriPermissions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -256,7 +266,7 @@ func (p *UriGrantsManagerProxy) CheckGrantUriPermission_ignoreNonSystem(
 	modeFlags int32,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUriGrantsManager)
 	_data.WriteInt32(sourceUid)
@@ -268,12 +278,12 @@ func (p *UriGrantsManagerProxy) CheckGrantUriPermission_ignoreNonSystem(
 	_data.WriteInt32(modeFlags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "checkGrantUriPermission_ignoreNonSystem")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUriGrantsManager, MethodIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem)
 	if _err != nil {
-		_code = TransactionIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUriGrantsManager, MethodIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -297,6 +307,10 @@ type UriGrantsManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UriGrantsManagerStub)(nil)
+
+func (s *UriGrantsManagerStub) Descriptor() string {
+	return DescriptorIUriGrantsManager
+}
 
 func (s *UriGrantsManagerStub) OnTransaction(
 	ctx context.Context,

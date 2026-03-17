@@ -16,6 +16,11 @@ const (
 	TransactionIGeocodeCallbackOnResults = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIGeocodeCallbackOnError   = "onError"
+	MethodIGeocodeCallbackOnResults = "onResults"
+)
+
 type IGeocodeCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, error_ string) error
@@ -23,17 +28,17 @@ type IGeocodeCallback interface {
 }
 
 type GeocodeCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGeocodeCallbackProxy(
 	remote binder.IBinder,
 ) *GeocodeCallbackProxy {
-	return &GeocodeCallbackProxy{remote: remote}
+	return &GeocodeCallbackProxy{Remote: remote}
 }
 
 func (p *GeocodeCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGeocodeCallback = (*GeocodeCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *GeocodeCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIGeocodeCallback)
 	_data.WriteString16(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnError)
 	if _err != nil {
-		_code = TransactionIGeocodeCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *GeocodeCallbackProxy) OnResults(
 		_data.WriteInt32(int32(len(results)))
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeCallback, "onResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnResults)
 	if _err != nil {
-		_code = TransactionIGeocodeCallbackOnResults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGeocodeCallback, MethodIGeocodeCallbackOnResults, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type GeocodeCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GeocodeCallbackStub)(nil)
+
+func (s *GeocodeCallbackStub) Descriptor() string {
+	return DescriptorIGeocodeCallback
+}
 
 func (s *GeocodeCallbackStub) OnTransaction(
 	ctx context.Context,

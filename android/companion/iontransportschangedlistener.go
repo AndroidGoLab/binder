@@ -15,23 +15,27 @@ const (
 	TransactionIOnTransportsChangedListenerOnTransportsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIOnTransportsChangedListenerOnTransportsChanged = "onTransportsChanged"
+)
+
 type IOnTransportsChangedListener interface {
 	AsBinder() binder.IBinder
 	OnTransportsChanged(ctx context.Context, associations []AssociationInfo) error
 }
 
 type OnTransportsChangedListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOnTransportsChangedListenerProxy(
 	remote binder.IBinder,
 ) *OnTransportsChangedListenerProxy {
-	return &OnTransportsChangedListenerProxy{remote: remote}
+	return &OnTransportsChangedListenerProxy{Remote: remote}
 }
 
 func (p *OnTransportsChangedListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOnTransportsChangedListener = (*OnTransportsChangedListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *OnTransportsChangedListenerProxy) OnTransportsChanged(
 	} else {
 		_data.WriteInt32(int32(len(associations)))
 		for _, _item := range associations {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOnTransportsChangedListener, "onTransportsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOnTransportsChangedListener, MethodIOnTransportsChangedListenerOnTransportsChanged)
 	if _err != nil {
-		_code = TransactionIOnTransportsChangedListenerOnTransportsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOnTransportsChangedListener, MethodIOnTransportsChangedListenerOnTransportsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type OnTransportsChangedListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OnTransportsChangedListenerStub)(nil)
+
+func (s *OnTransportsChangedListenerStub) Descriptor() string {
+	return DescriptorIOnTransportsChangedListener
+}
 
 func (s *OnTransportsChangedListenerStub) OnTransaction(
 	ctx context.Context,

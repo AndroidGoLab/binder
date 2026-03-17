@@ -17,6 +17,12 @@ const (
 	TransactionIInjectGlobalEventTriggerOnResourcesAvailable = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInjectGlobalEventTriggerRestart              = "triggerRestart"
+	MethodIInjectGlobalEventSetResourceContention       = "setResourceContention"
+	MethodIInjectGlobalEventTriggerOnResourcesAvailable = "triggerOnResourcesAvailable"
+)
+
 type IInjectGlobalEvent interface {
 	AsBinder() binder.IBinder
 	TriggerRestart(ctx context.Context) error
@@ -25,17 +31,17 @@ type IInjectGlobalEvent interface {
 }
 
 type InjectGlobalEventProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInjectGlobalEventProxy(
 	remote binder.IBinder,
 ) *InjectGlobalEventProxy {
-	return &InjectGlobalEventProxy{remote: remote}
+	return &InjectGlobalEventProxy{Remote: remote}
 }
 
 func (p *InjectGlobalEventProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInjectGlobalEvent = (*InjectGlobalEventProxy)(nil)
@@ -46,12 +52,12 @@ func (p *InjectGlobalEventProxy) TriggerRestart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectGlobalEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInjectGlobalEvent, "triggerRestart")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventTriggerRestart)
 	if _err != nil {
-		_code = TransactionIInjectGlobalEventTriggerRestart
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventTriggerRestart, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,14 +69,14 @@ func (p *InjectGlobalEventProxy) SetResourceContention(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectGlobalEvent)
 	_data.WriteBool(isContended)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInjectGlobalEvent, "setResourceContention")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventSetResourceContention)
 	if _err != nil {
-		_code = TransactionIInjectGlobalEventSetResourceContention
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventSetResourceContention, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *InjectGlobalEventProxy) TriggerOnResourcesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectGlobalEvent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInjectGlobalEvent, "triggerOnResourcesAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventTriggerOnResourcesAvailable)
 	if _err != nil {
-		_code = TransactionIInjectGlobalEventTriggerOnResourcesAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInjectGlobalEvent, MethodIInjectGlobalEventTriggerOnResourcesAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,6 +102,10 @@ type InjectGlobalEventStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InjectGlobalEventStub)(nil)
+
+func (s *InjectGlobalEventStub) Descriptor() string {
+	return DescriptorIInjectGlobalEvent
+}
 
 func (s *InjectGlobalEventStub) OnTransaction(
 	ctx context.Context,

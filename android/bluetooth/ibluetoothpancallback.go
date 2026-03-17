@@ -16,6 +16,11 @@ const (
 	TransactionIBluetoothPanCallbackOnUnavailable = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIBluetoothPanCallbackOnAvailable   = "onAvailable"
+	MethodIBluetoothPanCallbackOnUnavailable = "onUnavailable"
+)
+
 type IBluetoothPanCallback interface {
 	AsBinder() binder.IBinder
 	OnAvailable(ctx context.Context, iface string) error
@@ -23,17 +28,17 @@ type IBluetoothPanCallback interface {
 }
 
 type BluetoothPanCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothPanCallbackProxy(
 	remote binder.IBinder,
 ) *BluetoothPanCallbackProxy {
-	return &BluetoothPanCallbackProxy{remote: remote}
+	return &BluetoothPanCallbackProxy{Remote: remote}
 }
 
 func (p *BluetoothPanCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothPanCallback = (*BluetoothPanCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *BluetoothPanCallbackProxy) OnAvailable(
 	_data.WriteInterfaceToken(DescriptorIBluetoothPanCallback)
 	_data.WriteString16(iface)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPanCallback, "onAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPanCallback, MethodIBluetoothPanCallbackOnAvailable)
 	if _err != nil {
-		_code = TransactionIBluetoothPanCallbackOnAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPanCallback, MethodIBluetoothPanCallbackOnAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *BluetoothPanCallbackProxy) OnUnavailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothPanCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPanCallback, "onUnavailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothPanCallback, MethodIBluetoothPanCallbackOnUnavailable)
 	if _err != nil {
-		_code = TransactionIBluetoothPanCallbackOnUnavailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothPanCallback, MethodIBluetoothPanCallbackOnUnavailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type BluetoothPanCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothPanCallbackStub)(nil)
+
+func (s *BluetoothPanCallbackStub) Descriptor() string {
+	return DescriptorIBluetoothPanCallback
+}
 
 func (s *BluetoothPanCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionIGameManagerGetGameMode = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGameManagerGetGameMode = "getGameMode"
+)
+
 type IGameManager interface {
 	AsBinder() binder.IBinder
 	GetGameMode(ctx context.Context) (int32, error)
 }
 
 type GameManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGameManagerProxy(
 	remote binder.IBinder,
 ) *GameManagerProxy {
-	return &GameManagerProxy{remote: remote}
+	return &GameManagerProxy{Remote: remote}
 }
 
 func (p *GameManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGameManager = (*GameManagerProxy)(nil)
@@ -43,12 +47,12 @@ func (p *GameManagerProxy) GetGameMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGameManager, "getGameMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGameManager, MethodIGameManagerGetGameMode)
 	if _err != nil {
-		_code = TransactionIGameManagerGetGameMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGameManager, MethodIGameManagerGetGameMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,6 +76,10 @@ type GameManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GameManagerStub)(nil)
+
+func (s *GameManagerStub) Descriptor() string {
+	return DescriptorIGameManager
+}
 
 func (s *GameManagerStub) OnTransaction(
 	ctx context.Context,

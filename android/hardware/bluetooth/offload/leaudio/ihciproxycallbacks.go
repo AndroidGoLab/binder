@@ -16,6 +16,11 @@ const (
 	TransactionIHciProxyCallbacksStopStream  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIHciProxyCallbacksStartStream = "startStream"
+	MethodIHciProxyCallbacksStopStream  = "stopStream"
+)
+
 type IHciProxyCallbacks interface {
 	AsBinder() binder.IBinder
 	StartStream(ctx context.Context, handle int32, configuration StreamConfiguration) error
@@ -23,17 +28,17 @@ type IHciProxyCallbacks interface {
 }
 
 type HciProxyCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewHciProxyCallbacksProxy(
 	remote binder.IBinder,
 ) *HciProxyCallbacksProxy {
-	return &HciProxyCallbacksProxy{remote: remote}
+	return &HciProxyCallbacksProxy{Remote: remote}
 }
 
 func (p *HciProxyCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IHciProxyCallbacks = (*HciProxyCallbacksProxy)(nil)
@@ -51,12 +56,12 @@ func (p *HciProxyCallbacksProxy) StartStream(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHciProxyCallbacks, "startStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStartStream)
 	if _err != nil {
-		_code = TransactionIHciProxyCallbacksStartStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStartStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +82,12 @@ func (p *HciProxyCallbacksProxy) StopStream(
 	_data.WriteInterfaceToken(DescriptorIHciProxyCallbacks)
 	_data.WriteInt32(handle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIHciProxyCallbacks, "stopStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStopStream)
 	if _err != nil {
-		_code = TransactionIHciProxyCallbacksStopStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIHciProxyCallbacks, MethodIHciProxyCallbacksStopStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,6 +107,10 @@ type HciProxyCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*HciProxyCallbacksStub)(nil)
+
+func (s *HciProxyCallbacksStub) Descriptor() string {
+	return DescriptorIHciProxyCallbacks
+}
 
 func (s *HciProxyCallbacksStub) OnTransaction(
 	ctx context.Context,

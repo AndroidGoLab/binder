@@ -15,23 +15,27 @@ const (
 	TransactionISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged = "onSatelliteDisallowedReasonsChanged"
+)
+
 type ISatelliteDisallowedReasonsCallback interface {
 	AsBinder() binder.IBinder
 	OnSatelliteDisallowedReasonsChanged(ctx context.Context, disallowedReasons []int32) error
 }
 
 type SatelliteDisallowedReasonsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteDisallowedReasonsCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteDisallowedReasonsCallbackProxy {
-	return &SatelliteDisallowedReasonsCallbackProxy{remote: remote}
+	return &SatelliteDisallowedReasonsCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteDisallowedReasonsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteDisallowedReasonsCallback = (*SatelliteDisallowedReasonsCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *SatelliteDisallowedReasonsCallbackProxy) OnSatelliteDisallowedReasonsCh
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteDisallowedReasonsCallback, "onSatelliteDisallowedReasonsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteDisallowedReasonsCallback, MethodISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged)
 	if _err != nil {
-		_code = TransactionISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteDisallowedReasonsCallback, MethodISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type SatelliteDisallowedReasonsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteDisallowedReasonsCallbackStub)(nil)
+
+func (s *SatelliteDisallowedReasonsCallbackStub) Descriptor() string {
+	return DescriptorISatelliteDisallowedReasonsCallback
+}
 
 func (s *SatelliteDisallowedReasonsCallbackStub) OnTransaction(
 	ctx context.Context,

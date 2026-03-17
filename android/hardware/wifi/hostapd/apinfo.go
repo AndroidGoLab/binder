@@ -15,7 +15,6 @@ type ApInfo struct {
 	Generation                Generation
 	ApIfaceInstanceMacAddress []byte
 	VendorData                []common.OuiKeyedData
-	MldMacAddress             []byte
 }
 
 var _ parcel.Parcelable = (*ApInfo)(nil)
@@ -29,30 +28,16 @@ func (s *ApInfo) MarshalParcel(
 	p.WriteInt32(s.FreqMhz)
 	p.WriteInt32(int32(s.ChannelBandwidth))
 	p.WriteInt32(int32(s.Generation))
-	if s.ApIfaceInstanceMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ApIfaceInstanceMacAddress)))
-		for _, _item := range s.ApIfaceInstanceMacAddress {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.ApIfaceInstanceMacAddress)
 	if s.VendorData == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.VendorData)))
 		for _, _item := range s.VendorData {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
-		}
-	}
-	if s.MldMacAddress == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.MldMacAddress)))
-		for _, _item := range s.MldMacAddress {
-			p.WritePaddedByte(_item)
 		}
 	}
 
@@ -95,19 +80,9 @@ func (s *ApInfo) UnmarshalParcel(
 	}
 	s.Generation = Generation(_generationRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.ApIfaceInstanceMacAddress, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.ApIfaceInstanceMacAddress = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.ApIfaceInstanceMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	var _count1 int32
@@ -118,22 +93,10 @@ func (s *ApInfo) UnmarshalParcel(
 	if _count1 >= 0 {
 		s.VendorData = make([]common.OuiKeyedData, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
-			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
+			if _, _err = p.ReadInt32(); _err != nil {
 				return _err
 			}
-		}
-	}
-
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count2 >= 0 {
-		s.MldMacAddress = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.MldMacAddress[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
+			if _err = s.VendorData[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}
 		}

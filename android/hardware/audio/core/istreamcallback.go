@@ -17,6 +17,12 @@ const (
 	TransactionIStreamCallbackOnDrainReady    = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIStreamCallbackOnTransferReady = "onTransferReady"
+	MethodIStreamCallbackOnError         = "onError"
+	MethodIStreamCallbackOnDrainReady    = "onDrainReady"
+)
+
 type IStreamCallback interface {
 	AsBinder() binder.IBinder
 	OnTransferReady(ctx context.Context) error
@@ -25,17 +31,17 @@ type IStreamCallback interface {
 }
 
 type StreamCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamCallbackProxy(
 	remote binder.IBinder,
 ) *StreamCallbackProxy {
-	return &StreamCallbackProxy{remote: remote}
+	return &StreamCallbackProxy{Remote: remote}
 }
 
 func (p *StreamCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamCallback = (*StreamCallbackProxy)(nil)
@@ -46,12 +52,12 @@ func (p *StreamCallbackProxy) OnTransferReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCallback, "onTransferReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCallback, MethodIStreamCallbackOnTransferReady)
 	if _err != nil {
-		_code = TransactionIStreamCallbackOnTransferReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCallback, MethodIStreamCallbackOnTransferReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +67,12 @@ func (p *StreamCallbackProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCallback, MethodIStreamCallbackOnError)
 	if _err != nil {
-		_code = TransactionIStreamCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCallback, MethodIStreamCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +82,12 @@ func (p *StreamCallbackProxy) OnDrainReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamCallback, "onDrainReady")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamCallback, MethodIStreamCallbackOnDrainReady)
 	if _err != nil {
-		_code = TransactionIStreamCallbackOnDrainReady
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamCallback, MethodIStreamCallbackOnDrainReady, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +98,10 @@ type StreamCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamCallbackStub)(nil)
+
+func (s *StreamCallbackStub) Descriptor() string {
+	return DescriptorIStreamCallback
+}
 
 func (s *StreamCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged = "onCrossWindowBlurEnabledChanged"
+)
+
 type ICrossWindowBlurEnabledListener interface {
 	AsBinder() binder.IBinder
 	OnCrossWindowBlurEnabledChanged(ctx context.Context, enabled bool) error
 }
 
 type CrossWindowBlurEnabledListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCrossWindowBlurEnabledListenerProxy(
 	remote binder.IBinder,
 ) *CrossWindowBlurEnabledListenerProxy {
-	return &CrossWindowBlurEnabledListenerProxy{remote: remote}
+	return &CrossWindowBlurEnabledListenerProxy{Remote: remote}
 }
 
 func (p *CrossWindowBlurEnabledListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICrossWindowBlurEnabledListener = (*CrossWindowBlurEnabledListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *CrossWindowBlurEnabledListenerProxy) OnCrossWindowBlurEnabledChanged(
 	_data.WriteInterfaceToken(DescriptorICrossWindowBlurEnabledListener)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICrossWindowBlurEnabledListener, "onCrossWindowBlurEnabledChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICrossWindowBlurEnabledListener, MethodICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged)
 	if _err != nil {
-		_code = TransactionICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICrossWindowBlurEnabledListener, MethodICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type CrossWindowBlurEnabledListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CrossWindowBlurEnabledListenerStub)(nil)
+
+func (s *CrossWindowBlurEnabledListenerStub) Descriptor() string {
+	return DescriptorICrossWindowBlurEnabledListener
+}
 
 func (s *CrossWindowBlurEnabledListenerStub) OnTransaction(
 	ctx context.Context,

@@ -307,14 +307,7 @@ func (u *KeyParameterValue) MarshalParcel(
 	case KeyParameterValueTagDateTime:
 		p.WriteInt64(u.DateTime)
 	case KeyParameterValueTagBlob:
-		if u.Blob == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Blob)))
-			for _, _item := range u.Blob {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteByteArray(u.Blob)
 	default:
 		return fmt.Errorf("unknown union tag %d for KeyParameterValue", u.Tag)
 	}
@@ -418,19 +411,9 @@ func (u *KeyParameterValue) UnmarshalParcel(
 		}
 	case KeyParameterValueTagBlob:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.Blob, _err = p.ReadByteArray()
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.Blob = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.Blob[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for KeyParameterValue", u.Tag)

@@ -20,6 +20,15 @@ const (
 	TransactionIBinderStabilityTestReturnVendorStabilityBinder = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIBinderStabilityTestSendBinder                  = "sendBinder"
+	MethodIBinderStabilityTestSendAndCallBinder           = "sendAndCallBinder"
+	MethodIBinderStabilityTestReturnNoStabilityBinder     = "returnNoStabilityBinder"
+	MethodIBinderStabilityTestReturnLocalStabilityBinder  = "returnLocalStabilityBinder"
+	MethodIBinderStabilityTestReturnVintfStabilityBinder  = "returnVintfStabilityBinder"
+	MethodIBinderStabilityTestReturnVendorStabilityBinder = "returnVendorStabilityBinder"
+)
+
 type IBinderStabilityTest interface {
 	AsBinder() binder.IBinder
 	SendBinder(ctx context.Context, binder_ binder.IBinder) error
@@ -31,17 +40,17 @@ type IBinderStabilityTest interface {
 }
 
 type BinderStabilityTestProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderStabilityTestProxy(
 	remote binder.IBinder,
 ) *BinderStabilityTestProxy {
-	return &BinderStabilityTestProxy{remote: remote}
+	return &BinderStabilityTestProxy{Remote: remote}
 }
 
 func (p *BinderStabilityTestProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderStabilityTest = (*BinderStabilityTestProxy)(nil)
@@ -52,14 +61,14 @@ func (p *BinderStabilityTestProxy) SendBinder(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "sendBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderStabilityTest, MethodIBinderStabilityTestSendBinder)
 	if _err != nil {
-		_code = TransactionIBinderStabilityTestSendBinder
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderStabilityTest, MethodIBinderStabilityTestSendBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,14 +87,14 @@ func (p *BinderStabilityTestProxy) SendAndCallBinder(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
-	binder.WriteBinderToParcel(ctx, _data, binder_, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, binder_, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "sendAndCallBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderStabilityTest, MethodIBinderStabilityTestSendAndCallBinder)
 	if _err != nil {
-		_code = TransactionIBinderStabilityTestSendAndCallBinder
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderStabilityTest, MethodIBinderStabilityTestSendAndCallBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,12 +114,12 @@ func (p *BinderStabilityTestProxy) ReturnNoStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnNoStabilityBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnNoStabilityBinder)
 	if _err != nil {
-		_code = TransactionIBinderStabilityTestReturnNoStabilityBinder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnNoStabilityBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,7 +133,7 @@ func (p *BinderStabilityTestProxy) ReturnNoStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -135,12 +144,12 @@ func (p *BinderStabilityTestProxy) ReturnLocalStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnLocalStabilityBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnLocalStabilityBinder)
 	if _err != nil {
-		_code = TransactionIBinderStabilityTestReturnLocalStabilityBinder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnLocalStabilityBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -154,7 +163,7 @@ func (p *BinderStabilityTestProxy) ReturnLocalStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -165,12 +174,12 @@ func (p *BinderStabilityTestProxy) ReturnVintfStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnVintfStabilityBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnVintfStabilityBinder)
 	if _err != nil {
-		_code = TransactionIBinderStabilityTestReturnVintfStabilityBinder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnVintfStabilityBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -184,7 +193,7 @@ func (p *BinderStabilityTestProxy) ReturnVintfStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -195,12 +204,12 @@ func (p *BinderStabilityTestProxy) ReturnVendorStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnVendorStabilityBinder")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnVendorStabilityBinder)
 	if _err != nil {
-		_code = TransactionIBinderStabilityTestReturnVendorStabilityBinder
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderStabilityTest, MethodIBinderStabilityTestReturnVendorStabilityBinder, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -214,7 +223,7 @@ func (p *BinderStabilityTestProxy) ReturnVendorStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
+	_result = binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -225,6 +234,10 @@ type BinderStabilityTestStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderStabilityTestStub)(nil)
+
+func (s *BinderStabilityTestStub) Descriptor() string {
+	return DescriptorIBinderStabilityTest
+}
 
 func (s *BinderStabilityTestStub) OnTransaction(
 	ctx context.Context,

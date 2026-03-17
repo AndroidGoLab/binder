@@ -26,6 +26,20 @@ const (
 	TransactionISoundDoseForceComputeCsdOnAllDevices     = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodISoundDoseSetOutputRs2UpperBound          = "setOutputRs2UpperBound"
+	MethodISoundDoseResetCsd                        = "resetCsd"
+	MethodISoundDoseUpdateAttenuation               = "updateAttenuation"
+	MethodISoundDoseSetCsdEnabled                   = "setCsdEnabled"
+	MethodISoundDoseInitCachedAudioDeviceCategories = "initCachedAudioDeviceCategories"
+	MethodISoundDoseSetAudioDeviceCategory          = "setAudioDeviceCategory"
+	MethodISoundDoseGetOutputRs2UpperBound          = "getOutputRs2UpperBound"
+	MethodISoundDoseGetCsd                          = "getCsd"
+	MethodISoundDoseIsSoundDoseHalSupported         = "isSoundDoseHalSupported"
+	MethodISoundDoseForceUseFrameworkMel            = "forceUseFrameworkMel"
+	MethodISoundDoseForceComputeCsdOnAllDevices     = "forceComputeCsdOnAllDevices"
+)
+
 type ISoundDose interface {
 	AsBinder() binder.IBinder
 	SetOutputRs2UpperBound(ctx context.Context, rs2Value float32) error
@@ -42,17 +56,17 @@ type ISoundDose interface {
 }
 
 type SoundDoseProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundDoseProxy(
 	remote binder.IBinder,
 ) *SoundDoseProxy {
-	return &SoundDoseProxy{remote: remote}
+	return &SoundDoseProxy{Remote: remote}
 }
 
 func (p *SoundDoseProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundDose = (*SoundDoseProxy)(nil)
@@ -65,12 +79,12 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteFloat32(rs2Value)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "setOutputRs2UpperBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound)
 	if _err != nil {
-		_code = TransactionISoundDoseSetOutputRs2UpperBound
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseSetOutputRs2UpperBound, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,18 +101,19 @@ func (p *SoundDoseProxy) ResetCsd(
 	} else {
 		_data.WriteInt32(int32(len(records)))
 		for _, _item := range records {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "resetCsd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseResetCsd)
 	if _err != nil {
-		_code = TransactionISoundDoseResetCsd
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseResetCsd, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,12 +127,12 @@ func (p *SoundDoseProxy) UpdateAttenuation(
 	_data.WriteFloat32(attenuationDB)
 	_data.WriteInt32(device)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "updateAttenuation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseUpdateAttenuation)
 	if _err != nil {
-		_code = TransactionISoundDoseUpdateAttenuation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseUpdateAttenuation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,12 +144,12 @@ func (p *SoundDoseProxy) SetCsdEnabled(
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "setCsdEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetCsdEnabled)
 	if _err != nil {
-		_code = TransactionISoundDoseSetCsdEnabled
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseSetCsdEnabled, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,18 +164,19 @@ func (p *SoundDoseProxy) InitCachedAudioDeviceCategories(
 	} else {
 		_data.WriteInt32(int32(len(audioDevices)))
 		for _, _item := range audioDevices {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "initCachedAudioDeviceCategories")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseInitCachedAudioDeviceCategories)
 	if _err != nil {
-		_code = TransactionISoundDoseInitCachedAudioDeviceCategories
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseInitCachedAudioDeviceCategories, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,12 +191,12 @@ func (p *SoundDoseProxy) SetAudioDeviceCategory(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "setAudioDeviceCategory")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseSetAudioDeviceCategory)
 	if _err != nil {
-		_code = TransactionISoundDoseSetAudioDeviceCategory
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseSetAudioDeviceCategory, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -191,12 +207,12 @@ func (p *SoundDoseProxy) GetOutputRs2UpperBound(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "getOutputRs2UpperBound")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseGetOutputRs2UpperBound)
 	if _err != nil {
-		_code = TransactionISoundDoseGetOutputRs2UpperBound
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseGetOutputRs2UpperBound, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,12 +236,12 @@ func (p *SoundDoseProxy) GetCsd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "getCsd")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseGetCsd)
 	if _err != nil {
-		_code = TransactionISoundDoseGetCsd
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseGetCsd, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -249,12 +265,12 @@ func (p *SoundDoseProxy) IsSoundDoseHalSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "isSoundDoseHalSupported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseIsSoundDoseHalSupported)
 	if _err != nil {
-		_code = TransactionISoundDoseIsSoundDoseHalSupported
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseIsSoundDoseHalSupported, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -279,12 +295,12 @@ func (p *SoundDoseProxy) ForceUseFrameworkMel(
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteBool(useFrameworkMel)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "forceUseFrameworkMel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseForceUseFrameworkMel)
 	if _err != nil {
-		_code = TransactionISoundDoseForceUseFrameworkMel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseForceUseFrameworkMel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -296,12 +312,12 @@ func (p *SoundDoseProxy) ForceComputeCsdOnAllDevices(
 	_data.WriteInterfaceToken(DescriptorISoundDose)
 	_data.WriteBool(computeCsdOnAllDevices)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "forceComputeCsdOnAllDevices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundDose, MethodISoundDoseForceComputeCsdOnAllDevices)
 	if _err != nil {
-		_code = TransactionISoundDoseForceComputeCsdOnAllDevices
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundDose, MethodISoundDoseForceComputeCsdOnAllDevices, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -312,6 +328,10 @@ type SoundDoseStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundDoseStub)(nil)
+
+func (s *SoundDoseStub) Descriptor() string {
+	return DescriptorISoundDose
+}
 
 func (s *SoundDoseStub) OnTransaction(
 	ctx context.Context,

@@ -3,7 +3,7 @@ package classification
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,9 +20,17 @@ const (
 	TransactionIFieldClassificationCallbackCancel        = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIFieldClassificationCallbackOnCancellable = "onCancellable"
+	MethodIFieldClassificationCallbackOnSuccess     = "onSuccess"
+	MethodIFieldClassificationCallbackOnFailure     = "onFailure"
+	MethodIFieldClassificationCallbackIsCompleted   = "isCompleted"
+	MethodIFieldClassificationCallbackCancel        = "cancel"
+)
+
 type IFieldClassificationCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FieldClassificationResponse) error
 	OnFailure(ctx context.Context) error
 	IsCompleted(ctx context.Context) (bool, error)
@@ -30,35 +38,35 @@ type IFieldClassificationCallback interface {
 }
 
 type FieldClassificationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFieldClassificationCallbackProxy(
 	remote binder.IBinder,
 ) *FieldClassificationCallbackProxy {
-	return &FieldClassificationCallbackProxy{remote: remote}
+	return &FieldClassificationCallbackProxy{Remote: remote}
 }
 
 func (p *FieldClassificationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFieldClassificationCallback = (*FieldClassificationCallbackProxy)(nil)
 
 func (p *FieldClassificationCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onCancellable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnCancellable)
 	if _err != nil {
-		_code = TransactionIFieldClassificationCallbackOnCancellable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnCancellable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,12 +90,12 @@ func (p *FieldClassificationCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIFieldClassificationCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnSuccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,12 +114,12 @@ func (p *FieldClassificationCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIFieldClassificationCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackOnFailure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,12 +139,12 @@ func (p *FieldClassificationCallbackProxy) IsCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "isCompleted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackIsCompleted)
 	if _err != nil {
-		_code = TransactionIFieldClassificationCallbackIsCompleted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackIsCompleted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,12 +167,12 @@ func (p *FieldClassificationCallbackProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "cancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackCancel)
 	if _err != nil {
-		_code = TransactionIFieldClassificationCallbackCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIFieldClassificationCallback, MethodIFieldClassificationCallbackCancel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,6 +193,10 @@ type FieldClassificationCallbackStub struct {
 
 var _ binder.TransactionReceiver = (*FieldClassificationCallbackStub)(nil)
 
+func (s *FieldClassificationCallbackStub) Descriptor() string {
+	return DescriptorIFieldClassificationCallback
+}
+
 func (s *FieldClassificationCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
@@ -196,7 +208,7 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_reply := parcel.New()
@@ -276,7 +288,7 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 // provide to NewFieldClassificationCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IFieldClassificationCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FieldClassificationResponse) error
 	OnFailure(ctx context.Context) error
 	IsCompleted(ctx context.Context) (bool, error)
@@ -294,7 +306,7 @@ func (w *fieldClassificationCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *fieldClassificationCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

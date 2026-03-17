@@ -15,23 +15,27 @@ const (
 	TransactionILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange = "dispatchLoudnessCodecParameterChange"
+)
+
 type ILoudnessCodecUpdatesDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchLoudnessCodecParameterChange(ctx context.Context, sessionId int32, params interface{}) error
 }
 
 type LoudnessCodecUpdatesDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLoudnessCodecUpdatesDispatcherProxy(
 	remote binder.IBinder,
 ) *LoudnessCodecUpdatesDispatcherProxy {
-	return &LoudnessCodecUpdatesDispatcherProxy{remote: remote}
+	return &LoudnessCodecUpdatesDispatcherProxy{Remote: remote}
 }
 
 func (p *LoudnessCodecUpdatesDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILoudnessCodecUpdatesDispatcher = (*LoudnessCodecUpdatesDispatcherProxy)(nil)
@@ -45,12 +49,12 @@ func (p *LoudnessCodecUpdatesDispatcherProxy) DispatchLoudnessCodecParameterChan
 	_data.WriteInterfaceToken(DescriptorILoudnessCodecUpdatesDispatcher)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorILoudnessCodecUpdatesDispatcher, "dispatchLoudnessCodecParameterChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILoudnessCodecUpdatesDispatcher, MethodILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange)
 	if _err != nil {
-		_code = TransactionILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILoudnessCodecUpdatesDispatcher, MethodILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +65,10 @@ type LoudnessCodecUpdatesDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LoudnessCodecUpdatesDispatcherStub)(nil)
+
+func (s *LoudnessCodecUpdatesDispatcherStub) Descriptor() string {
+	return DescriptorILoudnessCodecUpdatesDispatcher
+}
 
 func (s *LoudnessCodecUpdatesDispatcherStub) OnTransaction(
 	ctx context.Context,

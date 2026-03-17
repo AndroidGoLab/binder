@@ -16,23 +16,27 @@ const (
 	TransactionISmartspaceCallbackOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISmartspaceCallbackOnResult = "onResult"
+)
+
 type ISmartspaceCallback interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, result pm.ParceledListSlice) error
 }
 
 type SmartspaceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSmartspaceCallbackProxy(
 	remote binder.IBinder,
 ) *SmartspaceCallbackProxy {
-	return &SmartspaceCallbackProxy{remote: remote}
+	return &SmartspaceCallbackProxy{Remote: remote}
 }
 
 func (p *SmartspaceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISmartspaceCallback = (*SmartspaceCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *SmartspaceCallbackProxy) OnResult(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceCallback, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISmartspaceCallback, MethodISmartspaceCallbackOnResult)
 	if _err != nil {
-		_code = TransactionISmartspaceCallbackOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISmartspaceCallback, MethodISmartspaceCallbackOnResult, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type SmartspaceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SmartspaceCallbackStub)(nil)
+
+func (s *SmartspaceCallbackStub) Descriptor() string {
+	return DescriptorISmartspaceCallback
+}
 
 func (s *SmartspaceCallbackStub) OnTransaction(
 	ctx context.Context,

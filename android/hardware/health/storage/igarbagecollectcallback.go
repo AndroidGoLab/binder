@@ -15,23 +15,27 @@ const (
 	TransactionIGarbageCollectCallbackOnFinish = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIGarbageCollectCallbackOnFinish = "onFinish"
+)
+
 type IGarbageCollectCallback interface {
 	AsBinder() binder.IBinder
 	OnFinish(ctx context.Context, result Result) error
 }
 
 type GarbageCollectCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGarbageCollectCallbackProxy(
 	remote binder.IBinder,
 ) *GarbageCollectCallbackProxy {
-	return &GarbageCollectCallbackProxy{remote: remote}
+	return &GarbageCollectCallbackProxy{Remote: remote}
 }
 
 func (p *GarbageCollectCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGarbageCollectCallback = (*GarbageCollectCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *GarbageCollectCallbackProxy) OnFinish(
 	_data.WriteInterfaceToken(DescriptorIGarbageCollectCallback)
 	_data.WriteInt32(int32(result))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGarbageCollectCallback, "onFinish")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGarbageCollectCallback, MethodIGarbageCollectCallbackOnFinish)
 	if _err != nil {
-		_code = TransactionIGarbageCollectCallbackOnFinish
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGarbageCollectCallback, MethodIGarbageCollectCallbackOnFinish, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type GarbageCollectCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GarbageCollectCallbackStub)(nil)
+
+func (s *GarbageCollectCallbackStub) Descriptor() string {
+	return DescriptorIGarbageCollectCallback
+}
 
 func (s *GarbageCollectCallbackStub) OnTransaction(
 	ctx context.Context,

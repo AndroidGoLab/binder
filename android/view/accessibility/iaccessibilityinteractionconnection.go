@@ -25,6 +25,19 @@ const (
 	TransactionIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow         = binder.FirstCallTransaction + 9
 )
 
+const (
+	MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId = "findAccessibilityNodeInfoByAccessibilityId"
+	MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByViewId         = "findAccessibilityNodeInfosByViewId"
+	MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByText           = "findAccessibilityNodeInfosByText"
+	MethodIAccessibilityInteractionConnectionFindFocus                                  = "findFocus"
+	MethodIAccessibilityInteractionConnectionFocusSearch                                = "focusSearch"
+	MethodIAccessibilityInteractionConnectionPerformAccessibilityAction                 = "performAccessibilityAction"
+	MethodIAccessibilityInteractionConnectionClearAccessibilityFocus                    = "clearAccessibilityFocus"
+	MethodIAccessibilityInteractionConnectionNotifyOutsideTouch                         = "notifyOutsideTouch"
+	MethodIAccessibilityInteractionConnectionTakeScreenshotOfWindow                     = "takeScreenshotOfWindow"
+	MethodIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow         = "attachAccessibilityOverlayToWindow"
+)
+
 type IAccessibilityInteractionConnection interface {
 	AsBinder() binder.IBinder
 	FindAccessibilityNodeInfoByAccessibilityId(ctx context.Context, accessibilityNodeId int64, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec interface{}, matrixValues []float32, arguments interface{}) error
@@ -40,17 +53,17 @@ type IAccessibilityInteractionConnection interface {
 }
 
 type AccessibilityInteractionConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAccessibilityInteractionConnectionProxy(
 	remote binder.IBinder,
 ) *AccessibilityInteractionConnectionProxy {
-	return &AccessibilityInteractionConnectionProxy{remote: remote}
+	return &AccessibilityInteractionConnectionProxy{Remote: remote}
 }
 
 func (p *AccessibilityInteractionConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAccessibilityInteractionConnection = (*AccessibilityInteractionConnectionProxy)(nil)
@@ -76,7 +89,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfoByAcc
 		return _err
 	}
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(interrogatingPid)
 	_data.WriteInt64(interrogatingTid)
@@ -89,12 +102,12 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfoByAcc
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "findAccessibilityNodeInfoByAccessibilityId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,7 +133,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByVi
 		return _err
 	}
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(interrogatingPid)
 	_data.WriteInt64(interrogatingTid)
@@ -133,12 +146,12 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByVi
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "findAccessibilityNodeInfosByViewId")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByViewId)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByViewId
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByViewId, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -164,7 +177,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByTe
 		return _err
 	}
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(interrogatingPid)
 	_data.WriteInt64(interrogatingTid)
@@ -177,12 +190,12 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByTe
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "findAccessibilityNodeInfosByText")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByText)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByText
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByText, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -208,7 +221,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindFocus(
 		return _err
 	}
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(interrogatingPid)
 	_data.WriteInt64(interrogatingTid)
@@ -221,12 +234,12 @@ func (p *AccessibilityInteractionConnectionProxy) FindFocus(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "findFocus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindFocus)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionFindFocus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFindFocus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -252,7 +265,7 @@ func (p *AccessibilityInteractionConnectionProxy) FocusSearch(
 		return _err
 	}
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(interrogatingPid)
 	_data.WriteInt64(interrogatingTid)
@@ -265,12 +278,12 @@ func (p *AccessibilityInteractionConnectionProxy) FocusSearch(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "focusSearch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFocusSearch)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionFocusSearch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionFocusSearch, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -290,17 +303,17 @@ func (p *AccessibilityInteractionConnectionProxy) PerformAccessibilityAction(
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteInt32(action)
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(flags)
 	_data.WriteInt32(interrogatingPid)
 	_data.WriteInt64(interrogatingTid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "performAccessibilityAction")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionPerformAccessibilityAction)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionPerformAccessibilityAction
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionPerformAccessibilityAction, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -310,12 +323,12 @@ func (p *AccessibilityInteractionConnectionProxy) ClearAccessibilityFocus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "clearAccessibilityFocus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionClearAccessibilityFocus)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionClearAccessibilityFocus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionClearAccessibilityFocus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -325,12 +338,12 @@ func (p *AccessibilityInteractionConnectionProxy) NotifyOutsideTouch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "notifyOutsideTouch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionNotifyOutsideTouch)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionNotifyOutsideTouch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionNotifyOutsideTouch, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -343,14 +356,14 @@ func (p *AccessibilityInteractionConnectionProxy) TakeScreenshotOfWindow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "takeScreenshotOfWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionTakeScreenshotOfWindow)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionTakeScreenshotOfWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionTakeScreenshotOfWindow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -363,14 +376,14 @@ func (p *AccessibilityInteractionConnectionProxy) AttachAccessibilityOverlayToWi
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt32(interactionId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "attachAccessibilityOverlayToWindow")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow)
 	if _err != nil {
-		_code = TransactionIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAccessibilityInteractionConnection, MethodIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -381,6 +394,10 @@ type AccessibilityInteractionConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AccessibilityInteractionConnectionStub)(nil)
+
+func (s *AccessibilityInteractionConnectionStub) Descriptor() string {
+	return DescriptorIAccessibilityInteractionConnection
+}
 
 func (s *AccessibilityInteractionConnectionStub) OnTransaction(
 	ctx context.Context,

@@ -16,23 +16,27 @@ const (
 	TransactionIContentCaptureDirectManagerSendEvents = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIContentCaptureDirectManagerSendEvents = "sendEvents"
+)
+
 type IContentCaptureDirectManager interface {
 	AsBinder() binder.IBinder
 	SendEvents(ctx context.Context, events interface{}, reason int32, options content.ContentCaptureOptions) error
 }
 
 type ContentCaptureDirectManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentCaptureDirectManagerProxy(
 	remote binder.IBinder,
 ) *ContentCaptureDirectManagerProxy {
-	return &ContentCaptureDirectManagerProxy{remote: remote}
+	return &ContentCaptureDirectManagerProxy{Remote: remote}
 }
 
 func (p *ContentCaptureDirectManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentCaptureDirectManager = (*ContentCaptureDirectManagerProxy)(nil)
@@ -51,12 +55,12 @@ func (p *ContentCaptureDirectManagerProxy) SendEvents(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureDirectManager, "sendEvents")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureDirectManager, MethodIContentCaptureDirectManagerSendEvents)
 	if _err != nil {
-		_code = TransactionIContentCaptureDirectManagerSendEvents
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureDirectManager, MethodIContentCaptureDirectManagerSendEvents, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type ContentCaptureDirectManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureDirectManagerStub)(nil)
+
+func (s *ContentCaptureDirectManagerStub) Descriptor() string {
+	return DescriptorIContentCaptureDirectManager
+}
 
 func (s *ContentCaptureDirectManagerStub) OnTransaction(
 	ctx context.Context,

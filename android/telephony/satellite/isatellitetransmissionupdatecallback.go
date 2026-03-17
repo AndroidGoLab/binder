@@ -15,7 +15,12 @@ const (
 	TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged    = binder.FirstCallTransaction + 0
 	TransactionISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged = binder.FirstCallTransaction + 1
 	TransactionISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged    = binder.FirstCallTransaction + 2
-	TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested       = binder.FirstCallTransaction + 3
+)
+
+const (
+	MethodISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged    = "onSendDatagramStateChanged"
+	MethodISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged = "onReceiveDatagramStateChanged"
+	MethodISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged    = "onSatellitePositionChanged"
 )
 
 type ISatelliteTransmissionUpdateCallback interface {
@@ -23,21 +28,20 @@ type ISatelliteTransmissionUpdateCallback interface {
 	OnSendDatagramStateChanged(ctx context.Context, datagramType int32, state int32, sendPendingCount int32, errorCode int32) error
 	OnReceiveDatagramStateChanged(ctx context.Context, state int32, receivePendingCount int32, errorCode int32) error
 	OnSatellitePositionChanged(ctx context.Context, pointingInfo PointingInfo) error
-	OnSendDatagramRequested(ctx context.Context, datagramType int32) error
 }
 
 type SatelliteTransmissionUpdateCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSatelliteTransmissionUpdateCallbackProxy(
 	remote binder.IBinder,
 ) *SatelliteTransmissionUpdateCallbackProxy {
-	return &SatelliteTransmissionUpdateCallbackProxy{remote: remote}
+	return &SatelliteTransmissionUpdateCallbackProxy{Remote: remote}
 }
 
 func (p *SatelliteTransmissionUpdateCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISatelliteTransmissionUpdateCallback = (*SatelliteTransmissionUpdateCallbackProxy)(nil)
@@ -56,12 +60,12 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramStateChanged(
 	_data.WriteInt32(sendPendingCount)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSendDatagramStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteTransmissionUpdateCallback, MethodISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteTransmissionUpdateCallback, MethodISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,12 +81,12 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnReceiveDatagramStateChanged
 	_data.WriteInt32(receivePendingCount)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onReceiveDatagramStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteTransmissionUpdateCallback, MethodISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged)
 	if _err != nil {
-		_code = TransactionISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteTransmissionUpdateCallback, MethodISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,29 +101,12 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSatellitePositionChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSatellitePositionChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISatelliteTransmissionUpdateCallback, MethodISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged)
 	if _err != nil {
-		_code = TransactionISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISatelliteTransmissionUpdateCallback, MethodISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramRequested(
-	ctx context.Context,
-	datagramType int32,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorISatelliteTransmissionUpdateCallback)
-	_data.WriteInt32(datagramType)
-
-	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSendDatagramRequested")
-	if _err != nil {
-		_code = TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,6 +117,10 @@ type SatelliteTransmissionUpdateCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SatelliteTransmissionUpdateCallbackStub)(nil)
+
+func (s *SatelliteTransmissionUpdateCallbackStub) Descriptor() string {
+	return DescriptorISatelliteTransmissionUpdateCallback
+}
 
 func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -198,17 +189,6 @@ func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
 		_err := s.Impl.OnSatellitePositionChanged(ctx, _arg_pointingInfo)
 		_ = _err
 		return nil, nil
-	case TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_datagramType, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnSendDatagramRequested(ctx, _arg_datagramType)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -221,7 +201,6 @@ type ISatelliteTransmissionUpdateCallbackServer interface {
 	OnSendDatagramStateChanged(ctx context.Context, datagramType int32, state int32, sendPendingCount int32, errorCode int32) error
 	OnReceiveDatagramStateChanged(ctx context.Context, state int32, receivePendingCount int32, errorCode int32) error
 	OnSatellitePositionChanged(ctx context.Context, pointingInfo PointingInfo) error
-	OnSendDatagramRequested(ctx context.Context, datagramType int32) error
 }
 
 type satelliteTransmissionUpdateCallbackStubWrapper struct {
@@ -257,13 +236,6 @@ func (w *satelliteTransmissionUpdateCallbackStubWrapper) OnSatellitePositionChan
 	pointingInfo PointingInfo,
 ) error {
 	return w.impl.OnSatellitePositionChanged(ctx, pointingInfo)
-}
-
-func (w *satelliteTransmissionUpdateCallbackStubWrapper) OnSendDatagramRequested(
-	ctx context.Context,
-	datagramType int32,
-) error {
-	return w.impl.OnSendDatagramRequested(ctx, datagramType)
 }
 
 var _ ISatelliteTransmissionUpdateCallback = (*satelliteTransmissionUpdateCallbackStubWrapper)(nil)

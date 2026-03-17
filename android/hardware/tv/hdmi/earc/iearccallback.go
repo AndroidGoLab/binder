@@ -16,6 +16,11 @@ const (
 	TransactionIEArcCallbackOnCapabilitiesReported = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIEArcCallbackOnStateChange          = "onStateChange"
+	MethodIEArcCallbackOnCapabilitiesReported = "onCapabilitiesReported"
+)
+
 type IEArcCallback interface {
 	AsBinder() binder.IBinder
 	OnStateChange(ctx context.Context, status IEArcStatus, portId int32) error
@@ -23,17 +28,17 @@ type IEArcCallback interface {
 }
 
 type EArcCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEArcCallbackProxy(
 	remote binder.IBinder,
 ) *EArcCallbackProxy {
-	return &EArcCallbackProxy{remote: remote}
+	return &EArcCallbackProxy{Remote: remote}
 }
 
 func (p *EArcCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEArcCallback = (*EArcCallbackProxy)(nil)
@@ -48,12 +53,12 @@ func (p *EArcCallbackProxy) OnStateChange(
 	_data.WritePaddedByte(byte(status))
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArcCallback, "onStateChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnStateChange)
 	if _err != nil {
-		_code = TransactionIEArcCallbackOnStateChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEArcCallback, MethodIEArcCallbackOnStateChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +79,12 @@ func (p *EArcCallbackProxy) OnCapabilitiesReported(
 	}
 	_data.WriteInt32(portId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEArcCallback, "onCapabilitiesReported")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEArcCallback, MethodIEArcCallbackOnCapabilitiesReported)
 	if _err != nil {
-		_code = TransactionIEArcCallbackOnCapabilitiesReported
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEArcCallback, MethodIEArcCallbackOnCapabilitiesReported, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,6 +95,10 @@ type EArcCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EArcCallbackStub)(nil)
+
+func (s *EArcCallbackStub) Descriptor() string {
+	return DescriptorIEArcCallback
+}
 
 func (s *EArcCallbackStub) OnTransaction(
 	ctx context.Context,

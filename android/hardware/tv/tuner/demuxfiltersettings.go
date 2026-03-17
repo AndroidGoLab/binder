@@ -109,22 +109,27 @@ func (u *DemuxFilterSettings) MarshalParcel(
 
 	switch u.Tag {
 	case DemuxFilterSettingsTagTs:
+		p.WriteInt32(1)
 		if _err := u.Ts.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagMmtp:
+		p.WriteInt32(1)
 		if _err := u.Mmtp.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagIp:
+		p.WriteInt32(1)
 		if _err := u.Ip.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagTlv:
+		p.WriteInt32(1)
 		if _err := u.Tlv.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagAlp:
+		p.WriteInt32(1)
 		if _err := u.Alp.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -151,22 +156,37 @@ func (u *DemuxFilterSettings) UnmarshalParcel(
 
 	switch u.Tag {
 	case DemuxFilterSettingsTagTs:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Ts.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagMmtp:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Mmtp.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagIp:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Ip.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagTlv:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Tlv.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case DemuxFilterSettingsTagAlp:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Alp.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

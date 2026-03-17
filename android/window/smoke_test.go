@@ -18,17 +18,6 @@ func TestSmoke_BackAnimationFinishedCallbackProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_BackAnimationHandoffHandlerProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewBackAnimationHandoffHandlerProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("BackAnimationHandoffHandlerProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_BackAnimationRunnerProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewBackAnimationRunnerProxy(mock)

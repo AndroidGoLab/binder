@@ -15,23 +15,27 @@ const (
 	TransactionIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent = "exemptAppTemporarilyForEvent"
+)
+
 type IDeviceIdleControllerAdapter interface {
 	AsBinder() binder.IBinder
 	ExemptAppTemporarilyForEvent(ctx context.Context, packageName string, duration int64, reason string) error
 }
 
 type DeviceIdleControllerAdapterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDeviceIdleControllerAdapterProxy(
 	remote binder.IBinder,
 ) *DeviceIdleControllerAdapterProxy {
-	return &DeviceIdleControllerAdapterProxy{remote: remote}
+	return &DeviceIdleControllerAdapterProxy{Remote: remote}
 }
 
 func (p *DeviceIdleControllerAdapterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDeviceIdleControllerAdapter = (*DeviceIdleControllerAdapterProxy)(nil)
@@ -42,7 +46,7 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 	duration int64,
 	reason string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleControllerAdapter)
 	_data.WriteString16(packageName)
@@ -50,12 +54,12 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDeviceIdleControllerAdapter, "exemptAppTemporarilyForEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDeviceIdleControllerAdapter, MethodIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent)
 	if _err != nil {
-		_code = TransactionIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDeviceIdleControllerAdapter, MethodIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,6 +79,10 @@ type DeviceIdleControllerAdapterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DeviceIdleControllerAdapterStub)(nil)
+
+func (s *DeviceIdleControllerAdapterStub) Descriptor() string {
+	return DescriptorIDeviceIdleControllerAdapter
+}
 
 func (s *DeviceIdleControllerAdapterStub) OnTransaction(
 	ctx context.Context,

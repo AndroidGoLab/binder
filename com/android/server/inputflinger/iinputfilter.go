@@ -16,7 +16,13 @@ const (
 	TransactionIInputFilterNotifyKey                  = binder.FirstCallTransaction + 1
 	TransactionIInputFilterNotifyInputDevicesChanged  = binder.FirstCallTransaction + 2
 	TransactionIInputFilterNotifyConfigurationChanged = binder.FirstCallTransaction + 3
-	TransactionIInputFilterDumpFilter                 = binder.FirstCallTransaction + 4
+)
+
+const (
+	MethodIInputFilterIsEnabled                  = "isEnabled"
+	MethodIInputFilterNotifyKey                  = "notifyKey"
+	MethodIInputFilterNotifyInputDevicesChanged  = "notifyInputDevicesChanged"
+	MethodIInputFilterNotifyConfigurationChanged = "notifyConfigurationChanged"
 )
 
 type IInputFilter interface {
@@ -25,21 +31,20 @@ type IInputFilter interface {
 	NotifyKey(ctx context.Context, event KeyEvent) error
 	NotifyInputDevicesChanged(ctx context.Context, deviceInfos []DeviceInfo) error
 	NotifyConfigurationChanged(ctx context.Context, config InputFilterConfiguration) error
-	DumpFilter(ctx context.Context) (string, error)
 }
 
 type InputFilterProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputFilterProxy(
 	remote binder.IBinder,
 ) *InputFilterProxy {
-	return &InputFilterProxy{remote: remote}
+	return &InputFilterProxy{Remote: remote}
 }
 
 func (p *InputFilterProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputFilter = (*InputFilterProxy)(nil)
@@ -51,12 +56,12 @@ func (p *InputFilterProxy) IsEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "isEnabled")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterIsEnabled)
 	if _err != nil {
-		_code = TransactionIInputFilterIsEnabled
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterIsEnabled, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,12 +89,12 @@ func (p *InputFilterProxy) NotifyKey(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "notifyKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterNotifyKey)
 	if _err != nil {
-		_code = TransactionIInputFilterNotifyKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterNotifyKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,18 +118,19 @@ func (p *InputFilterProxy) NotifyInputDevicesChanged(
 	} else {
 		_data.WriteInt32(int32(len(deviceInfos)))
 		for _, _item := range deviceInfos {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "notifyInputDevicesChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterNotifyInputDevicesChanged)
 	if _err != nil {
-		_code = TransactionIInputFilterNotifyInputDevicesChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterNotifyInputDevicesChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,12 +154,12 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "notifyConfigurationChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputFilter, MethodIInputFilterNotifyConfigurationChanged)
 	if _err != nil {
-		_code = TransactionIInputFilterNotifyConfigurationChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputFilter, MethodIInputFilterNotifyConfigurationChanged, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -166,35 +172,6 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 	return nil
 }
 
-func (p *InputFilterProxy) DumpFilter(
-	ctx context.Context,
-) (string, error) {
-	var _result string
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputFilter)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "dumpFilter")
-	if _err != nil {
-		_code = TransactionIInputFilterDumpFilter
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadString16()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 // InputFilterStub dispatches incoming binder transactions
 // to a typed IInputFilter implementation.
 type InputFilterStub struct {
@@ -202,6 +179,10 @@ type InputFilterStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputFilterStub)(nil)
+
+func (s *InputFilterStub) Descriptor() string {
+	return DescriptorIInputFilter
+}
 
 func (s *InputFilterStub) OnTransaction(
 	ctx context.Context,
@@ -285,19 +266,6 @@ func (s *InputFilterStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIInputFilterDumpFilter:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.DumpFilter(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteString16(_result)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -311,7 +279,6 @@ type IInputFilterServer interface {
 	NotifyKey(ctx context.Context, event KeyEvent) error
 	NotifyInputDevicesChanged(ctx context.Context, deviceInfos []DeviceInfo) error
 	NotifyConfigurationChanged(ctx context.Context, config InputFilterConfiguration) error
-	DumpFilter(ctx context.Context) (string, error)
 }
 
 type inputFilterStubWrapper struct {
@@ -348,12 +315,6 @@ func (w *inputFilterStubWrapper) NotifyConfigurationChanged(
 	config InputFilterConfiguration,
 ) error {
 	return w.impl.NotifyConfigurationChanged(ctx, config)
-}
-
-func (w *inputFilterStubWrapper) DumpFilter(
-	ctx context.Context,
-) (string, error) {
-	return w.impl.DumpFilter(ctx)
 }
 
 var _ IInputFilter = (*inputFilterStubWrapper)(nil)

@@ -15,23 +15,27 @@ const (
 	TransactionIAudioModeDispatcherDispatchAudioModeChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAudioModeDispatcherDispatchAudioModeChanged = "dispatchAudioModeChanged"
+)
+
 type IAudioModeDispatcher interface {
 	AsBinder() binder.IBinder
 	DispatchAudioModeChanged(ctx context.Context, mode int32) error
 }
 
 type AudioModeDispatcherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioModeDispatcherProxy(
 	remote binder.IBinder,
 ) *AudioModeDispatcherProxy {
-	return &AudioModeDispatcherProxy{remote: remote}
+	return &AudioModeDispatcherProxy{Remote: remote}
 }
 
 func (p *AudioModeDispatcherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioModeDispatcher = (*AudioModeDispatcherProxy)(nil)
@@ -44,12 +48,12 @@ func (p *AudioModeDispatcherProxy) DispatchAudioModeChanged(
 	_data.WriteInterfaceToken(DescriptorIAudioModeDispatcher)
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioModeDispatcher, "dispatchAudioModeChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioModeDispatcher, MethodIAudioModeDispatcherDispatchAudioModeChanged)
 	if _err != nil {
-		_code = TransactionIAudioModeDispatcherDispatchAudioModeChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioModeDispatcher, MethodIAudioModeDispatcherDispatchAudioModeChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type AudioModeDispatcherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioModeDispatcherStub)(nil)
+
+func (s *AudioModeDispatcherStub) Descriptor() string {
+	return DescriptorIAudioModeDispatcher
+}
 
 func (s *AudioModeDispatcherStub) OnTransaction(
 	ctx context.Context,

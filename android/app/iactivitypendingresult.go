@@ -15,23 +15,27 @@ const (
 	TransactionIActivityPendingResultSendResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIActivityPendingResultSendResult = "sendResult"
+)
+
 type IActivityPendingResult interface {
 	AsBinder() binder.IBinder
 	SendResult(ctx context.Context, code int32, data string, ex interface{}) (bool, error)
 }
 
 type ActivityPendingResultProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActivityPendingResultProxy(
 	remote binder.IBinder,
 ) *ActivityPendingResultProxy {
-	return &ActivityPendingResultProxy{remote: remote}
+	return &ActivityPendingResultProxy{Remote: remote}
 }
 
 func (p *ActivityPendingResultProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActivityPendingResult = (*ActivityPendingResultProxy)(nil)
@@ -48,12 +52,12 @@ func (p *ActivityPendingResultProxy) SendResult(
 	_data.WriteInt32(code)
 	_data.WriteString16(data)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActivityPendingResult, "sendResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActivityPendingResult, MethodIActivityPendingResultSendResult)
 	if _err != nil {
-		_code = TransactionIActivityPendingResultSendResult
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIActivityPendingResult, MethodIActivityPendingResultSendResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,6 +81,10 @@ type ActivityPendingResultStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActivityPendingResultStub)(nil)
+
+func (s *ActivityPendingResultStub) Descriptor() string {
+	return DescriptorIActivityPendingResult
+}
 
 func (s *ActivityPendingResultStub) OnTransaction(
 	ctx context.Context,

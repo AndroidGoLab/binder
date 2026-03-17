@@ -16,6 +16,11 @@ const (
 	TransactionINetworkServiceCallbackOnNetworkStateChanged                    = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete = "onRequestNetworkRegistrationInfoComplete"
+	MethodINetworkServiceCallbackOnNetworkStateChanged                    = "onNetworkStateChanged"
+)
+
 type INetworkServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnRequestNetworkRegistrationInfoComplete(ctx context.Context, result int32, state NetworkRegistrationInfo) error
@@ -23,17 +28,17 @@ type INetworkServiceCallback interface {
 }
 
 type NetworkServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetworkServiceCallbackProxy(
 	remote binder.IBinder,
 ) *NetworkServiceCallbackProxy {
-	return &NetworkServiceCallbackProxy{remote: remote}
+	return &NetworkServiceCallbackProxy{Remote: remote}
 }
 
 func (p *NetworkServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetworkServiceCallback = (*NetworkServiceCallbackProxy)(nil)
@@ -51,12 +56,12 @@ func (p *NetworkServiceCallbackProxy) OnRequestNetworkRegistrationInfoComplete(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkServiceCallback, "onRequestNetworkRegistrationInfoComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkServiceCallback, MethodINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete)
 	if _err != nil {
-		_code = TransactionINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkServiceCallback, MethodINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,12 +71,12 @@ func (p *NetworkServiceCallbackProxy) OnNetworkStateChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkServiceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkServiceCallback, "onNetworkStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkServiceCallback, MethodINetworkServiceCallbackOnNetworkStateChanged)
 	if _err != nil {
-		_code = TransactionINetworkServiceCallbackOnNetworkStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkServiceCallback, MethodINetworkServiceCallbackOnNetworkStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,6 +87,10 @@ type NetworkServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetworkServiceCallbackStub)(nil)
+
+func (s *NetworkServiceCallbackStub) Descriptor() string {
+	return DescriptorINetworkServiceCallback
+}
 
 func (s *NetworkServiceCallbackStub) OnTransaction(
 	ctx context.Context,

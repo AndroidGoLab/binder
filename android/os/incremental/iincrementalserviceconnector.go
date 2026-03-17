@@ -15,23 +15,27 @@ const (
 	TransactionIIncrementalServiceConnectorSetStorageParams = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIIncrementalServiceConnectorSetStorageParams = "setStorageParams"
+)
+
 type IIncrementalServiceConnector interface {
 	AsBinder() binder.IBinder
 	SetStorageParams(ctx context.Context, enableReadLogs bool) (int32, error)
 }
 
 type IncrementalServiceConnectorProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIncrementalServiceConnectorProxy(
 	remote binder.IBinder,
 ) *IncrementalServiceConnectorProxy {
-	return &IncrementalServiceConnectorProxy{remote: remote}
+	return &IncrementalServiceConnectorProxy{Remote: remote}
 }
 
 func (p *IncrementalServiceConnectorProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIncrementalServiceConnector = (*IncrementalServiceConnectorProxy)(nil)
@@ -45,12 +49,12 @@ func (p *IncrementalServiceConnectorProxy) SetStorageParams(
 	_data.WriteInterfaceToken(DescriptorIIncrementalServiceConnector)
 	_data.WriteBool(enableReadLogs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIncrementalServiceConnector, "setStorageParams")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIncrementalServiceConnector, MethodIIncrementalServiceConnectorSetStorageParams)
 	if _err != nil {
-		_code = TransactionIIncrementalServiceConnectorSetStorageParams
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIIncrementalServiceConnector, MethodIIncrementalServiceConnectorSetStorageParams, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type IncrementalServiceConnectorStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IncrementalServiceConnectorStub)(nil)
+
+func (s *IncrementalServiceConnectorStub) Descriptor() string {
+	return DescriptorIIncrementalServiceConnector
+}
 
 func (s *IncrementalServiceConnectorStub) OnTransaction(
 	ctx context.Context,

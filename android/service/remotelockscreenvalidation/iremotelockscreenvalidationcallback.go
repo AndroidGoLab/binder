@@ -17,6 +17,11 @@ const (
 	TransactionIRemoteLockscreenValidationCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIRemoteLockscreenValidationCallbackOnSuccess = "onSuccess"
+	MethodIRemoteLockscreenValidationCallbackOnFailure = "onFailure"
+)
+
 type IRemoteLockscreenValidationCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result app.RemoteLockscreenValidationResult) error
@@ -24,17 +29,17 @@ type IRemoteLockscreenValidationCallback interface {
 }
 
 type RemoteLockscreenValidationCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteLockscreenValidationCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteLockscreenValidationCallbackProxy {
-	return &RemoteLockscreenValidationCallbackProxy{remote: remote}
+	return &RemoteLockscreenValidationCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteLockscreenValidationCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteLockscreenValidationCallback = (*RemoteLockscreenValidationCallbackProxy)(nil)
@@ -50,12 +55,12 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteLockscreenValidationCallback, MethodIRemoteLockscreenValidationCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIRemoteLockscreenValidationCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteLockscreenValidationCallback, MethodIRemoteLockscreenValidationCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +72,12 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIRemoteLockscreenValidationCallback)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteLockscreenValidationCallback, MethodIRemoteLockscreenValidationCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIRemoteLockscreenValidationCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteLockscreenValidationCallback, MethodIRemoteLockscreenValidationCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +88,10 @@ type RemoteLockscreenValidationCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteLockscreenValidationCallbackStub)(nil)
+
+func (s *RemoteLockscreenValidationCallbackStub) Descriptor() string {
+	return DescriptorIRemoteLockscreenValidationCallback
+}
 
 func (s *RemoteLockscreenValidationCallbackStub) OnTransaction(
 	ctx context.Context,

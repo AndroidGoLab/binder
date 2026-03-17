@@ -3,7 +3,7 @@ package credentials
 import (
 	"context"
 	"fmt"
-	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,25 +18,31 @@ const (
 	TransactionIBeginCreateCredentialCallbackOnCancellable = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBeginCreateCredentialCallbackOnSuccess     = "onSuccess"
+	MethodIBeginCreateCredentialCallbackOnFailure     = "onFailure"
+	MethodIBeginCreateCredentialCallbackOnCancellable = "onCancellable"
+)
+
 type IBeginCreateCredentialCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, request BeginCreateCredentialResponse) error
 	OnFailure(ctx context.Context, errorType string, message interface{}) error
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 }
 
 type BeginCreateCredentialCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBeginCreateCredentialCallbackProxy(
 	remote binder.IBinder,
 ) *BeginCreateCredentialCallbackProxy {
-	return &BeginCreateCredentialCallbackProxy{remote: remote}
+	return &BeginCreateCredentialCallbackProxy{Remote: remote}
 }
 
 func (p *BeginCreateCredentialCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBeginCreateCredentialCallback = (*BeginCreateCredentialCallbackProxy)(nil)
@@ -52,12 +58,12 @@ func (p *BeginCreateCredentialCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBeginCreateCredentialCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIBeginCreateCredentialCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,29 +76,29 @@ func (p *BeginCreateCredentialCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
 	_data.WriteString16(errorType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBeginCreateCredentialCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIBeginCreateCredentialCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
 func (p *BeginCreateCredentialCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
-	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cancellation.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBeginCreateCredentialCallback, "onCancellable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnCancellable)
 	if _err != nil {
-		_code = TransactionIBeginCreateCredentialCallbackOnCancellable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBeginCreateCredentialCallback, MethodIBeginCreateCredentialCallbackOnCancellable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +109,10 @@ type BeginCreateCredentialCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BeginCreateCredentialCallbackStub)(nil)
+
+func (s *BeginCreateCredentialCallbackStub) Descriptor() string {
+	return DescriptorIBeginCreateCredentialCallback
+}
 
 func (s *BeginCreateCredentialCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -146,7 +156,7 @@ func (s *BeginCreateCredentialCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		var _arg_cancellation common.ICancellationSignal
 		_ = _arg_cancellation
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_ = _err
@@ -162,7 +172,7 @@ func (s *BeginCreateCredentialCallbackStub) OnTransaction(
 type IBeginCreateCredentialCallbackServer interface {
 	OnSuccess(ctx context.Context, request BeginCreateCredentialResponse) error
 	OnFailure(ctx context.Context, errorType string, message interface{}) error
-	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
 }
 
 type beginCreateCredentialCallbackStubWrapper struct {
@@ -191,7 +201,7 @@ func (w *beginCreateCredentialCallbackStubWrapper) OnFailure(
 
 func (w *beginCreateCredentialCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation ondeviceintelligence.ICancellationSignal,
+	cancellation common.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

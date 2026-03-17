@@ -15,6 +15,10 @@ const (
 	TransactionICameraInjectionCallbackOnInjectionError = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICameraInjectionCallbackOnInjectionError = "onInjectionError"
+)
+
 type ICameraInjectionCallback interface {
 	AsBinder() binder.IBinder
 	OnInjectionError(ctx context.Context, errorCode int32) error
@@ -28,17 +32,17 @@ const (
 )
 
 type CameraInjectionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraInjectionCallbackProxy(
 	remote binder.IBinder,
 ) *CameraInjectionCallbackProxy {
-	return &CameraInjectionCallbackProxy{remote: remote}
+	return &CameraInjectionCallbackProxy{Remote: remote}
 }
 
 func (p *CameraInjectionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraInjectionCallback = (*CameraInjectionCallbackProxy)(nil)
@@ -51,12 +55,12 @@ func (p *CameraInjectionCallbackProxy) OnInjectionError(
 	_data.WriteInterfaceToken(DescriptorICameraInjectionCallback)
 	_data.WriteInt32(errorCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionCallback, "onInjectionError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraInjectionCallback, MethodICameraInjectionCallbackOnInjectionError)
 	if _err != nil {
-		_code = TransactionICameraInjectionCallbackOnInjectionError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraInjectionCallback, MethodICameraInjectionCallbackOnInjectionError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type CameraInjectionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraInjectionCallbackStub)(nil)
+
+func (s *CameraInjectionCallbackStub) Descriptor() string {
+	return DescriptorICameraInjectionCallback
+}
 
 func (s *CameraInjectionCallbackStub) OnTransaction(
 	ctx context.Context,

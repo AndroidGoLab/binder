@@ -150,17 +150,6 @@ func TestSmoke_AssistDataReceiverProxy(t *testing.T) {
 	}
 }
 
-func TestSmoke_BackgroundActivityLaunchCallbackProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewBackgroundActivityLaunchCallbackProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("BackgroundActivityLaunchCallbackProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
 func TestSmoke_BackupAgentProxy(t *testing.T) {
 	mock := testutil.NewMockBinder()
 	proxy := NewBackupAgentProxy(mock)
@@ -177,6 +166,17 @@ func TestSmoke_CallNotificationEventCallbackProxy(t *testing.T) {
 	proxy := NewCallNotificationEventCallbackProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("CallNotificationEventCallbackProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
+func TestSmoke_CompatCameraControlCallbackProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewCompatCameraControlCallbackProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("CompatCameraControlCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)
@@ -298,6 +298,17 @@ func TestSmoke_LocaleManagerProxy(t *testing.T) {
 	proxy := NewLocaleManagerProxy(mock)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("LocaleManagerProxy: %d/%d passed, %d panicked, %d failed",
+		result.Passed, result.Total, result.Panicked, result.Failed)
+	if result.Failed > 0 {
+		t.Errorf("%d methods failed unexpectedly", result.Failed)
+	}
+}
+
+func TestSmoke_NotificationManagerProxy(t *testing.T) {
+	mock := testutil.NewMockBinder()
+	proxy := NewNotificationManagerProxy(mock)
+	result := testutil.SmokeTestAllMethods(t, proxy)
+	t.Logf("NotificationManagerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
 	if result.Failed > 0 {
 		t.Errorf("%d methods failed unexpectedly", result.Failed)

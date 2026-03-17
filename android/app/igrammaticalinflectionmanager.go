@@ -16,7 +16,12 @@ const (
 	TransactionIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender = binder.FirstCallTransaction + 0
 	TransactionIGrammaticalInflectionManagerSetSystemWideGrammaticalGender           = binder.FirstCallTransaction + 1
 	TransactionIGrammaticalInflectionManagerGetSystemGrammaticalGender               = binder.FirstCallTransaction + 2
-	TransactionIGrammaticalInflectionManagerPeekSystemGrammaticalGenderByUserId      = binder.FirstCallTransaction + 3
+)
+
+const (
+	MethodIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender = "setRequestedApplicationGrammaticalGender"
+	MethodIGrammaticalInflectionManagerSetSystemWideGrammaticalGender           = "setSystemWideGrammaticalGender"
+	MethodIGrammaticalInflectionManagerGetSystemGrammaticalGender               = "getSystemGrammaticalGender"
 )
 
 type IGrammaticalInflectionManager interface {
@@ -24,21 +29,20 @@ type IGrammaticalInflectionManager interface {
 	SetRequestedApplicationGrammaticalGender(ctx context.Context, appPackageName string, gender int32) error
 	SetSystemWideGrammaticalGender(ctx context.Context, gender int32) error
 	GetSystemGrammaticalGender(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
-	PeekSystemGrammaticalGenderByUserId(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
 }
 
 type GrammaticalInflectionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGrammaticalInflectionManagerProxy(
 	remote binder.IBinder,
 ) *GrammaticalInflectionManagerProxy {
-	return &GrammaticalInflectionManagerProxy{remote: remote}
+	return &GrammaticalInflectionManagerProxy{Remote: remote}
 }
 
 func (p *GrammaticalInflectionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGrammaticalInflectionManager = (*GrammaticalInflectionManagerProxy)(nil)
@@ -48,19 +52,19 @@ func (p *GrammaticalInflectionManagerProxy) SetRequestedApplicationGrammaticalGe
 	appPackageName string,
 	gender int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteString16(appPackageName)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteInt32(gender)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "setRequestedApplicationGrammaticalGender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender)
 	if _err != nil {
-		_code = TransactionIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,18 +81,18 @@ func (p *GrammaticalInflectionManagerProxy) SetSystemWideGrammaticalGender(
 	ctx context.Context,
 	gender int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteInt32(gender)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "setSystemWideGrammaticalGender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetSystemWideGrammaticalGender)
 	if _err != nil {
-		_code = TransactionIGrammaticalInflectionManagerSetSystemWideGrammaticalGender
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerSetSystemWideGrammaticalGender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -106,7 +110,7 @@ func (p *GrammaticalInflectionManagerProxy) GetSystemGrammaticalGender(
 	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteInt32(1)
@@ -115,48 +119,12 @@ func (p *GrammaticalInflectionManagerProxy) GetSystemGrammaticalGender(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "getSystemGrammaticalGender")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerGetSystemGrammaticalGender)
 	if _err != nil {
-		_code = TransactionIGrammaticalInflectionManagerGetSystemGrammaticalGender
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGrammaticalInflectionManager, MethodIGrammaticalInflectionManagerGetSystemGrammaticalGender, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *GrammaticalInflectionManagerProxy) PeekSystemGrammaticalGenderByUserId(
-	ctx context.Context,
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	var _result int32
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
-	_data.WriteInt32(1)
-	if _err := attributionSource.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(_identity.UserID)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "peekSystemGrammaticalGenderByUserId")
-	if _err != nil {
-		_code = TransactionIGrammaticalInflectionManagerPeekSystemGrammaticalGenderByUserId
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,6 +148,10 @@ type GrammaticalInflectionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GrammaticalInflectionManagerStub)(nil)
+
+func (s *GrammaticalInflectionManagerStub) Descriptor() string {
+	return DescriptorIGrammaticalInflectionManager
+}
 
 func (s *GrammaticalInflectionManagerStub) OnTransaction(
 	ctx context.Context,
@@ -257,34 +229,6 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		_reply.WriteInt32(_result)
 		return _reply, nil
-	case TransactionIGrammaticalInflectionManagerPeekSystemGrammaticalGenderByUserId:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_attributionSource content.AttributionSource
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.PeekSystemGrammaticalGenderByUserId(ctx, _arg_attributionSource)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -297,7 +241,6 @@ type IGrammaticalInflectionManagerServer interface {
 	SetRequestedApplicationGrammaticalGender(ctx context.Context, appPackageName string, gender int32) error
 	SetSystemWideGrammaticalGender(ctx context.Context, gender int32) error
 	GetSystemGrammaticalGender(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
-	PeekSystemGrammaticalGenderByUserId(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
 }
 
 type grammaticalInflectionManagerStubWrapper struct {
@@ -329,13 +272,6 @@ func (w *grammaticalInflectionManagerStubWrapper) GetSystemGrammaticalGender(
 	attributionSource content.AttributionSource,
 ) (int32, error) {
 	return w.impl.GetSystemGrammaticalGender(ctx, attributionSource)
-}
-
-func (w *grammaticalInflectionManagerStubWrapper) PeekSystemGrammaticalGenderByUserId(
-	ctx context.Context,
-	attributionSource content.AttributionSource,
-) (int32, error) {
-	return w.impl.PeekSystemGrammaticalGenderByUserId(ctx, attributionSource)
 }
 
 var _ IGrammaticalInflectionManager = (*grammaticalInflectionManagerStubWrapper)(nil)

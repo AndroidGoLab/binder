@@ -16,6 +16,11 @@ const (
 	TransactionIPopulationDensityProviderGetCoarsenedS2Cells       = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIPopulationDensityProviderGetDefaultCoarseningLevel = "getDefaultCoarseningLevel"
+	MethodIPopulationDensityProviderGetCoarsenedS2Cells       = "getCoarsenedS2Cells"
+)
+
 type IPopulationDensityProvider interface {
 	AsBinder() binder.IBinder
 	GetDefaultCoarseningLevel(ctx context.Context, callback IS2LevelCallback) error
@@ -23,17 +28,17 @@ type IPopulationDensityProvider interface {
 }
 
 type PopulationDensityProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewPopulationDensityProviderProxy(
 	remote binder.IBinder,
 ) *PopulationDensityProviderProxy {
-	return &PopulationDensityProviderProxy{remote: remote}
+	return &PopulationDensityProviderProxy{Remote: remote}
 }
 
 func (p *PopulationDensityProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IPopulationDensityProvider = (*PopulationDensityProviderProxy)(nil)
@@ -44,14 +49,14 @@ func (p *PopulationDensityProviderProxy) GetDefaultCoarseningLevel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPopulationDensityProvider)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPopulationDensityProvider, "getDefaultCoarseningLevel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPopulationDensityProvider, MethodIPopulationDensityProviderGetDefaultCoarseningLevel)
 	if _err != nil {
-		_code = TransactionIPopulationDensityProviderGetDefaultCoarseningLevel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPopulationDensityProvider, MethodIPopulationDensityProviderGetDefaultCoarseningLevel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,14 +72,14 @@ func (p *PopulationDensityProviderProxy) GetCoarsenedS2Cells(
 	_data.WriteFloat64(latitudeDegrees)
 	_data.WriteFloat64(longitudeDegrees)
 	_data.WriteInt32(numAdditionalCells)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIPopulationDensityProvider, "getCoarsenedS2Cells")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPopulationDensityProvider, MethodIPopulationDensityProviderGetCoarsenedS2Cells)
 	if _err != nil {
-		_code = TransactionIPopulationDensityProviderGetCoarsenedS2Cells
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIPopulationDensityProvider, MethodIPopulationDensityProviderGetCoarsenedS2Cells, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type PopulationDensityProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*PopulationDensityProviderStub)(nil)
+
+func (s *PopulationDensityProviderStub) Descriptor() string {
+	return DescriptorIPopulationDensityProvider
+}
 
 func (s *PopulationDensityProviderStub) OnTransaction(
 	ctx context.Context,

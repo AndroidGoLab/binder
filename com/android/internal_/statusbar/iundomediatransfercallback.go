@@ -15,23 +15,27 @@ const (
 	TransactionIUndoMediaTransferCallbackOnUndoTriggered = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUndoMediaTransferCallbackOnUndoTriggered = "onUndoTriggered"
+)
+
 type IUndoMediaTransferCallback interface {
 	AsBinder() binder.IBinder
 	OnUndoTriggered(ctx context.Context) error
 }
 
 type UndoMediaTransferCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUndoMediaTransferCallbackProxy(
 	remote binder.IBinder,
 ) *UndoMediaTransferCallbackProxy {
-	return &UndoMediaTransferCallbackProxy{remote: remote}
+	return &UndoMediaTransferCallbackProxy{Remote: remote}
 }
 
 func (p *UndoMediaTransferCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUndoMediaTransferCallback = (*UndoMediaTransferCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *UndoMediaTransferCallbackProxy) OnUndoTriggered(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUndoMediaTransferCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUndoMediaTransferCallback, "onUndoTriggered")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUndoMediaTransferCallback, MethodIUndoMediaTransferCallbackOnUndoTriggered)
 	if _err != nil {
-		_code = TransactionIUndoMediaTransferCallbackOnUndoTriggered
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUndoMediaTransferCallback, MethodIUndoMediaTransferCallbackOnUndoTriggered, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type UndoMediaTransferCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UndoMediaTransferCallbackStub)(nil)
+
+func (s *UndoMediaTransferCallbackStub) Descriptor() string {
+	return DescriptorIUndoMediaTransferCallback
+}
 
 func (s *UndoMediaTransferCallbackStub) OnTransaction(
 	ctx context.Context,

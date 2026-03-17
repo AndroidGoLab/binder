@@ -15,23 +15,27 @@ const (
 	TransactionISpatializerOutputCallbackDispatchSpatializerOutputChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISpatializerOutputCallbackDispatchSpatializerOutputChanged = "dispatchSpatializerOutputChanged"
+)
+
 type ISpatializerOutputCallback interface {
 	AsBinder() binder.IBinder
 	DispatchSpatializerOutputChanged(ctx context.Context, output int32) error
 }
 
 type SpatializerOutputCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSpatializerOutputCallbackProxy(
 	remote binder.IBinder,
 ) *SpatializerOutputCallbackProxy {
-	return &SpatializerOutputCallbackProxy{remote: remote}
+	return &SpatializerOutputCallbackProxy{Remote: remote}
 }
 
 func (p *SpatializerOutputCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISpatializerOutputCallback = (*SpatializerOutputCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *SpatializerOutputCallbackProxy) DispatchSpatializerOutputChanged(
 	_data.WriteInterfaceToken(DescriptorISpatializerOutputCallback)
 	_data.WriteInt32(output)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISpatializerOutputCallback, "dispatchSpatializerOutputChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISpatializerOutputCallback, MethodISpatializerOutputCallbackDispatchSpatializerOutputChanged)
 	if _err != nil {
-		_code = TransactionISpatializerOutputCallbackDispatchSpatializerOutputChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISpatializerOutputCallback, MethodISpatializerOutputCallbackDispatchSpatializerOutputChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type SpatializerOutputCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SpatializerOutputCallbackStub)(nil)
+
+func (s *SpatializerOutputCallbackStub) Descriptor() string {
+	return DescriptorISpatializerOutputCallback
+}
 
 func (s *SpatializerOutputCallbackStub) OnTransaction(
 	ctx context.Context,

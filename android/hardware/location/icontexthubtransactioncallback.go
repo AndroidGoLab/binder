@@ -16,6 +16,11 @@ const (
 	TransactionIContextHubTransactionCallbackOnTransactionComplete = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIContextHubTransactionCallbackOnQueryResponse       = "onQueryResponse"
+	MethodIContextHubTransactionCallbackOnTransactionComplete = "onTransactionComplete"
+)
+
 type IContextHubTransactionCallback interface {
 	AsBinder() binder.IBinder
 	OnQueryResponse(ctx context.Context, result int32, nanoappList []NanoAppState) error
@@ -23,17 +28,17 @@ type IContextHubTransactionCallback interface {
 }
 
 type ContextHubTransactionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubTransactionCallbackProxy(
 	remote binder.IBinder,
 ) *ContextHubTransactionCallbackProxy {
-	return &ContextHubTransactionCallbackProxy{remote: remote}
+	return &ContextHubTransactionCallbackProxy{Remote: remote}
 }
 
 func (p *ContextHubTransactionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubTransactionCallback = (*ContextHubTransactionCallbackProxy)(nil)
@@ -51,18 +56,19 @@ func (p *ContextHubTransactionCallbackProxy) OnQueryResponse(
 	} else {
 		_data.WriteInt32(int32(len(nanoappList)))
 		for _, _item := range nanoappList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubTransactionCallback, "onQueryResponse")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubTransactionCallback, MethodIContextHubTransactionCallbackOnQueryResponse)
 	if _err != nil {
-		_code = TransactionIContextHubTransactionCallbackOnQueryResponse
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubTransactionCallback, MethodIContextHubTransactionCallbackOnQueryResponse, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,12 +80,12 @@ func (p *ContextHubTransactionCallbackProxy) OnTransactionComplete(
 	_data.WriteInterfaceToken(DescriptorIContextHubTransactionCallback)
 	_data.WriteInt32(result)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubTransactionCallback, "onTransactionComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubTransactionCallback, MethodIContextHubTransactionCallbackOnTransactionComplete)
 	if _err != nil {
-		_code = TransactionIContextHubTransactionCallbackOnTransactionComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubTransactionCallback, MethodIContextHubTransactionCallbackOnTransactionComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,6 +96,10 @@ type ContextHubTransactionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubTransactionCallbackStub)(nil)
+
+func (s *ContextHubTransactionCallbackStub) Descriptor() string {
+	return DescriptorIContextHubTransactionCallback
+}
 
 func (s *ContextHubTransactionCallbackStub) OnTransaction(
 	ctx context.Context,

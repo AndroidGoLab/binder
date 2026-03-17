@@ -10,13 +10,12 @@ import (
 type StreamParameters struct {
 	ChannelMask             int32
 	SampleRate              int32
-	DeviceIds               []int32
+	DeviceId                int32
 	SharingMode             int32
 	AudioFormat             common.AudioFormatDescription
 	Direction               int32
 	Usage                   int32
 	ContentType             int32
-	Tags                    []string
 	SpatializationBehavior  int32
 	IsContentSpatialized    bool
 	InputPreset             int32
@@ -37,14 +36,7 @@ func (s *StreamParameters) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.ChannelMask)
 	p.WriteInt32(s.SampleRate)
-	if s.DeviceIds == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.DeviceIds)))
-		for _, _item := range s.DeviceIds {
-			p.WriteInt32(_item)
-		}
-	}
+	p.WriteInt32(s.DeviceId)
 	p.WriteInt32(s.SharingMode)
 	if _err := s.AudioFormat.MarshalParcel(p); _err != nil {
 		return _err
@@ -52,14 +44,6 @@ func (s *StreamParameters) MarshalParcel(
 	p.WriteInt32(s.Direction)
 	p.WriteInt32(s.Usage)
 	p.WriteInt32(s.ContentType)
-	if s.Tags == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Tags)))
-		for _, _item := range s.Tags {
-			p.WriteString16(_item)
-		}
-	}
 	p.WriteInt32(s.SpatializationBehavior)
 	p.WriteBool(s.IsContentSpatialized)
 	p.WriteInt32(s.InputPreset)
@@ -95,19 +79,9 @@ func (s *StreamParameters) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.DeviceId, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.DeviceIds = make([]int32, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.DeviceIds[_i], _err = p.ReadInt32()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.SharingMode, _err = p.ReadInt32()
@@ -132,21 +106,6 @@ func (s *StreamParameters) UnmarshalParcel(
 	s.ContentType, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
-	}
-
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	if _count1 >= 0 {
-		s.Tags = make([]string, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.Tags[_i], _err = p.ReadString16()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	s.SpatializationBehavior, _err = p.ReadInt32()

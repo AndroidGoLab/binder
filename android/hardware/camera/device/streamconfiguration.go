@@ -26,6 +26,7 @@ func (s *StreamConfiguration) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.Streams)))
 		for _, _item := range s.Streams {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -59,6 +60,9 @@ func (s *StreamConfiguration) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.Streams = make([]Stream, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.Streams[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

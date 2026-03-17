@@ -19,6 +19,14 @@ const (
 	TransactionIDisplayEventConnectionGetSchedulingPolicy     = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIDisplayEventConnectionStealReceiveChannel     = "stealReceiveChannel"
+	MethodIDisplayEventConnectionSetVsyncRate            = "setVsyncRate"
+	MethodIDisplayEventConnectionRequestNextVsync        = "requestNextVsync"
+	MethodIDisplayEventConnectionGetLatestVsyncEventData = "getLatestVsyncEventData"
+	MethodIDisplayEventConnectionGetSchedulingPolicy     = "getSchedulingPolicy"
+)
+
 type IDisplayEventConnection interface {
 	AsBinder() binder.IBinder
 	StealReceiveChannel(ctx context.Context, outChannel interface{}) error
@@ -29,17 +37,17 @@ type IDisplayEventConnection interface {
 }
 
 type DisplayEventConnectionProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDisplayEventConnectionProxy(
 	remote binder.IBinder,
 ) *DisplayEventConnectionProxy {
-	return &DisplayEventConnectionProxy{remote: remote}
+	return &DisplayEventConnectionProxy{Remote: remote}
 }
 
 func (p *DisplayEventConnectionProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDisplayEventConnection = (*DisplayEventConnectionProxy)(nil)
@@ -51,12 +59,12 @@ func (p *DisplayEventConnectionProxy) StealReceiveChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "stealReceiveChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionStealReceiveChannel)
 	if _err != nil {
-		_code = TransactionIDisplayEventConnectionStealReceiveChannel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionStealReceiveChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,12 +85,12 @@ func (p *DisplayEventConnectionProxy) SetVsyncRate(
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 	_data.WriteInt32(count)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "setVsyncRate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionSetVsyncRate)
 	if _err != nil {
-		_code = TransactionIDisplayEventConnectionSetVsyncRate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionSetVsyncRate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,12 +109,12 @@ func (p *DisplayEventConnectionProxy) RequestNextVsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "requestNextVsync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionRequestNextVsync)
 	if _err != nil {
-		_code = TransactionIDisplayEventConnectionRequestNextVsync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionRequestNextVsync, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,12 +125,12 @@ func (p *DisplayEventConnectionProxy) GetLatestVsyncEventData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "getLatestVsyncEventData")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionGetLatestVsyncEventData)
 	if _err != nil {
-		_code = TransactionIDisplayEventConnectionGetLatestVsyncEventData
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionGetLatestVsyncEventData, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,12 +150,12 @@ func (p *DisplayEventConnectionProxy) GetSchedulingPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "getSchedulingPolicy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionGetSchedulingPolicy)
 	if _err != nil {
-		_code = TransactionIDisplayEventConnectionGetSchedulingPolicy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIDisplayEventConnection, MethodIDisplayEventConnectionGetSchedulingPolicy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -176,6 +184,10 @@ type DisplayEventConnectionStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DisplayEventConnectionStub)(nil)
+
+func (s *DisplayEventConnectionStub) Descriptor() string {
+	return DescriptorIDisplayEventConnection
+}
 
 func (s *DisplayEventConnectionStub) OnTransaction(
 	ctx context.Context,

@@ -26,6 +26,21 @@ const (
 	TransactionIRecognitionListenerOnEvent                 = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodIRecognitionListenerOnReadyForSpeech        = "onReadyForSpeech"
+	MethodIRecognitionListenerOnBeginningOfSpeech     = "onBeginningOfSpeech"
+	MethodIRecognitionListenerOnRmsChanged            = "onRmsChanged"
+	MethodIRecognitionListenerOnBufferReceived        = "onBufferReceived"
+	MethodIRecognitionListenerOnEndOfSpeech           = "onEndOfSpeech"
+	MethodIRecognitionListenerOnError                 = "onError"
+	MethodIRecognitionListenerOnResults               = "onResults"
+	MethodIRecognitionListenerOnPartialResults        = "onPartialResults"
+	MethodIRecognitionListenerOnSegmentResults        = "onSegmentResults"
+	MethodIRecognitionListenerOnEndOfSegmentedSession = "onEndOfSegmentedSession"
+	MethodIRecognitionListenerOnLanguageDetection     = "onLanguageDetection"
+	MethodIRecognitionListenerOnEvent                 = "onEvent"
+)
+
 type IRecognitionListener interface {
 	AsBinder() binder.IBinder
 	OnReadyForSpeech(ctx context.Context, params interface{}) error
@@ -43,17 +58,17 @@ type IRecognitionListener interface {
 }
 
 type RecognitionListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRecognitionListenerProxy(
 	remote binder.IBinder,
 ) *RecognitionListenerProxy {
-	return &RecognitionListenerProxy{remote: remote}
+	return &RecognitionListenerProxy{Remote: remote}
 }
 
 func (p *RecognitionListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRecognitionListener = (*RecognitionListenerProxy)(nil)
@@ -65,12 +80,12 @@ func (p *RecognitionListenerProxy) OnReadyForSpeech(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onReadyForSpeech")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnReadyForSpeech)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnReadyForSpeech
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnReadyForSpeech, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +95,12 @@ func (p *RecognitionListenerProxy) OnBeginningOfSpeech(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onBeginningOfSpeech")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnBeginningOfSpeech)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnBeginningOfSpeech
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnBeginningOfSpeech, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,12 +112,12 @@ func (p *RecognitionListenerProxy) OnRmsChanged(
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 	_data.WriteFloat32(rmsdB)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onRmsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnRmsChanged)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnRmsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnRmsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,12 +136,12 @@ func (p *RecognitionListenerProxy) OnBufferReceived(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onBufferReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnBufferReceived)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnBufferReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnBufferReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,12 +151,12 @@ func (p *RecognitionListenerProxy) OnEndOfSpeech(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onEndOfSpeech")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnEndOfSpeech)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnEndOfSpeech
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnEndOfSpeech, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,12 +168,12 @@ func (p *RecognitionListenerProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 	_data.WriteInt32(error_)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnError)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -169,12 +184,12 @@ func (p *RecognitionListenerProxy) OnResults(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnResults)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnResults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnResults, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -185,12 +200,12 @@ func (p *RecognitionListenerProxy) OnPartialResults(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onPartialResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnPartialResults)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnPartialResults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnPartialResults, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -201,12 +216,12 @@ func (p *RecognitionListenerProxy) OnSegmentResults(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onSegmentResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnSegmentResults)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnSegmentResults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnSegmentResults, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,12 +231,12 @@ func (p *RecognitionListenerProxy) OnEndOfSegmentedSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onEndOfSegmentedSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnEndOfSegmentedSession)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnEndOfSegmentedSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnEndOfSegmentedSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,12 +247,12 @@ func (p *RecognitionListenerProxy) OnLanguageDetection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onLanguageDetection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnLanguageDetection)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnLanguageDetection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnLanguageDetection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -250,12 +265,12 @@ func (p *RecognitionListenerProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorIRecognitionListener)
 	_data.WriteInt32(eventType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRecognitionListener, MethodIRecognitionListenerOnEvent)
 	if _err != nil {
-		_code = TransactionIRecognitionListenerOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRecognitionListener, MethodIRecognitionListenerOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -266,6 +281,10 @@ type RecognitionListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RecognitionListenerStub)(nil)
+
+func (s *RecognitionListenerStub) Descriptor() string {
+	return DescriptorIRecognitionListener
+}
 
 func (s *RecognitionListenerStub) OnTransaction(
 	ctx context.Context,

@@ -351,6 +351,7 @@ func (u *FrontendScanMessage) MarshalParcel(
 			}
 		}
 	case FrontendScanMessageTagStd:
+		p.WriteInt32(1)
 		if _err := u.Std.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -360,12 +361,14 @@ func (u *FrontendScanMessage) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.Atsc3PlpInfos)))
 			for _, _item := range u.Atsc3PlpInfos {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
 			}
 		}
 	case FrontendScanMessageTagModulation:
+		p.WriteInt32(1)
 		if _err := u.Modulation.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -512,6 +515,9 @@ func (u *FrontendScanMessage) UnmarshalParcel(
 			}
 		}
 	case FrontendScanMessageTagStd:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Std.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -525,12 +531,18 @@ func (u *FrontendScanMessage) UnmarshalParcel(
 		if _count5 >= 0 {
 			u.Atsc3PlpInfos = make([]FrontendScanAtsc3PlpInfo, _count5)
 			for _i := int32(0); _i < _count5; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.Atsc3PlpInfos[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}
 			}
 		}
 	case FrontendScanMessageTagModulation:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Modulation.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

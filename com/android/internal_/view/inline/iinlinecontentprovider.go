@@ -17,6 +17,12 @@ const (
 	TransactionIInlineContentProviderOnSurfacePackageReleased = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIInlineContentProviderProvideContent           = "provideContent"
+	MethodIInlineContentProviderRequestSurfacePackage    = "requestSurfacePackage"
+	MethodIInlineContentProviderOnSurfacePackageReleased = "onSurfacePackageReleased"
+)
+
 type IInlineContentProvider interface {
 	AsBinder() binder.IBinder
 	ProvideContent(ctx context.Context, width int32, height int32, callback IInlineContentCallback) error
@@ -25,17 +31,17 @@ type IInlineContentProvider interface {
 }
 
 type InlineContentProviderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInlineContentProviderProxy(
 	remote binder.IBinder,
 ) *InlineContentProviderProxy {
-	return &InlineContentProviderProxy{remote: remote}
+	return &InlineContentProviderProxy{Remote: remote}
 }
 
 func (p *InlineContentProviderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInlineContentProvider = (*InlineContentProviderProxy)(nil)
@@ -50,14 +56,14 @@ func (p *InlineContentProviderProxy) ProvideContent(
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentProvider, "provideContent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentProvider, MethodIInlineContentProviderProvideContent)
 	if _err != nil {
-		_code = TransactionIInlineContentProviderProvideContent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineContentProvider, MethodIInlineContentProviderProvideContent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,12 +73,12 @@ func (p *InlineContentProviderProxy) RequestSurfacePackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentProvider, "requestSurfacePackage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentProvider, MethodIInlineContentProviderRequestSurfacePackage)
 	if _err != nil {
-		_code = TransactionIInlineContentProviderRequestSurfacePackage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineContentProvider, MethodIInlineContentProviderRequestSurfacePackage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +88,12 @@ func (p *InlineContentProviderProxy) OnSurfacePackageReleased(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentProvider, "onSurfacePackageReleased")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInlineContentProvider, MethodIInlineContentProviderOnSurfacePackageReleased)
 	if _err != nil {
-		_code = TransactionIInlineContentProviderOnSurfacePackageReleased
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInlineContentProvider, MethodIInlineContentProviderOnSurfacePackageReleased, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +104,10 @@ type InlineContentProviderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InlineContentProviderStub)(nil)
+
+func (s *InlineContentProviderStub) Descriptor() string {
+	return DescriptorIInlineContentProvider
+}
 
 func (s *InlineContentProviderStub) OnTransaction(
 	ctx context.Context,

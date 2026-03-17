@@ -16,6 +16,11 @@ const (
 	TransactionIInitializeSessionCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIInitializeSessionCallbackOnSuccess = "onSuccess"
+	MethodIInitializeSessionCallbackOnFailure = "onFailure"
+)
+
 type IInitializeSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context) error
@@ -23,17 +28,17 @@ type IInitializeSessionCallback interface {
 }
 
 type InitializeSessionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInitializeSessionCallbackProxy(
 	remote binder.IBinder,
 ) *InitializeSessionCallbackProxy {
-	return &InitializeSessionCallbackProxy{remote: remote}
+	return &InitializeSessionCallbackProxy{Remote: remote}
 }
 
 func (p *InitializeSessionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInitializeSessionCallback = (*InitializeSessionCallbackProxy)(nil)
@@ -44,12 +49,12 @@ func (p *InitializeSessionCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInitializeSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInitializeSessionCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInitializeSessionCallback, MethodIInitializeSessionCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIInitializeSessionCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInitializeSessionCallback, MethodIInitializeSessionCallbackOnSuccess, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,12 +73,12 @@ func (p *InitializeSessionCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInitializeSessionCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInitializeSessionCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInitializeSessionCallback, MethodIInitializeSessionCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIInitializeSessionCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInitializeSessionCallback, MethodIInitializeSessionCallbackOnFailure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,6 +98,10 @@ type InitializeSessionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InitializeSessionCallbackStub)(nil)
+
+func (s *InitializeSessionCallbackStub) Descriptor() string {
+	return DescriptorIInitializeSessionCallback
+}
 
 func (s *InitializeSessionCallbackStub) OnTransaction(
 	ctx context.Context,

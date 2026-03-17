@@ -12,66 +12,96 @@ import (
 const DescriptorIStreamingResponseCallback = "android.app.ondeviceintelligence.IStreamingResponseCallback"
 
 const (
-	TransactionIStreamingResponseCallbackOnNewContent         = binder.FirstCallTransaction + 0
-	TransactionIStreamingResponseCallbackOnSuccess            = binder.FirstCallTransaction + 1
-	TransactionIStreamingResponseCallbackOnFailure            = binder.FirstCallTransaction + 2
-	TransactionIStreamingResponseCallbackOnDataAugmentRequest = binder.FirstCallTransaction + 3
+	TransactionIStreamingResponseCallbackOnNewContent = binder.FirstCallTransaction + 0
+	TransactionIStreamingResponseCallbackOnSuccess    = binder.FirstCallTransaction + 1
+	TransactionIStreamingResponseCallbackOnFailure    = binder.FirstCallTransaction + 2
+)
+
+const (
+	MethodIStreamingResponseCallbackOnNewContent = "onNewContent"
+	MethodIStreamingResponseCallbackOnSuccess    = "onSuccess"
+	MethodIStreamingResponseCallbackOnFailure    = "onFailure"
 )
 
 type IStreamingResponseCallback interface {
 	AsBinder() binder.IBinder
-	OnNewContent(ctx context.Context, processedResult interface{}) error
-	OnSuccess(ctx context.Context, result interface{}) error
+	OnNewContent(ctx context.Context, result Content) error
+	OnSuccess(ctx context.Context, result Content) error
 	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
-	OnDataAugmentRequest(ctx context.Context, processedContent interface{}, responseCallback interface{}) error
 }
 
 type StreamingResponseCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamingResponseCallbackProxy(
 	remote binder.IBinder,
 ) *StreamingResponseCallbackProxy {
-	return &StreamingResponseCallbackProxy{remote: remote}
+	return &StreamingResponseCallbackProxy{Remote: remote}
 }
 
 func (p *StreamingResponseCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamingResponseCallback = (*StreamingResponseCallbackProxy)(nil)
 
 func (p *StreamingResponseCallbackProxy) OnNewContent(
 	ctx context.Context,
-	processedResult interface{},
+	result Content,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onNewContent")
-	if _err != nil {
-		_code = TransactionIStreamingResponseCallbackOnNewContent
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnNewContent)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnNewContent, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 func (p *StreamingResponseCallbackProxy) OnSuccess(
 	ctx context.Context,
-	result interface{},
+	result Content,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onSuccess")
-	if _err != nil {
-		_code = TransactionIStreamingResponseCallbackOnSuccess
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnSuccess)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnSuccess, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
 }
 
 func (p *StreamingResponseCallbackProxy) OnFailure(
@@ -85,30 +115,22 @@ func (p *StreamingResponseCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIStreamingResponseCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingResponseCallback, MethodIStreamingResponseCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *StreamingResponseCallbackProxy) OnDataAugmentRequest(
-	ctx context.Context,
-	processedContent interface{},
-	responseCallback interface{},
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onDataAugmentRequest")
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
-		_code = TransactionIStreamingResponseCallbackOnDataAugmentRequest
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
+	return nil
 }
 
 // StreamingResponseCallbackStub dispatches incoming binder transactions
@@ -118,6 +140,10 @@ type StreamingResponseCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamingResponseCallbackStub)(nil)
+
+func (s *StreamingResponseCallbackStub) Descriptor() string {
+	return DescriptorIStreamingResponseCallback
+}
 
 func (s *StreamingResponseCallbackStub) OnTransaction(
 	ctx context.Context,
@@ -129,18 +155,50 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_processedResult interface{}
-		_err := s.Impl.OnNewContent(ctx, _arg_processedResult)
-		_ = _err
-		return nil, nil
+		var _arg_result Content
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNewContent(ctx, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIStreamingResponseCallbackOnSuccess:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		var _arg_result Content
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnSuccess(ctx, _arg_result)
-		_ = _err
-		return nil, nil
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIStreamingResponseCallbackOnFailure:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -155,17 +213,13 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		}
 		var _arg_errorParams interface{}
 		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
-		_ = _err
-		return nil, nil
-	case TransactionIStreamingResponseCallbackOnDataAugmentRequest:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
 		}
-		var _arg_processedContent interface{}
-		var _arg_responseCallback interface{}
-		_err := s.Impl.OnDataAugmentRequest(ctx, _arg_processedContent, _arg_responseCallback)
-		_ = _err
-		return nil, nil
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -175,10 +229,9 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 // provide to NewStreamingResponseCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IStreamingResponseCallbackServer interface {
-	OnNewContent(ctx context.Context, processedResult interface{}) error
-	OnSuccess(ctx context.Context, result interface{}) error
+	OnNewContent(ctx context.Context, result Content) error
+	OnSuccess(ctx context.Context, result Content) error
 	OnFailure(ctx context.Context, errorCode int32, errorMessage string, errorParams interface{}) error
-	OnDataAugmentRequest(ctx context.Context, processedContent interface{}, responseCallback interface{}) error
 }
 
 type streamingResponseCallbackStubWrapper struct {
@@ -192,14 +245,14 @@ func (w *streamingResponseCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *streamingResponseCallbackStubWrapper) OnNewContent(
 	ctx context.Context,
-	processedResult interface{},
+	result Content,
 ) error {
-	return w.impl.OnNewContent(ctx, processedResult)
+	return w.impl.OnNewContent(ctx, result)
 }
 
 func (w *streamingResponseCallbackStubWrapper) OnSuccess(
 	ctx context.Context,
-	result interface{},
+	result Content,
 ) error {
 	return w.impl.OnSuccess(ctx, result)
 }
@@ -211,14 +264,6 @@ func (w *streamingResponseCallbackStubWrapper) OnFailure(
 	errorParams interface{},
 ) error {
 	return w.impl.OnFailure(ctx, errorCode, errorMessage, errorParams)
-}
-
-func (w *streamingResponseCallbackStubWrapper) OnDataAugmentRequest(
-	ctx context.Context,
-	processedContent interface{},
-	responseCallback interface{},
-) error {
-	return w.impl.OnDataAugmentRequest(ctx, processedContent, responseCallback)
 }
 
 var _ IStreamingResponseCallback = (*streamingResponseCallbackStubWrapper)(nil)

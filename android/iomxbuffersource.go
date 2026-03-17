@@ -19,6 +19,14 @@ const (
 	TransactionIOMXBufferSourceOnInputBufferEmptied = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIOMXBufferSourceOnOmxExecuting       = "onOmxExecuting"
+	MethodIOMXBufferSourceOnOmxIdle            = "onOmxIdle"
+	MethodIOMXBufferSourceOnOmxLoaded          = "onOmxLoaded"
+	MethodIOMXBufferSourceOnInputBufferAdded   = "onInputBufferAdded"
+	MethodIOMXBufferSourceOnInputBufferEmptied = "onInputBufferEmptied"
+)
+
 type IOMXBufferSource interface {
 	AsBinder() binder.IBinder
 	OnOmxExecuting(ctx context.Context) error
@@ -29,17 +37,17 @@ type IOMXBufferSource interface {
 }
 
 type OMXBufferSourceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOMXBufferSourceProxy(
 	remote binder.IBinder,
 ) *OMXBufferSourceProxy {
-	return &OMXBufferSourceProxy{remote: remote}
+	return &OMXBufferSourceProxy{Remote: remote}
 }
 
 func (p *OMXBufferSourceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOMXBufferSource = (*OMXBufferSourceProxy)(nil)
@@ -50,12 +58,12 @@ func (p *OMXBufferSourceProxy) OnOmxExecuting(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onOmxExecuting")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxExecuting)
 	if _err != nil {
-		_code = TransactionIOMXBufferSourceOnOmxExecuting
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxExecuting, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,12 +82,12 @@ func (p *OMXBufferSourceProxy) OnOmxIdle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onOmxIdle")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxIdle)
 	if _err != nil {
-		_code = TransactionIOMXBufferSourceOnOmxIdle
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxIdle, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,12 +106,12 @@ func (p *OMXBufferSourceProxy) OnOmxLoaded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onOmxLoaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxLoaded)
 	if _err != nil {
-		_code = TransactionIOMXBufferSourceOnOmxLoaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnOmxLoaded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,12 +132,12 @@ func (p *OMXBufferSourceProxy) OnInputBufferAdded(
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 	_data.WriteInt32(bufferID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onInputBufferAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferAdded)
 	if _err != nil {
-		_code = TransactionIOMXBufferSourceOnInputBufferAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferAdded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,12 +159,12 @@ func (p *OMXBufferSourceProxy) OnInputBufferEmptied(
 	_data.WriteInterfaceToken(DescriptorIOMXBufferSource)
 	_data.WriteInt32(bufferID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onInputBufferEmptied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferEmptied)
 	if _err != nil {
-		_code = TransactionIOMXBufferSourceOnInputBufferEmptied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIOMXBufferSource, MethodIOMXBufferSourceOnInputBufferEmptied, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,6 +184,10 @@ type OMXBufferSourceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OMXBufferSourceStub)(nil)
+
+func (s *OMXBufferSourceStub) Descriptor() string {
+	return DescriptorIOMXBufferSource
+}
 
 func (s *OMXBufferSourceStub) OnTransaction(
 	ctx context.Context,

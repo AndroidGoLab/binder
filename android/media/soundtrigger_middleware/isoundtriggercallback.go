@@ -19,6 +19,14 @@ const (
 	TransactionISoundTriggerCallbackOnModuleDied         = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodISoundTriggerCallbackOnRecognition        = "onRecognition"
+	MethodISoundTriggerCallbackOnPhraseRecognition  = "onPhraseRecognition"
+	MethodISoundTriggerCallbackOnResourcesAvailable = "onResourcesAvailable"
+	MethodISoundTriggerCallbackOnModelUnloaded      = "onModelUnloaded"
+	MethodISoundTriggerCallbackOnModuleDied         = "onModuleDied"
+)
+
 type ISoundTriggerCallback interface {
 	AsBinder() binder.IBinder
 	OnRecognition(ctx context.Context, modelHandle int32, event RecognitionEventSys, captureSession int32) error
@@ -29,17 +37,17 @@ type ISoundTriggerCallback interface {
 }
 
 type SoundTriggerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSoundTriggerCallbackProxy(
 	remote binder.IBinder,
 ) *SoundTriggerCallbackProxy {
-	return &SoundTriggerCallbackProxy{remote: remote}
+	return &SoundTriggerCallbackProxy{Remote: remote}
 }
 
 func (p *SoundTriggerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISoundTriggerCallback = (*SoundTriggerCallbackProxy)(nil)
@@ -59,12 +67,12 @@ func (p *SoundTriggerCallbackProxy) OnRecognition(
 	}
 	_data.WriteInt32(captureSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnRecognition)
 	if _err != nil {
-		_code = TransactionISoundTriggerCallbackOnRecognition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnRecognition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +91,12 @@ func (p *SoundTriggerCallbackProxy) OnPhraseRecognition(
 	}
 	_data.WriteInt32(captureSession)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onPhraseRecognition")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnPhraseRecognition)
 	if _err != nil {
-		_code = TransactionISoundTriggerCallbackOnPhraseRecognition
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnPhraseRecognition, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,12 +106,12 @@ func (p *SoundTriggerCallbackProxy) OnResourcesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onResourcesAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnResourcesAvailable)
 	if _err != nil {
-		_code = TransactionISoundTriggerCallbackOnResourcesAvailable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnResourcesAvailable, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,12 +123,12 @@ func (p *SoundTriggerCallbackProxy) OnModelUnloaded(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onModelUnloaded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModelUnloaded)
 	if _err != nil {
-		_code = TransactionISoundTriggerCallbackOnModelUnloaded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModelUnloaded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,12 +138,12 @@ func (p *SoundTriggerCallbackProxy) OnModuleDied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onModuleDied")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModuleDied)
 	if _err != nil {
-		_code = TransactionISoundTriggerCallbackOnModuleDied
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISoundTriggerCallback, MethodISoundTriggerCallbackOnModuleDied, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,6 +154,10 @@ type SoundTriggerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SoundTriggerCallbackStub)(nil)
+
+func (s *SoundTriggerCallbackStub) Descriptor() string {
+	return DescriptorISoundTriggerCallback
+}
 
 func (s *SoundTriggerCallbackStub) OnTransaction(
 	ctx context.Context,

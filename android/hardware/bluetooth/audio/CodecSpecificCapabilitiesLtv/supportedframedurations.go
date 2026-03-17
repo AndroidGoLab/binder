@@ -13,10 +13,8 @@ type SupportedFrameDurations struct {
 const (
 	SupportedFrameDurationsUS7500           int32 = 1
 	SupportedFrameDurationsUS10000          int32 = 2
-	SupportedFrameDurationsUS20000          int32 = 4
 	SupportedFrameDurationsUS7500PREFERRED  int32 = 16
 	SupportedFrameDurationsUS10000PREFERRED int32 = 32
-	SupportedFrameDurationsUS20000PREFERRED int32 = 64
 )
 
 var _ parcel.Parcelable = (*SupportedFrameDurations)(nil)

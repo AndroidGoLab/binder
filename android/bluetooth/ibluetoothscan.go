@@ -28,6 +28,21 @@ const (
 	TransactionIBluetoothScanNumHwTrackFiltersAvailable = binder.FirstCallTransaction + 11
 )
 
+const (
+	MethodIBluetoothScanRegisterScanner            = "registerScanner"
+	MethodIBluetoothScanUnregisterScanner          = "unregisterScanner"
+	MethodIBluetoothScanStartScan                  = "startScan"
+	MethodIBluetoothScanStartScanForIntent         = "startScanForIntent"
+	MethodIBluetoothScanStopScan                   = "stopScan"
+	MethodIBluetoothScanStopScanForIntent          = "stopScanForIntent"
+	MethodIBluetoothScanFlushPendingBatchResults   = "flushPendingBatchResults"
+	MethodIBluetoothScanRegisterSync               = "registerSync"
+	MethodIBluetoothScanUnregisterSync             = "unregisterSync"
+	MethodIBluetoothScanTransferSync               = "transferSync"
+	MethodIBluetoothScanTransferSetInfo            = "transferSetInfo"
+	MethodIBluetoothScanNumHwTrackFiltersAvailable = "numHwTrackFiltersAvailable"
+)
+
 type IBluetoothScan interface {
 	AsBinder() binder.IBinder
 	RegisterScanner(ctx context.Context, callback le.IScannerCallback, workSource interface{}, attributionSource content.AttributionSource) error
@@ -45,17 +60,17 @@ type IBluetoothScan interface {
 }
 
 type BluetoothScanProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothScanProxy(
 	remote binder.IBinder,
 ) *BluetoothScanProxy {
-	return &BluetoothScanProxy{remote: remote}
+	return &BluetoothScanProxy{Remote: remote}
 }
 
 func (p *BluetoothScanProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothScan = (*BluetoothScanProxy)(nil)
@@ -68,18 +83,18 @@ func (p *BluetoothScanProxy) RegisterScanner(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "registerScanner")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanRegisterScanner)
 	if _err != nil {
-		_code = TransactionIBluetoothScanRegisterScanner
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanRegisterScanner, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,12 +120,12 @@ func (p *BluetoothScanProxy) UnregisterScanner(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "unregisterScanner")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanUnregisterScanner)
 	if _err != nil {
-		_code = TransactionIBluetoothScanUnregisterScanner
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanUnregisterScanner, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -142,6 +157,7 @@ func (p *BluetoothScanProxy) StartScan(
 	} else {
 		_data.WriteInt32(int32(len(filters)))
 		for _, _item := range filters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -152,12 +168,12 @@ func (p *BluetoothScanProxy) StartScan(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "startScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanStartScan)
 	if _err != nil {
-		_code = TransactionIBluetoothScanStartScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanStartScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,6 +204,7 @@ func (p *BluetoothScanProxy) StartScanForIntent(
 	} else {
 		_data.WriteInt32(int32(len(filters)))
 		for _, _item := range filters {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -198,12 +215,12 @@ func (p *BluetoothScanProxy) StartScanForIntent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "startScanForIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanStartScanForIntent)
 	if _err != nil {
-		_code = TransactionIBluetoothScanStartScanForIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanStartScanForIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -229,12 +246,12 @@ func (p *BluetoothScanProxy) StopScan(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "stopScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanStopScan)
 	if _err != nil {
-		_code = TransactionIBluetoothScanStopScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanStopScan, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -259,12 +276,12 @@ func (p *BluetoothScanProxy) StopScanForIntent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "stopScanForIntent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanStopScanForIntent)
 	if _err != nil {
-		_code = TransactionIBluetoothScanStopScanForIntent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanStopScanForIntent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -290,12 +307,12 @@ func (p *BluetoothScanProxy) FlushPendingBatchResults(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "flushPendingBatchResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanFlushPendingBatchResults)
 	if _err != nil {
-		_code = TransactionIBluetoothScanFlushPendingBatchResults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanFlushPendingBatchResults, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -324,18 +341,18 @@ func (p *BluetoothScanProxy) RegisterSync(
 	}
 	_data.WriteInt32(skip)
 	_data.WriteInt32(timeout)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "registerSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanRegisterSync)
 	if _err != nil {
-		_code = TransactionIBluetoothScanRegisterSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanRegisterSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -355,18 +372,18 @@ func (p *BluetoothScanProxy) UnregisterSync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "unregisterSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanUnregisterSync)
 	if _err != nil {
-		_code = TransactionIBluetoothScanUnregisterSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanUnregisterSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -399,12 +416,12 @@ func (p *BluetoothScanProxy) TransferSync(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "transferSync")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanTransferSync)
 	if _err != nil {
-		_code = TransactionIBluetoothScanTransferSync
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanTransferSync, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -433,18 +450,18 @@ func (p *BluetoothScanProxy) TransferSetInfo(
 	}
 	_data.WriteInt32(serviceData)
 	_data.WriteInt32(advertisingHandle)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "transferSetInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanTransferSetInfo)
 	if _err != nil {
-		_code = TransactionIBluetoothScanTransferSetInfo
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanTransferSetInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -469,12 +486,12 @@ func (p *BluetoothScanProxy) NumHwTrackFiltersAvailable(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "numHwTrackFiltersAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothScan, MethodIBluetoothScanNumHwTrackFiltersAvailable)
 	if _err != nil {
-		_code = TransactionIBluetoothScanNumHwTrackFiltersAvailable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothScan, MethodIBluetoothScanNumHwTrackFiltersAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -498,6 +515,10 @@ type BluetoothScanStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothScanStub)(nil)
+
+func (s *BluetoothScanStub) Descriptor() string {
+	return DescriptorIBluetoothScan
+}
 
 func (s *BluetoothScanStub) OnTransaction(
 	ctx context.Context,

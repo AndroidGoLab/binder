@@ -25,6 +25,20 @@ const (
 	TransactionIGraphicBufferSourceSignalEndOfInputStream        = binder.FirstCallTransaction + 10
 )
 
+const (
+	MethodIGraphicBufferSourceConfigure                     = "configure"
+	MethodIGraphicBufferSourceSetSuspend                    = "setSuspend"
+	MethodIGraphicBufferSourceSetRepeatPreviousFrameDelayUs = "setRepeatPreviousFrameDelayUs"
+	MethodIGraphicBufferSourceSetMaxFps                     = "setMaxFps"
+	MethodIGraphicBufferSourceSetTimeLapseConfig            = "setTimeLapseConfig"
+	MethodIGraphicBufferSourceSetStartTimeUs                = "setStartTimeUs"
+	MethodIGraphicBufferSourceSetStopTimeUs                 = "setStopTimeUs"
+	MethodIGraphicBufferSourceGetStopTimeOffsetUs           = "getStopTimeOffsetUs"
+	MethodIGraphicBufferSourceSetColorAspects               = "setColorAspects"
+	MethodIGraphicBufferSourceSetTimeOffsetUs               = "setTimeOffsetUs"
+	MethodIGraphicBufferSourceSignalEndOfInputStream        = "signalEndOfInputStream"
+)
+
 type IGraphicBufferSource interface {
 	AsBinder() binder.IBinder
 	Configure(ctx context.Context, omxNode IOMXNode, dataSpace int32) error
@@ -41,17 +55,17 @@ type IGraphicBufferSource interface {
 }
 
 type GraphicBufferSourceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGraphicBufferSourceProxy(
 	remote binder.IBinder,
 ) *GraphicBufferSourceProxy {
-	return &GraphicBufferSourceProxy{remote: remote}
+	return &GraphicBufferSourceProxy{Remote: remote}
 }
 
 func (p *GraphicBufferSourceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGraphicBufferSource = (*GraphicBufferSourceProxy)(nil)
@@ -63,15 +77,15 @@ func (p *GraphicBufferSourceProxy) Configure(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
-	binder.WriteBinderToParcel(ctx, _data, omxNode.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, omxNode.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(dataSpace)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "configure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceConfigure)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceConfigure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceConfigure, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,12 +108,12 @@ func (p *GraphicBufferSourceProxy) SetSuspend(
 	_data.WriteBool(suspend)
 	_data.WriteInt64(suspendTimeUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setSuspend")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetSuspend)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetSuspend
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetSuspend, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,12 +134,12 @@ func (p *GraphicBufferSourceProxy) SetRepeatPreviousFrameDelayUs(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(repeatAfterUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setRepeatPreviousFrameDelayUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetRepeatPreviousFrameDelayUs)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetRepeatPreviousFrameDelayUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetRepeatPreviousFrameDelayUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,12 +160,12 @@ func (p *GraphicBufferSourceProxy) SetMaxFps(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteFloat32(maxFps)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setMaxFps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetMaxFps)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetMaxFps
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetMaxFps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -174,12 +188,12 @@ func (p *GraphicBufferSourceProxy) SetTimeLapseConfig(
 	_data.WriteFloat64(fps)
 	_data.WriteFloat64(captureFps)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setTimeLapseConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeLapseConfig)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetTimeLapseConfig
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeLapseConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,12 +214,12 @@ func (p *GraphicBufferSourceProxy) SetStartTimeUs(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(startTimeUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setStartTimeUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStartTimeUs)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetStartTimeUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStartTimeUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,12 +240,12 @@ func (p *GraphicBufferSourceProxy) SetStopTimeUs(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(stopTimeUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setStopTimeUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStopTimeUs)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetStopTimeUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetStopTimeUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -251,12 +265,12 @@ func (p *GraphicBufferSourceProxy) GetStopTimeOffsetUs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "getStopTimeOffsetUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceGetStopTimeOffsetUs)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceGetStopTimeOffsetUs
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceGetStopTimeOffsetUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -281,12 +295,12 @@ func (p *GraphicBufferSourceProxy) SetColorAspects(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt32(aspects)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setColorAspects")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetColorAspects)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetColorAspects
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetColorAspects, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -307,12 +321,12 @@ func (p *GraphicBufferSourceProxy) SetTimeOffsetUs(
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 	_data.WriteInt64(timeOffsetsUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setTimeOffsetUs")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeOffsetUs)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSetTimeOffsetUs
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSetTimeOffsetUs, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -331,12 +345,12 @@ func (p *GraphicBufferSourceProxy) SignalEndOfInputStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferSource)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "signalEndOfInputStream")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSignalEndOfInputStream)
 	if _err != nil {
-		_code = TransactionIGraphicBufferSourceSignalEndOfInputStream
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGraphicBufferSource, MethodIGraphicBufferSourceSignalEndOfInputStream, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -356,6 +370,10 @@ type GraphicBufferSourceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GraphicBufferSourceStub)(nil)
+
+func (s *GraphicBufferSourceStub) Descriptor() string {
+	return DescriptorIGraphicBufferSource
+}
 
 func (s *GraphicBufferSourceStub) OnTransaction(
 	ctx context.Context,

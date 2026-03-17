@@ -7,5 +7,4 @@ type MloLinkInfoChangeReason int32
 const (
 	MloLinkInfoChangeReasonTidToLinkMap               MloLinkInfoChangeReason = 0
 	MloLinkInfoChangeReasonMultiLinkReconfigApRemoval MloLinkInfoChangeReason = 1
-	MloLinkInfoChangeReasonMultiLinkDynamicReconfig   MloLinkInfoChangeReason = 2
 )

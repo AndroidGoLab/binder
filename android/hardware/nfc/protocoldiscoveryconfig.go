@@ -16,7 +16,6 @@ type ProtocolDiscoveryConfig struct {
 	DiscoveryPollKovio    byte
 	DiscoveryPollBPrime   byte
 	DiscoveryListenBPrime byte
-	ProtocolChineseId     byte
 }
 
 var _ parcel.Parcelable = (*ProtocolDiscoveryConfig)(nil)
@@ -34,7 +33,6 @@ func (s *ProtocolDiscoveryConfig) MarshalParcel(
 	p.WritePaddedByte(s.DiscoveryPollKovio)
 	p.WritePaddedByte(s.DiscoveryPollBPrime)
 	p.WritePaddedByte(s.DiscoveryListenBPrime)
-	p.WritePaddedByte(s.ProtocolChineseId)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -89,11 +87,6 @@ func (s *ProtocolDiscoveryConfig) UnmarshalParcel(
 	}
 
 	s.DiscoveryListenBPrime, _err = p.ReadPaddedByte()
-	if _err != nil {
-		return _err
-	}
-
-	s.ProtocolChineseId, _err = p.ReadPaddedByte()
 	if _err != nil {
 		return _err
 	}

@@ -15,23 +15,27 @@ const (
 	TransactionIAuthenticateServerCallbackOnComplete = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIAuthenticateServerCallbackOnComplete = "onComplete"
+)
+
 type IAuthenticateServerCallback interface {
 	AsBinder() binder.IBinder
 	OnComplete(ctx context.Context, resultCode int32, response []byte) error
 }
 
 type AuthenticateServerCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAuthenticateServerCallbackProxy(
 	remote binder.IBinder,
 ) *AuthenticateServerCallbackProxy {
-	return &AuthenticateServerCallbackProxy{remote: remote}
+	return &AuthenticateServerCallbackProxy{Remote: remote}
 }
 
 func (p *AuthenticateServerCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAuthenticateServerCallback = (*AuthenticateServerCallbackProxy)(nil)
@@ -53,12 +57,12 @@ func (p *AuthenticateServerCallbackProxy) OnComplete(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAuthenticateServerCallback, "onComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAuthenticateServerCallback, MethodIAuthenticateServerCallbackOnComplete)
 	if _err != nil {
-		_code = TransactionIAuthenticateServerCallbackOnComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAuthenticateServerCallback, MethodIAuthenticateServerCallbackOnComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type AuthenticateServerCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AuthenticateServerCallbackStub)(nil)
+
+func (s *AuthenticateServerCallbackStub) Descriptor() string {
+	return DescriptorIAuthenticateServerCallback
+}
 
 func (s *AuthenticateServerCallbackStub) OnTransaction(
 	ctx context.Context,

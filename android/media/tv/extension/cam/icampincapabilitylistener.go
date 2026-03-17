@@ -16,23 +16,27 @@ const (
 	TransactionICamPinCapabilityListenerOnCamPinCapabilityChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodICamPinCapabilityListenerOnCamPinCapabilityChanged = "onCamPinCapabilityChanged"
+)
+
 type ICamPinCapabilityListener interface {
 	AsBinder() binder.IBinder
 	OnCamPinCapabilityChanged(ctx context.Context, slotId int32, bundle os.Bundle) error
 }
 
 type CamPinCapabilityListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamPinCapabilityListenerProxy(
 	remote binder.IBinder,
 ) *CamPinCapabilityListenerProxy {
-	return &CamPinCapabilityListenerProxy{remote: remote}
+	return &CamPinCapabilityListenerProxy{Remote: remote}
 }
 
 func (p *CamPinCapabilityListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamPinCapabilityListener = (*CamPinCapabilityListenerProxy)(nil)
@@ -50,12 +54,12 @@ func (p *CamPinCapabilityListenerProxy) OnCamPinCapabilityChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamPinCapabilityListener, "onCamPinCapabilityChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamPinCapabilityListener, MethodICamPinCapabilityListenerOnCamPinCapabilityChanged)
 	if _err != nil {
-		_code = TransactionICamPinCapabilityListenerOnCamPinCapabilityChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamPinCapabilityListener, MethodICamPinCapabilityListenerOnCamPinCapabilityChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +70,10 @@ type CamPinCapabilityListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamPinCapabilityListenerStub)(nil)
+
+func (s *CamPinCapabilityListenerStub) Descriptor() string {
+	return DescriptorICamPinCapabilityListener
+}
 
 func (s *CamPinCapabilityListenerStub) OnTransaction(
 	ctx context.Context,

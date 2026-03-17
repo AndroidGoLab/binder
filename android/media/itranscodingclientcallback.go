@@ -22,6 +22,17 @@ const (
 	TransactionITranscodingClientCallbackOnProgressUpdate               = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodITranscodingClientCallbackOpenFileDescriptor             = "openFileDescriptor"
+	MethodITranscodingClientCallbackOnTranscodingStarted           = "onTranscodingStarted"
+	MethodITranscodingClientCallbackOnTranscodingPaused            = "onTranscodingPaused"
+	MethodITranscodingClientCallbackOnTranscodingResumed           = "onTranscodingResumed"
+	MethodITranscodingClientCallbackOnTranscodingFinished          = "onTranscodingFinished"
+	MethodITranscodingClientCallbackOnTranscodingFailed            = "onTranscodingFailed"
+	MethodITranscodingClientCallbackOnAwaitNumberOfSessionsChanged = "onAwaitNumberOfSessionsChanged"
+	MethodITranscodingClientCallbackOnProgressUpdate               = "onProgressUpdate"
+)
+
 type ITranscodingClientCallback interface {
 	AsBinder() binder.IBinder
 	OpenFileDescriptor(ctx context.Context, fileUri string, mode string) (int32, error)
@@ -35,17 +46,17 @@ type ITranscodingClientCallback interface {
 }
 
 type TranscodingClientCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTranscodingClientCallbackProxy(
 	remote binder.IBinder,
 ) *TranscodingClientCallbackProxy {
-	return &TranscodingClientCallbackProxy{remote: remote}
+	return &TranscodingClientCallbackProxy{Remote: remote}
 }
 
 func (p *TranscodingClientCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITranscodingClientCallback = (*TranscodingClientCallbackProxy)(nil)
@@ -61,12 +72,12 @@ func (p *TranscodingClientCallbackProxy) OpenFileDescriptor(
 	_data.WriteString16(fileUri)
 	_data.WriteString16(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "openFileDescriptor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOpenFileDescriptor)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOpenFileDescriptor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOpenFileDescriptor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,12 +102,12 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingStarted(
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingStarted)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnTranscodingStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,12 +119,12 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingPaused(
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingPaused")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingPaused)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnTranscodingPaused
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingPaused, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,12 +136,12 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingResumed(
 	_data.WriteInterfaceToken(DescriptorITranscodingClientCallback)
 	_data.WriteInt32(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingResumed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingResumed)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnTranscodingResumed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingResumed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,12 +158,12 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFinished(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFinished)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnTranscodingFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,12 +177,12 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFailed(
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(int32(errorCode))
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingFailed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFailed)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnTranscodingFailed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnTranscodingFailed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,12 +198,12 @@ func (p *TranscodingClientCallbackProxy) OnAwaitNumberOfSessionsChanged(
 	_data.WriteInt32(oldAwaitNumber)
 	_data.WriteInt32(newAwaitNumber)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onAwaitNumberOfSessionsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnAwaitNumberOfSessionsChanged)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnAwaitNumberOfSessionsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnAwaitNumberOfSessionsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -206,12 +217,12 @@ func (p *TranscodingClientCallbackProxy) OnProgressUpdate(
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(progress)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onProgressUpdate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnProgressUpdate)
 	if _err != nil {
-		_code = TransactionITranscodingClientCallbackOnProgressUpdate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITranscodingClientCallback, MethodITranscodingClientCallbackOnProgressUpdate, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -222,6 +233,10 @@ type TranscodingClientCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TranscodingClientCallbackStub)(nil)
+
+func (s *TranscodingClientCallbackStub) Descriptor() string {
+	return DescriptorITranscodingClientCallback
+}
 
 func (s *TranscodingClientCallbackStub) OnTransaction(
 	ctx context.Context,

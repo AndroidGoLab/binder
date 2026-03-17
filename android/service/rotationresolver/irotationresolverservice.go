@@ -15,23 +15,27 @@ const (
 	TransactionIRotationResolverServiceResolveRotation = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRotationResolverServiceResolveRotation = "resolveRotation"
+)
+
 type IRotationResolverService interface {
 	AsBinder() binder.IBinder
 	ResolveRotation(ctx context.Context, callback IRotationResolverCallback, request RotationResolutionRequest) error
 }
 
 type RotationResolverServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRotationResolverServiceProxy(
 	remote binder.IBinder,
 ) *RotationResolverServiceProxy {
-	return &RotationResolverServiceProxy{remote: remote}
+	return &RotationResolverServiceProxy{Remote: remote}
 }
 
 func (p *RotationResolverServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRotationResolverService = (*RotationResolverServiceProxy)(nil)
@@ -43,18 +47,18 @@ func (p *RotationResolverServiceProxy) ResolveRotation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverService, "resolveRotation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRotationResolverService, MethodIRotationResolverServiceResolveRotation)
 	if _err != nil {
-		_code = TransactionIRotationResolverServiceResolveRotation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRotationResolverService, MethodIRotationResolverServiceResolveRotation, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +69,10 @@ type RotationResolverServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RotationResolverServiceStub)(nil)
+
+func (s *RotationResolverServiceStub) Descriptor() string {
+	return DescriptorIRotationResolverService
+}
 
 func (s *RotationResolverServiceStub) OnTransaction(
 	ctx context.Context,

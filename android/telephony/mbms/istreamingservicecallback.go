@@ -19,6 +19,14 @@ const (
 	TransactionIStreamingServiceCallbackOnStreamMethodUpdated            = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodIStreamingServiceCallbackOnError                          = "onError"
+	MethodIStreamingServiceCallbackOnStreamStateUpdated             = "onStreamStateUpdated"
+	MethodIStreamingServiceCallbackOnMediaDescriptionUpdated        = "onMediaDescriptionUpdated"
+	MethodIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated = "onBroadcastSignalStrengthUpdated"
+	MethodIStreamingServiceCallbackOnStreamMethodUpdated            = "onStreamMethodUpdated"
+)
+
 type IStreamingServiceCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, errorCode int32, message string) error
@@ -29,17 +37,17 @@ type IStreamingServiceCallback interface {
 }
 
 type StreamingServiceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewStreamingServiceCallbackProxy(
 	remote binder.IBinder,
 ) *StreamingServiceCallbackProxy {
-	return &StreamingServiceCallbackProxy{remote: remote}
+	return &StreamingServiceCallbackProxy{Remote: remote}
 }
 
 func (p *StreamingServiceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IStreamingServiceCallback = (*StreamingServiceCallbackProxy)(nil)
@@ -54,12 +62,12 @@ func (p *StreamingServiceCallbackProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingServiceCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnError)
 	if _err != nil {
-		_code = TransactionIStreamingServiceCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,12 +81,12 @@ func (p *StreamingServiceCallbackProxy) OnStreamStateUpdated(
 	_data.WriteInt32(state)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingServiceCallback, "onStreamStateUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamStateUpdated)
 	if _err != nil {
-		_code = TransactionIStreamingServiceCallbackOnStreamStateUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamStateUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,12 +96,12 @@ func (p *StreamingServiceCallbackProxy) OnMediaDescriptionUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingServiceCallback, "onMediaDescriptionUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnMediaDescriptionUpdated)
 	if _err != nil {
-		_code = TransactionIStreamingServiceCallbackOnMediaDescriptionUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnMediaDescriptionUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,12 +113,12 @@ func (p *StreamingServiceCallbackProxy) OnBroadcastSignalStrengthUpdated(
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 	_data.WriteInt32(signalStrength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingServiceCallback, "onBroadcastSignalStrengthUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated)
 	if _err != nil {
-		_code = TransactionIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,12 +130,12 @@ func (p *StreamingServiceCallbackProxy) OnStreamMethodUpdated(
 	_data.WriteInterfaceToken(DescriptorIStreamingServiceCallback)
 	_data.WriteInt32(methodType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIStreamingServiceCallback, "onStreamMethodUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamMethodUpdated)
 	if _err != nil {
-		_code = TransactionIStreamingServiceCallbackOnStreamMethodUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIStreamingServiceCallback, MethodIStreamingServiceCallbackOnStreamMethodUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,6 +146,10 @@ type StreamingServiceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*StreamingServiceCallbackStub)(nil)
+
+func (s *StreamingServiceCallbackStub) Descriptor() string {
+	return DescriptorIStreamingServiceCallback
+}
 
 func (s *StreamingServiceCallbackStub) OnTransaction(
 	ctx context.Context,

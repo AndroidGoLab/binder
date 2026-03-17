@@ -15,23 +15,27 @@ const (
 	TransactionIMediaMetricsServiceSubmitBuffer = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIMediaMetricsServiceSubmitBuffer = "submitBuffer"
+)
+
 type IMediaMetricsService interface {
 	AsBinder() binder.IBinder
 	SubmitBuffer(ctx context.Context, buffer []byte) error
 }
 
 type MediaMetricsServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaMetricsServiceProxy(
 	remote binder.IBinder,
 ) *MediaMetricsServiceProxy {
-	return &MediaMetricsServiceProxy{remote: remote}
+	return &MediaMetricsServiceProxy{Remote: remote}
 }
 
 func (p *MediaMetricsServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaMetricsService = (*MediaMetricsServiceProxy)(nil)
@@ -51,12 +55,12 @@ func (p *MediaMetricsServiceProxy) SubmitBuffer(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsService, "submitBuffer")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaMetricsService, MethodIMediaMetricsServiceSubmitBuffer)
 	if _err != nil {
-		_code = TransactionIMediaMetricsServiceSubmitBuffer
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaMetricsService, MethodIMediaMetricsServiceSubmitBuffer, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +71,10 @@ type MediaMetricsServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaMetricsServiceStub)(nil)
+
+func (s *MediaMetricsServiceStub) Descriptor() string {
+	return DescriptorIMediaMetricsService
+}
 
 func (s *MediaMetricsServiceStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,13 @@ const (
 	TransactionISecureElementReaderReset                  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodISecureElementReaderIsSecureElementPresent = "isSecureElementPresent"
+	MethodISecureElementReaderOpenSession            = "openSession"
+	MethodISecureElementReaderCloseSessions          = "closeSessions"
+	MethodISecureElementReaderReset                  = "reset"
+)
+
 type ISecureElementReader interface {
 	AsBinder() binder.IBinder
 	IsSecureElementPresent(ctx context.Context) (bool, error)
@@ -27,17 +34,17 @@ type ISecureElementReader interface {
 }
 
 type SecureElementReaderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSecureElementReaderProxy(
 	remote binder.IBinder,
 ) *SecureElementReaderProxy {
-	return &SecureElementReaderProxy{remote: remote}
+	return &SecureElementReaderProxy{Remote: remote}
 }
 
 func (p *SecureElementReaderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISecureElementReader = (*SecureElementReaderProxy)(nil)
@@ -49,12 +56,12 @@ func (p *SecureElementReaderProxy) IsSecureElementPresent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "isSecureElementPresent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderIsSecureElementPresent)
 	if _err != nil {
-		_code = TransactionISecureElementReaderIsSecureElementPresent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementReader, MethodISecureElementReaderIsSecureElementPresent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,12 +85,12 @@ func (p *SecureElementReaderProxy) OpenSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "openSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderOpenSession)
 	if _err != nil {
-		_code = TransactionISecureElementReaderOpenSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementReader, MethodISecureElementReaderOpenSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -97,7 +104,7 @@ func (p *SecureElementReaderProxy) OpenSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSecureElementSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSecureElementSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -107,12 +114,12 @@ func (p *SecureElementReaderProxy) CloseSessions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "closeSessions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderCloseSessions)
 	if _err != nil {
-		_code = TransactionISecureElementReaderCloseSessions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementReader, MethodISecureElementReaderCloseSessions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,12 +139,12 @@ func (p *SecureElementReaderProxy) Reset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementReader)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "reset")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISecureElementReader, MethodISecureElementReaderReset)
 	if _err != nil {
-		_code = TransactionISecureElementReaderReset
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISecureElementReader, MethodISecureElementReaderReset, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,6 +168,10 @@ type SecureElementReaderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SecureElementReaderStub)(nil)
+
+func (s *SecureElementReaderStub) Descriptor() string {
+	return DescriptorISecureElementReader
+}
 
 func (s *SecureElementReaderStub) OnTransaction(
 	ctx context.Context,

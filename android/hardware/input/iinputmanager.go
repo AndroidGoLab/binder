@@ -16,82 +16,153 @@ import (
 const DescriptorIInputManager = "android.hardware.input.IInputManager"
 
 const (
-	TransactionIInputManagerGetVelocityTrackerStrategy            = binder.FirstCallTransaction + 0
-	TransactionIInputManagerGetInputDevice                        = binder.FirstCallTransaction + 1
-	TransactionIInputManagerGetInputDeviceIds                     = binder.FirstCallTransaction + 2
-	TransactionIInputManagerEnableInputDevice                     = binder.FirstCallTransaction + 3
-	TransactionIInputManagerDisableInputDevice                    = binder.FirstCallTransaction + 4
-	TransactionIInputManagerHasKeys                               = binder.FirstCallTransaction + 5
-	TransactionIInputManagerGetKeyCodeForKeyLocation              = binder.FirstCallTransaction + 6
-	TransactionIInputManagerGetKeyCharacterMap                    = binder.FirstCallTransaction + 7
-	TransactionIInputManagerGetMousePointerSpeed                  = binder.FirstCallTransaction + 8
-	TransactionIInputManagerTryPointerSpeed                       = binder.FirstCallTransaction + 9
-	TransactionIInputManagerInjectInputEvent                      = binder.FirstCallTransaction + 10
-	TransactionIInputManagerInjectInputEventToTarget              = binder.FirstCallTransaction + 11
-	TransactionIInputManagerVerifyInputEvent                      = binder.FirstCallTransaction + 12
-	TransactionIInputManagerGetTouchCalibrationForInputDevice     = binder.FirstCallTransaction + 13
-	TransactionIInputManagerSetTouchCalibrationForInputDevice     = binder.FirstCallTransaction + 14
-	TransactionIInputManagerGetKeyboardLayouts                    = binder.FirstCallTransaction + 15
-	TransactionIInputManagerGetKeyboardLayout                     = binder.FirstCallTransaction + 16
-	TransactionIInputManagerGetKeyboardLayoutForInputDevice       = binder.FirstCallTransaction + 17
-	TransactionIInputManagerSetKeyboardLayoutForInputDevice       = binder.FirstCallTransaction + 18
-	TransactionIInputManagerGetKeyboardLayoutListForInputDevice   = binder.FirstCallTransaction + 19
-	TransactionIInputManagerRemapModifierKey                      = binder.FirstCallTransaction + 20
-	TransactionIInputManagerClearAllModifierKeyRemappings         = binder.FirstCallTransaction + 21
-	TransactionIInputManagerGetModifierKeyRemapping               = binder.FirstCallTransaction + 22
-	TransactionIInputManagerRegisterInputDevicesChangedListener   = binder.FirstCallTransaction + 23
-	TransactionIInputManagerIsInTabletMode                        = binder.FirstCallTransaction + 24
-	TransactionIInputManagerRegisterTabletModeChangedListener     = binder.FirstCallTransaction + 25
-	TransactionIInputManagerIsMicMuted                            = binder.FirstCallTransaction + 26
-	TransactionIInputManagerVibrate                               = binder.FirstCallTransaction + 27
-	TransactionIInputManagerVibrateCombined                       = binder.FirstCallTransaction + 28
-	TransactionIInputManagerCancelVibrate                         = binder.FirstCallTransaction + 29
-	TransactionIInputManagerGetVibratorIds                        = binder.FirstCallTransaction + 30
-	TransactionIInputManagerIsVibrating                           = binder.FirstCallTransaction + 31
-	TransactionIInputManagerRegisterVibratorStateListener         = binder.FirstCallTransaction + 32
-	TransactionIInputManagerUnregisterVibratorStateListener       = binder.FirstCallTransaction + 33
-	TransactionIInputManagerGetBatteryState                       = binder.FirstCallTransaction + 34
-	TransactionIInputManagerSetPointerIcon                        = binder.FirstCallTransaction + 35
-	TransactionIInputManagerRequestPointerCapture                 = binder.FirstCallTransaction + 36
-	TransactionIInputManagerMonitorGestureInput                   = binder.FirstCallTransaction + 37
-	TransactionIInputManagerAddPortAssociation                    = binder.FirstCallTransaction + 38
-	TransactionIInputManagerRemovePortAssociation                 = binder.FirstCallTransaction + 39
-	TransactionIInputManagerAddUniqueIdAssociationByDescriptor    = binder.FirstCallTransaction + 40
-	TransactionIInputManagerRemoveUniqueIdAssociationByDescriptor = binder.FirstCallTransaction + 41
-	TransactionIInputManagerAddUniqueIdAssociationByPort          = binder.FirstCallTransaction + 42
-	TransactionIInputManagerRemoveUniqueIdAssociationByPort       = binder.FirstCallTransaction + 43
-	TransactionIInputManagerGetSensorList                         = binder.FirstCallTransaction + 44
-	TransactionIInputManagerRegisterSensorListener                = binder.FirstCallTransaction + 45
-	TransactionIInputManagerUnregisterSensorListener              = binder.FirstCallTransaction + 46
-	TransactionIInputManagerEnableSensor                          = binder.FirstCallTransaction + 47
-	TransactionIInputManagerDisableSensor                         = binder.FirstCallTransaction + 48
-	TransactionIInputManagerFlushSensor                           = binder.FirstCallTransaction + 49
-	TransactionIInputManagerGetLights                             = binder.FirstCallTransaction + 50
-	TransactionIInputManagerGetLightState                         = binder.FirstCallTransaction + 51
-	TransactionIInputManagerSetLightStates                        = binder.FirstCallTransaction + 52
-	TransactionIInputManagerOpenLightSession                      = binder.FirstCallTransaction + 53
-	TransactionIInputManagerCloseLightSession                     = binder.FirstCallTransaction + 54
-	TransactionIInputManagerCancelCurrentTouch                    = binder.FirstCallTransaction + 55
-	TransactionIInputManagerRegisterBatteryListener               = binder.FirstCallTransaction + 56
-	TransactionIInputManagerUnregisterBatteryListener             = binder.FirstCallTransaction + 57
-	TransactionIInputManagerGetInputDeviceBluetoothAddress        = binder.FirstCallTransaction + 58
-	TransactionIInputManagerPilferPointers                        = binder.FirstCallTransaction + 59
-	TransactionIInputManagerRegisterKeyboardBacklightListener     = binder.FirstCallTransaction + 60
-	TransactionIInputManagerUnregisterKeyboardBacklightListener   = binder.FirstCallTransaction + 61
-	TransactionIInputManagerGetHostUsiVersionFromDisplayConfig    = binder.FirstCallTransaction + 62
-	TransactionIInputManagerRegisterStickyModifierStateListener   = binder.FirstCallTransaction + 63
-	TransactionIInputManagerUnregisterStickyModifierStateListener = binder.FirstCallTransaction + 64
-	TransactionIInputManagerGetKeyGlyphMap                        = binder.FirstCallTransaction + 65
-	TransactionIInputManagerRegisterKeyGestureEventListener       = binder.FirstCallTransaction + 66
-	TransactionIInputManagerUnregisterKeyGestureEventListener     = binder.FirstCallTransaction + 67
-	TransactionIInputManagerRegisterKeyGestureHandler             = binder.FirstCallTransaction + 68
-	TransactionIInputManagerUnregisterKeyGestureHandler           = binder.FirstCallTransaction + 69
-	TransactionIInputManagerAddCustomInputGesture                 = binder.FirstCallTransaction + 70
-	TransactionIInputManagerRemoveCustomInputGesture              = binder.FirstCallTransaction + 71
-	TransactionIInputManagerRemoveAllCustomInputGestures          = binder.FirstCallTransaction + 72
-	TransactionIInputManagerGetCustomInputGestures                = binder.FirstCallTransaction + 73
-	TransactionIInputManagerGetAppLaunchBookmarks                 = binder.FirstCallTransaction + 74
-	TransactionIInputManagerResetLockedModifierState              = binder.FirstCallTransaction + 75
+	TransactionIInputManagerGetVelocityTrackerStrategy              = binder.FirstCallTransaction + 0
+	TransactionIInputManagerGetInputDevice                          = binder.FirstCallTransaction + 1
+	TransactionIInputManagerGetInputDeviceIds                       = binder.FirstCallTransaction + 2
+	TransactionIInputManagerIsInputDeviceEnabled                    = binder.FirstCallTransaction + 3
+	TransactionIInputManagerEnableInputDevice                       = binder.FirstCallTransaction + 4
+	TransactionIInputManagerDisableInputDevice                      = binder.FirstCallTransaction + 5
+	TransactionIInputManagerHasKeys                                 = binder.FirstCallTransaction + 6
+	TransactionIInputManagerGetKeyCodeForKeyLocation                = binder.FirstCallTransaction + 7
+	TransactionIInputManagerGetKeyCharacterMap                      = binder.FirstCallTransaction + 8
+	TransactionIInputManagerGetMousePointerSpeed                    = binder.FirstCallTransaction + 9
+	TransactionIInputManagerTryPointerSpeed                         = binder.FirstCallTransaction + 10
+	TransactionIInputManagerInjectInputEvent                        = binder.FirstCallTransaction + 11
+	TransactionIInputManagerInjectInputEventToTarget                = binder.FirstCallTransaction + 12
+	TransactionIInputManagerVerifyInputEvent                        = binder.FirstCallTransaction + 13
+	TransactionIInputManagerGetTouchCalibrationForInputDevice       = binder.FirstCallTransaction + 14
+	TransactionIInputManagerSetTouchCalibrationForInputDevice       = binder.FirstCallTransaction + 15
+	TransactionIInputManagerGetKeyboardLayouts                      = binder.FirstCallTransaction + 16
+	TransactionIInputManagerGetKeyboardLayoutsForInputDevice        = binder.FirstCallTransaction + 17
+	TransactionIInputManagerGetKeyboardLayout                       = binder.FirstCallTransaction + 18
+	TransactionIInputManagerGetCurrentKeyboardLayoutForInputDevice  = binder.FirstCallTransaction + 19
+	TransactionIInputManagerSetCurrentKeyboardLayoutForInputDevice  = binder.FirstCallTransaction + 20
+	TransactionIInputManagerGetEnabledKeyboardLayoutsForInputDevice = binder.FirstCallTransaction + 21
+	TransactionIInputManagerAddKeyboardLayoutForInputDevice         = binder.FirstCallTransaction + 22
+	TransactionIInputManagerRemoveKeyboardLayoutForInputDevice      = binder.FirstCallTransaction + 23
+	TransactionIInputManagerGetKeyboardLayoutForInputDevice         = binder.FirstCallTransaction + 24
+	TransactionIInputManagerSetKeyboardLayoutForInputDevice         = binder.FirstCallTransaction + 25
+	TransactionIInputManagerGetKeyboardLayoutListForInputDevice     = binder.FirstCallTransaction + 26
+	TransactionIInputManagerRemapModifierKey                        = binder.FirstCallTransaction + 27
+	TransactionIInputManagerClearAllModifierKeyRemappings           = binder.FirstCallTransaction + 28
+	TransactionIInputManagerGetModifierKeyRemapping                 = binder.FirstCallTransaction + 29
+	TransactionIInputManagerRegisterInputDevicesChangedListener     = binder.FirstCallTransaction + 30
+	TransactionIInputManagerIsInTabletMode                          = binder.FirstCallTransaction + 31
+	TransactionIInputManagerRegisterTabletModeChangedListener       = binder.FirstCallTransaction + 32
+	TransactionIInputManagerIsMicMuted                              = binder.FirstCallTransaction + 33
+	TransactionIInputManagerVibrate                                 = binder.FirstCallTransaction + 34
+	TransactionIInputManagerVibrateCombined                         = binder.FirstCallTransaction + 35
+	TransactionIInputManagerCancelVibrate                           = binder.FirstCallTransaction + 36
+	TransactionIInputManagerGetVibratorIds                          = binder.FirstCallTransaction + 37
+	TransactionIInputManagerIsVibrating                             = binder.FirstCallTransaction + 38
+	TransactionIInputManagerRegisterVibratorStateListener           = binder.FirstCallTransaction + 39
+	TransactionIInputManagerUnregisterVibratorStateListener         = binder.FirstCallTransaction + 40
+	TransactionIInputManagerGetBatteryState                         = binder.FirstCallTransaction + 41
+	TransactionIInputManagerSetPointerIconType                      = binder.FirstCallTransaction + 42
+	TransactionIInputManagerSetCustomPointerIcon                    = binder.FirstCallTransaction + 43
+	TransactionIInputManagerSetPointerIcon                          = binder.FirstCallTransaction + 44
+	TransactionIInputManagerRequestPointerCapture                   = binder.FirstCallTransaction + 45
+	TransactionIInputManagerMonitorGestureInput                     = binder.FirstCallTransaction + 46
+	TransactionIInputManagerAddPortAssociation                      = binder.FirstCallTransaction + 47
+	TransactionIInputManagerRemovePortAssociation                   = binder.FirstCallTransaction + 48
+	TransactionIInputManagerAddUniqueIdAssociation                  = binder.FirstCallTransaction + 49
+	TransactionIInputManagerRemoveUniqueIdAssociation               = binder.FirstCallTransaction + 50
+	TransactionIInputManagerGetSensorList                           = binder.FirstCallTransaction + 51
+	TransactionIInputManagerRegisterSensorListener                  = binder.FirstCallTransaction + 52
+	TransactionIInputManagerUnregisterSensorListener                = binder.FirstCallTransaction + 53
+	TransactionIInputManagerEnableSensor                            = binder.FirstCallTransaction + 54
+	TransactionIInputManagerDisableSensor                           = binder.FirstCallTransaction + 55
+	TransactionIInputManagerFlushSensor                             = binder.FirstCallTransaction + 56
+	TransactionIInputManagerGetLights                               = binder.FirstCallTransaction + 57
+	TransactionIInputManagerGetLightState                           = binder.FirstCallTransaction + 58
+	TransactionIInputManagerSetLightStates                          = binder.FirstCallTransaction + 59
+	TransactionIInputManagerOpenLightSession                        = binder.FirstCallTransaction + 60
+	TransactionIInputManagerCloseLightSession                       = binder.FirstCallTransaction + 61
+	TransactionIInputManagerCancelCurrentTouch                      = binder.FirstCallTransaction + 62
+	TransactionIInputManagerRegisterBatteryListener                 = binder.FirstCallTransaction + 63
+	TransactionIInputManagerUnregisterBatteryListener               = binder.FirstCallTransaction + 64
+	TransactionIInputManagerGetInputDeviceBluetoothAddress          = binder.FirstCallTransaction + 65
+	TransactionIInputManagerPilferPointers                          = binder.FirstCallTransaction + 66
+	TransactionIInputManagerRegisterKeyboardBacklightListener       = binder.FirstCallTransaction + 67
+	TransactionIInputManagerUnregisterKeyboardBacklightListener     = binder.FirstCallTransaction + 68
+	TransactionIInputManagerGetHostUsiVersionFromDisplayConfig      = binder.FirstCallTransaction + 69
+	TransactionIInputManagerRegisterStickyModifierStateListener     = binder.FirstCallTransaction + 70
+	TransactionIInputManagerUnregisterStickyModifierStateListener   = binder.FirstCallTransaction + 71
+)
+
+const (
+	MethodIInputManagerGetVelocityTrackerStrategy              = "getVelocityTrackerStrategy"
+	MethodIInputManagerGetInputDevice                          = "getInputDevice"
+	MethodIInputManagerGetInputDeviceIds                       = "getInputDeviceIds"
+	MethodIInputManagerIsInputDeviceEnabled                    = "isInputDeviceEnabled"
+	MethodIInputManagerEnableInputDevice                       = "enableInputDevice"
+	MethodIInputManagerDisableInputDevice                      = "disableInputDevice"
+	MethodIInputManagerHasKeys                                 = "hasKeys"
+	MethodIInputManagerGetKeyCodeForKeyLocation                = "getKeyCodeForKeyLocation"
+	MethodIInputManagerGetKeyCharacterMap                      = "getKeyCharacterMap"
+	MethodIInputManagerGetMousePointerSpeed                    = "getMousePointerSpeed"
+	MethodIInputManagerTryPointerSpeed                         = "tryPointerSpeed"
+	MethodIInputManagerInjectInputEvent                        = "injectInputEvent"
+	MethodIInputManagerInjectInputEventToTarget                = "injectInputEventToTarget"
+	MethodIInputManagerVerifyInputEvent                        = "verifyInputEvent"
+	MethodIInputManagerGetTouchCalibrationForInputDevice       = "getTouchCalibrationForInputDevice"
+	MethodIInputManagerSetTouchCalibrationForInputDevice       = "setTouchCalibrationForInputDevice"
+	MethodIInputManagerGetKeyboardLayouts                      = "getKeyboardLayouts"
+	MethodIInputManagerGetKeyboardLayoutsForInputDevice        = "getKeyboardLayoutsForInputDevice"
+	MethodIInputManagerGetKeyboardLayout                       = "getKeyboardLayout"
+	MethodIInputManagerGetCurrentKeyboardLayoutForInputDevice  = "getCurrentKeyboardLayoutForInputDevice"
+	MethodIInputManagerSetCurrentKeyboardLayoutForInputDevice  = "setCurrentKeyboardLayoutForInputDevice"
+	MethodIInputManagerGetEnabledKeyboardLayoutsForInputDevice = "getEnabledKeyboardLayoutsForInputDevice"
+	MethodIInputManagerAddKeyboardLayoutForInputDevice         = "addKeyboardLayoutForInputDevice"
+	MethodIInputManagerRemoveKeyboardLayoutForInputDevice      = "removeKeyboardLayoutForInputDevice"
+	MethodIInputManagerGetKeyboardLayoutForInputDevice         = "getKeyboardLayoutForInputDevice"
+	MethodIInputManagerSetKeyboardLayoutForInputDevice         = "setKeyboardLayoutForInputDevice"
+	MethodIInputManagerGetKeyboardLayoutListForInputDevice     = "getKeyboardLayoutListForInputDevice"
+	MethodIInputManagerRemapModifierKey                        = "remapModifierKey"
+	MethodIInputManagerClearAllModifierKeyRemappings           = "clearAllModifierKeyRemappings"
+	MethodIInputManagerGetModifierKeyRemapping                 = "getModifierKeyRemapping"
+	MethodIInputManagerRegisterInputDevicesChangedListener     = "registerInputDevicesChangedListener"
+	MethodIInputManagerIsInTabletMode                          = "isInTabletMode"
+	MethodIInputManagerRegisterTabletModeChangedListener       = "registerTabletModeChangedListener"
+	MethodIInputManagerIsMicMuted                              = "isMicMuted"
+	MethodIInputManagerVibrate                                 = "vibrate"
+	MethodIInputManagerVibrateCombined                         = "vibrateCombined"
+	MethodIInputManagerCancelVibrate                           = "cancelVibrate"
+	MethodIInputManagerGetVibratorIds                          = "getVibratorIds"
+	MethodIInputManagerIsVibrating                             = "isVibrating"
+	MethodIInputManagerRegisterVibratorStateListener           = "registerVibratorStateListener"
+	MethodIInputManagerUnregisterVibratorStateListener         = "unregisterVibratorStateListener"
+	MethodIInputManagerGetBatteryState                         = "getBatteryState"
+	MethodIInputManagerSetPointerIconType                      = "setPointerIconType"
+	MethodIInputManagerSetCustomPointerIcon                    = "setCustomPointerIcon"
+	MethodIInputManagerSetPointerIcon                          = "setPointerIcon"
+	MethodIInputManagerRequestPointerCapture                   = "requestPointerCapture"
+	MethodIInputManagerMonitorGestureInput                     = "monitorGestureInput"
+	MethodIInputManagerAddPortAssociation                      = "addPortAssociation"
+	MethodIInputManagerRemovePortAssociation                   = "removePortAssociation"
+	MethodIInputManagerAddUniqueIdAssociation                  = "addUniqueIdAssociation"
+	MethodIInputManagerRemoveUniqueIdAssociation               = "removeUniqueIdAssociation"
+	MethodIInputManagerGetSensorList                           = "getSensorList"
+	MethodIInputManagerRegisterSensorListener                  = "registerSensorListener"
+	MethodIInputManagerUnregisterSensorListener                = "unregisterSensorListener"
+	MethodIInputManagerEnableSensor                            = "enableSensor"
+	MethodIInputManagerDisableSensor                           = "disableSensor"
+	MethodIInputManagerFlushSensor                             = "flushSensor"
+	MethodIInputManagerGetLights                               = "getLights"
+	MethodIInputManagerGetLightState                           = "getLightState"
+	MethodIInputManagerSetLightStates                          = "setLightStates"
+	MethodIInputManagerOpenLightSession                        = "openLightSession"
+	MethodIInputManagerCloseLightSession                       = "closeLightSession"
+	MethodIInputManagerCancelCurrentTouch                      = "cancelCurrentTouch"
+	MethodIInputManagerRegisterBatteryListener                 = "registerBatteryListener"
+	MethodIInputManagerUnregisterBatteryListener               = "unregisterBatteryListener"
+	MethodIInputManagerGetInputDeviceBluetoothAddress          = "getInputDeviceBluetoothAddress"
+	MethodIInputManagerPilferPointers                          = "pilferPointers"
+	MethodIInputManagerRegisterKeyboardBacklightListener       = "registerKeyboardBacklightListener"
+	MethodIInputManagerUnregisterKeyboardBacklightListener     = "unregisterKeyboardBacklightListener"
+	MethodIInputManagerGetHostUsiVersionFromDisplayConfig      = "getHostUsiVersionFromDisplayConfig"
+	MethodIInputManagerRegisterStickyModifierStateListener     = "registerStickyModifierStateListener"
+	MethodIInputManagerUnregisterStickyModifierStateListener   = "unregisterStickyModifierStateListener"
 )
 
 type IInputManager interface {
@@ -99,6 +170,7 @@ type IInputManager interface {
 	GetVelocityTrackerStrategy(ctx context.Context) (string, error)
 	GetInputDevice(ctx context.Context, deviceId int32) (view.InputDevice, error)
 	GetInputDeviceIds(ctx context.Context) ([]int32, error)
+	IsInputDeviceEnabled(ctx context.Context, deviceId int32) (bool, error)
 	EnableInputDevice(ctx context.Context, deviceId int32) error
 	DisableInputDevice(ctx context.Context, deviceId int32) error
 	HasKeys(ctx context.Context, deviceId int32, sourceMask int32, keyCodes []int32, keyExists []bool) (bool, error)
@@ -112,7 +184,13 @@ type IInputManager interface {
 	GetTouchCalibrationForInputDevice(ctx context.Context, inputDeviceDescriptor string, rotation int32) (TouchCalibration, error)
 	SetTouchCalibrationForInputDevice(ctx context.Context, inputDeviceDescriptor string, rotation int32, calibration TouchCalibration) error
 	GetKeyboardLayouts(ctx context.Context) ([]KeyboardLayout, error)
+	GetKeyboardLayoutsForInputDevice(ctx context.Context, identifier InputDeviceIdentifier) ([]KeyboardLayout, error)
 	GetKeyboardLayout(ctx context.Context, keyboardLayoutDescriptor string) (KeyboardLayout, error)
+	GetCurrentKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier) (string, error)
+	SetCurrentKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, keyboardLayoutDescriptor string) error
+	GetEnabledKeyboardLayoutsForInputDevice(ctx context.Context, identifier InputDeviceIdentifier) ([]string, error)
+	AddKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, keyboardLayoutDescriptor string) error
+	RemoveKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, keyboardLayoutDescriptor string) error
 	GetKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype) (KeyboardLayoutSelectionResult, error)
 	SetKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype, keyboardLayoutDescriptor string) error
 	GetKeyboardLayoutListForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype) ([]KeyboardLayout, error)
@@ -131,15 +209,15 @@ type IInputManager interface {
 	RegisterVibratorStateListener(ctx context.Context, deviceId int32, listener os.IVibratorStateListener) (bool, error)
 	UnregisterVibratorStateListener(ctx context.Context, deviceId int32, listener os.IVibratorStateListener) (bool, error)
 	GetBatteryState(ctx context.Context, deviceId int32) (IInputDeviceBatteryState, error)
+	SetPointerIconType(ctx context.Context, typeId int32) error
+	SetCustomPointerIcon(ctx context.Context, icon view.PointerIcon) error
 	SetPointerIcon(ctx context.Context, icon view.PointerIcon, displayId int32, deviceId int32, pointerId int32, inputToken binder.IBinder) (bool, error)
 	RequestPointerCapture(ctx context.Context, inputChannelToken binder.IBinder, enabled bool) error
 	MonitorGestureInput(ctx context.Context, token binder.IBinder, name string, displayId int32) (view.InputMonitor, error)
 	AddPortAssociation(ctx context.Context, inputPort string, displayPort int32) error
 	RemovePortAssociation(ctx context.Context, inputPort string) error
-	AddUniqueIdAssociationByDescriptor(ctx context.Context, inputDeviceDescriptor string, displayUniqueId string) error
-	RemoveUniqueIdAssociationByDescriptor(ctx context.Context, inputDeviceDescriptor string) error
-	AddUniqueIdAssociationByPort(ctx context.Context, inputPort string, displayUniqueId string) error
-	RemoveUniqueIdAssociationByPort(ctx context.Context, inputPort string) error
+	AddUniqueIdAssociation(ctx context.Context, inputPort string, displayUniqueId string) error
+	RemoveUniqueIdAssociation(ctx context.Context, inputPort string) error
 	GetSensorList(ctx context.Context, deviceId int32) ([]InputSensorInfo, error)
 	RegisterSensorListener(ctx context.Context, listener IInputSensorEventListener) (bool, error)
 	UnregisterSensorListener(ctx context.Context, listener IInputSensorEventListener) error
@@ -161,31 +239,20 @@ type IInputManager interface {
 	GetHostUsiVersionFromDisplayConfig(ctx context.Context, displayId int32) (HostUsiVersion, error)
 	RegisterStickyModifierStateListener(ctx context.Context, listener IStickyModifierStateListener) error
 	UnregisterStickyModifierStateListener(ctx context.Context, listener IStickyModifierStateListener) error
-	GetKeyGlyphMap(ctx context.Context, deviceId int32) (KeyGlyphMap, error)
-	RegisterKeyGestureEventListener(ctx context.Context, listener IKeyGestureEventListener) error
-	UnregisterKeyGestureEventListener(ctx context.Context, listener IKeyGestureEventListener) error
-	RegisterKeyGestureHandler(ctx context.Context, handler IKeyGestureHandler) error
-	UnregisterKeyGestureHandler(ctx context.Context, handler IKeyGestureHandler) error
-	AddCustomInputGesture(ctx context.Context, data AidlInputGestureData) (int32, error)
-	RemoveCustomInputGesture(ctx context.Context, data AidlInputGestureData) (int32, error)
-	RemoveAllCustomInputGestures(ctx context.Context, tag int32) error
-	GetCustomInputGestures(ctx context.Context, tag int32) ([]AidlInputGestureData, error)
-	GetAppLaunchBookmarks(ctx context.Context) ([]AidlInputGestureData, error)
-	ResetLockedModifierState(ctx context.Context) error
 }
 
 type InputManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewInputManagerProxy(
 	remote binder.IBinder,
 ) *InputManagerProxy {
-	return &InputManagerProxy{remote: remote}
+	return &InputManagerProxy{Remote: remote}
 }
 
 func (p *InputManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IInputManager = (*InputManagerProxy)(nil)
@@ -197,12 +264,12 @@ func (p *InputManagerProxy) GetVelocityTrackerStrategy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getVelocityTrackerStrategy")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetVelocityTrackerStrategy)
 	if _err != nil {
-		_code = TransactionIInputManagerGetVelocityTrackerStrategy
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetVelocityTrackerStrategy, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,12 +295,12 @@ func (p *InputManagerProxy) GetInputDevice(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerGetInputDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -262,12 +329,12 @@ func (p *InputManagerProxy) GetInputDeviceIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getInputDeviceIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetInputDeviceIds)
 	if _err != nil {
-		_code = TransactionIInputManagerGetInputDeviceIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetInputDeviceIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -294,6 +361,37 @@ func (p *InputManagerProxy) GetInputDeviceIds(
 	return _result, nil
 }
 
+func (p *InputManagerProxy) IsInputDeviceEnabled(
+	ctx context.Context,
+	deviceId int32,
+) (bool, error) {
+	var _result bool
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(deviceId)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsInputDeviceEnabled)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerIsInputDeviceEnabled, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadBool()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
 func (p *InputManagerProxy) EnableInputDevice(
 	ctx context.Context,
 	deviceId int32,
@@ -302,12 +400,12 @@ func (p *InputManagerProxy) EnableInputDevice(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "enableInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerEnableInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerEnableInputDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerEnableInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -328,12 +426,12 @@ func (p *InputManagerProxy) DisableInputDevice(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "disableInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerDisableInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerDisableInputDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerDisableInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -367,12 +465,12 @@ func (p *InputManagerProxy) HasKeys(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "hasKeys")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerHasKeys)
 	if _err != nil {
-		_code = TransactionIInputManagerHasKeys
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerHasKeys, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -413,12 +511,12 @@ func (p *InputManagerProxy) GetKeyCodeForKeyLocation(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(locationKeyCode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyCodeForKeyLocation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCodeForKeyLocation)
 	if _err != nil {
-		_code = TransactionIInputManagerGetKeyCodeForKeyLocation
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyCodeForKeyLocation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -444,12 +542,12 @@ func (p *InputManagerProxy) GetKeyCharacterMap(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(layoutDescriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyCharacterMap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyCharacterMap)
 	if _err != nil {
-		_code = TransactionIInputManagerGetKeyCharacterMap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyCharacterMap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -478,12 +576,12 @@ func (p *InputManagerProxy) GetMousePointerSpeed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getMousePointerSpeed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetMousePointerSpeed)
 	if _err != nil {
-		_code = TransactionIInputManagerGetMousePointerSpeed
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetMousePointerSpeed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -508,12 +606,12 @@ func (p *InputManagerProxy) TryPointerSpeed(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(speed)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "tryPointerSpeed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerTryPointerSpeed)
 	if _err != nil {
-		_code = TransactionIInputManagerTryPointerSpeed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerTryPointerSpeed, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -540,12 +638,12 @@ func (p *InputManagerProxy) InjectInputEvent(
 	}
 	_data.WriteInt32(mode)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "injectInputEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerInjectInputEvent)
 	if _err != nil {
-		_code = TransactionIInputManagerInjectInputEvent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerInjectInputEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -578,12 +676,12 @@ func (p *InputManagerProxy) InjectInputEventToTarget(
 	_data.WriteInt32(mode)
 	_data.WriteInt32(targetUid)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "injectInputEventToTarget")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerInjectInputEventToTarget)
 	if _err != nil {
-		_code = TransactionIInputManagerInjectInputEventToTarget
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerInjectInputEventToTarget, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -612,12 +710,12 @@ func (p *InputManagerProxy) VerifyInputEvent(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "verifyInputEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerVerifyInputEvent)
 	if _err != nil {
-		_code = TransactionIInputManagerVerifyInputEvent
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerVerifyInputEvent, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -650,12 +748,12 @@ func (p *InputManagerProxy) GetTouchCalibrationForInputDevice(
 	_data.WriteString16(inputDeviceDescriptor)
 	_data.WriteInt32(rotation)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getTouchCalibrationForInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetTouchCalibrationForInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerGetTouchCalibrationForInputDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetTouchCalibrationForInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -692,12 +790,12 @@ func (p *InputManagerProxy) SetTouchCalibrationForInputDevice(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "setTouchCalibrationForInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetTouchCalibrationForInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerSetTouchCalibrationForInputDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetTouchCalibrationForInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -717,12 +815,12 @@ func (p *InputManagerProxy) GetKeyboardLayouts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyboardLayouts")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayouts)
 	if _err != nil {
-		_code = TransactionIInputManagerGetKeyboardLayouts
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyboardLayouts, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -740,6 +838,55 @@ func (p *InputManagerProxy) GetKeyboardLayouts(
 	if _count >= 0 {
 		_result = make([]KeyboardLayout, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
+		}
+	}
+	return _result, nil
+}
+
+func (p *InputManagerProxy) GetKeyboardLayoutsForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+) ([]KeyboardLayout, error) {
+	var _result []KeyboardLayout
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := identifier.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutsForInputDevice)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutsForInputDevice, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+
+	if _count >= 0 {
+		_result = make([]KeyboardLayout, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -757,12 +904,12 @@ func (p *InputManagerProxy) GetKeyboardLayout(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(keyboardLayoutDescriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyboardLayout")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayout)
 	if _err != nil {
-		_code = TransactionIInputManagerGetKeyboardLayout
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyboardLayout, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -784,6 +931,177 @@ func (p *InputManagerProxy) GetKeyboardLayout(
 	return _result, nil
 }
 
+func (p *InputManagerProxy) GetCurrentKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+) (string, error) {
+	var _result string
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := identifier.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetCurrentKeyboardLayoutForInputDevice)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetCurrentKeyboardLayoutForInputDevice, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_result, _err = _reply.ReadString16()
+	if _err != nil {
+		return _result, _err
+	}
+	return _result, nil
+}
+
+func (p *InputManagerProxy) SetCurrentKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+	keyboardLayoutDescriptor string,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := identifier.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteString16(keyboardLayoutDescriptor)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetCurrentKeyboardLayoutForInputDevice)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetCurrentKeyboardLayoutForInputDevice, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *InputManagerProxy) GetEnabledKeyboardLayoutsForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+) ([]string, error) {
+	var _result []string
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := identifier.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetEnabledKeyboardLayoutsForInputDevice)
+	if _err != nil {
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetEnabledKeyboardLayoutsForInputDevice, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _result, _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+
+	_count, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+
+	if _count >= 0 {
+		_result = make([]string, _count)
+		for _i := int32(0); _i < _count; _i++ {
+			_result[_i], _err = _reply.ReadString16()
+			if _err != nil {
+				return _result, _err
+			}
+		}
+	}
+	return _result, nil
+}
+
+func (p *InputManagerProxy) AddKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+	keyboardLayoutDescriptor string,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := identifier.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteString16(keyboardLayoutDescriptor)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerAddKeyboardLayoutForInputDevice)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerAddKeyboardLayoutForInputDevice, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *InputManagerProxy) RemoveKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+	keyboardLayoutDescriptor string,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := identifier.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteString16(keyboardLayoutDescriptor)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemoveKeyboardLayoutForInputDevice)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRemoveKeyboardLayoutForInputDevice, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
 func (p *InputManagerProxy) GetKeyboardLayoutForInputDevice(
 	ctx context.Context,
 	identifier InputDeviceIdentifier,
@@ -791,7 +1109,7 @@ func (p *InputManagerProxy) GetKeyboardLayoutForInputDevice(
 	imeSubtype inputmethod.InputMethodSubtype,
 ) (KeyboardLayoutSelectionResult, error) {
 	var _result KeyboardLayoutSelectionResult
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
@@ -808,12 +1126,12 @@ func (p *InputManagerProxy) GetKeyboardLayoutForInputDevice(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyboardLayoutForInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutForInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerGetKeyboardLayoutForInputDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutForInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -842,7 +1160,7 @@ func (p *InputManagerProxy) SetKeyboardLayoutForInputDevice(
 	imeSubtype inputmethod.InputMethodSubtype,
 	keyboardLayoutDescriptor string,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
@@ -860,12 +1178,12 @@ func (p *InputManagerProxy) SetKeyboardLayoutForInputDevice(
 	}
 	_data.WriteString16(keyboardLayoutDescriptor)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "setKeyboardLayoutForInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetKeyboardLayoutForInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerSetKeyboardLayoutForInputDevice
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetKeyboardLayoutForInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -885,7 +1203,7 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 	imeSubtype inputmethod.InputMethodSubtype,
 ) ([]KeyboardLayout, error) {
 	var _result []KeyboardLayout
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(1)
@@ -902,12 +1220,12 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyboardLayoutListForInputDevice")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutListForInputDevice)
 	if _err != nil {
-		_code = TransactionIInputManagerGetKeyboardLayoutListForInputDevice
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetKeyboardLayoutListForInputDevice, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -925,6 +1243,9 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 	if _count >= 0 {
 		_result = make([]KeyboardLayout, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -943,12 +1264,12 @@ func (p *InputManagerProxy) RemapModifierKey(
 	_data.WriteInt32(fromKey)
 	_data.WriteInt32(toKey)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "remapModifierKey")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemapModifierKey)
 	if _err != nil {
-		_code = TransactionIInputManagerRemapModifierKey
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRemapModifierKey, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -967,12 +1288,12 @@ func (p *InputManagerProxy) ClearAllModifierKeyRemappings(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "clearAllModifierKeyRemappings")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerClearAllModifierKeyRemappings)
 	if _err != nil {
-		_code = TransactionIInputManagerClearAllModifierKeyRemappings
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerClearAllModifierKeyRemappings, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -992,12 +1313,12 @@ func (p *InputManagerProxy) GetModifierKeyRemapping(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getModifierKeyRemapping")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetModifierKeyRemapping)
 	if _err != nil {
-		_code = TransactionIInputManagerGetModifierKeyRemapping
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetModifierKeyRemapping, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1034,14 +1355,14 @@ func (p *InputManagerProxy) RegisterInputDevicesChangedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerInputDevicesChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterInputDevicesChangedListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterInputDevicesChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterInputDevicesChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1061,12 +1382,12 @@ func (p *InputManagerProxy) IsInTabletMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "isInTabletMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsInTabletMode)
 	if _err != nil {
-		_code = TransactionIInputManagerIsInTabletMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerIsInTabletMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1089,14 +1410,14 @@ func (p *InputManagerProxy) RegisterTabletModeChangedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerTabletModeChangedListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterTabletModeChangedListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterTabletModeChangedListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterTabletModeChangedListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1116,12 +1437,12 @@ func (p *InputManagerProxy) IsMicMuted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "isMicMuted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsMicMuted)
 	if _err != nil {
-		_code = TransactionIInputManagerIsMicMuted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerIsMicMuted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1151,14 +1472,14 @@ func (p *InputManagerProxy) Vibrate(
 	if _err := effect.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "vibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerVibrate)
 	if _err != nil {
-		_code = TransactionIInputManagerVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1184,14 +1505,14 @@ func (p *InputManagerProxy) VibrateCombined(
 	if _err := vibration.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "vibrateCombined")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerVibrateCombined)
 	if _err != nil {
-		_code = TransactionIInputManagerVibrateCombined
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerVibrateCombined, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1212,14 +1533,14 @@ func (p *InputManagerProxy) CancelVibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "cancelVibrate")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerCancelVibrate)
 	if _err != nil {
-		_code = TransactionIInputManagerCancelVibrate
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerCancelVibrate, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1241,12 +1562,12 @@ func (p *InputManagerProxy) GetVibratorIds(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getVibratorIds")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetVibratorIds)
 	if _err != nil {
-		_code = TransactionIInputManagerGetVibratorIds
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetVibratorIds, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1282,12 +1603,12 @@ func (p *InputManagerProxy) IsVibrating(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "isVibrating")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerIsVibrating)
 	if _err != nil {
-		_code = TransactionIInputManagerIsVibrating
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerIsVibrating, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1313,14 +1634,14 @@ func (p *InputManagerProxy) RegisterVibratorStateListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerVibratorStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterVibratorStateListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterVibratorStateListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterVibratorStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1346,14 +1667,14 @@ func (p *InputManagerProxy) UnregisterVibratorStateListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterVibratorStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterVibratorStateListener)
 	if _err != nil {
-		_code = TransactionIInputManagerUnregisterVibratorStateListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerUnregisterVibratorStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1379,12 +1700,12 @@ func (p *InputManagerProxy) GetBatteryState(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getBatteryState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetBatteryState)
 	if _err != nil {
-		_code = TransactionIInputManagerGetBatteryState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetBatteryState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1406,6 +1727,61 @@ func (p *InputManagerProxy) GetBatteryState(
 	return _result, nil
 }
 
+func (p *InputManagerProxy) SetPointerIconType(
+	ctx context.Context,
+	typeId int32,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(typeId)
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetPointerIconType)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetPointerIconType, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
+func (p *InputManagerProxy) SetCustomPointerIcon(
+	ctx context.Context,
+	icon view.PointerIcon,
+) error {
+	_data := parcel.New()
+	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
+	if _err := icon.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetCustomPointerIcon)
+	if _err != nil {
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetCustomPointerIcon, _err)
+	}
+
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
+	if _err != nil {
+		return _err
+	}
+	defer _reply.Recycle()
+
+	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _err
+	}
+
+	return nil
+}
+
 func (p *InputManagerProxy) SetPointerIcon(
 	ctx context.Context,
 	icon view.PointerIcon,
@@ -1424,14 +1800,14 @@ func (p *InputManagerProxy) SetPointerIcon(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(pointerId)
-	binder.WriteBinderToParcel(ctx, _data, inputToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "setPointerIcon")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetPointerIcon)
 	if _err != nil {
-		_code = TransactionIInputManagerSetPointerIcon
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetPointerIcon, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1455,15 +1831,15 @@ func (p *InputManagerProxy) RequestPointerCapture(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
 	_data.WriteBool(enabled)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "requestPointerCapture")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRequestPointerCapture)
 	if _err != nil {
-		_code = TransactionIInputManagerRequestPointerCapture
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRequestPointerCapture, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1476,16 +1852,16 @@ func (p *InputManagerProxy) MonitorGestureInput(
 	var _result view.InputMonitor
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 	_data.WriteString16(name)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "monitorGestureInput")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerMonitorGestureInput)
 	if _err != nil {
-		_code = TransactionIInputManagerMonitorGestureInput
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerMonitorGestureInput, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1517,12 +1893,12 @@ func (p *InputManagerProxy) AddPortAssociation(
 	_data.WriteString16(inputPort)
 	_data.WriteInt32(displayPort)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "addPortAssociation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerAddPortAssociation)
 	if _err != nil {
-		_code = TransactionIInputManagerAddPortAssociation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerAddPortAssociation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1543,40 +1919,12 @@ func (p *InputManagerProxy) RemovePortAssociation(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputPort)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "removePortAssociation")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemovePortAssociation)
 	if _err != nil {
-		_code = TransactionIInputManagerRemovePortAssociation
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRemovePortAssociation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) AddUniqueIdAssociationByDescriptor(
-	ctx context.Context,
-	inputDeviceDescriptor string,
-	displayUniqueId string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputDeviceDescriptor)
-	_data.WriteString16(displayUniqueId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "addUniqueIdAssociationByDescriptor")
-	if _err != nil {
-		_code = TransactionIInputManagerAddUniqueIdAssociationByDescriptor
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1589,33 +1937,7 @@ func (p *InputManagerProxy) AddUniqueIdAssociationByDescriptor(
 	return nil
 }
 
-func (p *InputManagerProxy) RemoveUniqueIdAssociationByDescriptor(
-	ctx context.Context,
-	inputDeviceDescriptor string,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteString16(inputDeviceDescriptor)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "removeUniqueIdAssociationByDescriptor")
-	if _err != nil {
-		_code = TransactionIInputManagerRemoveUniqueIdAssociationByDescriptor
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) AddUniqueIdAssociationByPort(
+func (p *InputManagerProxy) AddUniqueIdAssociation(
 	ctx context.Context,
 	inputPort string,
 	displayUniqueId string,
@@ -1625,12 +1947,12 @@ func (p *InputManagerProxy) AddUniqueIdAssociationByPort(
 	_data.WriteString16(inputPort)
 	_data.WriteString16(displayUniqueId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "addUniqueIdAssociationByPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerAddUniqueIdAssociation)
 	if _err != nil {
-		_code = TransactionIInputManagerAddUniqueIdAssociationByPort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerAddUniqueIdAssociation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1643,7 +1965,7 @@ func (p *InputManagerProxy) AddUniqueIdAssociationByPort(
 	return nil
 }
 
-func (p *InputManagerProxy) RemoveUniqueIdAssociationByPort(
+func (p *InputManagerProxy) RemoveUniqueIdAssociation(
 	ctx context.Context,
 	inputPort string,
 ) error {
@@ -1651,12 +1973,12 @@ func (p *InputManagerProxy) RemoveUniqueIdAssociationByPort(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputPort)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "removeUniqueIdAssociationByPort")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRemoveUniqueIdAssociation)
 	if _err != nil {
-		_code = TransactionIInputManagerRemoveUniqueIdAssociationByPort
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRemoveUniqueIdAssociation, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1678,12 +2000,12 @@ func (p *InputManagerProxy) GetSensorList(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getSensorList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetSensorList)
 	if _err != nil {
-		_code = TransactionIInputManagerGetSensorList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetSensorList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1701,6 +2023,9 @@ func (p *InputManagerProxy) GetSensorList(
 	if _count >= 0 {
 		_result = make([]InputSensorInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1716,14 +2041,14 @@ func (p *InputManagerProxy) RegisterSensorListener(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerSensorListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterSensorListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterSensorListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterSensorListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1746,14 +2071,14 @@ func (p *InputManagerProxy) UnregisterSensorListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterSensorListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterSensorListener)
 	if _err != nil {
-		_code = TransactionIInputManagerUnregisterSensorListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerUnregisterSensorListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1781,12 +2106,12 @@ func (p *InputManagerProxy) EnableSensor(
 	_data.WriteInt32(samplingPeriodUs)
 	_data.WriteInt32(maxBatchReportLatencyUs)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "enableSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerEnableSensor)
 	if _err != nil {
-		_code = TransactionIInputManagerEnableSensor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerEnableSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1813,12 +2138,12 @@ func (p *InputManagerProxy) DisableSensor(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "disableSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerDisableSensor)
 	if _err != nil {
-		_code = TransactionIInputManagerDisableSensor
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerDisableSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1842,12 +2167,12 @@ func (p *InputManagerProxy) FlushSensor(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(sensorType)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "flushSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerFlushSensor)
 	if _err != nil {
-		_code = TransactionIInputManagerFlushSensor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerFlushSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1873,12 +2198,12 @@ func (p *InputManagerProxy) GetLights(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getLights")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetLights)
 	if _err != nil {
-		_code = TransactionIInputManagerGetLights
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetLights, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1896,6 +2221,9 @@ func (p *InputManagerProxy) GetLights(
 	if _count >= 0 {
 		_result = make([]lights.Light, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -1915,12 +2243,12 @@ func (p *InputManagerProxy) GetLightState(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(lightId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getLightState")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetLightState)
 	if _err != nil {
-		_code = TransactionIInputManagerGetLightState
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetLightState, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1965,19 +2293,20 @@ func (p *InputManagerProxy) SetLightStates(
 	} else {
 		_data.WriteInt32(int32(len(states)))
 		for _, _item := range states {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "setLightStates")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerSetLightStates)
 	if _err != nil {
-		_code = TransactionIInputManagerSetLightStates
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerSetLightStates, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2000,14 +2329,14 @@ func (p *InputManagerProxy) OpenLightSession(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteString16(opPkg)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "openLightSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerOpenLightSession)
 	if _err != nil {
-		_code = TransactionIInputManagerOpenLightSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerOpenLightSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2028,14 +2357,14 @@ func (p *InputManagerProxy) CloseLightSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, token, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "closeLightSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerCloseLightSession)
 	if _err != nil {
-		_code = TransactionIInputManagerCloseLightSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerCloseLightSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2054,12 +2383,12 @@ func (p *InputManagerProxy) CancelCurrentTouch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "cancelCurrentTouch")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerCancelCurrentTouch)
 	if _err != nil {
-		_code = TransactionIInputManagerCancelCurrentTouch
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerCancelCurrentTouch, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2080,14 +2409,14 @@ func (p *InputManagerProxy) RegisterBatteryListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerBatteryListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterBatteryListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterBatteryListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterBatteryListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2108,14 +2437,14 @@ func (p *InputManagerProxy) UnregisterBatteryListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterBatteryListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterBatteryListener)
 	if _err != nil {
-		_code = TransactionIInputManagerUnregisterBatteryListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerUnregisterBatteryListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2137,12 +2466,12 @@ func (p *InputManagerProxy) GetInputDeviceBluetoothAddress(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getInputDeviceBluetoothAddress")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetInputDeviceBluetoothAddress)
 	if _err != nil {
-		_code = TransactionIInputManagerGetInputDeviceBluetoothAddress
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetInputDeviceBluetoothAddress, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2165,14 +2494,14 @@ func (p *InputManagerProxy) PilferPointers(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, inputChannelToken, p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "pilferPointers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerPilferPointers)
 	if _err != nil {
-		_code = TransactionIInputManagerPilferPointers
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerPilferPointers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2191,14 +2520,14 @@ func (p *InputManagerProxy) RegisterKeyboardBacklightListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerKeyboardBacklightListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterKeyboardBacklightListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterKeyboardBacklightListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterKeyboardBacklightListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2217,14 +2546,14 @@ func (p *InputManagerProxy) UnregisterKeyboardBacklightListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterKeyboardBacklightListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterKeyboardBacklightListener)
 	if _err != nil {
-		_code = TransactionIInputManagerUnregisterKeyboardBacklightListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerUnregisterKeyboardBacklightListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2246,12 +2575,12 @@ func (p *InputManagerProxy) GetHostUsiVersionFromDisplayConfig(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(displayId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getHostUsiVersionFromDisplayConfig")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerGetHostUsiVersionFromDisplayConfig)
 	if _err != nil {
-		_code = TransactionIInputManagerGetHostUsiVersionFromDisplayConfig
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerGetHostUsiVersionFromDisplayConfig, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2279,14 +2608,14 @@ func (p *InputManagerProxy) RegisterStickyModifierStateListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerStickyModifierStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerRegisterStickyModifierStateListener)
 	if _err != nil {
-		_code = TransactionIInputManagerRegisterStickyModifierStateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerRegisterStickyModifierStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2305,358 +2634,14 @@ func (p *InputManagerProxy) UnregisterStickyModifierStateListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterStickyModifierStateListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIInputManager, MethodIInputManagerUnregisterStickyModifierStateListener)
 	if _err != nil {
-		_code = TransactionIInputManagerUnregisterStickyModifierStateListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIInputManager, MethodIInputManagerUnregisterStickyModifierStateListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) GetKeyGlyphMap(
-	ctx context.Context,
-	deviceId int32,
-) (KeyGlyphMap, error) {
-	var _result KeyGlyphMap
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(deviceId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getKeyGlyphMap")
-	if _err != nil {
-		_code = TransactionIInputManagerGetKeyGlyphMap
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
-	return _result, nil
-}
-
-func (p *InputManagerProxy) RegisterKeyGestureEventListener(
-	ctx context.Context,
-	listener IKeyGestureEventListener,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerKeyGestureEventListener")
-	if _err != nil {
-		_code = TransactionIInputManagerRegisterKeyGestureEventListener
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) UnregisterKeyGestureEventListener(
-	ctx context.Context,
-	listener IKeyGestureEventListener,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterKeyGestureEventListener")
-	if _err != nil {
-		_code = TransactionIInputManagerUnregisterKeyGestureEventListener
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) RegisterKeyGestureHandler(
-	ctx context.Context,
-	handler IKeyGestureHandler,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "registerKeyGestureHandler")
-	if _err != nil {
-		_code = TransactionIInputManagerRegisterKeyGestureHandler
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) UnregisterKeyGestureHandler(
-	ctx context.Context,
-	handler IKeyGestureHandler,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	binder.WriteBinderToParcel(ctx, _data, handler.AsBinder(), p.remote.Transport())
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "unregisterKeyGestureHandler")
-	if _err != nil {
-		_code = TransactionIInputManagerUnregisterKeyGestureHandler
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) AddCustomInputGesture(
-	ctx context.Context,
-	data AidlInputGestureData,
-) (int32, error) {
-	var _result int32
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "addCustomInputGesture")
-	if _err != nil {
-		_code = TransactionIInputManagerAddCustomInputGesture
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *InputManagerProxy) RemoveCustomInputGesture(
-	ctx context.Context,
-	data AidlInputGestureData,
-) (int32, error) {
-	var _result int32
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "removeCustomInputGesture")
-	if _err != nil {
-		_code = TransactionIInputManagerRemoveCustomInputGesture
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
-func (p *InputManagerProxy) RemoveAllCustomInputGestures(
-	ctx context.Context,
-	tag int32,
-) error {
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(tag)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "removeAllCustomInputGestures")
-	if _err != nil {
-		_code = TransactionIInputManagerRemoveAllCustomInputGestures
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-
-	return nil
-}
-
-func (p *InputManagerProxy) GetCustomInputGestures(
-	ctx context.Context,
-	tag int32,
-) ([]AidlInputGestureData, error) {
-	var _result []AidlInputGestureData
-	_identity := p.remote.Identity()
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(tag)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getCustomInputGestures")
-	if _err != nil {
-		_code = TransactionIInputManagerGetCustomInputGestures
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]AidlInputGestureData, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *InputManagerProxy) GetAppLaunchBookmarks(
-	ctx context.Context,
-) ([]AidlInputGestureData, error) {
-	var _result []AidlInputGestureData
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "getAppLaunchBookmarks")
-	if _err != nil {
-		_code = TransactionIInputManagerGetAppLaunchBookmarks
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_count, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-
-	if _count >= 0 {
-		_result = make([]AidlInputGestureData, _count)
-		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	return _result, nil
-}
-
-func (p *InputManagerProxy) ResetLockedModifierState(
-	ctx context.Context,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIInputManager)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIInputManager, "resetLockedModifierState")
-	if _err != nil {
-		_code = TransactionIInputManagerResetLockedModifierState
-	}
-
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2676,6 +2661,10 @@ type InputManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*InputManagerStub)(nil)
+
+func (s *InputManagerStub) Descriptor() string {
+	return DescriptorIInputManager
+}
 
 func (s *InputManagerStub) OnTransaction(
 	ctx context.Context,
@@ -2729,6 +2718,23 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
+		return _reply, nil
+	case TransactionIInputManagerIsInputDeviceEnabled:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsInputDeviceEnabled(ctx, _arg_deviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerEnableInputDevice:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3017,6 +3023,32 @@ func (s *InputManagerStub) OnTransaction(
 		// TODO: array/list return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
+	case TransactionIInputManagerGetKeyboardLayoutsForInputDevice:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_identifier InputDeviceIdentifier
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetKeyboardLayoutsForInputDevice(ctx, _arg_identifier)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayout:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -3036,6 +3068,141 @@ func (s *InputManagerStub) OnTransaction(
 		if _err := _result.MarshalParcel(_reply); _err != nil {
 			return nil, _err
 		}
+		return _reply, nil
+	case TransactionIInputManagerGetCurrentKeyboardLayoutForInputDevice:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_identifier InputDeviceIdentifier
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetCurrentKeyboardLayoutForInputDevice(ctx, _arg_identifier)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIInputManagerSetCurrentKeyboardLayoutForInputDevice:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_identifier InputDeviceIdentifier
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_keyboardLayoutDescriptor, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCurrentKeyboardLayoutForInputDevice(ctx, _arg_identifier, _arg_keyboardLayoutDescriptor)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIInputManagerGetEnabledKeyboardLayoutsForInputDevice:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_identifier InputDeviceIdentifier
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetEnabledKeyboardLayoutsForInputDevice(ctx, _arg_identifier)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIInputManagerAddKeyboardLayoutForInputDevice:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_identifier InputDeviceIdentifier
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_keyboardLayoutDescriptor, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddKeyboardLayoutForInputDevice(ctx, _arg_identifier, _arg_keyboardLayoutDescriptor)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIInputManagerRemoveKeyboardLayoutForInputDevice:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_identifier InputDeviceIdentifier
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_keyboardLayoutDescriptor, _err := _data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveKeyboardLayoutForInputDevice(ctx, _arg_identifier, _arg_keyboardLayoutDescriptor)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayoutForInputDevice:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3478,6 +3645,46 @@ func (s *InputManagerStub) OnTransaction(
 			return nil, _err
 		}
 		return _reply, nil
+	case TransactionIInputManagerSetPointerIconType:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_typeId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPointerIconType(ctx, _arg_typeId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIInputManagerSetCustomPointerIcon:
+		if _, _err := _data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_icon view.PointerIcon
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetCustomPointerIcon(ctx, _arg_icon)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
 	case TransactionIInputManagerSetPointerIcon:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
@@ -3595,43 +3802,7 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIInputManagerAddUniqueIdAssociationByDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_displayUniqueId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.AddUniqueIdAssociationByDescriptor(ctx, _arg_inputDeviceDescriptor, _arg_displayUniqueId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerRemoveUniqueIdAssociationByDescriptor:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.RemoveUniqueIdAssociationByDescriptor(ctx, _arg_inputDeviceDescriptor)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerAddUniqueIdAssociationByPort:
+	case TransactionIInputManagerAddUniqueIdAssociation:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -3643,7 +3814,7 @@ func (s *InputManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.AddUniqueIdAssociationByPort(ctx, _arg_inputPort, _arg_displayUniqueId)
+		_err = s.Impl.AddUniqueIdAssociation(ctx, _arg_inputPort, _arg_displayUniqueId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -3651,7 +3822,7 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIInputManagerRemoveUniqueIdAssociationByPort:
+	case TransactionIInputManagerRemoveUniqueIdAssociation:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
@@ -3659,7 +3830,7 @@ func (s *InputManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.RemoveUniqueIdAssociationByPort(ctx, _arg_inputPort)
+		_err = s.Impl.RemoveUniqueIdAssociation(ctx, _arg_inputPort)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4057,208 +4228,6 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIInputManagerGetKeyGlyphMap:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_deviceId, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetKeyGlyphMap(ctx, _arg_deviceId)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
-		return _reply, nil
-	case TransactionIInputManagerRegisterKeyGestureEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener IKeyGestureEventListener
-		_ = _arg_listener
-		_err := s.Impl.RegisterKeyGestureEventListener(ctx, _arg_listener)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerUnregisterKeyGestureEventListener:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener IKeyGestureEventListener
-		_ = _arg_listener
-		_err := s.Impl.UnregisterKeyGestureEventListener(ctx, _arg_listener)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerRegisterKeyGestureHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_handler IKeyGestureHandler
-		_ = _arg_handler
-		_err := s.Impl.RegisterKeyGestureHandler(ctx, _arg_handler)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerUnregisterKeyGestureHandler:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_handler IKeyGestureHandler
-		_ = _arg_handler
-		_err := s.Impl.UnregisterKeyGestureHandler(ctx, _arg_handler)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerAddCustomInputGesture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		var _arg_data AidlInputGestureData
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.AddCustomInputGesture(ctx, _arg_data)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIInputManagerRemoveCustomInputGesture:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		var _arg_data AidlInputGestureData
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_result, _err := s.Impl.RemoveCustomInputGesture(ctx, _arg_data)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(_result)
-		return _reply, nil
-	case TransactionIInputManagerRemoveAllCustomInputGestures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_arg_tag, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.RemoveAllCustomInputGestures(ctx, _arg_tag)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIInputManagerGetCustomInputGestures:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		if _, _err := _data.ReadInt32(); _err != nil {
-			return nil, _err
-		}
-		_arg_tag, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetCustomInputGestures(ctx, _arg_tag)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIInputManagerGetAppLaunchBookmarks:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_result, _err := s.Impl.GetAppLaunchBookmarks(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		// TODO: array/list return marshaling not yet supported in stubs
-		_ = _result
-		return _reply, nil
-	case TransactionIInputManagerResetLockedModifierState:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_err := s.Impl.ResetLockedModifierState(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -4271,6 +4240,7 @@ type IInputManagerServer interface {
 	GetVelocityTrackerStrategy(ctx context.Context) (string, error)
 	GetInputDevice(ctx context.Context, deviceId int32) (view.InputDevice, error)
 	GetInputDeviceIds(ctx context.Context) ([]int32, error)
+	IsInputDeviceEnabled(ctx context.Context, deviceId int32) (bool, error)
 	EnableInputDevice(ctx context.Context, deviceId int32) error
 	DisableInputDevice(ctx context.Context, deviceId int32) error
 	HasKeys(ctx context.Context, deviceId int32, sourceMask int32, keyCodes []int32, keyExists []bool) (bool, error)
@@ -4284,7 +4254,13 @@ type IInputManagerServer interface {
 	GetTouchCalibrationForInputDevice(ctx context.Context, inputDeviceDescriptor string, rotation int32) (TouchCalibration, error)
 	SetTouchCalibrationForInputDevice(ctx context.Context, inputDeviceDescriptor string, rotation int32, calibration TouchCalibration) error
 	GetKeyboardLayouts(ctx context.Context) ([]KeyboardLayout, error)
+	GetKeyboardLayoutsForInputDevice(ctx context.Context, identifier InputDeviceIdentifier) ([]KeyboardLayout, error)
 	GetKeyboardLayout(ctx context.Context, keyboardLayoutDescriptor string) (KeyboardLayout, error)
+	GetCurrentKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier) (string, error)
+	SetCurrentKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, keyboardLayoutDescriptor string) error
+	GetEnabledKeyboardLayoutsForInputDevice(ctx context.Context, identifier InputDeviceIdentifier) ([]string, error)
+	AddKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, keyboardLayoutDescriptor string) error
+	RemoveKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, keyboardLayoutDescriptor string) error
 	GetKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype) (KeyboardLayoutSelectionResult, error)
 	SetKeyboardLayoutForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype, keyboardLayoutDescriptor string) error
 	GetKeyboardLayoutListForInputDevice(ctx context.Context, identifier InputDeviceIdentifier, imeInfo inputmethod.InputMethodInfo, imeSubtype inputmethod.InputMethodSubtype) ([]KeyboardLayout, error)
@@ -4303,15 +4279,15 @@ type IInputManagerServer interface {
 	RegisterVibratorStateListener(ctx context.Context, deviceId int32, listener os.IVibratorStateListener) (bool, error)
 	UnregisterVibratorStateListener(ctx context.Context, deviceId int32, listener os.IVibratorStateListener) (bool, error)
 	GetBatteryState(ctx context.Context, deviceId int32) (IInputDeviceBatteryState, error)
+	SetPointerIconType(ctx context.Context, typeId int32) error
+	SetCustomPointerIcon(ctx context.Context, icon view.PointerIcon) error
 	SetPointerIcon(ctx context.Context, icon view.PointerIcon, displayId int32, deviceId int32, pointerId int32, inputToken binder.IBinder) (bool, error)
 	RequestPointerCapture(ctx context.Context, inputChannelToken binder.IBinder, enabled bool) error
 	MonitorGestureInput(ctx context.Context, token binder.IBinder, name string, displayId int32) (view.InputMonitor, error)
 	AddPortAssociation(ctx context.Context, inputPort string, displayPort int32) error
 	RemovePortAssociation(ctx context.Context, inputPort string) error
-	AddUniqueIdAssociationByDescriptor(ctx context.Context, inputDeviceDescriptor string, displayUniqueId string) error
-	RemoveUniqueIdAssociationByDescriptor(ctx context.Context, inputDeviceDescriptor string) error
-	AddUniqueIdAssociationByPort(ctx context.Context, inputPort string, displayUniqueId string) error
-	RemoveUniqueIdAssociationByPort(ctx context.Context, inputPort string) error
+	AddUniqueIdAssociation(ctx context.Context, inputPort string, displayUniqueId string) error
+	RemoveUniqueIdAssociation(ctx context.Context, inputPort string) error
 	GetSensorList(ctx context.Context, deviceId int32) ([]InputSensorInfo, error)
 	RegisterSensorListener(ctx context.Context, listener IInputSensorEventListener) (bool, error)
 	UnregisterSensorListener(ctx context.Context, listener IInputSensorEventListener) error
@@ -4333,17 +4309,6 @@ type IInputManagerServer interface {
 	GetHostUsiVersionFromDisplayConfig(ctx context.Context, displayId int32) (HostUsiVersion, error)
 	RegisterStickyModifierStateListener(ctx context.Context, listener IStickyModifierStateListener) error
 	UnregisterStickyModifierStateListener(ctx context.Context, listener IStickyModifierStateListener) error
-	GetKeyGlyphMap(ctx context.Context, deviceId int32) (KeyGlyphMap, error)
-	RegisterKeyGestureEventListener(ctx context.Context, listener IKeyGestureEventListener) error
-	UnregisterKeyGestureEventListener(ctx context.Context, listener IKeyGestureEventListener) error
-	RegisterKeyGestureHandler(ctx context.Context, handler IKeyGestureHandler) error
-	UnregisterKeyGestureHandler(ctx context.Context, handler IKeyGestureHandler) error
-	AddCustomInputGesture(ctx context.Context, data AidlInputGestureData) (int32, error)
-	RemoveCustomInputGesture(ctx context.Context, data AidlInputGestureData) (int32, error)
-	RemoveAllCustomInputGestures(ctx context.Context, tag int32) error
-	GetCustomInputGestures(ctx context.Context, tag int32) ([]AidlInputGestureData, error)
-	GetAppLaunchBookmarks(ctx context.Context) ([]AidlInputGestureData, error)
-	ResetLockedModifierState(ctx context.Context) error
 }
 
 type inputManagerStubWrapper struct {
@@ -4372,6 +4337,13 @@ func (w *inputManagerStubWrapper) GetInputDeviceIds(
 	ctx context.Context,
 ) ([]int32, error) {
 	return w.impl.GetInputDeviceIds(ctx)
+}
+
+func (w *inputManagerStubWrapper) IsInputDeviceEnabled(
+	ctx context.Context,
+	deviceId int32,
+) (bool, error) {
+	return w.impl.IsInputDeviceEnabled(ctx, deviceId)
 }
 
 func (w *inputManagerStubWrapper) EnableInputDevice(
@@ -4473,11 +4445,56 @@ func (w *inputManagerStubWrapper) GetKeyboardLayouts(
 	return w.impl.GetKeyboardLayouts(ctx)
 }
 
+func (w *inputManagerStubWrapper) GetKeyboardLayoutsForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+) ([]KeyboardLayout, error) {
+	return w.impl.GetKeyboardLayoutsForInputDevice(ctx, identifier)
+}
+
 func (w *inputManagerStubWrapper) GetKeyboardLayout(
 	ctx context.Context,
 	keyboardLayoutDescriptor string,
 ) (KeyboardLayout, error) {
 	return w.impl.GetKeyboardLayout(ctx, keyboardLayoutDescriptor)
+}
+
+func (w *inputManagerStubWrapper) GetCurrentKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+) (string, error) {
+	return w.impl.GetCurrentKeyboardLayoutForInputDevice(ctx, identifier)
+}
+
+func (w *inputManagerStubWrapper) SetCurrentKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+	keyboardLayoutDescriptor string,
+) error {
+	return w.impl.SetCurrentKeyboardLayoutForInputDevice(ctx, identifier, keyboardLayoutDescriptor)
+}
+
+func (w *inputManagerStubWrapper) GetEnabledKeyboardLayoutsForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+) ([]string, error) {
+	return w.impl.GetEnabledKeyboardLayoutsForInputDevice(ctx, identifier)
+}
+
+func (w *inputManagerStubWrapper) AddKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+	keyboardLayoutDescriptor string,
+) error {
+	return w.impl.AddKeyboardLayoutForInputDevice(ctx, identifier, keyboardLayoutDescriptor)
+}
+
+func (w *inputManagerStubWrapper) RemoveKeyboardLayoutForInputDevice(
+	ctx context.Context,
+	identifier InputDeviceIdentifier,
+	keyboardLayoutDescriptor string,
+) error {
+	return w.impl.RemoveKeyboardLayoutForInputDevice(ctx, identifier, keyboardLayoutDescriptor)
 }
 
 func (w *inputManagerStubWrapper) GetKeyboardLayoutForInputDevice(
@@ -4617,6 +4634,20 @@ func (w *inputManagerStubWrapper) GetBatteryState(
 	return w.impl.GetBatteryState(ctx, deviceId)
 }
 
+func (w *inputManagerStubWrapper) SetPointerIconType(
+	ctx context.Context,
+	typeId int32,
+) error {
+	return w.impl.SetPointerIconType(ctx, typeId)
+}
+
+func (w *inputManagerStubWrapper) SetCustomPointerIcon(
+	ctx context.Context,
+	icon view.PointerIcon,
+) error {
+	return w.impl.SetCustomPointerIcon(ctx, icon)
+}
+
 func (w *inputManagerStubWrapper) SetPointerIcon(
 	ctx context.Context,
 	icon view.PointerIcon,
@@ -4660,34 +4691,19 @@ func (w *inputManagerStubWrapper) RemovePortAssociation(
 	return w.impl.RemovePortAssociation(ctx, inputPort)
 }
 
-func (w *inputManagerStubWrapper) AddUniqueIdAssociationByDescriptor(
-	ctx context.Context,
-	inputDeviceDescriptor string,
-	displayUniqueId string,
-) error {
-	return w.impl.AddUniqueIdAssociationByDescriptor(ctx, inputDeviceDescriptor, displayUniqueId)
-}
-
-func (w *inputManagerStubWrapper) RemoveUniqueIdAssociationByDescriptor(
-	ctx context.Context,
-	inputDeviceDescriptor string,
-) error {
-	return w.impl.RemoveUniqueIdAssociationByDescriptor(ctx, inputDeviceDescriptor)
-}
-
-func (w *inputManagerStubWrapper) AddUniqueIdAssociationByPort(
+func (w *inputManagerStubWrapper) AddUniqueIdAssociation(
 	ctx context.Context,
 	inputPort string,
 	displayUniqueId string,
 ) error {
-	return w.impl.AddUniqueIdAssociationByPort(ctx, inputPort, displayUniqueId)
+	return w.impl.AddUniqueIdAssociation(ctx, inputPort, displayUniqueId)
 }
 
-func (w *inputManagerStubWrapper) RemoveUniqueIdAssociationByPort(
+func (w *inputManagerStubWrapper) RemoveUniqueIdAssociation(
 	ctx context.Context,
 	inputPort string,
 ) error {
-	return w.impl.RemoveUniqueIdAssociationByPort(ctx, inputPort)
+	return w.impl.RemoveUniqueIdAssociation(ctx, inputPort)
 }
 
 func (w *inputManagerStubWrapper) GetSensorList(
@@ -4848,81 +4864,6 @@ func (w *inputManagerStubWrapper) UnregisterStickyModifierStateListener(
 	listener IStickyModifierStateListener,
 ) error {
 	return w.impl.UnregisterStickyModifierStateListener(ctx, listener)
-}
-
-func (w *inputManagerStubWrapper) GetKeyGlyphMap(
-	ctx context.Context,
-	deviceId int32,
-) (KeyGlyphMap, error) {
-	return w.impl.GetKeyGlyphMap(ctx, deviceId)
-}
-
-func (w *inputManagerStubWrapper) RegisterKeyGestureEventListener(
-	ctx context.Context,
-	listener IKeyGestureEventListener,
-) error {
-	return w.impl.RegisterKeyGestureEventListener(ctx, listener)
-}
-
-func (w *inputManagerStubWrapper) UnregisterKeyGestureEventListener(
-	ctx context.Context,
-	listener IKeyGestureEventListener,
-) error {
-	return w.impl.UnregisterKeyGestureEventListener(ctx, listener)
-}
-
-func (w *inputManagerStubWrapper) RegisterKeyGestureHandler(
-	ctx context.Context,
-	handler IKeyGestureHandler,
-) error {
-	return w.impl.RegisterKeyGestureHandler(ctx, handler)
-}
-
-func (w *inputManagerStubWrapper) UnregisterKeyGestureHandler(
-	ctx context.Context,
-	handler IKeyGestureHandler,
-) error {
-	return w.impl.UnregisterKeyGestureHandler(ctx, handler)
-}
-
-func (w *inputManagerStubWrapper) AddCustomInputGesture(
-	ctx context.Context,
-	data AidlInputGestureData,
-) (int32, error) {
-	return w.impl.AddCustomInputGesture(ctx, data)
-}
-
-func (w *inputManagerStubWrapper) RemoveCustomInputGesture(
-	ctx context.Context,
-	data AidlInputGestureData,
-) (int32, error) {
-	return w.impl.RemoveCustomInputGesture(ctx, data)
-}
-
-func (w *inputManagerStubWrapper) RemoveAllCustomInputGestures(
-	ctx context.Context,
-	tag int32,
-) error {
-	return w.impl.RemoveAllCustomInputGestures(ctx, tag)
-}
-
-func (w *inputManagerStubWrapper) GetCustomInputGestures(
-	ctx context.Context,
-	tag int32,
-) ([]AidlInputGestureData, error) {
-	return w.impl.GetCustomInputGestures(ctx, tag)
-}
-
-func (w *inputManagerStubWrapper) GetAppLaunchBookmarks(
-	ctx context.Context,
-) ([]AidlInputGestureData, error) {
-	return w.impl.GetAppLaunchBookmarks(ctx)
-}
-
-func (w *inputManagerStubWrapper) ResetLockedModifierState(
-	ctx context.Context,
-) error {
-	return w.impl.ResetLockedModifierState(ctx)
 }
 
 var _ IInputManager = (*inputManagerStubWrapper)(nil)

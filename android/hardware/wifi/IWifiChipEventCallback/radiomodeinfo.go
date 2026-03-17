@@ -26,6 +26,7 @@ func (s *RadioModeInfo) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.IfaceInfos)))
 		for _, _item := range s.IfaceInfos {
+			p.WriteInt32(1)
 			if _err := _item.MarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -63,6 +64,9 @@ func (s *RadioModeInfo) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.IfaceInfos = make([]IfaceInfo, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _, _err = p.ReadInt32(); _err != nil {
+				return _err
+			}
 			if _err = s.IfaceInfos[_i].UnmarshalParcel(p); _err != nil {
 				return _err
 			}

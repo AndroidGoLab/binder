@@ -16,23 +16,27 @@ const (
 	TransactionIEventQueueCallbackOnEvent = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIEventQueueCallbackOnEvent = "onEvent"
+)
+
 type IEventQueueCallback interface {
 	AsBinder() binder.IBinder
 	OnEvent(ctx context.Context, event sensors.Event) error
 }
 
 type EventQueueCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewEventQueueCallbackProxy(
 	remote binder.IBinder,
 ) *EventQueueCallbackProxy {
-	return &EventQueueCallbackProxy{remote: remote}
+	return &EventQueueCallbackProxy{Remote: remote}
 }
 
 func (p *EventQueueCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IEventQueueCallback = (*EventQueueCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *EventQueueCallbackProxy) OnEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIEventQueueCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIEventQueueCallback, MethodIEventQueueCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionIEventQueueCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIEventQueueCallback, MethodIEventQueueCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type EventQueueCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*EventQueueCallbackStub)(nil)
+
+func (s *EventQueueCallbackStub) Descriptor() string {
+	return DescriptorIEventQueueCallback
+}
 
 func (s *EventQueueCallbackStub) OnTransaction(
 	ctx context.Context,

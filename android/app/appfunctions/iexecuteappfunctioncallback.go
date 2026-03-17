@@ -16,6 +16,11 @@ const (
 	TransactionIExecuteAppFunctionCallbackOnError   = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIExecuteAppFunctionCallbackOnSuccess = "onSuccess"
+	MethodIExecuteAppFunctionCallbackOnError   = "onError"
+)
+
 type IExecuteAppFunctionCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, result ExecuteAppFunctionResponse) error
@@ -23,17 +28,17 @@ type IExecuteAppFunctionCallback interface {
 }
 
 type ExecuteAppFunctionCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewExecuteAppFunctionCallbackProxy(
 	remote binder.IBinder,
 ) *ExecuteAppFunctionCallbackProxy {
-	return &ExecuteAppFunctionCallbackProxy{remote: remote}
+	return &ExecuteAppFunctionCallbackProxy{Remote: remote}
 }
 
 func (p *ExecuteAppFunctionCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IExecuteAppFunctionCallback = (*ExecuteAppFunctionCallbackProxy)(nil)
@@ -49,12 +54,12 @@ func (p *ExecuteAppFunctionCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExecuteAppFunctionCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExecuteAppFunctionCallback, MethodIExecuteAppFunctionCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIExecuteAppFunctionCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExecuteAppFunctionCallback, MethodIExecuteAppFunctionCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +74,12 @@ func (p *ExecuteAppFunctionCallbackProxy) OnError(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIExecuteAppFunctionCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIExecuteAppFunctionCallback, MethodIExecuteAppFunctionCallbackOnError)
 	if _err != nil {
-		_code = TransactionIExecuteAppFunctionCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIExecuteAppFunctionCallback, MethodIExecuteAppFunctionCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +90,10 @@ type ExecuteAppFunctionCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ExecuteAppFunctionCallbackStub)(nil)
+
+func (s *ExecuteAppFunctionCallbackStub) Descriptor() string {
+	return DescriptorIExecuteAppFunctionCallback
+}
 
 func (s *ExecuteAppFunctionCallbackStub) OnTransaction(
 	ctx context.Context,

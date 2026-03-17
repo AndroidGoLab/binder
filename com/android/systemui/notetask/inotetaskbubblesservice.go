@@ -19,24 +19,29 @@ const (
 	TransactionINoteTaskBubblesServiceShowOrHideAppBubble = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINoteTaskBubblesServiceAreBubblesAvailable = "areBubblesAvailable"
+	MethodINoteTaskBubblesServiceShowOrHideAppBubble = "showOrHideAppBubble"
+)
+
 type INoteTaskBubblesService interface {
 	AsBinder() binder.IBinder
 	AreBubblesAvailable(ctx context.Context) (bool, error)
-	ShowOrHideAppBubble(ctx context.Context, intent content.Intent, userHandle os.UserHandle, icon drawable.Icon, bubbleExpandBehavior NoteTaskBubbleExpandBehavior) error
+	ShowOrHideAppBubble(ctx context.Context, intent content.Intent, userHandle os.UserHandle, icon drawable.Icon) error
 }
 
 type NoteTaskBubblesServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNoteTaskBubblesServiceProxy(
 	remote binder.IBinder,
 ) *NoteTaskBubblesServiceProxy {
-	return &NoteTaskBubblesServiceProxy{remote: remote}
+	return &NoteTaskBubblesServiceProxy{Remote: remote}
 }
 
 func (p *NoteTaskBubblesServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INoteTaskBubblesService = (*NoteTaskBubblesServiceProxy)(nil)
@@ -48,12 +53,12 @@ func (p *NoteTaskBubblesServiceProxy) AreBubblesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINoteTaskBubblesService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINoteTaskBubblesService, "areBubblesAvailable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINoteTaskBubblesService, MethodINoteTaskBubblesServiceAreBubblesAvailable)
 	if _err != nil {
-		_code = TransactionINoteTaskBubblesServiceAreBubblesAvailable
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorINoteTaskBubblesService, MethodINoteTaskBubblesServiceAreBubblesAvailable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,7 +80,6 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 	intent content.Intent,
 	userHandle os.UserHandle,
 	icon drawable.Icon,
-	bubbleExpandBehavior NoteTaskBubbleExpandBehavior,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINoteTaskBubblesService)
@@ -91,17 +95,13 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := bubbleExpandBehavior.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINoteTaskBubblesService, "showOrHideAppBubble")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINoteTaskBubblesService, MethodINoteTaskBubblesServiceShowOrHideAppBubble)
 	if _err != nil {
-		_code = TransactionINoteTaskBubblesServiceShowOrHideAppBubble
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINoteTaskBubblesService, MethodINoteTaskBubblesServiceShowOrHideAppBubble, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,6 +121,10 @@ type NoteTaskBubblesServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NoteTaskBubblesServiceStub)(nil)
+
+func (s *NoteTaskBubblesServiceStub) Descriptor() string {
+	return DescriptorINoteTaskBubblesService
+}
 
 func (s *NoteTaskBubblesServiceStub) OnTransaction(
 	ctx context.Context,
@@ -181,19 +185,7 @@ func (s *NoteTaskBubblesServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_bubbleExpandBehavior NoteTaskBubbleExpandBehavior
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_bubbleExpandBehavior.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.ShowOrHideAppBubble(ctx, _arg_intent, _arg_userHandle, _arg_icon, _arg_bubbleExpandBehavior)
+		_err := s.Impl.ShowOrHideAppBubble(ctx, _arg_intent, _arg_userHandle, _arg_icon)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -211,7 +203,7 @@ func (s *NoteTaskBubblesServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type INoteTaskBubblesServiceServer interface {
 	AreBubblesAvailable(ctx context.Context) (bool, error)
-	ShowOrHideAppBubble(ctx context.Context, intent content.Intent, userHandle os.UserHandle, icon drawable.Icon, bubbleExpandBehavior NoteTaskBubbleExpandBehavior) error
+	ShowOrHideAppBubble(ctx context.Context, intent content.Intent, userHandle os.UserHandle, icon drawable.Icon) error
 }
 
 type noteTaskBubblesServiceStubWrapper struct {
@@ -234,9 +226,8 @@ func (w *noteTaskBubblesServiceStubWrapper) ShowOrHideAppBubble(
 	intent content.Intent,
 	userHandle os.UserHandle,
 	icon drawable.Icon,
-	bubbleExpandBehavior NoteTaskBubbleExpandBehavior,
 ) error {
-	return w.impl.ShowOrHideAppBubble(ctx, intent, userHandle, icon, bubbleExpandBehavior)
+	return w.impl.ShowOrHideAppBubble(ctx, intent, userHandle, icon)
 }
 
 var _ INoteTaskBubblesService = (*noteTaskBubblesServiceStubWrapper)(nil)

@@ -15,23 +15,27 @@ const (
 	TransactionIRemoteAnimationFinishedCallbackOnAnimationFinished = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIRemoteAnimationFinishedCallbackOnAnimationFinished = "onAnimationFinished"
+)
+
 type IRemoteAnimationFinishedCallback interface {
 	AsBinder() binder.IBinder
 	OnAnimationFinished(ctx context.Context) error
 }
 
 type RemoteAnimationFinishedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewRemoteAnimationFinishedCallbackProxy(
 	remote binder.IBinder,
 ) *RemoteAnimationFinishedCallbackProxy {
-	return &RemoteAnimationFinishedCallbackProxy{remote: remote}
+	return &RemoteAnimationFinishedCallbackProxy{Remote: remote}
 }
 
 func (p *RemoteAnimationFinishedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IRemoteAnimationFinishedCallback = (*RemoteAnimationFinishedCallbackProxy)(nil)
@@ -42,12 +46,12 @@ func (p *RemoteAnimationFinishedCallbackProxy) OnAnimationFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAnimationFinishedCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAnimationFinishedCallback, "onAnimationFinished")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIRemoteAnimationFinishedCallback, MethodIRemoteAnimationFinishedCallbackOnAnimationFinished)
 	if _err != nil {
-		_code = TransactionIRemoteAnimationFinishedCallbackOnAnimationFinished
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIRemoteAnimationFinishedCallback, MethodIRemoteAnimationFinishedCallbackOnAnimationFinished, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +62,10 @@ type RemoteAnimationFinishedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*RemoteAnimationFinishedCallbackStub)(nil)
+
+func (s *RemoteAnimationFinishedCallbackStub) Descriptor() string {
+	return DescriptorIRemoteAnimationFinishedCallback
+}
 
 func (s *RemoteAnimationFinishedCallbackStub) OnTransaction(
 	ctx context.Context,

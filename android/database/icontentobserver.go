@@ -17,6 +17,11 @@ const (
 	TransactionIContentObserverOnChangeEtc = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIContentObserverOnChange    = "onChange"
+	MethodIContentObserverOnChangeEtc = "onChangeEtc"
+)
+
 type IContentObserver interface {
 	AsBinder() binder.IBinder
 	OnChange(ctx context.Context, selfUpdate bool, uri net.Uri) error
@@ -24,17 +29,17 @@ type IContentObserver interface {
 }
 
 type ContentObserverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentObserverProxy(
 	remote binder.IBinder,
 ) *ContentObserverProxy {
-	return &ContentObserverProxy{remote: remote}
+	return &ContentObserverProxy{Remote: remote}
 }
 
 func (p *ContentObserverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentObserver = (*ContentObserverProxy)(nil)
@@ -44,7 +49,7 @@ func (p *ContentObserverProxy) OnChange(
 	selfUpdate bool,
 	uri net.Uri,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
 	_data.WriteBool(selfUpdate)
@@ -54,12 +59,12 @@ func (p *ContentObserverProxy) OnChange(
 	}
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentObserver, "onChange")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentObserver, MethodIContentObserverOnChange)
 	if _err != nil {
-		_code = TransactionIContentObserverOnChange
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentObserver, MethodIContentObserverOnChange, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,7 +74,7 @@ func (p *ContentObserverProxy) OnChangeEtc(
 	uri []net.Uri,
 	flags int32,
 ) error {
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
 	_data.WriteBool(selfUpdate)
@@ -78,6 +83,7 @@ func (p *ContentObserverProxy) OnChangeEtc(
 	} else {
 		_data.WriteInt32(int32(len(uri)))
 		for _, _item := range uri {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -86,12 +92,12 @@ func (p *ContentObserverProxy) OnChangeEtc(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(_identity.UserID)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentObserver, "onChangeEtc")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentObserver, MethodIContentObserverOnChangeEtc)
 	if _err != nil {
-		_code = TransactionIContentObserverOnChangeEtc
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentObserver, MethodIContentObserverOnChangeEtc, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +108,10 @@ type ContentObserverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentObserverStub)(nil)
+
+func (s *ContentObserverStub) Descriptor() string {
+	return DescriptorIContentObserver
+}
 
 func (s *ContentObserverStub) OnTransaction(
 	ctx context.Context,

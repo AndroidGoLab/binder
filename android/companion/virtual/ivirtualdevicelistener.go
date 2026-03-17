@@ -16,6 +16,11 @@ const (
 	TransactionIVirtualDeviceListenerOnVirtualDeviceClosed  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIVirtualDeviceListenerOnVirtualDeviceCreated = "onVirtualDeviceCreated"
+	MethodIVirtualDeviceListenerOnVirtualDeviceClosed  = "onVirtualDeviceClosed"
+)
+
 type IVirtualDeviceListener interface {
 	AsBinder() binder.IBinder
 	OnVirtualDeviceCreated(ctx context.Context, deviceId int32) error
@@ -23,17 +28,17 @@ type IVirtualDeviceListener interface {
 }
 
 type VirtualDeviceListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewVirtualDeviceListenerProxy(
 	remote binder.IBinder,
 ) *VirtualDeviceListenerProxy {
-	return &VirtualDeviceListenerProxy{remote: remote}
+	return &VirtualDeviceListenerProxy{Remote: remote}
 }
 
 func (p *VirtualDeviceListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IVirtualDeviceListener = (*VirtualDeviceListenerProxy)(nil)
@@ -46,12 +51,12 @@ func (p *VirtualDeviceListenerProxy) OnVirtualDeviceCreated(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceListener)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceListener, "onVirtualDeviceCreated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceListener, MethodIVirtualDeviceListenerOnVirtualDeviceCreated)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceListenerOnVirtualDeviceCreated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceListener, MethodIVirtualDeviceListenerOnVirtualDeviceCreated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +68,12 @@ func (p *VirtualDeviceListenerProxy) OnVirtualDeviceClosed(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceListener)
 	_data.WriteInt32(deviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceListener, "onVirtualDeviceClosed")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVirtualDeviceListener, MethodIVirtualDeviceListenerOnVirtualDeviceClosed)
 	if _err != nil {
-		_code = TransactionIVirtualDeviceListenerOnVirtualDeviceClosed
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIVirtualDeviceListener, MethodIVirtualDeviceListenerOnVirtualDeviceClosed, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +84,10 @@ type VirtualDeviceListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*VirtualDeviceListenerStub)(nil)
+
+func (s *VirtualDeviceListenerStub) Descriptor() string {
+	return DescriptorIVirtualDeviceListener
+}
 
 func (s *VirtualDeviceListenerStub) OnTransaction(
 	ctx context.Context,

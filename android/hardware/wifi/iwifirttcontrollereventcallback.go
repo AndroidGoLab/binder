@@ -15,23 +15,27 @@ const (
 	TransactionIWifiRttControllerEventCallbackOnResults = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWifiRttControllerEventCallbackOnResults = "onResults"
+)
+
 type IWifiRttControllerEventCallback interface {
 	AsBinder() binder.IBinder
 	OnResults(ctx context.Context, cmdId int32, results []RttResult) error
 }
 
 type WifiRttControllerEventCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWifiRttControllerEventCallbackProxy(
 	remote binder.IBinder,
 ) *WifiRttControllerEventCallbackProxy {
-	return &WifiRttControllerEventCallbackProxy{remote: remote}
+	return &WifiRttControllerEventCallbackProxy{Remote: remote}
 }
 
 func (p *WifiRttControllerEventCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWifiRttControllerEventCallback = (*WifiRttControllerEventCallbackProxy)(nil)
@@ -49,18 +53,19 @@ func (p *WifiRttControllerEventCallbackProxy) OnResults(
 	} else {
 		_data.WriteInt32(int32(len(results)))
 		for _, _item := range results {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttControllerEventCallback, "onResults")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiRttControllerEventCallback, MethodIWifiRttControllerEventCallbackOnResults)
 	if _err != nil {
-		_code = TransactionIWifiRttControllerEventCallbackOnResults
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiRttControllerEventCallback, MethodIWifiRttControllerEventCallbackOnResults, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +76,10 @@ type WifiRttControllerEventCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WifiRttControllerEventCallbackStub)(nil)
+
+func (s *WifiRttControllerEventCallbackStub) Descriptor() string {
+	return DescriptorIWifiRttControllerEventCallback
+}
 
 func (s *WifiRttControllerEventCallbackStub) OnTransaction(
 	ctx context.Context,

@@ -19,14 +19,7 @@ func (s *A2dpConfigurationHint) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.BdAddr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.BdAddr)))
-		for _, _item := range s.BdAddr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.BdAddr, 6)
 	if _err := s.AudioContext.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -49,19 +42,9 @@ func (s *A2dpConfigurationHint) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.BdAddr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.BdAddr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.BdAddr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	if _err = s.AudioContext.UnmarshalParcel(p); _err != nil {

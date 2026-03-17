@@ -16,23 +16,27 @@ const (
 	TransactionIContentCaptureOptionsCallbackSetContentCaptureOptions = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIContentCaptureOptionsCallbackSetContentCaptureOptions = "setContentCaptureOptions"
+)
+
 type IContentCaptureOptionsCallback interface {
 	AsBinder() binder.IBinder
 	SetContentCaptureOptions(ctx context.Context, options content.ContentCaptureOptions) error
 }
 
 type ContentCaptureOptionsCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContentCaptureOptionsCallbackProxy(
 	remote binder.IBinder,
 ) *ContentCaptureOptionsCallbackProxy {
-	return &ContentCaptureOptionsCallbackProxy{remote: remote}
+	return &ContentCaptureOptionsCallbackProxy{Remote: remote}
 }
 
 func (p *ContentCaptureOptionsCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContentCaptureOptionsCallback = (*ContentCaptureOptionsCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *ContentCaptureOptionsCallbackProxy) SetContentCaptureOptions(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureOptionsCallback, "setContentCaptureOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContentCaptureOptionsCallback, MethodIContentCaptureOptionsCallbackSetContentCaptureOptions)
 	if _err != nil {
-		_code = TransactionIContentCaptureOptionsCallbackSetContentCaptureOptions
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContentCaptureOptionsCallback, MethodIContentCaptureOptionsCallbackSetContentCaptureOptions, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type ContentCaptureOptionsCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContentCaptureOptionsCallbackStub)(nil)
+
+func (s *ContentCaptureOptionsCallbackStub) Descriptor() string {
+	return DescriptorIContentCaptureOptionsCallback
+}
 
 func (s *ContentCaptureOptionsCallbackStub) OnTransaction(
 	ctx context.Context,

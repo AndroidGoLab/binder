@@ -5,7 +5,6 @@ package supplicant
 type WpsProvisionMethod int32
 
 const (
-	WpsProvisionMethodNONE    WpsProvisionMethod = -1
 	WpsProvisionMethodPBC     WpsProvisionMethod = 0
 	WpsProvisionMethodDISPLAY WpsProvisionMethod = 1
 	WpsProvisionMethodKEYPAD  WpsProvisionMethod = 2

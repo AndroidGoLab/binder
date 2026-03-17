@@ -17,6 +17,11 @@ const (
 	TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIAudioConfigChangedCallbackOnPlaybackConfigChanged  = "onPlaybackConfigChanged"
+	MethodIAudioConfigChangedCallbackOnRecordingConfigChanged = "onRecordingConfigChanged"
+)
+
 type IAudioConfigChangedCallback interface {
 	AsBinder() binder.IBinder
 	OnPlaybackConfigChanged(ctx context.Context, configs []media.AudioPlaybackConfiguration) error
@@ -24,17 +29,17 @@ type IAudioConfigChangedCallback interface {
 }
 
 type AudioConfigChangedCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewAudioConfigChangedCallbackProxy(
 	remote binder.IBinder,
 ) *AudioConfigChangedCallbackProxy {
-	return &AudioConfigChangedCallbackProxy{remote: remote}
+	return &AudioConfigChangedCallbackProxy{Remote: remote}
 }
 
 func (p *AudioConfigChangedCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IAudioConfigChangedCallback = (*AudioConfigChangedCallbackProxy)(nil)
@@ -50,18 +55,19 @@ func (p *AudioConfigChangedCallbackProxy) OnPlaybackConfigChanged(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioConfigChangedCallback, "onPlaybackConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioConfigChangedCallback, MethodIAudioConfigChangedCallbackOnPlaybackConfigChanged)
 	if _err != nil {
-		_code = TransactionIAudioConfigChangedCallbackOnPlaybackConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioConfigChangedCallback, MethodIAudioConfigChangedCallbackOnPlaybackConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,18 +82,19 @@ func (p *AudioConfigChangedCallbackProxy) OnRecordingConfigChanged(
 	} else {
 		_data.WriteInt32(int32(len(configs)))
 		for _, _item := range configs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIAudioConfigChangedCallback, "onRecordingConfigChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIAudioConfigChangedCallback, MethodIAudioConfigChangedCallbackOnRecordingConfigChanged)
 	if _err != nil {
-		_code = TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIAudioConfigChangedCallback, MethodIAudioConfigChangedCallbackOnRecordingConfigChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +105,10 @@ type AudioConfigChangedCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*AudioConfigChangedCallbackStub)(nil)
+
+func (s *AudioConfigChangedCallbackStub) Descriptor() string {
+	return DescriptorIAudioConfigChangedCallback
+}
 
 func (s *AudioConfigChangedCallbackStub) OnTransaction(
 	ctx context.Context,

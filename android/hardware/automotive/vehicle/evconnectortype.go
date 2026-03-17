@@ -17,7 +17,5 @@ const (
 	EvConnectorTypeTeslaSupercharger EvConnectorType = 9
 	EvConnectorTypeGbtAc             EvConnectorType = 10
 	EvConnectorTypeGbtDc             EvConnectorType = 11
-	EvConnectorTypeSaeJ3400Ac        EvConnectorType = 8
-	EvConnectorTypeSaeJ3400Dc        EvConnectorType = 9
 	EvConnectorTypeOTHER             EvConnectorType = 101
 )

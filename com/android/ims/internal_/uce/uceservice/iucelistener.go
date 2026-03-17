@@ -15,23 +15,27 @@ const (
 	TransactionIUceListenerSetStatus = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIUceListenerSetStatus = "setStatus"
+)
+
 type IUceListener interface {
 	AsBinder() binder.IBinder
 	SetStatus(ctx context.Context, serviceStatusValue int32) error
 }
 
 type UceListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUceListenerProxy(
 	remote binder.IBinder,
 ) *UceListenerProxy {
-	return &UceListenerProxy{remote: remote}
+	return &UceListenerProxy{Remote: remote}
 }
 
 func (p *UceListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUceListener = (*UceListenerProxy)(nil)
@@ -44,12 +48,12 @@ func (p *UceListenerProxy) SetStatus(
 	_data.WriteInterfaceToken(DescriptorIUceListener)
 	_data.WriteInt32(serviceStatusValue)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceListener, "setStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceListener, MethodIUceListenerSetStatus)
 	if _err != nil {
-		_code = TransactionIUceListenerSetStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUceListener, MethodIUceListenerSetStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type UceListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UceListenerStub)(nil)
+
+func (s *UceListenerStub) Descriptor() string {
+	return DescriptorIUceListener
+}
 
 func (s *UceListenerStub) OnTransaction(
 	ctx context.Context,

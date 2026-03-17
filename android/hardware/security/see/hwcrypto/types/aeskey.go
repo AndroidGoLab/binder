@@ -58,23 +58,9 @@ func (u *AesKey) MarshalParcel(
 
 	switch u.Tag {
 	case AesKeyTagAes128:
-		if u.Aes128 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Aes128)))
-			for _, _item := range u.Aes128 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteFixedByteArray(u.Aes128, 16)
 	case AesKeyTagAes256:
-		if u.Aes256 == nil {
-			p.WriteInt32(-1)
-		} else {
-			p.WriteInt32(int32(len(u.Aes256)))
-			for _, _item := range u.Aes256 {
-				p.WritePaddedByte(_item)
-			}
-		}
+		p.WriteFixedByteArray(u.Aes256, 32)
 	default:
 		return fmt.Errorf("unknown union tag %d for AesKey", u.Tag)
 	}
@@ -99,35 +85,15 @@ func (u *AesKey) UnmarshalParcel(
 	switch u.Tag {
 	case AesKeyTagAes128:
 
-		var _count0 int32
-		_count0, _err = p.ReadInt32()
+		u.Aes128, _err = p.ReadFixedByteArray(16)
 		if _err != nil {
 			return _err
-		}
-		if _count0 >= 0 {
-			u.Aes128 = make([]byte, _count0)
-			for _i := int32(0); _i < _count0; _i++ {
-				u.Aes128[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	case AesKeyTagAes256:
 
-		var _count1 int32
-		_count1, _err = p.ReadInt32()
+		u.Aes256, _err = p.ReadFixedByteArray(32)
 		if _err != nil {
 			return _err
-		}
-		if _count1 >= 0 {
-			u.Aes256 = make([]byte, _count1)
-			for _i := int32(0); _i < _count1; _i++ {
-				u.Aes256[_i], _err = p.ReadPaddedByte()
-				if _err != nil {
-					return _err
-				}
-			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AesKey", u.Tag)

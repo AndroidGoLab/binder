@@ -7,5 +7,4 @@ type FrameDuration byte
 const (
 	FrameDurationUS7500  FrameDuration = 0
 	FrameDurationUS10000 FrameDuration = 1
-	FrameDurationUS20000 FrameDuration = 2
 )

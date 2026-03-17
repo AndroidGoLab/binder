@@ -15,23 +15,27 @@ const (
 	TransactionIResultReceiverOnResult = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIResultReceiverOnResult = "onResult"
+)
+
 type IResultReceiver interface {
 	AsBinder() binder.IBinder
 	OnResult(ctx context.Context, success bool) error
 }
 
 type ResultReceiverProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewResultReceiverProxy(
 	remote binder.IBinder,
 ) *ResultReceiverProxy {
-	return &ResultReceiverProxy{remote: remote}
+	return &ResultReceiverProxy{Remote: remote}
 }
 
 func (p *ResultReceiverProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IResultReceiver = (*ResultReceiverProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ResultReceiverProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIResultReceiver)
 	_data.WriteBool(success)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIResultReceiver, "onResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIResultReceiver, MethodIResultReceiverOnResult)
 	if _err != nil {
-		_code = TransactionIResultReceiverOnResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIResultReceiver, MethodIResultReceiverOnResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,6 +73,10 @@ type ResultReceiverStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ResultReceiverStub)(nil)
+
+func (s *ResultReceiverStub) Descriptor() string {
+	return DescriptorIResultReceiver
+}
 
 func (s *ResultReceiverStub) OnTransaction(
 	ctx context.Context,

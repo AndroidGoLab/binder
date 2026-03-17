@@ -15,23 +15,27 @@ const (
 	TransactionIDownloadProgressListenerOnProgressUpdated = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIDownloadProgressListenerOnProgressUpdated = "onProgressUpdated"
+)
+
 type IDownloadProgressListener interface {
 	AsBinder() binder.IBinder
 	OnProgressUpdated(ctx context.Context, request DownloadRequest, fileInfo FileInfo, currentDownloadSize int32, fullDownloadSize int32, currentDecodedSize int32, fullDecodedSize int32) error
 }
 
 type DownloadProgressListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewDownloadProgressListenerProxy(
 	remote binder.IBinder,
 ) *DownloadProgressListenerProxy {
-	return &DownloadProgressListenerProxy{remote: remote}
+	return &DownloadProgressListenerProxy{Remote: remote}
 }
 
 func (p *DownloadProgressListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IDownloadProgressListener = (*DownloadProgressListenerProxy)(nil)
@@ -60,12 +64,12 @@ func (p *DownloadProgressListenerProxy) OnProgressUpdated(
 	_data.WriteInt32(currentDecodedSize)
 	_data.WriteInt32(fullDecodedSize)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIDownloadProgressListener, "onProgressUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDownloadProgressListener, MethodIDownloadProgressListenerOnProgressUpdated)
 	if _err != nil {
-		_code = TransactionIDownloadProgressListenerOnProgressUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIDownloadProgressListener, MethodIDownloadProgressListenerOnProgressUpdated, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -85,6 +89,10 @@ type DownloadProgressListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*DownloadProgressListenerStub)(nil)
+
+func (s *DownloadProgressListenerStub) Descriptor() string {
+	return DescriptorIDownloadProgressListener
+}
 
 func (s *DownloadProgressListenerStub) OnTransaction(
 	ctx context.Context,

@@ -15,23 +15,27 @@ const (
 	TransactionISensitiveContentProtectionManagerSetSensitiveContentProtection = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodISensitiveContentProtectionManagerSetSensitiveContentProtection = "setSensitiveContentProtection"
+)
+
 type ISensitiveContentProtectionManager interface {
 	AsBinder() binder.IBinder
 	SetSensitiveContentProtection(ctx context.Context, windowToken binder.IBinder, packageName string, isShowingSensitiveContent bool) error
 }
 
 type SensitiveContentProtectionManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSensitiveContentProtectionManagerProxy(
 	remote binder.IBinder,
 ) *SensitiveContentProtectionManagerProxy {
-	return &SensitiveContentProtectionManagerProxy{remote: remote}
+	return &SensitiveContentProtectionManagerProxy{Remote: remote}
 }
 
 func (p *SensitiveContentProtectionManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISensitiveContentProtectionManager = (*SensitiveContentProtectionManagerProxy)(nil)
@@ -44,16 +48,16 @@ func (p *SensitiveContentProtectionManagerProxy) SetSensitiveContentProtection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensitiveContentProtectionManager)
-	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, windowToken, p.Remote.Transport())
 	_data.WriteString16(packageName)
 	_data.WriteBool(isShowingSensitiveContent)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensitiveContentProtectionManager, "setSensitiveContentProtection")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensitiveContentProtectionManager, MethodISensitiveContentProtectionManagerSetSensitiveContentProtection)
 	if _err != nil {
-		_code = TransactionISensitiveContentProtectionManagerSetSensitiveContentProtection
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorISensitiveContentProtectionManager, MethodISensitiveContentProtectionManagerSetSensitiveContentProtection, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +68,10 @@ type SensitiveContentProtectionManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SensitiveContentProtectionManagerStub)(nil)
+
+func (s *SensitiveContentProtectionManagerStub) Descriptor() string {
+	return DescriptorISensitiveContentProtectionManager
+}
 
 func (s *SensitiveContentProtectionManagerStub) OnTransaction(
 	ctx context.Context,

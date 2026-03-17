@@ -16,6 +16,11 @@ const (
 	TransactionINetworkScoreCacheClearScores  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodINetworkScoreCacheUpdateScores = "updateScores"
+	MethodINetworkScoreCacheClearScores  = "clearScores"
+)
+
 type INetworkScoreCache interface {
 	AsBinder() binder.IBinder
 	UpdateScores(ctx context.Context, networks []ScoredNetwork) error
@@ -23,17 +28,17 @@ type INetworkScoreCache interface {
 }
 
 type NetworkScoreCacheProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewNetworkScoreCacheProxy(
 	remote binder.IBinder,
 ) *NetworkScoreCacheProxy {
-	return &NetworkScoreCacheProxy{remote: remote}
+	return &NetworkScoreCacheProxy{Remote: remote}
 }
 
 func (p *NetworkScoreCacheProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ INetworkScoreCache = (*NetworkScoreCacheProxy)(nil)
@@ -49,18 +54,19 @@ func (p *NetworkScoreCacheProxy) UpdateScores(
 	} else {
 		_data.WriteInt32(int32(len(networks)))
 		for _, _item := range networks {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreCache, "updateScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreCache, MethodINetworkScoreCacheUpdateScores)
 	if _err != nil {
-		_code = TransactionINetworkScoreCacheUpdateScores
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreCache, MethodINetworkScoreCacheUpdateScores, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +76,12 @@ func (p *NetworkScoreCacheProxy) ClearScores(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreCache)
 
-	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreCache, "clearScores")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkScoreCache, MethodINetworkScoreCacheClearScores)
 	if _err != nil {
-		_code = TransactionINetworkScoreCacheClearScores
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorINetworkScoreCache, MethodINetworkScoreCacheClearScores, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +92,10 @@ type NetworkScoreCacheStub struct {
 }
 
 var _ binder.TransactionReceiver = (*NetworkScoreCacheStub)(nil)
+
+func (s *NetworkScoreCacheStub) Descriptor() string {
+	return DescriptorINetworkScoreCache
+}
 
 func (s *NetworkScoreCacheStub) OnTransaction(
 	ctx context.Context,

@@ -1,9 +1,11 @@
 package dex
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"strings"
+	"unsafe"
 )
 
 // DEX header field offsets.
@@ -50,8 +52,7 @@ func parseDEXFile(data []byte) (*dexFile, error) {
 		return nil, fmt.Errorf("DEX data too short: %d bytes (need at least %d)", len(data), headerSize)
 	}
 
-	magic := string(data[0:4])
-	if magic != "dex\n" {
+	if data[0] != 'd' || data[1] != 'e' || data[2] != 'x' || data[3] != '\n' {
 		return nil, fmt.Errorf("bad DEX magic: %q", data[0:8])
 	}
 
@@ -70,41 +71,49 @@ func parseDEXFile(data []byte) (*dexFile, error) {
 	return f, nil
 }
 
-// readString reads the MUTF-8 string at the given string_ids index.
-// For TRANSACTION_* field names (which are ASCII), reading until the
-// null terminator is sufficient.
-func (f *dexFile) readString(idx uint32) (string, error) {
+// readStringBytes returns the raw MUTF-8 bytes of the string at the
+// given string_ids index. The returned slice points into f.data, so it
+// must not be modified. This avoids the allocation that string() causes.
+func (f *dexFile) readStringBytes(idx uint32) ([]byte, error) {
 	if idx >= f.stringIDsSize {
-		return "", fmt.Errorf("string index %d out of range (size=%d)", idx, f.stringIDsSize)
+		return nil, fmt.Errorf("string index %d out of range (size=%d)", idx, f.stringIDsSize)
 	}
 
 	off := f.stringIDsOff + idx*stringIDItemSize
 	if off+4 > uint32(len(f.data)) {
-		return "", fmt.Errorf("string_id_item at offset 0x%x out of bounds", off)
+		return nil, fmt.Errorf("string_id_item at offset 0x%x out of bounds", off)
 	}
 
 	dataOff := binary.LittleEndian.Uint32(f.data[off:])
 	if dataOff >= uint32(len(f.data)) {
-		return "", fmt.Errorf("string_data_off 0x%x out of bounds", dataOff)
+		return nil, fmt.Errorf("string_data_off 0x%x out of bounds", dataOff)
 	}
 
 	// Skip the ULEB128-encoded utf16_size.
 	pos := dataOff
 	_, pos, err := readULEB128(f.data, pos)
 	if err != nil {
-		return "", fmt.Errorf("reading string utf16_size at 0x%x: %w", dataOff, err)
+		return nil, fmt.Errorf("reading string utf16_size at 0x%x: %w", dataOff, err)
 	}
 
-	// Read until null terminator.
-	end := pos
-	for end < uint32(len(f.data)) && f.data[end] != 0 {
-		end++
-	}
-	if end >= uint32(len(f.data)) {
-		return "", fmt.Errorf("string at offset 0x%x not null-terminated", pos)
+	// Find null terminator using vectorized search.
+	nullIdx := bytes.IndexByte(f.data[pos:], 0)
+	if nullIdx < 0 {
+		return nil, fmt.Errorf("string at offset 0x%x not null-terminated", pos)
 	}
 
-	return string(f.data[pos:end]), nil
+	return f.data[pos : pos+uint32(nullIdx)], nil
+}
+
+// readString reads the MUTF-8 string at the given string_ids index.
+// For TRANSACTION_* field names (which are ASCII), reading until the
+// null terminator is sufficient.
+func (f *dexFile) readString(idx uint32) (string, error) {
+	b, err := f.readStringBytes(idx)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // readTypeDescriptor returns the type descriptor string for the given type_ids index.
@@ -120,6 +129,42 @@ func (f *dexFile) readTypeDescriptor(idx uint32) (string, error) {
 
 	descriptorIdx := binary.LittleEndian.Uint32(f.data[off:])
 	return f.readString(descriptorIdx)
+}
+
+// typeDescriptorHasSuffix checks whether the type descriptor at the given
+// type_ids index ends with suffix, without allocating a string.
+func (f *dexFile) typeDescriptorHasSuffix(idx uint32, suffix []byte) (bool, error) {
+	if idx >= f.typeIDsSize {
+		return false, fmt.Errorf("type index %d out of range (size=%d)", idx, f.typeIDsSize)
+	}
+
+	off := f.typeIDsOff + idx*typeIDItemSize
+	if off+4 > uint32(len(f.data)) {
+		return false, fmt.Errorf("type_id_item at offset 0x%x out of bounds", off)
+	}
+
+	descriptorIdx := binary.LittleEndian.Uint32(f.data[off:])
+	b, err := f.readStringBytes(descriptorIdx)
+	if err != nil {
+		return false, err
+	}
+	return bytes.HasSuffix(b, suffix), nil
+}
+
+// readTypeDescriptorBytes returns the raw bytes of the type descriptor
+// at the given type_ids index without allocating a string.
+func (f *dexFile) readTypeDescriptorBytes(idx uint32) ([]byte, error) {
+	if idx >= f.typeIDsSize {
+		return nil, fmt.Errorf("type index %d out of range (size=%d)", idx, f.typeIDsSize)
+	}
+
+	off := f.typeIDsOff + idx*typeIDItemSize
+	if off+4 > uint32(len(f.data)) {
+		return nil, fmt.Errorf("type_id_item at offset 0x%x out of bounds", off)
+	}
+
+	descriptorIdx := binary.LittleEndian.Uint32(f.data[off:])
+	return f.readStringBytes(descriptorIdx)
 }
 
 // fieldID represents a parsed field_id_item.
@@ -156,4 +201,36 @@ func stubDescriptorToInterface(desc string) string {
 	s := strings.TrimPrefix(desc, "L")
 	s = strings.TrimSuffix(s, "$Stub;")
 	return strings.ReplaceAll(s, "/", ".")
+}
+
+// stubDescriptorBytesToInterface converts a $Stub class descriptor byte
+// slice to the AIDL interface's dot-separated name. Replaces '/' with '.'
+// in a single pass and strips the 'L' prefix and '$Stub;' suffix.
+//
+//	[]byte("Landroid/app/IActivityManager$Stub;") -> "android.app.IActivityManager"
+func stubDescriptorBytesToInterface(desc []byte) string {
+	// Strip leading 'L'.
+	start := 0
+	if len(desc) > 0 && desc[0] == 'L' {
+		start = 1
+	}
+
+	// Strip trailing '$Stub;' (6 bytes).
+	end := len(desc)
+	stubSuffix := []byte("$Stub;")
+	if end-start >= len(stubSuffix) && bytes.Equal(desc[end-len(stubSuffix):end], stubSuffix) {
+		end -= len(stubSuffix)
+	}
+
+	// Build result replacing '/' -> '.' in a single allocation.
+	body := desc[start:end]
+	buf := make([]byte, len(body))
+	for i, b := range body {
+		if b == '/' {
+			buf[i] = '.'
+		} else {
+			buf[i] = b
+		}
+	}
+	return unsafe.String(&buf[0], len(buf))
 }

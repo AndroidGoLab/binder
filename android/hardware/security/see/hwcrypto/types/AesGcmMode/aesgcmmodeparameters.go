@@ -16,14 +16,7 @@ func (s *AesGcmModeParameters) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.Nonce == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Nonce)))
-		for _, _item := range s.Nonce {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Nonce, 12)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -37,19 +30,9 @@ func (s *AesGcmModeParameters) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Nonce, _err = p.ReadFixedByteArray(12)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Nonce = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Nonce[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

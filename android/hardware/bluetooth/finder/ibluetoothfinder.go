@@ -17,6 +17,12 @@ const (
 	TransactionIBluetoothFinderGetPoweredOffFinderMode = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIBluetoothFinderSendEids                = "sendEids"
+	MethodIBluetoothFinderSetPoweredOffFinderMode = "setPoweredOffFinderMode"
+	MethodIBluetoothFinderGetPoweredOffFinderMode = "getPoweredOffFinderMode"
+)
+
 type IBluetoothFinder interface {
 	AsBinder() binder.IBinder
 	SendEids(ctx context.Context, eids []Eid) error
@@ -25,17 +31,17 @@ type IBluetoothFinder interface {
 }
 
 type BluetoothFinderProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBluetoothFinderProxy(
 	remote binder.IBinder,
 ) *BluetoothFinderProxy {
-	return &BluetoothFinderProxy{remote: remote}
+	return &BluetoothFinderProxy{Remote: remote}
 }
 
 func (p *BluetoothFinderProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBluetoothFinder = (*BluetoothFinderProxy)(nil)
@@ -51,18 +57,19 @@ func (p *BluetoothFinderProxy) SendEids(
 	} else {
 		_data.WriteInt32(int32(len(eids)))
 		for _, _item := range eids {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothFinder, "sendEids")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothFinder, MethodIBluetoothFinderSendEids)
 	if _err != nil {
-		_code = TransactionIBluetoothFinderSendEids
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothFinder, MethodIBluetoothFinderSendEids, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -83,12 +90,12 @@ func (p *BluetoothFinderProxy) SetPoweredOffFinderMode(
 	_data.WriteInterfaceToken(DescriptorIBluetoothFinder)
 	_data.WriteBool(enable)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothFinder, "setPoweredOffFinderMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothFinder, MethodIBluetoothFinderSetPoweredOffFinderMode)
 	if _err != nil {
-		_code = TransactionIBluetoothFinderSetPoweredOffFinderMode
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothFinder, MethodIBluetoothFinderSetPoweredOffFinderMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,12 +115,12 @@ func (p *BluetoothFinderProxy) GetPoweredOffFinderMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothFinder)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothFinder, "getPoweredOffFinderMode")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothFinder, MethodIBluetoothFinderGetPoweredOffFinderMode)
 	if _err != nil {
-		_code = TransactionIBluetoothFinderGetPoweredOffFinderMode
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBluetoothFinder, MethodIBluetoothFinderGetPoweredOffFinderMode, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,6 +144,10 @@ type BluetoothFinderStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BluetoothFinderStub)(nil)
+
+func (s *BluetoothFinderStub) Descriptor() string {
+	return DescriptorIBluetoothFinder
+}
 
 func (s *BluetoothFinderStub) OnTransaction(
 	ctx context.Context,

@@ -18,6 +18,12 @@ const (
 	TransactionICamAppInfoServiceGetCamAppInfo            = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodICamAppInfoServiceAddCamAppInfoListener    = "addCamAppInfoListener"
+	MethodICamAppInfoServiceRemoveCamAppInfoListener = "removeCamAppInfoListener"
+	MethodICamAppInfoServiceGetCamAppInfo            = "getCamAppInfo"
+)
+
 type ICamAppInfoService interface {
 	AsBinder() binder.IBinder
 	AddCamAppInfoListener(ctx context.Context, listener ICamAppInfoListener) error
@@ -26,17 +32,17 @@ type ICamAppInfoService interface {
 }
 
 type CamAppInfoServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCamAppInfoServiceProxy(
 	remote binder.IBinder,
 ) *CamAppInfoServiceProxy {
-	return &CamAppInfoServiceProxy{remote: remote}
+	return &CamAppInfoServiceProxy{Remote: remote}
 }
 
 func (p *CamAppInfoServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICamAppInfoService = (*CamAppInfoServiceProxy)(nil)
@@ -47,14 +53,14 @@ func (p *CamAppInfoServiceProxy) AddCamAppInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamAppInfoService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoService, "addCamAppInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamAppInfoService, MethodICamAppInfoServiceAddCamAppInfoListener)
 	if _err != nil {
-		_code = TransactionICamAppInfoServiceAddCamAppInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamAppInfoService, MethodICamAppInfoServiceAddCamAppInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,14 +79,14 @@ func (p *CamAppInfoServiceProxy) RemoveCamAppInfoListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamAppInfoService)
-	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, listener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoService, "removeCamAppInfoListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamAppInfoService, MethodICamAppInfoServiceRemoveCamAppInfoListener)
 	if _err != nil {
-		_code = TransactionICamAppInfoServiceRemoveCamAppInfoListener
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICamAppInfoService, MethodICamAppInfoServiceRemoveCamAppInfoListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -103,12 +109,12 @@ func (p *CamAppInfoServiceProxy) GetCamAppInfo(
 	_data.WriteInterfaceToken(DescriptorICamAppInfoService)
 	_data.WriteInt32(slotId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoService, "getCamAppInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICamAppInfoService, MethodICamAppInfoServiceGetCamAppInfo)
 	if _err != nil {
-		_code = TransactionICamAppInfoServiceGetCamAppInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICamAppInfoService, MethodICamAppInfoServiceGetCamAppInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -135,6 +141,10 @@ type CamAppInfoServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CamAppInfoServiceStub)(nil)
+
+func (s *CamAppInfoServiceStub) Descriptor() string {
+	return DescriptorICamAppInfoService
+}
 
 func (s *CamAppInfoServiceStub) OnTransaction(
 	ctx context.Context,

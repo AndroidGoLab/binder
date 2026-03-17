@@ -31,6 +31,23 @@ const (
 	TransactionIUceServiceGetOptionsServiceForSubscription     = binder.FirstCallTransaction + 13
 )
 
+const (
+	MethodIUceServiceStartService                         = "startService"
+	MethodIUceServiceStopService                          = "stopService"
+	MethodIUceServiceIsServiceStarted                     = "isServiceStarted"
+	MethodIUceServiceCreateOptionsService                 = "createOptionsService"
+	MethodIUceServiceCreateOptionsServiceForSubscription  = "createOptionsServiceForSubscription"
+	MethodIUceServiceDestroyOptionsService                = "destroyOptionsService"
+	MethodIUceServiceCreatePresenceService                = "createPresenceService"
+	MethodIUceServiceCreatePresenceServiceForSubscription = "createPresenceServiceForSubscription"
+	MethodIUceServiceDestroyPresenceService               = "destroyPresenceService"
+	MethodIUceServiceGetServiceStatus                     = "getServiceStatus"
+	MethodIUceServiceGetPresenceService                   = "getPresenceService"
+	MethodIUceServiceGetPresenceServiceForSubscription    = "getPresenceServiceForSubscription"
+	MethodIUceServiceGetOptionsService                    = "getOptionsService"
+	MethodIUceServiceGetOptionsServiceForSubscription     = "getOptionsServiceForSubscription"
+)
+
 type IUceService interface {
 	AsBinder() binder.IBinder
 	StartService(ctx context.Context, uceListener IUceListener) (bool, error)
@@ -50,17 +67,17 @@ type IUceService interface {
 }
 
 type UceServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewUceServiceProxy(
 	remote binder.IBinder,
 ) *UceServiceProxy {
-	return &UceServiceProxy{remote: remote}
+	return &UceServiceProxy{Remote: remote}
 }
 
 func (p *UceServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IUceService = (*UceServiceProxy)(nil)
@@ -72,14 +89,14 @@ func (p *UceServiceProxy) StartService(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, uceListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, uceListener.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "startService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceStartService)
 	if _err != nil {
-		_code = TransactionIUceServiceStartService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceStartService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,12 +120,12 @@ func (p *UceServiceProxy) StopService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "stopService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceStopService)
 	if _err != nil {
-		_code = TransactionIUceServiceStopService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceStopService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,12 +149,12 @@ func (p *UceServiceProxy) IsServiceStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "isServiceStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceIsServiceStarted)
 	if _err != nil {
-		_code = TransactionIUceServiceIsServiceStarted
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceIsServiceStarted, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,18 +179,18 @@ func (p *UceServiceProxy) CreateOptionsService(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "createOptionsService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreateOptionsService)
 	if _err != nil {
-		_code = TransactionIUceServiceCreateOptionsService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceCreateOptionsService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,19 +219,19 @@ func (p *UceServiceProxy) CreateOptionsServiceForSubscription(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(iccId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "createOptionsServiceForSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreateOptionsServiceForSubscription)
 	if _err != nil {
-		_code = TransactionIUceServiceCreateOptionsServiceForSubscription
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceCreateOptionsServiceForSubscription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,12 +259,12 @@ func (p *UceServiceProxy) DestroyOptionsService(
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteInt32(optionsServiceHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "destroyOptionsService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceDestroyOptionsService)
 	if _err != nil {
-		_code = TransactionIUceServiceDestroyOptionsService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceDestroyOptionsService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -268,18 +285,18 @@ func (p *UceServiceProxy) CreatePresenceService(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "createPresenceService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreatePresenceService)
 	if _err != nil {
-		_code = TransactionIUceServiceCreatePresenceService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceCreatePresenceService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -308,19 +325,19 @@ func (p *UceServiceProxy) CreatePresenceServiceForSubscription(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
-	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, presenceServiceListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(iccId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "createPresenceServiceForSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceCreatePresenceServiceForSubscription)
 	if _err != nil {
-		_code = TransactionIUceServiceCreatePresenceServiceForSubscription
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceCreatePresenceServiceForSubscription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -348,12 +365,12 @@ func (p *UceServiceProxy) DestroyPresenceService(
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteInt32(presenceServiceHdl)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "destroyPresenceService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceDestroyPresenceService)
 	if _err != nil {
-		_code = TransactionIUceServiceDestroyPresenceService
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceDestroyPresenceService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -373,12 +390,12 @@ func (p *UceServiceProxy) GetServiceStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "getServiceStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetServiceStatus)
 	if _err != nil {
-		_code = TransactionIUceServiceGetServiceStatus
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceGetServiceStatus, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -402,12 +419,12 @@ func (p *UceServiceProxy) GetPresenceService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "getPresenceService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetPresenceService)
 	if _err != nil {
-		_code = TransactionIUceServiceGetPresenceService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceGetPresenceService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -421,7 +438,7 @@ func (p *UceServiceProxy) GetPresenceService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -434,12 +451,12 @@ func (p *UceServiceProxy) GetPresenceServiceForSubscription(
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteString16(iccId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "getPresenceServiceForSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetPresenceServiceForSubscription)
 	if _err != nil {
-		_code = TransactionIUceServiceGetPresenceServiceForSubscription
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceGetPresenceServiceForSubscription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -453,7 +470,7 @@ func (p *UceServiceProxy) GetPresenceServiceForSubscription(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -464,12 +481,12 @@ func (p *UceServiceProxy) GetOptionsService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "getOptionsService")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetOptionsService)
 	if _err != nil {
-		_code = TransactionIUceServiceGetOptionsService
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceGetOptionsService, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -483,7 +500,7 @@ func (p *UceServiceProxy) GetOptionsService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -496,12 +513,12 @@ func (p *UceServiceProxy) GetOptionsServiceForSubscription(
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteString16(iccId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIUceService, "getOptionsServiceForSubscription")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIUceService, MethodIUceServiceGetOptionsServiceForSubscription)
 	if _err != nil {
-		_code = TransactionIUceServiceGetOptionsServiceForSubscription
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIUceService, MethodIUceServiceGetOptionsServiceForSubscription, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -515,7 +532,7 @@ func (p *UceServiceProxy) GetOptionsServiceForSubscription(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -526,6 +543,10 @@ type UceServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*UceServiceStub)(nil)
+
+func (s *UceServiceStub) Descriptor() string {
+	return DescriptorIUceService
+}
 
 func (s *UceServiceStub) OnTransaction(
 	ctx context.Context,

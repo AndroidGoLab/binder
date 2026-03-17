@@ -26,7 +26,6 @@ const (
 	SpecificTagVisualizer             int32 = 14
 	SpecificTagVolume                 int32 = 15
 	SpecificTagSpatializer            int32 = 16
-	SpecificTagEraser                 int32 = 17
 )
 
 type Specific struct {
@@ -48,7 +47,6 @@ type Specific struct {
 	Visualizer             interface{}
 	Volume                 Flags.Volume
 	Spatializer            interface{}
-	Eraser                 interface{}
 }
 
 var _ parcel.Parcelable = (*Specific)(nil)
@@ -308,21 +306,6 @@ func (u *Specific) SetSpatializer(
 	u.Spatializer = v
 }
 
-func (u *Specific) GetEraser() (interface{}, bool) {
-	if u.Tag != SpecificTagEraser {
-		var _zero interface{}
-		return _zero, false
-	}
-	return u.Eraser, true
-}
-
-func (u *Specific) SetEraser(
-	v interface{},
-) {
-	u.Tag = SpecificTagEraser
-	u.Eraser = v
-}
-
 func (u *Specific) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
@@ -348,7 +331,6 @@ func (u *Specific) MarshalParcel(
 	case SpecificTagVolume:
 		p.WritePaddedByte(byte(u.Volume))
 	case SpecificTagSpatializer:
-	case SpecificTagEraser:
 	default:
 		return fmt.Errorf("unknown union tag %d for Specific", u.Tag)
 	}
@@ -393,7 +375,6 @@ func (u *Specific) UnmarshalParcel(
 		}
 		u.Volume = Flags.Volume(_raw)
 	case SpecificTagSpatializer:
-	case SpecificTagEraser:
 	default:
 		return fmt.Errorf("unknown union tag %d for Specific", u.Tag)
 	}

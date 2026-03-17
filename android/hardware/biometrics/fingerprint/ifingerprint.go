@@ -16,6 +16,11 @@ const (
 	TransactionIFingerprintCreateSession  = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIFingerprintGetSensorProps = "getSensorProps"
+	MethodIFingerprintCreateSession  = "createSession"
+)
+
 type IFingerprint interface {
 	AsBinder() binder.IBinder
 	GetSensorProps(ctx context.Context) ([]SensorProps, error)
@@ -23,17 +28,17 @@ type IFingerprint interface {
 }
 
 type FingerprintProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewFingerprintProxy(
 	remote binder.IBinder,
 ) *FingerprintProxy {
-	return &FingerprintProxy{remote: remote}
+	return &FingerprintProxy{Remote: remote}
 }
 
 func (p *FingerprintProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IFingerprint = (*FingerprintProxy)(nil)
@@ -45,12 +50,12 @@ func (p *FingerprintProxy) GetSensorProps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprint)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprint, "getSensorProps")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprint, MethodIFingerprintGetSensorProps)
 	if _err != nil {
-		_code = TransactionIFingerprintGetSensorProps
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprint, MethodIFingerprintGetSensorProps, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,6 +73,9 @@ func (p *FingerprintProxy) GetSensorProps(
 	if _count >= 0 {
 		_result = make([]SensorProps, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -82,19 +90,19 @@ func (p *FingerprintProxy) CreateSession(
 	cb ISessionCallback,
 ) (ISession, error) {
 	var _result ISession
-	_identity := p.remote.Identity()
+	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprint)
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(_identity.UserID)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIFingerprint, "createSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIFingerprint, MethodIFingerprintCreateSession)
 	if _err != nil {
-		_code = TransactionIFingerprintCreateSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIFingerprint, MethodIFingerprintCreateSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,7 +116,7 @@ func (p *FingerprintProxy) CreateSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -119,6 +127,10 @@ type FingerprintStub struct {
 }
 
 var _ binder.TransactionReceiver = (*FingerprintStub)(nil)
+
+func (s *FingerprintStub) Descriptor() string {
+	return DescriptorIFingerprint
+}
 
 func (s *FingerprintStub) OnTransaction(
 	ctx context.Context,

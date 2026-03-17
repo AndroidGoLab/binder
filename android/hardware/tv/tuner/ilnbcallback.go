@@ -16,6 +16,11 @@ const (
 	TransactionILnbCallbackOnEvent         = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodILnbCallbackOnDiseqcMessage = "onDiseqcMessage"
+	MethodILnbCallbackOnEvent         = "onEvent"
+)
+
 type ILnbCallback interface {
 	AsBinder() binder.IBinder
 	OnDiseqcMessage(ctx context.Context, diseqcMessage []byte) error
@@ -23,17 +28,17 @@ type ILnbCallback interface {
 }
 
 type LnbCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLnbCallbackProxy(
 	remote binder.IBinder,
 ) *LnbCallbackProxy {
-	return &LnbCallbackProxy{remote: remote}
+	return &LnbCallbackProxy{Remote: remote}
 }
 
 func (p *LnbCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILnbCallback = (*LnbCallbackProxy)(nil)
@@ -53,12 +58,12 @@ func (p *LnbCallbackProxy) OnDiseqcMessage(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnbCallback, "onDiseqcMessage")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnbCallback, MethodILnbCallbackOnDiseqcMessage)
 	if _err != nil {
-		_code = TransactionILnbCallbackOnDiseqcMessage
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnbCallback, MethodILnbCallbackOnDiseqcMessage, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,12 +75,12 @@ func (p *LnbCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorILnbCallback)
 	_data.WriteInt32(int32(lnbEventType))
 
-	_code, _err := p.remote.ResolveCode(DescriptorILnbCallback, "onEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILnbCallback, MethodILnbCallbackOnEvent)
 	if _err != nil {
-		_code = TransactionILnbCallbackOnEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILnbCallback, MethodILnbCallbackOnEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +91,10 @@ type LnbCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LnbCallbackStub)(nil)
+
+func (s *LnbCallbackStub) Descriptor() string {
+	return DescriptorILnbCallback
+}
 
 func (s *LnbCallbackStub) OnTransaction(
 	ctx context.Context,

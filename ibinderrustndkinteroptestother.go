@@ -15,23 +15,27 @@ const (
 	TransactionIBinderRustNdkInteropTestOtherEcho = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIBinderRustNdkInteropTestOtherEcho = "echo"
+)
+
 type IBinderRustNdkInteropTestOther interface {
 	AsBinder() binder.IBinder
 	Echo(ctx context.Context, str string) (string, error)
 }
 
 type BinderRustNdkInteropTestOtherProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewBinderRustNdkInteropTestOtherProxy(
 	remote binder.IBinder,
 ) *BinderRustNdkInteropTestOtherProxy {
-	return &BinderRustNdkInteropTestOtherProxy{remote: remote}
+	return &BinderRustNdkInteropTestOtherProxy{Remote: remote}
 }
 
 func (p *BinderRustNdkInteropTestOtherProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IBinderRustNdkInteropTestOther = (*BinderRustNdkInteropTestOtherProxy)(nil)
@@ -45,12 +49,12 @@ func (p *BinderRustNdkInteropTestOtherProxy) Echo(
 	_data.WriteInterfaceToken(DescriptorIBinderRustNdkInteropTestOther)
 	_data.WriteString16(str)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIBinderRustNdkInteropTestOther, "echo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBinderRustNdkInteropTestOther, MethodIBinderRustNdkInteropTestOtherEcho)
 	if _err != nil {
-		_code = TransactionIBinderRustNdkInteropTestOtherEcho
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIBinderRustNdkInteropTestOther, MethodIBinderRustNdkInteropTestOtherEcho, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,6 +78,10 @@ type BinderRustNdkInteropTestOtherStub struct {
 }
 
 var _ binder.TransactionReceiver = (*BinderRustNdkInteropTestOtherStub)(nil)
+
+func (s *BinderRustNdkInteropTestOtherStub) Descriptor() string {
+	return DescriptorIBinderRustNdkInteropTestOther
+}
 
 func (s *BinderRustNdkInteropTestOtherStub) OnTransaction(
 	ctx context.Context,

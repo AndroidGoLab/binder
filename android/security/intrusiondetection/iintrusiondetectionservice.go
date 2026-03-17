@@ -18,6 +18,13 @@ const (
 	TransactionIIntrusionDetectionServiceDisable             = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodIIntrusionDetectionServiceAddStateCallback    = "addStateCallback"
+	MethodIIntrusionDetectionServiceRemoveStateCallback = "removeStateCallback"
+	MethodIIntrusionDetectionServiceEnable              = "enable"
+	MethodIIntrusionDetectionServiceDisable             = "disable"
+)
+
 type IIntrusionDetectionService interface {
 	AsBinder() binder.IBinder
 	AddStateCallback(ctx context.Context, callback IIntrusionDetectionServiceStateCallback) error
@@ -27,17 +34,17 @@ type IIntrusionDetectionService interface {
 }
 
 type IntrusionDetectionServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntrusionDetectionServiceProxy(
 	remote binder.IBinder,
 ) *IntrusionDetectionServiceProxy {
-	return &IntrusionDetectionServiceProxy{remote: remote}
+	return &IntrusionDetectionServiceProxy{Remote: remote}
 }
 
 func (p *IntrusionDetectionServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntrusionDetectionService = (*IntrusionDetectionServiceProxy)(nil)
@@ -48,14 +55,14 @@ func (p *IntrusionDetectionServiceProxy) AddStateCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "addStateCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceAddStateCallback)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceAddStateCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceAddStateCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,14 +81,14 @@ func (p *IntrusionDetectionServiceProxy) RemoveStateCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "removeStateCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceRemoveStateCallback)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceRemoveStateCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceRemoveStateCallback, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,14 +107,14 @@ func (p *IntrusionDetectionServiceProxy) Enable(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "enable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceEnable)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceEnable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceEnable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,14 +133,14 @@ func (p *IntrusionDetectionServiceProxy) Disable(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "disable")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceDisable)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceDisable
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionService, MethodIIntrusionDetectionServiceDisable, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,6 +160,10 @@ type IntrusionDetectionServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntrusionDetectionServiceStub)(nil)
+
+func (s *IntrusionDetectionServiceStub) Descriptor() string {
+	return DescriptorIIntrusionDetectionService
+}
 
 func (s *IntrusionDetectionServiceStub) OnTransaction(
 	ctx context.Context,

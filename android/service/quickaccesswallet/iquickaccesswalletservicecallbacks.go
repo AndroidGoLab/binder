@@ -13,11 +13,17 @@ import (
 const DescriptorIQuickAccessWalletServiceCallbacks = "android.service.quickaccesswallet.IQuickAccessWalletServiceCallbacks"
 
 const (
-	TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess                      = binder.FirstCallTransaction + 0
-	TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure                      = binder.FirstCallTransaction + 1
-	TransactionIQuickAccessWalletServiceCallbacksOnWalletServiceEvent                         = binder.FirstCallTransaction + 2
-	TransactionIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived        = binder.FirstCallTransaction + 3
-	TransactionIQuickAccessWalletServiceCallbacksOnGestureTargetActivityPendingIntentReceived = binder.FirstCallTransaction + 4
+	TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess               = binder.FirstCallTransaction + 0
+	TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure               = binder.FirstCallTransaction + 1
+	TransactionIQuickAccessWalletServiceCallbacksOnWalletServiceEvent                  = binder.FirstCallTransaction + 2
+	TransactionIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived = binder.FirstCallTransaction + 3
+)
+
+const (
+	MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess               = "onGetWalletCardsSuccess"
+	MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure               = "onGetWalletCardsFailure"
+	MethodIQuickAccessWalletServiceCallbacksOnWalletServiceEvent                  = "onWalletServiceEvent"
+	MethodIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived = "onTargetActivityPendingIntentReceived"
 )
 
 type IQuickAccessWalletServiceCallbacks interface {
@@ -26,21 +32,20 @@ type IQuickAccessWalletServiceCallbacks interface {
 	OnGetWalletCardsFailure(ctx context.Context, error_ GetWalletCardsError) error
 	OnWalletServiceEvent(ctx context.Context, event WalletServiceEvent) error
 	OnTargetActivityPendingIntentReceived(ctx context.Context, pendingIntent app.PendingIntent) error
-	OnGestureTargetActivityPendingIntentReceived(ctx context.Context, pendingIntent app.PendingIntent) error
 }
 
 type QuickAccessWalletServiceCallbacksProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewQuickAccessWalletServiceCallbacksProxy(
 	remote binder.IBinder,
 ) *QuickAccessWalletServiceCallbacksProxy {
-	return &QuickAccessWalletServiceCallbacksProxy{remote: remote}
+	return &QuickAccessWalletServiceCallbacksProxy{Remote: remote}
 }
 
 func (p *QuickAccessWalletServiceCallbacksProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IQuickAccessWalletServiceCallbacks = (*QuickAccessWalletServiceCallbacksProxy)(nil)
@@ -56,12 +61,12 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsSuccess(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onGetWalletCardsSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,12 +81,12 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsFailure(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onGetWalletCardsFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,12 +101,12 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnWalletServiceEvent(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onWalletServiceEvent")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnWalletServiceEvent)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceCallbacksOnWalletServiceEvent
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnWalletServiceEvent, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,32 +121,12 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnTargetActivityPendingIntentRe
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onTargetActivityPendingIntentReceived")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived)
 	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIQuickAccessWalletServiceCallbacks, MethodIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *QuickAccessWalletServiceCallbacksProxy) OnGestureTargetActivityPendingIntentReceived(
-	ctx context.Context,
-	pendingIntent app.PendingIntent,
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-
-	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onGestureTargetActivityPendingIntentReceived")
-	if _err != nil {
-		_code = TransactionIQuickAccessWalletServiceCallbacksOnGestureTargetActivityPendingIntentReceived
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,6 +137,10 @@ type QuickAccessWalletServiceCallbacksStub struct {
 }
 
 var _ binder.TransactionReceiver = (*QuickAccessWalletServiceCallbacksStub)(nil)
+
+func (s *QuickAccessWalletServiceCallbacksStub) Descriptor() string {
+	return DescriptorIQuickAccessWalletServiceCallbacks
+}
 
 func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 	ctx context.Context,
@@ -235,25 +224,6 @@ func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
 		_err := s.Impl.OnTargetActivityPendingIntentReceived(ctx, _arg_pendingIntent)
 		_ = _err
 		return nil, nil
-	case TransactionIQuickAccessWalletServiceCallbacksOnGestureTargetActivityPendingIntentReceived:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		_err := s.Impl.OnGestureTargetActivityPendingIntentReceived(ctx, _arg_pendingIntent)
-		_ = _err
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -267,7 +237,6 @@ type IQuickAccessWalletServiceCallbacksServer interface {
 	OnGetWalletCardsFailure(ctx context.Context, error_ GetWalletCardsError) error
 	OnWalletServiceEvent(ctx context.Context, event WalletServiceEvent) error
 	OnTargetActivityPendingIntentReceived(ctx context.Context, pendingIntent app.PendingIntent) error
-	OnGestureTargetActivityPendingIntentReceived(ctx context.Context, pendingIntent app.PendingIntent) error
 }
 
 type quickAccessWalletServiceCallbacksStubWrapper struct {
@@ -305,13 +274,6 @@ func (w *quickAccessWalletServiceCallbacksStubWrapper) OnTargetActivityPendingIn
 	pendingIntent app.PendingIntent,
 ) error {
 	return w.impl.OnTargetActivityPendingIntentReceived(ctx, pendingIntent)
-}
-
-func (w *quickAccessWalletServiceCallbacksStubWrapper) OnGestureTargetActivityPendingIntentReceived(
-	ctx context.Context,
-	pendingIntent app.PendingIntent,
-) error {
-	return w.impl.OnGestureTargetActivityPendingIntentReceived(ctx, pendingIntent)
 }
 
 var _ IQuickAccessWalletServiceCallbacks = (*quickAccessWalletServiceCallbacksStubWrapper)(nil)

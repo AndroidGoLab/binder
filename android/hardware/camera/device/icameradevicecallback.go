@@ -18,6 +18,13 @@ const (
 	TransactionICameraDeviceCallbackReturnStreamBuffers  = binder.FirstCallTransaction + 3
 )
 
+const (
+	MethodICameraDeviceCallbackNotify               = "notify"
+	MethodICameraDeviceCallbackProcessCaptureResult = "processCaptureResult"
+	MethodICameraDeviceCallbackRequestStreamBuffers = "requestStreamBuffers"
+	MethodICameraDeviceCallbackReturnStreamBuffers  = "returnStreamBuffers"
+)
+
 type ICameraDeviceCallback interface {
 	AsBinder() binder.IBinder
 	Notify(ctx context.Context, msgs []NotifyMsg) error
@@ -27,17 +34,17 @@ type ICameraDeviceCallback interface {
 }
 
 type CameraDeviceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewCameraDeviceCallbackProxy(
 	remote binder.IBinder,
 ) *CameraDeviceCallbackProxy {
-	return &CameraDeviceCallbackProxy{remote: remote}
+	return &CameraDeviceCallbackProxy{Remote: remote}
 }
 
 func (p *CameraDeviceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ICameraDeviceCallback = (*CameraDeviceCallbackProxy)(nil)
@@ -53,18 +60,19 @@ func (p *CameraDeviceCallbackProxy) Notify(
 	} else {
 		_data.WriteInt32(int32(len(msgs)))
 		for _, _item := range msgs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallback, "notify")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackNotify)
 	if _err != nil {
-		_code = TransactionICameraDeviceCallbackNotify
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackNotify, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -88,18 +96,19 @@ func (p *CameraDeviceCallbackProxy) ProcessCaptureResult(
 	} else {
 		_data.WriteInt32(int32(len(results)))
 		for _, _item := range results {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallback, "processCaptureResult")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackProcessCaptureResult)
 	if _err != nil {
-		_code = TransactionICameraDeviceCallbackProcessCaptureResult
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackProcessCaptureResult, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -125,18 +134,19 @@ func (p *CameraDeviceCallbackProxy) RequestStreamBuffers(
 	} else {
 		_data.WriteInt32(int32(len(bufReqs)))
 		for _, _item := range bufReqs {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _result, _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallback, "requestStreamBuffers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackRequestStreamBuffers)
 	if _err != nil {
-		_code = TransactionICameraDeviceCallbackRequestStreamBuffers
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackRequestStreamBuffers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,6 +162,9 @@ func (p *CameraDeviceCallbackProxy) RequestStreamBuffers(
 	if _outCount0 >= 0 {
 		buffers = make([]StreamBufferRet, _outCount0)
 		for _i := int32(0); _i < _outCount0; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = buffers[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -177,18 +190,19 @@ func (p *CameraDeviceCallbackProxy) ReturnStreamBuffers(
 	} else {
 		_data.WriteInt32(int32(len(buffers)))
 		for _, _item := range buffers {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallback, "returnStreamBuffers")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackReturnStreamBuffers)
 	if _err != nil {
-		_code = TransactionICameraDeviceCallbackReturnStreamBuffers
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorICameraDeviceCallback, MethodICameraDeviceCallbackReturnStreamBuffers, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -208,6 +222,10 @@ type CameraDeviceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*CameraDeviceCallbackStub)(nil)
+
+func (s *CameraDeviceCallbackStub) Descriptor() string {
+	return DescriptorICameraDeviceCallback
+}
 
 func (s *CameraDeviceCallbackStub) OnTransaction(
 	ctx context.Context,

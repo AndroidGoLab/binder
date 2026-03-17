@@ -211,46 +211,57 @@ func (u *FrontendCapabilities) MarshalParcel(
 
 	switch u.Tag {
 	case FrontendCapabilitiesTagAnalogCaps:
+		p.WriteInt32(1)
 		if _err := u.AnalogCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagAtscCaps:
+		p.WriteInt32(1)
 		if _err := u.AtscCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagAtsc3Caps:
+		p.WriteInt32(1)
 		if _err := u.Atsc3Caps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDtmbCaps:
+		p.WriteInt32(1)
 		if _err := u.DtmbCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDvbsCaps:
+		p.WriteInt32(1)
 		if _err := u.DvbsCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDvbcCaps:
+		p.WriteInt32(1)
 		if _err := u.DvbcCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDvbtCaps:
+		p.WriteInt32(1)
 		if _err := u.DvbtCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIsdbsCaps:
+		p.WriteInt32(1)
 		if _err := u.IsdbsCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIsdbs3Caps:
+		p.WriteInt32(1)
 		if _err := u.Isdbs3Caps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIsdbtCaps:
+		p.WriteInt32(1)
 		if _err := u.IsdbtCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIptvCaps:
+		p.WriteInt32(1)
 		if _err := u.IptvCaps.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -277,46 +288,79 @@ func (u *FrontendCapabilities) UnmarshalParcel(
 
 	switch u.Tag {
 	case FrontendCapabilitiesTagAnalogCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AnalogCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagAtscCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AtscCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagAtsc3Caps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Atsc3Caps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDtmbCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DtmbCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDvbsCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DvbsCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDvbcCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DvbcCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagDvbtCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.DvbtCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIsdbsCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.IsdbsCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIsdbs3Caps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.Isdbs3Caps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIsdbtCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.IsdbtCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case FrontendCapabilitiesTagIptvCaps:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.IptvCaps.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

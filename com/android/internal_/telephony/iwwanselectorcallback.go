@@ -17,6 +17,12 @@ const (
 	TransactionIWwanSelectorCallbackOnCancel                      = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIWwanSelectorCallbackOnRequestEmergencyNetworkScan = "onRequestEmergencyNetworkScan"
+	MethodIWwanSelectorCallbackOnDomainSelected              = "onDomainSelected"
+	MethodIWwanSelectorCallbackOnCancel                      = "onCancel"
+)
+
 type IWwanSelectorCallback interface {
 	AsBinder() binder.IBinder
 	OnRequestEmergencyNetworkScan(ctx context.Context, preferredNetworks []int32, scanType int32, resetScan bool, cb IWwanSelectorResultCallback) error
@@ -25,17 +31,17 @@ type IWwanSelectorCallback interface {
 }
 
 type WwanSelectorCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWwanSelectorCallbackProxy(
 	remote binder.IBinder,
 ) *WwanSelectorCallbackProxy {
-	return &WwanSelectorCallbackProxy{remote: remote}
+	return &WwanSelectorCallbackProxy{Remote: remote}
 }
 
 func (p *WwanSelectorCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWwanSelectorCallback = (*WwanSelectorCallbackProxy)(nil)
@@ -59,14 +65,14 @@ func (p *WwanSelectorCallbackProxy) OnRequestEmergencyNetworkScan(
 	}
 	_data.WriteInt32(scanType)
 	_data.WriteBool(resetScan)
-	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, cb.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onRequestEmergencyNetworkScan")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnRequestEmergencyNetworkScan)
 	if _err != nil {
-		_code = TransactionIWwanSelectorCallbackOnRequestEmergencyNetworkScan
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnRequestEmergencyNetworkScan, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,12 +86,12 @@ func (p *WwanSelectorCallbackProxy) OnDomainSelected(
 	_data.WriteInt32(domain)
 	_data.WriteBool(useEmergencyPdn)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onDomainSelected")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnDomainSelected)
 	if _err != nil {
-		_code = TransactionIWwanSelectorCallbackOnDomainSelected
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnDomainSelected, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,12 +101,12 @@ func (p *WwanSelectorCallbackProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onCancel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnCancel)
 	if _err != nil {
-		_code = TransactionIWwanSelectorCallbackOnCancel
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWwanSelectorCallback, MethodIWwanSelectorCallbackOnCancel, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,6 +117,10 @@ type WwanSelectorCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WwanSelectorCallbackStub)(nil)
+
+func (s *WwanSelectorCallbackStub) Descriptor() string {
+	return DescriptorIWwanSelectorCallback
+}
 
 func (s *WwanSelectorCallbackStub) OnTransaction(
 	ctx context.Context,

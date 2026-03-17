@@ -16,23 +16,27 @@ const (
 	TransactionILocalWallpaperColorConsumerOnColorsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodILocalWallpaperColorConsumerOnColorsChanged = "onColorsChanged"
+)
+
 type ILocalWallpaperColorConsumer interface {
 	AsBinder() binder.IBinder
 	OnColorsChanged(ctx context.Context, area graphics.RectF, colors WallpaperColors) error
 }
 
 type LocalWallpaperColorConsumerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewLocalWallpaperColorConsumerProxy(
 	remote binder.IBinder,
 ) *LocalWallpaperColorConsumerProxy {
-	return &LocalWallpaperColorConsumerProxy{remote: remote}
+	return &LocalWallpaperColorConsumerProxy{Remote: remote}
 }
 
 func (p *LocalWallpaperColorConsumerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ILocalWallpaperColorConsumer = (*LocalWallpaperColorConsumerProxy)(nil)
@@ -53,12 +57,12 @@ func (p *LocalWallpaperColorConsumerProxy) OnColorsChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorILocalWallpaperColorConsumer, "onColorsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorILocalWallpaperColorConsumer, MethodILocalWallpaperColorConsumerOnColorsChanged)
 	if _err != nil {
-		_code = TransactionILocalWallpaperColorConsumerOnColorsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorILocalWallpaperColorConsumer, MethodILocalWallpaperColorConsumerOnColorsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +73,10 @@ type LocalWallpaperColorConsumerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*LocalWallpaperColorConsumerStub)(nil)
+
+func (s *LocalWallpaperColorConsumerStub) Descriptor() string {
+	return DescriptorILocalWallpaperColorConsumer
+}
 
 func (s *LocalWallpaperColorConsumerStub) OnTransaction(
 	ctx context.Context,

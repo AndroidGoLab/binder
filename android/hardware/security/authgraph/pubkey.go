@@ -58,10 +58,12 @@ func (u *PubKey) MarshalParcel(
 
 	switch u.Tag {
 	case PubKeyTagPlainKey:
+		p.WriteInt32(1)
 		if _err := u.PlainKey.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case PubKeyTagSignedKey:
+		p.WriteInt32(1)
 		if _err := u.SignedKey.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -88,10 +90,16 @@ func (u *PubKey) UnmarshalParcel(
 
 	switch u.Tag {
 	case PubKeyTagPlainKey:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.PlainKey.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case PubKeyTagSignedKey:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.SignedKey.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

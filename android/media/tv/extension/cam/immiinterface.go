@@ -16,6 +16,11 @@ const (
 	TransactionIMmiInterfaceAppInfoEnterMenu = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIMmiInterfaceOpenSession      = "openSession"
+	MethodIMmiInterfaceAppInfoEnterMenu = "appInfoEnterMenu"
+)
+
 type IMmiInterface interface {
 	AsBinder() binder.IBinder
 	OpenSession(ctx context.Context, slotId int32, callback IMmiStatusCallback) (IMmiSession, error)
@@ -23,17 +28,17 @@ type IMmiInterface interface {
 }
 
 type MmiInterfaceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMmiInterfaceProxy(
 	remote binder.IBinder,
 ) *MmiInterfaceProxy {
-	return &MmiInterfaceProxy{remote: remote}
+	return &MmiInterfaceProxy{Remote: remote}
 }
 
 func (p *MmiInterfaceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMmiInterface = (*MmiInterfaceProxy)(nil)
@@ -47,14 +52,14 @@ func (p *MmiInterfaceProxy) OpenSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiInterface)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiInterface, "openSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiInterface, MethodIMmiInterfaceOpenSession)
 	if _err != nil {
-		_code = TransactionIMmiInterfaceOpenSession
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiInterface, MethodIMmiInterfaceOpenSession, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -68,7 +73,7 @@ func (p *MmiInterfaceProxy) OpenSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMmiSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewMmiSessionProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -80,14 +85,14 @@ func (p *MmiInterfaceProxy) AppInfoEnterMenu(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiInterface)
 	_data.WriteInt32(slotId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMmiInterface, "appInfoEnterMenu")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMmiInterface, MethodIMmiInterfaceAppInfoEnterMenu)
 	if _err != nil {
-		_code = TransactionIMmiInterfaceAppInfoEnterMenu
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMmiInterface, MethodIMmiInterfaceAppInfoEnterMenu, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,6 +112,10 @@ type MmiInterfaceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MmiInterfaceStub)(nil)
+
+func (s *MmiInterfaceStub) Descriptor() string {
+	return DescriptorIMmiInterface
+}
 
 func (s *MmiInterfaceStub) OnTransaction(
 	ctx context.Context,

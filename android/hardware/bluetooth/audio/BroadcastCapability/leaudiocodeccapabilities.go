@@ -69,6 +69,7 @@ func (u *LeAudioCodecCapabilities) MarshalParcel(
 		} else {
 			p.WriteInt32(int32(len(u.VendorCapabillities)))
 			for _, _item := range u.VendorCapabillities {
+				p.WriteInt32(1)
 				if _err := _item.MarshalParcel(p); _err != nil {
 					return _err
 				}
@@ -118,6 +119,9 @@ func (u *LeAudioCodecCapabilities) UnmarshalParcel(
 		if _count1 >= 0 {
 			u.VendorCapabillities = make([]VendorCapabilities, _count1)
 			for _i := int32(0); _i < _count1; _i++ {
+				if _, _err = p.ReadInt32(); _err != nil {
+					return _err
+				}
 				if _err = u.VendorCapabillities[_i].UnmarshalParcel(p); _err != nil {
 					return _err
 				}

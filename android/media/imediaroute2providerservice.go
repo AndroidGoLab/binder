@@ -12,16 +12,27 @@ import (
 const DescriptorIMediaRoute2ProviderService = "android.media.IMediaRoute2ProviderService"
 
 const (
-	TransactionIMediaRoute2ProviderServiceSetCallback                     = binder.FirstCallTransaction + 0
-	TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference       = binder.FirstCallTransaction + 1
-	TransactionIMediaRoute2ProviderServiceSetRouteVolume                  = binder.FirstCallTransaction + 2
-	TransactionIMediaRoute2ProviderServiceRequestCreateSession            = binder.FirstCallTransaction + 3
-	TransactionIMediaRoute2ProviderServiceRequestCreateSystemMediaSession = binder.FirstCallTransaction + 4
-	TransactionIMediaRoute2ProviderServiceSelectRoute                     = binder.FirstCallTransaction + 5
-	TransactionIMediaRoute2ProviderServiceDeselectRoute                   = binder.FirstCallTransaction + 6
-	TransactionIMediaRoute2ProviderServiceTransferToRoute                 = binder.FirstCallTransaction + 7
-	TransactionIMediaRoute2ProviderServiceSetSessionVolume                = binder.FirstCallTransaction + 8
-	TransactionIMediaRoute2ProviderServiceReleaseSession                  = binder.FirstCallTransaction + 9
+	TransactionIMediaRoute2ProviderServiceSetCallback               = binder.FirstCallTransaction + 0
+	TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference = binder.FirstCallTransaction + 1
+	TransactionIMediaRoute2ProviderServiceSetRouteVolume            = binder.FirstCallTransaction + 2
+	TransactionIMediaRoute2ProviderServiceRequestCreateSession      = binder.FirstCallTransaction + 3
+	TransactionIMediaRoute2ProviderServiceSelectRoute               = binder.FirstCallTransaction + 4
+	TransactionIMediaRoute2ProviderServiceDeselectRoute             = binder.FirstCallTransaction + 5
+	TransactionIMediaRoute2ProviderServiceTransferToRoute           = binder.FirstCallTransaction + 6
+	TransactionIMediaRoute2ProviderServiceSetSessionVolume          = binder.FirstCallTransaction + 7
+	TransactionIMediaRoute2ProviderServiceReleaseSession            = binder.FirstCallTransaction + 8
+)
+
+const (
+	MethodIMediaRoute2ProviderServiceSetCallback               = "setCallback"
+	MethodIMediaRoute2ProviderServiceUpdateDiscoveryPreference = "updateDiscoveryPreference"
+	MethodIMediaRoute2ProviderServiceSetRouteVolume            = "setRouteVolume"
+	MethodIMediaRoute2ProviderServiceRequestCreateSession      = "requestCreateSession"
+	MethodIMediaRoute2ProviderServiceSelectRoute               = "selectRoute"
+	MethodIMediaRoute2ProviderServiceDeselectRoute             = "deselectRoute"
+	MethodIMediaRoute2ProviderServiceTransferToRoute           = "transferToRoute"
+	MethodIMediaRoute2ProviderServiceSetSessionVolume          = "setSessionVolume"
+	MethodIMediaRoute2ProviderServiceReleaseSession            = "releaseSession"
 )
 
 type IMediaRoute2ProviderService interface {
@@ -30,7 +41,6 @@ type IMediaRoute2ProviderService interface {
 	UpdateDiscoveryPreference(ctx context.Context, discoveryPreference RouteDiscoveryPreference) error
 	SetRouteVolume(ctx context.Context, requestId int64, routeId string, volume int32) error
 	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *interface{}) error
-	RequestCreateSystemMediaSession(ctx context.Context, requestId int64, uid int32, packageName string, routeId string, sessionHints *interface{}) error
 	SelectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	DeselectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	TransferToRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
@@ -39,17 +49,17 @@ type IMediaRoute2ProviderService interface {
 }
 
 type MediaRoute2ProviderServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMediaRoute2ProviderServiceProxy(
 	remote binder.IBinder,
 ) *MediaRoute2ProviderServiceProxy {
-	return &MediaRoute2ProviderServiceProxy{remote: remote}
+	return &MediaRoute2ProviderServiceProxy{Remote: remote}
 }
 
 func (p *MediaRoute2ProviderServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMediaRoute2ProviderService = (*MediaRoute2ProviderServiceProxy)(nil)
@@ -60,14 +70,14 @@ func (p *MediaRoute2ProviderServiceProxy) SetCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "setCallback")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetCallback)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceSetCallback
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetCallback, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,12 +92,12 @@ func (p *MediaRoute2ProviderServiceProxy) UpdateDiscoveryPreference(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "updateDiscoveryPreference")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceUpdateDiscoveryPreference)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceUpdateDiscoveryPreference, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,12 +113,12 @@ func (p *MediaRoute2ProviderServiceProxy) SetRouteVolume(
 	_data.WriteString16(routeId)
 	_data.WriteInt32(volume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "setRouteVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetRouteVolume)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceSetRouteVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetRouteVolume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,36 +135,12 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSession(
 	_data.WriteString16(packageName)
 	_data.WriteString16(routeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "requestCreateSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceRequestCreateSession)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceRequestCreateSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceRequestCreateSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
-	return _err
-}
-
-func (p *MediaRoute2ProviderServiceProxy) RequestCreateSystemMediaSession(
-	ctx context.Context,
-	requestId int64,
-	uid int32,
-	packageName string,
-	routeId string,
-	sessionHints *interface{},
-) error {
-	_data := parcel.New()
-	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
-	_data.WriteInt64(requestId)
-	_data.WriteInt32(uid)
-	_data.WriteString16(packageName)
-	_data.WriteString16(routeId)
-
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "requestCreateSystemMediaSession")
-	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceRequestCreateSystemMediaSession
-	}
-
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,12 +156,12 @@ func (p *MediaRoute2ProviderServiceProxy) SelectRoute(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(routeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "selectRoute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSelectRoute)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceSelectRoute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSelectRoute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -191,12 +177,12 @@ func (p *MediaRoute2ProviderServiceProxy) DeselectRoute(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(routeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "deselectRoute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceDeselectRoute)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceDeselectRoute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceDeselectRoute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,12 +198,12 @@ func (p *MediaRoute2ProviderServiceProxy) TransferToRoute(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(routeId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "transferToRoute")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceTransferToRoute)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceTransferToRoute
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceTransferToRoute, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -233,12 +219,12 @@ func (p *MediaRoute2ProviderServiceProxy) SetSessionVolume(
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(volume)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "setSessionVolume")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetSessionVolume)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceSetSessionVolume
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceSetSessionVolume, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -252,12 +238,12 @@ func (p *MediaRoute2ProviderServiceProxy) ReleaseSession(
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "releaseSession")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceReleaseSession)
 	if _err != nil {
-		_code = TransactionIMediaRoute2ProviderServiceReleaseSession
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMediaRoute2ProviderService, MethodIMediaRoute2ProviderServiceReleaseSession, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -268,6 +254,10 @@ type MediaRoute2ProviderServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceStub)(nil)
+
+func (s *MediaRoute2ProviderServiceStub) Descriptor() string {
+	return DescriptorIMediaRoute2ProviderService
+}
 
 func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 	ctx context.Context,
@@ -341,30 +331,6 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		}
 		var _arg_sessionHints *interface{}
 		_err = s.Impl.RequestCreateSession(ctx, _arg_requestId, _arg_packageName, _arg_routeId, _arg_sessionHints)
-		_ = _err
-		return nil, nil
-	case TransactionIMediaRoute2ProviderServiceRequestCreateSystemMediaSession:
-		if _, _err := _data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_requestId, _err := _data.ReadInt64()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_uid, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_packageName, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_routeId, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		var _arg_sessionHints *interface{}
-		_err = s.Impl.RequestCreateSystemMediaSession(ctx, _arg_requestId, _arg_uid, _arg_packageName, _arg_routeId, _arg_sessionHints)
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceSelectRoute:
@@ -471,7 +437,6 @@ type IMediaRoute2ProviderServiceServer interface {
 	UpdateDiscoveryPreference(ctx context.Context, discoveryPreference RouteDiscoveryPreference) error
 	SetRouteVolume(ctx context.Context, requestId int64, routeId string, volume int32) error
 	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *interface{}) error
-	RequestCreateSystemMediaSession(ctx context.Context, requestId int64, uid int32, packageName string, routeId string, sessionHints *interface{}) error
 	SelectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	DeselectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	TransferToRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
@@ -519,17 +484,6 @@ func (w *mediaRoute2ProviderServiceStubWrapper) RequestCreateSession(
 	sessionHints *interface{},
 ) error {
 	return w.impl.RequestCreateSession(ctx, requestId, packageName, routeId, sessionHints)
-}
-
-func (w *mediaRoute2ProviderServiceStubWrapper) RequestCreateSystemMediaSession(
-	ctx context.Context,
-	requestId int64,
-	uid int32,
-	packageName string,
-	routeId string,
-	sessionHints *interface{},
-) error {
-	return w.impl.RequestCreateSystemMediaSession(ctx, requestId, uid, packageName, routeId, sessionHints)
 }
 
 func (w *mediaRoute2ProviderServiceStubWrapper) SelectRoute(

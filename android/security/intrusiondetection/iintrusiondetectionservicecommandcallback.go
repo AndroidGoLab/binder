@@ -17,6 +17,11 @@ const (
 	TransactionIIntrusionDetectionServiceCommandCallbackOnFailure = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIIntrusionDetectionServiceCommandCallbackOnSuccess = "onSuccess"
+	MethodIIntrusionDetectionServiceCommandCallbackOnFailure = "onFailure"
+)
+
 type IIntrusionDetectionServiceCommandCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context) error
@@ -24,17 +29,17 @@ type IIntrusionDetectionServiceCommandCallback interface {
 }
 
 type IntrusionDetectionServiceCommandCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewIntrusionDetectionServiceCommandCallbackProxy(
 	remote binder.IBinder,
 ) *IntrusionDetectionServiceCommandCallbackProxy {
-	return &IntrusionDetectionServiceCommandCallbackProxy{remote: remote}
+	return &IntrusionDetectionServiceCommandCallbackProxy{Remote: remote}
 }
 
 func (p *IntrusionDetectionServiceCommandCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IIntrusionDetectionServiceCommandCallback = (*IntrusionDetectionServiceCommandCallbackProxy)(nil)
@@ -45,12 +50,12 @@ func (p *IntrusionDetectionServiceCommandCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionServiceCommandCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceCommandCallback, "onSuccess")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionServiceCommandCallback, MethodIIntrusionDetectionServiceCommandCallbackOnSuccess)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceCommandCallbackOnSuccess
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionServiceCommandCallback, MethodIIntrusionDetectionServiceCommandCallbackOnSuccess, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,12 +67,12 @@ func (p *IntrusionDetectionServiceCommandCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionServiceCommandCallback)
 	_data.WriteInt32(int32(error_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceCommandCallback, "onFailure")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIIntrusionDetectionServiceCommandCallback, MethodIIntrusionDetectionServiceCommandCallbackOnFailure)
 	if _err != nil {
-		_code = TransactionIIntrusionDetectionServiceCommandCallbackOnFailure
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIIntrusionDetectionServiceCommandCallback, MethodIIntrusionDetectionServiceCommandCallbackOnFailure, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +83,10 @@ type IntrusionDetectionServiceCommandCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*IntrusionDetectionServiceCommandCallbackStub)(nil)
+
+func (s *IntrusionDetectionServiceCommandCallbackStub) Descriptor() string {
+	return DescriptorIIntrusionDetectionServiceCommandCallback
+}
 
 func (s *IntrusionDetectionServiceCommandCallbackStub) OnTransaction(
 	ctx context.Context,

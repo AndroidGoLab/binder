@@ -18,14 +18,7 @@ func (s *NanClusterEventInd) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.EventType))
-	if s.Addr == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.Addr)))
-		for _, _item := range s.Addr {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteFixedByteArray(s.Addr, 6)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -45,19 +38,9 @@ func (s *NanClusterEventInd) UnmarshalParcel(
 	}
 	s.EventType = NanClusterEventType(_eventTypeRaw)
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.Addr, _err = p.ReadFixedByteArray(6)
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.Addr = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.Addr[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

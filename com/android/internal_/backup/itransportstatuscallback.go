@@ -16,6 +16,11 @@ const (
 	TransactionITransportStatusCallbackOnOperationComplete           = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodITransportStatusCallbackOnOperationCompleteWithStatus = "onOperationCompleteWithStatus"
+	MethodITransportStatusCallbackOnOperationComplete           = "onOperationComplete"
+)
+
 type ITransportStatusCallback interface {
 	AsBinder() binder.IBinder
 	OnOperationCompleteWithStatus(ctx context.Context, status int32) error
@@ -23,17 +28,17 @@ type ITransportStatusCallback interface {
 }
 
 type TransportStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewTransportStatusCallbackProxy(
 	remote binder.IBinder,
 ) *TransportStatusCallbackProxy {
-	return &TransportStatusCallbackProxy{remote: remote}
+	return &TransportStatusCallbackProxy{Remote: remote}
 }
 
 func (p *TransportStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ITransportStatusCallback = (*TransportStatusCallbackProxy)(nil)
@@ -46,12 +51,12 @@ func (p *TransportStatusCallbackProxy) OnOperationCompleteWithStatus(
 	_data.WriteInterfaceToken(DescriptorITransportStatusCallback)
 	_data.WriteInt32(status)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportStatusCallback, "onOperationCompleteWithStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportStatusCallback, MethodITransportStatusCallbackOnOperationCompleteWithStatus)
 	if _err != nil {
-		_code = TransactionITransportStatusCallbackOnOperationCompleteWithStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportStatusCallback, MethodITransportStatusCallbackOnOperationCompleteWithStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,12 +66,12 @@ func (p *TransportStatusCallbackProxy) OnOperationComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransportStatusCallback)
 
-	_code, _err := p.remote.ResolveCode(DescriptorITransportStatusCallback, "onOperationComplete")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorITransportStatusCallback, MethodITransportStatusCallbackOnOperationComplete)
 	if _err != nil {
-		_code = TransactionITransportStatusCallbackOnOperationComplete
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorITransportStatusCallback, MethodITransportStatusCallbackOnOperationComplete, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +82,10 @@ type TransportStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*TransportStatusCallbackStub)(nil)
+
+func (s *TransportStatusCallbackStub) Descriptor() string {
+	return DescriptorITransportStatusCallback
+}
 
 func (s *TransportStatusCallbackStub) OnTransaction(
 	ctx context.Context,

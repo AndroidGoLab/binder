@@ -16,23 +16,27 @@ const (
 	TransactionIWindowlessStartingSurfaceCallbackOnSurfaceAdded = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIWindowlessStartingSurfaceCallbackOnSurfaceAdded = "onSurfaceAdded"
+)
+
 type IWindowlessStartingSurfaceCallback interface {
 	AsBinder() binder.IBinder
 	OnSurfaceAdded(ctx context.Context, addedSurface view.SurfaceControl) error
 }
 
 type WindowlessStartingSurfaceCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewWindowlessStartingSurfaceCallbackProxy(
 	remote binder.IBinder,
 ) *WindowlessStartingSurfaceCallbackProxy {
-	return &WindowlessStartingSurfaceCallbackProxy{remote: remote}
+	return &WindowlessStartingSurfaceCallbackProxy{Remote: remote}
 }
 
 func (p *WindowlessStartingSurfaceCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IWindowlessStartingSurfaceCallback = (*WindowlessStartingSurfaceCallbackProxy)(nil)
@@ -48,12 +52,12 @@ func (p *WindowlessStartingSurfaceCallbackProxy) OnSurfaceAdded(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIWindowlessStartingSurfaceCallback, "onSurfaceAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWindowlessStartingSurfaceCallback, MethodIWindowlessStartingSurfaceCallbackOnSurfaceAdded)
 	if _err != nil {
-		_code = TransactionIWindowlessStartingSurfaceCallbackOnSurfaceAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIWindowlessStartingSurfaceCallback, MethodIWindowlessStartingSurfaceCallbackOnSurfaceAdded, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,6 +77,10 @@ type WindowlessStartingSurfaceCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*WindowlessStartingSurfaceCallbackStub)(nil)
+
+func (s *WindowlessStartingSurfaceCallbackStub) Descriptor() string {
+	return DescriptorIWindowlessStartingSurfaceCallback
+}
 
 func (s *WindowlessStartingSurfaceCallbackStub) OnTransaction(
 	ctx context.Context,

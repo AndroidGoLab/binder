@@ -16,6 +16,11 @@ const (
 	TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStopped = binder.FirstCallTransaction + 1
 )
 
+const (
+	MethodIContextHubEndpointDiscoveryCallbackOnEndpointsStarted = "onEndpointsStarted"
+	MethodIContextHubEndpointDiscoveryCallbackOnEndpointsStopped = "onEndpointsStopped"
+)
+
 type IContextHubEndpointDiscoveryCallback interface {
 	AsBinder() binder.IBinder
 	OnEndpointsStarted(ctx context.Context, hubEndpointInfoList []HubEndpointInfo) error
@@ -23,17 +28,17 @@ type IContextHubEndpointDiscoveryCallback interface {
 }
 
 type ContextHubEndpointDiscoveryCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewContextHubEndpointDiscoveryCallbackProxy(
 	remote binder.IBinder,
 ) *ContextHubEndpointDiscoveryCallbackProxy {
-	return &ContextHubEndpointDiscoveryCallbackProxy{remote: remote}
+	return &ContextHubEndpointDiscoveryCallbackProxy{Remote: remote}
 }
 
 func (p *ContextHubEndpointDiscoveryCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IContextHubEndpointDiscoveryCallback = (*ContextHubEndpointDiscoveryCallbackProxy)(nil)
@@ -49,18 +54,19 @@ func (p *ContextHubEndpointDiscoveryCallbackProxy) OnEndpointsStarted(
 	} else {
 		_data.WriteInt32(int32(len(hubEndpointInfoList)))
 		for _, _item := range hubEndpointInfoList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointDiscoveryCallback, "onEndpointsStarted")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpointDiscoveryCallback, MethodIContextHubEndpointDiscoveryCallbackOnEndpointsStarted)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStarted
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpointDiscoveryCallback, MethodIContextHubEndpointDiscoveryCallbackOnEndpointsStarted, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +82,7 @@ func (p *ContextHubEndpointDiscoveryCallbackProxy) OnEndpointsStopped(
 	} else {
 		_data.WriteInt32(int32(len(hubEndpointInfoList)))
 		for _, _item := range hubEndpointInfoList {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
@@ -83,12 +90,12 @@ func (p *ContextHubEndpointDiscoveryCallbackProxy) OnEndpointsStopped(
 	}
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointDiscoveryCallback, "onEndpointsStopped")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIContextHubEndpointDiscoveryCallback, MethodIContextHubEndpointDiscoveryCallbackOnEndpointsStopped)
 	if _err != nil {
-		_code = TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStopped
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIContextHubEndpointDiscoveryCallback, MethodIContextHubEndpointDiscoveryCallbackOnEndpointsStopped, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +106,10 @@ type ContextHubEndpointDiscoveryCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ContextHubEndpointDiscoveryCallbackStub)(nil)
+
+func (s *ContextHubEndpointDiscoveryCallbackStub) Descriptor() string {
+	return DescriptorIContextHubEndpointDiscoveryCallback
+}
 
 func (s *ContextHubEndpointDiscoveryCallbackStub) OnTransaction(
 	ctx context.Context,

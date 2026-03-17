@@ -15,23 +15,27 @@ const (
 	TransactionIImsFeatureStatusCallbackNotifyImsFeatureStatus = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIImsFeatureStatusCallbackNotifyImsFeatureStatus = "notifyImsFeatureStatus"
+)
+
 type IImsFeatureStatusCallback interface {
 	AsBinder() binder.IBinder
 	NotifyImsFeatureStatus(ctx context.Context, featureStatus int32) error
 }
 
 type ImsFeatureStatusCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewImsFeatureStatusCallbackProxy(
 	remote binder.IBinder,
 ) *ImsFeatureStatusCallbackProxy {
-	return &ImsFeatureStatusCallbackProxy{remote: remote}
+	return &ImsFeatureStatusCallbackProxy{Remote: remote}
 }
 
 func (p *ImsFeatureStatusCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IImsFeatureStatusCallback = (*ImsFeatureStatusCallbackProxy)(nil)
@@ -44,12 +48,12 @@ func (p *ImsFeatureStatusCallbackProxy) NotifyImsFeatureStatus(
 	_data.WriteInterfaceToken(DescriptorIImsFeatureStatusCallback)
 	_data.WriteInt32(featureStatus)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIImsFeatureStatusCallback, "notifyImsFeatureStatus")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIImsFeatureStatusCallback, MethodIImsFeatureStatusCallbackNotifyImsFeatureStatus)
 	if _err != nil {
-		_code = TransactionIImsFeatureStatusCallbackNotifyImsFeatureStatus
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIImsFeatureStatusCallback, MethodIImsFeatureStatusCallbackNotifyImsFeatureStatus, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +64,10 @@ type ImsFeatureStatusCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ImsFeatureStatusCallbackStub)(nil)
+
+func (s *ImsFeatureStatusCallbackStub) Descriptor() string {
+	return DescriptorIImsFeatureStatusCallback
+}
 
 func (s *ImsFeatureStatusCallbackStub) OnTransaction(
 	ctx context.Context,

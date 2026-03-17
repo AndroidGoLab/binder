@@ -17,6 +17,12 @@ const (
 	TransactionIMidiDeviceListenerOnDeviceStatusChanged = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIMidiDeviceListenerOnDeviceAdded         = "onDeviceAdded"
+	MethodIMidiDeviceListenerOnDeviceRemoved       = "onDeviceRemoved"
+	MethodIMidiDeviceListenerOnDeviceStatusChanged = "onDeviceStatusChanged"
+)
+
 type IMidiDeviceListener interface {
 	AsBinder() binder.IBinder
 	OnDeviceAdded(ctx context.Context, device interface{}) error
@@ -25,17 +31,17 @@ type IMidiDeviceListener interface {
 }
 
 type MidiDeviceListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMidiDeviceListenerProxy(
 	remote binder.IBinder,
 ) *MidiDeviceListenerProxy {
-	return &MidiDeviceListenerProxy{remote: remote}
+	return &MidiDeviceListenerProxy{Remote: remote}
 }
 
 func (p *MidiDeviceListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMidiDeviceListener = (*MidiDeviceListenerProxy)(nil)
@@ -47,12 +53,12 @@ func (p *MidiDeviceListenerProxy) OnDeviceAdded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceListener, "onDeviceAdded")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceAdded)
 	if _err != nil {
-		_code = TransactionIMidiDeviceListenerOnDeviceAdded
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceAdded, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,12 +69,12 @@ func (p *MidiDeviceListenerProxy) OnDeviceRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceListener)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceListener, "onDeviceRemoved")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceRemoved)
 	if _err != nil {
-		_code = TransactionIMidiDeviceListenerOnDeviceRemoved
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceRemoved, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,12 +89,12 @@ func (p *MidiDeviceListenerProxy) OnDeviceStatusChanged(
 		return _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceListener, "onDeviceStatusChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceStatusChanged)
 	if _err != nil {
-		_code = TransactionIMidiDeviceListenerOnDeviceStatusChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMidiDeviceListener, MethodIMidiDeviceListenerOnDeviceStatusChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +105,10 @@ type MidiDeviceListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MidiDeviceListenerStub)(nil)
+
+func (s *MidiDeviceListenerStub) Descriptor() string {
+	return DescriptorIMidiDeviceListener
+}
 
 func (s *MidiDeviceListenerStub) OnTransaction(
 	ctx context.Context,

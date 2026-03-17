@@ -15,23 +15,27 @@ const (
 	TransactionIActiveSessionsListenerOnActiveSessionsChanged = binder.FirstCallTransaction + 0
 )
 
+const (
+	MethodIActiveSessionsListenerOnActiveSessionsChanged = "onActiveSessionsChanged"
+)
+
 type IActiveSessionsListener interface {
 	AsBinder() binder.IBinder
 	OnActiveSessionsChanged(ctx context.Context, sessions []MediaSessionToken) error
 }
 
 type ActiveSessionsListenerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewActiveSessionsListenerProxy(
 	remote binder.IBinder,
 ) *ActiveSessionsListenerProxy {
-	return &ActiveSessionsListenerProxy{remote: remote}
+	return &ActiveSessionsListenerProxy{Remote: remote}
 }
 
 func (p *ActiveSessionsListenerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IActiveSessionsListener = (*ActiveSessionsListenerProxy)(nil)
@@ -47,18 +51,19 @@ func (p *ActiveSessionsListenerProxy) OnActiveSessionsChanged(
 	} else {
 		_data.WriteInt32(int32(len(sessions)))
 		for _, _item := range sessions {
+			_data.WriteInt32(1)
 			if _err := _item.MarshalParcel(_data); _err != nil {
 				return _err
 			}
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIActiveSessionsListener, "onActiveSessionsChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIActiveSessionsListener, MethodIActiveSessionsListenerOnActiveSessionsChanged)
 	if _err != nil {
-		_code = TransactionIActiveSessionsListenerOnActiveSessionsChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIActiveSessionsListener, MethodIActiveSessionsListenerOnActiveSessionsChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +74,10 @@ type ActiveSessionsListenerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*ActiveSessionsListenerStub)(nil)
+
+func (s *ActiveSessionsListenerStub) Descriptor() string {
+	return DescriptorIActiveSessionsListener
+}
 
 func (s *ActiveSessionsListenerStub) OnTransaction(
 	ctx context.Context,

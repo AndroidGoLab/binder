@@ -17,6 +17,12 @@ const (
 	TransactionIGroupCallCallbackOnBroadcastSignalStrengthUpdated = binder.FirstCallTransaction + 2
 )
 
+const (
+	MethodIGroupCallCallbackOnError                          = "onError"
+	MethodIGroupCallCallbackOnGroupCallStateChanged          = "onGroupCallStateChanged"
+	MethodIGroupCallCallbackOnBroadcastSignalStrengthUpdated = "onBroadcastSignalStrengthUpdated"
+)
+
 type IGroupCallCallback interface {
 	AsBinder() binder.IBinder
 	OnError(ctx context.Context, errorCode int32, message string) error
@@ -25,17 +31,17 @@ type IGroupCallCallback interface {
 }
 
 type GroupCallCallbackProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewGroupCallCallbackProxy(
 	remote binder.IBinder,
 ) *GroupCallCallbackProxy {
-	return &GroupCallCallbackProxy{remote: remote}
+	return &GroupCallCallbackProxy{Remote: remote}
 }
 
 func (p *GroupCallCallbackProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IGroupCallCallback = (*GroupCallCallbackProxy)(nil)
@@ -50,12 +56,12 @@ func (p *GroupCallCallbackProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGroupCallCallback, "onError")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnError)
 	if _err != nil {
-		_code = TransactionIGroupCallCallbackOnError
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnError, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,12 +75,12 @@ func (p *GroupCallCallbackProxy) OnGroupCallStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteInt32(reason)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGroupCallCallback, "onGroupCallStateChanged")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnGroupCallStateChanged)
 	if _err != nil {
-		_code = TransactionIGroupCallCallbackOnGroupCallStateChanged
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnGroupCallStateChanged, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,12 +92,12 @@ func (p *GroupCallCallbackProxy) OnBroadcastSignalStrengthUpdated(
 	_data.WriteInterfaceToken(DescriptorIGroupCallCallback)
 	_data.WriteInt32(signalStrength)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIGroupCallCallback, "onBroadcastSignalStrengthUpdated")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnBroadcastSignalStrengthUpdated)
 	if _err != nil {
-		_code = TransactionIGroupCallCallbackOnBroadcastSignalStrengthUpdated
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIGroupCallCallback, MethodIGroupCallCallbackOnBroadcastSignalStrengthUpdated, _err)
 	}
 
-	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
+	_, _err = p.Remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +108,10 @@ type GroupCallCallbackStub struct {
 }
 
 var _ binder.TransactionReceiver = (*GroupCallCallbackStub)(nil)
+
+func (s *GroupCallCallbackStub) Descriptor() string {
+	return DescriptorIGroupCallCallback
+}
 
 func (s *GroupCallCallbackStub) OnTransaction(
 	ctx context.Context,

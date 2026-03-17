@@ -19,38 +19,10 @@ func (s *Hs20AnqpData) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
-	if s.OperatorFriendlyName == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OperatorFriendlyName)))
-		for _, _item := range s.OperatorFriendlyName {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.WanMetrics == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.WanMetrics)))
-		for _, _item := range s.WanMetrics {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.ConnectionCapability == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.ConnectionCapability)))
-		for _, _item := range s.ConnectionCapability {
-			p.WritePaddedByte(_item)
-		}
-	}
-	if s.OsuProvidersList == nil {
-		p.WriteInt32(-1)
-	} else {
-		p.WriteInt32(int32(len(s.OsuProvidersList)))
-		for _, _item := range s.OsuProvidersList {
-			p.WritePaddedByte(_item)
-		}
-	}
+	p.WriteByteArray(s.OperatorFriendlyName)
+	p.WriteByteArray(s.WanMetrics)
+	p.WriteByteArray(s.ConnectionCapability)
+	p.WriteByteArray(s.OsuProvidersList)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -64,64 +36,24 @@ func (s *Hs20AnqpData) UnmarshalParcel(
 		return _err
 	}
 
-	var _count0 int32
-	_count0, _err = p.ReadInt32()
+	s.OperatorFriendlyName, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count0 >= 0 {
-		s.OperatorFriendlyName = make([]byte, _count0)
-		for _i := int32(0); _i < _count0; _i++ {
-			s.OperatorFriendlyName[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count1 int32
-	_count1, _err = p.ReadInt32()
+	s.WanMetrics, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count1 >= 0 {
-		s.WanMetrics = make([]byte, _count1)
-		for _i := int32(0); _i < _count1; _i++ {
-			s.WanMetrics[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count2 int32
-	_count2, _err = p.ReadInt32()
+	s.ConnectionCapability, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count2 >= 0 {
-		s.ConnectionCapability = make([]byte, _count2)
-		for _i := int32(0); _i < _count2; _i++ {
-			s.ConnectionCapability[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
-	var _count3 int32
-	_count3, _err = p.ReadInt32()
+	s.OsuProvidersList, _err = p.ReadByteArray()
 	if _err != nil {
 		return _err
-	}
-	if _count3 >= 0 {
-		s.OsuProvidersList = make([]byte, _count3)
-		for _i := int32(0); _i < _count3; _i++ {
-			s.OsuProvidersList[_i], _err = p.ReadPaddedByte()
-			if _err != nil {
-				return _err
-			}
-		}
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

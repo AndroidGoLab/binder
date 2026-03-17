@@ -22,6 +22,15 @@ const (
 	TransactionIMbmsStreamingServiceDispose                        = binder.FirstCallTransaction + 5
 )
 
+const (
+	MethodIMbmsStreamingServiceInitialize                     = "initialize"
+	MethodIMbmsStreamingServiceRequestUpdateStreamingServices = "requestUpdateStreamingServices"
+	MethodIMbmsStreamingServiceStartStreaming                 = "startStreaming"
+	MethodIMbmsStreamingServiceGetPlaybackUri                 = "getPlaybackUri"
+	MethodIMbmsStreamingServiceStopStreaming                  = "stopStreaming"
+	MethodIMbmsStreamingServiceDispose                        = "dispose"
+)
+
 type IMbmsStreamingService interface {
 	AsBinder() binder.IBinder
 	Initialize(ctx context.Context, callback mbms.IMbmsStreamingSessionCallback, subId int32) (int32, error)
@@ -33,17 +42,17 @@ type IMbmsStreamingService interface {
 }
 
 type MbmsStreamingServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewMbmsStreamingServiceProxy(
 	remote binder.IBinder,
 ) *MbmsStreamingServiceProxy {
-	return &MbmsStreamingServiceProxy{remote: remote}
+	return &MbmsStreamingServiceProxy{Remote: remote}
 }
 
 func (p *MbmsStreamingServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IMbmsStreamingService = (*MbmsStreamingServiceProxy)(nil)
@@ -56,15 +65,15 @@ func (p *MbmsStreamingServiceProxy) Initialize(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "initialize")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceInitialize)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingServiceInitialize
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceInitialize, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,12 +108,12 @@ func (p *MbmsStreamingServiceProxy) RequestUpdateStreamingServices(
 		}
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "requestUpdateStreamingServices")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceRequestUpdateStreamingServices)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingServiceRequestUpdateStreamingServices
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceRequestUpdateStreamingServices, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,14 +141,14 @@ func (p *MbmsStreamingServiceProxy) StartStreaming(
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "startStreaming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStartStreaming)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingServiceStartStreaming
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStartStreaming, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,12 +176,12 @@ func (p *MbmsStreamingServiceProxy) GetPlaybackUri(
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "getPlaybackUri")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceGetPlaybackUri)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingServiceGetPlaybackUri
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceGetPlaybackUri, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -204,12 +213,12 @@ func (p *MbmsStreamingServiceProxy) StopStreaming(
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "stopStreaming")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStopStreaming)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingServiceStopStreaming
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceStopStreaming, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,12 +239,12 @@ func (p *MbmsStreamingServiceProxy) Dispose(
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "dispose")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceDispose)
 	if _err != nil {
-		_code = TransactionIMbmsStreamingServiceDispose
+		return fmt.Errorf("resolving %s.%s: %w", DescriptorIMbmsStreamingService, MethodIMbmsStreamingServiceDispose, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -255,6 +264,10 @@ type MbmsStreamingServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*MbmsStreamingServiceStub)(nil)
+
+func (s *MbmsStreamingServiceStub) Descriptor() string {
+	return DescriptorIMbmsStreamingService
+}
 
 func (s *MbmsStreamingServiceStub) OnTransaction(
 	ctx context.Context,

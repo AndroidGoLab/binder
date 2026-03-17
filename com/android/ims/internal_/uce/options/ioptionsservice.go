@@ -24,6 +24,17 @@ const (
 	TransactionIOptionsServiceResponseIncomingOptions = binder.FirstCallTransaction + 7
 )
 
+const (
+	MethodIOptionsServiceGetVersion              = "getVersion"
+	MethodIOptionsServiceAddListener             = "addListener"
+	MethodIOptionsServiceRemoveListener          = "removeListener"
+	MethodIOptionsServiceSetMyInfo               = "setMyInfo"
+	MethodIOptionsServiceGetMyInfo               = "getMyInfo"
+	MethodIOptionsServiceGetContactCap           = "getContactCap"
+	MethodIOptionsServiceGetContactListCap       = "getContactListCap"
+	MethodIOptionsServiceResponseIncomingOptions = "responseIncomingOptions"
+)
+
 type IOptionsService interface {
 	AsBinder() binder.IBinder
 	GetVersion(ctx context.Context, optionsServiceHandle int32) (vehicle.StatusCode, error)
@@ -37,17 +48,17 @@ type IOptionsService interface {
 }
 
 type OptionsServiceProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewOptionsServiceProxy(
 	remote binder.IBinder,
 ) *OptionsServiceProxy {
-	return &OptionsServiceProxy{remote: remote}
+	return &OptionsServiceProxy{Remote: remote}
 }
 
 func (p *OptionsServiceProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ IOptionsService = (*OptionsServiceProxy)(nil)
@@ -61,12 +72,12 @@ func (p *OptionsServiceProxy) GetVersion(
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getVersion")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceGetVersion)
 	if _err != nil {
-		_code = TransactionIOptionsServiceGetVersion
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceGetVersion, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,18 +105,18 @@ func (p *OptionsServiceProxy) AddListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
-	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, optionsListener.AsBinder(), p.Remote.Transport())
 	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "addListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceAddListener)
 	if _err != nil {
-		_code = TransactionIOptionsServiceAddListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceAddListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,12 +151,12 @@ func (p *OptionsServiceProxy) RemoveListener(
 		return _result, _err
 	}
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "removeListener")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceRemoveListener)
 	if _err != nil {
-		_code = TransactionIOptionsServiceRemoveListener
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceRemoveListener, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,12 +190,12 @@ func (p *OptionsServiceProxy) SetMyInfo(
 	}
 	_data.WriteInt32(reqUserData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "setMyInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceSetMyInfo)
 	if _err != nil {
-		_code = TransactionIOptionsServiceSetMyInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceSetMyInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -213,12 +224,12 @@ func (p *OptionsServiceProxy) GetMyInfo(
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteInt32(reqUserdata)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getMyInfo")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceGetMyInfo)
 	if _err != nil {
-		_code = TransactionIOptionsServiceGetMyInfo
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceGetMyInfo, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -249,12 +260,12 @@ func (p *OptionsServiceProxy) GetContactCap(
 	_data.WriteString16(remoteURI)
 	_data.WriteInt32(reqUserData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getContactCap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceGetContactCap)
 	if _err != nil {
-		_code = TransactionIOptionsServiceGetContactCap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceGetContactCap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -292,12 +303,12 @@ func (p *OptionsServiceProxy) GetContactListCap(
 	}
 	_data.WriteInt32(reqUserData)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getContactListCap")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceGetContactListCap)
 	if _err != nil {
-		_code = TransactionIOptionsServiceGetContactListCap
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceGetContactListCap, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -337,12 +348,12 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 	}
 	_data.WriteBool(bContactInBL)
 
-	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "responseIncomingOptions")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsService, MethodIOptionsServiceResponseIncomingOptions)
 	if _err != nil {
-		_code = TransactionIOptionsServiceResponseIncomingOptions
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIOptionsService, MethodIOptionsServiceResponseIncomingOptions, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -367,6 +378,10 @@ type OptionsServiceStub struct {
 }
 
 var _ binder.TransactionReceiver = (*OptionsServiceStub)(nil)
+
+func (s *OptionsServiceStub) Descriptor() string {
+	return DescriptorIOptionsService
+}
 
 func (s *OptionsServiceStub) OnTransaction(
 	ctx context.Context,

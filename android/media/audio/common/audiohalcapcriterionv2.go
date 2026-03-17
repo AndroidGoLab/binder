@@ -127,26 +127,32 @@ func (u *AudioHalCapCriterionV2) MarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapCriterionV2TagAvailableInputDevices:
+		p.WriteInt32(1)
 		if _err := u.AvailableInputDevices.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevices:
+		p.WriteInt32(1)
 		if _err := u.AvailableOutputDevices.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagAvailableInputDevicesAddresses:
+		p.WriteInt32(1)
 		if _err := u.AvailableInputDevicesAddresses.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevicesAddresses:
+		p.WriteInt32(1)
 		if _err := u.AvailableOutputDevicesAddresses.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagTelephonyMode:
+		p.WriteInt32(1)
 		if _err := u.TelephonyMode.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagForceConfigForUse:
+		p.WriteInt32(1)
 		if _err := u.ForceConfigForUse.MarshalParcel(p); _err != nil {
 			return _err
 		}
@@ -173,26 +179,44 @@ func (u *AudioHalCapCriterionV2) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapCriterionV2TagAvailableInputDevices:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AvailableInputDevices.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevices:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AvailableOutputDevices.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagAvailableInputDevicesAddresses:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AvailableInputDevicesAddresses.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevicesAddresses:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.AvailableOutputDevicesAddresses.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagTelephonyMode:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.TelephonyMode.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case AudioHalCapCriterionV2TagForceConfigForUse:
+		if _, _err = p.ReadInt32(); _err != nil {
+			return _err
+		}
 		if _err = u.ForceConfigForUse.UnmarshalParcel(p); _err != nil {
 			return _err
 		}

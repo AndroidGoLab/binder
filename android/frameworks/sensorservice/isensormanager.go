@@ -21,6 +21,14 @@ const (
 	TransactionISensorManagerGetSensorList              = binder.FirstCallTransaction + 4
 )
 
+const (
+	MethodISensorManagerCreateAshmemDirectChannel  = "createAshmemDirectChannel"
+	MethodISensorManagerCreateEventQueue           = "createEventQueue"
+	MethodISensorManagerCreateGrallocDirectChannel = "createGrallocDirectChannel"
+	MethodISensorManagerGetDefaultSensor           = "getDefaultSensor"
+	MethodISensorManagerGetSensorList              = "getSensorList"
+)
+
 type ISensorManager interface {
 	AsBinder() binder.IBinder
 	CreateAshmemDirectChannel(ctx context.Context, mem common.Ashmem, size int64) (IDirectReportChannel, error)
@@ -41,17 +49,17 @@ const (
 )
 
 type SensorManagerProxy struct {
-	remote binder.IBinder
+	Remote binder.IBinder
 }
 
 func NewSensorManagerProxy(
 	remote binder.IBinder,
 ) *SensorManagerProxy {
-	return &SensorManagerProxy{remote: remote}
+	return &SensorManagerProxy{Remote: remote}
 }
 
 func (p *SensorManagerProxy) AsBinder() binder.IBinder {
-	return p.remote
+	return p.Remote
 }
 
 var _ ISensorManager = (*SensorManagerProxy)(nil)
@@ -70,12 +78,12 @@ func (p *SensorManagerProxy) CreateAshmemDirectChannel(
 	}
 	_data.WriteInt64(size)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "createAshmemDirectChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerCreateAshmemDirectChannel)
 	if _err != nil {
-		_code = TransactionISensorManagerCreateAshmemDirectChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISensorManager, MethodISensorManagerCreateAshmemDirectChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -89,7 +97,7 @@ func (p *SensorManagerProxy) CreateAshmemDirectChannel(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDirectReportChannelProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDirectReportChannelProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -100,14 +108,14 @@ func (p *SensorManagerProxy) CreateEventQueue(
 	var _result IEventQueue
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
-	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.Remote.Transport())
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "createEventQueue")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerCreateEventQueue)
 	if _err != nil {
-		_code = TransactionISensorManagerCreateEventQueue
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISensorManager, MethodISensorManagerCreateEventQueue, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,7 +129,7 @@ func (p *SensorManagerProxy) CreateEventQueue(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEventQueueProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewEventQueueProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -136,12 +144,12 @@ func (p *SensorManagerProxy) CreateGrallocDirectChannel(
 	_data.WriteFileDescriptor(buffer)
 	_data.WriteInt64(size)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "createGrallocDirectChannel")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerCreateGrallocDirectChannel)
 	if _err != nil {
-		_code = TransactionISensorManagerCreateGrallocDirectChannel
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISensorManager, MethodISensorManagerCreateGrallocDirectChannel, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -155,7 +163,7 @@ func (p *SensorManagerProxy) CreateGrallocDirectChannel(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDirectReportChannelProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
+	_result = NewDirectReportChannelProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -168,12 +176,12 @@ func (p *SensorManagerProxy) GetDefaultSensor(
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 	_data.WriteInt32(int32(type_))
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "getDefaultSensor")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerGetDefaultSensor)
 	if _err != nil {
-		_code = TransactionISensorManagerGetDefaultSensor
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISensorManager, MethodISensorManagerGetDefaultSensor, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,12 +210,12 @@ func (p *SensorManagerProxy) GetSensorList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensorManager)
 
-	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "getSensorList")
+	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISensorManager, MethodISensorManagerGetSensorList)
 	if _err != nil {
-		_code = TransactionISensorManagerGetSensorList
+		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorISensorManager, MethodISensorManagerGetSensorList, _err)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
+	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -225,6 +233,9 @@ func (p *SensorManagerProxy) GetSensorList(
 	if _count >= 0 {
 		_result = make([]sensors.SensorInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _, _err = _reply.ReadInt32(); _err != nil {
+				return _result, _err
+			}
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
 			}
@@ -240,6 +251,10 @@ type SensorManagerStub struct {
 }
 
 var _ binder.TransactionReceiver = (*SensorManagerStub)(nil)
+
+func (s *SensorManagerStub) Descriptor() string {
+	return DescriptorISensorManager
+}
 
 func (s *SensorManagerStub) OnTransaction(
 	ctx context.Context,
