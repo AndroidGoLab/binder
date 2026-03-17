@@ -1,0 +1,6 @@
+- java_file: location/java/android/location/LocationManager.java
+  pattern: "*_PROVIDER"
+  go_package: location
+  go_type: LocationProvider
+  go_output: android/location/location_provider_gen.go
+  name_transform: strip_suffix:PROVIDER
