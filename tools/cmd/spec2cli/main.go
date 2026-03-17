@@ -1176,7 +1176,7 @@ func writeFindServiceByDescriptorFunc(
 	}
 
 	for _, name := range services {
-		svc, err := conn.SM.CheckService(ctx, servicemanager.ServiceName(name))
+		svc, err := conn.SM.CheckService(ctx, name)
 		if err != nil || svc == nil {
 			continue
 		}

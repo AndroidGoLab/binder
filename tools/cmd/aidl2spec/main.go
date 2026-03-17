@@ -119,7 +119,7 @@ func runExplicitFiles(
 		}
 	}
 
-	allDefs := r.Registry().All()
+	allDefs := r.Registry.All()
 	specs := convertToSpecs(allDefs)
 
 	return spec.WriteAllSpecs(outputDir, specs)
@@ -168,7 +168,7 @@ func runDiscovery(
 	}
 	fmt.Fprintf(os.Stderr, "Resolved %d files (%d parse failures)\n", resolvedCount, parseFailCount)
 
-	allDefs := r.Registry().All()
+	allDefs := r.Registry.All()
 	fmt.Fprintf(os.Stderr, "Total definitions: %d\n", len(allDefs))
 
 	specs := convertToSpecs(allDefs)

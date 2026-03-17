@@ -17,7 +17,7 @@ func (d *Driver) freeBuffer(
 	// avoiding a per-call heap allocation.
 	var bufArr [freeBufferBufSize]byte
 	buf := bufArr[:]
-	binary.LittleEndian.PutUint32(buf[0:4], bcFreeBuffer)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(bcFreeBuffer))
 	binary.LittleEndian.PutUint64(buf[4:12], bufferAddr)
 
 	err := d.writeCommand(ctx, buf)

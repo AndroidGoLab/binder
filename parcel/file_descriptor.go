@@ -5,12 +5,6 @@ import (
 	"fmt"
 )
 
-const (
-	// binderTypeFD is the type for a file descriptor in a flat_binder_object.
-	// Kernel value: B_PACK_CHARS('f','d','*',0x85) = 0x66642a85.
-	binderTypeFD = uint32(0x66642a85)
-)
-
 // WriteFileDescriptor writes a flat_binder_object with type BINDER_TYPE_FD
 // containing the given file descriptor.
 func (p *Parcel) WriteFileDescriptor(
@@ -22,10 +16,10 @@ func (p *Parcel) WriteFileDescriptor(
 	buf := p.grow(flatBinderObjectSize)
 
 	// type (uint32, offset 0)
-	binary.LittleEndian.PutUint32(buf[0:], binderTypeFD)
+	binary.LittleEndian.PutUint32(buf[0:], uint32(binderTypeFD))
 
 	// flags (uint32, offset 4)
-	binary.LittleEndian.PutUint32(buf[4:], binderFlagsAcceptFDs)
+	binary.LittleEndian.PutUint32(buf[4:], uint32(binderFlagsAcceptFDs))
 
 	// handle/fd (uint32, offset 8)
 	binary.LittleEndian.PutUint32(buf[8:], uint32(fd))
@@ -45,7 +39,7 @@ func (p *Parcel) ReadFileDescriptor() (int32, error) {
 		return 0, err
 	}
 
-	objType := binary.LittleEndian.Uint32(b[0:])
+	objType := binderObjectType(binary.LittleEndian.Uint32(b[0:]))
 	if objType != binderTypeFD {
 		return 0, fmt.Errorf("parcel: expected binder FD type %#x, got %#x", binderTypeFD, objType)
 	}

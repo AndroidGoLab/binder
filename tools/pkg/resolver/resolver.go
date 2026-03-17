@@ -15,10 +15,10 @@ import (
 // is mutex-protected, the Resolver's own resolved map has no synchronization.
 // Callers must ensure that only one goroutine calls Resolver methods at a time.
 type Resolver struct {
-	searchPaths     []string
-	registry        *TypeRegistry
-	resolved        map[string]bool
-	skipUnresolved  bool
+	SearchPaths    []string
+	Registry       *TypeRegistry
+	Resolved       map[string]bool
+	SkipUnresolved bool
 }
 
 // New creates a Resolver that searches the given paths for AIDL files.
@@ -26,9 +26,9 @@ func New(
 	searchPaths []string,
 ) *Resolver {
 	return &Resolver{
-		searchPaths: searchPaths,
-		registry:    NewTypeRegistry(),
-		resolved:    make(map[string]bool),
+		SearchPaths: searchPaths,
+		Registry:    NewTypeRegistry(),
+		Resolved:    make(map[string]bool),
 	}
 }
 
@@ -38,12 +38,7 @@ func New(
 func (r *Resolver) SetSkipUnresolved(
 	skip bool,
 ) {
-	r.skipUnresolved = skip
-}
-
-// Registry returns the resolver's type registry.
-func (r *Resolver) Registry() *TypeRegistry {
-	return r.registry
+	r.SkipUnresolved = skip
 }
 
 // ResolveFile parses an AIDL file and transitively resolves all its imports.
@@ -55,10 +50,10 @@ func (r *Resolver) ResolveFile(
 		return fmt.Errorf("resolver: abs path: %w", err)
 	}
 
-	if r.resolved[absPath] {
+	if r.Resolved[absPath] {
 		return nil
 	}
-	r.resolved[absPath] = true
+	r.Resolved[absPath] = true
 
 	doc, err := parser.ParseFile(filename)
 	if err != nil {
@@ -79,10 +74,10 @@ func (r *Resolver) ResolveDocument(
 		return fmt.Errorf("resolver: abs path: %w", err)
 	}
 
-	if r.resolved[absPath] {
+	if r.Resolved[absPath] {
 		return nil
 	}
-	r.resolved[absPath] = true
+	r.Resolved[absPath] = true
 
 	return r.resolveDocument(doc, filename)
 }
@@ -101,7 +96,7 @@ func (r *Resolver) resolveDocument(
 		if pkg != "" {
 			qualifiedName = pkg + "." + def.GetName()
 		}
-		r.registry.Register(qualifiedName, def)
+		r.Registry.Register(qualifiedName, def)
 		r.registerNestedTypes(qualifiedName, def)
 	}
 
@@ -132,7 +127,7 @@ func (r *Resolver) registerNestedTypes(
 
 	for _, nd := range nested {
 		qualifiedName := parentName + "." + nd.GetName()
-		r.registry.Register(qualifiedName, nd)
+		r.Registry.Register(qualifiedName, nd)
 		r.registerNestedTypes(qualifiedName, nd)
 	}
 }
@@ -141,25 +136,25 @@ func (r *Resolver) registerNestedTypes(
 func (r *Resolver) resolveImport(
 	qualifiedName string,
 ) error {
-	if _, ok := r.registry.Lookup(qualifiedName); ok {
+	if _, ok := r.Registry.Lookup(qualifiedName); ok {
 		return nil
 	}
 
 	// Convert qualified name to file path: android.os.IServiceManager -> android/os/IServiceManager.aidl
 	relPath := strings.ReplaceAll(qualifiedName, ".", "/") + ".aidl"
 
-	for _, searchPath := range r.searchPaths {
+	for _, searchPath := range r.SearchPaths {
 		fullPath := filepath.Join(searchPath, relPath)
 		if _, err := os.Stat(fullPath); err == nil {
 			absPath, _ := filepath.Abs(fullPath)
-			if r.resolved[absPath] {
+			if r.Resolved[absPath] {
 				return nil // already being resolved (circular import)
 			}
 			return r.ResolveFile(fullPath)
 		}
 	}
 
-	if r.skipUnresolved {
+	if r.SkipUnresolved {
 		return nil
 	}
 	return fmt.Errorf("cannot find AIDL file for %q in search paths", qualifiedName)

@@ -123,6 +123,6 @@ func (opts GenOptions) newTypeRefResolver(goFile *GoFile) *TypeRefResolver {
 		return nil
 	}
 	r := NewTypeRefResolver(opts.Registry, opts.CurrentPkg, goFile)
-	r.importGraph = opts.ImportGraph
+	r.ImportGraph = opts.ImportGraph
 	return r
 }

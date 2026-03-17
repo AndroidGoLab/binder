@@ -18,9 +18,11 @@ import (
 	"github.com/xaionaro-go/binder/servicemanager"
 )
 
+type permissionResult int32
+
 const (
-	permissionGranted = 0
-	permissionDenied  = -1
+	permissionGranted permissionResult = 0
+	permissionDenied  permissionResult = -1
 )
 
 func main() {
@@ -89,7 +91,7 @@ func main() {
 			continue
 		}
 		status := "DENIED"
-		if result == permissionGranted {
+		if permissionResult(result) == permissionGranted {
 			status = "GRANTED"
 		}
 		fmt.Printf("  %-45s %s\n", perm, status)

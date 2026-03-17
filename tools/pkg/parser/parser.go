@@ -312,13 +312,13 @@ func (p *parserState) isNestedTypeStart() bool {
 // Precondition: p.cur.Kind == TokenAnnotation.
 func (p *parserState) peekPastAnnotationsIsTypeKeyword() bool {
 	// Save lexer state to restore later.
-	savedOffset := p.lex.offset
-	savedLine := p.lex.line
-	savedColumn := p.lex.column
+	savedOffset := p.lex.Offset
+	savedLine := p.lex.Line
+	savedColumn := p.lex.Column
 	defer func() {
-		p.lex.offset = savedOffset
-		p.lex.line = savedLine
-		p.lex.column = savedColumn
+		p.lex.Offset = savedOffset
+		p.lex.Line = savedLine
+		p.lex.Column = savedColumn
 	}()
 
 	// p.cur is already an annotation token. The lexer is positioned just
@@ -329,10 +329,10 @@ func (p *parserState) peekPastAnnotationsIsTypeKeyword() bool {
 		if err := p.lex.skipWhitespaceAndComments(); err != nil {
 			return false
 		}
-		if p.lex.offset < len(p.lex.src) && p.lex.src[p.lex.offset] == '(' {
+		if p.lex.Offset < len(p.lex.Src) && p.lex.Src[p.lex.Offset] == '(' {
 			depth := 1
 			p.lex.advance()
-			for depth > 0 && p.lex.offset < len(p.lex.src) {
+			for depth > 0 && p.lex.Offset < len(p.lex.Src) {
 				ch := p.lex.advance()
 				switch ch {
 				case '(':
@@ -932,13 +932,13 @@ func (p *parserState) parseInterfaceMemberDefinition() (Definition, error) {
 // peekNextTokenKind peeks at the next token kind without consuming it. It saves
 // and restores the lexer state.
 func (p *parserState) peekNextTokenKind() TokenKind {
-	savedOffset := p.lex.offset
-	savedLine := p.lex.line
-	savedColumn := p.lex.column
+	savedOffset := p.lex.Offset
+	savedLine := p.lex.Line
+	savedColumn := p.lex.Column
 	defer func() {
-		p.lex.offset = savedOffset
-		p.lex.line = savedLine
-		p.lex.column = savedColumn
+		p.lex.Offset = savedOffset
+		p.lex.Line = savedLine
+		p.lex.Column = savedColumn
 	}()
 
 	tok := p.lex.Next()

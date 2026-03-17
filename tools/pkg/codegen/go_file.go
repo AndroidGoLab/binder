@@ -9,16 +9,16 @@ import (
 
 // GoFile builds a Go source file with automatic import management.
 type GoFile struct {
-	pkg     string
-	imports map[string]string // import path -> alias (or "")
-	buf     bytes.Buffer
+	Pkg     string
+	Imports map[string]string // import path -> alias (or "")
+	Buf     bytes.Buffer
 }
 
 // NewGoFile creates a new GoFile for the given package name.
 func NewGoFile(pkg string) *GoFile {
 	return &GoFile{
-		pkg:     pkg,
-		imports: make(map[string]string),
+		Pkg:     pkg,
+		Imports: make(map[string]string),
 	}
 }
 
@@ -27,35 +27,35 @@ func (f *GoFile) AddImport(
 	path string,
 	alias string,
 ) {
-	f.imports[path] = alias
+	f.Imports[path] = alias
 }
 
 // P writes a line (printf-style) to the file body.
 func (f *GoFile) P(
 	fmtStr string,
-	args ...interface{},
+	args ...any,
 ) {
-	fmt.Fprintf(&f.buf, fmtStr, args...)
-	f.buf.WriteByte('\n')
+	fmt.Fprintf(&f.Buf, fmtStr, args...)
+	f.Buf.WriteByte('\n')
 }
 
 // Bytes returns the formatted Go source code.
 func (f *GoFile) Bytes() ([]byte, error) {
 	var out bytes.Buffer
 
-	fmt.Fprintf(&out, "package %s\n\n", f.pkg)
+	fmt.Fprintf(&out, "package %s\n\n", f.Pkg)
 
-	if len(f.imports) > 0 {
+	if len(f.Imports) > 0 {
 		out.WriteString("import (\n")
 
-		paths := make([]string, 0, len(f.imports))
-		for p := range f.imports {
+		paths := make([]string, 0, len(f.Imports))
+		for p := range f.Imports {
 			paths = append(paths, p)
 		}
 		sort.Strings(paths)
 
 		for _, p := range paths {
-			alias := f.imports[p]
+			alias := f.Imports[p]
 			if alias != "" {
 				fmt.Fprintf(&out, "\t%s %q\n", alias, p)
 			} else {
@@ -65,7 +65,7 @@ func (f *GoFile) Bytes() ([]byte, error) {
 		out.WriteString(")\n\n")
 	}
 
-	out.Write(f.buf.Bytes())
+	out.Write(f.Buf.Bytes())
 
 	formatted, err := format.Source(out.Bytes())
 	if err != nil {

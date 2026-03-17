@@ -319,6 +319,28 @@ func TestStrongBinderRoundTrip(t *testing.T) {
 	assert.Equal(t, uint32(42), handle)
 }
 
+func TestReadStrongBinderRejectsNull(t *testing.T) {
+	p := New()
+	p.WriteNullStrongBinder()
+
+	p.SetPosition(0)
+
+	_, err := p.ReadStrongBinder()
+	require.Error(t, err, "ReadStrongBinder should reject null binder")
+	assert.Contains(t, err.Error(), "unexpected null binder")
+}
+
+func TestNullableStrongBinderAcceptsNull(t *testing.T) {
+	p := New()
+	p.WriteNullStrongBinder()
+
+	p.SetPosition(0)
+
+	_, valid, err := p.ReadNullableStrongBinder()
+	require.NoError(t, err)
+	assert.False(t, valid, "ReadNullableStrongBinder should report null as not-valid")
+}
+
 func TestFileDescriptorRoundTrip(t *testing.T) {
 	p := New()
 	p.WriteFileDescriptor(7)

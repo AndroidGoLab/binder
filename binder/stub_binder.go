@@ -103,8 +103,8 @@ func (s *StubBinder) BinderPtr() uintptr {
 	return uintptr(unsafe.Pointer(s.weakRef))
 }
 
-// Transport returns nil for unregistered stubs; after
-// RegisterWithTransport it returns the transport that was used.
+// Transport returns nil — StubBinder does not implement VersionAwareTransport
+// lookup. Use the transport directly instead.
 func (s *StubBinder) Transport() VersionAwareTransport {
 	return nil
 }

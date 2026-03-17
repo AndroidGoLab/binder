@@ -18,16 +18,18 @@ import (
 	"github.com/xaionaro-go/binder/servicemanager"
 )
 
+type audioStream int32
+
 const (
-	streamVoice        = 0
-	streamSystem       = 1
-	streamRing         = 2
-	streamMusic        = 3
-	streamAlarm        = 4
-	streamNotification = 5
+	streamVoice        audioStream = iota
+	streamSystem
+	streamRing
+	streamMusic
+	streamAlarm
+	streamNotification
 )
 
-var streamNames = map[int32]string{
+var streamNames = map[audioStream]string{
 	streamVoice:        "Voice",
 	streamSystem:       "System",
 	streamRing:         "Ring",
@@ -88,17 +90,17 @@ func main() {
 	}
 
 	fmt.Println("\nVolume levels:")
-	for stream := int32(0); stream <= streamNotification; stream++ {
+	for stream := streamVoice; stream <= streamNotification; stream++ {
 		name := streamNames[stream]
-		vol, err := audio.GetStreamVolume(ctx, stream)
+		vol, err := audio.GetStreamVolume(ctx, int32(stream))
 		if err != nil {
 			continue
 		}
-		maxVol, err := audio.GetStreamMaxVolume(ctx, stream)
+		maxVol, err := audio.GetStreamMaxVolume(ctx, int32(stream))
 		if err != nil {
 			continue
 		}
-		muted, _ := audio.IsStreamMute(ctx, stream)
+		muted, _ := audio.IsStreamMute(ctx, int32(stream))
 
 		muteStr := ""
 		if muted {

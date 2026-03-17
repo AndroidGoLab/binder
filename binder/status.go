@@ -37,7 +37,11 @@ func ReadStatus(p *parcel.Parcel) error {
 
 	if traceSize > 0 {
 		// Skip the remote stack trace string.
-		_, _ = p.ReadString16()
+		// Propagate the error: a truncated trace corrupts the read
+		// position, causing subsequent fields to read garbage.
+		if _, err := p.ReadString16(); err != nil {
+			return fmt.Errorf("binder: reading status trace string: %w", err)
+		}
 	}
 
 	statusErr := &aidlerrors.StatusError{

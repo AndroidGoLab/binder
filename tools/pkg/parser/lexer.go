@@ -6,11 +6,11 @@ import (
 
 // Lexer tokenizes AIDL source code.
 type Lexer struct {
-	src      []byte
-	offset   int
-	line     int
-	column   int
-	filename string
+	Src      []byte
+	Offset   int
+	Line     int
+	Column   int
+	Filename string
 }
 
 // NewLexer creates a new Lexer for the given source.
@@ -19,51 +19,51 @@ func NewLexer(
 	src []byte,
 ) *Lexer {
 	return &Lexer{
-		src:      src,
-		offset:   0,
-		line:     1,
-		column:   1,
-		filename: filename,
+		Src:      src,
+		Offset:   0,
+		Line:     1,
+		Column:   1,
+		Filename: filename,
 	}
 }
 
 func (l *Lexer) pos() Position {
 	return Position{
-		Filename: l.filename,
-		Line:     l.line,
-		Column:   l.column,
+		Filename: l.Filename,
+		Line:     l.Line,
+		Column:   l.Column,
 	}
 }
 
 func (l *Lexer) peekAt(
 	delta int,
 ) byte {
-	idx := l.offset + delta
-	if idx >= len(l.src) {
+	idx := l.Offset + delta
+	if idx >= len(l.Src) {
 		return 0
 	}
-	return l.src[idx]
+	return l.Src[idx]
 }
 
 func (l *Lexer) advance() byte {
-	if l.offset >= len(l.src) {
+	if l.Offset >= len(l.Src) {
 		return 0
 	}
 
-	ch := l.src[l.offset]
-	l.offset++
+	ch := l.Src[l.Offset]
+	l.Offset++
 	if ch == '\n' {
-		l.line++
-		l.column = 1
+		l.Line++
+		l.Column = 1
 	} else {
-		l.column++
+		l.Column++
 	}
 	return ch
 }
 
 func (l *Lexer) skipWhitespace() {
-	for l.offset < len(l.src) {
-		ch := l.src[l.offset]
+	for l.Offset < len(l.Src) {
+		ch := l.Src[l.Offset]
 		if ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' {
 			l.advance()
 		} else {
@@ -73,7 +73,7 @@ func (l *Lexer) skipWhitespace() {
 }
 
 func (l *Lexer) skipLineComment() {
-	for l.offset < len(l.src) && l.src[l.offset] != '\n' {
+	for l.Offset < len(l.Src) && l.Src[l.Offset] != '\n' {
 		l.advance()
 	}
 }
@@ -84,8 +84,8 @@ func (l *Lexer) skipBlockComment() error {
 	l.advance()
 	l.advance()
 
-	for l.offset < len(l.src) {
-		if l.src[l.offset] == '*' && l.peekAt(1) == '/' {
+	for l.Offset < len(l.Src) {
+		if l.Src[l.Offset] == '*' && l.peekAt(1) == '/' {
 			l.advance()
 			l.advance()
 			return nil
@@ -98,16 +98,16 @@ func (l *Lexer) skipBlockComment() error {
 func (l *Lexer) skipWhitespaceAndComments() error {
 	for {
 		l.skipWhitespace()
-		if l.offset >= len(l.src) {
+		if l.Offset >= len(l.Src) {
 			return nil
 		}
 
-		if l.src[l.offset] == '/' && l.peekAt(1) == '/' {
+		if l.Src[l.Offset] == '/' && l.peekAt(1) == '/' {
 			l.skipLineComment()
 			continue
 		}
 
-		if l.src[l.offset] == '/' && l.peekAt(1) == '*' {
+		if l.Src[l.Offset] == '/' && l.peekAt(1) == '*' {
 			if err := l.skipBlockComment(); err != nil {
 				return err
 			}
@@ -145,24 +145,24 @@ func isIdentChar(ch byte) bool {
 // peekNextNonWS returns the next non-whitespace/non-comment byte in the source
 // without advancing the lexer position. Returns 0 if only whitespace remains.
 func (l *Lexer) peekNextNonWS() byte {
-	off := l.offset
-	for off < len(l.src) {
-		ch := l.src[off]
+	off := l.Offset
+	for off < len(l.Src) {
+		ch := l.Src[off]
 		if ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' {
 			off++
 			continue
 		}
-		if ch == '/' && off+1 < len(l.src) {
-			if l.src[off+1] == '/' {
-				for off < len(l.src) && l.src[off] != '\n' {
+		if ch == '/' && off+1 < len(l.Src) {
+			if l.Src[off+1] == '/' {
+				for off < len(l.Src) && l.Src[off] != '\n' {
 					off++
 				}
 				continue
 			}
-			if l.src[off+1] == '*' {
+			if l.Src[off+1] == '*' {
 				off += 2
-				for off+1 < len(l.src) {
-					if l.src[off] == '*' && l.src[off+1] == '/' {
+				for off+1 < len(l.Src) {
+					if l.Src[off] == '*' && l.Src[off+1] == '/' {
 						off += 2
 						break
 					}
@@ -178,12 +178,12 @@ func (l *Lexer) peekNextNonWS() byte {
 
 func (l *Lexer) scanIdent() Token {
 	p := l.pos()
-	start := l.offset
-	for l.offset < len(l.src) && isIdentChar(l.src[l.offset]) {
+	start := l.Offset
+	for l.Offset < len(l.Src) && isIdentChar(l.Src[l.Offset]) {
 		l.advance()
 	}
 
-	text := string(l.src[start:l.offset])
+	text := string(l.Src[start:l.Offset])
 	if kind, ok := keywords[text]; ok {
 		return Token{Kind: kind, Pos: p, Value: text}
 	}
@@ -192,104 +192,104 @@ func (l *Lexer) scanIdent() Token {
 
 func (l *Lexer) scanNumber() Token {
 	p := l.pos()
-	start := l.offset
+	start := l.Offset
 	isFloat := false
 
-	if l.src[l.offset] == '0' && l.offset+1 < len(l.src) {
-		next := l.src[l.offset+1]
+	if l.Src[l.Offset] == '0' && l.Offset+1 < len(l.Src) {
+		next := l.Src[l.Offset+1]
 
 		// Hex: 0x or 0X
 		if next == 'x' || next == 'X' {
 			l.advance() // '0'
 			l.advance() // 'x'
-			for l.offset < len(l.src) && isHexDigit(l.src[l.offset]) {
+			for l.Offset < len(l.Src) && isHexDigit(l.Src[l.Offset]) {
 				l.advance()
 			}
 			l.consumeIntSuffix()
-			return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.src[start:l.offset])}
+			return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
 		}
 
 		// Binary: 0b or 0B
 		if next == 'b' || next == 'B' {
 			l.advance() // '0'
 			l.advance() // 'b'
-			for l.offset < len(l.src) && isBinaryDigit(l.src[l.offset]) {
+			for l.Offset < len(l.Src) && isBinaryDigit(l.Src[l.Offset]) {
 				l.advance()
 			}
 			l.consumeIntSuffix()
-			return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.src[start:l.offset])}
+			return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
 		}
 
 		// Octal: starts with 0 and followed by octal digits
 		if isOctalDigit(next) {
 			l.advance() // '0'
-			for l.offset < len(l.src) && isOctalDigit(l.src[l.offset]) {
+			for l.Offset < len(l.Src) && isOctalDigit(l.Src[l.Offset]) {
 				l.advance()
 			}
 
 			// Could transition to float if we see '.'
-			if l.offset < len(l.src) && l.src[l.offset] == '.' {
+			if l.Offset < len(l.Src) && l.Src[l.Offset] == '.' {
 				isFloat = true
 				l.advance()
-				for l.offset < len(l.src) && isDigit(l.src[l.offset]) {
+				for l.Offset < len(l.Src) && isDigit(l.Src[l.Offset]) {
 					l.advance()
 				}
 			}
 
 			if !isFloat {
 				l.consumeIntSuffix()
-				return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.src[start:l.offset])}
+				return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
 			}
 		}
 	}
 
 	if !isFloat {
 		// Decimal integer or float
-		for l.offset < len(l.src) && isDigit(l.src[l.offset]) {
+		for l.Offset < len(l.Src) && isDigit(l.Src[l.Offset]) {
 			l.advance()
 		}
 
-		if l.offset < len(l.src) && l.src[l.offset] == '.' {
+		if l.Offset < len(l.Src) && l.Src[l.Offset] == '.' {
 			isFloat = true
 			l.advance()
-			for l.offset < len(l.src) && isDigit(l.src[l.offset]) {
+			for l.Offset < len(l.Src) && isDigit(l.Src[l.Offset]) {
 				l.advance()
 			}
 		}
 	}
 
 	// Exponent
-	if l.offset < len(l.src) && (l.src[l.offset] == 'e' || l.src[l.offset] == 'E') {
+	if l.Offset < len(l.Src) && (l.Src[l.Offset] == 'e' || l.Src[l.Offset] == 'E') {
 		isFloat = true
 		l.advance()
-		if l.offset < len(l.src) && (l.src[l.offset] == '+' || l.src[l.offset] == '-') {
+		if l.Offset < len(l.Src) && (l.Src[l.Offset] == '+' || l.Src[l.Offset] == '-') {
 			l.advance()
 		}
-		for l.offset < len(l.src) && isDigit(l.src[l.offset]) {
+		for l.Offset < len(l.Src) && isDigit(l.Src[l.Offset]) {
 			l.advance()
 		}
 	}
 
 	// Float suffix
-	if l.offset < len(l.src) && (l.src[l.offset] == 'f' || l.src[l.offset] == 'F' || l.src[l.offset] == 'd' || l.src[l.offset] == 'D') {
+	if l.Offset < len(l.Src) && (l.Src[l.Offset] == 'f' || l.Src[l.Offset] == 'F' || l.Src[l.Offset] == 'd' || l.Src[l.Offset] == 'D') {
 		isFloat = true
 		l.advance()
 	}
 
 	if isFloat {
-		return Token{Kind: TokenFloatLiteral, Pos: p, Value: string(l.src[start:l.offset])}
+		return Token{Kind: TokenFloatLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
 	}
 
 	l.consumeIntSuffix()
-	return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.src[start:l.offset])}
+	return Token{Kind: TokenIntLiteral, Pos: p, Value: string(l.Src[start:l.Offset])}
 }
 
 func (l *Lexer) consumeIntSuffix() {
-	if l.offset >= len(l.src) {
+	if l.Offset >= len(l.Src) {
 		return
 	}
 
-	ch := l.src[l.offset]
+	ch := l.Src[l.Offset]
 
 	// Long suffix: L or l.
 	if ch == 'L' || ch == 'l' {
@@ -359,8 +359,8 @@ func (l *Lexer) scanString() (Token, error) {
 	l.advance() // opening quote
 
 	var buf []byte
-	for l.offset < len(l.src) {
-		ch := l.src[l.offset]
+	for l.Offset < len(l.Src) {
+		ch := l.Src[l.Offset]
 		if ch == '"' {
 			l.advance()
 			return Token{Kind: TokenStringLiteral, Pos: p, Value: string(buf)}, nil
@@ -368,11 +368,11 @@ func (l *Lexer) scanString() (Token, error) {
 
 		if ch == '\\' {
 			l.advance()
-			if l.offset >= len(l.src) {
+			if l.Offset >= len(l.Src) {
 				return Token{}, fmt.Errorf("%s: unterminated string literal", p)
 			}
 
-			esc := l.src[l.offset]
+			esc := l.Src[l.Offset]
 			l.advance()
 			switch esc {
 			case 'n':
@@ -411,8 +411,8 @@ func (l *Lexer) scanChar() (Token, error) {
 	l.advance() // opening quote
 
 	var buf []byte
-	for l.offset < len(l.src) {
-		ch := l.src[l.offset]
+	for l.Offset < len(l.Src) {
+		ch := l.Src[l.Offset]
 		if ch == '\'' {
 			l.advance()
 			return Token{Kind: TokenCharLiteral, Pos: p, Value: string(buf)}, nil
@@ -420,11 +420,11 @@ func (l *Lexer) scanChar() (Token, error) {
 
 		if ch == '\\' {
 			l.advance()
-			if l.offset >= len(l.src) {
+			if l.Offset >= len(l.Src) {
 				return Token{}, fmt.Errorf("%s: unterminated char literal", p)
 			}
 
-			esc := l.src[l.offset]
+			esc := l.Src[l.Offset]
 			l.advance()
 			switch esc {
 			case 'n':
@@ -456,12 +456,12 @@ func (l *Lexer) scanAnnotation() Token {
 	p := l.pos()
 	l.advance() // '@'
 
-	start := l.offset
-	for l.offset < len(l.src) && isIdentChar(l.src[l.offset]) {
+	start := l.Offset
+	for l.Offset < len(l.Src) && isIdentChar(l.Src[l.Offset]) {
 		l.advance()
 	}
 
-	name := string(l.src[start:l.offset])
+	name := string(l.Src[start:l.Offset])
 	return Token{Kind: TokenAnnotation, Pos: p, Value: name}
 }
 
@@ -473,11 +473,11 @@ func (l *Lexer) Next() Token {
 		return Token{Kind: TokenError, Pos: l.pos(), Value: err.Error()}
 	}
 
-	if l.offset >= len(l.src) {
+	if l.Offset >= len(l.Src) {
 		return Token{Kind: TokenEOF, Pos: l.pos()}
 	}
 
-	ch := l.src[l.offset]
+	ch := l.Src[l.Offset]
 
 	// Identifiers and keywords.
 	if isLetter(ch) {

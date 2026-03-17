@@ -2,11 +2,14 @@
 
 package kernelbinder
 
+// ioctlDirection represents the direction bits of an ioctl request code.
+type ioctlDirection uintptr
+
 // ioctl direction bits.
 const (
-	iocNone  = 0
-	iocWrite = 1
-	iocRead  = 2
+	iocNone  ioctlDirection = 0
+	iocWrite ioctlDirection = 1
+	iocRead  ioctlDirection = 2
 )
 
 // ioctl field widths and shifts.
@@ -22,10 +25,35 @@ const (
 	iocDirShift  = iocSizeShift + iocSizeBits  // 30
 )
 
-func ioc(dir, typ, nr, size uintptr) uintptr {
-	return (dir << iocDirShift) | (typ << iocTypeShift) | (nr << iocNRShift) | (size << iocSizeShift)
+func ioc(
+	dir ioctlDirection,
+	typ uintptr,
+	nr uintptr,
+	size uintptr,
+) uintptr {
+	return (uintptr(dir) << iocDirShift) | (typ << iocTypeShift) | (nr << iocNRShift) | (size << iocSizeShift)
 }
 
-func iow(typ, nr, size uintptr) uintptr  { return ioc(iocWrite, typ, nr, size) }
-func ior(typ, nr, size uintptr) uintptr  { return ioc(iocRead, typ, nr, size) }
-func iowr(typ, nr, size uintptr) uintptr { return ioc(iocRead|iocWrite, typ, nr, size) }
+func iow(
+	typ uintptr,
+	nr uintptr,
+	size uintptr,
+) uintptr {
+	return ioc(iocWrite, typ, nr, size)
+}
+
+func ior(
+	typ uintptr,
+	nr uintptr,
+	size uintptr,
+) uintptr {
+	return ioc(iocRead, typ, nr, size)
+}
+
+func iowr(
+	typ uintptr,
+	nr uintptr,
+	size uintptr,
+) uintptr {
+	return ioc(iocRead|iocWrite, typ, nr, size)
+}

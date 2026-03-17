@@ -4,16 +4,6 @@ package kernelbinder
 
 import "unsafe"
 
-// binderWriteRead is the struct passed to BINDER_WRITE_READ ioctl.
-type binderWriteRead struct {
-	writeSize     uint64
-	writeConsumed uint64
-	writeBuffer   uint64 // pointer to write commands
-	readSize      uint64
-	readConsumed  uint64
-	readBuffer    uint64 // pointer to read buffer
-}
-
 // binderTransactionData is the data for BC_TRANSACTION/BC_REPLY and BR_TRANSACTION/BR_REPLY.
 // The target and cookie fields are binder_uintptr_t (uint64 on 64-bit).
 type binderTransactionData struct {
@@ -29,16 +19,8 @@ type binderTransactionData struct {
 	offsetsBuffer uint64 // pointer to offsets
 }
 
-const binderCurrentProtocolVersion = 8
-
-// binderTypeHandle is BINDER_TYPE_HANDLE: B_PACK_CHARS('s','h','*',0x85) = 0x73682a85.
-// Used to identify flat_binder_object entries containing remote binder handles.
-const binderTypeHandle = uint32(0x73682a85)
-
-// Compile-time size assertions.
-var _ [48]byte = [unsafe.Sizeof(binderWriteRead{})]byte{}
+// Compile-time size assertion.
 var _ [64]byte = [unsafe.Sizeof(binderTransactionData{})]byte{}
 
 // Verify pre-allocated buffer sizes match the struct sizes they contain.
 var _ [replyWriteBufSize]byte = [4 + unsafe.Sizeof(binderTransactionData{})]byte{}
-var _ [freeBufferBufSize]byte = [4 + 8]byte{}

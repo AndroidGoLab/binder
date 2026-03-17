@@ -5,33 +5,45 @@ import (
 	"fmt"
 )
 
+// binderObjectType represents the type field of a flat_binder_object,
+// identifying the kind of object (local binder, handle, file descriptor, etc.).
+type binderObjectType uint32
+
+// binderFlags represents the flags field of a flat_binder_object.
+type binderFlags uint32
+
+// StabilityLevel represents the binder stability level from
+// android/binder/Stability.h, written as int32 after each
+// flat_binder_object by Parcel::finishFlattenBinder.
+type StabilityLevel int32
+
 const (
 	// binderTypeBinder is the type for a local Binder object.
 	// Kernel value: B_PACK_CHARS('s','b','*',0x85) = 0x73622a85.
-	binderTypeBinder = uint32(0x73622a85)
+	binderTypeBinder = binderObjectType(0x73622a85)
 
 	// binderTypeHandle is the type for a Binder handle reference.
 	// Kernel value: B_PACK_CHARS('s','h','*',0x85) = 0x73682a85.
-	binderTypeHandle = uint32(0x73682a85)
+	binderTypeHandle = binderObjectType(0x73682a85)
+
+	// binderTypeFD is the type for a file descriptor in a flat_binder_object.
+	// Kernel value: B_PACK_CHARS('f','d','*',0x85) = 0x66642a85.
+	binderTypeFD = binderObjectType(0x66642a85)
 
 	// binderFlagsAcceptFDs is FLAT_BINDER_FLAG_ACCEPTS_FDS (0x100) OR'd
 	// with the default scheduling bits. Android sets SCHED_NORMAL (0)
 	// with priority 19 (nice 19, lowest), giving schedBits = 0x13.
-	binderFlagsAcceptFDs = uint32(0x100 | 0x13)
+	binderFlagsAcceptFDs = binderFlags(0x100 | 0x13)
 
 	// flatBinderObjectSize is the size of a flat_binder_object (24 bytes on 64-bit).
 	flatBinderObjectSize = 24
 
-	// Binder stability levels from android/binder/Stability.h.
-	// Written as int32 after each flat_binder_object by
-	// Parcel::finishFlattenBinder / read by finishUnflattenBinder.
-
 	// StabilityUndeclared is the default stability for null binder objects.
-	StabilityUndeclared = int32(0)
+	StabilityUndeclared = StabilityLevel(0)
 
 	// StabilitySystem is the stability for system (non-VNDK) binder objects.
 	// This matches getLocalLevel() in system builds.
-	StabilitySystem = int32(0b001100) // 12
+	StabilitySystem = StabilityLevel(0b001100) // 12
 )
 
 // WriteLocalBinder writes a local binder object to the parcel.
@@ -60,10 +72,10 @@ func (p *Parcel) WriteLocalBinder(
 	buf := p.grow(flatBinderObjectSize)
 
 	// type (uint32, offset 0)
-	binary.LittleEndian.PutUint32(buf[0:], binderTypeBinder)
+	binary.LittleEndian.PutUint32(buf[0:], uint32(binderTypeBinder))
 
 	// flags (uint32, offset 4)
-	binary.LittleEndian.PutUint32(buf[4:], binderFlagsAcceptFDs)
+	binary.LittleEndian.PutUint32(buf[4:], uint32(binderFlagsAcceptFDs))
 
 	// binder (binder_uintptr_t, offset 8) — kernel node identity
 	binary.LittleEndian.PutUint64(buf[8:], uint64(binderPtr))
@@ -73,7 +85,7 @@ func (p *Parcel) WriteLocalBinder(
 
 	// Stability level — Android writes this via finishFlattenBinder.
 	// System-level binders use SYSTEM stability (12).
-	p.WriteInt32(StabilitySystem)
+	p.WriteInt32(int32(StabilitySystem))
 }
 
 // WriteStrongBinder writes a flat_binder_object with the given handle.
@@ -89,10 +101,10 @@ func (p *Parcel) WriteStrongBinder(
 	buf := p.grow(flatBinderObjectSize)
 
 	// type (uint32, offset 0)
-	binary.LittleEndian.PutUint32(buf[0:], binderTypeHandle)
+	binary.LittleEndian.PutUint32(buf[0:], uint32(binderTypeHandle))
 
 	// flags (uint32, offset 4)
-	binary.LittleEndian.PutUint32(buf[4:], binderFlagsAcceptFDs)
+	binary.LittleEndian.PutUint32(buf[4:], uint32(binderFlagsAcceptFDs))
 
 	// handle (uint32, offset 8)
 	binary.LittleEndian.PutUint32(buf[8:], handle)
@@ -104,20 +116,23 @@ func (p *Parcel) WriteStrongBinder(
 	binary.LittleEndian.PutUint64(buf[16:], 0)
 
 	// Stability level — system-level for handle references.
-	p.WriteInt32(StabilitySystem)
+	p.WriteInt32(int32(StabilitySystem))
 }
 
-// ReadStrongBinder reads a flat_binder_object and returns the handle.
+// ReadStrongBinder reads a non-null flat_binder_object and returns the handle.
 // Accepts both BINDER_TYPE_HANDLE and BINDER_TYPE_BINDER; for both types,
 // reads the uint32 at offset 8 (handle or low 32 bits of binder pointer).
 // Also reads the int32 stability level that follows the flat_binder_object.
+//
+// Returns an error if the binder is null (BINDER_TYPE_BINDER with binder=0),
+// matching the AIDL-generated UNEXPECTED_NULL check in the C++ implementation.
 func (p *Parcel) ReadStrongBinder() (uint32, error) {
 	b, err := p.read(flatBinderObjectSize)
 	if err != nil {
 		return 0, err
 	}
 
-	objType := binary.LittleEndian.Uint32(b[0:])
+	objType := binderObjectType(binary.LittleEndian.Uint32(b[0:]))
 	if objType != binderTypeHandle && objType != binderTypeBinder {
 		return 0, fmt.Errorf("parcel: expected binder type %#x or %#x, got %#x",
 			binderTypeHandle, binderTypeBinder, objType)
@@ -128,6 +143,11 @@ func (p *Parcel) ReadStrongBinder() (uint32, error) {
 	// Read and discard the stability level (finishUnflattenBinder).
 	if _, err := p.ReadInt32(); err != nil {
 		return 0, fmt.Errorf("parcel: reading binder stability: %w", err)
+	}
+
+	// Reject null binders: BINDER_TYPE_BINDER with binder pointer = 0.
+	if objType == binderTypeBinder && handle == 0 {
+		return 0, fmt.Errorf("parcel: unexpected null binder in non-nullable read")
 	}
 
 	return handle, nil
@@ -142,11 +162,11 @@ func (p *Parcel) WriteNullStrongBinder() {
 	buf := p.grow(flatBinderObjectSize)
 
 	// type must be BINDER_TYPE_BINDER even for null (Android convention).
-	binary.LittleEndian.PutUint32(buf[0:], binderTypeBinder)
+	binary.LittleEndian.PutUint32(buf[0:], uint32(binderTypeBinder))
 	// flags, binder, cookie are all zero (from grow's zero-fill).
 
 	// Null binder uses UNDECLARED stability.
-	p.WriteInt32(StabilityUndeclared)
+	p.WriteInt32(int32(StabilityUndeclared))
 }
 
 // ReadNullableStrongBinder reads a flat_binder_object that may be null.
@@ -161,7 +181,7 @@ func (p *Parcel) ReadNullableStrongBinder() (uint32, bool, error) {
 		return 0, false, err
 	}
 
-	objType := binary.LittleEndian.Uint32(b[0:])
+	objType := binderObjectType(binary.LittleEndian.Uint32(b[0:]))
 
 	// Read the stability level (always present after the flat_binder_object).
 	if _, err := p.ReadInt32(); err != nil {

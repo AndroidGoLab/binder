@@ -8,3 +8,5 @@
 *.prof
 /build/
 *.exe
+/.lake
+proofs/.lake

@@ -76,75 +76,91 @@ func main() {
 	fmt.Printf("WiFi chips: %v\n\n", chipIds)
 
 	for _, chipId := range chipIds {
-		fmt.Printf("=== Chip %d ===\n", chipId)
+		printChipInfo(ctx, wifiHal, chipId)
+	}
+}
 
-		// GetChip returns IWifiChip directly — the generated proxy
-		// handles binder handle acquisition internally.
-		chip, err := wifiHal.GetChip(ctx, chipId)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "  GetChip(%d): %v\n", chipId, err)
-			continue
+func printChipInfo(
+	ctx context.Context,
+	wifiHal wifi.IWifi,
+	chipId int32,
+) {
+	fmt.Printf("=== Chip %d ===\n", chipId)
+
+	// GetChip returns IWifiChip directly — the generated proxy
+	// handles binder handle acquisition internally.
+	chip, err := wifiHal.GetChip(ctx, chipId)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "  GetChip(%d): %v\n", chipId, err)
+		return
+	}
+
+	// Get feature set bitmask.
+	features, err := chip.GetFeatureSet(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "  GetFeatureSet: %v\n", err)
+	} else {
+		fmt.Printf("  Feature set: 0x%x\n", features)
+	}
+
+	chipId2, err := chip.GetId(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "  GetId: %v\n", err)
+	} else {
+		fmt.Printf("  Chip ID: %d\n", chipId2)
+	}
+
+	// List AP interfaces — these are the SoftAP interfaces.
+	apNames, err := chip.GetApIfaceNames(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "  GetApIfaceNames: %v\n", err)
+	} else if len(apNames) == 0 {
+		fmt.Printf("  AP interfaces: (none — no hotspot active)\n")
+	} else {
+		fmt.Printf("  AP interfaces:\n")
+		for _, name := range apNames {
+			printApIfaceInfo(ctx, chip, name)
 		}
+	}
 
-		// Get feature set bitmask.
-		features, err := chip.GetFeatureSet(ctx)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "  GetFeatureSet: %v\n", err)
-		} else {
-			fmt.Printf("  Feature set: 0x%x\n", features)
-		}
+	// List STA interfaces for context.
+	staNames, err := chip.GetStaIfaceNames(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "  GetStaIfaceNames: %v\n", err)
+	} else {
+		fmt.Printf("  STA interfaces: %v\n", staNames)
+	}
+}
 
-		chipId2, err := chip.GetId(ctx)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "  GetId: %v\n", err)
-		} else {
-			fmt.Printf("  Chip ID: %d\n", chipId2)
-		}
+func printApIfaceInfo(
+	ctx context.Context,
+	chip wifi.IWifiChip,
+	name string,
+) {
+	fmt.Printf("    - %s\n", name)
 
-		// List AP interfaces — these are the SoftAP interfaces.
-		apNames, err := chip.GetApIfaceNames(ctx)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "  GetApIfaceNames: %v\n", err)
-		} else if len(apNames) == 0 {
-			fmt.Printf("  AP interfaces: (none — no hotspot active)\n")
-		} else {
-			fmt.Printf("  AP interfaces:\n")
-			for _, name := range apNames {
-				fmt.Printf("    - %s\n", name)
+	// GetApIface returns IWifiApIface directly.
+	apIface, err := chip.GetApIface(ctx, name)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "      GetApIface(%s): %v\n", name, err)
+		return
+	}
 
-				// GetApIface returns IWifiApIface directly.
-				apIface, err := chip.GetApIface(ctx, name)
-				if err != nil {
-					fmt.Fprintf(os.Stderr, "      GetApIface(%s): %v\n", name, err)
-					continue
-				}
+	ifName, _ := apIface.GetName(ctx)
+	fmt.Printf("      Name: %s\n", ifName)
 
-				ifName, _ := apIface.GetName(ctx)
-				fmt.Printf("      Name: %s\n", ifName)
+	mac, err := apIface.GetFactoryMacAddress(ctx)
+	if err == nil {
+		fmt.Printf("      Factory MAC: %x\n", mac)
+	}
 
-				mac, err := apIface.GetFactoryMacAddress(ctx)
-				if err == nil {
-					fmt.Printf("      Factory MAC: %x\n", mac)
-				}
+	bridged, err := apIface.GetBridgedInstances(ctx)
+	if err == nil && len(bridged) > 0 {
+		fmt.Printf("      Bridged instances: %v\n", bridged)
+	}
 
-				bridged, err := apIface.GetBridgedInstances(ctx)
-				if err == nil && len(bridged) > 0 {
-					fmt.Printf("      Bridged instances: %v\n", bridged)
-				}
-
-				mlo, err := apIface.UsesMlo(ctx)
-				if err == nil {
-					fmt.Printf("      Uses MLO: %v\n", mlo)
-				}
-			}
-		}
-
-		// List STA interfaces for context.
-		staNames, err := chip.GetStaIfaceNames(ctx)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "  GetStaIfaceNames: %v\n", err)
-		} else {
-			fmt.Printf("  STA interfaces: %v\n", staNames)
-		}
+	mlo, err := apIface.UsesMlo(ctx)
+	if err == nil {
+		fmt.Printf("      Uses MLO: %v\n", mlo)
 	}
 }

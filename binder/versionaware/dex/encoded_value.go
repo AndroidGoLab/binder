@@ -2,27 +2,29 @@ package dex
 
 import "fmt"
 
-// DEX encoded_value type constants.
+// dexValueType represents a DEX encoded_value type tag.
 // Per https://source.android.com/docs/core/runtime/dex-format#value-formats
+type dexValueType byte
+
 const (
-	valueTypeByte         = 0x00
-	valueTypeShort        = 0x02
-	valueTypeChar         = 0x03
-	valueTypeInt          = 0x04
-	valueTypeLong         = 0x06
-	valueTypeFloat        = 0x10
-	valueTypeDouble       = 0x11
-	valueTypeMethodType   = 0x15
-	valueTypeMethodHandle = 0x16
-	valueTypeString       = 0x17
-	valueTypeType         = 0x18
-	valueTypeField        = 0x19
-	valueTypeMethod       = 0x1a
-	valueTypeEnum         = 0x1b
-	valueTypeArray        = 0x1c
-	valueTypeAnnotation   = 0x1d
-	valueTypeNull         = 0x1e
-	valueTypeBoolean      = 0x1f
+	valueTypeByte         dexValueType = 0x00
+	valueTypeShort        dexValueType = 0x02
+	valueTypeChar         dexValueType = 0x03
+	valueTypeInt          dexValueType = 0x04
+	valueTypeLong         dexValueType = 0x06
+	valueTypeFloat        dexValueType = 0x10
+	valueTypeDouble       dexValueType = 0x11
+	valueTypeMethodType   dexValueType = 0x15
+	valueTypeMethodHandle dexValueType = 0x16
+	valueTypeString       dexValueType = 0x17
+	valueTypeType         dexValueType = 0x18
+	valueTypeField        dexValueType = 0x19
+	valueTypeMethod       dexValueType = 0x1a
+	valueTypeEnum         dexValueType = 0x1b
+	valueTypeArray        dexValueType = 0x1c
+	valueTypeAnnotation   dexValueType = 0x1d
+	valueTypeNull         dexValueType = 0x1e
+	valueTypeBoolean      dexValueType = 0x1f
 )
 
 // encodedValue holds a decoded DEX encoded_value.
@@ -44,7 +46,7 @@ func readEncodedValue(
 
 	byte0 := data[pos]
 	pos++
-	valueType := byte0 & 0x1F
+	valueType := dexValueType(byte0 & 0x1F)
 	valueArg := byte0 >> 5
 
 	switch valueType {

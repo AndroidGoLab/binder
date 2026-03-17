@@ -24,28 +24,28 @@ func resolveTypeRef(
 // TypeRefResolver resolves AIDL type references to qualified Go type strings,
 // adding import statements to the GoFile when a type is from a different package.
 type TypeRefResolver struct {
-	registry   *resolver.TypeRegistry
-	currentPkg string // current AIDL package (e.g., "android.hardware.audio.common")
-	goFile     *GoFile
-	// aliasMap caches the Go import alias assigned per AIDL package to avoid
+	Registry   *resolver.TypeRegistry
+	CurrentPkg string // current AIDL package (e.g., "android.hardware.audio.common")
+	GoFile     *GoFile
+	// AliasMap caches the Go import alias assigned per AIDL package to avoid
 	// collisions when two different packages share the same last segment.
-	aliasMap map[string]string
-	// usedAliases tracks aliases already assigned to detect collisions.
-	usedAliases map[string]bool
-	// reservedNames holds identifiers that must not be used as import aliases
+	AliasMap map[string]string
+	// UsedAliases tracks aliases already assigned to detect collisions.
+	UsedAliases map[string]bool
+	// ReservedNames holds identifiers that must not be used as import aliases
 	// because they appear as parameter names in method signatures. An alias
 	// matching a parameter would shadow the import within that method body.
-	reservedNames map[string]bool
-	// importGraph is used to detect import cycles. When set, cross-package
+	ReservedNames map[string]bool
+	// ImportGraph is used to detect import cycles. When set, cross-package
 	// type references that would create cycles are replaced with interface{}.
-	importGraph *ImportGraph
-	// cycleBreaks tracks qualified names that were resolved to interface{}
+	ImportGraph *ImportGraph
+	// CycleBreaks tracks qualified names that were resolved to interface{}
 	// due to import cycles.
-	cycleBreaks map[string]bool
-	// resolvedTypes caches the Go type string for each AIDL type name to
+	CycleBreaks map[string]bool
+	// ResolvedTypes caches the Go type string for each AIDL type name to
 	// ensure consistent resolution across multiple calls (avoiding
 	// non-determinism from map iteration in the type registry).
-	resolvedTypes map[string]string
+	ResolvedTypes map[string]string
 }
 
 // NewTypeRefResolver creates a resolver for type references in the given AIDL package.
@@ -55,14 +55,14 @@ func NewTypeRefResolver(
 	goFile *GoFile,
 ) *TypeRefResolver {
 	return &TypeRefResolver{
-		registry:      registry,
-		currentPkg:    currentPkg,
-		goFile:        goFile,
-		aliasMap:      make(map[string]string),
-		usedAliases:   make(map[string]bool),
-		reservedNames: make(map[string]bool),
-		cycleBreaks:   make(map[string]bool),
-		resolvedTypes: make(map[string]string),
+		Registry:      registry,
+		CurrentPkg:    currentPkg,
+		GoFile:        goFile,
+		AliasMap:      make(map[string]string),
+		UsedAliases:   make(map[string]bool),
+		ReservedNames: make(map[string]bool),
+		CycleBreaks:   make(map[string]bool),
+		ResolvedTypes: make(map[string]string),
 	}
 }
 
@@ -128,18 +128,18 @@ func (r *TypeRefResolver) goTypeRefInner(ts *parser.TypeSpecifier) string {
 // a qualified name (e.g., "common.AudioUsage"). Results are cached to ensure
 // consistent resolution across multiple calls for the same type name.
 func (r *TypeRefResolver) resolveUserType(aidlName string) string {
-	if r.registry == nil {
+	if r.Registry == nil {
 		return aidlDottedNameToGo(aidlName)
 	}
 
 	// Return cached result if available, ensuring the same AIDL type name
 	// always resolves to the same Go type within a single file generation.
-	if cached, ok := r.resolvedTypes[aidlName]; ok {
+	if cached, ok := r.ResolvedTypes[aidlName]; ok {
 		return cached
 	}
 
 	result := r.resolveUserTypeUncached(aidlName)
-	r.resolvedTypes[aidlName] = result
+	r.ResolvedTypes[aidlName] = result
 	return result
 }
 
@@ -151,7 +151,7 @@ func (r *TypeRefResolver) resolveUserTypeUncached(aidlName string) string {
 	}
 
 	// Try short name lookup (e.g., "AudioUsage" -> "android.media.audio.common.AudioUsage").
-	if qualifiedName, _, ok := r.registry.LookupQualifiedByShortName(aidlName); ok {
+	if qualifiedName, _, ok := r.Registry.LookupQualifiedByShortName(aidlName); ok {
 		return r.qualifiedGoRef(qualifiedName, aidlName)
 	}
 
@@ -181,17 +181,17 @@ func (r *TypeRefResolver) resolveNestedType(aidlName string) (string, bool) {
 	rest := aidlName[dotIdx+1:]
 
 	// Try short name lookup for the first segment.
-	if parentQualified, _, ok := r.registry.LookupQualifiedByShortName(firstPart); ok {
+	if parentQualified, _, ok := r.Registry.LookupQualifiedByShortName(firstPart); ok {
 		candidate := parentQualified + "." + rest
-		if _, ok := r.registry.Lookup(candidate); ok {
+		if _, ok := r.Registry.Lookup(candidate); ok {
 			return candidate, true
 		}
 	}
 
 	// Try current package.
-	if r.currentPkg != "" {
-		candidate := r.currentPkg + "." + aidlName
-		if _, ok := r.registry.Lookup(candidate); ok {
+	if r.CurrentPkg != "" {
+		candidate := r.CurrentPkg + "." + aidlName
+		if _, ok := r.Registry.Lookup(candidate); ok {
 			return candidate, true
 		}
 	}
@@ -201,14 +201,14 @@ func (r *TypeRefResolver) resolveNestedType(aidlName string) (string, bool) {
 
 // tryResolve attempts a fully qualified lookup and returns the qualified name.
 func (r *TypeRefResolver) tryResolve(name string) (string, bool) {
-	if _, ok := r.registry.Lookup(name); ok {
+	if _, ok := r.Registry.Lookup(name); ok {
 		return name, true
 	}
 
 	// For dotted names that might be nested types, try prepending the current package.
-	if r.currentPkg != "" && !strings.Contains(name, ".") {
-		candidate := r.currentPkg + "." + name
-		if _, ok := r.registry.Lookup(candidate); ok {
+	if r.CurrentPkg != "" && !strings.Contains(name, ".") {
+		candidate := r.CurrentPkg + "." + name
+		if _, ok := r.Registry.Lookup(candidate); ok {
 			return candidate, true
 		}
 	}
@@ -231,13 +231,13 @@ func (r *TypeRefResolver) qualifiedGoRef(
 	typePkg, goTypeName := r.splitQualifiedName(qualifiedName)
 
 	// Same package: no qualifier needed.
-	if typePkg == r.currentPkg {
+	if typePkg == r.CurrentPkg {
 		return goTypeName
 	}
 
 	// Check if importing this package would create an import cycle.
-	if r.importGraph != nil && r.importGraph.WouldCauseCycle(r.currentPkg, typePkg) {
-		r.cycleBreaks[qualifiedName] = true
+	if r.ImportGraph != nil && r.ImportGraph.WouldCauseCycle(r.CurrentPkg, typePkg) {
+		r.CycleBreaks[qualifiedName] = true
 		return "interface{}"
 	}
 
@@ -257,10 +257,10 @@ func (r *TypeRefResolver) qualifiedGoRef(
 // Java-only parcelables (no fields, no native header) are NOT considered
 // forward-declared: they generate empty Go structs.
 func (r *TypeRefResolver) isForwardDeclared(qualifiedName string) bool {
-	if r.registry == nil {
+	if r.Registry == nil {
 		return false
 	}
-	def, ok := r.registry.Lookup(qualifiedName)
+	def, ok := r.Registry.Lookup(qualifiedName)
 	if !ok {
 		return false
 	}
@@ -278,7 +278,7 @@ func (r *TypeRefResolver) isForwardDeclared(qualifiedName string) bool {
 // to interface{} because it's unknown or forward-declared. This check does
 // not add any imports as a side effect.
 func (r *TypeRefResolver) isUnresolvableType(aidlName string) bool {
-	if r == nil || r.registry == nil {
+	if r == nil || r.Registry == nil {
 		return false
 	}
 
@@ -291,19 +291,19 @@ func (r *TypeRefResolver) isUnresolvableType(aidlName string) bool {
 	}
 
 	// Check if the type can be resolved via the registry.
-	_, found := r.registry.Lookup(aidlName)
+	_, found := r.Registry.Lookup(aidlName)
 	var qualifiedName string
 	switch {
 	case found:
 		qualifiedName = aidlName
-	case r.currentPkg != "":
-		candidate := r.currentPkg + "." + aidlName
-		if _, ok := r.registry.Lookup(candidate); ok {
+	case r.CurrentPkg != "":
+		candidate := r.CurrentPkg + "." + aidlName
+		if _, ok := r.Registry.Lookup(candidate); ok {
 			qualifiedName = candidate
 		}
 	}
 	if qualifiedName == "" {
-		if qn, _, ok := r.registry.LookupQualifiedByShortName(aidlName); ok {
+		if qn, _, ok := r.Registry.LookupQualifiedByShortName(aidlName); ok {
 			qualifiedName = qn
 		}
 	}
@@ -320,42 +320,42 @@ func (r *TypeRefResolver) isUnresolvableType(aidlName string) bool {
 // IsCycleBroken returns true if the given AIDL type name was resolved
 // to interface{} due to an import cycle.
 func (r *TypeRefResolver) IsCycleBroken(aidlName string) bool {
-	if r == nil || r.importGraph == nil {
+	if r == nil || r.ImportGraph == nil {
 		return false
 	}
 
 	// Resolve the type to its package, then check if importing it
 	// from the current package would cause a cycle.
 	targetPkg := r.resolveTypePkg(aidlName)
-	if targetPkg == "" || targetPkg == r.currentPkg {
+	if targetPkg == "" || targetPkg == r.CurrentPkg {
 		return false
 	}
 
-	return r.importGraph.WouldCauseCycle(r.currentPkg, targetPkg)
+	return r.ImportGraph.WouldCauseCycle(r.CurrentPkg, targetPkg)
 }
 
 // resolveTypePkg resolves an AIDL type name to its package.
 func (r *TypeRefResolver) resolveTypePkg(aidlName string) string {
-	if r.registry == nil {
+	if r.Registry == nil {
 		return ""
 	}
 
 	// Try fully qualified lookup.
-	if def, ok := r.registry.Lookup(aidlName); ok {
+	if def, ok := r.Registry.Lookup(aidlName); ok {
 		return packageFromDef(aidlName, def.GetName())
 	}
 
 	// Try current package + name.
-	if r.currentPkg != "" {
-		candidate := r.currentPkg + "." + aidlName
-		if def, ok := r.registry.Lookup(candidate); ok {
+	if r.CurrentPkg != "" {
+		candidate := r.CurrentPkg + "." + aidlName
+		if def, ok := r.Registry.Lookup(candidate); ok {
 			return packageFromDef(candidate, def.GetName())
 		}
 	}
 
 	// Try short name lookup.
-	if qualifiedName, _, ok := r.registry.LookupQualifiedByShortName(aidlName); ok {
-		if def, ok := r.registry.Lookup(qualifiedName); ok {
+	if qualifiedName, _, ok := r.Registry.LookupQualifiedByShortName(aidlName); ok {
+		if def, ok := r.Registry.Lookup(qualifiedName); ok {
 			return packageFromDef(qualifiedName, def.GetName())
 		}
 	}
@@ -367,7 +367,7 @@ func (r *TypeRefResolver) resolveTypePkg(aidlName string) string {
 // Go type name by looking up the definition in the registry to determine the
 // correct boundary between package and type name.
 func (r *TypeRefResolver) splitQualifiedName(qualifiedName string) (string, string) {
-	if def, ok := r.registry.Lookup(qualifiedName); ok {
+	if def, ok := r.Registry.Lookup(qualifiedName); ok {
 		defName := def.GetName()
 		pkg := packageFromDef(qualifiedName, defName)
 		return pkg, aidlDottedNameToGo(defName)
@@ -385,16 +385,16 @@ func (r *TypeRefResolver) splitQualifiedName(qualifiedName string) (string, stri
 // ensureImport adds the import for the given AIDL package to the GoFile
 // and returns the alias to use for qualifying types from that package.
 func (r *TypeRefResolver) ensureImport(aidlPkg string) string {
-	if alias, ok := r.aliasMap[aidlPkg]; ok {
+	if alias, ok := r.AliasMap[aidlPkg]; ok {
 		return alias
 	}
 
 	goImportPath := goModulePath + "/" + AIDLToGoPackage(aidlPkg)
 	alias := r.pickAlias(aidlPkg, goImportPath)
 
-	r.aliasMap[aidlPkg] = alias
-	r.usedAliases[alias] = true
-	r.goFile.AddImport(goImportPath, alias)
+	r.AliasMap[aidlPkg] = alias
+	r.UsedAliases[alias] = true
+	r.GoFile.AddImport(goImportPath, alias)
 
 	return alias
 }
@@ -441,7 +441,7 @@ func (r *TypeRefResolver) pickAlias(
 // with method parameter names in the generated file.
 func (r *TypeRefResolver) ReserveNames(names []string) {
 	for _, name := range names {
-		r.reservedNames[name] = true
+		r.ReservedNames[name] = true
 	}
 }
 
@@ -450,10 +450,10 @@ func (r *TypeRefResolver) ReserveNames(names []string) {
 // (e.g. a method parameter name), or a type name defined in the current
 // AIDL package.
 func (r *TypeRefResolver) isValidAlias(candidate string) bool {
-	if r.usedAliases[candidate] || candidate == r.goFile.pkg {
+	if r.UsedAliases[candidate] || candidate == r.GoFile.Pkg {
 		return false
 	}
-	if r.reservedNames[candidate] {
+	if r.ReservedNames[candidate] {
 		return false
 	}
 	return !r.collidesWithLocalType(candidate)
@@ -464,12 +464,12 @@ func (r *TypeRefResolver) isValidAlias(candidate string) bool {
 // For example, if the current package defines a type "RefreshRateRanges",
 // using "RefreshRateRanges" as an import alias would cause a compilation error.
 func (r *TypeRefResolver) collidesWithLocalType(candidate string) bool {
-	if r.registry == nil || r.currentPkg == "" {
+	if r.Registry == nil || r.CurrentPkg == "" {
 		return false
 	}
 
-	allDefs := r.registry.All()
-	prefix := r.currentPkg + "."
+	allDefs := r.Registry.All()
+	prefix := r.CurrentPkg + "."
 	for qualifiedName, def := range allDefs {
 		if !strings.HasPrefix(qualifiedName, prefix) {
 			continue
@@ -479,7 +479,7 @@ func (r *TypeRefResolver) collidesWithLocalType(candidate string) bool {
 		// package (not deeply nested ones from sub-packages).
 		defName := def.GetName()
 		pkg := packageFromDef(qualifiedName, defName)
-		if pkg != r.currentPkg {
+		if pkg != r.CurrentPkg {
 			continue
 		}
 

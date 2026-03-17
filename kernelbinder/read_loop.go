@@ -95,7 +95,7 @@ func (d *Driver) runReadLoop(
 
 	// Tell the kernel this thread accepts incoming transactions.
 	enterBuf := make([]byte, 4)
-	binary.LittleEndian.PutUint32(enterBuf[0:4], bcEnterLooper)
+	binary.LittleEndian.PutUint32(enterBuf[0:4], uint32(bcEnterLooper))
 
 	if err := d.writeCommand(ctx, enterBuf); err != nil {
 		logger.Errorf(ctx, "failed to send BC_ENTER_LOOPER: %v", err)
@@ -153,7 +153,7 @@ func (d *Driver) sendExitLooper(
 	ctx context.Context,
 ) {
 	exitBuf := make([]byte, 4)
-	binary.LittleEndian.PutUint32(exitBuf[0:4], bcExitLooper)
+	binary.LittleEndian.PutUint32(exitBuf[0:4], uint32(bcExitLooper))
 
 	if err := d.writeCommand(ctx, exitBuf); err != nil {
 		logger.Warnf(ctx, "failed to send BC_EXIT_LOOPER: %v", err)
@@ -176,7 +176,7 @@ func (d *Driver) dispatchReadBuffer(
 			return
 		}
 
-		cmd := binary.LittleEndian.Uint32(buf[offset:])
+		cmd := binderReturn(binary.LittleEndian.Uint32(buf[offset:]))
 		offset += 4
 
 		switch cmd {
@@ -241,6 +241,17 @@ func (d *Driver) dispatchReadBuffer(
 			// No acknowledgment needed; reference counting is a no-op for now.
 			offset += ptrCookieSize
 
+		case brDeadBinder:
+			logger.Tracef(ctx, "read loop: BR_DEAD_BINDER")
+			cookieSize := int(unsafe.Sizeof(uintptr(0)))
+			if offset+cookieSize > len(buf) {
+				logger.Warnf(ctx, "read loop: truncated BR_DEAD_BINDER at offset %d", offset)
+				return
+			}
+			cookie := readUintptr(buf[offset:])
+			offset += cookieSize
+			d.handleDeadBinder(ctx, cookie)
+
 		case brDeadReply:
 			logger.Tracef(ctx, "read loop: BR_DEAD_REPLY")
 
@@ -274,7 +285,7 @@ const refAckBufSize = 4 + binderPtrCookieSize
 // corresponding BC_INCREFS_DONE or BC_ACQUIRE_DONE response.
 func (d *Driver) handleRefCommand(
 	ctx context.Context,
-	doneCmd uint32,
+	doneCmd binderCommand,
 	ptrCookieBuf []byte,
 ) {
 	// The payload is binder_ptr_cookie: two pointer-sized values (ptr + cookie).
@@ -282,11 +293,42 @@ func (d *Driver) handleRefCommand(
 	// Use a fixed-size array so the compiler can stack-allocate it.
 	var ackArr [refAckBufSize]byte
 	ackBuf := ackArr[:]
-	binary.LittleEndian.PutUint32(ackBuf[0:4], doneCmd)
+	binary.LittleEndian.PutUint32(ackBuf[0:4], uint32(doneCmd))
 	copy(ackBuf[4:], ptrCookieBuf)
 
 	if err := d.writeCommand(ctx, ackBuf); err != nil {
 		logger.Warnf(ctx, "failed to send ref acknowledgment 0x%08x: %v", doneCmd, err)
+	}
+}
+
+// handleSystemTransaction handles system transaction codes (those above
+// LastCallTransaction) such as INTERFACE_TRANSACTION and PING_TRANSACTION.
+func (d *Driver) handleSystemTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	receiver binder.TransactionReceiver,
+	isOneway bool,
+) {
+	switch code {
+	case binder.InterfaceTransaction:
+		desc := receiver.Descriptor()
+		logger.Tracef(ctx, "INTERFACE_TRANSACTION: returning descriptor %q", desc)
+		reply := parcel.New()
+		reply.WriteString16(desc)
+		if !isOneway {
+			d.sendReply(ctx, reply)
+		}
+
+	case binder.PingTransaction:
+		if !isOneway {
+			d.sendReply(ctx, parcel.New())
+		}
+
+	default:
+		logger.Tracef(ctx, "ignoring system transaction code 0x%x", uint32(code))
+		if !isOneway {
+			d.sendReply(ctx, parcel.New())
+		}
 	}
 }
 
@@ -323,29 +365,10 @@ func (d *Driver) handleIncomingTransaction(
 		return
 	}
 
-	// Handle system transaction codes that all binder objects must respond to.
-	switch {
-	case code == binder.InterfaceTransaction:
-		// Return the interface descriptor from the receiver.
-		desc := receiver.Descriptor()
-		logger.Tracef(ctx, "INTERFACE_TRANSACTION: returning descriptor %q", desc)
-		reply := parcel.New()
-		reply.WriteString16(desc)
-		if !isOneway {
-			d.sendReply(ctx, reply)
-		}
-		return
-	case code == binder.PingTransaction:
-		if !isOneway {
-			d.sendReply(ctx, parcel.New())
-		}
-		return
-	case code > binder.LastCallTransaction:
-		// Unknown system transaction — reply with empty parcel.
-		logger.Tracef(ctx, "ignoring system transaction code 0x%x", uint32(code))
-		if !isOneway {
-			d.sendReply(ctx, parcel.New())
-		}
+	// System transaction codes (above LastCallTransaction) are handled
+	// separately from user call codes to keep the switch value-based.
+	if code > binder.LastCallTransaction {
+		d.handleSystemTransaction(ctx, code, receiver, isOneway)
 		return
 	}
 
@@ -421,7 +444,7 @@ func (d *Driver) Reply(
 	// avoiding a per-call heap allocation for the write buffer.
 	var writeBufArr [replyWriteBufSize]byte
 	writeBuf := writeBufArr[:4+txnSize]
-	binary.LittleEndian.PutUint32(writeBuf[0:4], bcReply)
+	binary.LittleEndian.PutUint32(writeBuf[0:4], uint32(bcReply))
 	copyStructToBytes(writeBuf[4:], unsafe.Pointer(&txn), txnSize)
 
 	// Use readSize=0 so the ioctl only sends the BC_REPLY without
@@ -447,7 +470,16 @@ func (d *Driver) Reply(
 		switch errno {
 		case 0:
 		case unix.EINTR:
-			bwr.writeSize = 0
+			// The kernel may have partially consumed the write buffer
+			// before the signal arrived. Advance past consumed bytes to
+			// avoid re-sending commands or sending an empty ioctl that
+			// silently succeeds without delivering BC_REPLY.
+			if bwr.writeConsumed >= bwr.writeSize {
+				break // fully consumed, nothing left to send
+			}
+			bwr.writeBuffer += bwr.writeConsumed
+			bwr.writeSize -= bwr.writeConsumed
+			bwr.writeConsumed = 0
 			continue
 		default:
 			return fmt.Errorf("Reply: %w", &aidlerrors.BinderError{

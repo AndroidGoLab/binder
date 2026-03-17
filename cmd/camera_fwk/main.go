@@ -13,6 +13,7 @@ import (
 	fwkService "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/binder/versionaware"
+	"github.com/xaionaro-go/binder/cmd/internal/igbp"
 	"github.com/xaionaro-go/binder/kernelbinder"
 	"github.com/xaionaro-go/binder/parcel"
 	"github.com/xaionaro-go/binder/servicemanager"
@@ -27,12 +28,16 @@ import (
 // Camera device callbacks
 // --------------------------------------------------------------------
 
-type callback struct {
+type cameraDeviceCallback struct {
 	mu             sync.Mutex
 	framesReceived int
 }
 
-func (c *callback) OnCaptureStarted(_ context.Context, extras fwkDevice.CaptureResultExtras, ts int64) error {
+func (c *cameraDeviceCallback) OnCaptureStarted(
+	_ context.Context,
+	extras fwkDevice.CaptureResultExtras,
+	ts int64,
+) error {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	c.framesReceived++
@@ -40,28 +45,47 @@ func (c *callback) OnCaptureStarted(_ context.Context, extras fwkDevice.CaptureR
 		extras.RequestId, ts, c.framesReceived)
 	return nil
 }
-func (c *callback) OnDeviceError(_ context.Context, code fwkDevice.ErrorCode, extras fwkDevice.CaptureResultExtras) error {
+
+func (c *cameraDeviceCallback) OnDeviceError(
+	_ context.Context,
+	code fwkDevice.ErrorCode,
+	extras fwkDevice.CaptureResultExtras,
+) error {
 	fmt.Printf("  >> OnDeviceError: code=%d requestId=%d\n", code, extras.RequestId)
 	return nil
 }
-func (c *callback) OnDeviceIdle(_ context.Context) error {
+
+func (c *cameraDeviceCallback) OnDeviceIdle(_ context.Context) error {
 	fmt.Println("  >> OnDeviceIdle")
 	return nil
 }
-func (c *callback) OnPrepared(_ context.Context, streamId int32) error {
+
+func (c *cameraDeviceCallback) OnPrepared(_ context.Context, streamId int32) error {
 	fmt.Printf("  >> OnPrepared: stream %d\n", streamId)
 	return nil
 }
-func (c *callback) OnRepeatingRequestError(_ context.Context, lastFrame int64, reqId int32) error {
+
+func (c *cameraDeviceCallback) OnRepeatingRequestError(
+	_ context.Context,
+	lastFrame int64,
+	reqId int32,
+) error {
 	fmt.Printf("  >> OnRepeatingRequestError: frame=%d req=%d\n", lastFrame, reqId)
 	return nil
 }
-func (c *callback) OnResultReceived(_ context.Context, meta fwkDevice.CaptureMetadataInfo, extras fwkDevice.CaptureResultExtras, _ []fwkDevice.PhysicalCaptureResultInfo) error {
+
+func (c *cameraDeviceCallback) OnResultReceived(
+	_ context.Context,
+	meta fwkDevice.CaptureMetadataInfo,
+	extras fwkDevice.CaptureResultExtras,
+	_ []fwkDevice.PhysicalCaptureResultInfo,
+) error {
 	fmt.Printf("  >> OnResultReceived: requestId=%d frameNumber=%d tag=%d\n",
 		extras.RequestId, extras.FrameNumber, meta.Tag)
 	return nil
 }
-func (c *callback) OnClientSharedAccessPriorityChanged(_ context.Context, primary bool) error {
+
+func (c *cameraDeviceCallback) OnClientSharedAccessPriorityChanged(_ context.Context, primary bool) error {
 	fmt.Printf("  >> OnClientSharedAccessPriorityChanged: %v\n", primary)
 	return nil
 }
@@ -70,80 +94,6 @@ func (c *callback) OnClientSharedAccessPriorityChanged(_ context.Context, primar
 // IGraphicBufferProducer stub (native binder, non-AIDL)
 // --------------------------------------------------------------------
 
-const igbpDescriptor = "android.gui.IGraphicBufferProducer"
-
-// Transaction codes from IGraphicBufferProducer.cpp.
-// IBinder::FIRST_CALL_TRANSACTION == 1.
-const (
-	igbpRequestBuffer          = binder.TransactionCode(1)
-	igbpDequeueBuffer          = binder.TransactionCode(2)
-	igbpDetachBuffer           = binder.TransactionCode(3)
-	igbpDetachNextBuffer       = binder.TransactionCode(4)
-	igbpAttachBuffer           = binder.TransactionCode(5)
-	igbpQueueBuffer            = binder.TransactionCode(6)
-	igbpCancelBuffer           = binder.TransactionCode(7)
-	igbpQuery                  = binder.TransactionCode(8)
-	igbpConnect                = binder.TransactionCode(9)
-	igbpDisconnect             = binder.TransactionCode(10)
-	igbpSetSidebandStream      = binder.TransactionCode(11)
-	igbpAllocateBuffers        = binder.TransactionCode(12)
-	igbpAllowAllocation        = binder.TransactionCode(13)
-	igbpSetGenerationNumber    = binder.TransactionCode(14)
-	igbpGetConsumerName        = binder.TransactionCode(15)
-	igbpSetMaxDequeuedBufCount = binder.TransactionCode(16)
-	igbpSetAsyncMode           = binder.TransactionCode(17)
-	igbpSetSharedBufferMode    = binder.TransactionCode(18)
-	igbpSetAutoRefresh         = binder.TransactionCode(19)
-	igbpSetDequeueTimeout      = binder.TransactionCode(20)
-	igbpGetLastQueuedBuffer    = binder.TransactionCode(21)
-	igbpGetFrameTimestamps     = binder.TransactionCode(22)
-	igbpGetUniqueId            = binder.TransactionCode(23)
-	igbpGetConsumerUsage       = binder.TransactionCode(24)
-	igbpSetLegacyBufferDrop    = binder.TransactionCode(25)
-	igbpSetAutoPrerotation     = binder.TransactionCode(26)
-)
-
-// NATIVE_WINDOW query constants from <system/window.h>.
-const (
-	nativeWindowWidth             = 0
-	nativeWindowHeight            = 1
-	nativeWindowFormat            = 2
-	nativeWindowMinUndequeued     = 3
-	nativeWindowQueuesToComposer  = 4
-	nativeWindowConcreteType      = 5
-	nativeWindowDefaultWidth      = 6
-	nativeWindowDefaultHeight     = 7
-	nativeWindowTransformHint     = 8
-	nativeWindowConsumerRunning   = 9
-	nativeWindowConsumerUsageBits = 10
-	nativeWindowStickyTransform   = 11
-	nativeWindowDefaultDataspace  = 12
-	nativeWindowBufferAge         = 13
-	nativeWindowMaxBufferCount    = 21
-
-	nativeWindowSurface = 1 // NATIVE_WINDOW_SURFACE for CONCRETE_TYPE
-)
-
-// Pixel formats.
-const (
-	halPixelFormatImplementationDefined = 0x22 // HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED
-	halPixelFormatYCbCr420_888         = 0x23 // HAL_PIXEL_FORMAT_YCbCr_420_888
-)
-
-// Android status codes.
-const (
-	statusOK     = int32(0)
-	statusNoInit = int32(-19)
-)
-
-// bufferNeedsRealloc is BUFFER_NEEDS_REALLOCATION = 0x1.
-const bufferNeedsRealloc = 0x1
-
-// GraphicBuffer 'GB01' magic: 'G'<<24 | 'B'<<16 | '0'<<8 | '1'.
-const graphicBufferMagicGB01 = int32(0x47423031)
-
-// maxBufferSlots matches BufferQueueDefs::NUM_BUFFER_SLOTS.
-const maxBufferSlots = 64
 
 // slotBuffer holds per-slot buffer state.
 type slotBuffer struct {
@@ -164,7 +114,7 @@ type GraphicBufferProducerStub struct {
 
 	mu       sync.Mutex
 	nextSlot int
-	slots    [maxBufferSlots]*slotBuffer
+	slots    [igbp.MaxBufferSlots]*slotBuffer
 	queuedCh chan struct{}
 }
 
@@ -175,13 +125,13 @@ func NewGraphicBufferProducerStub(
 	return &GraphicBufferProducerStub{
 		width:    width,
 		height:   height,
-		format:   halPixelFormatYCbCr420_888,
+		format:   int32(igbp.PixelFormatYCbCr420_888),
 		queuedCh: make(chan struct{}, 16),
 	}
 }
 
 func (g *GraphicBufferProducerStub) Descriptor() string {
-	return igbpDescriptor
+	return igbp.Descriptor
 }
 
 func (g *GraphicBufferProducerStub) OnTransaction(
@@ -197,58 +147,58 @@ func (g *GraphicBufferProducerStub) OnTransaction(
 	}
 
 	switch code {
-	case igbpRequestBuffer:
+	case igbp.RequestBuffer:
 		return g.onRequestBuffer(data)
-	case igbpDequeueBuffer:
+	case igbp.DequeueBuffer:
 		return g.onDequeueBuffer(data)
-	case igbpQueueBuffer:
+	case igbp.QueueBuffer:
 		return g.onQueueBuffer(data)
-	case igbpCancelBuffer:
+	case igbp.CancelBuffer:
 		return g.onCancelBuffer(data)
-	case igbpQuery:
+	case igbp.Query:
 		return g.onQuery(data)
-	case igbpConnect:
+	case igbp.Connect:
 		return g.onConnect(data)
-	case igbpDisconnect:
+	case igbp.Disconnect:
 		return g.onDisconnect(data)
-	case igbpSetMaxDequeuedBufCount:
+	case igbp.SetMaxDequeuedBufCount:
 		return g.onSimpleInt32Reply("setMaxDequeuedBufferCount", data)
-	case igbpSetAsyncMode:
+	case igbp.SetAsyncMode:
 		return g.onSimpleInt32Reply("setAsyncMode", data)
-	case igbpAllowAllocation:
+	case igbp.AllowAllocation:
 		return g.onSimpleInt32Reply("allowAllocation", data)
-	case igbpSetGenerationNumber:
+	case igbp.SetGenerationNumber:
 		return g.onSimpleInt32Reply("setGenerationNumber", data)
-	case igbpSetDequeueTimeout:
+	case igbp.SetDequeueTimeout:
 		return g.onSimpleInt32Reply("setDequeueTimeout", data)
-	case igbpSetSharedBufferMode:
+	case igbp.SetSharedBufferMode:
 		return g.onSimpleInt32Reply("setSharedBufferMode", data)
-	case igbpSetAutoRefresh:
+	case igbp.SetAutoRefresh:
 		return g.onSimpleInt32Reply("setAutoRefresh", data)
-	case igbpSetLegacyBufferDrop:
+	case igbp.SetLegacyBufferDrop:
 		return g.onSimpleInt32Reply("setLegacyBufferDrop", data)
-	case igbpSetAutoPrerotation:
+	case igbp.SetAutoPrerotation:
 		return g.onSimpleInt32Reply("setAutoPrerotation", data)
-	case igbpDetachBuffer:
+	case igbp.DetachBuffer:
 		return g.onSimpleInt32Reply("detachBuffer", data)
-	case igbpGetConsumerName:
+	case igbp.GetConsumerName:
 		return g.onGetConsumerName()
-	case igbpGetUniqueId:
+	case igbp.GetUniqueId:
 		return g.onGetUniqueId()
-	case igbpGetConsumerUsage:
+	case igbp.GetConsumerUsage:
 		return g.onGetConsumerUsage()
-	case igbpAllocateBuffers:
+	case igbp.AllocateBuffers:
 		fmt.Println("  [IGBP] allocateBuffers")
 		return nil, nil // void
-	case igbpGetLastQueuedBuffer:
+	case igbp.GetLastQueuedBuffer:
 		return g.onGetLastQueuedBuffer()
-	case igbpGetFrameTimestamps:
+	case igbp.GetFrameTimestamps:
 		fmt.Println("  [IGBP] getFrameTimestamps")
 		return nil, nil // void
 	default:
 		fmt.Printf("  [IGBP] unhandled code=%d\n", code)
 		reply := parcel.New()
-		reply.WriteInt32(statusNoInit)
+		reply.WriteInt32(int32(igbp.StatusNoInit))
 		return reply, nil
 	}
 }
@@ -261,7 +211,7 @@ func (g *GraphicBufferProducerStub) onSimpleInt32Reply(
 ) (*parcel.Parcel, error) {
 	fmt.Printf("  [IGBP] %s\n", name)
 	reply := parcel.New()
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -271,7 +221,11 @@ func (g *GraphicBufferProducerStub) onSimpleInt32Reply(
 //	int32(flattenedSize) + int32(fdCount) + raw[flattenedSize] + fd objects
 //
 // The raw payload follows the GraphicBuffer::flatten() format (GB01).
-func writeGraphicBufferToParcel(p *parcel.Parcel, buf *slotBuffer, bufID uint64) {
+func writeGraphicBufferToParcel(
+	p *parcel.Parcel,
+	buf *slotBuffer,
+	bufID uint64,
+) {
 	// The native_handle has 1 fd (the memfd) and 0 extra ints.
 	const numFds = int32(1)
 	const numInts = int32(0)
@@ -284,7 +238,7 @@ func writeGraphicBufferToParcel(p *parcel.Parcel, buf *slotBuffer, bufID uint64)
 
 	// Build the 13-word header as raw bytes.
 	raw := make([]byte, flattenedSize)
-	binary.LittleEndian.PutUint32(raw[0:], uint32(graphicBufferMagicGB01)) // buf[0]: magic
+	binary.LittleEndian.PutUint32(raw[0:], uint32(igbp.GraphicBufferMagicGB01)) // buf[0]: magic
 	binary.LittleEndian.PutUint32(raw[4:], buf.width)                      // buf[1]: width
 	binary.LittleEndian.PutUint32(raw[8:], buf.height)                     // buf[2]: height
 	binary.LittleEndian.PutUint32(raw[12:], buf.stride)                    // buf[3]: stride
@@ -318,7 +272,7 @@ func (g *GraphicBufferProducerStub) onRequestBuffer(
 	if buf == nil {
 		fmt.Printf("  [IGBP] requestBuffer: slot %d has no buffer\n", slot)
 		reply.WriteInt32(0) // nonNull=0
-		reply.WriteInt32(statusOK)
+		reply.WriteInt32(int32(igbp.StatusOK))
 		return reply, nil
 	}
 
@@ -329,7 +283,7 @@ func (g *GraphicBufferProducerStub) onRequestBuffer(
 	bufID := uint64(0xCAFE0000) | uint64(slot)
 	writeGraphicBufferToParcel(reply, buf, bufID)
 
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	fmt.Printf("  [IGBP] requestBuffer: slot=%d w=%d h=%d fmt=%d fd=%d\n",
 		slot, buf.width, buf.height, buf.format, buf.fd)
 	return reply, nil
@@ -337,9 +291,13 @@ func (g *GraphicBufferProducerStub) onRequestBuffer(
 
 // bufferSizeForFormat returns the buffer size in bytes for the given
 // width, height, and pixel format.
-func bufferSizeForFormat(w, h uint32, format int32) int64 {
-	switch format {
-	case halPixelFormatYCbCr420_888:
+func bufferSizeForFormat(
+	w uint32,
+	h uint32,
+	format int32,
+) int64 {
+	switch igbp.PixelFormat(format) {
+	case igbp.PixelFormatYCbCr420_888:
 		// YCbCr 420: Y plane (w*h) + CbCr interleaved (w*h/2).
 		return int64(w) * int64(h) * 3 / 2
 	default:
@@ -422,9 +380,9 @@ func (g *GraphicBufferProducerStub) onDequeueBuffer(
 	}
 
 	if needsRealloc {
-		reply.WriteInt32(int32(bufferNeedsRealloc))
+		reply.WriteInt32(int32(igbp.BufferNeedsRealloc))
 	} else {
-		reply.WriteInt32(statusOK)
+		reply.WriteInt32(int32(igbp.StatusOK))
 	}
 	return reply, nil
 }
@@ -453,7 +411,7 @@ func (g *GraphicBufferProducerStub) onQueueBuffer(
 
 	reply := parcel.New()
 	writeQueueBufferOutput(reply)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -500,46 +458,47 @@ func (g *GraphicBufferProducerStub) onCancelBuffer(
 	slot, _ := data.ReadInt32()
 	fmt.Printf("  [IGBP] cancelBuffer(slot=%d)\n", slot)
 	reply := parcel.New()
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
 func (g *GraphicBufferProducerStub) onQuery(
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
-	what, _ := data.ReadInt32()
+	rawWhat, _ := data.ReadInt32()
+	what := igbp.NativeWindowQuery(rawWhat)
 
 	var value int32
 	switch what {
-	case nativeWindowWidth:
+	case igbp.NativeWindowWidth:
 		value = int32(g.width)
-	case nativeWindowHeight:
+	case igbp.NativeWindowHeight:
 		value = int32(g.height)
-	case nativeWindowFormat:
+	case igbp.NativeWindowFormat:
 		value = g.format
-	case nativeWindowMinUndequeued:
+	case igbp.NativeWindowMinUndequeued:
 		value = 1
-	case nativeWindowQueuesToComposer:
+	case igbp.NativeWindowQueuesToComposer:
 		value = 0
-	case nativeWindowConcreteType:
-		value = nativeWindowSurface
-	case nativeWindowDefaultWidth:
+	case igbp.NativeWindowConcreteType:
+		value = int32(igbp.NativeWindowSurface)
+	case igbp.NativeWindowDefaultWidth:
 		value = int32(g.width)
-	case nativeWindowDefaultHeight:
+	case igbp.NativeWindowDefaultHeight:
 		value = int32(g.height)
-	case nativeWindowTransformHint:
+	case igbp.NativeWindowTransformHint:
 		value = 0
-	case nativeWindowConsumerRunning:
+	case igbp.NativeWindowConsumerRunning:
 		value = 0
-	case nativeWindowConsumerUsageBits:
+	case igbp.NativeWindowConsumerUsageBits:
 		value = 0
-	case nativeWindowStickyTransform:
+	case igbp.NativeWindowStickyTransform:
 		value = 0
-	case nativeWindowDefaultDataspace:
+	case igbp.NativeWindowDefaultDataspace:
 		value = 0
-	case nativeWindowBufferAge:
+	case igbp.NativeWindowBufferAge:
 		value = 0
-	case nativeWindowMaxBufferCount:
+	case igbp.NativeWindowMaxBufferCount:
 		value = 64
 	default:
 		fmt.Printf("  [IGBP] query: unknown what=%d\n", what)
@@ -548,7 +507,7 @@ func (g *GraphicBufferProducerStub) onQuery(
 	fmt.Printf("  [IGBP] query(what=%d) -> %d\n", what, value)
 	reply := parcel.New()
 	reply.WriteInt32(value)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -565,7 +524,7 @@ func (g *GraphicBufferProducerStub) onConnect(
 
 	reply := parcel.New()
 	writeQueueBufferOutput(reply)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -575,7 +534,7 @@ func (g *GraphicBufferProducerStub) onDisconnect(
 	api, _ := data.ReadInt32()
 	fmt.Printf("  [IGBP] disconnect(api=%d)\n", api)
 	reply := parcel.New()
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -590,7 +549,7 @@ func (g *GraphicBufferProducerStub) onGetUniqueId() (*parcel.Parcel, error) {
 	fmt.Println("  [IGBP] getUniqueId")
 	reply := parcel.New()
 	reply.WriteUint64(0x12345678)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -599,14 +558,14 @@ func (g *GraphicBufferProducerStub) onGetConsumerUsage() (*parcel.Parcel, error)
 	reply := parcel.New()
 	// Return 0 consumer usage for now; the camera service validates usage bits.
 	reply.WriteUint64(0)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
 func (g *GraphicBufferProducerStub) onGetLastQueuedBuffer() (*parcel.Parcel, error) {
 	fmt.Println("  [IGBP] getLastQueuedBuffer")
 	reply := parcel.New()
-	reply.WriteInt32(statusNoInit)
+	reply.WriteInt32(int32(igbp.StatusNoInit))
 	return reply, nil
 }
 
@@ -1124,7 +1083,7 @@ func run(ctx context.Context) error {
 	fmt.Println("Got frameworks camera service")
 
 	proxy := fwkService.NewCameraServiceProxy(svc)
-	cb := &callback{}
+	cb := &cameraDeviceCallback{}
 	stub := fwkDevice.NewCameraDeviceCallbackStub(cb)
 
 	stubBinder := stub.AsBinder().(*binder.StubBinder)

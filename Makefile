@@ -1,5 +1,5 @@
 .PHONY: specs generate cli readme test e2e e2e-bindercli vet build lint clean \
-       bindercli list-commands check-generated release
+       bindercli list-commands check-generated release proofs difftest
 
 # Generated top-level directories.
 GENERATED_DIRS := android com fuzztest libgui_test_server parcelables src
@@ -30,6 +30,16 @@ cli: specs
 # Generate README from specs.
 readme: specs
 	go run ./tools/cmd/spec2readme -specs specs/ -output README.md
+
+# --- Proofs ---
+
+# Build Lean 4 proofs (requires elan/lake toolchain).
+proofs:
+	cd proofs && lake build
+
+# Run differential tests comparing Go against Lean oracle.
+difftest: proofs
+	go test -v ./tests/differential/
 
 # --- Testing ---
 

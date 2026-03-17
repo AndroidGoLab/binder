@@ -19,6 +19,7 @@ import (
 	fwkDevice "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
 	fwkService "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
 	"github.com/xaionaro-go/binder/binder"
+	"github.com/xaionaro-go/binder/cmd/internal/igbp"
 	"github.com/xaionaro-go/binder/parcel"
 	"github.com/xaionaro-go/binder/servicemanager"
 
@@ -242,78 +243,6 @@ func allocateGrallocBuffer(
 // IGraphicBufferProducer stub (native binder, non-AIDL)
 // --------------------------------------------------------------------
 
-const igbpDescriptor = "android.gui.IGraphicBufferProducer"
-
-// Transaction codes from IGraphicBufferProducer.cpp.
-const (
-	igbpRequestBuffer          = binder.TransactionCode(1)
-	igbpDequeueBuffer          = binder.TransactionCode(2)
-	igbpDetachBuffer           = binder.TransactionCode(3)
-	igbpDetachNextBuffer       = binder.TransactionCode(4)
-	igbpAttachBuffer           = binder.TransactionCode(5)
-	igbpQueueBuffer            = binder.TransactionCode(6)
-	igbpCancelBuffer           = binder.TransactionCode(7)
-	igbpQuery                  = binder.TransactionCode(8)
-	igbpConnect                = binder.TransactionCode(9)
-	igbpDisconnect             = binder.TransactionCode(10)
-	igbpSetSidebandStream      = binder.TransactionCode(11)
-	igbpAllocateBuffers        = binder.TransactionCode(12)
-	igbpAllowAllocation        = binder.TransactionCode(13)
-	igbpSetGenerationNumber    = binder.TransactionCode(14)
-	igbpGetConsumerName        = binder.TransactionCode(15)
-	igbpSetMaxDequeuedBufCount = binder.TransactionCode(16)
-	igbpSetAsyncMode           = binder.TransactionCode(17)
-	igbpSetSharedBufferMode    = binder.TransactionCode(18)
-	igbpSetAutoRefresh         = binder.TransactionCode(19)
-	igbpSetDequeueTimeout      = binder.TransactionCode(20)
-	igbpGetLastQueuedBuffer    = binder.TransactionCode(21)
-	igbpGetFrameTimestamps     = binder.TransactionCode(22)
-	igbpGetUniqueId            = binder.TransactionCode(23)
-	igbpGetConsumerUsage       = binder.TransactionCode(24)
-	igbpSetLegacyBufferDrop    = binder.TransactionCode(25)
-	igbpSetAutoPrerotation     = binder.TransactionCode(26)
-)
-
-// NATIVE_WINDOW query constants from <system/window.h>.
-const (
-	nativeWindowWidth             = 0
-	nativeWindowHeight            = 1
-	nativeWindowFormat            = 2
-	nativeWindowMinUndequeued     = 3
-	nativeWindowQueuesToComposer  = 4
-	nativeWindowConcreteType      = 5
-	nativeWindowDefaultWidth      = 6
-	nativeWindowDefaultHeight     = 7
-	nativeWindowTransformHint     = 8
-	nativeWindowConsumerRunning   = 9
-	nativeWindowConsumerUsageBits = 10
-	nativeWindowStickyTransform   = 11
-	nativeWindowDefaultDataspace  = 12
-	nativeWindowBufferAge         = 13
-	nativeWindowMaxBufferCount    = 21
-
-	nativeWindowSurface = 1 // NATIVE_WINDOW_SURFACE for CONCRETE_TYPE
-)
-
-// Pixel formats.
-const (
-	halPixelFormatYCbCr420_888 = 0x23 // HAL_PIXEL_FORMAT_YCbCr_420_888
-)
-
-// Android status codes.
-const (
-	statusOK     = int32(0)
-	statusNoInit = int32(-19)
-)
-
-// bufferNeedsRealloc is BUFFER_NEEDS_REALLOCATION = 0x1.
-const bufferNeedsRealloc = 0x1
-
-// GraphicBuffer 'GB01' magic: 'G'<<24 | 'B'<<16 | '0'<<8 | '1'.
-const graphicBufferMagicGB01 = int32(0x47423031)
-
-// maxBufferSlots matches BufferQueueDefs::NUM_BUFFER_SLOTS.
-const maxBufferSlots = 64
 
 // slotBuffer holds per-slot buffer state backed by a gralloc buffer.
 type slotBuffer struct {
@@ -332,7 +261,7 @@ type graphicBufferProducerStub struct {
 
 	mu       sync.Mutex
 	nextSlot int
-	slots    [maxBufferSlots]*slotBuffer
+	slots    [igbp.MaxBufferSlots]*slotBuffer
 	queuedCh chan queuedFrame
 }
 
@@ -349,14 +278,14 @@ func newGraphicBufferProducerStub(
 	return &graphicBufferProducerStub{
 		width:       width,
 		height:      height,
-		format:      halPixelFormatYCbCr420_888,
+		format:      int32(igbp.PixelFormatYCbCr420_888),
 		grallocBufs: grallocBufs,
 		queuedCh:    make(chan queuedFrame, 16),
 	}
 }
 
 func (g *graphicBufferProducerStub) Descriptor() string {
-	return igbpDescriptor
+	return igbp.Descriptor
 }
 
 func (g *graphicBufferProducerStub) OnTransaction(
@@ -369,58 +298,58 @@ func (g *graphicBufferProducerStub) OnTransaction(
 	}
 
 	switch code {
-	case igbpRequestBuffer:
+	case igbp.RequestBuffer:
 		return g.onRequestBuffer(data)
-	case igbpDequeueBuffer:
+	case igbp.DequeueBuffer:
 		return g.onDequeueBuffer(data)
-	case igbpQueueBuffer:
+	case igbp.QueueBuffer:
 		return g.onQueueBuffer(data)
-	case igbpCancelBuffer:
+	case igbp.CancelBuffer:
 		return g.onCancelBuffer(data)
-	case igbpQuery:
+	case igbp.Query:
 		return g.onQuery(data)
-	case igbpConnect:
+	case igbp.Connect:
 		return g.onConnect(data)
-	case igbpDisconnect:
+	case igbp.Disconnect:
 		return g.onDisconnect(data)
-	case igbpSetMaxDequeuedBufCount:
+	case igbp.SetMaxDequeuedBufCount:
 		return g.onSimpleInt32Reply("setMaxDequeuedBufferCount", data)
-	case igbpSetAsyncMode:
+	case igbp.SetAsyncMode:
 		return g.onSimpleInt32Reply("setAsyncMode", data)
-	case igbpAllowAllocation:
+	case igbp.AllowAllocation:
 		return g.onSimpleInt32Reply("allowAllocation", data)
-	case igbpSetGenerationNumber:
+	case igbp.SetGenerationNumber:
 		return g.onSimpleInt32Reply("setGenerationNumber", data)
-	case igbpSetDequeueTimeout:
+	case igbp.SetDequeueTimeout:
 		return g.onSimpleInt32Reply("setDequeueTimeout", data)
-	case igbpSetSharedBufferMode:
+	case igbp.SetSharedBufferMode:
 		return g.onSimpleInt32Reply("setSharedBufferMode", data)
-	case igbpSetAutoRefresh:
+	case igbp.SetAutoRefresh:
 		return g.onSimpleInt32Reply("setAutoRefresh", data)
-	case igbpSetLegacyBufferDrop:
+	case igbp.SetLegacyBufferDrop:
 		return g.onSimpleInt32Reply("setLegacyBufferDrop", data)
-	case igbpSetAutoPrerotation:
+	case igbp.SetAutoPrerotation:
 		return g.onSimpleInt32Reply("setAutoPrerotation", data)
-	case igbpDetachBuffer:
+	case igbp.DetachBuffer:
 		return g.onSimpleInt32Reply("detachBuffer", data)
-	case igbpGetConsumerName:
+	case igbp.GetConsumerName:
 		return g.onGetConsumerName()
-	case igbpGetUniqueId:
+	case igbp.GetUniqueId:
 		return g.onGetUniqueId()
-	case igbpGetConsumerUsage:
+	case igbp.GetConsumerUsage:
 		return g.onGetConsumerUsage()
-	case igbpAllocateBuffers:
+	case igbp.AllocateBuffers:
 		fmt.Fprintln(os.Stderr, "  [IGBP] allocateBuffers")
 		return nil, nil // void
-	case igbpGetLastQueuedBuffer:
+	case igbp.GetLastQueuedBuffer:
 		return g.onGetLastQueuedBuffer()
-	case igbpGetFrameTimestamps:
+	case igbp.GetFrameTimestamps:
 		fmt.Fprintln(os.Stderr, "  [IGBP] getFrameTimestamps")
 		return nil, nil // void
 	default:
 		fmt.Fprintf(os.Stderr, "  [IGBP] unhandled code=%d\n", code)
 		reply := parcel.New()
-		reply.WriteInt32(statusNoInit)
+		reply.WriteInt32(int32(igbp.StatusNoInit))
 		return reply, nil
 	}
 }
@@ -431,7 +360,7 @@ func (g *graphicBufferProducerStub) onSimpleInt32Reply(
 ) (*parcel.Parcel, error) {
 	fmt.Fprintf(os.Stderr, "  [IGBP] %s\n", name)
 	reply := parcel.New()
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -457,7 +386,7 @@ func writeGrallocGraphicBufferToParcel(
 
 	// Build the header + ints as raw bytes.
 	raw := make([]byte, flattenedSize)
-	binary.LittleEndian.PutUint32(raw[0:], uint32(graphicBufferMagicGB01)) // buf[0]: magic
+	binary.LittleEndian.PutUint32(raw[0:], uint32(igbp.GraphicBufferMagicGB01)) // buf[0]: magic
 	binary.LittleEndian.PutUint32(raw[4:], buf.width)                      // buf[1]: width
 	binary.LittleEndian.PutUint32(raw[8:], buf.height)                     // buf[2]: height
 	binary.LittleEndian.PutUint32(raw[12:], uint32(buf.stride))            // buf[3]: stride
@@ -498,7 +427,7 @@ func (g *graphicBufferProducerStub) onRequestBuffer(
 	if buf == nil {
 		fmt.Fprintf(os.Stderr, "  [IGBP] requestBuffer: slot %d has no buffer\n", slot)
 		reply.WriteInt32(0) // nonNull=0
-		reply.WriteInt32(statusOK)
+		reply.WriteInt32(int32(igbp.StatusOK))
 		return reply, nil
 	}
 
@@ -508,7 +437,7 @@ func (g *graphicBufferProducerStub) onRequestBuffer(
 	bufID := uint64(0xCAFE0000) | uint64(slot)
 	writeGrallocGraphicBufferToParcel(reply, buf.gralloc, bufID)
 
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	fmt.Fprintf(os.Stderr, "  [IGBP] requestBuffer: slot=%d w=%d h=%d stride=%d fmt=%d fds=%v\n",
 		slot, buf.gralloc.width, buf.gralloc.height, buf.gralloc.stride,
 		buf.gralloc.format, buf.gralloc.handle.Fds)
@@ -557,9 +486,9 @@ func (g *graphicBufferProducerStub) onDequeueBuffer(
 	}
 
 	if needsRealloc {
-		reply.WriteInt32(int32(bufferNeedsRealloc))
+		reply.WriteInt32(int32(igbp.BufferNeedsRealloc))
 	} else {
-		reply.WriteInt32(statusOK)
+		reply.WriteInt32(int32(igbp.StatusOK))
 	}
 	return reply, nil
 }
@@ -588,7 +517,7 @@ func (g *graphicBufferProducerStub) onQueueBuffer(
 
 	reply := parcel.New()
 	writeQueueBufferOutput(reply)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -633,46 +562,47 @@ func (g *graphicBufferProducerStub) onCancelBuffer(
 	slot, _ := data.ReadInt32()
 	fmt.Fprintf(os.Stderr, "  [IGBP] cancelBuffer(slot=%d)\n", slot)
 	reply := parcel.New()
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
 func (g *graphicBufferProducerStub) onQuery(
 	data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
-	what, _ := data.ReadInt32()
+	rawWhat, _ := data.ReadInt32()
+	what := igbp.NativeWindowQuery(rawWhat)
 
 	var value int32
 	switch what {
-	case nativeWindowWidth:
+	case igbp.NativeWindowWidth:
 		value = int32(g.width)
-	case nativeWindowHeight:
+	case igbp.NativeWindowHeight:
 		value = int32(g.height)
-	case nativeWindowFormat:
+	case igbp.NativeWindowFormat:
 		value = g.format
-	case nativeWindowMinUndequeued:
+	case igbp.NativeWindowMinUndequeued:
 		value = 1
-	case nativeWindowQueuesToComposer:
+	case igbp.NativeWindowQueuesToComposer:
 		value = 0
-	case nativeWindowConcreteType:
-		value = nativeWindowSurface
-	case nativeWindowDefaultWidth:
+	case igbp.NativeWindowConcreteType:
+		value = int32(igbp.NativeWindowSurface)
+	case igbp.NativeWindowDefaultWidth:
 		value = int32(g.width)
-	case nativeWindowDefaultHeight:
+	case igbp.NativeWindowDefaultHeight:
 		value = int32(g.height)
-	case nativeWindowTransformHint:
+	case igbp.NativeWindowTransformHint:
 		value = 0
-	case nativeWindowConsumerRunning:
+	case igbp.NativeWindowConsumerRunning:
 		value = 0
-	case nativeWindowConsumerUsageBits:
+	case igbp.NativeWindowConsumerUsageBits:
 		value = 0
-	case nativeWindowStickyTransform:
+	case igbp.NativeWindowStickyTransform:
 		value = 0
-	case nativeWindowDefaultDataspace:
+	case igbp.NativeWindowDefaultDataspace:
 		value = 0
-	case nativeWindowBufferAge:
+	case igbp.NativeWindowBufferAge:
 		value = 0
-	case nativeWindowMaxBufferCount:
+	case igbp.NativeWindowMaxBufferCount:
 		value = 64
 	default:
 		fmt.Fprintf(os.Stderr, "  [IGBP] query: unknown what=%d\n", what)
@@ -681,7 +611,7 @@ func (g *graphicBufferProducerStub) onQuery(
 	fmt.Fprintf(os.Stderr, "  [IGBP] query(what=%d) -> %d\n", what, value)
 	reply := parcel.New()
 	reply.WriteInt32(value)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -698,7 +628,7 @@ func (g *graphicBufferProducerStub) onConnect(
 
 	reply := parcel.New()
 	writeQueueBufferOutput(reply)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -708,7 +638,7 @@ func (g *graphicBufferProducerStub) onDisconnect(
 	api, _ := data.ReadInt32()
 	fmt.Fprintf(os.Stderr, "  [IGBP] disconnect(api=%d)\n", api)
 	reply := parcel.New()
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -723,7 +653,7 @@ func (g *graphicBufferProducerStub) onGetUniqueId() (*parcel.Parcel, error) {
 	fmt.Fprintln(os.Stderr, "  [IGBP] getUniqueId")
 	reply := parcel.New()
 	reply.WriteUint64(0x12345678)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
@@ -731,14 +661,14 @@ func (g *graphicBufferProducerStub) onGetConsumerUsage() (*parcel.Parcel, error)
 	fmt.Fprintln(os.Stderr, "  [IGBP] getConsumerUsage")
 	reply := parcel.New()
 	reply.WriteUint64(0)
-	reply.WriteInt32(statusOK)
+	reply.WriteInt32(int32(igbp.StatusOK))
 	return reply, nil
 }
 
 func (g *graphicBufferProducerStub) onGetLastQueuedBuffer() (*parcel.Parcel, error) {
 	fmt.Fprintln(os.Stderr, "  [IGBP] getLastQueuedBuffer")
 	reply := parcel.New()
-	reply.WriteInt32(statusNoInit)
+	reply.WriteInt32(int32(igbp.StatusNoInit))
 	return reply, nil
 }
 

@@ -160,12 +160,12 @@ func TestImportGraph_CycleBreakInTypeResolver(t *testing.T) {
 	// perspectives: exactly one should resolve to interface{}.
 	f1 := NewGoFile("a")
 	r1 := NewTypeRefResolver(registry, "pkg.a", f1)
-	r1.importGraph = importGraph
+	r1.ImportGraph = importGraph
 	goTypeFromA := r1.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.b.TypeB"})
 
 	f2 := NewGoFile("b")
 	r2 := NewTypeRefResolver(registry, "pkg.b", f2)
-	r2.importGraph = importGraph
+	r2.ImportGraph = importGraph
 	goTypeFromB := r2.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.a.TypeA"})
 
 	// Exactly one direction must be broken.
@@ -181,7 +181,7 @@ func TestImportGraph_CycleBreakInTypeResolver(t *testing.T) {
 	// Same-package resolution should always work.
 	f3 := NewGoFile("a")
 	r3 := NewTypeRefResolver(registry, "pkg.a", f3)
-	r3.importGraph = importGraph
+	r3.ImportGraph = importGraph
 	goTypeSame := r3.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.a.TypeA"})
 	assert.Equal(t, "TypeA", goTypeSame)
 }
@@ -219,7 +219,7 @@ func TestImportGraph_MarshalInfoForCycleBrokenType(t *testing.T) {
 
 	f := NewGoFile(lastPackageSegment(srcPkg))
 	typeRef := NewTypeRefResolver(registry, srcPkg, f)
-	typeRef.importGraph = importGraph
+	typeRef.ImportGraph = importGraph
 
 	opts := GenOptions{Registry: registry, ImportGraph: importGraph}
 

@@ -2,9 +2,6 @@ package versionaware
 
 import "github.com/xaionaro-go/binder/binder"
 
-// Revision identifies an AOSP firmware revision, e.g. "36.r4".
-type Revision string
-
 // VersionTable maps descriptor -> methodName -> transaction code.
 type VersionTable map[string]map[string]binder.TransactionCode
 

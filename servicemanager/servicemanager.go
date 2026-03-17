@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/facebookincubator/go-belt/tool/logger"
+	"github.com/xaionaro-go/binder/logger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -113,7 +113,7 @@ func (sm *ServiceManager) CheckService(
 // ListServices returns the names of all registered services.
 func (sm *ServiceManager) ListServices(
 	ctx context.Context,
-) (_services []string, _err error) {
+) (_services []ServiceName, _err error) {
 	logger.Tracef(ctx, "ListServices")
 	defer func() { logger.Tracef(ctx, "/ListServices: %d services, err=%v", len(_services), _err) }()
 
@@ -140,13 +140,13 @@ func (sm *ServiceManager) ListServices(
 		return nil, fmt.Errorf("servicemanager: ListServices: reading count: %w", err)
 	}
 
-	services := make([]string, 0, count)
+	services := make([]ServiceName, 0, count)
 	for i := int32(0); i < count; i++ {
 		name, err := reply.ReadString16()
 		if err != nil {
 			return nil, fmt.Errorf("servicemanager: ListServices: reading service %d: %w", i, err)
 		}
-		services = append(services, name)
+		services = append(services, ServiceName(name))
 	}
 
 	return services, nil

@@ -13,27 +13,6 @@ type Registry struct {
 	Services map[string]*ServiceInfo
 }
 
-// ServiceInfo describes a single binder service: its AIDL descriptor,
-// short aliases for CLI usage, and the methods it exposes.
-type ServiceInfo struct {
-	Descriptor string
-	Aliases    []string
-	Methods    []MethodInfo
-}
-
-// MethodInfo describes one method on a binder service interface.
-type MethodInfo struct {
-	Name       string
-	Params     []ParamInfo
-	ReturnType string
-}
-
-// ParamInfo describes one parameter of a binder method.
-type ParamInfo struct {
-	Name string
-	Type string
-}
-
 // ByDescriptor returns the ServiceInfo for the given AIDL descriptor,
 // or nil if not found.
 func (r *Registry) ByDescriptor(descriptor string) *ServiceInfo {

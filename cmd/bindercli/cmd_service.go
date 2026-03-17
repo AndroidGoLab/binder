@@ -52,8 +52,8 @@ func newServiceListCmd() *cobra.Command {
 			headers := []string{"NAME", "STATUS"}
 			rows := make([][]string, 0, len(services))
 			for _, name := range services {
-				status := serviceStatus(ctx, conn, name)
-				rows = append(rows, []string{name, status})
+				status := serviceStatus(ctx, conn, string(name))
+				rows = append(rows, []string{string(name), status})
 			}
 
 			mode, err := cmd.Root().PersistentFlags().GetString("format")

@@ -9,13 +9,13 @@ import (
 // TypeRegistry maps fully qualified AIDL names to their parsed definitions.
 type TypeRegistry struct {
 	mu   sync.RWMutex
-	defs map[string]parser.Definition
+	Defs map[string]parser.Definition
 }
 
 // NewTypeRegistry creates a new empty TypeRegistry.
 func NewTypeRegistry() *TypeRegistry {
 	return &TypeRegistry{
-		defs: make(map[string]parser.Definition),
+		Defs: make(map[string]parser.Definition),
 	}
 }
 
@@ -26,7 +26,7 @@ func (r *TypeRegistry) Register(
 ) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	r.defs[qualifiedName] = def
+	r.Defs[qualifiedName] = def
 }
 
 // Lookup returns the definition for the given qualified name, or false if not found.
@@ -35,7 +35,7 @@ func (r *TypeRegistry) Lookup(
 ) (parser.Definition, bool) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-	def, ok := r.defs[qualifiedName]
+	def, ok := r.Defs[qualifiedName]
 	return def, ok
 }
 
@@ -43,8 +43,8 @@ func (r *TypeRegistry) Lookup(
 func (r *TypeRegistry) All() map[string]parser.Definition {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-	result := make(map[string]parser.Definition, len(r.defs))
-	for k, v := range r.defs {
+	result := make(map[string]parser.Definition, len(r.Defs))
+	for k, v := range r.Defs {
 		result[k] = v
 	}
 	return result
@@ -80,7 +80,7 @@ func (r *TypeRegistry) lookupByShortName(
 	var bestName string
 	var bestDef parser.Definition
 
-	for qualifiedName, def := range r.defs {
+	for qualifiedName, def := range r.Defs {
 		matched := false
 		defShort := def.GetName()
 		if defShort == shortName {

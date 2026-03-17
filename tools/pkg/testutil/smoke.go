@@ -21,7 +21,7 @@ var skippedMethods = map[string]bool{
 // are caught and counted, not propagated.
 func SmokeTestAllMethods(
 	t *testing.T,
-	proxy interface{},
+	proxy any,
 ) SmokeResult {
 	t.Helper()
 

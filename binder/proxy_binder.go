@@ -61,6 +61,9 @@ func (b *ProxyBinder) LinkToDeath(
 	ctx context.Context,
 	recipient DeathRecipient,
 ) (_err error) {
+	logger.Tracef(ctx, "LinkToDeath(handle=%d)", b.handle)
+	defer func() { logger.Tracef(ctx, "/LinkToDeath: %v", _err) }()
+
 	return b.transport.RequestDeathNotification(ctx, b.handle, recipient)
 }
 
@@ -69,6 +72,9 @@ func (b *ProxyBinder) UnlinkToDeath(
 	ctx context.Context,
 	recipient DeathRecipient,
 ) (_err error) {
+	logger.Tracef(ctx, "UnlinkToDeath(handle=%d)", b.handle)
+	defer func() { logger.Tracef(ctx, "/UnlinkToDeath: %v", _err) }()
+
 	return b.transport.ClearDeathNotification(ctx, b.handle, recipient)
 }
 

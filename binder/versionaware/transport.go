@@ -18,6 +18,16 @@ import (
 	"github.com/xaionaro-go/binder/parcel"
 )
 
+const (
+	serviceManagerHandle      = uint32(0)
+	serviceManagerDescriptor  = "android.os.IServiceManager"
+	activityManagerDescriptor = "android.app.IActivityManager"
+)
+
+// frameworkJARDir is the directory containing framework JARs
+// with AIDL $Stub classes and TRANSACTION_* constants.
+const frameworkJARDir = "/system/framework"
+
 // Transport wraps a binder.Transport and adds version-aware
 // transaction code resolution via ResolveCode.
 //
@@ -164,7 +174,7 @@ func resolveTable(
 	inner binder.Transport,
 	targetAPI int,
 ) (VersionTable, string, error) {
-	logger.Errorf(ctx, "versionaware: framework JARs not available or unreadable at %s; falling back to compiled version tables (transaction codes may be inaccurate)", frameworkJARDir)
+	logger.Warnf(ctx, "versionaware: framework JARs not available or unreadable at %s; falling back to compiled version tables (transaction codes may be inaccurate)", frameworkJARDir)
 
 	revisions := Revisions[targetAPI]
 	if len(revisions) == 0 {
@@ -391,16 +401,6 @@ func supportedAPILevels() []int {
 	sort.Ints(levels)
 	return levels
 }
-
-const (
-	serviceManagerHandle      = uint32(0)
-	serviceManagerDescriptor  = "android.os.IServiceManager"
-	activityManagerDescriptor = "android.app.IActivityManager"
-)
-
-// frameworkJARDir is the directory containing framework JARs
-// with AIDL $Stub classes and TRANSACTION_* constants.
-const frameworkJARDir = "/system/framework"
 
 // lookupCompiledDescriptor searches compiled version tables for a single
 // descriptor. If t.Revision is set, only that revision is checked;

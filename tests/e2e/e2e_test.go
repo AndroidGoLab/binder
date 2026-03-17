@@ -95,8 +95,8 @@ func TestListServices(t *testing.T) {
 		}
 	}
 
-	assert.Contains(t, services, "SurfaceFlinger")
-	assert.Contains(t, services, "activity")
+	assert.Contains(t, services, servicemanager.ServiceName("SurfaceFlinger"))
+	assert.Contains(t, services, servicemanager.ServiceName("activity"))
 }
 
 func TestGetService(t *testing.T) {

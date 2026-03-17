@@ -30,14 +30,6 @@ var (
 // (e.g., BR_TRANSACTION_COMPLETE + BR_INCREFS + BR_ACQUIRE + BR_REPLY).
 const readBufferSize = 1024
 
-// receiverEntry holds a registered TransactionReceiver together with the
-// heap-allocated anchor whose address is used as the binder cookie.
-// Storing the entry as a map value (*receiverEntry) keeps it reachable by the
-// GC, so its address remains valid for the kernel binder driver.
-type receiverEntry struct {
-	receiver binder.TransactionReceiver
-}
-
 // replyWriteBufSize is the size of the pre-allocated buffer for BC_REPLY:
 // 4 bytes (command) + 64 bytes (binderTransactionData) = 68.
 const replyWriteBufSize = 4 + 64
@@ -60,6 +52,15 @@ type Driver struct {
 	// whose address the kernel holds as a cookie.
 	receivers   map[uintptr]*receiverEntry
 	receiversMu sync.RWMutex
+
+	// deathRecipients maps cookie values (heap addresses of
+	// deathRecipientEntry) to the entries themselves, keeping them
+	// reachable so the GC does not collect them while the kernel holds
+	// the cookie. A second index by handle allows ClearDeathNotification
+	// to find the entry without the caller retaining the cookie.
+	deathRecipients       map[uintptr]*deathRecipientEntry
+	deathRecipientsByHndl map[uint32]*deathRecipientEntry
+	deathRecipientsMu     sync.Mutex
 
 	readLoopOnce sync.Once
 	readLoopDone chan struct{} // closed when the read loop exits
@@ -134,12 +135,14 @@ func Open(
 	}
 
 	d := &Driver{
-		fd:              fd,
-		mapped:          mapped,
-		mapSize:         mapSize,
-		acquiredHandles: make(map[uint32]bool),
-		receivers:       make(map[uintptr]*receiverEntry),
-		readLoopDone:    make(chan struct{}),
+		fd:                    fd,
+		mapped:                mapped,
+		mapSize:               mapSize,
+		acquiredHandles:       make(map[uint32]bool),
+		receivers:             make(map[uintptr]*receiverEntry),
+		deathRecipients:       make(map[uintptr]*deathRecipientEntry),
+		deathRecipientsByHndl: make(map[uint32]*deathRecipientEntry),
+		readLoopDone:          make(chan struct{}),
 	}
 
 	return d, nil
@@ -164,9 +167,9 @@ func (d *Driver) Close(
 	for handle := range handles {
 		logger.Debugf(ctx, "releasing handle %d on close", handle)
 		buf := make([]byte, 16)
-		binary.LittleEndian.PutUint32(buf[0:4], bcRelease)
+		binary.LittleEndian.PutUint32(buf[0:4], uint32(bcRelease))
 		binary.LittleEndian.PutUint32(buf[4:8], handle)
-		binary.LittleEndian.PutUint32(buf[8:12], bcDecRefs)
+		binary.LittleEndian.PutUint32(buf[8:12], uint32(bcDecRefs))
 		binary.LittleEndian.PutUint32(buf[12:16], handle)
 		if err := d.writeCommand(ctx, buf); err != nil {
 			errs = append(errs, fmt.Errorf("release handle %d: %w", handle, err))
@@ -240,7 +243,7 @@ func (d *Driver) Transact(
 	// Build write buffer: uint32 command code + binderTransactionData.
 	txnSize := unsafe.Sizeof(txn)
 	writeBuf := make([]byte, 4+txnSize)
-	binary.LittleEndian.PutUint32(writeBuf[0:4], bcTransaction)
+	binary.LittleEndian.PutUint32(writeBuf[0:4], uint32(bcTransaction))
 	copyStructToBytes(writeBuf[4:], unsafe.Pointer(&txn), txnSize)
 
 	// Allocate read buffer for the response.
@@ -330,7 +333,7 @@ func (d *Driver) parseReadBuffer(
 			return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR code at offset %d", offset)
 		}
 
-		cmd := binary.LittleEndian.Uint32(buf[offset:])
+		cmd := binderReturn(binary.LittleEndian.Uint32(buf[offset:]))
 		offset += 4
 
 		switch cmd {
@@ -359,7 +362,7 @@ func (d *Driver) parseReadBuffer(
 
 			replyData := d.copyFromMapped(txn.dataBuffer, txn.dataSize)
 
-			if txn.flags&tfStatusCode != 0 {
+			if transactionFlag(txn.flags)&tfStatusCode != 0 {
 				if freeErr := d.freeBuffer(ctx, txn.dataBuffer); freeErr != nil {
 					logger.Warnf(ctx, "failed to free binder buffer: %v", freeErr)
 				}
@@ -423,6 +426,16 @@ func (d *Driver) parseReadBuffer(
 			}
 			offset += ptrCookieSize
 
+		case brDeadBinder:
+			logger.Tracef(ctx, "parseReadBuffer: BR_DEAD_BINDER")
+			cookieSize := int(unsafe.Sizeof(uintptr(0)))
+			if offset+cookieSize > len(buf) {
+				return nil, false, gotTransactionComplete, fmt.Errorf("binder: truncated BR_DEAD_BINDER at offset %d", offset)
+			}
+			cookie := readUintptr(buf[offset:])
+			offset += cookieSize
+			d.handleDeadBinder(ctx, cookie)
+
 		case brDeadReply:
 			logger.Tracef(ctx, "BR_DEAD_REPLY")
 			return nil, true, gotTransactionComplete, &aidlerrors.TransactionError{
@@ -476,34 +489,46 @@ func (d *Driver) acquireReplyHandles(
 
 	for i := 0; i < numOffsets; i++ {
 		objOffset := binary.LittleEndian.Uint64(offsetsBuf[i*8:])
-
-		// Each offset points to a flat_binder_object in the reply data.
-		// flat_binder_object: uint32 type + uint32 flags + uint32 handle/binder + ...
-		if objOffset+12 > uint64(len(replyData)) {
-			continue
-		}
-
-		objType := binary.LittleEndian.Uint32(replyData[objOffset:])
-		if objType == binderTypeHandle {
-			handle := binary.LittleEndian.Uint32(replyData[objOffset+8:])
-			logger.Tracef(ctx, "acquiring handle %d from reply", handle)
-
-			// Send BC_INCREFS + BC_ACQUIRE in a single write.
-			buf := make([]byte, 16)
-			binary.LittleEndian.PutUint32(buf[0:4], bcIncRefs)
-			binary.LittleEndian.PutUint32(buf[4:8], handle)
-			binary.LittleEndian.PutUint32(buf[8:12], bcAcquire)
-			binary.LittleEndian.PutUint32(buf[12:16], handle)
-
-			if err := d.writeCommand(ctx, buf); err != nil {
-				logger.Warnf(ctx, "failed to acquire handle %d: %v", handle, err)
-				continue
-			}
-			d.mu.Lock()
-			d.acquiredHandles[handle] = true
-			d.mu.Unlock()
-		}
+		d.acquireSingleReplyHandle(ctx, replyData, objOffset)
 	}
+}
+
+// acquireSingleReplyHandle checks whether the flat_binder_object at objOffset
+// in replyData is a BINDER_TYPE_HANDLE and, if so, sends BC_INCREFS + BC_ACQUIRE.
+func (d *Driver) acquireSingleReplyHandle(
+	ctx context.Context,
+	replyData []byte,
+	objOffset uint64,
+) {
+	// Each offset points to a flat_binder_object in the reply data.
+	// flat_binder_object: uint32 type + uint32 flags + uint32 handle/binder + ...
+	if objOffset+12 > uint64(len(replyData)) {
+		return
+	}
+
+	objType := binderObjectType(binary.LittleEndian.Uint32(replyData[objOffset:]))
+	if objType != binderTypeHandle {
+		return
+	}
+
+	handle := binary.LittleEndian.Uint32(replyData[objOffset+8:])
+	logger.Tracef(ctx, "acquiring handle %d from reply", handle)
+
+	// Send BC_INCREFS + BC_ACQUIRE in a single write.
+	buf := make([]byte, 16)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(bcIncRefs))
+	binary.LittleEndian.PutUint32(buf[4:8], handle)
+	binary.LittleEndian.PutUint32(buf[8:12], uint32(bcAcquire))
+	binary.LittleEndian.PutUint32(buf[12:16], handle)
+
+	if err := d.writeCommand(ctx, buf); err != nil {
+		logger.Warnf(ctx, "failed to acquire handle %d: %v", handle, err)
+		return
+	}
+
+	d.mu.Lock()
+	d.acquiredHandles[handle] = true
+	d.mu.Unlock()
 }
 
 // copyFromMapped copies data from the mmap'd binder region by computing an offset
@@ -562,7 +587,30 @@ func (d *Driver) RequestDeathNotification(
 	logger.Tracef(ctx, "RequestDeathNotification")
 	defer func() { logger.Tracef(ctx, "/RequestDeathNotification: %v", _err) }()
 
-	return d.writeDeathCommand(ctx, bcRequestDeathNotif, handle, recipient)
+	// Heap-allocate an entry so its address (used as the binder cookie)
+	// remains valid after this function returns. The previous code took
+	// &recipient — a pointer to the stack-local interface header — which
+	// became a dangling pointer once the frame was reclaimed.
+	entry := &deathRecipientEntry{
+		recipient: recipient,
+		handle:    handle,
+	}
+	cookie := uintptr(unsafe.Pointer(entry))
+
+	d.deathRecipientsMu.Lock()
+	d.deathRecipients[cookie] = entry
+	d.deathRecipientsByHndl[handle] = entry
+	d.deathRecipientsMu.Unlock()
+
+	if err := d.writeDeathCmd(ctx, bcRequestDeathNotif, handle, cookie); err != nil {
+		// Roll back on failure — the kernel does not hold this cookie.
+		d.deathRecipientsMu.Lock()
+		delete(d.deathRecipients, cookie)
+		delete(d.deathRecipientsByHndl, handle)
+		d.deathRecipientsMu.Unlock()
+		return err
+	}
+	return nil
 }
 
 // ClearDeathNotification clears a death notification for a binder handle.
@@ -574,38 +622,57 @@ func (d *Driver) ClearDeathNotification(
 	logger.Tracef(ctx, "ClearDeathNotification")
 	defer func() { logger.Tracef(ctx, "/ClearDeathNotification: %v", _err) }()
 
-	return d.writeDeathCommand(ctx, bcClearDeathNotif, handle, recipient)
+	d.deathRecipientsMu.Lock()
+	entry := d.deathRecipientsByHndl[handle]
+	d.deathRecipientsMu.Unlock()
+
+	if entry == nil {
+		return fmt.Errorf("binder: no death notification registered for handle %d", handle)
+	}
+
+	cookie := uintptr(unsafe.Pointer(entry))
+	if err := d.writeDeathCmd(ctx, bcClearDeathNotif, handle, cookie); err != nil {
+		return err
+	}
+
+	d.deathRecipientsMu.Lock()
+	delete(d.deathRecipients, cookie)
+	delete(d.deathRecipientsByHndl, handle)
+	d.deathRecipientsMu.Unlock()
+
+	return nil
 }
 
 // writeHandleCommand writes a BC command that takes a uint32 handle argument.
 func (d *Driver) writeHandleCommand(
 	ctx context.Context,
-	cmd uint32,
+	cmd binderCommand,
 	handle uint32,
 ) (_err error) {
 	buf := make([]byte, 4+4)
-	binary.LittleEndian.PutUint32(buf[0:4], cmd)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(cmd))
 	binary.LittleEndian.PutUint32(buf[4:8], handle)
 
 	return d.writeCommand(ctx, buf)
 }
 
-// writeDeathCommand writes a BC death notification command (handle + cookie).
-func (d *Driver) writeDeathCommand(
+// writeDeathCmd writes a BC death notification command (handle + cookie).
+// The cookie must be a heap-stable address (from a *deathRecipientEntry)
+// so that it remains valid when the kernel echoes it back.
+func (d *Driver) writeDeathCmd(
 	ctx context.Context,
-	cmd uint32,
+	cmd binderCommand,
 	handle uint32,
-	recipient binder.DeathRecipient,
+	cookie uintptr,
 ) (_err error) {
 	// BC_REQUEST_DEATH_NOTIFICATION / BC_CLEAR_DEATH_NOTIFICATION:
-	// uint32 command + uint32 handle + uint64 cookie (pointer to recipient interface)
-	buf := make([]byte, 4+4+8)
-	binary.LittleEndian.PutUint32(buf[0:4], cmd)
+	// uint32 command + uint32 handle + uintptr cookie.
+	// binderHandleCookieSize accounts for the packed kernel struct
+	// (__u32 handle + binder_uintptr_t cookie).
+	buf := make([]byte, 4+binderHandleCookieSize)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(cmd))
 	binary.LittleEndian.PutUint32(buf[4:8], handle)
-
-	// Store the recipient interface pointer as the cookie so we can recover it later.
-	cookie := uint64(uintptr(unsafe.Pointer(&recipient)))
-	binary.LittleEndian.PutUint64(buf[8:16], cookie)
+	putUintptr(buf[8:], cookie)
 
 	return d.writeCommand(ctx, buf)
 }
@@ -631,8 +698,15 @@ func (d *Driver) writeCommand(
 		case 0:
 			return nil
 		case unix.EINTR:
-			// Retry on interrupted system call — the command was not
-			// processed and must be resent.
+			// The kernel may have partially consumed the write buffer
+			// before the signal arrived. Advance past consumed bytes to
+			// avoid re-sending already-processed commands.
+			if bwr.writeConsumed >= bwr.writeSize {
+				return nil // fully consumed
+			}
+			bwr.writeBuffer += bwr.writeConsumed
+			bwr.writeSize -= bwr.writeConsumed
+			bwr.writeConsumed = 0
 			continue
 		default:
 			return &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ)", Err: errno}
@@ -661,14 +735,75 @@ func (d *Driver) doIoctl(
 		case 0:
 			return nil
 		case unix.EINTR:
-			// Retry on interrupted system call.
-			// Reset write buffer (already consumed) but keep read buffer.
-			bwr.writeSize = 0
+			// The kernel may have partially consumed the write buffer
+			// before the signal arrived. Advance past consumed bytes
+			// so we retry only the remainder; keep the read buffer
+			// intact so the kernel can still deliver the response.
+			if bwr.writeConsumed >= bwr.writeSize {
+				bwr.writeSize = 0
+			} else {
+				bwr.writeBuffer += bwr.writeConsumed
+				bwr.writeSize -= bwr.writeConsumed
+			}
+			bwr.writeConsumed = 0
 			continue
 		default:
 			return &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ)", Err: errno}
 		}
 	}
+}
+
+// lookupDeathRecipient returns the DeathRecipient for the given cookie,
+// or nil if none is registered.
+func (d *Driver) lookupDeathRecipient(
+	cookie uintptr,
+) binder.DeathRecipient {
+	d.deathRecipientsMu.Lock()
+	defer d.deathRecipientsMu.Unlock()
+
+	entry := d.deathRecipients[cookie]
+	if entry == nil {
+		return nil
+	}
+	return entry.recipient
+}
+
+// handleDeadBinder processes a BR_DEAD_BINDER event by invoking the
+// registered DeathRecipient's BinderDied callback, then acknowledging
+// with BC_DEAD_BINDER_DONE.
+func (d *Driver) handleDeadBinder(
+	ctx context.Context,
+	cookie uintptr,
+) {
+	recipient := d.lookupDeathRecipient(cookie)
+	if recipient != nil {
+		recipient.BinderDied()
+	} else {
+		logger.Warnf(ctx, "BR_DEAD_BINDER: no recipient for cookie 0x%x", cookie)
+	}
+
+	// Acknowledge with BC_DEAD_BINDER_DONE so the kernel can clean up.
+	buf := make([]byte, 4+8)
+	binary.LittleEndian.PutUint32(buf[0:4], uint32(bcDeadBinderDone))
+	putUintptr(buf[4:], cookie)
+
+	if err := d.writeCommand(ctx, buf); err != nil {
+		logger.Warnf(ctx, "failed to send BC_DEAD_BINDER_DONE: %v", err)
+	}
+}
+
+// putUintptr writes a uintptr as a little-endian 8-byte value (valid
+// on 64-bit Linux, the only platform this package targets).
+func putUintptr(
+	b []byte,
+	v uintptr,
+) {
+	binary.LittleEndian.PutUint64(b, uint64(v))
+}
+
+// readUintptr reads a little-endian 8-byte value as a uintptr.
+func readUintptr(b []byte) uintptr {
+	return uintptr(binary.LittleEndian.Uint64(b))
 }
 
 // copyStructToBytes copies a struct's raw memory into a byte slice.

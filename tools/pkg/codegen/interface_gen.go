@@ -363,11 +363,12 @@ func writeStubCase(
 	// When there's a return value, _result is always new, so := works.
 	// When there's no return value and _err was already declared by
 	// param reads, use = to avoid "no new variables" error.
-	if hasReturn {
+	switch {
+	case hasReturn:
 		f.P("\t\t_result, _err := s.Impl.%s(%s)", goName, strings.Join(callArgs, ", "))
-	} else if errDeclared {
+	case errDeclared:
 		f.P("\t\t_err = s.Impl.%s(%s)", goName, strings.Join(callArgs, ", "))
-	} else {
+	default:
 		f.P("\t\t_err := s.Impl.%s(%s)", goName, strings.Join(callArgs, ", "))
 	}
 

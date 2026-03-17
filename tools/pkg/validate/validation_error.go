@@ -15,3 +15,6 @@ type ValidationError struct {
 func (e *ValidationError) Error() string {
 	return fmt.Sprintf("%s: %s", e.Pos, e.Message)
 }
+
+// Unwrap returns nil — ValidationError is a leaf error with no wrapped cause.
+func (e *ValidationError) Unwrap() error { return nil }

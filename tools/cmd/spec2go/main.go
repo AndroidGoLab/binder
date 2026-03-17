@@ -598,7 +598,7 @@ func newRegistryResolver(
 	r := resolver.New(nil)
 	// Transfer all definitions from our registry to the resolver's registry.
 	for qualifiedName, def := range registry.All() {
-		r.Registry().Register(qualifiedName, def)
+		r.Registry.Register(qualifiedName, def)
 	}
 	return r
 }

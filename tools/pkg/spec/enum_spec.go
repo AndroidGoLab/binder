@@ -7,9 +7,3 @@ type EnumSpec struct {
 	Values      []EnumeratorSpec `yaml:"values"`
 	Annotations []string         `yaml:"annotations,omitempty"`
 }
-
-// EnumeratorSpec describes a single enum value.
-type EnumeratorSpec struct {
-	Name  string `yaml:"name"`
-	Value string `yaml:"value"`
-}

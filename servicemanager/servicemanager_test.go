@@ -160,12 +160,12 @@ func TestCheckService_NotFound(t *testing.T) {
 func TestListServices(t *testing.T) {
 	ctx := context.Background()
 
-	expected := []string{"service.a", "service.b", "service.c"}
+	expected := []ServiceName{"service.a", "service.b", "service.c"}
 	mt := &mockTransport{
 		replyFunc: buildSuccessReply(func(p *parcel.Parcel) {
 			p.WriteInt32(int32(len(expected)))
 			for _, name := range expected {
-				p.WriteString16(name)
+				p.WriteString16(string(name))
 			}
 		}),
 	}

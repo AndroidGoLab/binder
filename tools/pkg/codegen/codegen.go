@@ -14,19 +14,19 @@ import (
 
 // Generator generates Go code from AIDL files.
 type Generator struct {
-	resolver   *resolver.Resolver
-	outputDir  string
-	skipErrors bool
+	Resolver   *resolver.Resolver
+	OutputDir  string
+	SkipErrors bool
 }
 
 // NewGenerator creates a Generator that writes output to outputDir.
 func NewGenerator(
-	resolver *resolver.Resolver,
+	r *resolver.Resolver,
 	outputDir string,
 ) *Generator {
 	return &Generator{
-		resolver:  resolver,
-		outputDir: outputDir,
+		Resolver:  r,
+		OutputDir: outputDir,
 	}
 }
 
@@ -35,7 +35,7 @@ func NewGenerator(
 func (g *Generator) SetSkipErrors(
 	skip bool,
 ) {
-	g.skipErrors = skip
+	g.SkipErrors = skip
 }
 
 // GenerateFile generates Go code for all definitions in a single AIDL document.
@@ -44,7 +44,7 @@ func (g *Generator) GenerateFile(
 	doc *parser.Document,
 ) (_err error) {
 	if errs := g.validateDocument(doc); len(errs) > 0 {
-		if !g.skipErrors {
+		if !g.SkipErrors {
 			return errors.Join(errs...)
 		}
 	}
@@ -59,7 +59,7 @@ func (g *Generator) GenerateFile(
 		goPackage = "aidl"
 	}
 
-	outDir := filepath.Join(g.outputDir, AIDLToGoPackage(pkg))
+	outDir := filepath.Join(g.OutputDir, AIDLToGoPackage(pkg))
 
 	for _, def := range doc.Definitions {
 		qualifiedName := def.GetName()
@@ -89,7 +89,7 @@ func (g *Generator) GenerateFile(
 // If skipErrors is false (default), generation stops at the first error.
 // Use SetSkipErrors(true) to skip definitions that fail codegen and continue.
 func (g *Generator) GenerateAll() (_err error) {
-	registry := g.resolver.Registry()
+	registry := g.Resolver.Registry
 	allDefs := registry.All()
 
 	// Build the import graph for cycle detection.
@@ -108,7 +108,7 @@ func (g *Generator) GenerateAll() (_err error) {
 			continue
 		}
 		pkg := packageFromDef(qualifiedName, def.GetName())
-		outDir := filepath.Join(g.outputDir, AIDLToGoPackage(pkg))
+		outDir := filepath.Join(g.OutputDir, AIDLToGoPackage(pkg))
 		fileName := AIDLToGoFileName(def.GetName())
 		_ = os.Remove(filepath.Join(outDir, fileName))
 	}
@@ -127,7 +127,7 @@ func (g *Generator) GenerateAll() (_err error) {
 
 		src, err := g.generateDefinition(def, goPackage, qualifiedName, WithImportGraph(importGraph))
 		if err != nil {
-			if g.skipErrors {
+			if g.SkipErrors {
 				errs = append(errs, fmt.Errorf("generating %s: %w", qualifiedName, err))
 				continue
 			}
@@ -138,11 +138,11 @@ func (g *Generator) GenerateAll() (_err error) {
 			continue
 		}
 
-		outDir := filepath.Join(g.outputDir, AIDLToGoPackage(pkg))
+		outDir := filepath.Join(g.OutputDir, AIDLToGoPackage(pkg))
 		fileName := AIDLToGoFileName(def.GetName())
 
 		if err := writeOutputFile(outDir, fileName, src); err != nil {
-			if g.skipErrors {
+			if g.SkipErrors {
 				errs = append(errs, fmt.Errorf("writing %s/%s: %w", outDir, fileName, err))
 				continue
 			}
@@ -216,7 +216,7 @@ func isEmptyParcelable(def parser.Definition) bool {
 // per proxy type in the package. Only interfaces whose generated proxy
 // file exists in the output directory are included.
 func (g *Generator) GenerateAllSmokeTests() (_err error) {
-	registry := g.resolver.Registry()
+	registry := g.Resolver.Registry
 	allDefs := registry.All()
 
 	// Group interfaces by AIDL package, filtering to those with
@@ -229,7 +229,7 @@ func (g *Generator) GenerateAllSmokeTests() (_err error) {
 		}
 
 		pkg := packageFromDef(qualifiedName, def.GetName())
-		outDir := filepath.Join(g.outputDir, AIDLToGoPackage(pkg))
+		outDir := filepath.Join(g.OutputDir, AIDLToGoPackage(pkg))
 		fileName := AIDLToGoFileName(def.GetName())
 		proxyFile := filepath.Join(outDir, fileName)
 		if _, err := os.Stat(proxyFile); err != nil {
@@ -248,16 +248,16 @@ func (g *Generator) GenerateAllSmokeTests() (_err error) {
 
 		src, err := GenerateSmokeTests(interfaces, goPackage)
 		if err != nil {
-			if g.skipErrors {
+			if g.SkipErrors {
 				errs = append(errs, fmt.Errorf("generating smoke tests for %s: %w", pkg, err))
 				continue
 			}
 			return fmt.Errorf("generating smoke tests for %s: %w", pkg, err)
 		}
 
-		outDir := filepath.Join(g.outputDir, AIDLToGoPackage(pkg))
+		outDir := filepath.Join(g.OutputDir, AIDLToGoPackage(pkg))
 		if err := writeOutputFile(outDir, "smoke_test.go", src); err != nil {
-			if g.skipErrors {
+			if g.SkipErrors {
 				errs = append(errs, fmt.Errorf("writing smoke tests for %s: %w", pkg, err))
 				continue
 			}
@@ -275,7 +275,7 @@ func (g *Generator) generateDefinition(
 	qualifiedName string,
 	extraOptions ...GenOption,
 ) ([]byte, error) {
-	registry := g.resolver.Registry()
+	registry := g.Resolver.Registry
 	aidlPkg := packageFromDef(qualifiedName, def.GetName())
 	baseOpts := []GenOption{WithRegistry(registry), WithCurrentPkg(aidlPkg)}
 	baseOpts = append(baseOpts, extraOptions...)
@@ -316,7 +316,7 @@ func writeOutputFile(
 func (g *Generator) validateDocument(
 	doc *parser.Document,
 ) []error {
-	registry := g.resolver.Registry()
+	registry := g.Resolver.Registry
 	lookupType := func(qualifiedName string) bool {
 		_, ok := registry.Lookup(qualifiedName)
 		return ok

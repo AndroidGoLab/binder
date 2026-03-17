@@ -143,7 +143,7 @@ func TestReserveNames_AvoidsParamNameClash(t *testing.T) {
 		"type name must still reference ProviderProperties")
 
 	// Verify the alias used in the import is not "provider".
-	for _, alias := range f.imports {
+	for _, alias := range f.Imports {
 		assert.NotEqual(t, "provider", alias,
 			"import alias must not match reserved parameter name")
 	}
