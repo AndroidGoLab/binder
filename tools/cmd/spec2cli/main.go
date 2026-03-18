@@ -72,8 +72,9 @@ type methodInfo struct {
 }
 
 type paramInfo struct {
-	Name string
-	Type string
+	Name  string
+	Type  string
+	IsOut bool // true for "out" params — passed as zero values, no CLI flag
 }
 
 // structField describes one field inside a known struct type.
@@ -122,11 +123,32 @@ var knownServiceNames map[string]string
 // resolving interface types (kindInterfaceType) in other packages.
 var knownInterfaces map[string]*interfaceInfo
 
+// knownInterfaceGoTypes maps "importPath:GoTypeName" -> true for every
+// known interface. Used by classifyType/classifyFieldType to verify
+// that an AIDL-named type actually has generated Go code before
+// returning kindInterfaceType.
+var knownInterfaceGoTypes map[string]bool
+
 // subInterfaceDescriptors is the set of AIDL descriptors that are
 // returned by methods on other interfaces but are NOT registered with
 // ServiceManager. These cannot be discovered by findServiceByDescriptor
 // and are excluded from top-level CLI command generation.
 var subInterfaceDescriptors map[string]bool
+
+// knownGoProxyMethods maps "importPath:MethodName" -> param count
+// (excluding ctx) for every method found on proxy types in the Go
+// source. A value of -1 means the method exists but param count
+// could not be determined.
+var knownGoProxyMethods map[string]int
+
+// knownGoProxyConstructors maps "importPath:NewFooProxy" -> true for
+// every proxy constructor found in the Go source.
+var knownGoProxyConstructors map[string]bool
+
+// knownGoTypes maps "importPath:TypeName" -> true for every type
+// declaration found in Go source files. Used to validate that spec
+// types (structs, enums) actually exist in Go code.
+var knownGoTypes map[string]bool
 
 func main() {
 	specsDir := flag.String("specs", "specs/", "Directory containing spec YAML files")
@@ -137,6 +159,169 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
+}
+
+// findModuleRoot walks up from the current directory to find go.mod.
+func findModuleRoot() (string, error) {
+	dir, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+	for {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return dir, nil
+		}
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			return "", fmt.Errorf("go.mod not found")
+		}
+		dir = parent
+	}
+}
+
+// scanGoProxyMethods scans Go source files under moduleRoot to find
+// proxy constructor functions (func New*Proxy) and proxy methods
+// (func (p *FooProxy) MethodName). It populates knownGoProxyMethods
+// and knownGoProxyConstructors.
+func scanGoProxyMethods(
+	moduleRoot string,
+) error {
+	knownGoProxyMethods = map[string]int{}
+	knownGoProxyConstructors = map[string]bool{}
+	knownGoTypes = map[string]bool{}
+	return filepath.Walk(moduleRoot, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return nil
+		}
+		if info.IsDir() {
+			base := filepath.Base(path)
+			switch base {
+			case ".git", "vendor", "tools", "cmd", "specs":
+				return filepath.SkipDir
+			}
+			return nil
+		}
+		if !strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "_test.go") {
+			return nil
+		}
+
+		relDir, _ := filepath.Rel(moduleRoot, filepath.Dir(path))
+		importPath := modulePath + "/" + relDir
+
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return nil
+		}
+		lines := strings.Split(string(data), "\n")
+
+		for i, line := range lines {
+			switch {
+			case strings.HasPrefix(line, "func ("):
+				// Proxy method: func (p *FooProxy) MethodName(
+				if !strings.Contains(line, "Proxy)") {
+					continue
+				}
+				closeParen := strings.Index(line, ")")
+				if closeParen < 0 {
+					continue
+				}
+				rest := strings.TrimSpace(line[closeParen+1:])
+				openParen := strings.Index(rest, "(")
+				if openParen < 0 {
+					continue
+				}
+				methodName := strings.TrimSpace(rest[:openParen])
+				if methodName == "" || methodName[0] < 'A' || methodName[0] > 'Z' {
+					continue
+				}
+
+				// Count params by scanning subsequent lines.
+				// Each param is on its own line; ctx is the first.
+				paramCount := countMethodParams(lines, i)
+
+				knownGoProxyMethods[importPath+":"+methodName] = paramCount
+
+			case strings.HasPrefix(line, "func "):
+				// Proxy constructor: func NewFooProxy(
+				rest := line[len("func "):]
+				openParen := strings.Index(rest, "(")
+				if openParen < 0 {
+					continue
+				}
+				funcName := rest[:openParen]
+				if strings.HasPrefix(funcName, "New") && strings.HasSuffix(funcName, "Proxy") {
+					knownGoProxyConstructors[importPath+":"+funcName] = true
+				}
+
+			case strings.HasPrefix(line, "type "):
+				// Type declaration: type FooType struct/int32/etc.
+				rest := line[len("type "):]
+				spaceIdx := strings.IndexByte(rest, ' ')
+				if spaceIdx < 0 {
+					continue
+				}
+				typeName := rest[:spaceIdx]
+				if typeName == "" || typeName[0] < 'A' || typeName[0] > 'Z' {
+					continue
+				}
+				knownGoTypes[importPath+":"+typeName] = true
+			}
+		}
+		return nil
+	})
+}
+
+// countMethodParams counts the number of non-ctx parameters in a
+// proxy method declaration. It scans lines starting from the func
+// declaration line. Returns -1 if the count can't be determined.
+func countMethodParams(
+	lines []string,
+	funcLineIdx int,
+) int {
+	// Find the opening "(" of the params (after the method name).
+	line := lines[funcLineIdx]
+	// The line looks like: func (p *FooProxy) MethodName(
+	// Find the last "(" on the line (the param list opening).
+	lastOpen := strings.LastIndex(line, "(")
+	if lastOpen < 0 {
+		return -1
+	}
+
+	// Check if all params are on this one line.
+	paramPart := line[lastOpen+1:]
+	if idx := strings.Index(paramPart, ")"); idx >= 0 {
+		paramPart = strings.TrimSpace(paramPart[:idx])
+		if paramPart == "" {
+			return 0
+		}
+		count := strings.Count(paramPart, ",") + 1
+		// Subtract ctx.
+		if count > 0 {
+			count--
+		}
+		return count
+	}
+
+	// Multi-line: count lines until we hit ")".
+	count := 0
+	// The part after "(" on the func line may contain the first param.
+	if trimmed := strings.TrimSpace(paramPart); trimmed != "" {
+		count++
+	}
+	for j := funcLineIdx + 1; j < len(lines); j++ {
+		trimmed := strings.TrimSpace(lines[j])
+		if strings.HasPrefix(trimmed, ")") {
+			break
+		}
+		if trimmed != "" {
+			count++
+		}
+	}
+	// Subtract ctx.
+	if count > 0 {
+		count--
+	}
+	return count
 }
 
 func run(
@@ -150,10 +335,21 @@ func run(
 	}
 	fmt.Fprintf(os.Stderr, "Read %d package specs\n", len(specs))
 
+	// Detect module root and scan existing Go proxy methods.
+	root, err := findModuleRoot()
+	if err != nil {
+		return fmt.Errorf("finding module root: %w", err)
+	}
+	if err := scanGoProxyMethods(root); err != nil {
+		return fmt.Errorf("scanning Go proxy methods: %w", err)
+	}
+	fmt.Fprintf(os.Stderr, "Scanned Go proxy methods: %d\n", len(knownGoProxyMethods))
+
 	knownStructs = map[string]*structInfo{}
 	knownEnums = map[string]bool{}
 	knownServiceNames = map[string]string{}
 	knownInterfaces = map[string]*interfaceInfo{}
+	knownInterfaceGoTypes = map[string]bool{}
 
 	// Phase 1: collect structs, enums, and service mappings from all specs.
 	for _, ps := range specs {
@@ -162,6 +358,19 @@ func run(
 
 		collectStructsAndEnums(ps, importPath, pkgName)
 		collectServiceMappings(ps)
+	}
+
+	// Validate spec types against actual Go source: remove structs
+	// and enums that don't have corresponding Go type declarations.
+	for key := range knownStructs {
+		if !knownGoTypes[key] {
+			delete(knownStructs, key)
+		}
+	}
+	for key := range knownEnums {
+		if !knownGoTypes[key] {
+			delete(knownEnums, key)
+		}
 	}
 
 	fmt.Fprintf(os.Stderr, "Scanned struct types: %d\n", len(knownStructs))
@@ -204,6 +413,9 @@ func run(
 			ii := convertInterfaceSpec(iface, ps.AIDLPackage, importPath, pkgName)
 			interfaces = append(interfaces, ii)
 			knownInterfaces[ii.Descriptor] = ii
+
+			goName := codegen.AIDLToGoName(iface.Name)
+			knownInterfaceGoTypes[importPath+":"+goName] = true
 		}
 	}
 
@@ -413,8 +625,15 @@ func convertInterfaceSpec(
 ) *interfaceInfo {
 	// The Go type name for the interface (e.g., "IActivityManager").
 	goName := codegen.AIDLToGoName(iface.Name)
-	proxyType := goName[1:] + "Proxy"       // "ActivityManagerProxy"
-	proxyConstructor := "New" + proxyType    // "NewActivityManagerProxy"
+	// Strip the leading "I" prefix (AIDL convention) to form the
+	// proxy type name. Some AIDL interfaces lack the "I" prefix
+	// (e.g., "StartInstallingUpdateCallback"); use the full name.
+	baseName := goName
+	if len(goName) >= 2 && goName[0] == 'I' && goName[1] >= 'A' && goName[1] <= 'Z' {
+		baseName = goName[1:]
+	}
+	proxyType := baseName + "Proxy"
+	proxyConstructor := "New" + proxyType
 
 	ii := &interfaceInfo{
 		Descriptor:       iface.Descriptor,
@@ -496,13 +715,6 @@ func convertMethodSpec(
 	}
 
 	for _, p := range m.Params {
-		// Only "in" and "inout" parameters are method arguments in Go.
-		// "out" parameters become return values in the generated Go code.
-		switch p.Direction {
-		case spec.DirectionOut:
-			continue
-		}
-
 		// Skip identity parameters that are auto-filled by the proxy.
 		if isIdentityParam(p) {
 			continue
@@ -513,8 +725,9 @@ func convertMethodSpec(
 		// the generated Go proxy method signatures. The Go proxy uses
 		// lowercase camelCase param names, not PascalCase.
 		mi.Params = append(mi.Params, paramInfo{
-			Name: sanitizeGoIdent(p.Name),
-			Type: goType,
+			Name:  sanitizeGoIdent(p.Name),
+			Type:  goType,
+			IsOut: p.Direction == spec.DirectionOut,
 		})
 	}
 
@@ -569,7 +782,7 @@ func classifyType(
 		innerKind := classifyType(inner, iface)
 		switch innerKind {
 		case kindUnsupported:
-			return kindJSONFallback
+			return kindUnsupported
 		default:
 			return kindNullable
 		}
@@ -599,7 +812,14 @@ func classifyType(
 	}
 
 	if strings.HasPrefix(typeStr, "[]") {
-		return kindComplexArray
+		elem := typeStr[2:]
+		elemKind := classifyType(elem, iface)
+		switch elemKind {
+		case kindUnsupported:
+			return kindUnsupported
+		default:
+			return kindComplexArray
+		}
 	}
 
 	// Resolve type using import context.
@@ -611,26 +831,20 @@ func classifyType(
 		return kindStruct
 	}
 
-	// AIDL interface type.
-	bareName := typeStr
-	if strings.Contains(typeStr, ".") {
-		parts := strings.SplitN(typeStr, ".", 2)
-		bareName = parts[1]
-	}
-	if isAIDLInterfaceName(bareName) {
+	// AIDL interface type — only if the Go type actually exists in
+	// knownInterfaceGoTypes. Without this check, any name matching
+	// I+uppercase (e.g., IAccessibilityInputMethodSessionCallback)
+	// would be treated as a known interface even when no Go code
+	// exists for it, producing undefined-type compilation errors.
+	if knownInterfaceGoTypes[key] {
 		return kindInterfaceType
 	}
 
-	return kindJSONFallback
-}
-
-func isAIDLInterfaceName(
-	name string,
-) bool {
-	if len(name) < 2 {
-		return false
-	}
-	return name[0] == 'I' && name[1] >= 'A' && name[1] <= 'Z'
+	// Unknown type — no Go struct, enum, or interface exists for
+	// this AIDL type. Returning kindUnsupported causes the method
+	// to be skipped rather than generating code that references
+	// undefined types.
+	return kindUnsupported
 }
 
 func allParamsSupported(
@@ -663,7 +877,7 @@ func classifyFieldType(
 		innerKind := classifyFieldType(inner, si)
 		switch innerKind {
 		case kindUnsupported:
-			return kindJSONFallback
+			return kindUnsupported
 		default:
 			return kindNullable
 		}
@@ -690,7 +904,16 @@ func classifyFieldType(
 		return kindMap
 	}
 	if strings.HasPrefix(typeStr, "[]") {
-		return kindComplexArray
+		elem := typeStr[2:]
+		// Wrap in a synthetic interfaceInfo to reuse classifyType.
+		syntheticIface := &interfaceInfo{ImportPath: si.ImportPath}
+		elemKind := classifyType(elem, syntheticIface)
+		switch elemKind {
+		case kindUnsupported:
+			return kindUnsupported
+		default:
+			return kindComplexArray
+		}
 	}
 
 	key := resolveTypeKey(typeStr, si.ImportPath)
@@ -701,16 +924,11 @@ func classifyFieldType(
 		return kindStruct
 	}
 
-	bareName := typeStr
-	if strings.Contains(typeStr, ".") {
-		parts := strings.SplitN(typeStr, ".", 2)
-		bareName = parts[1]
-	}
-	if isAIDLInterfaceName(bareName) {
+	if knownInterfaceGoTypes[key] {
 		return kindInterfaceType
 	}
 
-	return kindJSONFallback
+	return kindUnsupported
 }
 
 // ---- Import alias resolution for generated code ----
@@ -1059,13 +1277,31 @@ func writeCommandsGen(
 		if subInterfaceDescriptors[iface.Descriptor] {
 			continue
 		}
+		// Skip interfaces whose Go proxy constructor doesn't exist.
+		// The spec may describe AIDL interfaces that haven't been
+		// implemented in Go yet.
+		constructorKey := iface.ImportPath + ":" + iface.ProxyConstructor
+		if !knownGoProxyConstructors[constructorKey] {
+			continue
+		}
 
 		var cmdMethods []methodInfo
 		for _, m := range iface.Methods {
-			if allParamsSupported(m, iface) {
-				cmdMethods = append(cmdMethods, m)
-				needs.methodNeeds(m, iface)
+			if !allParamsSupported(m, iface) {
+				continue
 			}
+			// Verify the method exists on the Go proxy type and
+			// that the param count matches.
+			methodKey := iface.ImportPath + ":" + m.Name
+			goParamCount, methodExists := knownGoProxyMethods[methodKey]
+			if !methodExists {
+				continue
+			}
+			if goParamCount >= 0 && goParamCount != len(m.Params) {
+				continue
+			}
+			cmdMethods = append(cmdMethods, m)
+			needs.methodNeeds(m, iface)
 		}
 		if len(cmdMethods) == 0 {
 			continue
@@ -1164,7 +1400,12 @@ func writeImports(
 	}
 	for _, imp := range imports {
 		pkgBase := filepath.Base(imp.path)
-		if imp.alias == pkgBase {
+		// Always write an explicit alias: the directory name may
+		// differ from the Go package declaration (e.g., directory
+		// "internal_" declares "package internal"), and even when
+		// they match, being explicit avoids ambiguity with
+		// duplicate package names.
+		if imp.alias == pkgBase && !strings.HasSuffix(pkgBase, "_") {
 			fmt.Fprintf(buf, "\t%q\n", imp.path)
 		} else {
 			fmt.Fprintf(buf, "\t%s %q\n", imp.alias, imp.path)
@@ -1308,6 +1549,12 @@ func writeMethodCmd(
 	fmt.Fprintf(buf, "\t\t\tsvcProxy := %s.%s(svc)\n\n", qualifier, iface.ProxyConstructor)
 
 	for _, p := range m.Params {
+		if p.IsOut {
+			// Out params are zero-valued — no CLI flag needed.
+			resolvedType := gc.resolveGoType(p.Type)
+			fmt.Fprintf(buf, "\t\t\tvar %s %s\n", paramVarName(p), resolvedType)
+			continue
+		}
 		writeParamExtraction(buf, p, gc)
 	}
 
@@ -1339,6 +1586,9 @@ func writeMethodCmd(
 	buf.WriteString("\tcmd.Flags().String(\"service-name\", \"\", \"ServiceManager name to use instead of descriptor discovery\")\n")
 
 	for _, p := range m.Params {
+		if p.IsOut {
+			continue
+		}
 		writeParamFlag(buf, p, gc)
 	}
 
@@ -1800,7 +2050,14 @@ func writeInterfaceTypeExtraction(
 		_ = proxyPkg // keep using interface's alias for the proxy lookup
 	}
 
-	proxyConstructor := "New" + bareName[1:] + "Proxy"
+	// Strip the leading "I" prefix (AIDL convention) to form the
+	// proxy constructor name. Some AIDL types lack the "I" prefix;
+	// use the full name in that case.
+	proxyBaseName := bareName
+	if len(bareName) >= 2 && bareName[0] == 'I' && bareName[1] >= 'A' && bareName[1] <= 'Z' {
+		proxyBaseName = bareName[1:]
+	}
+	proxyConstructor := "New" + proxyBaseName + "Proxy"
 
 	fmt.Fprintf(buf, "\t\t\t%sName, err := cmd.Flags().GetString(%q)\n", varName, flagName)
 	buf.WriteString("\t\t\tif err != nil {\n")
