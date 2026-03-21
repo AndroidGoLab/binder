@@ -202,8 +202,7 @@ func allocateGrallocBuffer(
 
 	proxy := allocator.NewAllocatorProxy(svc)
 
-	name := make([]byte, allocator.BufferDescriptorInfoNameSize)
-	copy(name, "camera-buffer")
+	name := []byte("camera-buffer")
 
 	desc := allocator.BufferDescriptorInfo{
 		Name:              name,
